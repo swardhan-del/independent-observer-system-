@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import EditorialCard from "../../components/EditorialCard.astro";
+import { videoItems } from "../../data/content";
+---
+
+<BaseLayout
+  title="Videos"
+  description="Video concepts and future releases from The Independent Observer."
+  currentPath="/videos/"
+>
+  <PageHero
+    eyebrow="Video desk"
+    title="Videos"
+    description="Short-form arguments, visual explainers, and documentary releases organized by subject and editorial status."
+  />
+  <section class="section section-white">
+    <div class="shell">
+      <div class="placeholder-notice">
+        This is a preview catalogue. Embedded players, release dates, transcripts, and platform
+        links will appear after videos are published.
+      </div>
+      <div class="card-grid">
+        {videoItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
+      </div>
+    </div>
+  </section>
+  <section class="section section-rule">
+    <div class="shell page-grid">
+      <aside class="page-aside">Format architecture</aside>
+      <div class="prose">
+        <h2>One research base, several viewing depths</h2>
+        <p>
+          The intended video system connects concise shorts, mid-length explainers, and long-form
+          documentaries. Each format should lead interested viewers toward the fuller evidence
+          rather than repeating the same generic summary.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

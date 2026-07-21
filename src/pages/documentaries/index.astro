@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import EditorialCard from "../../components/EditorialCard.astro";
+import { documentaryItems } from "../../data/content";
+---
+
+<BaseLayout
+  title="Documentary Projects"
+  description="Developing documentary projects from The Independent Observer."
+  currentPath="/documentaries/"
+>
+  <PageHero
+    eyebrow="Documentary desk"
+    title="Documentary Projects"
+    description="Visual investigations built around context, systems, and consequences—not spectacle for its own sake."
+  />
+  <section class="section section-navy">
+    <div class="shell">
+      <div class="placeholder-notice">
+        Project cards describe concepts in development. They do not represent completed or released
+        films.
+      </div>
+      <div class="card-grid">
+        {documentaryItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
+      </div>
+    </div>
+  </section>
+  <section class="section section-white">
+    <div class="shell page-grid">
+      <aside class="page-aside">Production standard</aside>
+      <div class="prose">
+        <h2>Research before narration</h2>
+        <p>
+          Each project is intended to begin with a source dossier and an explicit claim map. The
+          script, visual plan, narration, and distribution package should follow from that research,
+          not substitute for it.
+        </p>
+        <h3>Planned project materials</h3>
+        <ul>
+          <li>Source and citation dossier</li>
+          <li>Long-form narration script</li>
+          <li>Scene-by-scene visual treatment</li>
+          <li>Fact-check and legal-risk review</li>
+          <li>Short-form educational adaptations</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

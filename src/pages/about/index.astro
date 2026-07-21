@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+---
+
+<BaseLayout
+  title="About"
+  description="Mission and editorial principles of The Independent Observer."
+  currentPath="/about/"
+>
+  <PageHero
+    eyebrow="About the project"
+    title="Independence is a method, not a pose."
+    description="The Independent Observer is being developed as a serious home for cross-disciplinary research, documentary work, and public explanation."
+  />
+  <section class="section section-white">
+    <div class="shell page-grid">
+      <aside class="page-aside">Mission</aside>
+      <div class="prose">
+        <h2>Look past the approved frame.</h2>
+        <p>
+          Public controversies are often presented as isolated disputes between personalities or
+          parties. This project instead asks how rules, incentives, historical memory, technology,
+          and institutional structure shape the available choices.
+        </p>
+        <p>
+          “Independent” does not mean free from values, error, or perspective. It means the work
+          should not conceal its reasoning behind tribal loyalty. Claims should be sourced,
+          interpretations should be identifiable, and uncertainty should remain visible.
+        </p>
+        <div class="principles">
+          <div class="principle">
+            <span>01</span><div>
+              <h3>Evidence before certainty</h3><p>
+                Confidence should be proportional to the quality and completeness of the record.
+              </p>
+            </div>
+          </div>
+          <div class="principle">
+            <span>02</span><div>
+              <h3>Systems before personalities</h3><p>
+                Individual conduct matters, but durable incentives and procedures often matter more.
+              </p>
+            </div>
+          </div>
+          <div class="principle">
+            <span>03</span><div>
+              <h3>Context before outrage</h3><p>
+                Historical and institutional context should clarify an issue before rhetoric narrows
+                it.
+              </p>
+            </div>
+          </div>
+          <div class="principle">
+            <span>04</span><div>
+              <h3>Correction without ceremony</h3><p>
+                Material errors should be acknowledged and corrected clearly when identified.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

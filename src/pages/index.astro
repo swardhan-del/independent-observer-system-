@@ -1,0 +1,149 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import EditorialCard from "../components/EditorialCard.astro";
+import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
+import { sitePath } from "../lib/paths";
+---
+
+<BaseLayout
+  title="Home"
+  description="The Independent Observer is a developing independent media and research project examining power, institutions, history, political economy, science, and technology."
+  currentPath="/"
+>
+  <section class="hero">
+    <div class="shell hero-inner">
+      <div>
+        <p class="eyebrow">Independent analysis for a complex age</p>
+        <h1>Observe the system.<br /><em>Question the frame.</em></h1>
+        <p class="hero-summary">
+          The Independent Observer is a developing editorial project examining how history,
+          institutions, political economy, science, and technology shape public life.
+        </p>
+        <div class="hero-actions">
+          <a class="button" href={sitePath("/research/")}>Explore the research</a>
+          <a class="button button-secondary" href={sitePath("/about/")}>Read the mission</a>
+        </div>
+      </div>
+      <aside class="hero-note" aria-label="Editorial status">
+        <span>Editorial status</span>
+        <p>
+          First working preview. Entries marked “Concept preview” or “In editorial development” are
+          not presented as published work.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section-white">
+    <div class="shell mission-grid">
+      <div class="index" aria-hidden="true">01</div>
+      <div class="mission-copy">
+        <p>
+          Serious inquiry begins before certainty: with the discipline to separate evidence,
+          interpretation, institutional narrative, and unresolved questions.
+        </p>
+        <p>
+          This publication is being designed as a durable home for long-form essays, documentary
+          research, and concise public explainers. Its purpose is not to reproduce party messaging,
+          but to examine systems across ideological boundaries and make the reasoning visible.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-rule">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Featured desk</p>
+          <h2>Research & Essays</h2>
+        </div>
+        <p>
+          Developing work on institutional power, political economy, technology, and public
+          accountability.
+        </p>
+      </div>
+      <div class="card-grid">
+        {researchItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-navy">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Long-form visual inquiry</p>
+          <h2>Documentary Projects</h2>
+        </div>
+        <p>
+          Proposed films and narrative investigations designed to connect evidence, historical
+          context, and future consequences.
+        </p>
+      </div>
+      <div class="card-grid">
+        {documentaryItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-white">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Current formats</p>
+          <h2>Latest Videos</h2>
+        </div>
+        <p>
+          A preview catalogue for future shorts, explainers, and documentary releases. Publication
+          links will replace these status labels when available.
+        </p>
+      </div>
+      <div class="card-grid">
+        {videoItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-rule">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Coverage</p>
+          <h2>Six connected fields</h2>
+        </div>
+        <p>
+          The editorial structure treats these subjects as interacting systems rather than isolated
+          verticals.
+        </p>
+      </div>
+      <div class="topics-grid">
+        {
+          topics.map((topic, index) => (
+            <article class="topic">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{topic.name}</h3>
+              <p>{topic.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-navy">
+    <div class="shell newsletter">
+      <div>
+        <p class="eyebrow">Field notes newsletter</p>
+        <h2>Follow the work as it develops.</h2>
+        <p>Occasional research notes, production updates, and new releases.</p>
+      </div>
+      <form class="newsletter-form" aria-label="Newsletter preview" onsubmit="return false">
+        <label class="sr-only" for="newsletter-email">Email address</label>
+        <input id="newsletter-email" type="email" placeholder="you@example.com" disabled />
+        <button type="button" disabled>Coming later</button>
+        <p class="form-note">Preview only—no email address is collected or stored.</p>
+      </form>
+    </div>
+  </section>
+</BaseLayout>

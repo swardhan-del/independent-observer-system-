@@ -1,0 +1,63 @@
+---
+import { sitePath } from "../lib/paths";
+
+const { currentPath = "/" } = Astro.props;
+const navigation = [
+  { label: "Home", href: "/" },
+  { label: "Research & Essays", href: "/research/" },
+  { label: "Documentaries", href: "/documentaries/" },
+  { label: "Videos", href: "/videos/" },
+  { label: "About", href: "/about/" },
+  { label: "Contact", href: "/contact/" },
+];
+
+const isCurrent = (href: string) =>
+  href === "/" ? currentPath === "/" : currentPath.startsWith(href);
+---
+
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="utility-bar">
+    <div class="shell utility-inner">
+      <span>Independent media & research</span>
+      <span class="utility-edition">First digital edition · Preview</span>
+    </div>
+  </div>
+  <div class="shell masthead">
+    <a class="brand" href={sitePath()} aria-label="The Independent Observer home">
+      <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="20"></circle>
+        <path d="M6 32c8-11 17-16 26-16s18 5 26 16c-8 11-17 16-26 16S14 43 6 32Z"></path>
+        <circle class="brand-pupil" cx="32" cy="32" r="5"></circle>
+      </svg>
+      <span>
+        <small>The</small>
+        <strong>Independent Observer</strong>
+      </span>
+    </a>
+    <p class="masthead-deck">Research · Documentary · Public Reason</p>
+  </div>
+  <div class="navigation-wrap">
+    <nav class="shell desktop-nav" aria-label="Primary navigation">
+      {
+        navigation.map((item) => (
+          <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <details class="shell mobile-nav">
+      <summary>Menu <span aria-hidden="true">＋</span></summary>
+      <nav aria-label="Mobile navigation">
+        {
+          navigation.map((item) => (
+            <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </details>
+  </div>
+</header>
