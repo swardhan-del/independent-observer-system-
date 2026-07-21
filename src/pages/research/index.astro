@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import EditorialCard from "../../components/EditorialCard.astro";
+import { researchItems } from "../../data/content";
+---
+
+<BaseLayout
+  title="Research & Essays"
+  description="Developing research and long-form essays from The Independent Observer."
+  currentPath="/research/"
+>
+  <PageHero
+    eyebrow="Research desk"
+    title="Research & Essays"
+    description="Long-form analysis designed to show its evidence, distinguish argument from fact, and identify what remains uncertain."
+  />
+  <section class="section section-white">
+    <div class="shell">
+      <h2 class="sr-only">Research and essay previews</h2>
+      <div class="placeholder-notice">
+        These entries are editorial previews. Full articles, citations, dates, and publication links
+        will be added only after verification and review.
+      </div>
+      <div class="card-grid">
+        {researchItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
+      </div>
+    </div>
+  </section>
+  <section class="section section-rule">
+    <div class="shell page-grid">
+      <aside class="page-aside">Editorial method</aside>
+      <div class="prose">
+        <h2>What a finished research entry should contain</h2>
+        <p>
+          Each publication is intended to include a clear thesis, sourced factual foundation,
+          counterarguments, limitations, and a distinction between documented findings and the
+          author’s interpretation.
+        </p>
+        <div class="principles">
+          <div class="principle">
+            <span>01</span><div>
+              <h3>Traceable evidence</h3><p>
+                Readers should be able to identify the basis of every material factual claim.
+              </p>
+            </div>
+          </div>
+          <div class="principle">
+            <span>02</span><div>
+              <h3>Fair counterarguments</h3><p>
+                Strong opposing explanations should be represented accurately before they are
+                evaluated.
+              </p>
+            </div>
+          </div>
+          <div class="principle">
+            <span>03</span><div>
+              <h3>Visible uncertainty</h3><p>
+                Gaps, inference, and unresolved questions should be labeled rather than hidden.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
