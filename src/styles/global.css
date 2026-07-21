@@ -4,12 +4,13 @@
   --navy-800: #0e2948;
   --navy-700: #173b61;
   --slate-700: #3f4d5c;
-  --slate-500: #718092;
+  --slate-500: #5f6e80;
   --slate-300: #bcc7d1;
   --slate-150: #dce2e7;
   --paper: #f7f4ed;
   --white: #ffffff;
   --gold: #c6a15b;
+  --gold-ink: #82621f;
   --gold-light: #ead6a7;
   --ink: #101821;
   --serif: Georgia, "Times New Roman", Times, serif;
@@ -230,11 +231,17 @@ textarea {
 
 .eyebrow {
   margin: 0 0 18px;
-  color: var(--gold);
+  color: var(--gold-ink);
   font-size: 0.74rem;
   font-weight: 800;
   letter-spacing: 0.17em;
   text-transform: uppercase;
+}
+
+.hero .eyebrow,
+.page-hero .eyebrow,
+.section-navy .eyebrow {
+  color: var(--gold);
 }
 
 .hero h1,
@@ -377,7 +384,7 @@ textarea {
 }
 
 .mission-grid .index {
-  color: var(--gold);
+  color: var(--gold-ink);
   font-family: var(--serif);
   font-size: 5rem;
   line-height: 1;
@@ -454,6 +461,10 @@ textarea {
   color: var(--slate-300);
 }
 
+.section-navy .card-footer {
+  color: var(--slate-300);
+}
+
 .card-footer {
   display: flex;
   flex-wrap: wrap;
@@ -495,7 +506,7 @@ textarea {
 }
 
 .topic span {
-  color: var(--gold);
+  color: var(--gold-ink);
   font-family: var(--serif);
   font-size: 0.8rem;
 }
@@ -643,7 +654,7 @@ textarea {
 }
 
 .principle span {
-  color: var(--gold);
+  color: var(--gold-ink);
   font-family: var(--serif);
 }
 
@@ -792,6 +803,14 @@ textarea {
 
   .mobile-nav summary::-webkit-details-marker {
     display: none;
+  }
+
+  .mobile-nav-icon::before {
+    content: "＋";
+  }
+
+  .mobile-nav[open] .mobile-nav-icon::before {
+    content: "−";
   }
 
   .mobile-nav nav {
