@@ -36,6 +36,10 @@ function canonical(html: string) {
   const tag = tags(html, "link").find((candidate) => attribute(candidate, "rel") === "canonical");
   return tag ? attribute(tag, "href") : undefined;
 }
+function sitemapLink(html: string) {
+  const tag = tags(html, "link").find((candidate) => attribute(candidate, "rel") === "sitemap");
+  return tag ? attribute(tag, "href") : undefined;
+}
 
 function jsonLd(html: string) {
   return tags(html, "script")
@@ -180,6 +184,7 @@ describe("built website", () => {
     expect(metaContent(html, "name", "twitter:card")).toBe("summary_large_image");
     expect(metaContent(html, "name", "twitter:image:alt")).toBeTruthy();
     expect(metaContent(html, "name", "description")).toBeTruthy();
+    expect(sitemapLink(html)).toBe(new URL("sitemap.xml", pageCanonical).href);
     expect(html).toMatch(/<title>[^<]+<\/title>/i);
 
     const imagePath = fileForPath(new URL(openGraphImage!).pathname, basePath);
@@ -202,6 +207,22 @@ describe("built website", () => {
           item["@type"] === "WebPage" && item.url === pageCanonical,
       ),
     ).toBe(true);
+    const breadcrumb = graph.find(
+      (item: { "@type": string }) => item["@type"] === "BreadcrumbList",
+    );
+    if (file === "index.html") {
+      expect(breadcrumb).toBeUndefined();
+    } else {
+      expect(breadcrumb?.itemListElement).toEqual([
+        { "@type": "ListItem", position: 1, name: "Home", item: publicOrigin + basePath },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: expect.any(String),
+          item: pageCanonical,
+        },
+      ]);
+    }
   });
 
   it("uses a valid 1200 by 630 JPEG social image", () => {
