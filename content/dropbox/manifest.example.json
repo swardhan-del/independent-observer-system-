@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "approvedForWebsite": true,
+  "items": [
+    {
+      "id": "volume-iv-preview",
+      "kind": "series",
+      "title": "The Last Human Workforce",
+      "category": "AI and human capability",
+      "description": "A preview-stage framework for task exposure, augmentation, education, scientific capacity, and institutional adaptation in the age of AI.",
+      "status": "In editorial development",
+      "readingTime": "Series roadmap"
+    }
+  ]
+}

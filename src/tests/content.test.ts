@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
+import { dropboxFeedItems } from "../data/dropbox-content.generated";
+import { seriesItems } from "../data/series";
 
 describe("editorial preview data", () => {
   it("keeps all sample work clearly labeled as unfinished", () => {
@@ -19,5 +21,28 @@ describe("editorial preview data", () => {
       "Science",
       "Technology",
     ]);
+  });
+
+  it("keeps the Dropbox-derived series roadmap preview-only", () => {
+    expect(seriesItems).toHaveLength(4);
+    expect(seriesItems.map((item) => item.volume)).toEqual([
+      "Volume I",
+      "Volume II",
+      "Volume III",
+      "Volume IV",
+    ]);
+    expect(
+      seriesItems.every(
+        (item) => item.status.includes("preview") || item.status.includes("development"),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps automated Dropbox items within the public-safe status contract", () => {
+    expect(
+      dropboxFeedItems.every(
+        (item) => item.status.includes("preview") || item.status.includes("development"),
+      ),
+    ).toBe(true);
   });
 });

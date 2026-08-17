@@ -1,7 +1,15 @@
 import type { APIRoute } from "astro";
 import { sitePath } from "../lib/paths";
 
-const publicRoutes = ["/", "/research/", "/documentaries/", "/videos/", "/about/", "/contact/"];
+const publicRoutes = [
+  "/",
+  "/series/",
+  "/research/",
+  "/documentaries/",
+  "/videos/",
+  "/about/",
+  "/contact/",
+];
 
 function escapeXml(value: string) {
   return value

@@ -115,3 +115,22 @@ approved.
 - Global design system: `src/styles/global.css`
 
 Replace placeholder descriptions only with verified, publication-ready material. Never commit private records, passwords, tokens, API keys, `.env` files, or unpublished evidence.
+
+## Dropbox website-feed automation
+
+The repository includes an approval-gated workflow at `.github/workflows/sync-dropbox-content.yml`.
+It does not mirror the Dropbox archive and it does not publish directly. It reads only a
+`manifest.json` from this exact approved folder:
+
+`/Independent Observer desktop/Website Feed/approved`
+
+The manifest must set `approvedForWebsite` to `true` and every item must use one of the two
+preview statuses: `Concept preview` or `In editorial development`. The schema example is in
+`content/dropbox/manifest.example.json`. DOCX, PDF, PPTX, raw research, private records, and
+unapproved media are intentionally outside the feed contract.
+
+To activate the workflow, create a Dropbox app with read-only metadata/content access and add
+these GitHub repository secrets: `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and
+`DROPBOX_REFRESH_TOKEN`. The workflow runs daily and can be started manually; when the approved
+manifest changes it opens a pull request containing only the generated data file. CI and human
+review remain required before merge or deployment.
