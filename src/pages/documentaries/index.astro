@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContentFilter from "../../components/ContentFilter.astro";
 import PageHero from "../../components/PageHero.astro";
 import EditorialCard from "../../components/EditorialCard.astro";
 import { documentaryItems } from "../../data/content";
@@ -22,7 +23,8 @@ import { documentaryItems } from "../../data/content";
         Project cards describe concepts in development. They do not represent completed or released
         films.
       </div>
-      <div class="card-grid">
+      <ContentFilter targetId="documentary-preview-grid" itemCount={documentaryItems.length} />
+      <div class="card-grid" id="documentary-preview-grid">
         {documentaryItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
       </div>
     </div>
