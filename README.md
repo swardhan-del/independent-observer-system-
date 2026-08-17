@@ -135,6 +135,7 @@ unapproved media are intentionally outside the feed contract.
 
 To activate the workflow, create a Dropbox app with read-only metadata/content access and add
 these GitHub repository secrets: `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and
-`DROPBOX_REFRESH_TOKEN`. The workflow runs daily and can be started manually; when the approved
-manifest changes it opens a pull request containing only the generated data file. CI and human
-review remain required before merge or deployment.
+`DROPBOX_REFRESH_TOKEN`. The workflow runs weekly on Mondays and can be started manually; when the approved
+manifest changes it opens a pull request containing only the generated data file. Entries mentioning
+medical, medicine, med-school, personal, or private topics are rejected before a pull request can be
+created. CI and human review remain required before merge or deployment.
