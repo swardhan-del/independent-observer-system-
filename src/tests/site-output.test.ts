@@ -138,7 +138,9 @@ describe("built website", () => {
   it.each(routes)("keeps essential structure on $route", ({ file }) => {
     const html = readOutput(file);
     const pageIds = ids(html);
-    const headings = [...html.matchAll(/<h([1-6])\b/gi)].map((match) => Number(match[1]));
+    const main = tags(html, "main")[0];
+    if (!main) throw new Error(`${file} is missing its main landmark.`);
+    const headings = [...main.matchAll(/<h([1-6])\b/gi)].map((match) => Number(match[1]));
 
     expect(html).toMatch(/<html\b[^>]*\blang=["']en["']/i);
     expect(tags(html, "header")).toHaveLength(1);
