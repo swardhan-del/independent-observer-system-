@@ -51,18 +51,18 @@ const authenticate = async () =>
     ).json()
   ).access_token;
 
-const download = async (token, path) => {
-  const response = await request(
-    "https://content.dropboxapi.com/2/files/download",
-    {
-      method: "POST",
-      headers: {
-        authorization: "Bearer " + token,
-        "Dropbox-API-Arg": JSON.stringify({ path }),
-      },
+const download = async (token, path, { allowMissing = false } = {}) => {
+  const response = await fetch("https://content.dropboxapi.com/2/files/download", {
+    method: "POST",
+    headers: {
+      authorization: "Bearer " + token,
+      "Dropbox-API-Arg": JSON.stringify({ path }),
     },
-    "Dropbox download",
-  );
+  });
+  if (!response.ok) {
+    if (allowMissing && response.status === 409) return null;
+    throw new Error("Dropbox download failed (" + response.status + ")");
+  }
   return Buffer.from(await response.arrayBuffer());
 };
 
@@ -185,9 +185,12 @@ const assetDescriptor = (id, filename) => {
 const run = async () => {
   const sourcePath = process.env.DROPBOX_SOURCE_PATH ?? DEFAULT_SOURCE_PATH;
   const token = await authenticate();
-  const manifest = JSON.parse(
-    (await download(token, sourcePath + "/manifest.json")).toString("utf8"),
-  );
+  const manifestBytes = await download(token, sourcePath + "/manifest.json", { allowMissing: true });
+  if (!manifestBytes) {
+    console.log("No approved Dropbox manifest; nothing to publish.");
+    return;
+  }
+  const manifest = JSON.parse(manifestBytes.toString("utf8"));
   const items = parseManifest(manifest);
   const validated = [];
   for (const item of items) {
