@@ -7,7 +7,9 @@ import { dropboxFeedItems } from "../../data/dropbox-content.generated";
 import { seriesItems } from "../../data/series";
 import { sitePath } from "../../lib/paths";
 
-const automatedSeriesItems = dropboxFeedItems.filter((item) => item.kind === "series");
+const automatedSeriesItems = dropboxFeedItems.filter(
+  (item) => item.kind === "series",
+);
 ---
 
 <BaseLayout
@@ -24,17 +26,27 @@ const automatedSeriesItems = dropboxFeedItems.filter((item) => item.kind === "se
     <div class="shell">
       <h2 class="sr-only">Independent Observer volume previews</h2>
       <div class="placeholder-notice">
-        This is a review roadmap, not a publication catalogue. Candidate titles and descriptions may
-        change; no volume is represented as published, peer reviewed, or commercially released.
+        This is a review roadmap, not a publication catalogue. Candidate titles
+        and descriptions may change; no volume is represented as published, peer
+        reviewed, or commercially released.
       </div>
-      <ContentFilter targetId="series-preview-grid" itemCount={seriesItems.length} />
+      <ContentFilter
+        targetId="series-preview-grid"
+        itemCount={seriesItems.length}
+      />
       <div class="card-grid" id="series-preview-grid">
         {
           seriesItems.map((item, index) => (
             <article
               class="editorial-card"
               data-filter-card
-              data-search-text={[item.title, item.volume, item.category, item.description, item.status]
+              data-search-text={[
+                item.title,
+                item.volume,
+                item.category,
+                item.description,
+                item.status,
+              ]
                 .join(" ")
                 .toLocaleLowerCase()}
               data-status={item.status.toLocaleLowerCase()}
@@ -64,7 +76,10 @@ const automatedSeriesItems = dropboxFeedItems.filter((item) => item.kind === "se
               <p class="eyebrow">Approved archive feed</p>
               <h2>New roadmap notes</h2>
             </div>
-            <p>Structured updates arrive from Dropbox only after explicit website approval.</p>
+            <p>
+              Structured updates arrive from Dropbox only after explicit website
+              approval.
+            </p>
           </div>
           <div class="card-grid">
             {automatedSeriesItems.map((item, index) => (
@@ -81,13 +96,15 @@ const automatedSeriesItems = dropboxFeedItems.filter((item) => item.kind === "se
       <div class="prose">
         <h2>Public promise before publication</h2>
         <p>
-          A finished volume must pass claim-level evidence review, rights and provenance checks,
-          fairness review, rendered visual QA, cloud-state verification, and dated author approval.
-          The roadmap keeps those gates visible rather than converting a working archive into an
-          implied release.
+          A finished volume must pass claim-level evidence review, rights and
+          provenance checks, fairness review, rendered visual QA, cloud-state
+          verification, and dated author approval. The roadmap keeps those gates
+          visible rather than converting a working archive into an implied
+          release.
         </p>
         <p>
-          <a href={sitePath("/research/")}>Explore the research desk</a> while the series develops.
+          <a href={sitePath("/research/")}>Explore the research desk</a> while the
+          series develops.
         </p>
       </div>
     </div>
