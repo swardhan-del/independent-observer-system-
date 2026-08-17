@@ -132,12 +132,11 @@ The manifest uses schemaVersion 2, must set `approvedForWebsite` to `true`, and 
 release gate to `true`: source verification, content quality, rights/provenance review, and release
 approval. Each item must be a `research` document or `documentary`, declare a relative source path,
 SHA-256 digest, and `qualityChecked: true`, and use one of the preview statuses. The sync downloads
-each declared artifact only from the approved folder, checks its hash and basic file/container
-structure, and generates metadata without exposing the source path or raw file. The schema example is
+each declared artifact only from the approved folder, checks its hash and basic file/container structure, stages each approved artifact under `public/dropbox-feed/<item-id>/`, and generates metadata with a public asset path. The Dropbox source path remains private. The schema example is
 in `content/dropbox/manifest.example.json`. Unapproved media and unrelated archive material remain
 outside the feed contract.
 
 To activate the workflow, create a Dropbox app with read-only metadata/content access and add
 these GitHub repository secrets: `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and
 `DROPBOX_REFRESH_TOKEN`. The workflow runs weekly on Mondays and can be started manually; when the approved
-manifest changes it opens a pull request containing only the generated data file. Restricted or out-of-scope entries are rejected before a pull request can be created. CI and human review remain required before merge or deployment.
+manifest changes it opens a pull request containing the generated data and approved feed assets. Restricted or out-of-scope entries are rejected before a pull request can be created. CI and human review remain required before merge or deployment.

@@ -630,6 +630,22 @@ textarea {
   color: var(--gold-light);
 }
 
+.card-link {
+  color: var(--gold-ink);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.card-link:hover {
+  text-decoration: underline;
+}
+
+.section-navy .card-link {
+  color: var(--gold-light);
+}
+
 .topics-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

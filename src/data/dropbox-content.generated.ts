@@ -8,12 +8,13 @@ import type { EditorialStatus } from "./content";
  */
 export type DropboxFeedItem = {
   id: string;
-  kind: "research" | "documentary" | "video" | "series";
+  kind: "research" | "documentary";
   title: string;
   category: string;
   description: string;
   status: EditorialStatus;
   readingTime?: string;
+  assetPath?: string;
 };
 
 export const dropboxFeedItems: DropboxFeedItem[] = [];

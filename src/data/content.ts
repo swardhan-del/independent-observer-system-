@@ -8,6 +8,7 @@ export type EditorialItem = {
   description: string;
   status: EditorialStatus;
   readingTime?: string;
+  assetPath?: string;
 };
 
 const dropboxResearchItems: EditorialItem[] = dropboxFeedItems

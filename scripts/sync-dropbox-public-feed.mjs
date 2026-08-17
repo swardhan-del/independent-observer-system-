@@ -1,10 +1,12 @@
 import { createHash } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
-import { dirname, extname, resolve } from "node:path";
+import { mkdir, rm, writeFile } from "node:fs/promises";
+import { dirname, extname, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const DEFAULT_SOURCE_PATH = "/Independent Observer desktop/Website Feed/approved";
 const OUTPUT_PATH = resolve("src/data/dropbox-content.generated.ts");
+const ASSET_ROOT = resolve("public/dropbox-feed");
+const MAX_ARTIFACT_BYTES = 95 * 1024 * 1024;
 const ALLOWED_STATUSES = new Set(["Concept preview", "In editorial development"]);
 const ALLOWED_KINDS = new Set(["research", "documentary"]);
 const DOCUMENT_EXTENSIONS = new Set([".docx", ".pdf", ".pptx", ".md", ".txt"]);
@@ -80,16 +82,19 @@ const sourceDeclaration = (source, kind, name) => {
   const relativePath = textField(source.relativePath, name + ".path", 300);
   const sha256 = textField(source.sha256, name + ".sha256", 64).toLowerCase();
   const extension = extname(relativePath).toLowerCase();
+  const filename = relativePath.split("/").at(-1);
   if (
+    !filename ||
     relativePath.startsWith("/") ||
     relativePath.includes("\\") ||
     relativePath.split("/").some((part) => !part || part === "." || part === "..") ||
     !/^[a-f0-9]{64}$/.test(sha256) ||
     source.qualityChecked !== true ||
+    RESTRICTED_PUBLIC_TEXT.test(filename) ||
     !(kind === "research" ? DOCUMENT_EXTENSIONS : DOCUMENTARY_EXTENSIONS).has(extension)
   )
     throw new Error(name + ".source invalid");
-  return { relativePath, sha256, extension };
+  return { relativePath, sha256, extension, filename };
 };
 
 export const parseManifest = (manifest) => {
@@ -138,6 +143,7 @@ export const parseManifest = (manifest) => {
 
 export const validateArtifact = (item, bytes) => {
   if (bytes.length < 100) throw new Error(item.id + " too small");
+  if (bytes.length > MAX_ARTIFACT_BYTES) throw new Error(item.id + " too large");
   const extension = item.source.extension;
   const zipSignature = bytes.subarray(0, 4).equals(Buffer.from([80, 75, 3, 4]));
   const contains = (value) => bytes.includes(Buffer.from(value));
@@ -157,11 +163,23 @@ export const validateArtifact = (item, bytes) => {
     const text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
     if (!text.trim() || /[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(text))
       throw new Error(item.id + " text quality");
+    if (RESTRICTED_PUBLIC_TEXT.test(text)) throw new Error(item.id + " excluded");
   }
   if (extension === ".webm" && !bytes.subarray(0, 4).equals(Buffer.from([26, 69, 223, 163])))
     throw new Error(item.id + " WebM quality");
   if ([".mov", ".mp4", ".m4v"].includes(extension) && bytes.subarray(4, 8).toString() !== "ftyp")
     throw new Error(item.id + " MP4/MOV quality");
+};
+
+const assetDescriptor = (id, filename) => {
+  const directory = resolve(ASSET_ROOT, id);
+  const destination = resolve(directory, filename);
+  if (!destination.startsWith(directory + sep)) throw new Error(id + " asset path invalid");
+  return {
+    directory,
+    destination,
+    publicPath: "/dropbox-feed/" + id + "/" + encodeURIComponent(filename),
+  };
 };
 
 const run = async () => {
@@ -171,21 +189,31 @@ const run = async () => {
     (await download(token, sourcePath + "/manifest.json")).toString("utf8"),
   );
   const items = parseManifest(manifest);
+  const validated = [];
   for (const item of items) {
     const bytes = await download(token, sourcePath + "/" + item.source.relativePath);
     if (createHash("sha256").update(bytes).digest("hex") !== item.source.sha256)
       throw new Error(item.id + " hash mismatch");
     validateArtifact(item, bytes);
+    validated.push({ item, bytes, asset: assetDescriptor(item.id, item.source.filename) });
   }
-  const publicItems = items.map(({ source, ...item }) => item);
+  await rm(ASSET_ROOT, { recursive: true, force: true });
+  for (const { bytes, asset } of validated) {
+    await mkdir(asset.directory, { recursive: true });
+    await writeFile(asset.destination, bytes);
+  }
+  const publicItems = validated.map(({ item, asset }) => {
+    const { source, ...publicItem } = item;
+    return { ...publicItem, assetPath: asset.publicPath };
+  });
   await mkdir(dirname(OUTPUT_PATH), { recursive: true });
   await writeFile(
     OUTPUT_PATH,
-    'import type { EditorialStatus } from "./content";\n\nexport type DropboxFeedItem={id:string;kind:"research"|"documentary";title:string;category:string;description:string;status:EditorialStatus;readingTime?:string};\n\nexport const dropboxFeedItems: DropboxFeedItem[] = ' +
+    'import type { EditorialStatus } from "./content";\n\nexport type DropboxFeedItem={id:string;kind:"research"|"documentary";title:string;category:string;description:string;status:EditorialStatus;readingTime?:string;assetPath?:string};\n\nexport const dropboxFeedItems: DropboxFeedItem[] = ' +
       JSON.stringify(publicItems, null, 2) +
       ";\n",
   );
-  console.log("Validated " + items.length + " approved Dropbox item(s).");
+  console.log("Validated and staged " + items.length + " approved Dropbox item(s).");
 };
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await run();

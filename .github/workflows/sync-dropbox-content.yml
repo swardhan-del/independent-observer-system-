@@ -38,7 +38,7 @@ jobs:
       - name: Check for feed changes
         id: changes
         run: |
-          if git diff --quiet -- src/data/dropbox-content.generated.ts; then
+          if git diff --quiet -- src/data/dropbox-content.generated.ts public/dropbox-feed; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
@@ -52,7 +52,7 @@ jobs:
           git config user.name "independent-observer-automation[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "$BRANCH"
-          git add -- src/data/dropbox-content.generated.ts
+          git add -- src/data/dropbox-content.generated.ts public/dropbox-feed
           git commit -m "Sync approved Dropbox website feed"
           git push --set-upstream origin "$BRANCH"
           gh pr create \

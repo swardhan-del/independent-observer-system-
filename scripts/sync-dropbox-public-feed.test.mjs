@@ -73,10 +73,16 @@ describe("Dropbox public-feed contract", () => {
     ).not.toThrow();
   });
 
-  it("rejects malformed or empty artifacts", () => {
+  it("rejects malformed, empty, restricted, or oversized artifacts", () => {
     expect(() => validateArtifact(artifact(".pdf"), Buffer.from("not a PDF".repeat(20)))).toThrow(
       "PDF quality",
     );
     expect(() => validateArtifact(artifact(".txt"), Buffer.alloc(128))).toThrow("text quality");
+    expect(() =>
+      validateArtifact(artifact(".txt"), Buffer.from("Private material ".repeat(20))),
+    ).toThrow("excluded");
+    expect(() =>
+      validateArtifact(artifact(".txt"), Buffer.alloc(95 * 1024 * 1024 + 1, 32)),
+    ).toThrow("too large");
   });
 });
