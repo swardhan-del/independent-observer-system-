@@ -128,10 +128,14 @@ It does not mirror the Dropbox archive and it does not publish directly. It read
 
 `/Independent Observer desktop/Website Feed/approved`
 
-The manifest must set `approvedForWebsite` to `true` and every item must use one of the two
-preview statuses: `Concept preview` or `In editorial development`. The schema example is in
-`content/dropbox/manifest.example.json`. DOCX, PDF, PPTX, raw research, private records, and
-unapproved media are intentionally outside the feed contract.
+The manifest uses schemaVersion 2, must set `approvedForWebsite` to `true`, and must set every
+release gate to `true`: source verification, content quality, rights/provenance review, and release
+approval. Each item must be a `research` document or `documentary`, declare a relative source path,
+SHA-256 digest, and `qualityChecked: true`, and use one of the preview statuses. The sync downloads
+each declared artifact only from the approved folder, checks its hash and basic file/container
+structure, and generates metadata without exposing the source path or raw file. The schema example is
+in `content/dropbox/manifest.example.json`. Unapproved media and unrelated archive material remain
+outside the feed contract.
 
 To activate the workflow, create a Dropbox app with read-only metadata/content access and add
 these GitHub repository secrets: `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and
