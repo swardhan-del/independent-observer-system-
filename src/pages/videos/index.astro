@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContentFilter from "../../components/ContentFilter.astro";
 import PageHero from "../../components/PageHero.astro";
 import EditorialCard from "../../components/EditorialCard.astro";
 import { videoItems } from "../../data/content";
@@ -22,7 +23,8 @@ import { videoItems } from "../../data/content";
         This is a preview catalogue. Embedded players, release dates, transcripts, and platform
         links will appear after videos are published.
       </div>
-      <div class="card-grid">
+      <ContentFilter targetId="video-preview-grid" itemCount={videoItems.length} />
+      <div class="card-grid" id="video-preview-grid">
         {videoItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
       </div>
     </div>
