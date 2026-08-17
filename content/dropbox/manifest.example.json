@@ -1,15 +1,25 @@
 {
-  "schemaVersion": 1,
-  "approvedForWebsite": true,
+  "schemaVersion": 2,
+  "approvedForWebsite": false,
+  "releaseGates": {
+    "sourceVerified": false,
+    "contentQualityChecked": false,
+    "rightsAndProvenanceReviewed": false,
+    "releaseApproved": false
+  },
   "items": [
     {
-      "id": "volume-iv-preview",
-      "kind": "series",
-      "title": "The Last Human Workforce",
-      "category": "AI and human capability",
-      "description": "A preview-stage framework for task exposure, augmentation, education, scientific capacity, and institutional adaptation in the age of AI.",
-      "status": "In editorial development",
-      "readingTime": "Series roadmap"
+      "id": "documentary-preview",
+      "kind": "documentary",
+      "title": "Documentary preview title",
+      "category": "Approved public topic",
+      "description": "Replace this placeholder with a verified public description.",
+      "status": "Concept preview",
+      "source": {
+        "relativePath": "documentaries/example.mp4",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "qualityChecked": false
+      }
     }
   ]
 }
