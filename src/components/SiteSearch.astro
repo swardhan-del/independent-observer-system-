@@ -2,6 +2,7 @@
 import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
 import { dropboxFeedItems } from "../data/dropbox-content.generated";
 import { seriesItems } from "../data/series";
+import { publicLibrarySnapshot } from "../data/public-library";
 import { sitePath } from "../lib/paths";
 
 type SearchEntry = {
@@ -61,6 +62,22 @@ const searchItems: SearchEntry[] = [
     kind: "Approved feed",
     href: feedHref[item.kind] ?? sitePath("/series/"),
   })),
+  ...publicLibrarySnapshot.volumes.map((volume) => ({
+    title: volume.title,
+    category: volume.focus,
+    description: volume.summary,
+    status: "Public summary",
+    kind: "Archive volume",
+    href: sitePath("/library/"),
+  })),
+  ...publicLibrarySnapshot.areas.map((area) => ({
+    title: area.title,
+    category: "Archive area",
+    description: area.summary,
+    status: "Public map",
+    kind: "Public library",
+    href: sitePath("/library/"),
+  })),
   ...topics.map((topic) => ({
     title: topic.name,
     category: "Coverage field",
@@ -95,13 +112,13 @@ const serializedIndex = JSON.stringify(searchItems).replace(/</g, "\\u003c");
           Close
         </button>
       </div>
-      <label for="site-search-input">Search previews, fields, and series</label>
+      <label for="site-search-input">Search previews, fields, series, and archive areas</label>
       <input
         id="site-search-input"
         data-search-input
         type="search"
         autocomplete="off"
-        placeholder="Try “institutions” or “AI”"
+        placeholder="Try “institutions”, “AI”, or “archive”"
       />
       <p class="search-status" data-search-status role="status">
         Type to search the public preview.
