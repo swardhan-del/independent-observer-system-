@@ -18,6 +18,24 @@ const publicOrigin = Astro.site ?? new URL(Astro.url.origin);
 const canonicalUrl = new URL(sitePath(currentPath), publicOrigin).href;
 const websiteUrl = new URL(sitePath("/"), publicOrigin).href;
 const socialImageUrl = new URL(sitePath("/og-cover.jpg"), publicOrigin).href;
+const sitemapUrl = new URL(sitePath("/sitemap.xml"), publicOrigin).href;
+const breadcrumbItems =
+  currentPath === "/"
+    ? []
+    : [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: websiteUrl,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: title,
+          item: canonicalUrl,
+        },
+      ];
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -39,6 +57,15 @@ const structuredData = JSON.stringify({
       isPartOf: { "@id": `${websiteUrl}#website` },
       inLanguage: "en",
     },
+    ...(breadcrumbItems.length > 0
+      ? [
+          {
+            "@type": "BreadcrumbList",
+            "@id": `${canonicalUrl}#breadcrumb`,
+            itemListElement: breadcrumbItems,
+          },
+        ]
+      : []),
   ],
 }).replace(/</g, "\\u003c");
 ---
@@ -53,6 +80,7 @@ const structuredData = JSON.stringify({
     <meta name="theme-color" content="#07182d" />
     {noindex && <meta name="robots" content="noindex,follow" />}
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="sitemap" type="application/xml" href={sitemapUrl} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content="The Independent Observer" />

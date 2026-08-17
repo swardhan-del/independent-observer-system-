@@ -82,6 +82,23 @@ SITE_URL=https://example.com BASE_PATH=/publication/ npm run build
 
 These settings generate absolute canonical and social-sharing URLs at build time.
 
+## Google Search visibility
+
+The public build includes a crawlable `robots.txt`, an absolute-URL XML sitemap, canonical URLs,
+Open Graph metadata, and JSON-LD for the website and each page. It also exposes the sitemap URL in
+each page's HTML head and publishes a two-level breadcrumb graph for non-home routes.
+
+To monitor actual Google discovery and indexing, the site owner must add the deployed URL as a
+property in [Google Search Console](https://search.google.com/search-console), submit:
+
+```
+https://swardhan-del.github.io/independent-observer-system-/sitemap.xml
+```
+
+Then use URL Inspection for the home page and the first genuinely published article. This repository
+does not use an autonomous content-generation or SEO-autopilot service; all public content remains
+approved and human-reviewed.
+
 ## GitHub Pages deployment
 
 Continuous integration and deployment are separate workflows. Pull requests and pushes to `main`
