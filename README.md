@@ -6,7 +6,7 @@ Repository provenance: this project was initialized as `independent-observer-sys
 
 ## Status
 
-This is a working preview. Sample cards are explicitly labeled **Concept preview** or **In editorial development**. The site does not claim that placeholder work has been published, peer reviewed, or institutionally affiliated.
+The repository is public and configured for GitHub Pages. The root site is publicly reachable; reviewed additions such as the Public Research Library are published only after the Pages deployment workflow succeeds. Sample cards are explicitly labeled **Concept preview** or **In editorial development**. The site does not claim that placeholder work has been published, peer reviewed, or institutionally affiliated.
 
 ## Requirements
 
