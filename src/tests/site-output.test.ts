@@ -11,6 +11,7 @@ const routes = [
   { route: "/about/", file: "about/index.html" },
   { route: "/contact/", file: "contact/index.html" },
 ] as const;
+const sitemapRoutes = routes.map(({ route }) => route);
 
 function readOutput(relativePath: string) {
   return readFileSync(join(distRoot, relativePath), "utf8");
@@ -33,6 +34,16 @@ function metaContent(html: string, attributeName: "name" | "property", value: st
 function canonical(html: string) {
   const tag = tags(html, "link").find((candidate) => attribute(candidate, "rel") === "canonical");
   return tag ? attribute(tag, "href") : undefined;
+}
+
+function jsonLd(html: string) {
+  return tags(html, "script")
+    .filter((tag) => attribute(tag, "type") === "application/ld+json")
+    .map((tag) => {
+      const start = html.indexOf(tag) + tag.length;
+      const end = html.indexOf("</script>", start);
+      return JSON.parse(html.slice(start, end));
+    });
 }
 
 function ids(html: string) {
@@ -84,11 +95,44 @@ describe("built website", () => {
     for (const { file } of routes) expect(existsSync(join(distRoot, file))).toBe(true);
   });
 
+  it("builds robots, sitemap, and 404 output", () => {
+    expect(existsSync(join(distRoot, "robots.txt"))).toBe(true);
+    expect(existsSync(join(distRoot, "sitemap.xml"))).toBe(true);
+    expect(existsSync(join(distRoot, "404.html"))).toBe(true);
+  });
+
   const homeHtml = readOutput("index.html");
   const homeCanonical = canonical(homeHtml);
   if (!homeCanonical) throw new Error("The home page is missing its canonical URL.");
   const publicOrigin = new URL(homeCanonical).origin;
   const basePath = new URL(homeCanonical).pathname;
+
+  it("publishes a crawlable robots file with the configured sitemap URL", () => {
+    const robots = readOutput("robots.txt");
+    const sitemapUrl = new URL("sitemap.xml", homeCanonical).href;
+
+    expect(robots).toMatch(/^User-agent: \*$/m);
+    expect(robots).toMatch(/^Allow: \/$/m);
+    expect(robots).toContain(`Sitemap: ${sitemapUrl}`);
+  });
+
+  it("lists each canonical public route exactly once in the sitemap", () => {
+    const sitemap = readOutput("sitemap.xml");
+    expect(sitemap).toMatch(/^<\?xml version="1\.0" encoding="UTF-8"\?>/);
+    expect(sitemap).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
+
+    const locations = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
+    const expected = sitemapRoutes.map(
+      (route) => new URL(sitePathForTest(route), homeCanonical).href,
+    );
+
+    expect(locations).toHaveLength(expected.length);
+    for (const url of expected) {
+      expect(url).toMatch(/^https:\/\//);
+      expect(locations.filter((location) => location === url)).toHaveLength(1);
+    }
+    expect(locations.some((location) => location.endsWith("/404/"))).toBe(false);
+  });
 
   it.each(routes)("keeps essential structure on $route", ({ file }) => {
     const html = readOutput(file);
@@ -139,6 +183,24 @@ describe("built website", () => {
     expect(existsSync(imagePath)).toBe(true);
   });
 
+  it.each(routes)("provides valid page-specific JSON-LD on $route", ({ file }) => {
+    const html = readOutput(file);
+    const pageCanonical = canonical(html);
+    const documents = jsonLd(html);
+
+    expect(documents).toHaveLength(1);
+    const serialized = JSON.stringify(documents[0]);
+    expect(serialized).toContain("The Independent Observer");
+    const graph = documents[0]["@graph"];
+    expect(graph.some((item: { "@type": string }) => item["@type"] === "WebSite")).toBe(true);
+    expect(
+      graph.some(
+        (item: { "@type": string; url?: string }) =>
+          item["@type"] === "WebPage" && item.url === pageCanonical,
+      ),
+    ).toBe(true);
+  });
+
   it("uses a valid 1200 by 630 JPEG social image", () => {
     const imageUrl = metaContent(homeHtml, "property", "og:image");
     if (!imageUrl) throw new Error("The home page is missing its Open Graph image.");
@@ -171,4 +233,25 @@ describe("built website", () => {
       }
     }
   });
+
+  it("builds an accessible, non-indexable 404 page with valid internal links", () => {
+    const html = readOutput("404.html");
+    const pageCanonical = canonical(html);
+    if (!pageCanonical) throw new Error("The 404 page is missing its canonical URL.");
+
+    expect(tags(html, "h1")).toHaveLength(1);
+    expect(metaContent(html, "name", "robots")).toBe("noindex,follow");
+
+    for (const tag of tags(html, "a")) {
+      const href = attribute(tag, "href");
+      if (!href || href.startsWith("#")) continue;
+      const target = new URL(href, pageCanonical);
+      if (target.origin !== publicOrigin) continue;
+      expect(existsSync(fileForPath(target.pathname, basePath))).toBe(true);
+    }
+  });
 });
+
+function sitePathForTest(route: string) {
+  return route.replace(/^\//, "");
+}
