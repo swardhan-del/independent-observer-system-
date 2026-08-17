@@ -22,13 +22,16 @@ describe("workflow publication safety", () => {
     expect(ci).not.toMatch(/^\s*environment:\s*github-pages/m);
   });
 
-  it("allows deployment only through a confirmed dispatch from main", () => {
-    expect(triggerKeys(deploy)).toEqual(["workflow_dispatch"]);
+  it("deploys reviewed main pushes and requires confirmation for manual runs", () => {
+    expect(triggerKeys(deploy)).toEqual(["push", "workflow_dispatch"]);
+    expect(deploy).toMatch(/branches:\s*\n\s+- main/);
     expect(deploy).toMatch(/confirm_deployment:/);
     expect(deploy).toMatch(/default:\s*false/);
     expect(deploy).toContain(
-      "if: ${{ github.ref == 'refs/heads/main' && inputs.confirm_deployment == true }}",
+      "${{ github.ref == 'refs/heads/main' && (github.event_name == 'push' || inputs.confirm_deployment == true) }}",
     );
+    expect(deploy).toContain("github.event_name == 'push'");
+    expect(deploy).toContain("github.event_name == 'push' || inputs.confirm_deployment == true");
     expect(deploy).toMatch(/environment:\s*\n\s+name:\s*github-pages/);
     expect(deploy).toMatch(/pages:\s*write/);
     expect(deploy).toMatch(/id-token:\s*write/);
