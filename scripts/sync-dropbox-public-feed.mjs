@@ -7,7 +7,7 @@ const sourcePath =
 const outputPath = resolve("src/data/dropbox-content.generated.ts");
 const allowedStatuses = new Set(["Concept preview", "In editorial development"]);
 const allowedKinds = new Set(["research", "documentary", "video", "series"]);
-const excludedTopicPattern = /\\b(?:medical(?:\\s+school)?|med\\s+school|medicine|personal|private)\\b/i;
+const excludedTopicPattern = /\b(?:medical(?:\s+school)?|med\s+school|medicine|personal|private)\b/i;
 const maxItems = 100;
 
 function required(name) {
