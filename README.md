@@ -82,6 +82,18 @@ SITE_URL=https://example.com BASE_PATH=/publication/ npm run build
 
 These settings generate absolute canonical and social-sharing URLs at build time.
 
+## Public Research Library
+
+The public site now includes [`/library/`](https://swardhan-del.github.io/independent-observer-system-/library/), a reviewed public-safe map of the Independent Observer Dropbox archive. It publishes aggregate counts, three high-level volume summaries, and broad research areas; it does not publish raw files, local paths, private records, draft evidence, or working archive filenames.
+
+The library is a reviewed snapshot from the Dropbox `public_export` package. It is deliberately separate from the protected archive and is labeled as a snapshot so aggregate counts are not mistaken for a live inventory. The existing approved-feed automation remains narrower: it accepts only structured preview items from `/Independent Observer desktop/Website Feed/approved`, opens a pull request, and waits for CI and human review.
+
+If that exact approved folder is unavailable, the automation must fail closed. Do not repoint it at the general Independent Observer archive or at a catalog manifest. To publish more material, first create a small public-safe summary, mark it approved, and let the review workflow handle it.
+
+## Integration boundary
+
+This site uses Astro, native browser search/filter interactions, GitHub Actions, and the narrow Dropbox feed contract. Those are the integrations currently needed for this static publication; no third-party website plugin is required for the public library. An SEO or content autopilot must not generate or publish claims without human review. Search visibility comes from the existing crawlable pages, canonical metadata, JSON-LD, robots file, sitemap, and human-submitted Search Console indexing requests.
+
 ## Google Search visibility
 
 The public build includes a crawlable `robots.txt`, an absolute-URL XML sitemap, canonical URLs,

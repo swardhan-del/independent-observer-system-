@@ -1,0 +1,177 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import { dropboxFeedItems } from "../../data/dropbox-content.generated";
+import { publicLibrarySnapshot } from "../../data/public-library";
+import { sitePath } from "../../lib/paths";
+
+const { areas, note, stats, volumes } = publicLibrarySnapshot;
+---
+
+<BaseLayout
+  title="Public Research Library"
+  description="A public-safe map of the Independent Observer research archive, its three public volume summaries, and the boundaries around private source material."
+  currentPath="/library/"
+>
+  <PageHero
+    eyebrow="Public archive"
+    title="See the map behind the work."
+    description="A public-safe overview of the Independent Observer research structure, drawn from a reviewed Dropbox export without exposing raw archive material."
+  />
+
+  <section class="section section-white">
+    <div class="shell page-grid">
+      <aside class="page-aside">{publicLibrarySnapshot.label}</aside>
+      <div class="prose">
+        <h2>Visibility with a boundary.</h2>
+        <p>{note}</p>
+        <p>
+          This page is a public index, not a document repository. It helps readers understand what
+          the project is building and where future research may fit.
+        </p>
+        <div class="topics-grid">
+          {
+            stats.map((stat, index) => (
+              <article class="topic">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{stat.value}</h3>
+                <p>
+                  <strong>{stat.label}</strong>
+                </p>
+                <p>{stat.detail}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-navy">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Research volumes</p>
+          <h2>Three public summaries.</h2>
+        </div>
+        <p>
+          The summaries describe the research architecture without presenting any volume as a
+          finished, peer-reviewed, or commercially released publication.
+        </p>
+      </div>
+      <div class="card-grid">
+        {
+          volumes.map((volume, index) => (
+            <article class="editorial-card">
+              <div class="card-meta">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span>Public summary</span>
+              </div>
+              <h3>{volume.title}</h3>
+              <p class="card-category">{volume.focus}</p>
+              <p>{volume.summary}</p>
+              <div class="card-footer">
+                <span class="status-pill">Overview only</span>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-rule">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Archive shape</p>
+          <h2>Research areas, not file exposure.</h2>
+        </div>
+        <p>
+          These broad categories make the private workspace legible while keeping source documents
+          and working material out of the public build.
+        </p>
+      </div>
+      <div class="topics-grid">
+        {
+          areas.map((area, index) => (
+            <article class="topic">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{area.title}</h3>
+              <p>{area.summary}</p>
+              <p>
+                <strong>{area.privateCount}</strong>
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-white">
+    <div class="shell page-grid">
+      <aside class="page-aside">Publication boundary</aside>
+      <div class="prose">
+        <h2>What remains private.</h2>
+        <p>
+          Raw DOCX, PDF, presentation, video, private notes, local file paths, personal records,
+          draft evidence, and unpublished claims are not published through this page. Any future
+          release must be explicitly marked public-safe and reviewed before it enters the website.
+        </p>
+        <div class="principles">
+          <div class="principle">
+            <span>01</span><div>
+              <h3>Dropbox is the working archive</h3><p>
+                The website receives only approved summaries; it does not mirror the archive.
+              </p>
+            </div>
+          </div>
+          <div class="principle">
+            <span>02</span><div>
+              <h3>GitHub Actions opens a review PR</h3><p>
+                The existing sync workflow validates a narrow manifest and waits for CI and human
+                review before anything reaches the live site.
+              </p>
+            </div>
+          </div>
+          <div class="principle">
+            <span>03</span><div>
+              <h3>No automatic publishing plugin</h3><p>
+                The public build uses Astro and native browser interactions. An SEO or content
+                autopilot is intentionally not allowed to publish unreviewed material.
+              </p>
+            </div>
+          </div>
+        </div>
+        <p>
+          <a href={sitePath("/about/")}>Read the editorial principles</a> or
+          <a href={sitePath("/research/")}>explore the research desk</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-navy">
+    <div class="shell newsletter">
+      <div>
+        <p class="eyebrow">Integration status</p>
+        <h2>Structured updates stay reviewable.</h2>
+        <p>
+          Approved Dropbox feed items currently visible in the site build:
+          <strong>{dropboxFeedItems.length}</strong>. The archive summary above is a reviewed
+          snapshot; it does not imply that the private archive is continuously or automatically
+          public.
+        </p>
+      </div>
+      <div class="contact-panel">
+        <h2>Next safe step</h2>
+        <p>
+          Add a short, public-safe summary to the approved Dropbox feed when it is ready for
+          publication. The workflow will validate it and open a pull request for review.
+        </p>
+        <a class="button" href={sitePath("/contact/")}>Contact the project</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

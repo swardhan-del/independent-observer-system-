@@ -4,6 +4,7 @@ import { sitePath } from "../lib/paths";
 const publicRoutes = [
   "/",
   "/series/",
+  "/library/",
   "/research/",
   "/documentaries/",
   "/videos/",
