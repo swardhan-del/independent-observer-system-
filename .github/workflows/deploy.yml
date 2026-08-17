@@ -1,6 +1,9 @@
 name: Deploy website to GitHub Pages
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       confirm_deployment:
@@ -18,7 +21,7 @@ concurrency:
 
 jobs:
   deploy:
-    if: ${{ github.ref == 'refs/heads/main' && inputs.confirm_deployment == true }}
+    if: ${{ github.ref == 'refs/heads/main' && (github.event_name == 'push' || inputs.confirm_deployment == true) }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
