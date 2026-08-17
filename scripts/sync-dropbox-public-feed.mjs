@@ -7,6 +7,7 @@ const sourcePath =
 const outputPath = resolve("src/data/dropbox-content.generated.ts");
 const allowedStatuses = new Set(["Concept preview", "In editorial development"]);
 const allowedKinds = new Set(["research", "documentary", "video", "series"]);
+const excludedTopicPattern = /\\b(?:medical(?:\\s+school)?|med\\s+school|medicine|personal|private)\\b/i;
 const maxItems = 100;
 
 function required(name) {
@@ -78,6 +79,14 @@ async function downloadJson(token, path) {
   return JSON.parse(await response.text());
 }
 
+function assertPublicTopic(value, field) {
+  if (excludedTopicPattern.test(value)) {
+    throw new Error(
+      `${field} contains excluded medical, personal-life, or private-topic language.`,
+    );
+  }
+}
+
 function cleanText(value, field, maxLength) {
   if (typeof value !== "string" || !value.trim())
     throw new Error(`${field} must be non-empty text.`);
@@ -119,6 +128,9 @@ function validateManifest(manifest) {
         description: cleanText(item.description, `${prefix}.description`, 800),
         status: item.status,
       };
+      for (const field of ["title", "category", "description"]) {
+        assertPublicTopic(result[field], `${prefix}.${field}`);
+      }
       if (item.readingTime !== undefined) {
         result.readingTime = cleanText(item.readingTime, `${prefix}.readingTime`, 80);
       }
