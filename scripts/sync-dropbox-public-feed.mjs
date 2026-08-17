@@ -185,7 +185,9 @@ const assetDescriptor = (id, filename) => {
 const run = async () => {
   const sourcePath = process.env.DROPBOX_SOURCE_PATH ?? DEFAULT_SOURCE_PATH;
   const token = await authenticate();
-  const manifestBytes = await download(token, sourcePath + "/manifest.json", { allowMissing: true });
+  const manifestBytes = await download(token, sourcePath + "/manifest.json", {
+    allowMissing: true,
+  });
   if (!manifestBytes) {
     console.log("No approved Dropbox manifest; nothing to publish.");
     return;
