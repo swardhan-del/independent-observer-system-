@@ -1,8 +1,8 @@
 # The Independent Observer
 
-Private workspace for The Independent Observer. This first website version is a static editorial publication built with Astro.
+Public repository for The Independent Observer. This website version is a static editorial publication built with Astro.
 
-Repository provenance: this project was initialized as `independent-observer-system-` with the description "private workspace for independent observer." This website version preserves that private-workspace purpose while adding the documentation needed to review and maintain the site.
+Repository provenance: this project was initialized as `independent-observer-system-` with the description "private workspace for independent observer." This website version preserves its working-preview purpose while adding the documentation needed to review and maintain the site.
 
 ## Status
 
