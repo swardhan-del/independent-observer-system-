@@ -48,11 +48,14 @@ describe("editorial preview data", () => {
   });
 });
 
-
 describe("public library data", () => {
   it("keeps the Dropbox-derived archive summary public-safe", () => {
     expect(publicLibrarySnapshot.volumes).toHaveLength(3);
-    expect(publicLibrarySnapshot.stats.find((stat) => stat.label === "Raw files published")?.value).toBe("0");
-    expect(publicLibrarySnapshot.areas.every((area) => area.privateCount.includes("private archive"))).toBe(true);
+    expect(
+      publicLibrarySnapshot.stats.find((stat) => stat.label === "Raw files published")?.value,
+    ).toBe("0");
+    expect(
+      publicLibrarySnapshot.areas.every((area) => area.privateCount.includes("private archive")),
+    ).toBe(true);
   });
 });
