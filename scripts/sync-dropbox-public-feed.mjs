@@ -209,7 +209,7 @@ const run = async () => {
   await mkdir(dirname(OUTPUT_PATH), { recursive: true });
   await writeFile(
     OUTPUT_PATH,
-    'import type { EditorialStatus } from "./content";\n\nexport type DropboxFeedItem={id:string;kind:"research"|"documentary";title:string;category:string;description:string;status:EditorialStatus;readingTime?:string;assetPath?:string};\n\nexport const dropboxFeedItems: DropboxFeedItem[] = ' +
+    'import type { EditorialStatus } from "./content";\n\nexport type DropboxFeedItem={id:string;kind:"research"|"documentary"|"video"|"series";title:string;category:string;description:string;status:EditorialStatus;readingTime?:string;assetPath?:string};\n\nexport const dropboxFeedItems: DropboxFeedItem[] = ' +
       JSON.stringify(publicItems, null, 2) +
       ";\n",
   );

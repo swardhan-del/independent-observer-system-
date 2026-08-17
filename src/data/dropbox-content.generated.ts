@@ -8,7 +8,7 @@ import type { EditorialStatus } from "./content";
  */
 export type DropboxFeedItem = {
   id: string;
-  kind: "research" | "documentary";
+  kind: "research" | "documentary" | "video" | "series";
   title: string;
   category: string;
   description: string;
