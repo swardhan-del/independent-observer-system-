@@ -2,22 +2,14 @@ import { createHash } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, extname, resolve } from "node:path";
 
-const R =
-    process.env.DROPBOX_SOURCE_PATH ??
-    "/Independent Observer desktop/Website Feed/approved",
+const R = process.env.DROPBOX_SOURCE_PATH ?? "/Independent Observer desktop/Website Feed/approved",
   O = resolve("src/data/dropbox-content.generated.ts");
 const S = new Set(["Concept preview", "In editorial development"]),
   K = new Set(["research", "documentary"]),
   D = new Set([".docx", ".pdf", ".pptx", ".md", ".txt"]),
   V = new Set([".m4v", ".mov", ".mp4", ".webm"]);
-const X =
-    /\b(?:medical(?:[-\s]+school)?|med[-\s]+school|medicine|personal|private)\b/i,
-  G = [
-    "sourceVerified",
-    "contentQualityChecked",
-    "rightsAndProvenanceReviewed",
-    "releaseApproved",
-  ];
+const X = /\b(?:medical(?:[-\s]+school)?|med[-\s]+school|medicine|personal|private)\b/i,
+  G = ["sourceVerified", "contentQualityChecked", "rightsAndProvenanceReviewed", "releaseApproved"];
 const env = (n) => {
   if (!process.env[n]) throw new Error("Missing " + n);
   return process.env[n];
@@ -51,10 +43,7 @@ const get = async (t, p) => {
     "https://content.dropboxapi.com/2/files/download",
     {
       method: "POST",
-      headers: {
-        authorization: "Bearer " + t,
-        "Dropbox-API-Arg": JSON.stringify({ path: p }),
-      },
+      headers: { authorization: "Bearer " + t, "Dropbox-API-Arg": JSON.stringify({ path: p }) },
     },
     "Dropbox download",
   );
@@ -119,8 +108,7 @@ const parse = (m) => {
         status: i.status,
         source: source(i.source, i.kind, p),
       };
-      if (i.readingTime !== undefined)
-        o.readingTime = field(i.readingTime, p + ".readingTime", 80);
+      if (i.readingTime !== undefined) o.readingTime = field(i.readingTime, p + ".readingTime", 80);
       for (const k of ["title", "category", "description", "readingTime"])
         if (o[k] && X.test(o[k])) throw new Error(p + " excluded");
       return o;
@@ -134,36 +122,19 @@ const quality = (i, b) => {
     h = (s) => b.includes(Buffer.from(s));
   if (e === ".pdf" && (b.subarray(0, 5).toString() !== "%PDF-" || !h("%%EOF")))
     throw new Error(i.id + " PDF quality");
-  if (
-    e === ".docx" &&
-    (!z || !h("[Content_Types].xml") || !h("word/document.xml"))
-  )
+  if (e === ".docx" && (!z || !h("[Content_Types].xml") || !h("word/document.xml")))
     throw new Error(i.id + " DOCX quality");
-  if (
-    e === ".pptx" &&
-    (!z || !h("[Content_Types].xml") || !h("ppt/presentation.xml"))
-  )
+  if (e === ".pptx" && (!z || !h("[Content_Types].xml") || !h("ppt/presentation.xml")))
     throw new Error(i.id + " PPTX quality");
-  if (
-    (e === ".md" || e === ".txt") &&
-    !new TextDecoder("utf-8", { fatal: true }).decode(b).trim()
-  )
+  if ((e === ".md" || e === ".txt") && !new TextDecoder("utf-8", { fatal: true }).decode(b).trim())
     throw new Error(i.id + " text quality");
-  if (
-    e === ".webm" &&
-    !b.subarray(0, 4).equals(Buffer.from([26, 69, 223, 163]))
-  )
+  if (e === ".webm" && !b.subarray(0, 4).equals(Buffer.from([26, 69, 223, 163])))
     throw new Error(i.id + " WebM quality");
-  if (
-    [".mov", ".mp4", ".m4v"].includes(e) &&
-    b.subarray(4, 8).toString() !== "ftyp"
-  )
+  if ([".mov", ".mp4", ".m4v"].includes(e) && b.subarray(4, 8).toString() !== "ftyp")
     throw new Error(i.id + " MP4/MOV quality");
 };
 const t = await auth(),
-  items = parse(
-    JSON.parse((await get(t, R + "/manifest.json")).toString("utf8")),
-  );
+  items = parse(JSON.parse((await get(t, R + "/manifest.json")).toString("utf8")));
 for (const i of items) {
   const b = await get(t, R + "/" + i.source.relativePath);
   if (createHash("sha256").update(b).digest("hex") !== i.source.sha256)
