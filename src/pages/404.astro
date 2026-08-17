@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { sitePath } from "../lib/paths";
+---
+
+<BaseLayout
+  title="Page not found"
+  description="The requested page could not be found on The Independent Observer."
+  currentPath="/404/"
+  noindex
+>
+  <section class="hero">
+    <div class="shell hero-inner">
+      <div>
+        <p class="eyebrow">Error 404</p>
+        <h1>Page not found</h1>
+        <p class="hero-summary">
+          The page may have moved, or the address may be incomplete. You can return to the main site
+          or continue to the research desk.
+        </p>
+        <div class="hero-actions">
+          <a class="button" href={sitePath("/")}>Return home</a>
+          <a class="button button-secondary" href={sitePath("/research/")}>Research &amp; Essays</a>
+        </div>
+      </div>
+      <aside class="hero-note" aria-label="Navigation guidance">
+        <span>Independent Observer</span>
+        <p>No content is available at this address.</p>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
