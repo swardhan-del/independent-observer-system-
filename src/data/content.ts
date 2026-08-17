@@ -1,8 +1,10 @@
+export type EditorialStatus = "Concept preview" | "In editorial development";
+
 export type EditorialItem = {
   title: string;
   category: string;
   description: string;
-  status: "Concept preview" | "In editorial development";
+  status: EditorialStatus;
   readingTime?: string;
 };
 

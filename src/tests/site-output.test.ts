@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 const distRoot = join(process.cwd(), "dist");
 const routes = [
   { route: "/", file: "index.html" },
+  { route: "/series/", file: "series/index.html" },
   { route: "/research/", file: "research/index.html" },
   { route: "/documentaries/", file: "documentaries/index.html" },
   { route: "/videos/", file: "videos/index.html" },
