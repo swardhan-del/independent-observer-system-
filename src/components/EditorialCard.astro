@@ -21,11 +21,13 @@ const searchText = [item.title, item.category, item.description, item.status]
   <p>{item.description}</p>
   <div class="card-footer">
     <span class="status-pill">{item.status}</span>
-    {item.assetPath && (
-      <a class="card-link" href={item.assetPath} target="_blank" rel="noreferrer">
-        Open approved file
-      </a>
-    )}
+    {
+      item.assetPath && (
+        <a class="card-link" href={item.assetPath} target="_blank" rel="noreferrer">
+          Open approved file
+        </a>
+      )
+    }
     {item.readingTime && <span>{item.readingTime}</span>}
   </div>
 </article>
