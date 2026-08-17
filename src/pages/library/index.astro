@@ -30,14 +30,18 @@ const { areas, note, stats, volumes } = publicLibrarySnapshot;
           the project is building and where future research may fit.
         </p>
         <div class="topics-grid">
-          {stats.map((stat, index) => (
-            <article class="topic">
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{stat.value}</h3>
-              <p><strong>{stat.label}</strong></p>
-              <p>{stat.detail}</p>
-            </article>
-          ))}
+          {
+            stats.map((stat, index) => (
+              <article class="topic">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{stat.value}</h3>
+                <p>
+                  <strong>{stat.label}</strong>
+                </p>
+                <p>{stat.detail}</p>
+              </article>
+            ))
+          }
         </div>
       </div>
     </div>
@@ -56,20 +60,22 @@ const { areas, note, stats, volumes } = publicLibrarySnapshot;
         </p>
       </div>
       <div class="card-grid">
-        {volumes.map((volume, index) => (
-          <article class="editorial-card">
-            <div class="card-meta">
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <span>Public summary</span>
-            </div>
-            <h3>{volume.title}</h3>
-            <p class="card-category">{volume.focus}</p>
-            <p>{volume.summary}</p>
-            <div class="card-footer">
-              <span class="status-pill">Overview only</span>
-            </div>
-          </article>
-        ))}
+        {
+          volumes.map((volume, index) => (
+            <article class="editorial-card">
+              <div class="card-meta">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span>Public summary</span>
+              </div>
+              <h3>{volume.title}</h3>
+              <p class="card-category">{volume.focus}</p>
+              <p>{volume.summary}</p>
+              <div class="card-footer">
+                <span class="status-pill">Overview only</span>
+              </div>
+            </article>
+          ))
+        }
       </div>
     </div>
   </section>
@@ -87,14 +93,18 @@ const { areas, note, stats, volumes } = publicLibrarySnapshot;
         </p>
       </div>
       <div class="topics-grid">
-        {areas.map((area, index) => (
-          <article class="topic">
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            <h3>{area.title}</h3>
-            <p>{area.summary}</p>
-            <p><strong>{area.privateCount}</strong></p>
-          </article>
-        ))}
+        {
+          areas.map((area, index) => (
+            <article class="topic">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{area.title}</h3>
+              <p>{area.summary}</p>
+              <p>
+                <strong>{area.privateCount}</strong>
+              </p>
+            </article>
+          ))
+        }
       </div>
     </div>
   </section>
@@ -149,9 +159,9 @@ const { areas, note, stats, volumes } = publicLibrarySnapshot;
         <h2>Structured updates stay reviewable.</h2>
         <p>
           Approved Dropbox feed items currently visible in the site build:
-          <strong>{dropboxFeedItems.length}</strong>.
-          The archive summary above is a reviewed snapshot; it does not imply that the private
-          archive is continuously or automatically public.
+          <strong>{dropboxFeedItems.length}</strong>. The archive summary above is a reviewed
+          snapshot; it does not imply that the private archive is continuously or automatically
+          public.
         </p>
       </div>
       <div class="contact-panel">
