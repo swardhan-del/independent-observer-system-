@@ -50,13 +50,6 @@ export const documentaryItems: EditorialItem[] = [
       "A proposed documentary asking whether civilization should prioritize Earth systems, energy, and nearer-space infrastructure.",
     status: "Concept preview",
   },
-  {
-    title: "Three Countries. Three Systems. One MD.",
-    category: "Education & Institutions",
-    description:
-      "A personal documentary framework comparing medical education systems without publishing private academic records.",
-    status: "Concept preview",
-  },
 ];
 
 export const videoItems: EditorialItem[] = [
@@ -99,7 +92,7 @@ export const topics = [
   { name: "Law", description: "Rules, remedies, procedure, and institutional accountability." },
   {
     name: "Science",
-    description: "Evidence, medicine, energy, space, and scientific uncertainty.",
+    description: "Evidence, energy, space, and scientific uncertainty.",
   },
   {
     name: "Technology",
