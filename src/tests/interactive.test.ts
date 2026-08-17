@@ -3,26 +3,11 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const sourceRoot = join(process.cwd(), "src");
-const header = readFileSync(
-  join(sourceRoot, "components/Header.astro"),
-  "utf8",
-);
-const search = readFileSync(
-  join(sourceRoot, "components/SiteSearch.astro"),
-  "utf8",
-);
-const filter = readFileSync(
-  join(sourceRoot, "components/ContentFilter.astro"),
-  "utf8",
-);
-const card = readFileSync(
-  join(sourceRoot, "components/EditorialCard.astro"),
-  "utf8",
-);
-const series = readFileSync(
-  join(sourceRoot, "pages/series/index.astro"),
-  "utf8",
-);
+const header = readFileSync(join(sourceRoot, "components/Header.astro"), "utf8");
+const search = readFileSync(join(sourceRoot, "components/SiteSearch.astro"), "utf8");
+const filter = readFileSync(join(sourceRoot, "components/ContentFilter.astro"), "utf8");
+const card = readFileSync(join(sourceRoot, "components/EditorialCard.astro"), "utf8");
+const series = readFileSync(join(sourceRoot, "pages/series/index.astro"), "utf8");
 
 describe("interactive preview tools", () => {
   it("ships browser-local site search without a collection endpoint", () => {
@@ -43,11 +28,11 @@ describe("interactive preview tools", () => {
   });
 
   it("keeps collection forms explicitly disabled until a privacy-safe service exists", () => {
-    expect(
-      readFileSync(join(sourceRoot, "pages/index.astro"), "utf8"),
-    ).toContain('aria-label="Newsletter preview"');
-    expect(
-      readFileSync(join(sourceRoot, "pages/contact/index.astro"), "utf8"),
-    ).toContain("Preview only—this form does not transmit or store data.");
+    expect(readFileSync(join(sourceRoot, "pages/index.astro"), "utf8")).toContain(
+      'aria-label="Newsletter preview"',
+    );
+    expect(readFileSync(join(sourceRoot, "pages/contact/index.astro"), "utf8")).toContain(
+      "Preview only—this form does not transmit or store data.",
+    );
   });
 });
