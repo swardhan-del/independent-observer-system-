@@ -86,26 +86,13 @@ These settings generate absolute canonical and social-sharing URLs at build time
 
 Continuous integration and deployment are separate workflows. Pull requests and pushes to `main`
 run read-only checks through `.github/workflows/ci.yml`; that workflow has no Pages permissions or
-deployment steps. Merging does not deploy the website.
+deployment steps.
 
-Before the first deployment:
-
-1. Open the repository on GitHub.
-2. Go to **Settings → Pages**.
-3. Under **Build and deployment**, choose **GitHub Actions** as the source.
-4. In **Settings → Environments → github-pages**, add required reviewers if approval is desired.
-
-After a reviewed pull request is merged and CI succeeds, deployment still requires an explicit
-manual action:
-
-1. Open **Actions → Deploy website to GitHub Pages**.
-2. Choose **Run workflow** from the `main` branch.
-3. Enable the required deployment confirmation and run the workflow.
-4. Approve the protected `github-pages` environment if repository settings require it.
-
-The deployment workflow refuses to run its deployment job from any branch other than `main` and
-cannot be triggered by a pull request or push. Do not manually dispatch it until publication is
-approved.
+GitHub Pages must use **Settings → Pages → Build and deployment → GitHub Actions** as its source.
+After a reviewed pull request is merged and CI succeeds, the deployment workflow publishes the
+current `main` branch automatically. The workflow still refuses to deploy from any branch other
+than `main`. A manual `workflow_dispatch` run remains available, but requires the explicit
+deployment confirmation input and any protected `github-pages` environment approval.
 
 ## Content editing
 
