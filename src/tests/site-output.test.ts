@@ -184,7 +184,7 @@ describe("built website", () => {
     expect(metaContent(html, "name", "twitter:card")).toBe("summary_large_image");
     expect(metaContent(html, "name", "twitter:image:alt")).toBeTruthy();
     expect(metaContent(html, "name", "description")).toBeTruthy();
-    expect(sitemapLink(html)).toBe(new URL("sitemap.xml", pageCanonical).href);
+    expect(sitemapLink(html)).toBe(new URL("sitemap.xml", publicOrigin + basePath).href);
     expect(html).toMatch(/<title>[^<]+<\/title>/i);
 
     const imagePath = fileForPath(new URL(openGraphImage!).pathname, basePath);
