@@ -2,9 +2,17 @@
 import type { EditorialItem } from "../data/content";
 
 const { item, index = 1 } = Astro.props as { item: EditorialItem; index?: number };
+const searchText = [item.title, item.category, item.description, item.status]
+  .join(" ")
+  .toLocaleLowerCase();
 ---
 
-<article class="editorial-card">
+<article
+  class="editorial-card"
+  data-filter-card
+  data-search-text={searchText}
+  data-status={item.status.toLocaleLowerCase()}
+>
   <div class="card-meta">
     <span>{String(index).padStart(2, "0")}</span>
     <span>{item.category}</span>

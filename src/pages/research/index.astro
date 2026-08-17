@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContentFilter from "../../components/ContentFilter.astro";
 import PageHero from "../../components/PageHero.astro";
 import EditorialCard from "../../components/EditorialCard.astro";
 import { researchItems } from "../../data/content";
@@ -22,7 +23,8 @@ import { researchItems } from "../../data/content";
         These entries are editorial previews. Full articles, citations, dates, and publication links
         will be added only after verification and review.
       </div>
-      <div class="card-grid">
+      <ContentFilter targetId="research-preview-grid" itemCount={researchItems.length} />
+      <div class="card-grid" id="research-preview-grid">
         {researchItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
       </div>
     </div>

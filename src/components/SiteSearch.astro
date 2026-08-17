@@ -1,0 +1,204 @@
+---
+import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
+import { dropboxFeedItems } from "../data/dropbox-content.generated";
+import { seriesItems } from "../data/series";
+import { sitePath } from "../lib/paths";
+
+type SearchEntry = {
+  title: string;
+  category: string;
+  description: string;
+  status: string;
+  kind: string;
+  href: string;
+};
+
+const feedHref: Record<string, string> = {
+  research: sitePath("/research/"),
+  documentary: sitePath("/documentaries/"),
+  video: sitePath("/videos/"),
+  series: sitePath("/series/"),
+};
+
+const searchItems: SearchEntry[] = [
+  ...researchItems.map((item) => ({
+    title: item.title,
+    category: item.category,
+    description: item.description,
+    status: item.status,
+    kind: "Research preview",
+    href: sitePath("/research/"),
+  })),
+  ...documentaryItems.map((item) => ({
+    title: item.title,
+    category: item.category,
+    description: item.description,
+    status: item.status,
+    kind: "Documentary preview",
+    href: sitePath("/documentaries/"),
+  })),
+  ...videoItems.map((item) => ({
+    title: item.title,
+    category: item.category,
+    description: item.description,
+    status: item.status,
+    kind: "Video preview",
+    href: sitePath("/videos/"),
+  })),
+  ...seriesItems.map((item) => ({
+    title: item.title,
+    category: item.category,
+    description: item.description,
+    status: item.status,
+    kind: item.volume,
+    href: sitePath("/series/"),
+  })),
+  ...dropboxFeedItems.map((item) => ({
+    title: item.title,
+    category: item.category,
+    description: item.description,
+    status: item.status,
+    kind: "Approved feed",
+    href: feedHref[item.kind] ?? sitePath("/series/"),
+  })),
+  ...topics.map((topic) => ({
+    title: topic.name,
+    category: "Coverage field",
+    description: topic.description,
+    status: "Editorial framework",
+    kind: "Topic",
+    href: sitePath("/#topic-" + topic.name.toLowerCase()),
+  })),
+];
+
+const serializedIndex = JSON.stringify(searchItems).replace(/</g, "\\u003c");
+---
+
+<div class="site-search" data-site-search data-index={serializedIndex}>
+  <button
+    class="search-trigger"
+    type="button"
+    data-search-open
+    aria-haspopup="dialog"
+    aria-controls="site-search-dialog"
+  >
+    Search
+  </button>
+  <dialog id="site-search-dialog" class="search-dialog" aria-labelledby="site-search-title">
+    <div class="search-dialog-inner">
+      <div class="search-dialog-header">
+        <div>
+          <p class="eyebrow">Site search</p>
+          <h2 id="site-search-title">Find an idea.</h2>
+        </div>
+        <button class="search-close" type="button" data-search-close aria-label="Close search">
+          Close
+        </button>
+      </div>
+      <label for="site-search-input">Search previews, fields, and series</label>
+      <input
+        id="site-search-input"
+        data-search-input
+        type="search"
+        autocomplete="off"
+        placeholder="Try “institutions” or “AI”"
+      />
+      <p class="search-status" data-search-status role="status">
+        Type to search the public preview.
+      </p>
+      <ul class="search-results" data-search-results></ul>
+      <p class="form-note">Search runs in your browser. Your query is not transmitted or stored.</p>
+    </div>
+  </dialog>
+</div>
+
+<script>
+  type SearchResult = {
+    title: string;
+    category: string;
+    description: string;
+    status: string;
+    kind: string;
+    href: string;
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-site-search]").forEach((root) => {
+    const dialog = root.querySelector<HTMLDialogElement>("#site-search-dialog");
+    const openButton = root.querySelector<HTMLButtonElement>("[data-search-open]");
+    const closeButton = root.querySelector<HTMLButtonElement>("[data-search-close]");
+    const input = root.querySelector<HTMLInputElement>("[data-search-input]");
+    const status = root.querySelector<HTMLElement>("[data-search-status]");
+    const results = root.querySelector<HTMLUListElement>("[data-search-results]");
+    const index = JSON.parse(root.dataset.index ?? "[]") as SearchResult[];
+
+    if (!dialog || !openButton || !closeButton || !input || !status || !results) return;
+
+    const close = () => {
+      if (dialog.open) dialog.close();
+      openButton.focus();
+    };
+
+    const render = () => {
+      const query = input.value.trim().toLocaleLowerCase();
+      results.replaceChildren();
+
+      if (!query) {
+        status.textContent = "Type to search the public preview.";
+        return;
+      }
+
+      const matches = index
+        .filter((entry) =>
+          [entry.title, entry.category, entry.description, entry.status, entry.kind]
+            .join(" ")
+            .toLocaleLowerCase()
+            .includes(query),
+        )
+        .slice(0, 8);
+
+      status.textContent = matches.length
+        ? matches.length + (matches.length === 1 ? " result" : " results")
+        : "No matching preview found.";
+
+      for (const entry of matches) {
+        const item = document.createElement("li");
+        const link = document.createElement("a");
+        const kind = document.createElement("span");
+        const title = document.createElement("strong");
+        const description = document.createElement("span");
+
+        link.href = entry.href;
+        link.className = "search-result";
+        kind.className = "search-result-kind";
+        kind.textContent = entry.kind + " · " + entry.status;
+        title.textContent = entry.title;
+        description.textContent = entry.description;
+        link.append(kind, title, description);
+        item.append(link);
+        results.append(item);
+      }
+    };
+
+    openButton.addEventListener("click", () => {
+      if (typeof dialog.showModal === "function") dialog.showModal();
+      else dialog.setAttribute("open", "");
+      input.focus();
+    });
+    closeButton.addEventListener("click", close);
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) close();
+    });
+    input.addEventListener("input", render);
+    dialog.addEventListener("close", () => {
+      input.value = "";
+      render();
+    });
+    document.addEventListener("keydown", (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLocaleLowerCase() === "k") {
+        event.preventDefault();
+        openButton.click();
+      }
+      if (event.key === "Escape" && dialog.open) close();
+    });
+  });
+</script>

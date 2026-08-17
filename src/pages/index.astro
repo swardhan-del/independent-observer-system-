@@ -120,7 +120,7 @@ import { sitePath } from "../lib/paths";
       <div class="topics-grid">
         {
           topics.map((topic, index) => (
-            <article class="topic">
+            <article class="topic" id={"topic-" + topic.name.toLowerCase()}>
               <span>{String(index + 1).padStart(2, "0")}</span>
               <h3>{topic.name}</h3>
               <p>{topic.description}</p>
