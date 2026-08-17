@@ -6,9 +6,17 @@ const {
   index = 1,
   sectionHref = "/research/",
 } = Astro.props as { item: EditorialItem; index?: number; sectionHref?: string };
+const searchText = [item.title, item.category, item.description, item.status]
+  .join(" ")
+  .toLocaleLowerCase();
 ---
 
-<article class="editorial-card">
+<article
+  class="editorial-card"
+  data-filter-card
+  data-search-text={searchText}
+  data-status={item.status.toLocaleLowerCase()}
+>
   {
     Astro.slots.has("image") && (
       <div class="card-image">

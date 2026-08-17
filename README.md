@@ -6,7 +6,7 @@ Repository provenance: this project was initialized as `independent-observer-sys
 
 ## Status
 
-This is a working preview. Sample cards are explicitly labeled **Concept preview** or **In editorial development**. The site does not claim that placeholder work has been published, peer reviewed, or institutionally affiliated.
+The repository is public and configured for GitHub Pages. The root site is publicly reachable; reviewed additions such as the Public Research Library are published only after the Pages deployment workflow succeeds. Sample cards are explicitly labeled **Concept preview** or **In editorial development**. The site does not claim that placeholder work has been published, peer reviewed, or institutionally affiliated.
 
 ## Requirements
 
@@ -82,30 +82,46 @@ SITE_URL=https://example.com BASE_PATH=/publication/ npm run build
 
 These settings generate absolute canonical and social-sharing URLs at build time.
 
+## Public Research Library
+
+The public site now includes [`/library/`](https://swardhan-del.github.io/independent-observer-system-/library/), a reviewed public-safe map of the Independent Observer Dropbox archive. It publishes aggregate counts, three high-level volume summaries, and broad research areas; it does not publish raw files, local paths, private records, draft evidence, or working archive filenames.
+
+The library is a reviewed snapshot from the Dropbox `public_export` package. It is deliberately separate from the protected archive and is labeled as a snapshot so aggregate counts are not mistaken for a live inventory. The existing approved-feed automation remains narrower: it accepts only structured preview items from `/Independent Observer desktop/Website Feed/approved`, opens a pull request, and waits for CI and human review.
+
+If that exact approved folder is unavailable, the automation must fail closed. Do not repoint it at the general Independent Observer archive or at a catalog manifest. To publish more material, first create a small public-safe summary, mark it approved, and let the review workflow handle it.
+
+## Integration boundary
+
+This site uses Astro, native browser search/filter interactions, GitHub Actions, and the narrow Dropbox feed contract. Those are the integrations currently needed for this static publication; no third-party website plugin is required for the public library. An SEO or content autopilot must not generate or publish claims without human review. Search visibility comes from the existing crawlable pages, canonical metadata, JSON-LD, robots file, sitemap, and human-submitted Search Console indexing requests.
+
+## Google Search visibility
+
+The public build includes a crawlable `robots.txt`, an absolute-URL XML sitemap, canonical URLs,
+Open Graph metadata, and JSON-LD for the website and each page. It also exposes the sitemap URL in
+each page's HTML head and publishes a two-level breadcrumb graph for non-home routes.
+
+To monitor actual Google discovery and indexing, the site owner must add the deployed URL as a
+property in [Google Search Console](https://search.google.com/search-console), submit:
+
+```
+https://swardhan-del.github.io/independent-observer-system-/sitemap.xml
+```
+
+Then use URL Inspection for the home page and the first genuinely published article. This repository
+does not use an autonomous content-generation or SEO-autopilot service; all public content remains
+approved and human-reviewed.
+
 ## GitHub Pages deployment
 
 Continuous integration and deployment are separate workflows. Pull requests and pushes to `main`
 run read-only checks through `.github/workflows/ci.yml`; that workflow has no Pages permissions or
-deployment steps. Merging does not deploy the website.
+deployment steps.
 
-Before the first deployment:
-
-1. Open the repository on GitHub.
-2. Go to **Settings → Pages**.
-3. Under **Build and deployment**, choose **GitHub Actions** as the source.
-4. In **Settings → Environments → github-pages**, add required reviewers if approval is desired.
-
-After a reviewed pull request is merged and CI succeeds, deployment still requires an explicit
-manual action:
-
-1. Open **Actions → Deploy website to GitHub Pages**.
-2. Choose **Run workflow** from the `main` branch.
-3. Enable the required deployment confirmation and run the workflow.
-4. Approve the protected `github-pages` environment if repository settings require it.
-
-The deployment workflow refuses to run its deployment job from any branch other than `main` and
-cannot be triggered by a pull request or push. Do not manually dispatch it until publication is
-approved.
+GitHub Pages must use **Settings → Pages → Build and deployment → GitHub Actions** as its source.
+After a reviewed pull request is merged and CI succeeds, the deployment workflow publishes the
+current `main` branch automatically. The workflow still refuses to deploy from any branch other
+than `main`. A manual `workflow_dispatch` run remains available, but requires the explicit
+deployment confirmation input and any protected `github-pages` environment approval.
 
 ## Content editing
 

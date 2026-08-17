@@ -1,10 +1,12 @@
 ---
+import SiteSearch from "./SiteSearch.astro";
 import { sitePath } from "../lib/paths";
 
 const { currentPath = "/" } = Astro.props;
 const navigation = [
   { label: "Home", href: "/" },
   { label: "Series Roadmap", href: "/series/" },
+  { label: "Public Library", href: "/library/" },
   { label: "Research & Essays", href: "/research/" },
   { label: "Documentaries", href: "/documentaries/" },
   { label: "Videos", href: "/videos/" },
@@ -37,6 +39,7 @@ const isCurrent = (href: string) =>
       </span>
     </a>
     <p class="masthead-deck">Research · Documentary · Public Reason</p>
+    <SiteSearch />
   </div>
   <div class="navigation-wrap">
     <nav class="shell desktop-nav" aria-label="Primary navigation">

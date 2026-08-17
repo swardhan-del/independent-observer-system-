@@ -185,6 +185,144 @@ textarea {
   text-transform: uppercase;
 }
 
+.search-trigger {
+  align-self: end;
+  padding: 9px 13px;
+  border: 1px solid rgb(255 255 255 / 30%);
+  background: transparent;
+  color: var(--slate-300);
+  cursor: pointer;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.search-trigger:hover {
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+
+.search-dialog {
+  width: min(720px, calc(100% - 28px));
+  padding: 0;
+  border: 0;
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+
+.search-dialog::backdrop {
+  background: rgb(4 17 31 / 76%);
+}
+
+.search-dialog-inner {
+  padding: 32px;
+}
+
+.search-dialog-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--slate-300);
+}
+
+.search-dialog h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.search-close {
+  padding: 8px 10px;
+  border: 1px solid var(--slate-300);
+  background: transparent;
+  color: var(--slate-700);
+  cursor: pointer;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.search-close:hover {
+  border-color: var(--navy-900);
+  color: var(--navy-900);
+}
+
+.search-dialog label,
+.content-filter-search label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--slate-700);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.search-dialog input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid var(--slate-300);
+  background: #fbfaf7;
+}
+
+.search-status {
+  min-height: 1.5em;
+  margin: 12px 0;
+  color: var(--slate-500);
+  font-size: 0.82rem;
+}
+
+.search-results {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--slate-300);
+}
+
+.search-result {
+  display: grid;
+  gap: 5px;
+  padding: 16px;
+  background: var(--white);
+  text-decoration: none;
+}
+
+.search-result:hover {
+  background: #f4efe5;
+}
+
+.search-result-kind {
+  color: var(--gold-ink);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.search-result strong {
+  color: var(--navy-900);
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.search-result > span:last-child {
+  color: var(--slate-700);
+  font-size: 0.88rem;
+}
+
 .navigation-wrap {
   border-top: 1px solid rgb(255 255 255 / 13%);
   border-bottom: 3px solid var(--gold);
@@ -781,6 +919,93 @@ textarea {
   background: #eee8dc;
   color: var(--slate-700);
   font-size: 0.88rem;
+}
+
+.content-controls {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto;
+  gap: 16px 24px;
+  align-items: end;
+  margin-bottom: 28px;
+  padding: 18px;
+  border: 1px solid var(--slate-300);
+  background: #f4efe5;
+}
+
+.content-filter-search input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--slate-300);
+  background: var(--white);
+}
+
+.filter-statuses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  justify-content: end;
+}
+
+.filter-statuses button {
+  padding: 9px 10px;
+  border: 1px solid var(--slate-300);
+  background: var(--white);
+  color: var(--slate-700);
+  cursor: pointer;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.filter-statuses button:hover,
+.filter-statuses button[aria-pressed="true"] {
+  border-color: var(--navy-900);
+  background: var(--navy-900);
+  color: var(--white);
+}
+
+.filter-count {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--slate-500);
+  font-size: 0.78rem;
+}
+
+.filter-empty {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--slate-700);
+  font-family: var(--serif);
+  font-size: 1.2rem;
+}
+
+.section-navy .content-controls {
+  border-color: rgb(255 255 255 / 20%);
+  background: var(--navy-800);
+}
+
+.section-navy .content-filter-search label,
+.section-navy .filter-count,
+.section-navy .filter-empty {
+  color: var(--slate-300);
+}
+
+.section-navy .content-filter-search input {
+  border-color: rgb(255 255 255 / 25%);
+}
+
+.section-navy .filter-statuses button {
+  border-color: rgb(255 255 255 / 25%);
+  background: transparent;
+  color: var(--slate-300);
+}
+
+.section-navy .filter-statuses button:hover,
+.section-navy .filter-statuses button[aria-pressed="true"] {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--navy-950);
 }
 
 .site-footer {

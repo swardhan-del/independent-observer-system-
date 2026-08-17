@@ -6,6 +6,7 @@ const distRoot = join(process.cwd(), "dist");
 const routes = [
   { route: "/", file: "index.html" },
   { route: "/series/", file: "series/index.html" },
+  { route: "/library/", file: "library/index.html" },
   { route: "/research/", file: "research/index.html" },
   { route: "/documentaries/", file: "documentaries/index.html" },
   { route: "/videos/", file: "videos/index.html" },
@@ -34,6 +35,10 @@ function metaContent(html: string, attributeName: "name" | "property", value: st
 
 function canonical(html: string) {
   const tag = tags(html, "link").find((candidate) => attribute(candidate, "rel") === "canonical");
+  return tag ? attribute(tag, "href") : undefined;
+}
+function sitemapLink(html: string) {
+  const tag = tags(html, "link").find((candidate) => attribute(candidate, "rel") === "sitemap");
   return tag ? attribute(tag, "href") : undefined;
 }
 
@@ -138,7 +143,9 @@ describe("built website", () => {
   it.each(routes)("keeps essential structure on $route", ({ file }) => {
     const html = readOutput(file);
     const pageIds = ids(html);
-    const headings = [...html.matchAll(/<h([1-6])\b/gi)].map((match) => Number(match[1]));
+    const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
+    if (!main) throw new Error(`${file} is missing its main landmark.`);
+    const headings = [...main.matchAll(/<h([1-6])\b/gi)].map((match) => Number(match[1]));
 
     expect(html).toMatch(/<html\b[^>]*\blang=["']en["']/i);
     expect(tags(html, "header")).toHaveLength(1);
@@ -178,6 +185,7 @@ describe("built website", () => {
     expect(metaContent(html, "name", "twitter:card")).toBe("summary_large_image");
     expect(metaContent(html, "name", "twitter:image:alt")).toBeTruthy();
     expect(metaContent(html, "name", "description")).toBeTruthy();
+    expect(sitemapLink(html)).toBe(new URL("sitemap.xml", publicOrigin + basePath).href);
     expect(html).toMatch(/<title>[^<]+<\/title>/i);
 
     const imagePath = fileForPath(new URL(openGraphImage!).pathname, basePath);
@@ -200,6 +208,22 @@ describe("built website", () => {
           item["@type"] === "WebPage" && item.url === pageCanonical,
       ),
     ).toBe(true);
+    const breadcrumb = graph.find(
+      (item: { "@type": string }) => item["@type"] === "BreadcrumbList",
+    );
+    if (file === "index.html") {
+      expect(breadcrumb).toBeUndefined();
+    } else {
+      expect(breadcrumb?.itemListElement).toEqual([
+        { "@type": "ListItem", position: 1, name: "Home", item: publicOrigin + basePath },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: expect.any(String),
+          item: pageCanonical,
+        },
+      ]);
+    }
   });
 
   it("uses a valid 1200 by 630 JPEG social image", () => {

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContentFilter from "../../components/ContentFilter.astro";
 import PageHero from "../../components/PageHero.astro";
 import EditorialCard from "../../components/EditorialCard.astro";
 import { dropboxFeedItems } from "../../data/dropbox-content.generated";
@@ -26,10 +27,24 @@ const automatedSeriesItems = dropboxFeedItems.filter((item) => item.kind === "se
         This is a review roadmap, not a publication catalogue. Candidate titles and descriptions may
         change; no volume is represented as published, peer reviewed, or commercially released.
       </div>
-      <div class="card-grid">
+      <ContentFilter targetId="series-preview-grid" itemCount={seriesItems.length} />
+      <div class="card-grid" id="series-preview-grid">
         {
           seriesItems.map((item, index) => (
-            <article class="editorial-card">
+            <article
+              class="editorial-card"
+              data-filter-card
+              data-search-text={[
+                item.title,
+                item.volume,
+                item.category,
+                item.description,
+                item.status,
+              ]
+                .join(" ")
+                .toLocaleLowerCase()}
+              data-status={item.status.toLocaleLowerCase()}
+            >
               <div class="card-meta">
                 <span>{String(index + 1).padStart(2, "0")}</span>
                 <span>{item.volume}</span>
