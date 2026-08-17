@@ -19,26 +19,12 @@ const controlId = targetId + "-query";
       placeholder="Search titles or subjects"
     />
   </div>
-  <div
-    class="filter-statuses"
-    role="group"
-    aria-label="Filter by editorial status"
-  >
-    <button type="button" data-filter-status="all" aria-pressed="true"
-      >All</button
-    >
-    <button
-      type="button"
-      data-filter-status="concept preview"
-      aria-pressed="false"
-    >
+  <div class="filter-statuses" role="group" aria-label="Filter by editorial status">
+    <button type="button" data-filter-status="all" aria-pressed="true">All</button>
+    <button type="button" data-filter-status="concept preview" aria-pressed="false">
       Concept preview
     </button>
-    <button
-      type="button"
-      data-filter-status="in editorial development"
-      aria-pressed="false"
-    >
+    <button type="button" data-filter-status="in editorial development" aria-pressed="false">
       In development
     </button>
   </div>
@@ -46,67 +32,52 @@ const controlId = targetId + "-query";
     {itemCount}
     {itemCount === 1 ? "preview" : "previews"} shown
   </p>
-  <p class="filter-empty" data-filter-empty hidden>
-    No previews match this filter.
-  </p>
+  <p class="filter-empty" data-filter-empty hidden>No previews match this filter.</p>
 </div>
 
 <script>
-  document
-    .querySelectorAll<HTMLElement>("[data-content-filter]")
-    .forEach((root) => {
-      const target = document.getElementById(root.dataset.target ?? "");
-      const queryInput = root.querySelector<HTMLInputElement>(
-        "[data-filter-query]",
-      );
-      const count = root.querySelector<HTMLElement>("[data-filter-count]");
-      const empty = root.querySelector<HTMLElement>("[data-filter-empty]");
-      const buttons = [
-        ...root.querySelectorAll<HTMLButtonElement>("[data-filter-status]"),
-      ];
-      const cards = target
-        ? [...target.querySelectorAll<HTMLElement>("[data-filter-card]")]
-        : [];
+  document.querySelectorAll<HTMLElement>("[data-content-filter]").forEach((root) => {
+    const target = document.getElementById(root.dataset.target ?? "");
+    const queryInput = root.querySelector<HTMLInputElement>("[data-filter-query]");
+    const count = root.querySelector<HTMLElement>("[data-filter-count]");
+    const empty = root.querySelector<HTMLElement>("[data-filter-empty]");
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>("[data-filter-status]")];
+    const cards = target ? [...target.querySelectorAll<HTMLElement>("[data-filter-card]")] : [];
 
-      if (!queryInput || !count || !empty || !cards.length) return;
+    if (!queryInput || !count || !empty || !cards.length) return;
 
-      let activeStatus = "all";
+    let activeStatus = "all";
 
-      const update = () => {
-        const query = queryInput.value.trim().toLocaleLowerCase();
-        let visible = 0;
+    const update = () => {
+      const query = queryInput.value.trim().toLocaleLowerCase();
+      let visible = 0;
 
-        for (const card of cards) {
-          const text = card.dataset.searchText ?? "";
-          const status = card.dataset.status ?? "";
-          const matchesQuery = !query || text.includes(query);
-          const matchesStatus =
-            activeStatus === "all" || status === activeStatus;
-          const isVisible = matchesQuery && matchesStatus;
+      for (const card of cards) {
+        const text = card.dataset.searchText ?? "";
+        const status = card.dataset.status ?? "";
+        const matchesQuery = !query || text.includes(query);
+        const matchesStatus = activeStatus === "all" || status === activeStatus;
+        const isVisible = matchesQuery && matchesStatus;
 
-          card.hidden = !isVisible;
-          if (isVisible) visible += 1;
-        }
-
-        count.textContent =
-          visible + (visible === 1 ? " preview shown" : " previews shown");
-        empty.hidden = visible !== 0;
-      };
-
-      for (const button of buttons) {
-        button.addEventListener("click", () => {
-          activeStatus = button.dataset.filterStatus ?? "all";
-          for (const candidate of buttons) {
-            candidate.setAttribute(
-              "aria-pressed",
-              String(candidate === button),
-            );
-          }
-          update();
-        });
+        card.hidden = !isVisible;
+        if (isVisible) visible += 1;
       }
 
-      queryInput.addEventListener("input", update);
-      update();
-    });
+      count.textContent = visible + (visible === 1 ? " preview shown" : " previews shown");
+      empty.hidden = visible !== 0;
+    };
+
+    for (const button of buttons) {
+      button.addEventListener("click", () => {
+        activeStatus = button.dataset.filterStatus ?? "all";
+        for (const candidate of buttons) {
+          candidate.setAttribute("aria-pressed", String(candidate === button));
+        }
+        update();
+      });
+    }
+
+    queryInput.addEventListener("input", update);
+    update();
+  });
 </script>
