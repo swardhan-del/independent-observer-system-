@@ -138,7 +138,7 @@ describe("built website", () => {
   it.each(routes)("keeps essential structure on $route", ({ file }) => {
     const html = readOutput(file);
     const pageIds = ids(html);
-    const main = tags(html, "main")[0];
+    const main = html.match(/<main\\b[^>]*>([\\s\\S]*?)<\\/main>/i)?.[1];
     if (!main) throw new Error(`${file} is missing its main landmark.`);
     const headings = [...main.matchAll(/<h([1-6])\b/gi)].map((match) => Number(match[1]));
 
