@@ -1,7 +1,13 @@
 ---
 import type { EditorialItem } from "../data/content";
 
-const { item, index = 1 } = Astro.props as { item: EditorialItem; index?: number };
+type Props = {
+  item: EditorialItem;
+  index?: number;
+  href?: string;
+};
+
+const { item, index = 1, href } = Astro.props as Props;
 const searchText = [item.title, item.category, item.description, item.status]
   .join(" ")
   .toLocaleLowerCase();
@@ -17,10 +23,13 @@ const searchText = [item.title, item.category, item.description, item.status]
     <span>{String(index).padStart(2, "0")}</span>
     <span>{item.category}</span>
   </div>
-  <h3>{item.title}</h3>
+  <h3>
+    {href ? <a class="card-title-link" href={href}>{item.title}</a> : item.title}
+  </h3>
   <p>{item.description}</p>
   <div class="card-footer">
     <span class="status-pill">{item.status}</span>
     {item.readingTime && <span>{item.readingTime}</span>}
+    {href && <a class="card-open-link" href={href}>Open preview →</a>}
   </div>
 </article>
