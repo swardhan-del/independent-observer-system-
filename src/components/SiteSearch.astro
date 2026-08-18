@@ -157,7 +157,7 @@ const serializedIndex = JSON.stringify(searchItems).replace(/</g, "\\u003c");
       value
         .toLocaleLowerCase()
         .normalize("NFKD")
-        .replace(/[\\u0300-\\u036f]/g, "");
+        .replace(/[\u0300-\u036f]/g, "");
 
     if (!dialog || !openButton || !closeButton || !input || !status || !results) return;
 
