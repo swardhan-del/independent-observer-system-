@@ -48,10 +48,6 @@ const structuredData = JSON.stringify({
         "@type": "ImageObject",
         url: new URL(sitePath("/favicon.svg"), publicOrigin).href,
       },
-      sameAs: [
-        "https://www.youtube.com/@IndependentObserver",
-        "https://substack.com/@independentobserver",
-      ],
     },
     {
       "@type": "WebSite",
@@ -114,8 +110,6 @@ const structuredData = JSON.stringify({
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="The Independent Observer social preview" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@IndpObserver" />
-    <meta name="twitter:creator" content="@IndpObserver" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImageUrl} />
