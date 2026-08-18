@@ -626,6 +626,48 @@ textarea {
   font-size: 0.72rem;
 }
 
+.card-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.card-title-link:hover {
+  color: var(--gold-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.card-open-link {
+  color: var(--navy-700);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.card-open-link:hover {
+  color: var(--gold-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.section-navy .card-open-link {
+  color: var(--gold-light);
+}
+
+.detail-prose .eyebrow {
+  margin-top: 0;
+}
+
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
 .status-pill {
   padding: 5px 8px;
   border: 1px solid var(--slate-300);
