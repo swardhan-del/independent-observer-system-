@@ -117,7 +117,10 @@ const feedCount = dropboxFeedItems.length;
           </a>
         ))}
       </div>
-      <p class="form-note">Tip: press <kbd>⌘</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Mac or <kbd>Ctrl</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Windows to open search.</p>
+      <p class="form-note">
+        Tip: press <kbd>⌘</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Mac or
+        <kbd>Ctrl</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Windows to open search.
+      </p>
     </div>
   </section>
 
@@ -135,7 +138,12 @@ const feedCount = dropboxFeedItems.length;
       </div>
       <div class="distribution-grid">
         {socialLinks.map((link) => (
-          <a class="distribution-card" href={link.href} target="_blank" rel="me noopener noreferrer">
+          <a
+            class="distribution-card"
+            href={link.href}
+            target="_blank"
+            rel="me noopener noreferrer"
+          >
             <strong>{link.label}</strong>
             <span>{link.description}</span>
             <span class="distribution-arrow" aria-hidden="true">↗</span>
