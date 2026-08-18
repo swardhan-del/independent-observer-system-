@@ -16,11 +16,7 @@ const { item } = Astro.props;
 const currentPath = `/research/${slugify(item.title)}/`;
 ---
 
-<BaseLayout
-  title={item.title}
-  description={item.description}
-  currentPath={currentPath}
->
+<BaseLayout title={item.title} description={item.description} currentPath={currentPath}>
   <EditorialDetail
     item={item}
     eyebrow="Research preview"
