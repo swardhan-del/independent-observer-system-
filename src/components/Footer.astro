@@ -26,9 +26,7 @@ import { socialLinks } from "../data/social";
       <a href={sitePath("/contact/")}>Contact</a>
       <span>The site is the home base; social channels help people find the work.</span>
       <div class="footer-social" aria-label="Distribution channels">
-        {socialLinks.map((link) => (
-          <a href={link.href} target="_blank" rel="me noopener noreferrer">{link.label}</a>
-        ))}
+        {socialLinks.map((link) => <a href={link.href} target="_blank" rel="me noopener noreferrer">{link.label}</a>)}
       </div>
     </div>
   </div>
