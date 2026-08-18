@@ -1,0 +1,39 @@
+---
+import type { EditorialItem } from "../data/content";
+import { sitePath } from "../lib/paths";
+
+type DetailItem = EditorialItem & {
+  volume?: string;
+};
+
+type Props = {
+  item: DetailItem;
+  eyebrow: string;
+  backLabel: string;
+  backHref: string;
+  statusNote: string;
+};
+
+const { item, eyebrow, backLabel, backHref, statusNote } = Astro.props as Props;
+---
+
+<PageHero eyebrow={eyebrow} title={item.title} description={item.description} />
+
+<section class="section section-white">
+  <div class="shell page-grid">
+    <aside class="page-aside">
+      <span>{item.volume ?? item.category}</span>
+      <span>{item.status}</span>
+    </aside>
+    <div class="prose detail-prose">
+      <p class="eyebrow">Public preview</p>
+      <h2>What this entry is for.</h2>
+      <p>{item.description}</p>
+      <p>{statusNote}</p>
+      <div class="detail-actions">
+        <a class="button" href={backHref}>{backLabel} →</a>
+        <a class="button button-secondary" href={sitePath("/library/")}>Open the public library</a>
+      </div>
+    </div>
+  </div>
+</section>
