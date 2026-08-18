@@ -14,7 +14,9 @@
   --gold-light: #ead6a7;
   --ink: #101821;
   --serif: Georgia, "Times New Roman", Times, serif;
-  --sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --sans:
+    Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
   --shell: min(1180px, calc(100% - 40px));
   --shadow: 0 22px 60px rgb(4 17 31 / 12%);
 }
@@ -337,8 +339,17 @@ textarea {
   position: relative;
   overflow: hidden;
   background:
-    linear-gradient(90deg, rgb(4 17 31 / 96%) 0%, rgb(7 24 45 / 88%) 56%, rgb(7 24 45 / 72%) 100%),
-    repeating-linear-gradient(135deg, transparent 0 34px, rgb(198 161 91 / 8%) 35px 36px);
+    linear-gradient(
+      90deg,
+      rgb(4 17 31 / 96%) 0%,
+      rgb(7 24 45 / 88%) 56%,
+      rgb(7 24 45 / 72%) 100%
+    ),
+    repeating-linear-gradient(
+      135deg,
+      transparent 0 34px,
+      rgb(198 161 91 / 8%) 35px 36px
+    );
   color: var(--white);
 }
 
@@ -1002,7 +1013,6 @@ textarea {
   outline-offset: 3px;
 }
 
-
 .search-suggestions {
   display: flex;
   flex-wrap: wrap;
@@ -1051,7 +1061,9 @@ textarea {
   background: var(--white);
   color: var(--ink);
   text-decoration: none;
-  transition: background 160ms ease, transform 160ms ease;
+  transition:
+    background 160ms ease,
+    transform 160ms ease;
 }
 
 .discovery-card:hover,
@@ -1162,7 +1174,6 @@ kbd {
 .site-footer .footer-social a:hover {
   color: var(--white);
 }
-
 
 @media (max-width: 900px) {
   .utility-edition,
