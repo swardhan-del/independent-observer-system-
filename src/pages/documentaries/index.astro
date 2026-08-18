@@ -4,6 +4,8 @@ import ContentFilter from "../../components/ContentFilter.astro";
 import PageHero from "../../components/PageHero.astro";
 import EditorialCard from "../../components/EditorialCard.astro";
 import { documentaryItems } from "../../data/content";
+import { sitePath } from "../../lib/paths";
+import { slugify } from "../../lib/slugs";
 ---
 
 <BaseLayout
@@ -25,7 +27,13 @@ import { documentaryItems } from "../../data/content";
       </div>
       <ContentFilter targetId="documentary-preview-grid" itemCount={documentaryItems.length} />
       <div class="card-grid" id="documentary-preview-grid">
-        {documentaryItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
+        {documentaryItems.map((item, index) => (
+          <EditorialCard
+            item={item}
+            index={index + 1}
+            href={sitePath(`/documentaries/${slugify(item.title)}/`)}
+          />
+        ))}
       </div>
     </div>
   </section>
