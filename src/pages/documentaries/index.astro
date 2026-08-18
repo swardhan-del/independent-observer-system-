@@ -22,18 +22,23 @@ import { slugify } from "../../lib/slugs";
     <div class="shell">
       <h2 class="sr-only">Documentary project previews</h2>
       <div class="placeholder-notice">
-        Project cards describe concepts in development. They do not represent completed or released
-        films.
+        Project cards describe concepts in development. They do not represent
+        completed or released films.
       </div>
-      <ContentFilter targetId="documentary-preview-grid" itemCount={documentaryItems.length} />
+      <ContentFilter
+        targetId="documentary-preview-grid"
+        itemCount={documentaryItems.length}
+      />
       <div class="card-grid" id="documentary-preview-grid">
-        {documentaryItems.map((item, index) => (
-          <EditorialCard
-            item={item}
-            index={index + 1}
-            href={sitePath(`/documentaries/${slugify(item.title)}/`)}
-          />
-        ))}
+        {
+          documentaryItems.map((item, index) => (
+            <EditorialCard
+              item={item}
+              index={index + 1}
+              href={sitePath(`/documentaries/${slugify(item.title)}/`)}
+            />
+          ))
+        }
       </div>
     </div>
   </section>
@@ -43,9 +48,10 @@ import { slugify } from "../../lib/slugs";
       <div class="prose">
         <h2>Research before narration</h2>
         <p>
-          Each project is intended to begin with a source dossier and an explicit claim map. The
-          script, visual plan, narration, and distribution package should follow from that research,
-          not substitute for it.
+          Each project is intended to begin with a source dossier and an
+          explicit claim map. The script, visual plan, narration, and
+          distribution package should follow from that research, not substitute
+          for it.
         </p>
         <h3>Planned project materials</h3>
         <ul>
