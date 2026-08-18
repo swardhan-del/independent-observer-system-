@@ -1,5 +1,6 @@
 ---
 import { sitePath } from "../lib/paths";
+import { socialLinks } from "../data/social";
 ---
 
 <footer class="site-footer">
@@ -23,7 +24,12 @@ import { sitePath } from "../lib/paths";
       <h2>Publication</h2>
       <a href={sitePath("/about/")}>About</a>
       <a href={sitePath("/contact/")}>Contact</a>
-      <span>Independent archive · No social account required</span>
+      <span>The site is the home base; social channels help people find the work.</span>
+      <div class="footer-social" aria-label="Distribution channels">
+        {socialLinks.map((link) => (
+          <a href={link.href} target="_blank" rel="me noopener noreferrer">{link.label}</a>
+        ))}
+      </div>
     </div>
   </div>
   <div class="shell footer-bottom">
