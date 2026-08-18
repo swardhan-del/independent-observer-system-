@@ -20,7 +20,8 @@ const feedCount = dropboxFeedItems.length;
         <h1>Observe the system.<br /><em>Question the frame.</em></h1>
         <p class="hero-summary">
           The Independent Observer is an independent public home for reports, research, and documentary
-          work that examines how history, institutions, political economy, science, and technology shape public life.
+          work that examines how history, institutions, political economy, science, and technology shape
+          public life.
         </p>
         <div class="hero-actions">
           <a class="button" href={sitePath("/research/")}>Explore the research</a>
@@ -35,9 +36,7 @@ const feedCount = dropboxFeedItems.length;
         </p>
       </aside>
     </div>
-    <div class="hero-watermark" aria-hidden="true">IO</div>
   </section>
-
 
   <section class="section section-white">
     <div class="shell mission-grid">
@@ -48,9 +47,9 @@ const feedCount = dropboxFeedItems.length;
           interpretation, institutional narrative, and unresolved questions.
         </p>
         <p>
-          This publication is being designed as a durable home for long-form essays, documentary
-          research, and concise public explainers. Its purpose is not to reproduce party messaging,
-          but to examine systems across ideological boundaries and make the reasoning visible.
+          This site is a durable public home for long-form essays, documentary research, and concise
+          public explainers. It is independent of social-platform feeds, while its private working
+          archive remains in Dropbox.
         </p>
       </div>
     </div>
@@ -66,10 +65,11 @@ const feedCount = dropboxFeedItems.length;
           summaries, so your private files and unfinished evidence stay private.
         </p>
       </div>
-      <div class="newsletter-actions">
-        <a class="button newsletter-mailto" href={sitePath("/library/")}>Open the public library →</a>
+      <div>
+        <a class="button" href={sitePath("/library/")}>Open the public library →</a>
         <p class="form-note">
-          {feedCount} approved report {feedCount === 1 ? "card is" : "cards are"} currently in the public feed.
+          {feedCount} approved report {feedCount === 1 ? "card is" : "cards are"} currently in the
+          public feed.
         </p>
       </div>
     </div>
@@ -80,7 +80,7 @@ const feedCount = dropboxFeedItems.length;
       <div class="section-heading">
         <div>
           <p class="eyebrow">Featured desk</p>
-          <h2>Research & Essays</h2>
+          <h2>Research &amp; Essays</h2>
         </div>
         <p>
           Developing work on institutional power, political economy, technology, and public
@@ -88,11 +88,7 @@ const feedCount = dropboxFeedItems.length;
         </p>
       </div>
       <div class="card-grid">
-        {
-          researchItems.map((item, index) => (
-            <EditorialCard item={item} index={index + 1} sectionHref={sitePath("/research/")} />
-          ))
-        }
+        {researchItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
       </div>
     </div>
   </section>
@@ -110,31 +106,26 @@ const feedCount = dropboxFeedItems.length;
         </p>
       </div>
       <div class="card-grid">
-        {
-          documentaryItems.map((item, index) => (
-            <EditorialCard
-              item={item}
-              index={index + 1}
-              sectionHref={sitePath("/documentaries/")}
-            />
-          ))
-        }
+        {documentaryItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
       </div>
     </div>
   </section>
 
-  <!-- Why This Matters CTA strip -->
-  <section class="section cta-strip">
-    <div class="shell cta-strip-inner">
-      <div class="cta-strip-copy">
-        <p class="eyebrow">The mission</p>
-        <h2>Why this work matters.</h2>
-        <p>
-          Public life is shaped by institutions, incentives, and histories that deserve more than a fast
-          feed. The Independent Observer is a place to keep the full picture visible.
-        </p>
+  <section class="section section-navy">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">The mission</p>
+          <h2>Why this work matters.</h2>
+        </div>
+        <div>
+          <p>
+            Public life is shaped by institutions, incentives, and histories that deserve more than a
+            fast feed. The Independent Observer is a place to keep the full picture visible.
+          </p>
+          <a class="button" href={sitePath("/about/")}>Read the mission →</a>
+        </div>
       </div>
-      <a class="button cta-strip-button" href={sitePath("/about/")}>Read the mission →</a>
     </div>
   </section>
 
@@ -151,11 +142,7 @@ const feedCount = dropboxFeedItems.length;
         </p>
       </div>
       <div class="card-grid">
-        {
-          videoItems.map((item, index) => (
-            <EditorialCard item={item} index={index + 1} sectionHref={sitePath("/videos/")} />
-          ))
-        }
+        {videoItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
       </div>
     </div>
   </section>
@@ -179,7 +166,6 @@ const feedCount = dropboxFeedItems.length;
               <span>{String(index + 1).padStart(2, "0")}</span>
               <h3>{topic.name}</h3>
               <p>{topic.description}</p>
-              <span class="topic-explore" aria-hidden="true">Coverage area</span>
             </article>
           ))
         }
@@ -197,11 +183,12 @@ const feedCount = dropboxFeedItems.length;
           subscription, or tracking service is required to access the work.
         </p>
       </div>
-      <div class="newsletter-actions">
-        <a class="button newsletter-mailto" href={sitePath("/library/")}>Read reports & summaries →</a>
-        <p class="form-note">A quiet public home for the work, with a clear boundary around the private archive.</p>
+      <div>
+        <a class="button" href={sitePath("/library/")}>Read reports &amp; summaries →</a>
+        <p class="form-note">
+          A quiet public home for the work, with a clear boundary around the private archive.
+        </p>
       </div>
     </div>
   </section>
 </BaseLayout>
-
