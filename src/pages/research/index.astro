@@ -22,13 +22,10 @@ import { slugify } from "../../lib/slugs";
     <div class="shell">
       <h2 class="sr-only">Research and essay previews</h2>
       <div class="placeholder-notice">
-        These entries are editorial previews. Full articles, citations, dates,
-        and publication links will be added only after verification and review.
+        These entries are editorial previews. Full articles, citations, dates, and publication links
+        will be added only after verification and review.
       </div>
-      <ContentFilter
-        targetId="research-preview-grid"
-        itemCount={researchItems.length}
-      />
+      <ContentFilter targetId="research-preview-grid" itemCount={researchItems.length} />
       <div class="card-grid" id="research-preview-grid">
         {
           researchItems.map((item, index) => (
@@ -48,32 +45,30 @@ import { slugify } from "../../lib/slugs";
       <div class="prose">
         <h2>What a finished research entry should contain</h2>
         <p>
-          Each publication is intended to include a clear thesis, sourced
-          factual foundation, counterarguments, limitations, and a distinction
-          between documented findings and the author’s interpretation.
+          Each publication is intended to include a clear thesis, sourced factual foundation,
+          counterarguments, limitations, and a distinction between documented findings and the
+          author’s interpretation.
         </p>
         <div class="principles">
           <div class="principle">
             <span>01</span><div>
               <h3>Traceable evidence</h3><p>
-                Readers should be able to identify the basis of every material
-                factual claim.
+                Readers should be able to identify the basis of every material factual claim.
               </p>
             </div>
           </div>
           <div class="principle">
             <span>02</span><div>
               <h3>Fair counterarguments</h3><p>
-                Strong opposing explanations should be represented accurately
-                before they are evaluated.
+                Strong opposing explanations should be represented accurately before they are
+                evaluated.
               </p>
             </div>
           </div>
           <div class="principle">
             <span>03</span><div>
               <h3>Visible uncertainty</h3><p>
-                Gaps, inference, and unresolved questions should be labeled
-                rather than hidden.
+                Gaps, inference, and unresolved questions should be labeled rather than hidden.
               </p>
             </div>
           </div>
