@@ -1,7 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import EditorialCard from "../components/EditorialCard.astro";
-import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
+import {
+  documentaryItems,
+  researchItems,
+  topics,
+  videoItems,
+} from "../data/content";
 import { dropboxFeedItems } from "../data/dropbox-content.generated";
 import { sitePath } from "../lib/paths";
 import { socialLinks } from "../data/social";
@@ -20,20 +25,26 @@ const feedCount = dropboxFeedItems.length;
         <p class="eyebrow">Independent analysis for a complex age</p>
         <h1>Observe the system.<br /><em>Question the frame.</em></h1>
         <p class="hero-summary">
-          The Independent Observer is an independent public home for reports, research, and
-          documentary work that examines how history, institutions, political economy, science, and
-          technology shape public life.
+          The Independent Observer is an independent public home for reports,
+          research, and documentary work that examines how history,
+          institutions, political economy, science, and technology shape public
+          life.
         </p>
         <div class="hero-actions">
-          <a class="button" href={sitePath("/research/")}>Explore the research</a>
-          <a class="button button-secondary" href={sitePath("/about/")}>Read the mission</a>
+          <a class="button" href={sitePath("/research/")}
+            >Explore the research</a
+          >
+          <a class="button button-secondary" href={sitePath("/about/")}
+            >Read the mission</a
+          >
         </div>
       </div>
       <aside class="hero-note" aria-label="Editorial status">
         <span>Editorial status</span>
         <p>
-          Public archive in progress. Reports appear only after they are explicitly reviewed for
-          public release; working material remains in Dropbox.
+          Public archive in progress. Reports appear only after they are
+          explicitly reviewed for public release; working material remains in
+          Dropbox.
         </p>
       </aside>
     </div>
@@ -44,13 +55,15 @@ const feedCount = dropboxFeedItems.length;
       <div class="index" aria-hidden="true">01</div>
       <div class="mission-copy">
         <p>
-          Serious inquiry begins before certainty: with the discipline to separate evidence,
-          interpretation, institutional narrative, and unresolved questions.
+          Serious inquiry begins before certainty: with the discipline to
+          separate evidence, interpretation, institutional narrative, and
+          unresolved questions.
         </p>
         <p>
-          This site is a durable public home for long-form essays, documentary research, and concise
-          public explainers. It is independent of social-platform feeds, while its private working
-          archive remains in Dropbox.
+          This site is a durable public home for long-form essays, documentary
+          research, and concise public explainers. It is independent of
+          social-platform feeds, while its private working archive remains in
+          Dropbox.
         </p>
       </div>
     </div>
@@ -62,15 +75,19 @@ const feedCount = dropboxFeedItems.length;
         <p class="eyebrow">Your independent archive</p>
         <h2>Reports remain under your control.</h2>
         <p>
-          Dropbox is the working archive. This public site receives only reviewed, public-safe
-          summaries, so your private files and unfinished evidence stay private.
+          Dropbox is the working archive. This public site receives only
+          reviewed, public-safe summaries, so your private files and unfinished
+          evidence stay private.
         </p>
       </div>
       <div>
-        <a class="button" href={sitePath("/library/")}>Open the public library →</a>
+        <a class="button" href={sitePath("/library/")}
+          >Open the public library →</a
+        >
         <p class="form-note">
-          {feedCount} approved report {feedCount === 1 ? "card is" : "cards are"} currently in the public
-          feed.
+          {feedCount} approved report {
+            feedCount === 1 ? "card is" : "cards are"
+          } currently in the public feed.
         </p>
       </div>
     </div>
@@ -84,8 +101,8 @@ const feedCount = dropboxFeedItems.length;
           <h2>Search the public work.</h2>
         </div>
         <p>
-          Search the site from the masthead, or start with a desk, the public library, or one of the
-          six coverage fields below.
+          Search the site from the masthead, or start with a desk, the public
+          library, or one of the six coverage fields below.
         </p>
       </div>
       <div class="discovery-grid">
@@ -111,15 +128,22 @@ const feedCount = dropboxFeedItems.length;
         </a>
       </div>
       <div class="topic-links" aria-label="Browse coverage fields">
-        {topics.map((topic) => (
-          <a class="topic-link" href={sitePath("/#topic-" + topic.name.toLowerCase())}>
-            {topic.name}
-          </a>
-        ))}
+        {
+          topics.map((topic) => (
+            <a
+              class="topic-link"
+              href={sitePath("/#topic-" + topic.name.toLowerCase())}
+            >
+              {topic.name}
+            </a>
+          ))
+        }
       </div>
       <p class="form-note">
-        Tip: press <kbd>⌘</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Mac or
-        <kbd>Ctrl</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Windows to open search.
+        Tip: press <kbd>⌘</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Mac
+        or
+        <kbd>Ctrl</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Windows to
+        open search.
       </p>
     </div>
   </section>
@@ -132,23 +156,28 @@ const feedCount = dropboxFeedItems.length;
           <h2>Discover it where you already are.</h2>
         </div>
         <p>
-          This site keeps the reports and public archive under its own control. Social channels help
-          new readers find the work and lead them back to the fuller record.
+          This site keeps the reports and public archive under its own control.
+          Social channels help new readers find the work and lead them back to
+          the fuller record.
         </p>
       </div>
       <div class="distribution-grid">
-        {socialLinks.map((link) => (
-          <a
-            class="distribution-card"
-            href={link.href}
-            target="_blank"
-            rel="me noopener noreferrer"
-          >
-            <strong>{link.label}</strong>
-            <span>{link.description}</span>
-            <span class="distribution-arrow" aria-hidden="true">↗</span>
-          </a>
-        ))}
+        {
+          socialLinks.map((link) => (
+            <a
+              class="distribution-card"
+              href={link.href}
+              target="_blank"
+              rel="me noopener noreferrer"
+            >
+              <strong>{link.label}</strong>
+              <span>{link.description}</span>
+              <span class="distribution-arrow" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          ))
+        }
       </div>
     </div>
   </section>
@@ -161,12 +190,16 @@ const feedCount = dropboxFeedItems.length;
           <h2>Research &amp; Essays</h2>
         </div>
         <p>
-          Developing work on institutional power, political economy, technology, and public
-          accountability.
+          Developing work on institutional power, political economy, technology,
+          and public accountability.
         </p>
       </div>
       <div class="card-grid">
-        {researchItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
+        {
+          researchItems.map((item, index) => (
+            <EditorialCard item={item} index={index + 1} />
+          ))
+        }
       </div>
     </div>
   </section>
@@ -179,12 +212,16 @@ const feedCount = dropboxFeedItems.length;
           <h2>Documentary Projects</h2>
         </div>
         <p>
-          Proposed films and narrative investigations designed to connect evidence, historical
-          context, and future consequences.
+          Proposed films and narrative investigations designed to connect
+          evidence, historical context, and future consequences.
         </p>
       </div>
       <div class="card-grid">
-        {documentaryItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
+        {
+          documentaryItems.map((item, index) => (
+            <EditorialCard item={item} index={index + 1} />
+          ))
+        }
       </div>
     </div>
   </section>
@@ -198,8 +235,9 @@ const feedCount = dropboxFeedItems.length;
         </div>
         <div>
           <p>
-            Public life is shaped by institutions, incentives, and histories that deserve more than
-            a fast feed. The Independent Observer is a place to keep the full picture visible.
+            Public life is shaped by institutions, incentives, and histories
+            that deserve more than a fast feed. The Independent Observer is a
+            place to keep the full picture visible.
           </p>
           <a class="button" href={sitePath("/about/")}>Read the mission →</a>
         </div>
@@ -215,12 +253,17 @@ const feedCount = dropboxFeedItems.length;
           <h2>Latest Videos</h2>
         </div>
         <p>
-          A preview catalogue for future shorts, explainers, and documentary releases. Publication
-          links will replace these status labels when available.
+          A preview catalogue for future shorts, explainers, and documentary
+          releases. Publication links will replace these status labels when
+          available.
         </p>
       </div>
       <div class="card-grid">
-        {videoItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
+        {
+          videoItems.map((item, index) => (
+            <EditorialCard item={item} index={index + 1} />
+          ))
+        }
       </div>
     </div>
   </section>
@@ -233,8 +276,8 @@ const feedCount = dropboxFeedItems.length;
           <h2>Six connected fields</h2>
         </div>
         <p>
-          The editorial structure treats these subjects as interacting systems rather than isolated
-          verticals.
+          The editorial structure treats these subjects as interacting systems
+          rather than isolated verticals.
         </p>
       </div>
       <div class="topics-grid">
@@ -257,14 +300,18 @@ const feedCount = dropboxFeedItems.length;
         <p class="eyebrow">Independent publishing</p>
         <h2>No algorithm required.</h2>
         <p>
-          Read the reports and public summaries directly from this site. No social account,
-          subscription, or tracking service is required to access the work.
+          Read the reports and public summaries directly from this site. No
+          social account, subscription, or tracking service is required to
+          access the work.
         </p>
       </div>
       <div>
-        <a class="button" href={sitePath("/library/")}>Read reports &amp; summaries →</a>
+        <a class="button" href={sitePath("/library/")}
+          >Read reports &amp; summaries →</a
+        >
         <p class="form-note">
-          A quiet public home for the work, with a clear boundary around the private archive.
+          A quiet public home for the work, with a clear boundary around the
+          private archive.
         </p>
       </div>
     </div>
