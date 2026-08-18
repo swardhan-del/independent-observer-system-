@@ -2,12 +2,15 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import EditorialCard from "../components/EditorialCard.astro";
 import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
+import { dropboxFeedItems } from "../data/dropbox-content.generated";
 import { sitePath } from "../lib/paths";
+
+const feedCount = dropboxFeedItems.length;
 ---
 
 <BaseLayout
   title="Home"
-  description="The Independent Observer is a developing independent media and research project examining power, institutions, history, political economy, science, and technology."
+  description="The Independent Observer is an independent public home for reports, research, and documentary work examining power, institutions, history, political economy, science, and technology."
   currentPath="/"
 >
   <section class="hero">
@@ -16,8 +19,9 @@ import { sitePath } from "../lib/paths";
         <p class="eyebrow">Independent analysis for a complex age</p>
         <h1>Observe the system.<br /><em>Question the frame.</em></h1>
         <p class="hero-summary">
-          The Independent Observer is a developing editorial project examining how history,
-          institutions, political economy, science, and technology shape public life.
+          The Independent Observer is an independent public home for reports, research, and
+          documentary work that examines how history, institutions, political economy, science, and
+          technology shape public life.
         </p>
         <div class="hero-actions">
           <a class="button" href={sitePath("/research/")}>Explore the research</a>
@@ -27,8 +31,8 @@ import { sitePath } from "../lib/paths";
       <aside class="hero-note" aria-label="Editorial status">
         <span>Editorial status</span>
         <p>
-          First working preview. Entries marked “Concept preview” or “In editorial development” are
-          not presented as published work.
+          Public archive in progress. Reports appear only after they are explicitly reviewed for
+          public release; working material remains in Dropbox.
         </p>
       </aside>
     </div>
@@ -43,9 +47,29 @@ import { sitePath } from "../lib/paths";
           interpretation, institutional narrative, and unresolved questions.
         </p>
         <p>
-          This publication is being designed as a durable home for long-form essays, documentary
-          research, and concise public explainers. Its purpose is not to reproduce party messaging,
-          but to examine systems across ideological boundaries and make the reasoning visible.
+          This site is a durable public home for long-form essays, documentary research, and concise
+          public explainers. It is independent of social-platform feeds, while its private working
+          archive remains in Dropbox.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-navy">
+    <div class="shell newsletter">
+      <div>
+        <p class="eyebrow">Your independent archive</p>
+        <h2>Reports remain under your control.</h2>
+        <p>
+          Dropbox is the working archive. This public site receives only reviewed, public-safe
+          summaries, so your private files and unfinished evidence stay private.
+        </p>
+      </div>
+      <div>
+        <a class="button" href={sitePath("/library/")}>Open the public library →</a>
+        <p class="form-note">
+          {feedCount} approved report {feedCount === 1 ? "card is" : "cards are"} currently in the public
+          feed.
         </p>
       </div>
     </div>
@@ -56,7 +80,7 @@ import { sitePath } from "../lib/paths";
       <div class="section-heading">
         <div>
           <p class="eyebrow">Featured desk</p>
-          <h2>Research & Essays</h2>
+          <h2>Research &amp; Essays</h2>
         </div>
         <p>
           Developing work on institutional power, political economy, technology, and public
@@ -83,6 +107,24 @@ import { sitePath } from "../lib/paths";
       </div>
       <div class="card-grid">
         {documentaryItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-navy">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">The mission</p>
+          <h2>Why this work matters.</h2>
+        </div>
+        <div>
+          <p>
+            Public life is shaped by institutions, incentives, and histories that deserve more than
+            a fast feed. The Independent Observer is a place to keep the full picture visible.
+          </p>
+          <a class="button" href={sitePath("/about/")}>Read the mission →</a>
+        </div>
       </div>
     </div>
   </section>
@@ -131,19 +173,22 @@ import { sitePath } from "../lib/paths";
     </div>
   </section>
 
-  <section class="section section-navy">
+  <section class="section section-navy" aria-label="Newsletter preview">
     <div class="shell newsletter">
       <div>
-        <p class="eyebrow">Field notes newsletter</p>
-        <h2>Follow the work as it develops.</h2>
-        <p>Occasional research notes, production updates, and new releases.</p>
+        <p class="eyebrow">Independent publishing</p>
+        <h2>No algorithm required.</h2>
+        <p>
+          Read the reports and public summaries directly from this site. No social account,
+          subscription, or tracking service is required to access the work.
+        </p>
       </div>
-      <form class="newsletter-form" aria-label="Newsletter preview" onsubmit="return false">
-        <label class="sr-only" for="newsletter-email">Email address</label>
-        <input id="newsletter-email" type="email" placeholder="you@example.com" disabled />
-        <button type="button" disabled>Coming later</button>
-        <p class="form-note">Preview only—no email address is collected or stored.</p>
-      </form>
+      <div>
+        <a class="button" href={sitePath("/library/")}>Read reports &amp; summaries →</a>
+        <p class="form-note">
+          A quiet public home for the work, with a clear boundary around the private archive.
+        </p>
+      </div>
     </div>
   </section>
 </BaseLayout>

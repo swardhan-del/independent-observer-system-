@@ -40,6 +40,20 @@ const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "Organization",
+      "@id": `${websiteUrl}#organization`,
+      name: "The Independent Observer",
+      url: websiteUrl,
+      logo: {
+        "@type": "ImageObject",
+        url: new URL(sitePath("/favicon.svg"), publicOrigin).href,
+      },
+      sameAs: [
+        "https://www.youtube.com/@IndependentObserver",
+        "https://substack.com/@independentobserver",
+      ],
+    },
+    {
       "@type": "WebSite",
       "@id": `${websiteUrl}#website`,
       url: websiteUrl,
@@ -47,6 +61,7 @@ const structuredData = JSON.stringify({
       description:
         "An independent media and research project examining power, institutions, history, political economy, science, and technology.",
       inLanguage: "en",
+      publisher: { "@id": `${websiteUrl}#organization` },
     },
     {
       "@type": "WebPage",
@@ -77,12 +92,18 @@ const structuredData = JSON.stringify({
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="independent media, political economy, institutional power, documentary research, long-form journalism, history, science, technology, law, accountability, public reason"
+    />
+    <meta name="author" content="The Independent Observer" />
     <meta name="theme-color" content="#07182d" />
     {noindex && <meta name="robots" content="noindex,follow" />}
     <link rel="canonical" href={canonicalUrl} />
     <link rel="sitemap" type="application/xml" href={sitemapUrl} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="en_GB" />
     <meta property="og:site_name" content="The Independent Observer" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
@@ -93,10 +114,18 @@ const structuredData = JSON.stringify({
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="The Independent Observer social preview" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@IndpObserver" />
+    <meta name="twitter:creator" content="@IndpObserver" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImageUrl} />
     <meta name="twitter:image:alt" content="The Independent Observer social preview" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="icon" type="image/svg+xml" href={sitePath("/favicon.svg")} />
     <script type="application/ld+json" set:html={structuredData} is:inline />
     <title>{fullTitle}</title>
@@ -107,5 +136,20 @@ const structuredData = JSON.stringify({
       <slot />
     </main>
     <Footer />
+    <script is:inline>
+      (function () {
+        var header = document.querySelector(".site-header");
+        if (!header) return;
+        function onScroll() {
+          if (window.scrollY > 10) {
+            header.classList.add("scrolled");
+          } else {
+            header.classList.remove("scrolled");
+          }
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+      })();
+    </script>
   </body>
 </html>
