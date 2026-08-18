@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EditorialDetail from "../../components/EditorialDetail.astro";
+import { documentaryItems } from "../../data/content";
+import { slugify } from "../../lib/slugs";
+import { sitePath } from "../../lib/paths";
+
+export function getStaticPaths() {
+  return documentaryItems.map((item) => ({
+    params: { slug: slugify(item.title) },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+const currentPath = `/documentaries/${slugify(item.title)}/`;
+---
+
+<BaseLayout
+  title={item.title}
+  description={item.description}
+  currentPath={currentPath}
+>
+  <EditorialDetail
+    item={item}
+    eyebrow="Documentary preview"
+    backLabel="Back to documentaries"
+    backHref={sitePath("/documentaries/")}
+    statusNote="This is a project concept in development, not a completed or released film. Research, rights, production, and fact-checking remain required."
+  />
+</BaseLayout>
