@@ -4,6 +4,7 @@ import { dropboxFeedItems } from "../data/dropbox-content.generated";
 import { seriesItems } from "../data/series";
 import { publicLibrarySnapshot } from "../data/public-library";
 import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
 
 type SearchEntry = {
   title: string;
@@ -28,7 +29,7 @@ const searchItems: SearchEntry[] = [
     description: item.description,
     status: item.status,
     kind: "Research preview",
-    href: sitePath("/research/"),
+    href: sitePath(`/research/${slugify(item.title)}/`),
   })),
   ...documentaryItems.map((item) => ({
     title: item.title,
@@ -36,7 +37,7 @@ const searchItems: SearchEntry[] = [
     description: item.description,
     status: item.status,
     kind: "Documentary preview",
-    href: sitePath("/documentaries/"),
+    href: sitePath(`/documentaries/${slugify(item.title)}/`),
   })),
   ...videoItems.map((item) => ({
     title: item.title,
@@ -44,7 +45,7 @@ const searchItems: SearchEntry[] = [
     description: item.description,
     status: item.status,
     kind: "Video preview",
-    href: sitePath("/videos/"),
+    href: sitePath(`/videos/${slugify(item.title)}/`),
   })),
   ...seriesItems.map((item) => ({
     title: item.title,
@@ -52,7 +53,7 @@ const searchItems: SearchEntry[] = [
     description: item.description,
     status: item.status,
     kind: item.volume,
-    href: sitePath("/series/"),
+    href: sitePath(`/series/${slugify(item.title)}/`),
   })),
   ...dropboxFeedItems.map((item) => ({
     title: item.title,
