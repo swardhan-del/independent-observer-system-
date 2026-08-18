@@ -4,6 +4,7 @@ import EditorialCard from "../components/EditorialCard.astro";
 import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
 import { dropboxFeedItems } from "../data/dropbox-content.generated";
 import { sitePath } from "../lib/paths";
+import { socialLinks } from "../data/social";
 
 const feedCount = dropboxFeedItems.length;
 ---
@@ -71,6 +72,75 @@ const feedCount = dropboxFeedItems.length;
           {feedCount} approved report {feedCount === 1 ? "card is" : "cards are"} currently in the public
           feed.
         </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-white" aria-label="Find the public work">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Find your way in</p>
+          <h2>Search the public work.</h2>
+        </div>
+        <p>
+          Search the site from the masthead, or start with a desk, the public library, or one of the
+          six coverage fields below.
+        </p>
+      </div>
+      <div class="discovery-grid">
+        <a class="discovery-card" href={sitePath("/library/")}>
+          <span>01</span>
+          <strong>Public Library</strong>
+          <p>See the reviewed map of the research archive.</p>
+        </a>
+        <a class="discovery-card" href={sitePath("/research/")}>
+          <span>02</span>
+          <strong>Research &amp; Essays</strong>
+          <p>Find concepts about law, institutions, labor, and power.</p>
+        </a>
+        <a class="discovery-card" href={sitePath("/documentaries/")}>
+          <span>03</span>
+          <strong>Documentary Projects</strong>
+          <p>Browse visual investigations in development.</p>
+        </a>
+        <a class="discovery-card" href={sitePath("/videos/")}>
+          <span>04</span>
+          <strong>Videos</strong>
+          <p>Explore explainers and future releases by subject.</p>
+        </a>
+      </div>
+      <div class="topic-links" aria-label="Browse coverage fields">
+        {topics.map((topic) => (
+          <a class="topic-link" href={sitePath("/#topic-" + topic.name.toLowerCase())}>
+            {topic.name}
+          </a>
+        ))}
+      </div>
+      <p class="form-note">Tip: press <kbd>⌘</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Mac or <kbd>Ctrl</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Windows to open search.</p>
+    </div>
+  </section>
+
+  <section class="section section-navy" aria-label="Distribution channels">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Help the work travel</p>
+          <h2>Discover it where you already are.</h2>
+        </div>
+        <p>
+          This site keeps the reports and public archive under its own control. Social channels help
+          new readers find the work and lead them back to the fuller record.
+        </p>
+      </div>
+      <div class="distribution-grid">
+        {socialLinks.map((link) => (
+          <a class="distribution-card" href={link.href} target="_blank" rel="me noopener noreferrer">
+            <strong>{link.label}</strong>
+            <span>{link.description}</span>
+            <span class="distribution-arrow" aria-hidden="true">↗</span>
+          </a>
+        ))}
       </div>
     </div>
   </section>
