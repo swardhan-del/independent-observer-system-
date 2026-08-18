@@ -1,11 +1,7 @@
 ---
 import type { EditorialItem } from "../data/content";
 
-const {
-  item,
-  index = 1,
-  sectionHref = "/research/",
-} = Astro.props as { item: EditorialItem; index?: number; sectionHref?: string };
+const { item, index = 1 } = Astro.props as { item: EditorialItem; index?: number };
 const searchText = [item.title, item.category, item.description, item.status]
   .join(" ")
   .toLocaleLowerCase();
@@ -17,13 +13,6 @@ const searchText = [item.title, item.category, item.description, item.status]
   data-search-text={searchText}
   data-status={item.status.toLocaleLowerCase()}
 >
-  {
-    Astro.slots.has("image") && (
-      <div class="card-image">
-        <slot name="image" />
-      </div>
-    )
-  }
   <div class="card-meta">
     <span>{String(index).padStart(2, "0")}</span>
     <span>{item.category}</span>
@@ -31,12 +20,7 @@ const searchText = [item.title, item.category, item.description, item.status]
   <h3>{item.title}</h3>
   <p>{item.description}</p>
   <div class="card-footer">
-    <span class={`status-pill${item.status === "In editorial development" ? " status-pill--active" : ""}`}
-      >{item.status}</span
-    >
+    <span class="status-pill">{item.status}</span>
     {item.readingTime && <span>{item.readingTime}</span>}
-    <a class="card-explore-link" href={sectionHref} aria-label={`View all ${item.category} concepts`}
-      >View concept →</a
-    >
   </div>
 </article>
