@@ -3,6 +3,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
 import { sitePath } from "../lib/paths";
+import { socialLinks } from "../data/social";
 
 type Props = {
   title: string;
@@ -48,6 +49,7 @@ const structuredData = JSON.stringify({
         "@type": "ImageObject",
         url: new URL(sitePath("/favicon.svg"), publicOrigin).href,
       },
+      sameAs: socialLinks.map((socialLink) => socialLink.href),
     },
     {
       "@type": "WebSite",
