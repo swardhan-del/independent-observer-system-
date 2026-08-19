@@ -38,3 +38,7 @@ jobs:
         run: npm run build:pages
       - name: Test GitHub Pages output
         run: npm run test:built
+      - name: Build approved public-origin output
+        run: SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build
+      - name: Run SEO audit
+        run: SEO_SITE_URL=https://independentobserver.org npm run seo:audit
