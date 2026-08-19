@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
-import { dropboxFeedItems } from "../data/dropbox-content.generated";
+import { dropboxDocumentItems, dropboxFeedItems } from "../data/dropbox-content.generated";
+import { publicDocumentItems } from "../data/documents";
 import { seriesItems } from "../data/series";
 import { publicLibrarySnapshot } from "../data/public-library";
 
@@ -43,6 +44,28 @@ describe("editorial preview data", () => {
     expect(
       dropboxFeedItems.every(
         (item) => item.status.includes("preview") || item.status.includes("development"),
+      ),
+    ).toBe(true);
+  });
+
+  it("publishes only structured document sections", () => {
+    expect(publicDocumentItems.length).toBeGreaterThan(0);
+    expect(
+      publicDocumentItems.every(
+        (entry) =>
+          entry.sourceLabel.length > 0 &&
+          entry.sections.length > 0 &&
+          entry.sections.every(
+            (section) =>
+              section.id.length > 0 &&
+              section.heading.length > 0 &&
+              ((section.paragraphs?.length ?? 0) > 0 || (section.items?.length ?? 0) > 0),
+          ),
+      ),
+    ).toBe(true);
+    expect(
+      dropboxDocumentItems.every(
+        (entry) => entry.sections.length > 0 && entry.sourceLabel.length > 0,
       ),
     ).toBe(true);
   });
