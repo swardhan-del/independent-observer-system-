@@ -44,7 +44,7 @@ for (const pathname of htmlFiles) {
     ["canonical", /<link[^>]+rel=["']canonical["'][^>]+href=/i],
     ["Open Graph title", /property=["']og:title["']/i],
     ["Open Graph image", /property=["']og:image["']/i],
-    ["JSON-LD", /application\/ld\+json/i]
+    ["JSON-LD", /application\/ld\+json/i],
   ]) {
     if (!pattern.test(html)) {
       fail(label + ": missing " + name);
@@ -60,7 +60,7 @@ for (const pathname of htmlFiles) {
     /\/Users\//i,
     /\/private\/tmp/i,
     /dropbox[^"']*\/(?:lockbox|private|secrets?)/i,
-    /(?:refresh[_ -]?token|client[_ -]?secret|api[_ -]?key|password)\s*[:=]/i
+    /(?:refresh[_ -]?token|client[_ -]?secret|api[_ -]?key|password)\s*[:=]/i,
   ];
 
   for (const pattern of publicLeakPatterns) {
