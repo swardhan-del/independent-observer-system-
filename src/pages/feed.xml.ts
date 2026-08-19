@@ -1,4 +1,3 @@
----
 import type { APIRoute } from "astro";
 import { documentaryItems, researchItems, videoItems } from "../data/content";
 import { sitePath } from "../lib/paths";
