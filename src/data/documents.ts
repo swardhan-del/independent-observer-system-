@@ -20,7 +20,7 @@ export type PublicDocument = {
 const reviewedDocuments: PublicDocument[] = [
   {
     id: "documentary-projects-print-capture",
-    title: "Documentary Projects — The Independent Observer",
+    title: "Documentary Projects — Independent Observer",
     category: "Documentary desk",
     description:
       "A reviewed public-safe reading copy of the Documentary Projects print capture added to the Independent Observer Dropbox workspace.",
