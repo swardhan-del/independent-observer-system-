@@ -28,10 +28,13 @@ const controlId = targetId + "-query";
       In development
     </button>
   </div>
-  <p class="filter-count" data-filter-count role="status">
-    {itemCount}
-    {itemCount === 1 ? "preview" : "previews"} shown
-  </p>
+  <div class="filter-actions">
+    <p class="filter-count" data-filter-count role="status">
+      {itemCount}
+      {itemCount === 1 ? "preview" : "previews"} shown
+    </p>
+    <button class="filter-reset" type="button" data-filter-reset hidden>Reset filters</button>
+  </div>
   <p class="filter-empty" data-filter-empty hidden>No previews match this filter.</p>
 </div>
 
@@ -41,14 +44,41 @@ const controlId = targetId + "-query";
     const queryInput = root.querySelector<HTMLInputElement>("[data-filter-query]");
     const count = root.querySelector<HTMLElement>("[data-filter-count]");
     const empty = root.querySelector<HTMLElement>("[data-filter-empty]");
+    const reset = root.querySelector<HTMLButtonElement>("[data-filter-reset]");
     const buttons = [...root.querySelectorAll<HTMLButtonElement>("[data-filter-status]")];
     const cards = target ? [...target.querySelectorAll<HTMLElement>("[data-filter-card]")] : [];
 
-    if (!queryInput || !count || !empty || !cards.length) return;
+    if (!queryInput || !count || !empty || !reset || !cards.length) return;
 
     let activeStatus = "all";
 
-    const update = () => {
+    const syncUrl = () => {
+      const url = new URL(window.location.href);
+      const query = queryInput.value.trim();
+
+      if (query) url.searchParams.set("q", query);
+      else url.searchParams.delete("q");
+
+      if (activeStatus !== "all") url.searchParams.set("status", activeStatus);
+      else url.searchParams.delete("status");
+
+      window.history.replaceState(
+        null,
+        "",
+        url.pathname + (url.search ? url.search : "") + url.hash,
+      );
+    };
+
+    const setActiveButton = () => {
+      for (const candidate of buttons) {
+        candidate.setAttribute(
+          "aria-pressed",
+          String(candidate.dataset.filterStatus === activeStatus),
+        );
+      }
+    };
+
+    const update = (writeUrl = true) => {
       const query = queryInput.value.trim().toLocaleLowerCase();
       let visible = 0;
 
@@ -65,19 +95,41 @@ const controlId = targetId + "-query";
 
       count.textContent = visible + (visible === 1 ? " preview shown" : " previews shown");
       empty.hidden = visible !== 0;
+      reset.hidden = !query && activeStatus === "all";
+      if (writeUrl) syncUrl();
     };
 
     for (const button of buttons) {
       button.addEventListener("click", () => {
         activeStatus = button.dataset.filterStatus ?? "all";
-        for (const candidate of buttons) {
-          candidate.setAttribute("aria-pressed", String(candidate === button));
-        }
+        setActiveButton();
         update();
       });
     }
 
-    queryInput.addEventListener("input", update);
-    update();
+    queryInput.addEventListener("input", () => update());
+
+    reset.addEventListener("click", () => {
+      queryInput.value = "";
+      activeStatus = "all";
+      setActiveButton();
+      update();
+      queryInput.focus();
+    });
+
+    const applyUrlState = () => {
+      const params = new URLSearchParams(window.location.search);
+      const requestedStatus = params.get("status") ?? "all";
+
+      queryInput.value = params.get("q") ?? "";
+      activeStatus = buttons.some((button) => button.dataset.filterStatus === requestedStatus)
+        ? requestedStatus
+        : "all";
+      setActiveButton();
+      update(false);
+    };
+
+    window.addEventListener("popstate", applyUrlState);
+    applyUrlState();
   });
 </script>
