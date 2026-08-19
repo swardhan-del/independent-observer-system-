@@ -1,0 +1,84 @@
+---
+import type { PublicDocument } from "../data/documents";
+import PageHero from "./PageHero.astro";
+import { sitePath } from "../lib/paths";
+
+type Props = {
+  entry: PublicDocument;
+};
+
+const { entry } = Astro.props as Props;
+---
+
+<PageHero eyebrow="Public document reader" title={entry.title} description={entry.description} />
+
+<section class="section section-white">
+  <div class="shell reader-layout">
+    <aside class="reader-sidebar">
+      <p class="eyebrow">Document details</p>
+      <dl class="reader-meta">
+        <div>
+          <dt>Desk</dt>
+          <dd>{entry.category}</dd>
+        </div>
+        <div>
+          <dt>Source</dt>
+          <dd>{entry.sourceLabel}</dd>
+        </div>
+        {
+          entry.sourceModified && (
+            <div>
+              <dt>Reviewed</dt>
+              <dd>{entry.sourceModified}</dd>
+            </div>
+          )
+        }
+      </dl>
+
+      <nav aria-label="Document sections">
+        <p class="reader-nav-label">On this page</p>
+        <ol class="reader-toc">
+          {
+            entry.sections.map((section, index) => (
+              <li>
+                <a href={`#${section.id}`}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {section.heading}
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+    </aside>
+
+    <article class="document-reader">
+      <div class="reader-notice">
+        This is a reviewed public reading copy. It is not a mirror of the private Dropbox archive.
+      </div>
+      {
+        entry.sections.map((section) => (
+          <section class="reader-section" id={section.id}>
+            <h2>{section.heading}</h2>
+            {section.paragraphs?.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+            {section.items && (
+              <ul>
+                {section.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            )}
+          </section>
+        ))
+      }
+      <div class="detail-actions">
+        <a class="button" href={sitePath("/library/")}>Back to public library →</a>
+        <a class="button button-secondary" href={sitePath("/documentaries/")}
+          >Explore documentaries</a
+        >
+      </div>
+    </article>
+  </div>
+</section>
