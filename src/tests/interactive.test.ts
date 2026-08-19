@@ -22,6 +22,9 @@ describe("interactive preview tools", () => {
     expect(filter).toContain('aria-pressed="true"');
     expect(filter).toContain("data-filter-query");
     expect(filter).toContain("data-filter-empty");
+    expect(filter).toContain("data-filter-reset");
+    expect(filter).toContain("URLSearchParams");
+    expect(filter).toContain("replaceState");
     expect(card).toContain("data-filter-card");
     expect(card).toContain("data-search-text");
     expect(series).toContain("data-filter-card");
