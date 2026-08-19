@@ -1,6 +1,7 @@
 ---
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import ReadingList from "../components/ReadingList.astro";
 import "../styles/global.css";
 import { sitePath } from "../lib/paths";
 import { socialLinks } from "../data/social";
@@ -133,6 +134,7 @@ const structuredData = JSON.stringify({
   </head>
   <body>
     <Header currentPath={currentPath} />
+    <ReadingList />
     <main id="main-content">
       <slot />
     </main>

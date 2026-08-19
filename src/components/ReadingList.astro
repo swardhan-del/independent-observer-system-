@@ -1,0 +1,164 @@
+<div class="reading-list-tools" data-reading-list>
+  <button
+    class="reading-list-trigger"
+    type="button"
+    data-reading-open
+    aria-haspopup="dialog"
+    aria-controls="reading-list-dialog"
+  >
+    Reading list <span data-reading-count aria-label="saved previews">0</span>
+  </button>
+  <dialog id="reading-list-dialog" class="reading-list-dialog" aria-labelledby="reading-list-title">
+    <div class="reading-list-inner">
+      <div class="reading-list-header">
+        <div>
+          <p class="eyebrow">Private on this device</p>
+          <h2 id="reading-list-title">Reading list</h2>
+        </div>
+        <button class="reading-list-close" type="button" data-reading-close>Close</button>
+      </div>
+      <p class="reading-list-empty" data-reading-empty>
+        Save a preview from any research, documentary, video, or series desk to find it here.
+      </p>
+      <ol class="reading-list-items" data-reading-items></ol>
+      <div class="reading-list-actions">
+        <button class="reading-list-clear" type="button" data-reading-clear hidden>
+          Clear saved previews
+        </button>
+      </div>
+      <p class="form-note">
+        Your list stays in this browser. It is not transmitted, published, or connected to an
+        account.
+      </p>
+    </div>
+  </dialog>
+</div>
+
+<script>
+  type SavedItem = {
+    id: string;
+    title: string;
+    href: string;
+  };
+
+  const storageKey = "independent-observer:reading-list:v1";
+  const root = document.querySelector<HTMLElement>("[data-reading-list]");
+  const dialog = root?.querySelector<HTMLDialogElement>("#reading-list-dialog");
+  const openButton = root?.querySelector<HTMLButtonElement>("[data-reading-open]");
+  const closeButton = root?.querySelector<HTMLButtonElement>("[data-reading-close]");
+  const count = root?.querySelector<HTMLElement>("[data-reading-count]");
+  const empty = root?.querySelector<HTMLElement>("[data-reading-empty]");
+  const items = root?.querySelector<HTMLOListElement>("[data-reading-items]");
+  const clearButton = root?.querySelector<HTMLButtonElement>("[data-reading-clear]");
+
+  if (dialog && openButton && closeButton && count && empty && items && clearButton) {
+    const load = (): SavedItem[] => {
+      try {
+        const stored = JSON.parse(localStorage.getItem(storageKey) ?? "[]");
+        return Array.isArray(stored)
+          ? stored.filter(
+              (item): item is SavedItem =>
+                item &&
+                typeof item.id === "string" &&
+                typeof item.title === "string" &&
+                typeof item.href === "string",
+            )
+          : [];
+      } catch {
+        return [];
+      }
+    };
+
+    let saved = load();
+
+    const persist = () => {
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(saved));
+      } catch {
+        // Private browsing or a full storage area should not break the site.
+      }
+    };
+
+    const updateToggleButtons = () => {
+      document.querySelectorAll<HTMLButtonElement>("[data-reading-toggle]").forEach((button) => {
+        const isSaved = saved.some((item) => item.id === button.dataset.readingId);
+        button.setAttribute("aria-pressed", String(isSaved));
+        button.textContent = isSaved ? "Saved" : "Save";
+      });
+    };
+
+    const render = () => {
+      count.textContent = String(saved.length);
+      empty.hidden = saved.length > 0;
+      clearButton.hidden = saved.length === 0;
+      items.replaceChildren();
+
+      for (const item of saved) {
+        const listItem = document.createElement("li");
+        listItem.className = "reading-list-item";
+
+        const link = document.createElement("a");
+        link.href = item.href;
+        link.textContent = item.title;
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "reading-list-remove";
+        remove.dataset.readingRemove = item.id;
+        remove.setAttribute("aria-label", `Remove ${item.title} from reading list`);
+        remove.textContent = "Remove";
+
+        listItem.append(link, remove);
+        items.append(listItem);
+      }
+    };
+
+    openButton.addEventListener("click", () => {
+      render();
+      if (typeof dialog.showModal === "function") dialog.showModal();
+      else dialog.setAttribute("open", "");
+    });
+
+    closeButton.addEventListener("click", () => dialog.close());
+
+    clearButton.addEventListener("click", () => {
+      saved = [];
+      persist();
+      render();
+      updateToggleButtons();
+    });
+
+    items.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement;
+      const remove = target.closest<HTMLButtonElement>("[data-reading-remove]");
+      if (!remove) return;
+
+      saved = saved.filter((item) => item.id !== remove.dataset.readingRemove);
+      persist();
+      render();
+      updateToggleButtons();
+    });
+
+    document.querySelectorAll<HTMLButtonElement>("[data-reading-toggle]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const id = button.dataset.readingId;
+        const title = button.dataset.readingTitle;
+        const href = button.dataset.readingHref;
+        if (!id || !title || !href) return;
+
+        if (saved.some((item) => item.id === id)) {
+          saved = saved.filter((item) => item.id !== id);
+        } else {
+          saved = [...saved, { id, title, href }];
+        }
+
+        persist();
+        render();
+        updateToggleButtons();
+      });
+    });
+
+    render();
+    updateToggleButtons();
+  }
+</script>
