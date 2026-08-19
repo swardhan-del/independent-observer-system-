@@ -945,6 +945,36 @@ textarea {
   font-size: 0.78rem;
 }
 
+.filter-actions {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.filter-actions .filter-count {
+  grid-column: auto;
+}
+
+.filter-reset {
+  padding: 7px 9px;
+  border: 1px solid var(--slate-300);
+  background: transparent;
+  color: var(--slate-700);
+  cursor: pointer;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.filter-reset:hover {
+  border-color: var(--navy-900);
+  background: var(--navy-900);
+  color: var(--white);
+}
+
 .filter-empty {
   grid-column: 1 / -1;
   margin: 0;
@@ -976,6 +1006,17 @@ textarea {
 
 .section-navy .filter-statuses button:hover,
 .section-navy .filter-statuses button[aria-pressed="true"] {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--navy-950);
+}
+
+.section-navy .filter-reset {
+  border-color: rgb(255 255 255 / 25%);
+  color: var(--slate-300);
+}
+
+.section-navy .filter-reset:hover {
   border-color: var(--gold);
   background: var(--gold);
   color: var(--navy-950);
@@ -1261,8 +1302,13 @@ kbd {
   .hero-inner,
   .newsletter,
   .section-heading,
-  .page-grid {
+  .page-grid,
+  .content-controls {
     grid-template-columns: 1fr;
+  }
+
+  .filter-statuses {
+    justify-content: start;
   }
 
   .hero-inner {
