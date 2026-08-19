@@ -4,7 +4,6 @@
   <circle cx="980" cy="160" r="94" fill="none" stroke="#c6a15b" stroke-width="3" opacity=".75"/>
   <circle cx="980" cy="160" r="18" fill="#f7f4ed"/>
   <path d="M846 160c45-52 90-78 134-78s89 26 134 78c-45 52-90 78-134 78s-89-26-134-78Z" fill="none" stroke="#f7f4ed" stroke-width="3"/>
-  <text x="90" y="250" fill="#c6a15b" font-family="Georgia,serif" font-size="28" letter-spacing="7">THE</text>
-  <text x="90" y="330" fill="#f7f4ed" font-family="Georgia,serif" font-size="72">Independent Observer</text>
-  <text x="94" y="390" fill="#b9c4d1" font-family="Arial,sans-serif" font-size="24">Research • Documentary • Public Reason</text>
+  <text x="90" y="300" fill="#f7f4ed" font-family="Georgia,serif" font-size="72">Independent Observer</text>
+  <text x="94" y="360" fill="#b9c4d1" font-family="Arial,sans-serif" font-size="24">Research • Documentary • Public Reason</text>
 </svg>

@@ -199,7 +199,7 @@ describe("built website", () => {
 
     expect(documents).toHaveLength(1);
     const serialized = JSON.stringify(documents[0]);
-    expect(serialized).toContain("The Independent Observer");
+    expect(serialized).toContain("Independent Observer");
     const graph = documents[0]["@graph"];
     expect(graph.some((item: { "@type": string }) => item["@type"] === "WebSite")).toBe(true);
     expect(
