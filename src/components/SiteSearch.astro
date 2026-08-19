@@ -1,6 +1,7 @@
 ---
 import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
 import { dropboxFeedItems } from "../data/dropbox-content.generated";
+import { publicDocumentItems } from "../data/documents";
 import { seriesItems } from "../data/series";
 import { publicLibrarySnapshot } from "../data/public-library";
 import { sitePath } from "../lib/paths";
@@ -62,6 +63,14 @@ const searchItems: SearchEntry[] = [
     status: item.status,
     kind: "Approved feed",
     href: feedHref[item.kind] ?? sitePath("/series/"),
+  })),
+  ...publicDocumentItems.map((entry) => ({
+    title: entry.title,
+    category: entry.category,
+    description: entry.description,
+    status: "Reviewed public copy",
+    kind: "Public document",
+    href: sitePath(`/library/documents/${entry.id}/`),
   })),
   ...publicLibrarySnapshot.volumes.map((volume) => ({
     title: volume.title,
