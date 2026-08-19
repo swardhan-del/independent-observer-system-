@@ -7,6 +7,8 @@ const header = readFileSync(join(sourceRoot, "components/Header.astro"), "utf8")
 const search = readFileSync(join(sourceRoot, "components/SiteSearch.astro"), "utf8");
 const filter = readFileSync(join(sourceRoot, "components/ContentFilter.astro"), "utf8");
 const card = readFileSync(join(sourceRoot, "components/EditorialCard.astro"), "utf8");
+const readingList = readFileSync(join(sourceRoot, "components/ReadingList.astro"), "utf8");
+const layout = readFileSync(join(sourceRoot, "layouts/BaseLayout.astro"), "utf8");
 const series = readFileSync(join(sourceRoot, "pages/series/index.astro"), "utf8");
 
 describe("interactive preview tools", () => {
@@ -37,5 +39,13 @@ describe("interactive preview tools", () => {
     expect(readFileSync(join(sourceRoot, "pages/contact/index.astro"), "utf8")).toContain(
       "Preview only—this form does not transmit or store data.",
     );
+  });
+
+  it("ships a browser-local reading list without an account or collection endpoint", () => {
+    expect(layout).toContain("<ReadingList />");
+    expect(card).toContain("data-reading-toggle");
+    expect(readingList).toContain("data-reading-open");
+    expect(readingList).toContain("localStorage");
+    expect(readingList).not.toMatch(/fetch\s*\(/);
   });
 });
