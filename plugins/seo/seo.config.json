@@ -1,12 +1,7 @@
 {
   "siteName": "Independent Observer",
   "siteUrl": "https://independentobserver.org",
-  "requiredFiles": [
-    "robots.txt",
-    "sitemap.xml",
-    "feed.xml",
-    "og-cover.jpg"
-  ],
+  "requiredFiles": ["robots.txt", "sitemap.xml", "feed.xml", "og-cover.jpg"],
   "autopublish": false,
   "publicLeakagePolicy": {
     "failOnLocalPaths": true,
