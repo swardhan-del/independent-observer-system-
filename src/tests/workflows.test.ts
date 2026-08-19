@@ -45,9 +45,22 @@ describe("workflow publication safety", () => {
     expect(sync).toContain("DROPBOX_APP_SECRET");
     expect(sync).toContain("DROPBOX_REFRESH_TOKEN");
     expect(sync).toContain("node scripts/sync-dropbox-public-feed.mjs");
+    expect(sync).toContain("DROPBOX_SOURCE_PATH");
     expect(sync).toContain("git add -- src/data/dropbox-content.generated.ts");
     expect(sync).toContain("gh pr create");
     expect(sync).toContain("--base main");
     expect(sync).not.toMatch(/actions\/(?:deploy-pages|upload-pages-artifact)@/);
+  });
+
+  it("keeps the document reader inside the structured feed", () => {
+    const script = readFileSync(
+      join(process.cwd(), "scripts/sync-dropbox-public-feed.mjs"),
+      "utf8",
+    );
+    expect(script).toContain('"document"');
+    expect(script).toContain("sourceLabel");
+    expect(script).toContain("sections");
+    expect(script).toContain("dropboxDocumentItems");
+    expect(script).toContain("maxSections");
   });
 });
