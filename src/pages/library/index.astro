@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import { dropboxFeedItems } from "../../data/dropbox-content.generated";
+import { publicDocumentItems } from "../../data/documents";
 import { publicLibrarySnapshot } from "../../data/public-library";
 import { sitePath } from "../../lib/paths";
 
@@ -72,6 +73,45 @@ const { areas, note, stats, volumes } = publicLibrarySnapshot;
               <p>{volume.summary}</p>
               <div class="card-footer">
                 <span class="status-pill">Overview only</span>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-white">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Public documents</p>
+          <h2>Read the reviewed material.</h2>
+        </div>
+        <p>
+          These reading copies make approved public-safe material easy to find without opening the
+          private Dropbox archive to the web.
+        </p>
+      </div>
+      <div class="card-grid">
+        {
+          publicDocumentItems.map((entry, index) => (
+            <article class="editorial-card">
+              <div class="card-meta">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span>{entry.category}</span>
+              </div>
+              <h3>
+                <a class="card-title-link" href={sitePath(`/library/documents/${entry.id}/`)}>
+                  {entry.title}
+                </a>
+              </h3>
+              <p>{entry.description}</p>
+              <div class="card-footer">
+                <span class="status-pill">Reviewed public copy</span>
+                <a class="card-open-link" href={sitePath(`/library/documents/${entry.id}/`)}>
+                  Open reader →
+                </a>
               </div>
             </article>
           ))
