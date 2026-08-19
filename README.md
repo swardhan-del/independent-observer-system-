@@ -88,6 +88,8 @@ The public site now includes [`/library/`](https://swardhan-del.github.io/indepe
 
 The library is a reviewed snapshot from the Dropbox `public_export` package. It is deliberately separate from the protected archive and is labeled as a snapshot so aggregate counts are not mistaken for a live inventory. The existing approved-feed automation remains narrower: it accepts only structured preview items from `/Independent Observer desktop/Website Feed/approved`, opens a pull request, and waits for CI and human review.
 
+The library also includes a public document reader. It publishes reviewed plain-text sections rather than mirroring Dropbox PDFs, DOCX files, private notes, or local archive paths. The reader provides a table of contents and stable section links so approved material can be found and read on the site.
+
 If that exact approved folder is unavailable, the automation must fail closed. Do not repoint it at the general Independent Observer archive or at a catalog manifest. To publish more material, first create a small public-safe summary, mark it approved, and let the review workflow handle it.
 
 ## Integration boundary
@@ -140,10 +142,12 @@ It does not mirror the Dropbox archive and it does not publish directly. It read
 
 `/Independent Observer desktop/Website Feed/approved`
 
-The manifest must set `approvedForWebsite` to `true` and every item must use one of the two
-preview statuses: `Concept preview` or `In editorial development`. The schema example is in
-`content/dropbox/manifest.example.json`. DOCX, PDF, PPTX, raw research, private records, and
-unapproved media are intentionally outside the feed contract.
+The manifest must set `approvedForWebsite` to `true`. Preview items must use one of the two
+preview statuses: `Concept preview` or `In editorial development`. Document items use
+`kind: "document"`, a `sourceLabel`, and reviewed plain-text `sections` containing paragraphs or
+list items. The schema example is in `content/dropbox/manifest.example.json`. DOCX, PDF, PPTX,
+raw research, private records, and unapproved media remain outside the feed contract; a document
+may summarize an approved source without exposing that source file.
 
 To activate the workflow, create a Dropbox app with read-only metadata/content access and add
 these GitHub repository secrets: `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and
