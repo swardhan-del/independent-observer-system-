@@ -15,7 +15,7 @@ export type SeriesItem = {
 export const seriesItems: SeriesItem[] = [
   {
     volume: "Volume I",
-    title: "The Independent Observer",
+    title: "Independent Observer",
     category: "Democratic capacity",
     description:
       "A review-stage foundation for thinking about legitimacy, attention, evidence, public memory, and the practical capacity to use democratic institutions.",
