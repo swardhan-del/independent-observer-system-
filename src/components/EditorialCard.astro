@@ -11,6 +11,7 @@ const { item, index = 1, href } = Astro.props as Props;
 const searchText = [item.title, item.category, item.description, item.status]
   .join(" ")
   .toLocaleLowerCase();
+const readingId = href ? `route:${href}` : undefined;
 ---
 
 <article
@@ -40,9 +41,22 @@ const searchText = [item.title, item.category, item.description, item.status]
     {item.readingTime && <span>{item.readingTime}</span>}
     {
       href && (
-        <a class="card-open-link" href={href}>
-          Open preview →
-        </a>
+        <>
+          <button
+            class="card-save"
+            type="button"
+            data-reading-toggle
+            data-reading-id={readingId}
+            data-reading-title={item.title}
+            data-reading-href={href}
+            aria-pressed="false"
+          >
+            Save
+          </button>
+          <a class="card-open-link" href={href}>
+            Open preview →
+          </a>
+        </>
       )
     }
   </div>
