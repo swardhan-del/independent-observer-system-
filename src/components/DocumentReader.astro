@@ -12,6 +12,8 @@ const { entry } = Astro.props as Props;
 
 <PageHero eyebrow="Public document reader" title={entry.title} description={entry.description} />
 
+<div class="reading-progress" data-reading-progress aria-hidden="true"><span></span></div>
+
 <section class="section section-white">
   <div class="shell reader-layout">
     <aside class="reader-sidebar">
@@ -35,13 +37,13 @@ const { entry } = Astro.props as Props;
         }
       </dl>
 
-      <nav aria-label="Document sections">
+      <nav aria-label="Document sections" data-reader-nav>
         <p class="reader-nav-label">On this page</p>
         <ol class="reader-toc">
           {
             entry.sections.map((section, index) => (
               <li>
-                <a href={`#${section.id}`}>
+                <a href={`#${section.id}`} aria-current="false">
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   {section.heading}
                 </a>
@@ -82,3 +84,45 @@ const { entry } = Astro.props as Props;
     </article>
   </div>
 </section>
+
+<script>
+  const article = document.querySelector<HTMLElement>(".document-reader");
+  const progressBar = document.querySelector<HTMLElement>("[data-reading-progress] span");
+  const tocLinks = [
+    ...document.querySelectorAll<HTMLAnchorElement>("[data-reader-nav] .reader-toc a"),
+  ];
+  const sections = [...document.querySelectorAll<HTMLElement>(".reader-section")];
+
+  if (article && progressBar) {
+    const updateProgress = () => {
+      const total = article.offsetHeight - window.innerHeight;
+      const read = window.scrollY - article.offsetTop + window.innerHeight * 0.4;
+      const ratio = total > 0 ? Math.min(1, Math.max(0, read / total)) : 0;
+      progressBar.style.width = ratio * 100 + "%";
+    };
+
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    updateProgress();
+  }
+
+  if (tocLinks.length && sections.length && typeof IntersectionObserver !== "undefined") {
+    const setActive = (id: string) => {
+      for (const link of tocLinks) {
+        link.setAttribute("aria-current", String(link.getAttribute("href") === `#${id}`));
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting);
+        if (visible.length > 0) {
+          setActive(visible[0].target.id);
+        }
+      },
+      { rootMargin: "-15% 0px -70% 0px", threshold: 0 },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+  }
+</script>

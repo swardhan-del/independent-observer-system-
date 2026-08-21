@@ -139,19 +139,59 @@ const structuredData = JSON.stringify({
       <slot />
     </main>
     <Footer />
+    <button class="back-to-top" type="button" data-back-to-top aria-label="Back to top">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.4"></path>
+      </svg>
+    </button>
     <script is:inline>
       (function () {
         var header = document.querySelector(".site-header");
-        if (!header) return;
+        var backToTop = document.querySelector("[data-back-to-top]");
+        var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
         function onScroll() {
-          if (window.scrollY > 10) {
-            header.classList.add("scrolled");
-          } else {
-            header.classList.remove("scrolled");
-          }
+          var scrolled = window.scrollY > 10;
+          if (header) header.classList.toggle("scrolled", scrolled);
+          if (backToTop) backToTop.classList.toggle("is-visible", window.scrollY > 480);
         }
         window.addEventListener("scroll", onScroll, { passive: true });
         onScroll();
+
+        if (backToTop) {
+          backToTop.addEventListener("click", function () {
+            window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+          });
+        }
+
+        var revealSelector =
+          ".editorial-card, .discovery-card, .distribution-card, .topic, .principle, .contact-panel, .section-heading, .mission-grid, .newsletter";
+        var revealTargets = document.querySelectorAll(revealSelector);
+
+        revealTargets.forEach(function (el) {
+          el.classList.add("reveal-target");
+        });
+
+        if (reduceMotion || typeof IntersectionObserver === "undefined") {
+          revealTargets.forEach(function (el) {
+            el.classList.add("is-visible");
+          });
+        } else {
+          var observer = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("is-visible");
+                  observer.unobserve(entry.target);
+                }
+              });
+            },
+            { rootMargin: "0px 0px -80px 0px", threshold: 0.1 },
+          );
+          revealTargets.forEach(function (el) {
+            observer.observe(el);
+          });
+        }
       })();
     </script>
   </body>

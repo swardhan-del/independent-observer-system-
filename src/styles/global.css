@@ -1608,6 +1608,138 @@ kbd {
   }
 }
 
+.site-header.scrolled {
+  box-shadow: 0 8px 24px rgb(4 17 31 / 22%);
+}
+
+.reveal-target {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 620ms ease,
+    transform 620ms ease;
+}
+
+.reveal-target.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.editorial-card {
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.editorial-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgb(4 17 31 / 10%);
+}
+
+.back-to-top {
+  position: fixed;
+  z-index: 20;
+  left: max(14px, calc((100vw - 1180px) / 2));
+  bottom: 20px;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  background: var(--navy-900);
+  color: var(--gold-light);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease,
+    background 160ms ease;
+  pointer-events: none;
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.back-to-top:hover {
+  background: var(--navy-800);
+}
+
+.back-to-top svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+}
+
+.reading-progress {
+  position: fixed;
+  z-index: 60;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: transparent;
+}
+
+.reading-progress span {
+  display: block;
+  width: 0%;
+  height: 100%;
+  background: var(--gold);
+  transition: width 120ms linear;
+}
+
+.reader-toc li {
+  position: relative;
+  border-left: 3px solid transparent;
+}
+
+.reader-toc li:has(a[aria-current="true"]) {
+  border-left-color: var(--gold);
+  background: #f4efe5;
+}
+
+.reader-toc a[aria-current="true"] {
+  color: var(--navy-900);
+  font-weight: 700;
+}
+
+.topic-link.is-active {
+  border-color: var(--navy-900);
+  background: var(--navy-900);
+  color: var(--white);
+}
+
+@media (max-width: 620px) {
+  .back-to-top {
+    left: 14px;
+    bottom: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-target {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .editorial-card,
+  .back-to-top {
+    transition: none;
+  }
+
+  .reading-progress span {
+    transition: none;
+  }
+}
+
 .reader-layout {
   display: grid;
   grid-template-columns: minmax(180px, 0.3fr) minmax(0, 1fr);
