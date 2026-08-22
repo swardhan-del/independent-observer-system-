@@ -1,6 +1,9 @@
 import type { APIRoute } from "astro";
 import { sitePath } from "../lib/paths";
 
+// Sitemap policy: index genuine public section pages and the public library.
+// Detail routes remain out until they contain finished, review-cleared publications.
+// The 404 page and private/automated Dropbox material are never included.
 const publicRoutes = [
   "/",
   "/series/",

@@ -43,6 +43,8 @@ describe("workflow publication safety", () => {
 
   it("keeps Dropbox synchronization scoped to an approved feed and review PR", () => {
     expect(triggerKeys(sync)).toEqual(["workflow_dispatch", "schedule"]);
+    expect(sync).toContain("if: ${{ github.ref == 'refs/heads/main' }}");
+    expect(sync).toContain("ref: main");
     expect(sync).toContain("/Independent Observer desktop/Website Feed/approved");
     expect(sync).toContain("DROPBOX_APP_KEY");
     expect(sync).toContain("DROPBOX_APP_SECRET");

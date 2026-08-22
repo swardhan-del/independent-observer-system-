@@ -140,6 +140,18 @@ describe("built website", () => {
     expect(locations.some((location) => location.endsWith("/404/"))).toBe(false);
   });
 
+  it("keeps RSS limited to labeled public previews and excludes template cards", () => {
+    const feed = readOutput("feed.xml");
+    const itemBlocks = [...feed.matchAll(/<item>[\s\S]*?<\/item>/g)].map((match) => match[0]);
+
+    expect(itemBlocks).toHaveLength(6);
+    expect(feed).toContain("Status: In editorial development. Research preview.");
+    expect(feed).toContain("Status: Concept preview. Video preview.");
+    expect(feed).not.toContain("The Cost of Looking Away");
+    expect(feed).not.toContain("Power, Procedure, and the Public Record");
+    expect(itemBlocks.every((item) => item.includes("Status: "))).toBe(true);
+  });
+
   it.each(routes)("keeps essential structure on $route", ({ file }) => {
     const html = readOutput(file);
     const pageIds = ids(html);

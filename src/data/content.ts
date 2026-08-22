@@ -60,20 +60,6 @@ export const videoItems: EditorialItem[] = [
       "A short-form editorial concept about the difference between possessing evidence and securing meaningful institutional review.",
     status: "Concept preview",
   },
-  {
-    title: "The Cost of Looking Away",
-    category: "Civic Culture",
-    description:
-      "A sample video entry showing how future episodes can be catalogued with a synopsis, topic, and publication status.",
-    status: "Concept preview",
-  },
-  {
-    title: "Power, Procedure, and the Public Record",
-    category: "Law & Institutions",
-    description:
-      "A placeholder for a future explainer on how procedure can determine whether facts ever receive substantive consideration.",
-    status: "Concept preview",
-  },
 ];
 
 export const topics = [
