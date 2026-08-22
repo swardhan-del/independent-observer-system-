@@ -50,13 +50,6 @@ export const documentaryItems: EditorialItem[] = [
       "A proposed documentary asking whether civilization should prioritize Earth systems, energy, and nearer-space infrastructure.",
     status: "Concept preview",
   },
-  {
-    title: "Three Countries. Three Systems. One MD.",
-    category: "Education & Institutions",
-    description:
-      "A personal documentary framework comparing medical education systems without publishing private academic records.",
-    status: "Concept preview",
-  },
 ];
 
 export const videoItems: EditorialItem[] = [

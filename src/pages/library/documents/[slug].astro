@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import DocumentReader from "../../../components/DocumentReader.astro";
+import { publicDocumentItems } from "../../../data/documents";
+
+export function getStaticPaths() {
+  return publicDocumentItems.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const currentPath = `/library/documents/${entry.id}/`;
+---
+
+<BaseLayout title={entry.title} description={entry.description} currentPath={currentPath}>
+  <DocumentReader entry={entry} />
+</BaseLayout>

@@ -4,11 +4,13 @@ import ContentFilter from "../../components/ContentFilter.astro";
 import PageHero from "../../components/PageHero.astro";
 import EditorialCard from "../../components/EditorialCard.astro";
 import { researchItems } from "../../data/content";
+import { sitePath } from "../../lib/paths";
+import { slugify } from "../../lib/slugs";
 ---
 
 <BaseLayout
   title="Research & Essays"
-  description="Developing research and long-form essays from The Independent Observer."
+  description="Developing research and long-form essays from Independent Observer."
   currentPath="/research/"
 >
   <PageHero
@@ -25,7 +27,15 @@ import { researchItems } from "../../data/content";
       </div>
       <ContentFilter targetId="research-preview-grid" itemCount={researchItems.length} />
       <div class="card-grid" id="research-preview-grid">
-        {researchItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
+        {
+          researchItems.map((item, index) => (
+            <EditorialCard
+              item={item}
+              index={index + 1}
+              href={sitePath(`/research/${slugify(item.title)}/`)}
+            />
+          ))
+        }
       </div>
     </div>
   </section>

@@ -12,7 +12,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "astro check && astro build && vitest run",
-    "test:built": "vitest run"
+    "test:built": "vitest run",
+    "seo:audit": "node plugins/seo/seo-audit.mjs",
+    "domain:preflight": "node plugins/hosting/custom-domain-preflight.mjs"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
