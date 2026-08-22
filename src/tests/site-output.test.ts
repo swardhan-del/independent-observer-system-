@@ -6,6 +6,7 @@ const distRoot = join(process.cwd(), "dist");
 const routes = [
   { route: "/", file: "index.html" },
   { route: "/series/", file: "series/index.html" },
+  { route: "/library/", file: "library/index.html" },
   { route: "/research/", file: "research/index.html" },
   { route: "/documentaries/", file: "documentaries/index.html" },
   { route: "/videos/", file: "videos/index.html" },
@@ -198,7 +199,7 @@ describe("built website", () => {
 
     expect(documents).toHaveLength(1);
     const serialized = JSON.stringify(documents[0]);
-    expect(serialized).toContain("The Independent Observer");
+    expect(serialized).toContain("Independent Observer");
     const graph = documents[0]["@graph"];
     expect(graph.some((item: { "@type": string }) => item["@type"] === "WebSite")).toBe(true);
     expect(

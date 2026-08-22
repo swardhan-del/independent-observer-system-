@@ -1,8 +1,10 @@
 ---
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import ReadingList from "../components/ReadingList.astro";
 import "../styles/global.css";
 import { sitePath } from "../lib/paths";
+import { socialLinks } from "../data/social";
 
 type Props = {
   title: string;
@@ -12,8 +14,7 @@ type Props = {
 };
 
 const { title, description, currentPath = "/", noindex = false } = Astro.props;
-const fullTitle =
-  title === "Home" ? "The Independent Observer" : `${title} | The Independent Observer`;
+const fullTitle = title === "Home" ? "Independent Observer" : `${title} | Independent Observer`;
 const publicOrigin = Astro.site ?? new URL(Astro.url.origin);
 const canonicalUrl = new URL(sitePath(currentPath), publicOrigin).href;
 const websiteUrl = new URL(sitePath("/"), publicOrigin).href;
@@ -40,13 +41,25 @@ const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "Organization",
+      "@id": `${websiteUrl}#organization`,
+      name: "Independent Observer",
+      url: websiteUrl,
+      logo: {
+        "@type": "ImageObject",
+        url: new URL(sitePath("/favicon.svg"), publicOrigin).href,
+      },
+      sameAs: socialLinks.map((socialLink) => socialLink.href),
+    },
+    {
       "@type": "WebSite",
       "@id": `${websiteUrl}#website`,
       url: websiteUrl,
-      name: "The Independent Observer",
+      name: "Independent Observer",
       description:
         "An independent media and research project examining power, institutions, history, political economy, science, and technology.",
       inLanguage: "en",
+      publisher: { "@id": `${websiteUrl}#organization` },
     },
     {
       "@type": "WebPage",
@@ -77,13 +90,25 @@ const structuredData = JSON.stringify({
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="independent media, political economy, institutional power, documentary research, long-form journalism, history, science, technology, law, accountability, public reason"
+    />
+    <meta name="author" content="Independent Observer" />
     <meta name="theme-color" content="#07182d" />
     {noindex && <meta name="robots" content="noindex,follow" />}
     <link rel="canonical" href={canonicalUrl} />
     <link rel="sitemap" type="application/xml" href={sitemapUrl} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Independent Observer feed"
+      href={new URL(sitePath("/feed.xml"), publicOrigin).href}
+    />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:site_name" content="The Independent Observer" />
+    <meta property="og:locale:alternate" content="en_GB" />
+    <meta property="og:site_name" content="Independent Observer" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
@@ -91,21 +116,43 @@ const structuredData = JSON.stringify({
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="The Independent Observer social preview" />
+    <meta property="og:image:alt" content="Independent Observer social preview" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImageUrl} />
-    <meta name="twitter:image:alt" content="The Independent Observer social preview" />
+    <meta name="twitter:image:alt" content="Independent Observer social preview" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="icon" type="image/svg+xml" href={sitePath("/favicon.svg")} />
     <script type="application/ld+json" set:html={structuredData} is:inline />
     <title>{fullTitle}</title>
   </head>
   <body>
     <Header currentPath={currentPath} />
+    <ReadingList />
     <main id="main-content">
       <slot />
     </main>
     <Footer />
+    <script is:inline>
+      (function () {
+        var header = document.querySelector(".site-header");
+        if (!header) return;
+        function onScroll() {
+          if (window.scrollY > 10) {
+            header.classList.add("scrolled");
+          } else {
+            header.classList.remove("scrolled");
+          }
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+      })();
+    </script>
   </body>
 </html>

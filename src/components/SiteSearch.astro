@@ -1,8 +1,11 @@
 ---
 import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
 import { dropboxFeedItems } from "../data/dropbox-content.generated";
+import { publicDocumentItems } from "../data/documents";
 import { seriesItems } from "../data/series";
+import { publicLibrarySnapshot } from "../data/public-library";
 import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
 
 type SearchEntry = {
   title: string;
@@ -27,7 +30,7 @@ const searchItems: SearchEntry[] = [
     description: item.description,
     status: item.status,
     kind: "Research preview",
-    href: sitePath("/research/"),
+    href: sitePath(`/research/${slugify(item.title)}/`),
   })),
   ...documentaryItems.map((item) => ({
     title: item.title,
@@ -35,7 +38,7 @@ const searchItems: SearchEntry[] = [
     description: item.description,
     status: item.status,
     kind: "Documentary preview",
-    href: sitePath("/documentaries/"),
+    href: sitePath(`/documentaries/${slugify(item.title)}/`),
   })),
   ...videoItems.map((item) => ({
     title: item.title,
@@ -43,7 +46,7 @@ const searchItems: SearchEntry[] = [
     description: item.description,
     status: item.status,
     kind: "Video preview",
-    href: sitePath("/videos/"),
+    href: sitePath(`/videos/${slugify(item.title)}/`),
   })),
   ...seriesItems.map((item) => ({
     title: item.title,
@@ -51,7 +54,7 @@ const searchItems: SearchEntry[] = [
     description: item.description,
     status: item.status,
     kind: item.volume,
-    href: sitePath("/series/"),
+    href: sitePath(`/series/${slugify(item.title)}/`),
   })),
   ...dropboxFeedItems.map((item) => ({
     title: item.title,
@@ -60,6 +63,30 @@ const searchItems: SearchEntry[] = [
     status: item.status,
     kind: "Approved feed",
     href: feedHref[item.kind] ?? sitePath("/series/"),
+  })),
+  ...publicDocumentItems.map((entry) => ({
+    title: entry.title,
+    category: entry.category,
+    description: entry.description,
+    status: "Reviewed public copy",
+    kind: "Public document",
+    href: sitePath(`/library/documents/${entry.id}/`),
+  })),
+  ...publicLibrarySnapshot.volumes.map((volume) => ({
+    title: volume.title,
+    category: volume.focus,
+    description: volume.summary,
+    status: "Public summary",
+    kind: "Archive volume",
+    href: sitePath("/library/"),
+  })),
+  ...publicLibrarySnapshot.areas.map((area) => ({
+    title: area.title,
+    category: "Archive area",
+    description: area.summary,
+    status: "Public map",
+    kind: "Public library",
+    href: sitePath("/library/"),
   })),
   ...topics.map((topic) => ({
     title: topic.name,
@@ -95,14 +122,20 @@ const serializedIndex = JSON.stringify(searchItems).replace(/</g, "\\u003c");
           Close
         </button>
       </div>
-      <label for="site-search-input">Search previews, fields, and series</label>
+      <label for="site-search-input">Search previews, fields, series, and archive areas</label>
       <input
         id="site-search-input"
         data-search-input
         type="search"
         autocomplete="off"
-        placeholder="Try “institutions” or “AI”"
+        placeholder="Try “institutional power”, “AI”, or “archive”"
       />
+      <div class="search-suggestions" aria-label="Suggested searches">
+        <span>Try:</span>
+        <button type="button" data-search-query="institutions">Institutions</button>
+        <button type="button" data-search-query="technology">Technology</button>
+        <button type="button" data-search-query="archive">Archive</button>
+      </div>
       <p class="search-status" data-search-status role="status">
         Type to search the public preview.
       </p>
@@ -130,6 +163,11 @@ const serializedIndex = JSON.stringify(searchItems).replace(/</g, "\\u003c");
     const status = root.querySelector<HTMLElement>("[data-search-status]");
     const results = root.querySelector<HTMLUListElement>("[data-search-results]");
     const index = JSON.parse(root.dataset.index ?? "[]") as SearchResult[];
+    const normalize = (value: string) =>
+      value
+        .toLocaleLowerCase()
+        .normalize("NFKD")
+        .replace(/[\u0300-\u036f]/g, "");
 
     if (!dialog || !openButton || !closeButton || !input || !status || !results) return;
 
@@ -139,7 +177,8 @@ const serializedIndex = JSON.stringify(searchItems).replace(/</g, "\\u003c");
     };
 
     const render = () => {
-      const query = input.value.trim().toLocaleLowerCase();
+      const query = normalize(input.value.trim());
+      const terms = query.split(/\\s+/).filter(Boolean);
       results.replaceChildren();
 
       if (!query) {
@@ -148,13 +187,13 @@ const serializedIndex = JSON.stringify(searchItems).replace(/</g, "\\u003c");
       }
 
       const matches = index
-        .filter((entry) =>
-          [entry.title, entry.category, entry.description, entry.status, entry.kind]
-            .join(" ")
-            .toLocaleLowerCase()
-            .includes(query),
-        )
-        .slice(0, 8);
+        .filter((entry) => {
+          const searchable = normalize(
+            [entry.title, entry.category, entry.description, entry.status, entry.kind].join(" "),
+          );
+          return terms.every((term) => searchable.includes(term));
+        })
+        .slice(0, 12);
 
       status.textContent = matches.length
         ? matches.length + (matches.length === 1 ? " result" : " results")
@@ -189,6 +228,13 @@ const serializedIndex = JSON.stringify(searchItems).replace(/</g, "\\u003c");
       if (event.target === dialog) close();
     });
     input.addEventListener("input", render);
+    root.querySelectorAll<HTMLButtonElement>("[data-search-query]").forEach((button) => {
+      button.addEventListener("click", () => {
+        input.value = button.dataset.searchQuery ?? "";
+        render();
+        input.focus();
+      });
+    });
     dialog.addEventListener("close", () => {
       input.value = "";
       render();

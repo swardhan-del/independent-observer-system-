@@ -1,5 +1,3 @@
-import { dropboxFeedItems } from "./dropbox-content.generated";
-
 export type EditorialStatus = "Concept preview" | "In editorial development";
 
 export type EditorialItem = {
@@ -8,15 +6,7 @@ export type EditorialItem = {
   description: string;
   status: EditorialStatus;
   readingTime?: string;
-  assetPath?: string;
 };
-
-const dropboxResearchItems: EditorialItem[] = dropboxFeedItems
-  .filter((item) => item.kind === "research")
-  .map(({ id: _id, kind: _kind, ...item }) => item);
-const dropboxDocumentaryItems: EditorialItem[] = dropboxFeedItems
-  .filter((item) => item.kind === "documentary")
-  .map(({ id: _id, kind: _kind, ...item }) => item);
 
 export const researchItems: EditorialItem[] = [
   {
@@ -43,7 +33,6 @@ export const researchItems: EditorialItem[] = [
     status: "Concept preview",
     readingTime: "Essay concept",
   },
-  ...dropboxResearchItems,
 ];
 
 export const documentaryItems: EditorialItem[] = [
@@ -61,7 +50,6 @@ export const documentaryItems: EditorialItem[] = [
       "A proposed documentary asking whether civilization should prioritize Earth systems, energy, and nearer-space infrastructure.",
     status: "Concept preview",
   },
-  ...dropboxDocumentaryItems,
 ];
 
 export const videoItems: EditorialItem[] = [
@@ -104,7 +92,7 @@ export const topics = [
   { name: "Law", description: "Rules, remedies, procedure, and institutional accountability." },
   {
     name: "Science",
-    description: "Evidence, energy, space, and scientific uncertainty.",
+    description: "Evidence, medicine, energy, space, and scientific uncertainty.",
   },
   {
     name: "Technology",

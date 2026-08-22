@@ -30,7 +30,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment_retry_2.outputs.page_url || steps.deployment_retry.outputs.page_url || steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -49,6 +49,32 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+      # GitHub Pages can return transient 503s during platform incidents.
       - name: Deploy
         id: deployment
+        continue-on-error: true
         uses: actions/deploy-pages@v4
+
+      - name: Wait before deployment retry
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 15
+
+      - name: Retry Pages deployment
+        id: deployment_retry
+        if: steps.deployment.outcome == 'failure'
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: Wait before second deployment retry
+        if: steps.deployment.outcome == 'failure' && steps.deployment_retry.outcome == 'failure'
+        run: sleep 15
+
+      - name: Retry Pages deployment again
+        id: deployment_retry_2
+        if: steps.deployment.outcome == 'failure' && steps.deployment_retry.outcome == 'failure'
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: Fail if Pages deployment did not succeed
+        if: steps.deployment.outcome == 'failure' && steps.deployment_retry.outcome == 'failure' && steps.deployment_retry_2.outcome == 'failure'
+        run: exit 1

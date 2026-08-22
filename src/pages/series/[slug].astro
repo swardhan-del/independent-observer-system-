@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EditorialDetail from "../../components/EditorialDetail.astro";
+import { seriesItems } from "../../data/series";
+import { slugify } from "../../lib/slugs";
+import { sitePath } from "../../lib/paths";
+
+export function getStaticPaths() {
+  return seriesItems.map((item) => ({
+    params: { slug: slugify(item.title) },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+const currentPath = `/series/${slugify(item.title)}/`;
+---
+
+<BaseLayout title={item.title} description={item.description} currentPath={currentPath}>
+  <EditorialDetail
+    item={item}
+    eyebrow={`${item.volume} roadmap`}
+    backLabel="Back to series roadmap"
+    backHref={sitePath("/series/")}
+    statusNote="This is a public roadmap entry. The series remains in development; publication, peer review, and commercial release are not implied."
+  />
+</BaseLayout>

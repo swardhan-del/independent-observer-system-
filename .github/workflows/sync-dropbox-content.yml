@@ -32,13 +32,13 @@ jobs:
         with:
           node-version: 22
 
-      - name: Validate approved Dropbox manifest
+      - name: Validate approved Dropbox manifest and sources
         run: node scripts/sync-dropbox-public-feed.mjs
 
-      - name: Check for feed changes
+      - name: Check for generated data changes
         id: changes
         run: |
-          if git diff --quiet -- src/data/dropbox-content.generated.ts public/dropbox-feed; then
+          if git diff --quiet -- src/data/dropbox-content.generated.ts; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
@@ -52,14 +52,14 @@ jobs:
           git config user.name "independent-observer-automation[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "$BRANCH"
-          git add -- src/data/dropbox-content.generated.ts public/dropbox-feed
+          git add -- src/data/dropbox-content.generated.ts
           git commit -m "Sync approved Dropbox website feed"
           git push --set-upstream origin "$BRANCH"
           gh pr create \
             --base main \
             --head "$BRANCH" \
             --title "Sync approved Dropbox website feed" \
-            --body "This automated PR contains only structured items from the explicitly approved Dropbox website-feed manifest. CI must pass and a human review is required before merge or deployment."
+            --body "This automated PR contains only structured items from the exact approved Dropbox website-feed manifest. The workflow never copies raw Dropbox artifacts into the public build. CI must pass and a human review is required before merge or deployment."
 
       - name: Report unchanged feed
         if: steps.changes.outputs.changed == 'false'

@@ -1,86 +1,156 @@
 import { createHash } from "node:crypto";
-import { mkdir, rm, writeFile } from "node:fs/promises";
-import { dirname, extname, resolve, sep } from "node:path";
+import { mkdir, writeFile } from "node:fs/promises";
+import { dirname, extname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const DEFAULT_SOURCE_PATH = "/Independent Observer desktop/Website Feed/approved";
+const APPROVED_SOURCE_PATH = "/Independent Observer desktop/Website Feed/approved";
 const OUTPUT_PATH = resolve("src/data/dropbox-content.generated.ts");
-const ASSET_ROOT = resolve("public/dropbox-feed");
 const MAX_ARTIFACT_BYTES = 95 * 1024 * 1024;
 const ALLOWED_STATUSES = new Set(["Concept preview", "In editorial development"]);
-const ALLOWED_KINDS = new Set(["research", "documentary"]);
-const DOCUMENT_EXTENSIONS = new Set([".docx", ".pdf", ".pptx", ".md", ".txt"]);
-const DOCUMENTARY_EXTENSIONS = new Set([".m4v", ".mov", ".mp4", ".webm"]);
+const ALLOWED_KINDS = new Set(["research", "documentary", "video", "series", "document"]);
+const ALLOWED_CATEGORY_TERMS = [
+  "history",
+  "econom",
+  "law",
+  "politic",
+  "institution",
+  "science",
+  "technolog",
+  "energy",
+  "ai",
+  "media",
+  "governance",
+  "accountability",
+  "civic",
+  "geopolitic",
+  "education",
+  "research",
+  "documentary",
+  "public",
+  "labor",
+  "work",
+  "space",
+];
 const RELEASE_GATES = [
   "sourceVerified",
   "contentQualityChecked",
   "rightsAndProvenanceReviewed",
   "releaseApproved",
 ];
+const SOURCE_TYPES = {
+  ".docx": "docx",
+  ".pdf": "pdf",
+  ".pptx": "pptx",
+  ".md": "text",
+  ".txt": "text",
+  ".m4v": "video",
+  ".mov": "video",
+  ".mp4": "video",
+  ".webm": "video",
+};
 const RESTRICTED_PUBLIC_TEXT =
-  /\b(?:medical(?:[-\s]+school)?|med[-\s]+school|medicine|personal|private)\b/i;
+  /\b(?:medical(?:[-\s]+school)?|med[-\s]+school|medicine|personal|private|password|token|credential|secret|raw research|unpublished|legal evidence|private records?)\b/i;
 
-const requiredEnv = (name) => {
-  if (!process.env[name]) throw new Error("Missing " + name);
-  return process.env[name];
-};
+function required(name) {
+  const value = process.env[name];
+  if (!value) throw new Error(`Missing required environment variable: ${name}`);
+  return value;
+}
 
-const request = async (url, init, label) => {
-  const response = await fetch(url, init);
-  if (!response.ok) throw new Error(label + " failed (" + response.status + ")");
-  return response;
-};
+async function readJson(url, options, label) {
+  const response = await fetch(url, options);
+  const text = await response.text();
+  if (!response.ok) throw new Error(`${label} failed (${response.status}).`);
+  return JSON.parse(text);
+}
 
-const authenticate = async () =>
-  (
-    await (
-      await request(
-        "https://api.dropboxapi.com/oauth2/token",
-        {
-          method: "POST",
-          headers: { "content-type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams({
-            grant_type: "refresh_token",
-            refresh_token: requiredEnv("DROPBOX_REFRESH_TOKEN"),
-            client_id: requiredEnv("DROPBOX_APP_KEY"),
-            client_secret: requiredEnv("DROPBOX_APP_SECRET"),
-          }),
-        },
-        "Dropbox auth",
-      )
-    ).json()
-  ).access_token;
+async function getAccessToken() {
+  const body = new URLSearchParams({
+    grant_type: "refresh_token",
+    refresh_token: required("DROPBOX_REFRESH_TOKEN"),
+    client_id: required("DROPBOX_APP_KEY"),
+    client_secret: required("DROPBOX_APP_SECRET"),
+  });
+  const response = await fetch("https://api.dropboxapi.com/oauth2/token", {
+    method: "POST",
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    body,
+  });
+  if (!response.ok) throw new Error(`Dropbox token exchange failed (${response.status}).`);
+  return (await response.json()).access_token;
+}
 
-const download = async (token, path, { allowMissing = false } = {}) => {
+async function listFolder(token) {
+  const entries = [];
+  let response = await readJson(
+    "https://api.dropboxapi.com/2/files/list_folder",
+    {
+      method: "POST",
+      headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
+      body: JSON.stringify({
+        path: APPROVED_SOURCE_PATH,
+        recursive: false,
+        include_deleted: false,
+      }),
+    },
+    "Approved Dropbox folder listing",
+  );
+  entries.push(...response.entries);
+  while (response.has_more) {
+    response = await readJson(
+      "https://api.dropboxapi.com/2/files/list_folder/continue",
+      {
+        method: "POST",
+        headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
+        body: JSON.stringify({ cursor: response.cursor }),
+      },
+      "Approved Dropbox folder pagination",
+    );
+    entries.push(...response.entries);
+  }
+  return entries;
+}
+
+async function download(token, path, label) {
   const response = await fetch("https://content.dropboxapi.com/2/files/download", {
     method: "POST",
     headers: {
-      authorization: "Bearer " + token,
+      authorization: `Bearer ${token}`,
       "Dropbox-API-Arg": JSON.stringify({ path }),
     },
   });
-  if (!response.ok) {
-    if (allowMissing && response.status === 409) return null;
-    throw new Error("Dropbox download failed (" + response.status + ")");
-  }
+  if (!response.ok) throw new Error(`${label} failed (${response.status}).`);
   return Buffer.from(await response.arrayBuffer());
-};
+}
 
-const textField = (value, name, maxLength) => {
-  if (
-    typeof value !== "string" ||
-    !(value = value.trim()) ||
-    value.length > maxLength ||
-    /[<>\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(value)
-  )
-    throw new Error(name + " invalid");
-  return value;
-};
+function cleanText(value, field, maxLength) {
+  if (typeof value !== "string" || !value.trim())
+    throw new Error(`${field} must be non-empty text.`);
+  const text = value.trim();
+  if (text.length > maxLength) throw new Error(`${field} exceeds ${maxLength} characters.`);
+  if (/[<>\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(text)) {
+    throw new Error(`${field} contains markup or control characters.`);
+  }
+  return text;
+}
 
-const sourceDeclaration = (source, kind, name) => {
-  if (!source || typeof source !== "object") throw new Error(name + ".source required");
-  const relativePath = textField(source.relativePath, name + ".path", 300);
-  const sha256 = textField(source.sha256, name + ".sha256", 64).toLowerCase();
+function validateCategory(category, field) {
+  const normalized = category.toLocaleLowerCase();
+  if (!ALLOWED_CATEGORY_TERMS.some((term) => normalized.includes(term))) {
+    throw new Error(`${field} is outside the allowed public categories.`);
+  }
+  return category;
+}
+
+export function validateSourceDeclaration(source, kind, field) {
+  if (!source || typeof source !== "object") throw new Error(`${field}.source is invalid.`);
+  const relativePath = cleanText(source.relativePath, `${field}.source.relativePath`, 300);
+  const sha256 = cleanText(source.sha256, `${field}.source.sha256`, 64).toLowerCase();
+  const expectedType = cleanText(
+    source.expectedType,
+    `${field}.source.expectedType`,
+    20,
+  ).toLowerCase();
   const extension = extname(relativePath).toLowerCase();
   const filename = relativePath.split("/").at(-1);
   if (
@@ -89,136 +159,211 @@ const sourceDeclaration = (source, kind, name) => {
     relativePath.includes("\\") ||
     relativePath.split("/").some((part) => !part || part === "." || part === "..") ||
     !/^[a-f0-9]{64}$/.test(sha256) ||
-    source.qualityChecked !== true ||
-    RESTRICTED_PUBLIC_TEXT.test(filename) ||
-    !(kind === "research" ? DOCUMENT_EXTENSIONS : DOCUMENTARY_EXTENSIONS).has(extension)
-  )
-    throw new Error(name + ".source invalid");
-  return { relativePath, sha256, extension, filename };
-};
+    !Number.isInteger(source.size) ||
+    source.size < 1 ||
+    source.size > MAX_ARTIFACT_BYTES ||
+    SOURCE_TYPES[extension] !== expectedType ||
+    (kind === "video" && expectedType !== "video") ||
+    (kind !== "video" && expectedType === "video") ||
+    RESTRICTED_PUBLIC_TEXT.test(filename)
+  ) {
+    throw new Error(`${field}.source is invalid.`);
+  }
+  return { relativePath, sha256, size: source.size, expectedType, extension };
+}
 
-export const parseManifest = (manifest) => {
+export function validateArtifact(source, bytes, field) {
+  if (bytes.length !== source.size) throw new Error(`${field} file size mismatch.`);
+  if (createHash("sha256").update(bytes).digest("hex") !== source.sha256) {
+    throw new Error(`${field} SHA-256 mismatch.`);
+  }
+  const hasZipSignature = bytes.subarray(0, 4).equals(Buffer.from([80, 75, 3, 4]));
+  const contains = (value) => bytes.includes(Buffer.from(value));
+  if (
+    source.expectedType === "pdf" &&
+    (bytes.subarray(0, 5).toString() !== "%PDF-" || !contains("%%EOF"))
+  ) {
+    throw new Error(`${field} PDF container check failed.`);
+  }
+  if (
+    source.expectedType === "docx" &&
+    (!hasZipSignature || !contains("[Content_Types].xml") || !contains("word/document.xml"))
+  ) {
+    throw new Error(`${field} DOCX container check failed.`);
+  }
+  if (
+    source.expectedType === "pptx" &&
+    (!hasZipSignature || !contains("[Content_Types].xml") || !contains("ppt/presentation.xml"))
+  ) {
+    throw new Error(`${field} PPTX container check failed.`);
+  }
+  if (source.expectedType === "text") {
+    const text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+    if (!text.trim() || RESTRICTED_PUBLIC_TEXT.test(text)) {
+      throw new Error(`${field} text quality check failed.`);
+    }
+  }
+  if (
+    source.expectedType === "video" &&
+    source.extension === ".webm" &&
+    !bytes.subarray(0, 4).equals(Buffer.from([0x1a, 0x45, 0xdf, 0xa3]))
+  ) {
+    throw new Error(`${field} WebM container check failed.`);
+  }
+  if (
+    source.expectedType === "video" &&
+    source.extension !== ".webm" &&
+    bytes.subarray(4, 8).toString() !== "ftyp"
+  ) {
+    throw new Error(`${field} video container check failed.`);
+  }
+}
+
+function validateSections(sections, field) {
+  if (!Array.isArray(sections) || sections.length === 0 || sections.length > 30) {
+    throw new Error(`${field}.sections is invalid.`);
+  }
+  return sections.map((section, sectionIndex) => {
+    const sectionField = `${field}.sections[${sectionIndex}]`;
+    const id = cleanText(section?.id, `${sectionField}.id`, 80);
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)) throw new Error(`${sectionField}.id is invalid.`);
+    const paragraphs = section.paragraphs ?? [];
+    const items = section.items ?? [];
+    if (!Array.isArray(paragraphs) || paragraphs.length > 20)
+      throw new Error(`${sectionField}.paragraphs is invalid.`);
+    if (!Array.isArray(items) || items.length > 30)
+      throw new Error(`${sectionField}.items is invalid.`);
+    if (paragraphs.length === 0 && items.length === 0) throw new Error(`${sectionField} is empty.`);
+    const result = { id, heading: cleanText(section.heading, `${sectionField}.heading`, 160) };
+    if (paragraphs.length > 0)
+      result.paragraphs = paragraphs.map((paragraph, index) =>
+        cleanText(paragraph, `${sectionField}.paragraphs[${index}]`, 4000),
+      );
+    if (items.length > 0)
+      result.items = items.map((item, index) =>
+        cleanText(item, `${sectionField}.items[${index}]`, 500),
+      );
+    return result;
+  });
+}
+
+export function parseManifest(manifest) {
   if (
     manifest?.schemaVersion !== 2 ||
     !Array.isArray(manifest.items) ||
-    !manifest.items.length ||
     manifest.items.length > 100 ||
     manifest.approvedForWebsite !== true ||
     !manifest.releaseGates ||
     RELEASE_GATES.some((gate) => manifest.releaseGates[gate] !== true)
-  )
-    throw new Error("Manifest schema or gates failed");
+  ) {
+    throw new Error("Manifest schema or release gates failed.");
+  }
 
   const ids = new Set();
-  return manifest.items
-    .map((item, index) => {
-      const name = "items[" + index + "]";
-      const id = textField(item?.id, name + ".id", 80);
-      if (
-        !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id) ||
-        ids.has(id) ||
-        !ALLOWED_KINDS.has(item.kind) ||
-        !ALLOWED_STATUSES.has(item.status)
-      )
-        throw new Error(name + " metadata invalid");
-      ids.add(id);
-      const normalized = {
+  const feedItems = [];
+  const documentItems = [];
+  const sources = [];
+  for (const [index, item] of manifest.items.entries()) {
+    const field = `items[${index}]`;
+    const id = cleanText(item?.id, `${field}.id`, 80);
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id) || ids.has(id))
+      throw new Error(`${field}.id is invalid or duplicated.`);
+    ids.add(id);
+    if (!ALLOWED_KINDS.has(item?.kind)) throw new Error(`${field}.kind is not allowed.`);
+    const title = cleanText(item.title, `${field}.title`, 160);
+    const category = validateCategory(
+      cleanText(item.category, `${field}.category`, 100),
+      `${field}.category`,
+    );
+    const description = cleanText(item.description, `${field}.description`, 800);
+    if (RESTRICTED_PUBLIC_TEXT.test(`${title} ${category} ${description}`))
+      throw new Error(`${field} contains restricted public text.`);
+    const source = item.source ? validateSourceDeclaration(item.source, item.kind, field) : null;
+    if (source) sources.push({ id, source });
+
+    if (item.kind === "document") {
+      const document = {
         id,
-        kind: item.kind,
-        title: textField(item.title, name + ".title", 160),
-        category: textField(item.category, name + ".category", 100),
-        description: textField(item.description, name + ".description", 800),
-        status: item.status,
-        source: sourceDeclaration(item.source, item.kind, name),
+        title,
+        category,
+        description,
+        sourceLabel: cleanText(item.sourceLabel, `${field}.sourceLabel`, 120),
+        ...(item.sourceModified !== undefined
+          ? { sourceModified: cleanText(item.sourceModified, `${field}.sourceModified`, 80) }
+          : {}),
+        sections: validateSections(item.sections, field),
       };
-      if (item.readingTime !== undefined)
-        normalized.readingTime = textField(item.readingTime, name + ".readingTime", 80);
-      for (const field of ["title", "category", "description", "readingTime"])
-        if (normalized[field] && RESTRICTED_PUBLIC_TEXT.test(normalized[field]))
-          throw new Error(name + " excluded");
-      return normalized;
-    })
-    .sort((a, b) => a.id.localeCompare(b.id));
-};
+      documentItems.push(document);
+      continue;
+    }
 
-export const validateArtifact = (item, bytes) => {
-  if (bytes.length < 100) throw new Error(item.id + " too small");
-  if (bytes.length > MAX_ARTIFACT_BYTES) throw new Error(item.id + " too large");
-  const extension = item.source.extension;
-  const zipSignature = bytes.subarray(0, 4).equals(Buffer.from([80, 75, 3, 4]));
-  const contains = (value) => bytes.includes(Buffer.from(value));
-  if (extension === ".pdf" && (bytes.subarray(0, 5).toString() !== "%PDF-" || !contains("%%EOF")))
-    throw new Error(item.id + " PDF quality");
-  if (
-    extension === ".docx" &&
-    (!zipSignature || !contains("[Content_Types].xml") || !contains("word/document.xml"))
-  )
-    throw new Error(item.id + " DOCX quality");
-  if (
-    extension === ".pptx" &&
-    (!zipSignature || !contains("[Content_Types].xml") || !contains("ppt/presentation.xml"))
-  )
-    throw new Error(item.id + " PPTX quality");
-  if (extension === ".md" || extension === ".txt") {
-    const text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
-    if (!text.trim() || /[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(text))
-      throw new Error(item.id + " text quality");
-    if (RESTRICTED_PUBLIC_TEXT.test(text)) throw new Error(item.id + " excluded");
+    if (!ALLOWED_STATUSES.has(item.status)) throw new Error(`${field}.status is not allowed.`);
+    const feedItem = { id, kind: item.kind, title, category, description, status: item.status };
+    if (item.readingTime !== undefined)
+      feedItem.readingTime = cleanText(item.readingTime, `${field}.readingTime`, 80);
+    feedItems.push(feedItem);
   }
-  if (extension === ".webm" && !bytes.subarray(0, 4).equals(Buffer.from([26, 69, 223, 163])))
-    throw new Error(item.id + " WebM quality");
-  if ([".mov", ".mp4", ".m4v"].includes(extension) && bytes.subarray(4, 8).toString() !== "ftyp")
-    throw new Error(item.id + " MP4/MOV quality");
-};
-
-const assetDescriptor = (id, filename) => {
-  const directory = resolve(ASSET_ROOT, id);
-  const destination = resolve(directory, filename);
-  if (!destination.startsWith(directory + sep)) throw new Error(id + " asset path invalid");
   return {
-    directory,
-    destination,
-    publicPath: "/dropbox-feed/" + id + "/" + encodeURIComponent(filename),
+    feedItems: feedItems.sort((a, b) => a.id.localeCompare(b.id)),
+    documentItems: documentItems.sort((a, b) => a.id.localeCompare(b.id)),
+    sources,
   };
+}
+
+function render({ feedItems, documentItems }) {
+  return `import type { EditorialStatus } from "./content";
+import type { PublicDocument } from "./documents";
+
+/** Generated by scripts/sync-dropbox-public-feed.mjs. */
+export type DropboxFeedItem = {
+  id: string;
+  kind: "research" | "documentary" | "video" | "series";
+  title: string;
+  category: string;
+  description: string;
+  status: EditorialStatus;
+  readingTime?: string;
 };
 
-const run = async () => {
-  const sourcePath = process.env.DROPBOX_SOURCE_PATH ?? DEFAULT_SOURCE_PATH;
-  const token = await authenticate();
-  const manifestBytes = await download(token, sourcePath + "/manifest.json", {
-    allowMissing: true,
-  });
-  if (!manifestBytes) {
-    console.log("No approved Dropbox manifest; nothing to publish.");
-    return;
+export type DropboxDocumentItem = PublicDocument;
+
+export const dropboxFeedItems: DropboxFeedItem[] = ${JSON.stringify(feedItems, null, 2)};
+export const dropboxDocumentItems: DropboxDocumentItem[] = ${JSON.stringify(documentItems, null, 2)};
+`;
+}
+
+async function run() {
+  if (process.env.DROPBOX_SOURCE_PATH && process.env.DROPBOX_SOURCE_PATH !== APPROVED_SOURCE_PATH) {
+    throw new Error(`DROPBOX_SOURCE_PATH must equal ${APPROVED_SOURCE_PATH}.`);
   }
-  const manifest = JSON.parse(manifestBytes.toString("utf8"));
-  const items = parseManifest(manifest);
-  const validated = [];
-  for (const item of items) {
-    const bytes = await download(token, sourcePath + "/" + item.source.relativePath);
-    if (createHash("sha256").update(bytes).digest("hex") !== item.source.sha256)
-      throw new Error(item.id + " hash mismatch");
-    validateArtifact(item, bytes);
-    validated.push({ item, bytes, asset: assetDescriptor(item.id, item.source.filename) });
-  }
-  await rm(ASSET_ROOT, { recursive: true, force: true });
-  for (const { bytes, asset } of validated) {
-    await mkdir(asset.directory, { recursive: true });
-    await writeFile(asset.destination, bytes);
-  }
-  const publicItems = validated.map(({ item, asset }) => {
-    const { source, ...publicItem } = item;
-    return { ...publicItem, assetPath: asset.publicPath };
-  });
-  await mkdir(dirname(OUTPUT_PATH), { recursive: true });
-  await writeFile(
-    OUTPUT_PATH,
-    'import type { EditorialStatus } from "./content";\n\nexport type DropboxFeedItem={id:string;kind:"research"|"documentary"|"video"|"series";title:string;category:string;description:string;status:EditorialStatus;readingTime?:string;assetPath?:string};\n\nexport const dropboxFeedItems: DropboxFeedItem[] = ' +
-      JSON.stringify(publicItems, null, 2) +
-      ";\n",
+  const token = await getAccessToken();
+  const entries = await listFolder(token);
+  const manifestEntry = entries.find(
+    (entry) => entry[".tag"] === "file" && entry.name === "manifest.json",
   );
-  console.log("Validated and staged " + items.length + " approved Dropbox item(s).");
-};
+  if (!manifestEntry) throw new Error(`No manifest.json found in ${APPROVED_SOURCE_PATH}.`);
+  const manifest = JSON.parse(
+    await download(
+      token,
+      manifestEntry.path_display ?? manifestEntry.path_lower,
+      "Approved Dropbox manifest download",
+    ),
+  );
+  const data = parseManifest(manifest);
+  for (const { id, source } of data.sources) {
+    const bytes = await download(
+      token,
+      `${APPROVED_SOURCE_PATH}/${source.relativePath}`,
+      `${id} approved source download`,
+    );
+    validateArtifact(source, bytes, `items.${id}.source`);
+  }
+  await mkdir(dirname(OUTPUT_PATH), { recursive: true });
+  await writeFile(OUTPUT_PATH, render(data), "utf8");
+  const digest = createHash("sha256").update(JSON.stringify(data)).digest("hex");
+  console.log(
+    `Validated ${data.feedItems.length} preview item(s) and ${data.documentItems.length} document(s); manifest digest ${digest}.`,
+  );
+}
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await run();

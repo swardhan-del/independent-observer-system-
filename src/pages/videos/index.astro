@@ -4,11 +4,13 @@ import ContentFilter from "../../components/ContentFilter.astro";
 import PageHero from "../../components/PageHero.astro";
 import EditorialCard from "../../components/EditorialCard.astro";
 import { videoItems } from "../../data/content";
+import { sitePath } from "../../lib/paths";
+import { slugify } from "../../lib/slugs";
 ---
 
 <BaseLayout
   title="Videos"
-  description="Video concepts and future releases from The Independent Observer."
+  description="Video concepts and future releases from Independent Observer."
   currentPath="/videos/"
 >
   <PageHero
@@ -25,7 +27,15 @@ import { videoItems } from "../../data/content";
       </div>
       <ContentFilter targetId="video-preview-grid" itemCount={videoItems.length} />
       <div class="card-grid" id="video-preview-grid">
-        {videoItems.map((item, index) => <EditorialCard item={item} index={index + 1} />)}
+        {
+          videoItems.map((item, index) => (
+            <EditorialCard
+              item={item}
+              index={index + 1}
+              href={sitePath(`/videos/${slugify(item.title)}/`)}
+            />
+          ))
+        }
       </div>
     </div>
   </section>

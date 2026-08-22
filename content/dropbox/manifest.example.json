@@ -7,19 +7,5 @@
     "rightsAndProvenanceReviewed": false,
     "releaseApproved": false
   },
-  "items": [
-    {
-      "id": "documentary-preview",
-      "kind": "documentary",
-      "title": "Documentary preview title",
-      "category": "Approved public topic",
-      "description": "Replace this placeholder with a verified public description.",
-      "status": "Concept preview",
-      "source": {
-        "relativePath": "documentaries/example.mp4",
-        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
-        "qualityChecked": false
-      }
-    }
-  ]
+  "items": []
 }

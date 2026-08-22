@@ -1,16 +1,23 @@
+import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 
-import { parseManifest, validateArtifact } from "./sync-dropbox-public-feed.mjs";
+import {
+  parseManifest,
+  validateArtifact,
+  validateSourceDeclaration,
+} from "./sync-dropbox-public-feed.mjs";
+
+const gates = {
+  sourceVerified: true,
+  contentQualityChecked: true,
+  rightsAndProvenanceReviewed: true,
+  releaseApproved: true,
+};
 
 const approvedManifest = () => ({
   schemaVersion: 2,
   approvedForWebsite: true,
-  releaseGates: {
-    sourceVerified: true,
-    contentQualityChecked: true,
-    rightsAndProvenanceReviewed: true,
-    releaseApproved: true,
-  },
+  releaseGates: { ...gates },
   items: [
     {
       id: "sample-item",
@@ -20,69 +27,111 @@ const approvedManifest = () => ({
       description: "A description suitable for the public catalog.",
       status: "Concept preview",
       source: {
-        relativePath: "documents/example.pdf",
+        relativePath: "documents/example.txt",
         sha256: "0".repeat(64),
-        qualityChecked: true,
+        size: 128,
+        expectedType: "text",
       },
     },
   ],
 });
 
-const artifact = (extension) => ({ id: "sample-item", source: { extension } });
-const padded = (...parts) => Buffer.concat([...parts, Buffer.alloc(128)]);
+const sourceFor = (bytes, relativePath = "documents/example.txt", expectedType = "text") => ({
+  relativePath,
+  sha256: createHash("sha256").update(bytes).digest("hex"),
+  size: bytes.length,
+  expectedType,
+  extension: relativePath.slice(relativePath.lastIndexOf(".")),
+});
 
 describe("Dropbox public-feed contract", () => {
-  it("requires an approved schema and every release gate", () => {
-    expect(parseManifest(approvedManifest())).toHaveLength(1);
-    const manifest = approvedManifest();
-    manifest.releaseGates.releaseApproved = false;
-    expect(() => parseManifest(manifest)).toThrow("Manifest schema or gates failed");
+  it("requires schema v2, explicit website approval, and every release gate", () => {
+    expect(parseManifest(approvedManifest()).feedItems).toHaveLength(1);
+    for (const key of Object.keys(gates)) {
+      const manifest = approvedManifest();
+      manifest.releaseGates[key] = false;
+      expect(() => parseManifest(manifest)).toThrow("Manifest schema or release gates failed");
+    }
+    const unapproved = approvedManifest();
+    unapproved.approvedForWebsite = false;
+    expect(() => parseManifest(unapproved)).toThrow("Manifest schema or release gates failed");
   });
 
   it("rejects unsafe source paths and restricted public metadata", () => {
     const pathManifest = approvedManifest();
-    pathManifest.items[0].source.relativePath = "../example.pdf";
-    expect(() => parseManifest(pathManifest)).toThrow("source invalid");
+    pathManifest.items[0].source.relativePath = "../example.txt";
+    expect(() => parseManifest(pathManifest)).toThrow("source is invalid");
 
     const metadataManifest = approvedManifest();
     metadataManifest.items[0].description = "Private material";
-    expect(() => parseManifest(metadataManifest)).toThrow("excluded");
+    expect(() => parseManifest(metadataManifest)).toThrow("restricted public text");
   });
 
-  it("checks document and documentary container signatures", () => {
+  it("validates public source declarations and artifact hashes", () => {
+    const bytes = Buffer.from("A public-safe text artifact.");
+    const source = sourceFor(bytes);
+    expect(() => validateSourceDeclaration(source, "research", "items[0]")).not.toThrow();
+    expect(() => validateArtifact(source, bytes, "items.sample.source")).not.toThrow();
     expect(() =>
-      validateArtifact(artifact(".pdf"), padded(Buffer.from("%PDF-"), Buffer.from("%%EOF"))),
-    ).not.toThrow();
-    expect(() =>
-      validateArtifact(
-        artifact(".docx"),
-        padded(Buffer.from([80, 75, 3, 4]), Buffer.from("[Content_Types].xmlword/document.xml")),
-      ),
-    ).not.toThrow();
-    expect(() =>
-      validateArtifact(
-        artifact(".pptx"),
-        padded(Buffer.from([80, 75, 3, 4]), Buffer.from("[Content_Types].xmlppt/presentation.xml")),
-      ),
-    ).not.toThrow();
-    expect(() =>
-      validateArtifact(artifact(".webm"), padded(Buffer.from([26, 69, 223, 163]))),
-    ).not.toThrow();
-    expect(() =>
-      validateArtifact(artifact(".mp4"), padded(Buffer.alloc(4), Buffer.from("ftyp"))),
-    ).not.toThrow();
-  });
-
-  it("rejects malformed, empty, restricted, or oversized artifacts", () => {
-    expect(() => validateArtifact(artifact(".pdf"), Buffer.from("not a PDF".repeat(20)))).toThrow(
-      "PDF quality",
+      validateArtifact(source, Buffer.alloc(bytes.length, 66), "items.sample.source"),
+    ).toThrow("SHA-256");
+    expect(() => validateSourceDeclaration({ ...source, size: 0 }, "research", "items[0]")).toThrow(
+      "source is invalid",
     );
-    expect(() => validateArtifact(artifact(".txt"), Buffer.alloc(128))).toThrow("text quality");
+  });
+
+  it("checks supported document and media container signatures", () => {
+    const pdf = Buffer.from("%PDF-1.7\npublic\n%%EOF");
     expect(() =>
-      validateArtifact(artifact(".txt"), Buffer.from("Private material ".repeat(20))),
-    ).toThrow("excluded");
+      validateArtifact(sourceFor(pdf, "documents/example.pdf", "pdf"), pdf, "pdf"),
+    ).not.toThrow();
+    const docx = Buffer.concat([
+      Buffer.from([80, 75, 3, 4]),
+      Buffer.from("[Content_Types].xmlword/document.xml"),
+    ]);
     expect(() =>
-      validateArtifact(artifact(".txt"), Buffer.alloc(95 * 1024 * 1024 + 1, 32)),
-    ).toThrow("too large");
+      validateArtifact(sourceFor(docx, "documents/example.docx", "docx"), docx, "docx"),
+    ).not.toThrow();
+    const pptx = Buffer.concat([
+      Buffer.from([80, 75, 3, 4]),
+      Buffer.from("[Content_Types].xmlppt/presentation.xml"),
+    ]);
+    expect(() =>
+      validateArtifact(sourceFor(pptx, "documents/example.pptx", "pptx"), pptx, "pptx"),
+    ).not.toThrow();
+    const webm = Buffer.from([0x1a, 0x45, 0xdf, 0xa3, 0x01]);
+    expect(() =>
+      validateArtifact(sourceFor(webm, "videos/example.webm", "video"), webm, "webm"),
+    ).not.toThrow();
+  });
+
+  it("rejects malformed or restricted artifacts", () => {
+    const badPdf = Buffer.from("not a PDF");
+    expect(() =>
+      validateArtifact(sourceFor(badPdf, "documents/example.pdf", "pdf"), badPdf, "pdf"),
+    ).toThrow("PDF container");
+    const privateText = Buffer.from("Private material");
+    expect(() => validateArtifact(sourceFor(privateText), privateText, "text")).toThrow(
+      "text quality",
+    );
+  });
+
+  it("preserves reviewed structured documents without publishing raw artifacts", () => {
+    const manifest = approvedManifest();
+    manifest.items = [
+      {
+        id: "reviewed-document",
+        kind: "document",
+        title: "A reviewed public document",
+        category: "Research desk",
+        description: "A public-safe reading copy.",
+        sourceLabel: "Reviewed public source",
+        sections: [{ id: "overview", heading: "Overview", paragraphs: ["Reviewed text only."] }],
+      },
+    ];
+    const result = parseManifest(manifest);
+    expect(result.documentItems[0].sections[0].id).toBe("overview");
+    expect(result.feedItems).toHaveLength(0);
+    expect(JSON.stringify(result)).not.toContain("assetPath");
   });
 });
