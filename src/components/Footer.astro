@@ -14,7 +14,12 @@ import { socialLinks } from "../data/social";
       <div class="footer-social" aria-label="Social platforms">
         {
           socialLinks.map((link) => (
-            <a href={link.href} aria-label={link.label} rel="me noopener noreferrer" target="_blank">
+            <a
+              href={link.href}
+              aria-label={link.label}
+              rel="me noopener noreferrer"
+              target="_blank"
+            >
               {link.label}
             </a>
           ))

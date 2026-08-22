@@ -48,7 +48,9 @@ const feedCount = dropboxFeedItems.length;
         {
           socialLinks.map((link) => (
             <li>
-              <a href={link.href} rel="me noopener noreferrer" target="_blank">{link.label}</a>
+              <a href={link.href} rel="me noopener noreferrer" target="_blank">
+                {link.label}
+              </a>
             </li>
           ))
         }
@@ -238,8 +240,6 @@ const feedCount = dropboxFeedItems.length;
       <a class="button cta-strip-button" href={sitePath("/about/")}>Read the mission →</a>
     </div>
   </section>
-    </div>
-  </section>
 
   <section class="section section-white">
     <div class="shell">
@@ -282,7 +282,9 @@ const feedCount = dropboxFeedItems.length;
               <span>{String(index + 1).padStart(2, "0")}</span>
               <h3>{topic.name}</h3>
               <p>{topic.description}</p>
-              <span class="topic-explore" aria-hidden="true">Coverage area</span>
+              <span class="topic-explore" aria-hidden="true">
+                Coverage area
+              </span>
             </article>
           ))
         }
@@ -309,4 +311,3 @@ const feedCount = dropboxFeedItems.length;
     </div>
   </section>
 </BaseLayout>
-
