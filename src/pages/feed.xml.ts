@@ -1,12 +1,7 @@
 import type { APIRoute } from "astro";
 import { documentaryItems, researchItems, videoItems } from "../data/content";
 import { sitePath } from "../lib/paths";
-
-const slugify = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
+import { slugify } from "../lib/slugs";
 
 const escapeXml = (value: string) =>
   value.replace(
@@ -24,6 +19,8 @@ const escapeXml = (value: string) =>
 export const GET: APIRoute = ({ site, url }) => {
   const publicOrigin = site ?? new URL(url.origin);
   const feedUrl = new URL(sitePath("/feed.xml"), publicOrigin).href;
+  // RSS contains only the explicitly maintained, public-safe editorial previews.
+  // Placeholder/template cards and private or automated Dropbox material do not enter here.
   const entries = [
     ...researchItems.map((item) => ({
       ...item,

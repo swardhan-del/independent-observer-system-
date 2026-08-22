@@ -14,6 +14,13 @@ describe("editorial preview data", () => {
     ).toBe(true);
   });
 
+  it("does not expose known template video cards as editorial work", () => {
+    expect(videoItems.map((item) => item.title)).toEqual(["Why Evidence Alone Is Not Enough"]);
+    expect(videoItems.map((item) => item.description).join(" ")).not.toMatch(
+      /sample video entry|placeholder for a future explainer/i,
+    );
+  });
+
   it("provides all six core topic categories", () => {
     expect(topics.map((topic) => topic.name)).toEqual([
       "History",
