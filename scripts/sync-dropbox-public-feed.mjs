@@ -281,14 +281,16 @@ export function parseManifest(manifest) {
       throw new Error(`${field}.id is invalid or duplicated.`);
     ids.add(id);
     if (!ALLOWED_KINDS.has(item?.kind)) throw new Error(`${field}.kind is not allowed.`);
+    if (!ALLOWED_STATUSES.has(item.status)) throw new Error(`${field}.status is not allowed.`);
     const title = cleanPublicText(item.title, `${field}.title`, 160);
     const category = validateCategory(
       cleanPublicText(item.category, `${field}.category`, 100),
       `${field}.category`,
     );
     const description = cleanPublicText(item.description, `${field}.description`, 800);
-    const source = item.source ? validateSourceDeclaration(item.source, item.kind, field) : null;
-    if (source) sources.push({ id, source });
+    if (!item.source) throw new Error(`${field}.source is required.`);
+    const source = validateSourceDeclaration(item.source, item.kind, field);
+    sources.push({ id, source });
 
     if (item.kind === "document") {
       const document = {
@@ -308,7 +310,6 @@ export function parseManifest(manifest) {
       continue;
     }
 
-    if (!ALLOWED_STATUSES.has(item.status)) throw new Error(`${field}.status is not allowed.`);
     const feedItem = { id, kind: item.kind, title, category, description, status: item.status };
     if (item.readingTime !== undefined)
       feedItem.readingTime = cleanPublicText(item.readingTime, `${field}.readingTime`, 80);

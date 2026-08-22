@@ -125,7 +125,14 @@ describe("Dropbox public-feed contract", () => {
         title: "A reviewed public document",
         category: "Research desk",
         description: "A public-safe reading copy.",
+        status: "Concept preview",
         sourceLabel: "Reviewed public source",
+        source: {
+          relativePath: "documents/example.txt",
+          sha256: "0".repeat(64),
+          size: 128,
+          expectedType: "text",
+        },
         sections: [{ id: "overview", heading: "Overview", paragraphs: ["Reviewed text only."] }],
       },
     ];
@@ -152,7 +159,14 @@ describe("Dropbox public-feed contract", () => {
             title: "A reviewed public document",
             category: "Research desk",
             description: "A public-safe reading copy.",
+            status: "Concept preview",
             sourceLabel: "Reviewed public source",
+            source: {
+              relativePath: "documents/example.txt",
+              sha256: "0".repeat(64),
+              size: 128,
+              expectedType: "text",
+            },
             sections: [
               { id: "overview", heading: "Overview", paragraphs: ["Reviewed text only."] },
             ],
@@ -172,7 +186,14 @@ describe("Dropbox public-feed contract", () => {
           title: "A reviewed public document",
           category: "Research desk",
           description: "A public-safe reading copy.",
+          status: "Concept preview",
           sourceLabel: "Reviewed public source",
+          source: {
+            relativePath: "documents/example.txt",
+            sha256: "0".repeat(64),
+            size: 128,
+            expectedType: "text",
+          },
           sections: [{ id: "overview", heading: "Overview", paragraphs: ["Reviewed text only."] }],
         },
       ];
@@ -182,5 +203,15 @@ describe("Dropbox public-feed contract", () => {
       if (location === "items") manifest.items[0].sections[0].items = ["Private item"];
       expect(() => parseManifest(manifest)).toThrow("restricted public text");
     }
+  });
+
+  it("requires provenance and an allowed status for every item", () => {
+    const missingSource = approvedManifest();
+    delete missingSource.items[0].source;
+    expect(() => parseManifest(missingSource)).toThrow("source is required");
+
+    const missingStatus = approvedManifest();
+    delete missingStatus.items[0].status;
+    expect(() => parseManifest(missingStatus)).toThrow("status is not allowed");
   });
 });

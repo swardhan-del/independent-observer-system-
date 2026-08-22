@@ -20,6 +20,9 @@ describe("workflow publication safety", () => {
     expect(ci).not.toMatch(/actions\/(?:configure-pages|upload-pages-artifact|deploy-pages)@/);
     expect(ci).not.toMatch(/(?:pages|id-token):\s*write/);
     expect(ci).not.toMatch(/^\s*environment:\s*github-pages/m);
+    expect(ci).toContain("Reject unmanaged Dropbox feed edits");
+    expect(ci).toContain("src/data/dropbox-content.generated.ts");
+    expect(ci).toContain("automation/dropbox-feed-*");
   });
 
   it("deploys reviewed main pushes and requires confirmation for manual runs", () => {
