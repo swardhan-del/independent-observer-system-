@@ -114,6 +114,12 @@ describe("Dropbox public-feed contract", () => {
     expect(() => validateArtifact(sourceFor(privateText), privateText, "text")).toThrow(
       "text quality",
     );
+    for (const restricted of ["Student record", "https://www.dropbox.com/s/private/file.pdf"]) {
+      const bytes = Buffer.from(restricted);
+      expect(() => validateArtifact(sourceFor(bytes), bytes, "restricted text")).toThrow(
+        "text quality",
+      );
+    }
   });
 
   it("preserves reviewed structured documents without publishing raw artifacts", () => {

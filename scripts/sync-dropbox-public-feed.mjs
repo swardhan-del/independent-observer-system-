@@ -49,7 +49,7 @@ const SOURCE_TYPES = {
   ".webm": "video",
 };
 const RESTRICTED_PUBLIC_TEXT =
-  /\b(?:medical(?:[-\s]+school)?|med[-\s]+school|medicine|personal|private|password|token|credential|secret|raw research|unpublished|legal evidence|private records?)\b/i;
+  /(?:\b(?:medical(?:[-\s]+school)?|med[-\s]+school|medicine|personal|private|password|token|credential|secret|raw research|unpublished|legal evidence|private records?|private messages?|personal information|student[ -]?(?:records?|data|information)|medical[ -]?records?|administrative[ -]?(?:records?|data|information)|court exhibits?|evidence (?:files?|packets?|folders?)|raw (?:evidence|files?))\b|\/Users\/|\/private\/|(?:https?:\/\/)?(?:www\.)?dropbox\.com\/)/i;
 
 function required(name) {
   const value = process.env[name];
