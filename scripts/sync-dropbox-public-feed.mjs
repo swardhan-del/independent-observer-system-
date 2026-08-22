@@ -134,6 +134,14 @@ function cleanText(value, field, maxLength) {
   return text;
 }
 
+function cleanPublicText(value, field, maxLength) {
+  const text = cleanText(value, field, maxLength);
+  if (RESTRICTED_PUBLIC_TEXT.test(text)) {
+    throw new Error(`${field} contains restricted public text.`);
+  }
+  return text;
+}
+
 function validateCategory(category, field) {
   const normalized = category.toLocaleLowerCase();
   if (!ALLOWED_CATEGORY_TERMS.some((term) => normalized.includes(term))) {
@@ -234,14 +242,17 @@ function validateSections(sections, field) {
     if (!Array.isArray(items) || items.length > 30)
       throw new Error(`${sectionField}.items is invalid.`);
     if (paragraphs.length === 0 && items.length === 0) throw new Error(`${sectionField} is empty.`);
-    const result = { id, heading: cleanText(section.heading, `${sectionField}.heading`, 160) };
+    const result = {
+      id,
+      heading: cleanPublicText(section.heading, `${sectionField}.heading`, 160),
+    };
     if (paragraphs.length > 0)
       result.paragraphs = paragraphs.map((paragraph, index) =>
-        cleanText(paragraph, `${sectionField}.paragraphs[${index}]`, 4000),
+        cleanPublicText(paragraph, `${sectionField}.paragraphs[${index}]`, 4000),
       );
     if (items.length > 0)
       result.items = items.map((item, index) =>
-        cleanText(item, `${sectionField}.items[${index}]`, 500),
+        cleanPublicText(item, `${sectionField}.items[${index}]`, 500),
       );
     return result;
   });
@@ -270,14 +281,12 @@ export function parseManifest(manifest) {
       throw new Error(`${field}.id is invalid or duplicated.`);
     ids.add(id);
     if (!ALLOWED_KINDS.has(item?.kind)) throw new Error(`${field}.kind is not allowed.`);
-    const title = cleanText(item.title, `${field}.title`, 160);
+    const title = cleanPublicText(item.title, `${field}.title`, 160);
     const category = validateCategory(
-      cleanText(item.category, `${field}.category`, 100),
+      cleanPublicText(item.category, `${field}.category`, 100),
       `${field}.category`,
     );
-    const description = cleanText(item.description, `${field}.description`, 800);
-    if (RESTRICTED_PUBLIC_TEXT.test(`${title} ${category} ${description}`))
-      throw new Error(`${field} contains restricted public text.`);
+    const description = cleanPublicText(item.description, `${field}.description`, 800);
     const source = item.source ? validateSourceDeclaration(item.source, item.kind, field) : null;
     if (source) sources.push({ id, source });
 
@@ -287,9 +296,11 @@ export function parseManifest(manifest) {
         title,
         category,
         description,
-        sourceLabel: cleanText(item.sourceLabel, `${field}.sourceLabel`, 120),
+        sourceLabel: cleanPublicText(item.sourceLabel, `${field}.sourceLabel`, 120),
         ...(item.sourceModified !== undefined
-          ? { sourceModified: cleanText(item.sourceModified, `${field}.sourceModified`, 80) }
+          ? {
+              sourceModified: cleanPublicText(item.sourceModified, `${field}.sourceModified`, 80),
+            }
           : {}),
         sections: validateSections(item.sections, field),
       };
@@ -300,7 +311,7 @@ export function parseManifest(manifest) {
     if (!ALLOWED_STATUSES.has(item.status)) throw new Error(`${field}.status is not allowed.`);
     const feedItem = { id, kind: item.kind, title, category, description, status: item.status };
     if (item.readingTime !== undefined)
-      feedItem.readingTime = cleanText(item.readingTime, `${field}.readingTime`, 80);
+      feedItem.readingTime = cleanPublicText(item.readingTime, `${field}.readingTime`, 80);
     feedItems.push(feedItem);
   }
   return {

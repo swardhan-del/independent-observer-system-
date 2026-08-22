@@ -134,4 +134,53 @@ describe("Dropbox public-feed contract", () => {
     expect(result.feedItems).toHaveLength(0);
     expect(JSON.stringify(result)).not.toContain("assetPath");
   });
+
+  it("rejects restricted text in every structured public field", () => {
+    const fields = [
+      ["sourceLabel", "Private source"],
+      ["sourceModified", "Private record"],
+      ["readingTime", "Private notes"],
+    ];
+    for (const [field, value] of fields) {
+      const manifest = approvedManifest();
+      if (field === "readingTime") manifest.items[0][field] = value;
+      else {
+        manifest.items = [
+          {
+            id: "reviewed-document",
+            kind: "document",
+            title: "A reviewed public document",
+            category: "Research desk",
+            description: "A public-safe reading copy.",
+            sourceLabel: "Reviewed public source",
+            sections: [
+              { id: "overview", heading: "Overview", paragraphs: ["Reviewed text only."] },
+            ],
+          },
+        ];
+        manifest.items[0][field] = value;
+      }
+      expect(() => parseManifest(manifest)).toThrow("restricted public text");
+    }
+
+    for (const location of ["heading", "paragraphs", "items"]) {
+      const manifest = approvedManifest();
+      manifest.items = [
+        {
+          id: "reviewed-document",
+          kind: "document",
+          title: "A reviewed public document",
+          category: "Research desk",
+          description: "A public-safe reading copy.",
+          sourceLabel: "Reviewed public source",
+          sections: [{ id: "overview", heading: "Overview", paragraphs: ["Reviewed text only."] }],
+        },
+      ];
+      if (location === "heading") manifest.items[0].sections[0].heading = "Private heading";
+      if (location === "paragraphs")
+        manifest.items[0].sections[0].paragraphs = ["Private paragraph"];
+      if (location === "items") manifest.items[0].sections[0].items = ["Private item"];
+      expect(() => parseManifest(manifest)).toThrow("restricted public text");
+    }
+  });
 });
