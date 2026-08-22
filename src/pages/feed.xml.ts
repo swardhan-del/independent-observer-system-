@@ -1,12 +1,7 @@
 import type { APIRoute } from "astro";
 import { documentaryItems, researchItems, videoItems } from "../data/content";
 import { sitePath } from "../lib/paths";
-
-const slugify = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
+import { slugify } from "../lib/slugs";
 
 const escapeXml = (value: string) =>
   value.replace(
