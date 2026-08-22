@@ -9,7 +9,7 @@ This folder is a public-safe control document for the Independent Observer websi
 - Source authority: the Dropbox folder named `Independent Observer desktop`.
 - The Dropbox inventory was read-only. No Dropbox file or folder was moved, renamed, deleted, shared, or overwritten.
 - The top-level Dropbox inventory completed without pagination: 31 entries were observed.
-- The current intake folder `Website Feed/approved` exists but is empty. Therefore the website must publish no new Dropbox feed item automatically.
+- The current intake folder `Website Feed/approved` had no approved feed manifest in the audited snapshot. The workflow therefore fails closed and publishes no new Dropbox feed item.
 - Private source paths, file IDs, hashes, credentials, browser records, internal project identifiers, and raw research/archive files are intentionally omitted from this public repository.
 
 ## What this audit proves
@@ -26,19 +26,18 @@ The attached manifest is a decision record, not a factual or legal certification
 
 ## Current candidate findings
 
-The Dropbox documentary-projects print capture contains three clearly labelled public-preview concepts:
+The Dropbox documentary-projects print capture contains two clearly labelled public-preview concepts:
 
 1. Could America Leave NATO?
 2. The Martian Illusion
-3. Three Countries. Three Systems. One MD.
 
-They are described as concepts or editorial development, not completed or released films. They may be considered for a future public summary only after current human approval. The old hosting URL printed in that capture is deliberately not reused; the current canonical website remains the existing Vercel deployment.
+They are described as concepts or editorial development, not completed or released films. They may be considered for a future public summary only after current human approval. The old hosting URL printed in that capture is deliberately not reused.
 
 The file named `independent-observer-approved-preview.zip` was inspected read-only as an archive. It contains the Astro website source and assets (44 entries), with no suspicious secret-named files, absolute paths, path-traversal names, or symlink entries. That result makes it suitable as implementation provenance, not automatic authorization to publish Dropbox editorial material.
 
 ## Safe integration rule
 
-Future automation may read only the exact `Website Feed/approved` intake folder. If that folder is empty, the workflow must be a no-op. For each approved item, the workflow should:
+Future automation may read only the exact `Website Feed/approved` intake folder. If that folder or its manifest is unavailable, the workflow must fail closed. For each approved item, the workflow should:
 
 1. preserve the Dropbox original;
 2. create a public-safe structured summary rather than copying the raw document;

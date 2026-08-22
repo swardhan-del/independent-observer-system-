@@ -41,7 +41,6 @@ const reviewedDocuments: PublicDocument[] = [
         items: [
           "Could America Leave NATO? — A documentary concept mapping the legal, military, diplomatic, and economic consequences of a major alliance rupture. Status: in editorial development.",
           "The Martian Illusion — A proposed documentary asking whether civilization should prioritize Earth systems, energy, and nearer-space infrastructure. Status: concept preview.",
-          "Three Countries. Three Systems. One MD. — A personal documentary framework comparing medical education systems without publishing private academic records. Status: concept preview.",
         ],
       },
       {
