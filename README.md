@@ -137,20 +137,26 @@ Replace placeholder descriptions only with verified, publication-ready material.
 ## Dropbox website-feed automation
 
 The repository includes an approval-gated workflow at `.github/workflows/sync-dropbox-content.yml`.
-It does not mirror the Dropbox archive and it does not publish directly. It reads only a
-`manifest.json` from this exact approved folder:
+It reads only `manifest.json` from this exact approved folder:
 
 `/Independent Observer desktop/Website Feed/approved`
 
-The manifest must set `approvedForWebsite` to `true`. Preview items must use one of the two
-preview statuses: `Concept preview` or `In editorial development`. Document items use
-`kind: "document"`, a `sourceLabel`, and reviewed plain-text `sections` containing paragraphs or
-list items. The schema example is in `content/dropbox/manifest.example.json`. DOCX, PDF, PPTX,
-raw research, private records, and unapproved media remain outside the feed contract; a document
-may summarize an approved source without exposing that source file.
+The workflow fails closed when the folder, manifest, credentials, manifest schema, approval gates,
+source declarations, or artifact checks are unavailable or invalid. The manifest must use
+`schemaVersion: 2`, set `approvedForWebsite` to `true`, and set all four release gates to `true`:
+`sourceVerified`, `contentQualityChecked`, `rightsAndProvenanceReviewed`, and `releaseApproved`.
+Items are limited to approved public categories and preview statuses. When a source artifact is
+declared, the workflow verifies its safe relative path, SHA-256, byte size, and expected container
+type. Structured document entries additionally require reviewed sections and a public source label.
+Restricted text and private, legal-evidence, raw-research, credential, or unpublished material is rejected.
 
-To activate the workflow, create a Dropbox app with read-only metadata/content access and add
-these GitHub repository secrets: `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and
-`DROPBOX_REFRESH_TOKEN`. The workflow runs daily and can be started manually; when the approved
-manifest changes it opens a pull request containing only the generated data file. CI and human
-review remain required before merge or deployment.
+The workflow produces only `src/data/dropbox-content.generated.ts`; it never copies raw Dropbox files
+into `public/` and never deploys directly. The sequence is:
+
+`approved Dropbox folder -> validation -> generated website data -> pull request -> CI -> human review -> merge -> deployment`
+
+To activate the workflow, the repository owner must configure the read-only Dropbox credentials as
+GitHub repository secrets named `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and `DROPBOX_REFRESH_TOKEN`.
+They must never be committed to this repository. The workflow runs weekly on Mondays and can be
+started manually; any generated change remains subject to CI, human review, branch protection, and
+the normal main-branch deployment gate.

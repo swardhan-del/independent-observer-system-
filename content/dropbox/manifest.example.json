@@ -1,31 +1,11 @@
 {
-  "schemaVersion": 1,
-  "approvedForWebsite": true,
-  "items": [
-    {
-      "id": "volume-iv-preview",
-      "kind": "series",
-      "title": "The Last Human Workforce",
-      "category": "AI and human capability",
-      "description": "A preview-stage framework for task exposure, augmentation, education, scientific capacity, and institutional adaptation in the age of AI.",
-      "status": "In editorial development",
-      "readingTime": "Series roadmap"
-    },
-    {
-      "id": "public-document-example",
-      "kind": "document",
-      "title": "A reviewed public document",
-      "category": "Research desk",
-      "description": "A short, public-safe document prepared for the Independent Observer reader.",
-      "sourceLabel": "Reviewed Dropbox document",
-      "sourceModified": "August 18, 2026",
-      "sections": [
-        {
-          "id": "overview",
-          "heading": "Overview",
-          "paragraphs": ["Keep only text that has been explicitly reviewed for public release."]
-        }
-      ]
-    }
-  ]
+  "schemaVersion": 2,
+  "approvedForWebsite": false,
+  "releaseGates": {
+    "sourceVerified": false,
+    "contentQualityChecked": false,
+    "rightsAndProvenanceReviewed": false,
+    "releaseApproved": false
+  },
+  "items": []
 }

@@ -20,6 +20,9 @@ describe("workflow publication safety", () => {
     expect(ci).not.toMatch(/actions\/(?:configure-pages|upload-pages-artifact|deploy-pages)@/);
     expect(ci).not.toMatch(/(?:pages|id-token):\s*write/);
     expect(ci).not.toMatch(/^\s*environment:\s*github-pages/m);
+    expect(ci).toContain("Reject unmanaged Dropbox feed edits");
+    expect(ci).toContain("src/data/dropbox-content.generated.ts");
+    expect(ci).toContain("automation/dropbox-feed-*");
   });
 
   it("deploys reviewed main pushes and requires confirmation for manual runs", () => {
@@ -46,7 +49,9 @@ describe("workflow publication safety", () => {
     expect(sync).toContain("DROPBOX_REFRESH_TOKEN");
     expect(sync).toContain("node scripts/sync-dropbox-public-feed.mjs");
     expect(sync).toContain("DROPBOX_SOURCE_PATH");
+    expect(sync).toContain('cron: "17 6 * * 1"');
     expect(sync).toContain("git add -- src/data/dropbox-content.generated.ts");
+    expect(sync).not.toContain("public/dropbox-feed");
     expect(sync).toContain("gh pr create");
     expect(sync).toContain("--base main");
     expect(sync).not.toMatch(/actions\/(?:deploy-pages|upload-pages-artifact)@/);
@@ -61,6 +66,8 @@ describe("workflow publication safety", () => {
     expect(script).toContain("sourceLabel");
     expect(script).toContain("sections");
     expect(script).toContain("dropboxDocumentItems");
-    expect(script).toContain("maxSections");
+    expect(script).toContain("sourceVerified");
+    expect(script).toContain("MAX_ARTIFACT_BYTES");
+    expect(script).not.toContain("assetPath");
   });
 });
