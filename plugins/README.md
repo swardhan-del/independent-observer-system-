@@ -16,6 +16,7 @@ This folder contains small, reviewable integrations for the public site.
 - `integrations/` — the safe integration map for search, RSS, Dropbox, and social awareness.
 - `dropbox/` — the approved Dropbox-to-site boundary and review gate.
 - `social/` — public social links that have been explicitly verified.
+- `topic-discovery/` — question-led topic pathways, public-preprint signals, and the human-release boundary.
 
 ## Running the SEO audit
 

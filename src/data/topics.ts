@@ -1,55 +1,104 @@
-import { documentaryItems, researchItems, videoItems, type EditorialItem } from "./content";
-import { seriesItems, type SeriesItem } from "./series";
+import { documentaryItems, researchItems, videoItems } from "./content";
+import { seriesItems } from "./series";
+import { ssrnPreprintDocuments } from "./ssrn";
 import { slugify } from "../lib/slugs";
 import { sitePath } from "../lib/paths";
+
+export type TopicRelatedItem = {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  status: string;
+  href: string;
+  type: string;
+  volume?: string;
+};
 
 export type TopicHub = {
   name: string;
   slug: string;
   description: string;
-  related: Array<
-    (EditorialItem & { href: string; type: string }) | (SeriesItem & { href: string; type: string })
-  >;
+  related: TopicRelatedItem[];
 };
 
 const allItems = [
   ...researchItems.map((item) => ({
     ...item,
+    id: slugify(item.title),
     href: sitePath(`/research/${slugify(item.title)}/`),
     type: "Research preview",
   })),
   ...documentaryItems.map((item) => ({
     ...item,
+    id: slugify(item.title),
     href: sitePath(`/documentaries/${slugify(item.title)}/`),
     type: "Documentary preview",
   })),
   ...videoItems.map((item) => ({
     ...item,
+    id: slugify(item.title),
     href: sitePath(`/videos/${slugify(item.title)}/`),
     type: "Video preview",
   })),
   ...seriesItems.map((item) => ({
     ...item,
+    id: slugify(item.title),
     href: sitePath(`/series/${slugify(item.title)}/`),
     type: item.volume,
+  })),
+  ...ssrnPreprintDocuments.map((item) => ({
+    id: item.id,
+    title: item.title,
+    category: item.category,
+    description: item.description,
+    status: item.status ?? "SSRN preprint",
+    href: sitePath(`/library/documents/${item.id}/`),
+    type: "SSRN preprint",
+    volume: item.volume,
   })),
 ];
 
 const topicMatches: Record<string, string[]> = {
-  history: ["Independent Observer", "The Empire Beneath Democracy", "The Martian Illusion"],
+  history: [
+    "Independent Observer",
+    "The Empire Beneath Democracy",
+    "The Martian Illusion",
+    "From Colonization to China’s Rise: How Historical Power Shifts Still Shape Global Politics and Democracy",
+    "Independent Observer: Critical Studies in Philosophy, Politics, Economics, and History — Volume I (Foundational Manifesto)",
+  ],
   politics: [
     "Could America Leave NATO?",
     "Lawsuits Are Illusions: Where Institutional Power Actually Resides",
     "Independent Observer",
+    "The Latino Irony: Why Many Hispanic Americans Support Donald Trump",
+    "From Colonization to China’s Rise: How Historical Power Shifts Still Shape Global Politics and Democracy",
   ],
-  economics: ["The Welfare Paradox", "Managed Decline", "The Last Human Workforce"],
+  economics: [
+    "The Welfare Paradox",
+    "Managed Decline",
+    "The Last Human Workforce",
+    "The Wardhan Tax Doctrine: Time-as-Deduction, W-2 Relief, and an Eisenhower-Era Return to Progressivity",
+    "The Double Tax on Time: Why Women Pay for Both Biology and Bureaucracy",
+  ],
   law: [
     "Lawsuits Are Illusions: Where Institutional Power Actually Resides",
     "Why Evidence Alone Is Not Enough",
     "Could America Leave NATO?",
+    "Independent Observer: Critical Studies in Philosophy, Politics, Economics, and History — Volume I (Foundational Manifesto)",
   ],
-  science: ["The Autonomous Illusion", "The Martian Illusion", "The Last Human Workforce"],
-  technology: ["The Autonomous Illusion", "The Last Human Workforce", "The Martian Illusion"],
+  science: [
+    "The Autonomous Illusion",
+    "The Martian Illusion",
+    "The Last Human Workforce",
+    "Disconnected Hearts — The Tech Revolution of Intimacy",
+  ],
+  technology: [
+    "The Autonomous Illusion",
+    "The Last Human Workforce",
+    "The Martian Illusion",
+    "Disconnected Hearts — The Tech Revolution of Intimacy",
+  ],
 };
 
 export const topicHubs: TopicHub[] = [

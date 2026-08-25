@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
+import TopicReviewQueue from "../../components/TopicReviewQueue.astro";
+import { reviewQueueForTopic, topicPluginFor } from "../../../plugins/topic-discovery/catalog";
 import { topicHubs } from "../../data/topics";
 import { sitePath } from "../../lib/paths";
 
@@ -9,33 +11,42 @@ export function getStaticPaths() {
 }
 
 const { topic } = Astro.props;
+const plugin = topicPluginFor(topic.slug);
+const reviewSignals = reviewQueueForTopic(topic.slug);
+const preprintCount = topic.related.filter((item) => item.type === "SSRN preprint").length;
+const previewCount = topic.related.filter((item) => item.type.includes("preview")).length;
+const roadmapCount = topic.related.filter((item) => item.type.startsWith("Volume")).length;
 ---
 
 <BaseLayout
-  title={`${topic.name} topic hub`}
+  title={topic.name + " topic hub"}
   description={topic.description}
-  currentPath={`/topics/${topic.slug}/`}
+  currentPath={"/topics/" + topic.slug + "/"}
 >
   <PageHero eyebrow="Topic hub" title={topic.name} description={topic.description} />
   <section class="section section-white">
     <div class="shell">
       <div class="topic-hub-status">
         <span class="status-pill">Public discovery map</span>
-        <h2>No released article is currently available in this field.</h2>
+        <h2>{plugin.question}</h2>
         <p>
-          These links are clearly labeled previews or roadmap notes. The site does not manufacture a
-          finished article to fill a category.
+          {plugin.method} Independent Observer has no released article in this field at present; the map
+          below separates public preprints, previews, and roadmap notes.
         </p>
+        <div class="topic-hub-stat-row" aria-label={topic.name + " map summary"}>
+          <span><strong>{preprintCount}</strong> public preprints</span>
+          <span><strong>{previewCount}</strong> previews</span>
+          <span><strong>{roadmapCount}</strong> roadmap notes</span>
+          <span><strong>{reviewSignals.length}</strong> held for release</span>
+        </div>
       </div>
       <div class="card-grid topic-hub-grid">
         {
           topic.related.map((item, index) => (
-            <article class="editorial-card">
+            <article class="editorial-card topic-related-card">
               <div class="card-meta">
-                <>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <span>{item.type}</span>
-                </>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span>{item.type}</span>
               </div>
               <h3>
                 <a class="card-title-link" href={item.href}>
@@ -48,7 +59,7 @@ const { topic } = Astro.props;
                 <>
                   <span class="status-pill">{item.status}</span>
                   <a class="card-open-link" href={item.href}>
-                    Open preview →
+                    {item.type === "SSRN preprint" ? "Open reading copy →" : "Open preview →"}
                   </a>
                 </>
               </div>
@@ -57,11 +68,12 @@ const { topic } = Astro.props;
         }
       </div>
       <div class="detail-actions">
-        <a class="button" href={sitePath("/start/")}>Start with a guided path →</a><a
-          class="button button-secondary button-on-light"
-          href={sitePath("/topics/")}>All topic hubs</a
-        >
+        <a class="button" href={sitePath("/start/")}>Choose another path →</a>
+        <a class="button button-secondary button-on-light" href={sitePath("/topics/")}>
+          All topic hubs
+        </a>
       </div>
     </div>
   </section>
+  <TopicReviewQueue signals={reviewSignals} title={"Held for release in " + topic.name} />
 </BaseLayout>

@@ -1,0 +1,149 @@
+---
+import type { TopicHub } from "../data/topics";
+import { topicPluginFor, reviewQueueForTopic } from "../../plugins/topic-discovery/catalog";
+import { sitePath } from "../lib/paths";
+
+type Props = {
+  topics: TopicHub[];
+};
+
+const { topics } = Astro.props as Props;
+
+function countRecords(topic: TopicHub, type: string) {
+  if (type === "public")
+    return topic.related.filter((item) => item.type === "SSRN preprint").length;
+  if (type === "preview")
+    return topic.related.filter((item) => item.type.includes("preview")).length;
+  if (type === "roadmap")
+    return topic.related.filter((item) => item.type.startsWith("Volume")).length;
+  return 0;
+}
+---
+
+<div class="topic-atlas" data-topic-atlas>
+  <div class="topic-atlas-toolbar">
+    <div class="topic-atlas-filters" role="group" aria-label="Filter topic signals">
+      <button type="button" data-topic-view="all" aria-pressed="true">All fields</button>
+      <button type="button" data-topic-view="public" aria-pressed="false">Public preprints</button>
+      <button type="button" data-topic-view="preview" aria-pressed="false">Preview map</button>
+      <button type="button" data-topic-view="roadmap" aria-pressed="false">Series roadmap</button>
+      <button type="button" data-topic-view="release" aria-pressed="false">Held for release</button>
+    </div>
+    <p class="topic-atlas-count" data-topic-atlas-count role="status" aria-live="polite">
+      {topics.length} fields shown
+    </p>
+  </div>
+  <div class="topic-atlas-grid">
+    {
+      topics.map((topic, index) => {
+        const plugin = topicPluginFor(topic.slug);
+        const releaseCount = reviewQueueForTopic(topic.slug).length;
+        const publicCount = countRecords(topic, "public");
+        const previewCount = countRecords(topic, "preview");
+        const roadmapCount = countRecords(topic, "roadmap");
+        return (
+          <article
+            class="topic-atlas-card"
+            data-topic-card
+            data-public-count={publicCount}
+            data-preview-count={previewCount}
+            data-roadmap-count={roadmapCount}
+            data-release-count={releaseCount}
+            data-topic-search={`${topic.name} ${topic.description} ${plugin.question} ${plugin.method}`}
+          >
+            <div class="topic-atlas-card-topline">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{plugin.kicker}</span>
+            </div>
+            <h3>
+              <a href={sitePath(`/topics/${topic.slug}/`)}>{topic.name}</a>
+            </h3>
+            <p class="topic-atlas-question">{plugin.question}</p>
+            <p>{plugin.method}</p>
+            <div class="topic-atlas-stats" aria-label={`${topic.name} discovery signals`}>
+              <span>
+                <strong>{publicCount}</strong> public preprints
+              </span>
+              <span>
+                <strong>{previewCount}</strong> previews
+              </span>
+              <span>
+                <strong>{roadmapCount}</strong> roadmap notes
+              </span>
+              <span>
+                <strong>{releaseCount}</strong> held for release
+              </span>
+            </div>
+            <a class="topic-atlas-link" href={sitePath(`/topics/${topic.slug}/`)}>
+              Enter {topic.name} →
+            </a>
+          </article>
+        );
+      })
+    }
+  </div>
+  <p class="topic-atlas-empty" data-topic-atlas-empty hidden>
+    No fields match this view. Try All fields to restore the full map.
+  </p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-topic-atlas]").forEach((root) => {
+    const cards = [...root.querySelectorAll<HTMLElement>("[data-topic-card]")];
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>("[data-topic-view]")];
+    const count = root.querySelector<HTMLElement>("[data-topic-atlas-count]");
+    const empty = root.querySelector<HTMLElement>("[data-topic-atlas-empty]");
+    if (!cards.length || !buttons.length || !count || !empty) return;
+
+    let activeView = "all";
+
+    const syncUrl = () => {
+      const url = new URL(window.location.href);
+      if (activeView === "all") url.searchParams.delete("view");
+      else url.searchParams.set("view", activeView);
+      window.history.replaceState(
+        null,
+        "",
+        url.pathname + (url.search ? url.search : "") + url.hash,
+      );
+    };
+
+    const update = (writeUrl = true) => {
+      let visible = 0;
+      for (const card of cards) {
+        const matches =
+          activeView === "all" ||
+          (activeView === "public" && Number(card.dataset.publicCount) > 0) ||
+          (activeView === "preview" && Number(card.dataset.previewCount) > 0) ||
+          (activeView === "roadmap" && Number(card.dataset.roadmapCount) > 0) ||
+          (activeView === "release" && Number(card.dataset.releaseCount) > 0);
+        card.hidden = !matches;
+        if (matches) visible += 1;
+      }
+      for (const button of buttons) {
+        button.setAttribute("aria-pressed", String(button.dataset.topicView === activeView));
+      }
+      count.textContent = `${visible} ${visible === 1 ? "field" : "fields"} shown`;
+      empty.hidden = visible !== 0;
+      if (writeUrl) syncUrl();
+    };
+
+    for (const button of buttons) {
+      button.addEventListener("click", () => {
+        activeView = button.dataset.topicView ?? "all";
+        update();
+      });
+    }
+
+    const applyUrlState = () => {
+      const requestedView = new URLSearchParams(window.location.search).get("view") ?? "all";
+      activeView = buttons.some((button) => button.dataset.topicView === requestedView)
+        ? requestedView
+        : "all";
+      update(false);
+    };
+
+    window.addEventListener("popstate", applyUrlState);
+    applyUrlState();
+  });
+</script>

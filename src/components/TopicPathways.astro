@@ -1,0 +1,46 @@
+---
+import type { TopicPathway } from "../../plugins/topic-discovery/catalog";
+import { topicPluginFor } from "../../plugins/topic-discovery/catalog";
+import { sitePath } from "../lib/paths";
+
+type Props = {
+  pathways: TopicPathway[];
+};
+
+const { pathways } = Astro.props as Props;
+---
+
+<section class="section section-navy topic-pathways" aria-labelledby="topic-pathways-title">
+  <div class="shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Start with a question</p>
+        <h2 id="topic-pathways-title">Choose a route into the archive.</h2>
+      </div>
+      <p>
+        These pathways connect subjects without pretending that a preview, preprint, or roadmap note
+        is a finished Independent Observer publication.
+      </p>
+    </div>
+    <div class="topic-pathway-grid">
+      {
+        pathways.map((pathway, index) => (
+          <article class="topic-pathway-card">
+            <div class="card-meta">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{pathway.label}</span>
+            </div>
+            <h3>{pathway.question}</h3>
+            <p>{pathway.description}</p>
+            <div class="topic-pathway-links" aria-label={`${pathway.label} topics`}>
+              {pathway.topicSlugs.map((slug) => {
+                const topic = topicPluginFor(slug);
+                return <a href={sitePath(`/topics/${slug}/`)}>{topic.name}</a>;
+              })}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

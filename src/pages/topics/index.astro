@@ -1,8 +1,11 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
+import TopicAtlas from "../../components/TopicAtlas.astro";
+import TopicPathways from "../../components/TopicPathways.astro";
+import TopicReviewQueue from "../../components/TopicReviewQueue.astro";
+import { reviewQueueSignals, topicPathways } from "../../../plugins/topic-discovery/catalog";
 import { topicHubs } from "../../data/topics";
-import { sitePath } from "../../lib/paths";
 ---
 
 <BaseLayout
@@ -15,21 +18,21 @@ import { sitePath } from "../../lib/paths";
     title="Six connected fields."
     description="Topic hubs make the archive easier to enter without turning unfinished work into implied publication."
   />
+  <TopicPathways pathways={topicPathways} />
   <section class="section section-white">
-    <div class="shell topic-hubs-grid">
-      {
-        topicHubs.map((topic, index) => (
-          <a class="topic-hub-card" href={sitePath(`/topics/${topic.slug}/`)}>
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            <h2>{topic.name}</h2>
-            <p>{topic.description}</p>
-            <strong>
-              {topic.related.length} preview {topic.related.length === 1 ? "entry" : "entries"}{" "}
-              mapped →
-            </strong>
-          </a>
-        ))
-      }
+    <div class="shell">
+      <div class="section-heading topic-atlas-heading">
+        <div>
+          <p class="eyebrow">Subject atlas</p>
+          <h2>Find the signal you need.</h2>
+        </div>
+        <p>
+          Filter the map by public SSRN preprints, editorial previews, four-volume roadmap notes, or
+          work still held behind the human release gate.
+        </p>
+      </div>
+      <TopicAtlas topics={topicHubs} />
     </div>
   </section>
+  <TopicReviewQueue signals={reviewQueueSignals} />
 </BaseLayout>
