@@ -1,11 +1,19 @@
 export type EditorialStatus = "Concept preview" | "In editorial development";
 
+export type EditorialDetailSection = {
+  heading: string;
+  paragraphs?: string[];
+  items?: string[];
+};
+
 export type EditorialItem = {
   title: string;
   category: string;
   description: string;
   status: EditorialStatus;
   readingTime?: string;
+  detailLead?: string;
+  detailSections?: EditorialDetailSection[];
 };
 
 export const researchItems: EditorialItem[] = [
@@ -29,9 +37,37 @@ export const researchItems: EditorialItem[] = [
     title: "The Autonomous Illusion",
     category: "Science & Labor",
     description:
-      "A proposed inquiry into technological forecasts, labor displacement, infrastructure, and the limits of automation narratives.",
+      "An inquiry into the hidden system beneath the promise of autonomy: what technology can replace, what human labor it still depends on, and how compute, energy, data, maintenance, and institutions shape the outcome.",
     status: "Concept preview",
-    readingTime: "Essay concept",
+    readingTime: "Research concept · 8 min overview",
+    detailLead:
+      "The future of automation is often described as a software story. This project asks what happens when the full system—physical infrastructure, human judgment, and institutional capacity—comes back into view.",
+    detailSections: [
+      {
+        heading: "The question beneath the headline",
+        paragraphs: [
+          "What looks like an autonomous machine is still part of a larger arrangement of people, resources, rules, and maintenance. The proposed investigation follows that arrangement instead of treating autonomy as a self-explanatory outcome.",
+        ],
+      },
+      {
+        heading: "A map for reading the debate",
+        items: [
+          "Which tasks are genuinely exposed to automation, and which are reorganized or moved out of sight?",
+          "What computing, energy, data, maintenance, and human judgment must remain in the loop?",
+          "Who owns the infrastructure, captures the gains, and carries the costs of transition?",
+          "How should education, scientific capacity, and public institutions adapt to uncertain forecasts?",
+        ],
+      },
+      {
+        heading: "What a finished investigation must make visible",
+        items: [
+          "Separate technological forecasts from demonstrated deployments.",
+          "Distinguish task substitution from augmentation and supervision.",
+          "Test optimistic and pessimistic scenarios against their stated assumptions.",
+          "Keep limitations, counterarguments, and unresolved questions visible.",
+        ],
+      },
+    ],
   },
 ];
 

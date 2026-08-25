@@ -3016,6 +3016,59 @@ kbd {
   background: var(--navy-800);
 }
 
+.detail-lead {
+  margin: 30px 0;
+  padding: 24px 0;
+  border-top: 1px solid var(--gold);
+  border-bottom: 1px solid var(--slate-300);
+  color: var(--navy-900) !important;
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 2.5vw, 2rem) !important;
+  letter-spacing: -0.02em;
+  line-height: 1.28;
+}
+
+.detail-sections {
+  margin-top: 46px;
+  border-top: 1px solid var(--slate-300);
+}
+
+.detail-section {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  gap: 20px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--slate-300);
+}
+
+.detail-section-index {
+  color: var(--gold-ink);
+  font-family: var(--serif);
+  font-size: 1.45rem;
+}
+
+.detail-section h3 {
+  margin: 0 0 10px;
+  color: var(--navy-900);
+  font-family: var(--serif);
+  font-size: 1.55rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.detail-section p {
+  margin: 0;
+}
+
+.detail-section ul {
+  margin: 0;
+  padding-left: 21px;
+}
+
+.detail-section li + li {
+  margin-top: 9px;
+}
+
 .operating-system-notice {
   margin: 34px 0 0;
   padding: 18px 20px;

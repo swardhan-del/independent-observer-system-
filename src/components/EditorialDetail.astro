@@ -41,7 +41,32 @@ const {
       <p class="eyebrow">Public preview</p>
       <h2>What this entry is for.</h2>
       <p>{item.description}</p>
+      {item.detailLead && <p class="detail-lead">{item.detailLead}</p>}
       <p>{statusNote}</p>
+      {
+        item.detailSections && (
+          <div class="detail-sections" aria-label="Research brief">
+            {item.detailSections.map((section, index) => (
+              <section class="detail-section">
+                <span class="detail-section-index">{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3>{section.heading}</h3>
+                  {section.paragraphs?.map((paragraph) => (
+                    <p>{paragraph}</p>
+                  ))}
+                  {section.items && (
+                    <ul>
+                      {section.items.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </section>
+            ))}
+          </div>
+        )
+      }
       <div class="detail-actions">
         <a class="button" href={backHref}>{backLabel} →</a>
         <a class="button button-secondary" href={sitePath("/library/")}>Open the public library</a>

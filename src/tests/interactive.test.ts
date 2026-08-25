@@ -15,6 +15,7 @@ const layout = readFileSync(join(sourceRoot, "layouts/BaseLayout.astro"), "utf8"
 const series = readFileSync(join(sourceRoot, "pages/series/index.astro"), "utf8");
 const reader = readFileSync(join(sourceRoot, "components/DocumentReader.astro"), "utf8");
 const evidence = readFileSync(join(sourceRoot, "components/EvidenceLayer.astro"), "utf8");
+const detail = readFileSync(join(sourceRoot, "components/EditorialDetail.astro"), "utf8");
 
 describe("interactive preview tools", () => {
   it("ships browser-local site search without a collection endpoint", () => {
@@ -152,5 +153,12 @@ describe("interactive preview tools", () => {
     expect(readFileSync(join(sourceRoot, "pages/series/[slug].astro"), "utf8")).toContain(
       "featuredDocuments",
     );
+  });
+
+  it("supports richer concept briefs without changing their publication status", () => {
+    expect(detail).toContain("detailLead");
+    expect(detail).toContain("detailSections");
+    expect(detail).toContain('aria-label="Research brief"');
+    expect(detail).toContain("detail-section-index");
   });
 });

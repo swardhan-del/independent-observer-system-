@@ -41,6 +41,14 @@ describe("editorial preview data", () => {
     ).toBe(true);
   });
 
+  it("gives The Autonomous Illusion a substantive, still-preview-safe brief", () => {
+    const entry = researchItems.find((item) => item.title === "The Autonomous Illusion");
+    expect(entry?.description).toContain("compute, energy, data, maintenance");
+    expect(entry?.detailLead).toContain("physical infrastructure");
+    expect(entry?.detailSections).toHaveLength(3);
+    expect(entry?.status).toBe("Concept preview");
+  });
+
   it("keeps automated Dropbox items within the public-safe status contract", () => {
     expect(
       dropboxFeedItems.every(
