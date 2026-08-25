@@ -13,6 +13,7 @@ const publicRoutes = [
   "/about/",
   "/contact/",
   "/start/",
+  "/publication-operating-system/",
   "/topics/",
   ...topicHubs.map((topic) => `/topics/${topic.slug}/`),
   ...publicDocumentItems.map((entry) => `/library/documents/${entry.id}/`),

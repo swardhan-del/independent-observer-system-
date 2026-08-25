@@ -14,6 +14,7 @@ const routes = [
   { route: "/about/", file: "about/index.html" },
   { route: "/contact/", file: "contact/index.html" },
   { route: "/start/", file: "start/index.html" },
+  { route: "/publication-operating-system/", file: "publication-operating-system/index.html" },
   { route: "/topics/", file: "topics/index.html" },
   { route: "/topics/history/", file: "topics/history/index.html" },
   { route: "/topics/politics/", file: "topics/politics/index.html" },
@@ -118,6 +119,18 @@ describe("built website", () => {
     expect(existsSync(join(distRoot, "robots.txt"))).toBe(true);
     expect(existsSync(join(distRoot, "sitemap.xml"))).toBe(true);
     expect(existsSync(join(distRoot, "404.html"))).toBe(true);
+  });
+
+  it("hosts the exact owner-provided operating-system DOCX", () => {
+    const documentPath = join(
+      distRoot,
+      "documents/independent-observer-publication-operating-system-2026.docx",
+    );
+    expect(existsSync(documentPath)).toBe(true);
+    expect(readFileSync(documentPath).subarray(0, 2).toString()).toBe("PK");
+    expect(readOutput("publication-operating-system/index.html")).toContain(
+      "Download the original DOCX",
+    );
   });
 
   const homeHtml = readOutput("index.html");

@@ -42,9 +42,16 @@ export const publicLibrarySnapshot = {
       detail: "High-level summaries available on this site.",
     },
     {
-      label: "Raw files published",
+      label: "Raw archive files published",
       value: "0",
-      detail: "No DOCX, PDF, video, or working archive file is exposed here.",
+      detail:
+        "No raw research, manuscript, video, or working archive file is exposed; the operating standard is separately hosted as an owner-requested reference.",
+    },
+    {
+      label: "Hosted operating standards",
+      value: "1",
+      detail:
+        "One exact owner-provided publication operating standard is hosted outside the article feed.",
     },
   ] satisfies PublicLibraryStat[],
   volumes: [

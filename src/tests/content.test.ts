@@ -93,8 +93,13 @@ describe("public library data", () => {
   it("keeps the Dropbox-derived archive summary public-safe", () => {
     expect(publicLibrarySnapshot.volumes).toHaveLength(3);
     expect(
-      publicLibrarySnapshot.stats.find((stat) => stat.label === "Raw files published")?.value,
+      publicLibrarySnapshot.stats.find((stat) => stat.label === "Raw archive files published")
+        ?.value,
     ).toBe("0");
+    expect(
+      publicLibrarySnapshot.stats.find((stat) => stat.label === "Hosted operating standards")
+        ?.value,
+    ).toBe("1");
     expect(
       publicLibrarySnapshot.areas.every((area) => area.privateCount.includes("private archive")),
     ).toBe(true);

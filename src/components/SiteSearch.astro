@@ -107,6 +107,18 @@ const searchItems: SearchEntry[] = [
     format: "document",
     href: sitePath(`/library/documents/${entry.id}/`),
   })),
+  {
+    id: "publication-operating-system",
+    title: "Publication Operating System",
+    category: "Editorial governance",
+    description:
+      "The Independent Observer's operating standard for research, approval, publication, distribution, and learning.",
+    status: "Public reference document",
+    type: "Published document" as const,
+    topics: ["Law", "Politics"],
+    format: "DOCX standard",
+    href: sitePath("/publication-operating-system/"),
+  },
   ...topics.map((topic) => ({
     id: `topic:${topic.name}`,
     title: topic.name,
