@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
 import { dropboxDocumentItems, dropboxFeedItems } from "../data/dropbox-content.generated";
 import { publicDocumentItems } from "../data/documents";
+import { ssrnPreprintDocuments } from "../data/ssrn";
 import { seriesItems } from "../data/series";
 import { publicLibrarySnapshot } from "../data/public-library";
 
@@ -68,6 +69,23 @@ describe("editorial preview data", () => {
         (entry) => entry.sections.length > 0 && entry.sourceLabel.length > 0,
       ),
     ).toBe(true);
+  });
+
+  it("keeps SSRN-linked preprints ranked by public usage signals and clearly labeled", () => {
+    expect(ssrnPreprintDocuments.length).toBeGreaterThanOrEqual(5);
+    expect(ssrnPreprintDocuments[0]?.id).toBe("who-deported-more-ssrn");
+    expect(ssrnPreprintDocuments.every((entry) => entry.status === "SSRN preprint")).toBe(true);
+    expect(
+      ssrnPreprintDocuments.every(
+        (entry) =>
+          entry.sourceUrl?.includes("papers.ssrn.com") &&
+          entry.metrics?.downloads !== undefined &&
+          entry.metrics?.abstractViews !== undefined,
+      ),
+    ).toBe(true);
+    expect(ssrnPreprintDocuments.some((entry) => entry.title.includes("Who Deported More"))).toBe(
+      true,
+    );
   });
 });
 

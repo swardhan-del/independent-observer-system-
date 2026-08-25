@@ -4,6 +4,7 @@ import EditorialDetail from "../../components/EditorialDetail.astro";
 import { seriesItems } from "../../data/series";
 import { slugify } from "../../lib/slugs";
 import { sitePath } from "../../lib/paths";
+import { ssrnPreprintDocuments } from "../../data/ssrn";
 
 export function getStaticPaths() {
   return seriesItems.map((item) => ({
@@ -14,6 +15,7 @@ export function getStaticPaths() {
 
 const { item } = Astro.props;
 const currentPath = `/series/${slugify(item.title)}/`;
+const featuredDocuments = ssrnPreprintDocuments.filter((entry) => entry.volume === item.volume);
 ---
 
 <BaseLayout title={item.title} description={item.description} currentPath={currentPath}>
@@ -23,5 +25,6 @@ const currentPath = `/series/${slugify(item.title)}/`;
     backLabel="Back to series roadmap"
     backHref={sitePath("/series/")}
     statusNote="This is a public roadmap entry. The series remains in development; publication, peer review, and commercial release are not implied."
+    featuredDocuments={featuredDocuments}
   />
 </BaseLayout>

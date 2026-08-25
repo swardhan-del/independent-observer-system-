@@ -142,4 +142,15 @@ describe("interactive preview tools", () => {
     expect(evidence).toContain('aria-pressed="true"');
     expect(evidence).toContain("The full text remains visible");
   });
+
+  it("exposes SSRN provenance and usage signals without inventing ratings", () => {
+    expect(reader).toContain("Open SSRN record");
+    expect(reader).toContain("SSRN signal");
+    expect(readFileSync(join(sourceRoot, "pages/research/index.astro"), "utf8")).toContain(
+      "Public SSRN-linked articles",
+    );
+    expect(readFileSync(join(sourceRoot, "pages/series/[slug].astro"), "utf8")).toContain(
+      "featuredDocuments",
+    );
+  });
 });

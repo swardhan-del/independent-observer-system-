@@ -50,9 +50,20 @@ const related = relatedEntries.filter((candidate) => candidate.id !== entry.id).
           entry.publicationDate && (
             <div>
               <>
-                <dt>Published</dt>
+                <dt>{entry.dateLabel ?? "Published"}</dt>
                 <dd>{entry.publicationDate}</dd>
               </>
+            </div>
+          )
+        }
+        {
+          entry.metrics && (
+            <div class="reader-metrics">
+              <dt>SSRN signal</dt>
+              <dd>
+                {entry.metrics.downloads ?? "—"} downloads · {entry.metrics.abstractViews ?? "—"}{" "}
+                views
+              </dd>
             </div>
           )
         }
@@ -119,6 +130,18 @@ const related = relatedEntries.filter((candidate) => candidate.id !== entry.id).
             <button type="button" data-reader-download-citation>
               Download citation
             </button>
+          )
+        }
+        {
+          entry.sourceUrl && (
+            <a
+              class="reader-external-link"
+              href={entry.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open SSRN record ↗
+            </a>
           )
         }
       </div>

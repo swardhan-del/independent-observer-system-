@@ -99,8 +99,11 @@ const searchItems: SearchEntry[] = [
     title: entry.title,
     category: entry.category,
     description: entry.description,
-    status: "Reviewed public copy",
-    type: "Published document" as const,
+    status: entry.status ?? "Reviewed public copy",
+    type:
+      entry.status === "SSRN preprint" ? ("Research" as const) : ("Published document" as const),
+    topics: topicsForCategory(entry.category),
+    volume: entry.volume,
     format: "document",
     href: sitePath(`/library/documents/${entry.id}/`),
   })),

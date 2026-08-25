@@ -17,15 +17,21 @@ Scope: static-first Astro improvements; no release, deployment, merge, secret co
 | Reading list      | Local save/remove/clear                              | Versioned local model with count, unread/reading/finished status, local tags, sort modes, JSON export/import, storage failure notice, cross-page/storage events, and focus support                                                                                    |
 | Visual explainers | No reusable explainer primitives                     | Timeline, mechanism diagram, trade-off comparison, glossary tooltip, and searchable transcript components ready for reviewed content                                                                                                                                  |
 | Homepage          | Public archive progress and discovery cards          | Compact guided path, evidence-layer preview, topic-hub links, transparent approval-gated release status, and preserved navy/gold identity                                                                                                                             |
+| SSRN preprints    | No article content on the research shelf             | Seven public-safe, SSRN-linked reading copies selected from matching Dropbox preprint controllers; sorted by retrieved downloads, with abstract-view counts, direct SSRN links, visible limitations, and no invented ratings                                      |
 | Privacy boundary  | Approval-gated generated data and local interactions | Same fail-closed feed; generated feed remains empty; no network search, accounts, analytics, tracking, or private-file exposure added                                                                                                                                 |
 
 ## Editorial and release boundary
 
 - `src/data/dropbox-content.generated.ts` remains generated and empty for the current build.
-- No future article candidate was copied into the public feed, marked `releaseApproved`, or represented as published.
+- Seven curated SSRN-linked reading copies were added to the review branch from matching public-safe Dropbox preprint controllers. Each is labeled `SSRN preprint`; none is represented as a peer-reviewed or Independent Observer-published article.
+- No future article candidate was copied into the public feed or marked `releaseApproved`.
 - Existing research, documentary, video, and series entries remain explicitly preview/development content.
 - The approved Dropbox folder was not written to or populated.
 - The publication sequence remains: approved manifest → validation → generated public-safe data → pull request → CI → human review → merge → deployment.
+
+### SSRN selection note
+
+The public SSRN search results do not provide a star-rating field. The shelf is therefore ordered by the latest retrievable download signal, with abstract views and citations displayed as descriptive context rather than quality scores. The first five records are: `Who Deported More?` (126 downloads), `The Latino Irony` (56), `Disconnected Hearts` (47), `The Wardhan Tax Doctrine` (42), and `The Double Tax on Time` (39). Metrics are time-varying and should be refreshed before any production release decision.
 
 ## Dependency and plugin review
 
@@ -57,7 +63,7 @@ The following categories were explicitly excluded from implementation and public
 
 ## Deferred because release evidence is unavailable
 
-- Full article publication, article-specific citations, factual claim maps, source-backed charts, documentary players, transcripts, and release dates remain deferred until approved public-safe content has complete metadata and human release authorization.
+- Full Independent Observer article publication remains distinct from the new SSRN-linked reading copies. Full article text, claim-level citation maps, source-backed charts, documentary players, transcripts, and any production release status remain deferred until the exact public-safe controller, rights, metadata, final rendering, and human release gates are complete.
 - The six Green candidates remain candidates awaiting human release and are not included in this branch's production data.
 - Native citation download is intentionally withheld when author and publication-date metadata are incomplete.
 

@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { publicDocumentItems } from "../data/documents";
 
 const distRoot = join(process.cwd(), "dist");
 const routes = [
@@ -20,6 +21,10 @@ const routes = [
   { route: "/topics/law/", file: "topics/law/index.html" },
   { route: "/topics/science/", file: "topics/science/index.html" },
   { route: "/topics/technology/", file: "topics/technology/index.html" },
+  ...publicDocumentItems.map((entry) => ({
+    route: `/library/documents/${entry.id}/`,
+    file: `library/documents/${entry.id}/index.html`,
+  })),
 ] as const;
 const sitemapRoutes = routes.map(({ route }) => route);
 
@@ -148,7 +153,7 @@ describe("built website", () => {
     expect(locations.some((location) => location.endsWith("/404/"))).toBe(false);
   });
 
-  it.each(routes)("keeps essential structure on $route", ({ file }) => {
+  it.each(routes)("keeps essential structure on $route", ({ file, route }) => {
     const html = readOutput(file);
     const pageIds = ids(html);
     const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
@@ -165,7 +170,7 @@ describe("built website", () => {
       /<a\b[^>]*class=["'][^"']*skip-link[^"']*["'][^>]*href=["']#main-content["']/i,
     );
     expect(tags(html, "nav").filter((tag) => Boolean(attribute(tag, "aria-label")))).toHaveLength(
-      2,
+      route.startsWith("/library/documents/") ? 3 : 2,
     );
     expect(new Set(pageIds).size).toBe(pageIds.length);
     expect(headings[0]).toBe(1);

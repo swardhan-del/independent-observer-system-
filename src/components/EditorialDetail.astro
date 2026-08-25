@@ -1,5 +1,6 @@
 ---
 import type { EditorialItem } from "../data/content";
+import type { PublicDocument } from "../data/documents";
 import PageHero from "./PageHero.astro";
 import { sitePath } from "../lib/paths";
 import EvidenceLayer from "./EvidenceLayer.astro";
@@ -15,9 +16,17 @@ type Props = {
   backLabel: string;
   backHref: string;
   statusNote: string;
+  featuredDocuments?: PublicDocument[];
 };
 
-const { item, eyebrow, backLabel, backHref, statusNote } = Astro.props as Props;
+const {
+  item,
+  eyebrow,
+  backLabel,
+  backHref,
+  statusNote,
+  featuredDocuments = [],
+} = Astro.props as Props;
 ---
 
 <PageHero eyebrow={eyebrow} title={item.title} description={item.description} />
@@ -40,6 +49,50 @@ const { item, eyebrow, backLabel, backHref, statusNote } = Astro.props as Props;
     </div>
   </div>
 </section>
+
+{
+  featuredDocuments.length > 0 && (
+    <section class="section section-navy" aria-labelledby="featured-preprints-title">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Selected public records</p>
+            <h2 id="featured-preprints-title">SSRN-linked preprints from this volume.</h2>
+          </div>
+          <p>
+            Ordered by the latest retrievable SSRN download signal. SSRN does not publish star
+            ratings; downloads and abstract views are usage counts, not quality scores.
+          </p>
+        </div>
+        <div class="card-grid">
+          {featuredDocuments.map((entry, index) => (
+            <article class="editorial-card ssrn-feature-card">
+              <div class="card-meta">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span>{entry.status}</span>
+              </div>
+              <h3>
+                <a class="card-title-link" href={sitePath(`/library/documents/${entry.id}/`)}>
+                  {entry.title}
+                </a>
+              </h3>
+              <p>{entry.description}</p>
+              <div class="card-footer">
+                <span>
+                  {entry.metrics?.downloads ?? "—"} downloads ·{" "}
+                  {entry.metrics?.abstractViews ?? "—"} views
+                </span>
+                <a class="card-open-link" href={sitePath(`/library/documents/${entry.id}/`)}>
+                  Open reading copy →
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
 
 <section class="section section-rule">
   <div class="shell reader-tools-grid">

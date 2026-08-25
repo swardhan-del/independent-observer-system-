@@ -705,6 +705,14 @@ textarea {
   text-underline-offset: 4px;
 }
 
+.ssrn-feature-card {
+  min-height: 100%;
+}
+
+.ssrn-feature-card .card-footer {
+  justify-content: flex-start;
+}
+
 .card-save {
   padding: 5px 7px;
   border: 1px solid var(--slate-300);
@@ -1837,6 +1845,25 @@ kbd {
   margin: 0 0 12px;
 }
 
+.reader-external-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 8px 10px;
+  border: 1px solid var(--gold-ink);
+  color: var(--navy-900);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.reader-external-link:hover {
+  background: var(--gold);
+  color: var(--navy-950);
+}
+
 .reader-action-status {
   min-height: 1.4em;
   margin: 0 0 24px;
@@ -2880,6 +2907,11 @@ kbd {
   margin: 0;
   color: var(--slate-700);
   font-size: 0.86rem;
+}
+
+.reader-metrics dd {
+  color: var(--gold-ink);
+  font-weight: 800;
 }
 
 .reader-nav-label {

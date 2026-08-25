@@ -1,4 +1,5 @@
 import { dropboxDocumentItems } from "./dropbox-content.generated";
+import { ssrnPreprintDocuments } from "./ssrn";
 
 export type PublicDocumentSection = {
   id: string;
@@ -14,17 +15,29 @@ export type PublicCitation = {
   url?: string;
 };
 
+export type PublicDocumentMetrics = {
+  downloads?: number;
+  abstractViews?: number;
+  citations?: number;
+  rank?: number;
+  checkedAt: string;
+};
+
 export type PublicDocument = {
   id: string;
   title: string;
+  volume?: string;
   category: string;
   description: string;
   sourceLabel: string;
   sourceModified?: string;
   author?: string;
   publicationDate?: string;
+  dateLabel?: string;
   updatedDate?: string;
   status?: string;
+  sourceUrl?: string;
+  metrics?: PublicDocumentMetrics;
   notes?: string[];
   limitations?: string[];
   citations?: PublicCitation[];
@@ -86,5 +99,6 @@ const reviewedDocuments: PublicDocument[] = [
 
 export const publicDocumentItems: PublicDocument[] = [
   ...reviewedDocuments,
+  ...ssrnPreprintDocuments,
   ...dropboxDocumentItems,
 ];

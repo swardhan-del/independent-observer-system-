@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { sitePath } from "../lib/paths";
 import { topicHubs } from "../data/topics";
+import { publicDocumentItems } from "../data/documents";
 
 const publicRoutes = [
   "/",
@@ -14,6 +15,7 @@ const publicRoutes = [
   "/start/",
   "/topics/",
   ...topicHubs.map((topic) => `/topics/${topic.slug}/`),
+  ...publicDocumentItems.map((entry) => `/library/documents/${entry.id}/`),
 ];
 
 function escapeXml(value: string) {
