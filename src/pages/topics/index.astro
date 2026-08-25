@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import { topicHubs } from "../../data/topics";
+import { sitePath } from "../../lib/paths";
+---
+
+<BaseLayout
+  title="Topic hubs"
+  description="Browse Independent Observer topic hubs with honest separation between released work, previews, and roadmap notes."
+  currentPath="/topics/"
+>
+  <PageHero
+    eyebrow="Browse by subject"
+    title="Six connected fields."
+    description="Topic hubs make the archive easier to enter without turning unfinished work into implied publication."
+  />
+  <section class="section section-white">
+    <div class="shell topic-hubs-grid">
+      {
+        topicHubs.map((topic, index) => (
+          <a class="topic-hub-card" href={sitePath(`/topics/${topic.slug}/`)}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <h2>{topic.name}</h2>
+            <p>{topic.description}</p>
+            <strong>
+              {topic.related.length} preview {topic.related.length === 1 ? "entry" : "entries"}{" "}
+              mapped →
+            </strong>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

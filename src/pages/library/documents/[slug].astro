@@ -12,8 +12,16 @@ export function getStaticPaths() {
 
 const { entry } = Astro.props;
 const currentPath = `/library/documents/${entry.id}/`;
+const documentIndex = publicDocumentItems.findIndex((candidate) => candidate.id === entry.id);
 ---
 
 <BaseLayout title={entry.title} description={entry.description} currentPath={currentPath}>
-  <DocumentReader entry={entry} />
+  <DocumentReader
+    entry={entry}
+    relatedEntries={publicDocumentItems}
+    previous={documentIndex > 0 ? publicDocumentItems[documentIndex - 1] : undefined}
+    next={documentIndex < publicDocumentItems.length - 1
+      ? publicDocumentItems[documentIndex + 1]
+      : undefined}
+  />
 </BaseLayout>

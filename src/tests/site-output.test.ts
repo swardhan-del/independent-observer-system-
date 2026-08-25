@@ -12,6 +12,14 @@ const routes = [
   { route: "/videos/", file: "videos/index.html" },
   { route: "/about/", file: "about/index.html" },
   { route: "/contact/", file: "contact/index.html" },
+  { route: "/start/", file: "start/index.html" },
+  { route: "/topics/", file: "topics/index.html" },
+  { route: "/topics/history/", file: "topics/history/index.html" },
+  { route: "/topics/politics/", file: "topics/politics/index.html" },
+  { route: "/topics/economics/", file: "topics/economics/index.html" },
+  { route: "/topics/law/", file: "topics/law/index.html" },
+  { route: "/topics/science/", file: "topics/science/index.html" },
+  { route: "/topics/technology/", file: "topics/technology/index.html" },
 ] as const;
 const sitemapRoutes = routes.map(({ route }) => route);
 

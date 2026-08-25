@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import { sitePath } from "../../lib/paths";
+---
+
+<BaseLayout
+  title="Start here"
+  description="A guided path through the Independent Observer public archive, method, previews, and topic hubs."
+  currentPath="/start/"
+>
+  <PageHero
+    eyebrow="Start here"
+    title="Choose a way in."
+    description="A short guided path through the public method, research previews, roadmap, and reviewed library."
+  />
+  <section class="section section-white">
+    <div class="shell start-grid">
+      <a class="start-card" href={sitePath("/about/")}
+        ><span>01</span><h2>Understand the method</h2><p>
+          See how documented fact, interpretation, uncertainty, and correction stay distinct.
+        </p><strong>Read the mission →</strong></a
+      >
+      <a class="start-card" href={sitePath("/topics/technology/")}
+        ><span>02</span><h2>Explore AI and labor</h2><p>
+          Follow the public previews and Volume IV roadmap notes without mistaking them for a
+          released book.
+        </p><strong>Open technology →</strong></a
+      >
+      <a class="start-card" href={sitePath("/topics/politics/")}
+        ><span>03</span><h2>Explore democracy and institutions</h2><p>
+          Browse the institutional, law, and political previews currently mapped to the public
+          archive.
+        </p><strong>Open politics →</strong></a
+      >
+      <a class="start-card" href={sitePath("/topics/science/")}
+        ><span>04</span><h2>Explore science and human capability</h2><p>
+          See how science, technology, and capability questions are held as research directions.
+        </p><strong>Open science →</strong></a
+      >
+      <a class="start-card" href={sitePath("/topics/economics/")}
+        ><span>05</span><h2>Explore migration and political economy</h2><p>
+          Begin with labor, welfare, work, and the political-economic structure of public life.
+        </p><strong>Open economics →</strong></a
+      >
+      <a class="start-card start-card-dark" href={sitePath("/library/")}
+        ><span>06</span><h2>See the reviewed library</h2><p>
+          Read the public-safe archive map and structured document reader. Raw private files remain
+          private.
+        </p><strong>Open the library →</strong></a
+      >
+    </div>
+  </section>
+</BaseLayout>

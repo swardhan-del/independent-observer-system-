@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { sitePath } from "../lib/paths";
+import { topicHubs } from "../data/topics";
 
 const publicRoutes = [
   "/",
@@ -10,6 +11,9 @@ const publicRoutes = [
   "/videos/",
   "/about/",
   "/contact/",
+  "/start/",
+  "/topics/",
+  ...topicHubs.map((topic) => `/topics/${topic.slug}/`),
 ];
 
 function escapeXml(value: string) {

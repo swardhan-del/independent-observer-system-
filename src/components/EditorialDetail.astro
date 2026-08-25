@@ -2,6 +2,8 @@
 import type { EditorialItem } from "../data/content";
 import PageHero from "./PageHero.astro";
 import { sitePath } from "../lib/paths";
+import EvidenceLayer from "./EvidenceLayer.astro";
+import ClaimMap from "./ClaimMap.astro";
 
 type DetailItem = EditorialItem & {
   volume?: string;
@@ -36,5 +38,49 @@ const { item, eyebrow, backLabel, backHref, statusNote } = Astro.props as Props;
         <a class="button button-secondary" href={sitePath("/library/")}>Open the public library</a>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="section section-rule">
+  <div class="shell reader-tools-grid">
+    <EvidenceLayer
+      blocks={[
+        {
+          category: "Documented fact",
+          text: "This entry is a public editorial preview. It is not presented as a released article or verified finding.",
+        },
+        {
+          category: "Interpretation",
+          text: "The eventual article will separate the author's reading of the material from the source record.",
+        },
+        {
+          category: "Hypothesis",
+          text: "Any explanatory hypothesis will be labeled and tested against the published evidence.",
+        },
+        {
+          category: "Policy proposal",
+          text: "No policy recommendation is being made by this preview.",
+        },
+        {
+          category: "Limitation",
+          text: "Citations, full methods, dates, and release metadata are not complete for this preview.",
+        },
+        {
+          category: "Counterargument",
+          text: "A finished version must represent strong opposing explanations before evaluating them.",
+        },
+        {
+          category: "Unresolved question",
+          text: "What remains uncertain will stay visible rather than being converted into a confident conclusion.",
+        },
+      ]}
+    />
+    <ClaimMap
+      claim="Reserved for the eventual, reviewed thesis."
+      evidence="Reserved for source-verified material and complete citations."
+      mechanism="Reserved for the causal or institutional explanation."
+      counterargument="Reserved for the strongest competing explanation."
+      limitation="This preview does not yet support a publishable conclusion."
+    />
   </div>
 </section>

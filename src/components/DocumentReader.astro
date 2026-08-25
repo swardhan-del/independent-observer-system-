@@ -1,47 +1,90 @@
 ---
 import type { PublicDocument } from "../data/documents";
 import PageHero from "./PageHero.astro";
+import RelatedContent from "./RelatedContent.astro";
 import { sitePath } from "../lib/paths";
 
 type Props = {
   entry: PublicDocument;
+  relatedEntries?: PublicDocument[];
+  previous?: PublicDocument;
+  next?: PublicDocument;
 };
 
-const { entry } = Astro.props as Props;
+const { entry, relatedEntries = [], previous, next } = Astro.props as Props;
+const paragraphCount = entry.sections.reduce(
+  (total, section) => total + (section.paragraphs?.length ?? 0) + (section.items?.length ?? 0),
+  0,
+);
+const estimatedMinutes = Math.max(1, Math.ceil((paragraphCount * 65) / 220));
+const status = entry.status ?? "Reviewed public copy";
+const citationComplete = Boolean(entry.author && entry.publicationDate);
+const suggestedCitation = citationComplete
+  ? `${entry.author}. “${entry.title}.” Independent Observer, ${entry.publicationDate}.`
+  : `Independent Observer. “${entry.title}.” ${entry.sourceLabel}. Reviewed public copy.`;
+const related = relatedEntries.filter((candidate) => candidate.id !== entry.id).slice(0, 3);
 ---
 
 <PageHero eyebrow="Public document reader" title={entry.title} description={entry.description} />
 
-<section class="section section-white">
+<div class="reader-progress" data-reader-progress aria-hidden="true"><span></span></div>
+<section class="section section-white reader-shell">
   <div class="shell reader-layout">
     <aside class="reader-sidebar">
       <p class="eyebrow">Document details</p>
       <dl class="reader-meta">
-        <div>
-          <dt>Desk</dt>
-          <dd>{entry.category}</dd>
-        </div>
-        <div>
-          <dt>Source</dt>
-          <dd>{entry.sourceLabel}</dd>
-        </div>
+        <div><dt>Status</dt><dd>{status}</dd></div>
+        <div><dt>Desk</dt><dd>{entry.category}</dd></div>
+        <div><dt>Source</dt><dd>{entry.sourceLabel}</dd></div>
         {
-          entry.sourceModified && (
+          entry.author && (
             <div>
-              <dt>Reviewed</dt>
-              <dd>{entry.sourceModified}</dd>
+              <>
+                <dt>Author</dt>
+                <dd>{entry.author}</dd>
+              </>
             </div>
           )
         }
+        {
+          entry.publicationDate && (
+            <div>
+              <>
+                <dt>Published</dt>
+                <dd>{entry.publicationDate}</dd>
+              </>
+            </div>
+          )
+        }
+        {
+          entry.updatedDate && (
+            <div>
+              <>
+                <dt>Updated</dt>
+                <dd>{entry.updatedDate}</dd>
+              </>
+            </div>
+          )
+        }
+        {
+          entry.sourceModified && (
+            <div>
+              <>
+                <dt>Reviewed</dt>
+                <dd>{entry.sourceModified}</dd>
+              </>
+            </div>
+          )
+        }
+        <div><dt>Reading time</dt><dd>About {estimatedMinutes} min</dd></div>
       </dl>
-
-      <nav aria-label="Document sections">
+      <nav aria-label="Document sections" class="reader-toc-nav">
         <p class="reader-nav-label">On this page</p>
         <ol class="reader-toc">
           {
             entry.sections.map((section, index) => (
               <li>
-                <a href={`#${section.id}`}>
+                <a href={`#${section.id}`} data-reader-toc-link>
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   {section.heading}
                 </a>
@@ -50,16 +93,52 @@ const { entry } = Astro.props as Props;
           }
         </ol>
       </nav>
+      <a class="reader-back-link" href={sitePath("/library/")}>← Back to public library</a>
     </aside>
 
-    <article class="document-reader">
+    <article
+      class="document-reader"
+      data-document-reader
+      data-reader-citation={suggestedCitation}
+      data-reader-title={entry.title}
+    >
       <div class="reader-notice">
-        This is a reviewed public reading copy. It is not a mirror of the private Dropbox archive.
+        <strong>{status}</strong>
+        <span
+          >This is a reviewed public reading copy. It is not a mirror of the private Dropbox
+          archive.</span
+        >
       </div>
+      <div class="reader-actions" aria-label="Reader actions">
+        <button type="button" data-reader-copy-link>Copy page link</button>
+        <button type="button" data-reader-share>Share</button>
+        <button type="button" data-reader-print>Print</button>
+        <button type="button" data-reader-copy-citation>Copy citation</button>
+        {
+          citationComplete && (
+            <button type="button" data-reader-download-citation>
+              Download citation
+            </button>
+          )
+        }
+      </div>
+      <p class="reader-action-status" data-reader-action-status role="status" aria-live="polite">
+      </p>
+
       {
         entry.sections.map((section) => (
-          <section class="reader-section" id={section.id}>
-            <h2>{section.heading}</h2>
+          <section
+            class="reader-section"
+            id={section.id}
+            data-reader-section
+            data-section-title={section.heading}
+          >
+            <div class="reader-section-heading">
+              <h2>{section.heading}</h2>
+              <button type="button" class="section-link-button" data-copy-section-link={section.id}>
+                Copy section link
+              </button>
+            </div>
             {section.paragraphs?.map((paragraph) => (
               <p>{paragraph}</p>
             ))}
@@ -73,12 +152,188 @@ const { entry } = Astro.props as Props;
           </section>
         ))
       }
-      <div class="detail-actions">
+
+      {
+        entry.citations && entry.citations.length > 0 && (
+          <section class="reader-references" aria-labelledby="reader-references-title">
+            <h2 id="reader-references-title">References</h2>
+            <ol>
+              {entry.citations.map((citation) => (
+                <li id={citation.id}>
+                  <span class="citation-label">{citation.label}</span> {citation.citation}
+                  {citation.url && (
+                    <a href={citation.url} target="_blank" rel="noopener noreferrer">
+                      Open source ↗
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </section>
+        )
+      }
+      {
+        entry.notes && entry.notes.length > 0 && (
+          <details class="reader-details" open>
+            <summary>Source notes</summary>
+            <ul>
+              {entry.notes.map((note) => (
+                <li>{note}</li>
+              ))}
+            </ul>
+          </details>
+        )
+      }
+      {
+        entry.limitations && entry.limitations.length > 0 && (
+          <details class="reader-details reader-limitations" open>
+            <summary>Limitations and unresolved boundaries</summary>
+            <ul>
+              {entry.limitations.map((limitation) => (
+                <li>{limitation}</li>
+              ))}
+            </ul>
+          </details>
+        )
+      }
+
+      <div class="reader-citation-box">
+        <p class="eyebrow">Suggested citation</p>
+        <p data-reader-citation>{suggestedCitation}</p>
+        <button type="button" data-reader-copy-citation>Copy citation</button>
+        {
+          !citationComplete && (
+            <small>
+              Download is withheld until author and publication-date metadata are complete.
+            </small>
+          )
+        }
+      </div>
+      <div class="reader-next-actions">
+        {
+          previous && (
+            <a class="reader-sequence-link" href={sitePath(`/library/documents/${previous.id}/`)}>
+              ← Previous document
+            </a>
+          )
+        }
+        {
+          next && (
+            <a class="reader-sequence-link" href={sitePath(`/library/documents/${next.id}/`)}>
+              Next document →
+            </a>
+          )
+        }
         <a class="button" href={sitePath("/library/")}>Back to public library →</a>
-        <a class="button button-secondary" href={sitePath("/documentaries/")}
-          >Explore documentaries</a
+        <a class="button button-secondary button-on-light" href={sitePath("/research/")}
+          >Explore research previews</a
         >
       </div>
     </article>
   </div>
+  <div class="shell reader-top-link"><a href="#main-content">↑ Back to top</a></div>
 </section>
+<RelatedContent
+  records={related.map((item) => ({
+    id: item.id,
+    title: item.title,
+    description: item.description,
+    category: item.category,
+    href: sitePath(`/library/documents/${item.id}/`),
+    status: item.status ?? "Reviewed public copy",
+  }))}
+/>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-document-reader]").forEach((reader) => {
+    const citation = reader.dataset.readerCitation ?? "";
+    const title = reader.dataset.readerTitle ?? "Independent Observer";
+    const progress = document.querySelector<HTMLElement>("[data-reader-progress] span");
+    const sections = [...reader.querySelectorAll<HTMLElement>("[data-reader-section]")];
+    const tocLinks = [...reader.querySelectorAll<HTMLAnchorElement>("[data-reader-toc-link]")];
+    const actionStatus = reader.querySelector<HTMLElement>("[data-reader-action-status]");
+    const announce = (message: string) => {
+      if (actionStatus) actionStatus.textContent = message;
+    };
+    const pageUrl = () => window.location.href;
+    const copy = async (value: string, message: string) => {
+      try {
+        await navigator.clipboard.writeText(value);
+        announce(message);
+      } catch {
+        announce("Copy is unavailable here. Select and copy the text manually.");
+      }
+    };
+    const updateProgress = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      if (progress)
+        progress.style.width = `${max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0}%`;
+    };
+    const observer =
+      "IntersectionObserver" in window
+        ? new IntersectionObserver(
+            (entries) => {
+              const active = entries
+                .filter((entry) => entry.isIntersecting)
+                .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+              if (!active) return;
+              tocLinks.forEach((link) =>
+                link.classList.toggle(
+                  "is-active",
+                  link.hash === `#${(active.target as HTMLElement).id}`,
+                ),
+              );
+            },
+            { rootMargin: "-18% 0px -65% 0px", threshold: [0, 0.25, 0.75] },
+          )
+        : null;
+    sections.forEach((section) => observer?.observe(section));
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    updateProgress();
+    reader.querySelectorAll<HTMLButtonElement>("[data-copy-section-link]").forEach((button) => {
+      button.addEventListener("click", () =>
+        copy(
+          `${pageUrl().split("#")[0]}#${button.dataset.copySectionLink}`,
+          "Section link copied.",
+        ),
+      );
+    });
+    reader
+      .querySelectorAll<HTMLButtonElement>("[data-reader-copy-link]")
+      .forEach((button) =>
+        button.addEventListener("click", () => copy(pageUrl(), "Page link copied.")),
+      );
+    reader
+      .querySelectorAll<HTMLButtonElement>("[data-reader-copy-citation]")
+      .forEach((button) =>
+        button.addEventListener("click", () => copy(citation, "Citation copied.")),
+      );
+    reader
+      .querySelector<HTMLButtonElement>("[data-reader-print]")
+      ?.addEventListener("click", () => window.print());
+    reader
+      .querySelector<HTMLButtonElement>("[data-reader-share]")
+      ?.addEventListener("click", async () => {
+        if (navigator.share) {
+          try {
+            await navigator.share({ title, text: citation, url: pageUrl() });
+            announce("Share sheet opened.");
+          } catch {
+            announce("Sharing was cancelled.");
+          }
+        } else copy(pageUrl(), "Page link copied; native sharing is unavailable.");
+      });
+    reader
+      .querySelector<HTMLButtonElement>("[data-reader-download-citation]")
+      ?.addEventListener("click", () => {
+        const blob = new Blob([citation + "\n"], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${title.toLocaleLowerCase().replace(/[^a-z0-9]+/g, "-")}-citation.txt`;
+        link.click();
+        URL.revokeObjectURL(url);
+        announce("Citation downloaded.");
+      });
+  });
+</script>

@@ -2,11 +2,9 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import EditorialCard from "../components/EditorialCard.astro";
 import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
-import { dropboxFeedItems } from "../data/dropbox-content.generated";
 import { sitePath } from "../lib/paths";
 import { socialLinks } from "../data/social";
-
-const feedCount = dropboxFeedItems.length;
+import EvidenceLayer from "../components/EvidenceLayer.astro";
 ---
 
 <BaseLayout
@@ -88,8 +86,8 @@ const feedCount = dropboxFeedItems.length;
       <div>
         <a class="button" href={sitePath("/library/")}>Open the public library →</a>
         <p class="form-note">
-          {feedCount} approved report {feedCount === 1 ? "card is" : "cards are"} currently in the public
-          feed.
+          The approved release queue is deliberately empty. Public previews and the reviewed library
+          remain available while human release decisions are pending.
         </p>
       </div>
     </div>
@@ -128,11 +126,16 @@ const feedCount = dropboxFeedItems.length;
           <strong>Videos</strong>
           <p>Explore explainers and future releases by subject.</p>
         </a>
+        <a class="discovery-card discovery-card-accent" href={sitePath("/start/")}>
+          <span>05</span>
+          <strong>Start here</strong>
+          <p>Choose a guided route by method, subject, or archive.</p>
+        </a>
       </div>
       <div class="topic-links" aria-label="Browse coverage fields">
         {
           topics.map((topic) => (
-            <a class="topic-link" href={sitePath("/#topic-" + topic.name.toLowerCase())}>
+            <a class="topic-link" href={sitePath("/topics/" + topic.name.toLowerCase() + "/")}>
               {topic.name}
             </a>
           ))
@@ -142,6 +145,38 @@ const feedCount = dropboxFeedItems.length;
         Tip: press <kbd>⌘</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Mac or
         <kbd>Ctrl</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Windows to open search.
       </p>
+    </div>
+  </section>
+
+  <section class="section section-white" aria-labelledby="homepage-evidence-title">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Read with the layers visible</p>
+          <h2 id="homepage-evidence-title">A publication should show how it knows.</h2>
+        </div>
+        <p>
+          Use the evidence-layer control to see the distinction the future article reader will
+          preserve. Nothing is scored and no category replaces the full text.
+        </p>
+      </div>
+      <EvidenceLayer
+        blocks={[
+          { category: "Documented fact", text: "A claim supported by a reviewed source record." },
+          {
+            category: "Interpretation",
+            text: "The author's analysis of what the record may mean.",
+          },
+          {
+            category: "Hypothesis",
+            text: "An explanation that remains open to testing and revision.",
+          },
+          {
+            category: "Limitation",
+            text: "A boundary, gap, or unresolved issue that should remain visible.",
+          },
+        ]}
+      />
     </div>
   </section>
 

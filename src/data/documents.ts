@@ -7,6 +7,13 @@ export type PublicDocumentSection = {
   items?: string[];
 };
 
+export type PublicCitation = {
+  id: string;
+  label: string;
+  citation: string;
+  url?: string;
+};
+
 export type PublicDocument = {
   id: string;
   title: string;
@@ -14,6 +21,14 @@ export type PublicDocument = {
   description: string;
   sourceLabel: string;
   sourceModified?: string;
+  author?: string;
+  publicationDate?: string;
+  updatedDate?: string;
+  status?: string;
+  notes?: string[];
+  limitations?: string[];
+  citations?: PublicCitation[];
+  relatedIds?: string[];
   sections: PublicDocumentSection[];
 };
 
