@@ -99,6 +99,11 @@ describe("topic discovery plugin", () => {
     expect(topicPathwaysComponent).toContain("Relevant volumes");
     expect(topicPathwaysComponent).toContain("slugify(volume.title)");
     expect(startIndex).toContain("<TopicVolumeMap />");
+    expect(startIndex).toContain("Explore the four volumes in development.");
+    expect(startIndex).toContain("Siddhartha Harsh Wardhan");
+    expect(startIndex.indexOf("<TopicVolumeMap />")).toBeLessThan(
+      startIndex.indexOf('<section class="section section-white">'),
+    );
     expect(startIndex).toContain("topic-pathway-method");
     expect(topicVolumeMap).toContain("Public entry points");
     expect(topicVolumeMap).toContain("connection.coreIdeas");
