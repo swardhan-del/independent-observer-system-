@@ -229,6 +229,8 @@ describe("interactive preview tools", () => {
     );
     expect(homepage).toMatch(/Volume II follows power\s+through sovereignty and institutions/);
     expect(homepage).toContain("<HomepageVolumeGuide />");
+    expect(homepage).toContain("research published through SSRN, ResearchGate, and Zenodo");
+    expect(homepage).toContain("new research, revisions, and evidence continue to develop here");
     expect(homepageVolumeGuide).toContain("Volume I establishes the method of observation");
     expect(homepageVolumeGuide).toContain("seriesItems.map");
     expect(homepageVolumeGuide).toContain("volumeTopicConnections[item.volume]");
