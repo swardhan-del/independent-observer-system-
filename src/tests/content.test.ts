@@ -50,6 +50,25 @@ describe("editorial preview data", () => {
     expect(entry?.status).toBe("Concept preview");
   });
 
+  it("connects The Cost of Looking Away to Volume II evidence without publishing it", () => {
+    const entry = videoItems.find((item) => item.title === "The Cost of Looking Away");
+    expect(entry?.volume).toBe("Volume II · Democracy & Institutions");
+    expect(entry?.category).toContain("Democratic capacity");
+    expect(entry?.description).toContain("public record");
+    expect(
+      entry?.detailSections?.some(
+        (section) => section.heading === "What the public-safe audit establishes",
+      ),
+    ).toBe(true);
+    expect(
+      entry?.detailSections?.flatMap((section) => section.paragraphs ?? []).join(" "),
+    ).toContain("158 million counted ballots");
+    expect(
+      entry?.sourceLinks?.every((source) => source.url.startsWith("https://www.eac.gov/")),
+    ).toBe(true);
+    expect(entry?.status).toBe("Concept preview");
+  });
+
   it("keeps automated Dropbox items within the public-safe status contract", () => {
     expect(
       dropboxFeedItems.every(

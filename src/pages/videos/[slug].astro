@@ -22,6 +22,6 @@ const currentPath = `/videos/${slugify(item.title)}/`;
     eyebrow="Video preview"
     backLabel="Back to videos"
     backHref={sitePath("/videos/")}
-    statusNote="This is a preview entry. A future release may include a player, transcript, citations, and platform links after publication review."
+    statusNote={`Publication status: ${item.status}. This is a preview entry. A future release may include a player, transcript, citations, and platform links after publication review.`}
   />
 </BaseLayout>

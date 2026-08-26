@@ -1201,7 +1201,16 @@ textarea {
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.08em;
+  line-height: 1.45;
   text-transform: uppercase;
+}
+
+.page-aside span {
+  display: block;
+}
+
+.page-aside span + span {
+  margin-top: 12px;
 }
 
 .prose {
@@ -3228,6 +3237,47 @@ kbd {
 
 .detail-section li + li {
   margin-top: 9px;
+}
+
+.detail-source-note {
+  margin-top: 42px;
+  padding: 24px;
+  border: 1px solid var(--slate-300);
+  border-top: 4px solid var(--gold);
+  background: #f3f0e8;
+}
+
+.detail-source-note .eyebrow {
+  margin: 0 0 10px;
+}
+
+.detail-source-note h3 {
+  margin: 0 0 12px;
+  color: var(--navy-900);
+  font-family: var(--serif);
+  font-size: 1.55rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.detail-source-note p:not(.eyebrow) {
+  margin: 0;
+}
+
+.detail-source-list {
+  margin: 18px 0 0;
+  padding-left: 20px;
+}
+
+.detail-source-list li + li {
+  margin-top: 8px;
+}
+
+.detail-source-list a {
+  color: var(--navy-900);
+  font-weight: 700;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
 .operating-system-notice {

@@ -6,14 +6,22 @@ export type EditorialDetailSection = {
   items?: string[];
 };
 
+export type EditorialSourceLink = {
+  label: string;
+  url: string;
+};
+
 export type EditorialItem = {
   title: string;
   category: string;
   description: string;
   status: EditorialStatus;
+  volume?: string;
   readingTime?: string;
   detailLead?: string;
   detailSections?: EditorialDetailSection[];
+  sourceNote?: string;
+  sourceLinks?: EditorialSourceLink[];
 };
 
 export const researchItems: EditorialItem[] = [
@@ -98,10 +106,58 @@ export const videoItems: EditorialItem[] = [
   },
   {
     title: "The Cost of Looking Away",
-    category: "Civic Culture",
+    category: "Democratic capacity & civic culture",
     description:
-      "A sample video entry showing how future episodes can be catalogued with a synopsis, topic, and publication status.",
+      "A documentary explainer concept about the gap between a public record and a meaningful institutional response: what determines whether evidence is noticed, processed, challenged, and corrected.",
     status: "Concept preview",
+    volume: "Volume II · Democracy & Institutions",
+    readingTime: "Video concept · 12–18 min",
+    detailLead:
+      "A record can be visible without becoming usable. This concept follows the institutional path between evidence and response—access, information, administration, review, and correction—while keeping the method of observation separate from the conclusions still to be tested.",
+    detailSections: [
+      {
+        heading: "Topic and volume",
+        paragraphs: [
+          "The concept belongs to Volume II’s democracy-and-institutions work and is designed as a public-facing companion to Democracy’s Achilles’ Heel. Its question is not whether participation exists, but whether people can convert participation and evidence into a fair hearing between elections.",
+        ],
+      },
+      {
+        heading: "What the public-safe audit establishes",
+        paragraphs: [
+          "The 2026-08-22 Website Publication Audit classifies Democracy’s Achilles’ Heel as a higher-standard working paper that remains B — YELLOW / REVIEW REQUIRED. Its web-ready source notes report more than 158 million counted ballots in the 2024 U.S. general election and turnout of 64.7% of the citizen voting-age population, using the U.S. Election Assistance Commission’s 2024 Election Administration and Voting Survey.",
+        ],
+        items: [
+          "Those figures document substantial participation; they do not, by themselves, show that agenda-setting, information access, administration, or correction are equally available between elections.",
+          "The source notes caution that an unequal outcome does not by itself prove capture, suppression, or bad faith.",
+        ],
+      },
+      {
+        heading: "The mechanism the video would test",
+        items: [
+          "Evidence becomes consequential only when people can reach a forum, administrators can process the claim, institutions can hear competing accounts, and a correction path exists.",
+          "The same record can be visible and still be unusable when access burdens, information asymmetry, or procedural delay prevent meaningful review.",
+          "A finished treatment would keep documented facts, interpretation, hypothesis, counterargument, and unresolved questions visibly separate.",
+        ],
+      },
+      {
+        heading: "Publication status and release boundary",
+        paragraphs: [
+          "This page is an Independent Observer concept preview, not a released video or article. The related Volume II candidate remains awaiting human release; no player, transcript, final citation package, media-rights clearance, or production release is asserted here.",
+        ],
+      },
+    ],
+    sourceNote:
+      "The page uses only the public-safe source notes reviewed in the 2026-08-22 Website Publication Audit. Private Dropbox paths, working-paper files, internal controller evidence, and watermarked video exports remain outside the website.",
+    sourceLinks: [
+      {
+        label: "U.S. Election Assistance Commission · 2024 EAVS report",
+        url: "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      },
+      {
+        label: "U.S. Election Assistance Commission · 2024 EAVS release",
+        url: "https://www.eac.gov/news/2025/06/30/us-election-assistance-commission-releases-2024-election-administration-and-voting",
+      },
+    ],
   },
   {
     title: "Power, Procedure, and the Public Record",

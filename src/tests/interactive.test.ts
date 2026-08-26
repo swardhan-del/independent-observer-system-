@@ -52,6 +52,13 @@ describe("interactive preview tools", () => {
     );
   });
 
+  it("renders a visible public source trail and release boundary for annotated previews", () => {
+    expect(detail).toContain("Public source trail");
+    expect(detail).toContain("Evidence with a release boundary.");
+    expect(detail).toContain('target="_blank"');
+    expect(detail).toContain('rel="noreferrer"');
+  });
+
   it("ships a browser-local reading list without an account or collection endpoint", () => {
     expect(layout).toContain("<ReadingList />");
     expect(card).toContain("data-reading-toggle");

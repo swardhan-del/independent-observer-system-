@@ -67,6 +67,26 @@ const {
           </div>
         )
       }
+      {
+        item.sourceNote && (
+          <aside class="detail-source-note" aria-labelledby="detail-source-title">
+            <p class="eyebrow">Public source trail</p>
+            <h3 id="detail-source-title">Evidence with a release boundary.</h3>
+            <p>{item.sourceNote}</p>
+            {item.sourceLinks && (
+              <ul class="detail-source-list">
+                {item.sourceLinks.map((source) => (
+                  <li>
+                    <a href={source.url} target="_blank" rel="noreferrer">
+                      {source.label} ↗
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </aside>
+        )
+      }
       <div class="detail-actions">
         <a class="button" href={backHref}>{backLabel} →</a>
         <a class="button button-secondary" href={sitePath("/library/")}>Open the public library</a>
