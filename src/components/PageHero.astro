@@ -7,5 +7,6 @@ const { eyebrow, title, description, className = "" } = Astro.props;
     <p class="eyebrow">{eyebrow}</p>
     <h1>{title}</h1>
     <p class="page-intro">{description}</p>
+    <slot />
   </div>
 </section>

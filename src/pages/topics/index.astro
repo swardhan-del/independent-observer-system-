@@ -5,6 +5,7 @@ import TopicAtlas from "../../components/TopicAtlas.astro";
 import TopicPathways from "../../components/TopicPathways.astro";
 import TopicReviewQueue from "../../components/TopicReviewQueue.astro";
 import TopicVolumeMap from "../../components/TopicVolumeMap.astro";
+import TopicSpineNavigator from "../../components/TopicSpineNavigator.astro";
 import { reviewQueueSignals, topicPathways } from "../../../plugins/topic-discovery/catalog";
 import { topicHubs } from "../../data/topics";
 ---
@@ -17,8 +18,11 @@ import { topicHubs } from "../../data/topics";
   <PageHero
     eyebrow="Browse by subject"
     title="Six fields. Four volumes. One research spine."
-    description="The topic hubs connect the four-volume Independent Observer project, showing how method, institutions, political economy, science, and technology belong to one developing body of work."
-  />
+    description="The six topic fields—History, Politics, Economics, Law, Science, and Technology—are lenses on four connected volumes. Follow a question into its primary volume, then compare public SSRN preprints, research and documentary previews, and clearly marked roadmap material without treating unfinished work as published."
+    className="topics-hero"
+  >
+    <TopicSpineNavigator />
+  </PageHero>
   <TopicPathways pathways={topicPathways} />
   <TopicVolumeMap />
   <section class="section section-white">

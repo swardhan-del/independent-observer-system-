@@ -13,6 +13,10 @@ import { topicHubs } from "../data/topics";
 const sourceRoot = join(process.cwd(), "src");
 const topicIndex = readFileSync(join(sourceRoot, "pages/topics/index.astro"), "utf8");
 const startIndex = readFileSync(join(sourceRoot, "pages/start/index.astro"), "utf8");
+const topicSpineNavigator = readFileSync(
+  join(sourceRoot, "components/TopicSpineNavigator.astro"),
+  "utf8",
+);
 const topicAtlas = readFileSync(join(sourceRoot, "components/TopicAtlas.astro"), "utf8");
 const topicVolumeMap = readFileSync(join(sourceRoot, "components/TopicVolumeMap.astro"), "utf8");
 const topicReviewQueue = readFileSync(
@@ -76,6 +80,9 @@ describe("topic discovery plugin", () => {
   });
 
   it("wires the topic atlas, URL view state, and visible human-release boundary", () => {
+    expect(topicIndex).toContain('className="topics-hero"');
+    expect(topicIndex).toContain("The six topic fields");
+    expect(topicIndex).toContain("<TopicSpineNavigator />");
     expect(topicIndex).toContain("<TopicPathways pathways={topicPathways} />");
     expect(topicIndex).toContain("<TopicVolumeMap />");
     expect(topicIndex).toContain("<TopicAtlas topics={topicHubs} />");
@@ -85,6 +92,11 @@ describe("topic discovery plugin", () => {
     expect(topicAtlas).toContain('aria-live="polite"');
     expect(topicReviewQueue).toContain("signal.status");
     expect(topicReviewQueue).toContain("Metadata only · not a published article");
+    expect(topicSpineNavigator).toContain(
+      'aria-label="Explore the Independent Observer research spine"',
+    );
+    expect(topicSpineNavigator).toContain("seriesItems.map");
+    expect(topicSpineNavigator).toContain("topicPluginDefinitions.map");
   });
 
   it("plugs each pathway into core ideas, volumes, and public entry points", () => {
@@ -115,6 +127,7 @@ describe("topic discovery plugin", () => {
     expect(topicVolumeMap).toContain("Public entry points");
     expect(topicVolumeMap).toContain("connection.coreIdeas");
     expect(topicVolumeMap).toContain("connection.contentLinks");
+    expect(topicVolumeMap).toContain("topic-volume-${slugify(item.volume)}");
   });
 
   it("connects all four roadmap volumes to at least two topic hubs", () => {

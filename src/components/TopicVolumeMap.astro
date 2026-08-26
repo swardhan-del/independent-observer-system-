@@ -22,7 +22,7 @@ import { slugify } from "../lib/slugs";
         seriesItems.map((item, index) => {
           const connection = volumeTopicConnections[item.volume];
           return (
-            <li class="topic-volume-card">
+            <li class="topic-volume-card" id={`topic-volume-${slugify(item.volume)}`}>
               <div class="topic-volume-topline">
                 <span>{String(index + 1).padStart(2, "0")}</span>
                 <span>{item.volume}</span>
