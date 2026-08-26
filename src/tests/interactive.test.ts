@@ -54,6 +54,10 @@ describe("interactive preview tools", () => {
     expect(catalogue).toContain("data-catalogue-query");
     expect(catalogue).toContain("data-catalogue-volume");
     expect(catalogue).toContain("data-catalogue-status");
+    expect(catalogue).toContain("data-catalogue-paper-count");
+    expect(catalogue).toContain("Matched public reading copies");
+    expect(catalogue).toContain("paper.sourceUrl");
+    expect(catalogue).toContain("paper.category");
     expect(catalogue).toContain("replaceState");
   });
 
@@ -95,8 +99,11 @@ describe("interactive preview tools", () => {
     expect(catalogue).toContain("Official catalogue");
     expect(catalogue).toContain("Open investigative file");
     expect(catalogue).toContain("Connected public work");
-    expect(catalogue).toContain("usage signal only");
+    expect(catalogue.replace(/\s+/g, " ")).toContain("usage signal only");
     expect(catalogue).toContain("human approval gates");
+    expect(catalogue).toContain("Public-safe SSRN records connected to");
+    expect(catalogue).toContain("SSRN record ↗");
+    expect(catalogue).not.toContain("Published papers");
   });
 
   it("ships a browser-local reading list without an account or collection endpoint", () => {

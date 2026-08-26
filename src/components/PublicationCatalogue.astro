@@ -124,7 +124,13 @@ const catalogueStats = [
             item.status,
             connection.lens,
             ...connection.coreIdeas,
-            ...item.papers.map((paper) => paper.title),
+            ...item.papers.flatMap((paper) => [
+              paper.title,
+              paper.category,
+              paper.description,
+              paper.status ?? "",
+              paper.sourceLabel,
+            ]),
           ].join(" ");
           const leadingPaper = item.papers[0];
 
@@ -136,6 +142,7 @@ const catalogueStats = [
               data-catalogue-volume={item.volume}
               data-catalogue-status={item.status.toLocaleLowerCase()}
               data-catalogue-search={searchText}
+              data-catalogue-paper-count={item.papers.length}
               aria-labelledby={`catalogue-${volumeSlug}-title`}
             >
               <div class="publication-catalogue-card-topline">
@@ -178,15 +185,37 @@ const catalogueStats = [
               </div>
 
               <div class="publication-catalogue-papers">
-                <p class="publication-catalogue-subhead">Public record</p>
-                <ul>
-                  {item.papers.map((paper) => (
-                    <li>
-                      <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
-                      <span>{paper.status} · usage signal only</span>
-                    </li>
-                  ))}
-                </ul>
+                <p class="publication-catalogue-subhead">Matched public reading copies</p>
+                <p class="publication-catalogue-papers-intro">
+                  {item.papers.length > 0
+                    ? `Public-safe SSRN records connected to ${item.volume}, ordered by retrieved downloads.`
+                    : `No matched SSRN reading copy is currently indexed for ${item.volume}.`}
+                </p>
+                {item.papers.length > 0 && (
+                  <ul>
+                    {item.papers.map((paper) => (
+                      <li>
+                        <div class="publication-catalogue-paper-links">
+                          <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
+                          {paper.sourceUrl && (
+                            <a
+                              class="publication-catalogue-paper-external"
+                              href={paper.sourceUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              SSRN record ↗
+                            </a>
+                          )}
+                        </div>
+                        <span>
+                          {paper.status} · {paper.metrics?.downloads ?? "—"} downloads · usage
+                          signal only
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
 
               <div class="publication-catalogue-papers publication-catalogue-entry-points">

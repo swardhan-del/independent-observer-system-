@@ -5393,6 +5393,18 @@ kbd {
   gap: 3px;
 }
 
+.publication-catalogue-papers-intro {
+  margin: -1px 0 14px;
+  color: var(--slate-500);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.publication-catalogue-paper-links {
+  display: grid;
+  gap: 5px;
+}
+
 .publication-catalogue-papers a {
   color: var(--navy-900);
   font-family: var(--serif);
@@ -5403,6 +5415,16 @@ kbd {
 
 .publication-catalogue-papers a:hover {
   color: var(--gold-ink);
+}
+
+.publication-catalogue-papers .publication-catalogue-paper-external {
+  width: fit-content;
+  color: var(--gold-ink);
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .publication-catalogue-papers span {
