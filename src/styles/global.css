@@ -3254,6 +3254,90 @@ kbd {
   font-size: 0.86rem;
 }
 
+.topic-pathway-plugin {
+  margin-top: 22px;
+  padding: 16px;
+  border: 1px solid rgb(234 214 167 / 26%);
+  background: rgb(7 24 45 / 46%);
+}
+
+.topic-pathway-plugin-label,
+.topic-volume-subhead {
+  color: var(--gold-light);
+  font-size: 0.63rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.topic-pathway-plugin .topic-pathway-plugin-label {
+  margin-bottom: 8px;
+}
+
+.topic-pathway-primary {
+  font-family: var(--serif);
+  font-size: 1rem !important;
+  line-height: 1.15;
+}
+
+.topic-pathway-primary a {
+  color: var(--white);
+  text-decoration: underline;
+  text-decoration-color: var(--gold-light);
+  text-underline-offset: 3px;
+}
+
+.topic-pathway-plugin h4 {
+  margin: 17px 0 7px;
+  color: var(--white);
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.topic-pathway-plugin ul,
+.topic-volume-core ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 17px;
+  color: var(--slate-300);
+  font-size: 0.79rem;
+}
+
+.topic-pathway-content-links,
+.topic-volume-work-links {
+  display: grid;
+  gap: 7px;
+}
+
+.topic-pathway-content-links a,
+.topic-volume-work-links a {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--white);
+  font-family: var(--serif);
+  font-size: 0.88rem;
+  line-height: 1.1;
+  text-decoration: none;
+}
+
+.topic-pathway-content-links a:hover,
+.topic-volume-work-links a:hover {
+  color: var(--gold-light);
+}
+
+.topic-pathway-content-links a span,
+.topic-volume-work-links a span {
+  color: var(--gold-light);
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .topic-pathway-links {
   display: flex;
   flex-wrap: wrap;
@@ -3693,6 +3777,20 @@ kbd {
   font-family: var(--serif);
   font-size: 1.1rem;
   line-height: 1.25;
+}
+
+.topic-volume-core {
+  margin-top: 22px;
+}
+
+.topic-volume-core .topic-volume-subhead,
+.topic-volume-work-links .topic-volume-subhead {
+  display: block;
+  margin-bottom: 9px;
+}
+
+.topic-volume-work-links {
+  margin-top: 22px;
 }
 
 .topic-volume-topics {

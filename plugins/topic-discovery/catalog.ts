@@ -20,11 +20,27 @@ export type TopicPathway = {
   description: string;
   topicSlugs: string[];
   volumeLabels: string[];
+  primaryVolumeLabel: string;
+  coreIdeas: string[];
+  contentLinks: PathwayContentLink[];
+};
+
+export type PathwayContentLink = {
+  kind:
+    | "Series roadmap"
+    | "SSRN preprint"
+    | "Research preview"
+    | "Documentary preview"
+    | "Video preview";
+  label: string;
+  path: string;
 };
 
 export type VolumeTopicConnection = {
   lens: string;
   topicSlugs: string[];
+  coreIdeas: string[];
+  contentLinks: PathwayContentLink[];
 };
 
 export type ReviewQueueSignal = {
@@ -89,6 +105,34 @@ export const topicPathways: TopicPathway[] = [
       "Begin with the method anchor, then move through democratic capacity and public reasoning.",
     topicSlugs: ["law", "politics", "history"],
     volumeLabels: ["Volume I", "Volume II"],
+    primaryVolumeLabel: "Volume I",
+    coreIdeas: [
+      "Define the terms before drawing the conclusion.",
+      "Keep documented fact, interpretation, and uncertainty visibly separate.",
+      "Treat correction, limitation, and public reasoning as part of the method.",
+    ],
+    contentLinks: [
+      {
+        kind: "Series roadmap",
+        label: "Independent Observer · Volume I",
+        path: "/series/independent-observer/",
+      },
+      {
+        kind: "SSRN preprint",
+        label: "Independent Observer: Volume I foundational manifesto",
+        path: "/library/documents/independent-observer-volume-one-ssrn/",
+      },
+      {
+        kind: "Research preview",
+        label: "Lawsuits Are Illusions",
+        path: "/research/lawsuits-are-illusions-where-institutional-power-actually-resides/",
+      },
+      {
+        kind: "Video preview",
+        label: "Why Evidence Alone Is Not Enough",
+        path: "/videos/why-evidence-alone-is-not-enough/",
+      },
+    ],
   },
   {
     id: "ai-labor",
@@ -99,6 +143,34 @@ export const topicPathways: TopicPathway[] = [
       "Follow work, infrastructure, task exposure, and the institutions that shape transition.",
     topicSlugs: ["technology", "economics", "science"],
     volumeLabels: ["Volume III", "Volume IV"],
+    primaryVolumeLabel: "Volume IV",
+    coreIdeas: [
+      "Treat automation as infrastructure, not only as software.",
+      "Distinguish task substitution from augmentation, supervision, and hidden labor.",
+      "Follow compute, energy, data, maintenance, and institutional adaptation.",
+    ],
+    contentLinks: [
+      {
+        kind: "Series roadmap",
+        label: "The Last Human Workforce · Volume IV",
+        path: "/series/the-last-human-workforce/",
+      },
+      {
+        kind: "Research preview",
+        label: "The Autonomous Illusion",
+        path: "/research/the-autonomous-illusion/",
+      },
+      {
+        kind: "SSRN preprint",
+        label: "Disconnected Hearts — The Tech Revolution of Intimacy",
+        path: "/library/documents/disconnected-hearts-ssrn/",
+      },
+      {
+        kind: "SSRN preprint",
+        label: "The Double Tax on Time",
+        path: "/library/documents/double-tax-on-time-ssrn/",
+      },
+    ],
   },
   {
     id: "democracy",
@@ -108,6 +180,34 @@ export const topicPathways: TopicPathway[] = [
       "Compare formal legitimacy with the procedures and resources that make institutions usable.",
     topicSlugs: ["politics", "law", "history"],
     volumeLabels: ["Volume I", "Volume II"],
+    primaryVolumeLabel: "Volume I",
+    coreIdeas: [
+      "Separate formal legitimacy from the capacity to make institutions usable.",
+      "Read law, procedure, enforcement, and evidence together.",
+      "Ask who can decide, who can review, and who bears the consequences.",
+    ],
+    contentLinks: [
+      {
+        kind: "Series roadmap",
+        label: "Independent Observer · Volume I",
+        path: "/series/independent-observer/",
+      },
+      {
+        kind: "Series roadmap",
+        label: "The Empire Beneath Democracy · Volume II",
+        path: "/series/the-empire-beneath-democracy/",
+      },
+      {
+        kind: "SSRN preprint",
+        label: "From Colonization to China’s Rise",
+        path: "/library/documents/from-colonization-to-chinas-rise-ssrn/",
+      },
+      {
+        kind: "Documentary preview",
+        label: "Could America Leave NATO?",
+        path: "/documentaries/could-america-leave-nato/",
+      },
+    ],
   },
   {
     id: "human-capability",
@@ -117,6 +217,34 @@ export const topicPathways: TopicPathway[] = [
       "Read the science and technology map with its uncertainty and release boundaries visible.",
     topicSlugs: ["science", "technology"],
     volumeLabels: ["Volume IV"],
+    primaryVolumeLabel: "Volume IV",
+    coreIdeas: [
+      "Make evidence, uncertainty, and release boundaries visible.",
+      "Distinguish human augmentation from claims of human replacement.",
+      "Connect medicine, energy, infrastructure, and human limits without inventing certainty.",
+    ],
+    contentLinks: [
+      {
+        kind: "Series roadmap",
+        label: "The Last Human Workforce · Volume IV",
+        path: "/series/the-last-human-workforce/",
+      },
+      {
+        kind: "Research preview",
+        label: "The Autonomous Illusion",
+        path: "/research/the-autonomous-illusion/",
+      },
+      {
+        kind: "SSRN preprint",
+        label: "Disconnected Hearts — The Tech Revolution of Intimacy",
+        path: "/library/documents/disconnected-hearts-ssrn/",
+      },
+      {
+        kind: "Documentary preview",
+        label: "The Martian Illusion",
+        path: "/documentaries/the-martian-illusion/",
+      },
+    ],
   },
   {
     id: "migration",
@@ -126,6 +254,39 @@ export const topicPathways: TopicPathway[] = [
       "Connect demographic change to institutions, work, borders, and the allocation of risk.",
     topicSlugs: ["economics", "politics", "history"],
     volumeLabels: ["Volume II", "Volume III"],
+    primaryVolumeLabel: "Volume II",
+    coreIdeas: [
+      "Define removals, returns, expulsions, and migration categories before comparison.",
+      "Read movement through enforcement, labor, institutions, and political memory.",
+      "Connect demographic change to distribution and the allocation of public risk.",
+    ],
+    contentLinks: [
+      {
+        kind: "Series roadmap",
+        label: "The Empire Beneath Democracy · Volume II",
+        path: "/series/the-empire-beneath-democracy/",
+      },
+      {
+        kind: "SSRN preprint",
+        label: "Who Deported More?",
+        path: "/library/documents/who-deported-more-ssrn/",
+      },
+      {
+        kind: "SSRN preprint",
+        label: "The Latino Irony",
+        path: "/library/documents/latino-irony-ssrn/",
+      },
+      {
+        kind: "SSRN preprint",
+        label: "From Colonization to China’s Rise",
+        path: "/library/documents/from-colonization-to-chinas-rise-ssrn/",
+      },
+      {
+        kind: "Series roadmap",
+        label: "Managed Decline · Volume III",
+        path: "/series/managed-decline/",
+      },
+    ],
   },
 ];
 
@@ -137,18 +298,116 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
   "Volume I": {
     lens: "Foundation, evidence, and democratic capacity",
     topicSlugs: ["history", "politics", "law"],
+    coreIdeas: [
+      "Method before conclusion: define evidence, interpretation, and uncertainty.",
+      "Democratic capacity depends on usable institutions, not only formal legitimacy.",
+      "Public memory and correction are part of institutional accountability.",
+    ],
+    contentLinks: [
+      {
+        kind: "SSRN preprint",
+        label: "Independent Observer: Volume I foundational manifesto",
+        path: "/library/documents/independent-observer-volume-one-ssrn/",
+      },
+      {
+        kind: "Research preview",
+        label: "Lawsuits Are Illusions",
+        path: "/research/lawsuits-are-illusions-where-institutional-power-actually-resides/",
+      },
+      {
+        kind: "Video preview",
+        label: "Why Evidence Alone Is Not Enough",
+        path: "/videos/why-evidence-alone-is-not-enough/",
+      },
+    ],
   },
   "Volume II": {
     lens: "Sovereignty, institutions, and public power",
     topicSlugs: ["history", "politics", "economics"],
+    coreIdeas: [
+      "Sovereignty is shaped by constitutional design, enforcement, alliances, and markets.",
+      "Historical power shifts remain active in present political arrangements.",
+      "Migration, demography, and public authority are connected questions.",
+    ],
+    contentLinks: [
+      {
+        kind: "SSRN preprint",
+        label: "Who Deported More?",
+        path: "/library/documents/who-deported-more-ssrn/",
+      },
+      {
+        kind: "SSRN preprint",
+        label: "The Latino Irony",
+        path: "/library/documents/latino-irony-ssrn/",
+      },
+      {
+        kind: "SSRN preprint",
+        label: "From Colonization to China’s Rise",
+        path: "/library/documents/from-colonization-to-chinas-rise-ssrn/",
+      },
+      {
+        kind: "Documentary preview",
+        label: "Could America Leave NATO?",
+        path: "/documentaries/could-america-leave-nato/",
+      },
+    ],
   },
   "Volume III": {
     lens: "Work, social citizenship, and economic insecurity",
     topicSlugs: ["economics", "law", "politics"],
+    coreIdeas: [
+      "Work is shaped by licensing, welfare, taxation, health systems, and public visibility.",
+      "Economic insecurity is institutional, not only individual.",
+      "Policy proposals need administrative design as well as moral argument.",
+    ],
+    contentLinks: [
+      {
+        kind: "SSRN preprint",
+        label: "The Wardhan Tax Doctrine",
+        path: "/library/documents/wardhan-tax-doctrine-ssrn/",
+      },
+      {
+        kind: "Research preview",
+        label: "The Welfare Paradox",
+        path: "/research/the-welfare-paradox/",
+      },
+      {
+        kind: "Series roadmap",
+        label: "Managed Decline",
+        path: "/series/managed-decline/",
+      },
+    ],
   },
   "Volume IV": {
     lens: "AI, science, infrastructure, and human capability",
     topicSlugs: ["technology", "science", "economics"],
+    coreIdeas: [
+      "Automation is a system of compute, energy, data, maintenance, and human judgment.",
+      "Scientific capability must be read with uncertainty and release boundaries visible.",
+      "Human work, intimacy, health, and adaptation remain part of the technology story.",
+    ],
+    contentLinks: [
+      {
+        kind: "Research preview",
+        label: "The Autonomous Illusion",
+        path: "/research/the-autonomous-illusion/",
+      },
+      {
+        kind: "SSRN preprint",
+        label: "Disconnected Hearts — The Tech Revolution of Intimacy",
+        path: "/library/documents/disconnected-hearts-ssrn/",
+      },
+      {
+        kind: "SSRN preprint",
+        label: "The Double Tax on Time",
+        path: "/library/documents/double-tax-on-time-ssrn/",
+      },
+      {
+        kind: "Documentary preview",
+        label: "The Martian Illusion",
+        path: "/documentaries/the-martian-illusion/",
+      },
+    ],
   },
 };
 

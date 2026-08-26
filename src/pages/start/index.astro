@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
+import TopicVolumeMap from "../../components/TopicVolumeMap.astro";
 import { sitePath } from "../../lib/paths";
 ---
 
@@ -16,32 +17,32 @@ import { sitePath } from "../../lib/paths";
   />
   <section class="section section-white">
     <div class="shell start-grid">
-      <a class="start-card" href={sitePath("/about/")}
+      <a class="start-card" href={sitePath("/topics/#topic-pathway-method")}
         ><span>01</span><h2>Understand the method</h2><p>
           See how documented fact, interpretation, uncertainty, and correction stay distinct.
-        </p><strong>Read the mission →</strong></a
+        </p><strong>Open the method plugin →</strong></a
       >
-      <a class="start-card" href={sitePath("/topics/technology/")}
+      <a class="start-card" href={sitePath("/topics/#topic-pathway-ai-labor")}
         ><span>02</span><h2>Explore AI and labor</h2><p>
           Follow the public previews and Volume IV roadmap notes without mistaking them for a
           released book.
-        </p><strong>Open technology →</strong></a
+        </p><strong>Open the AI &amp; labor plugin →</strong></a
       >
-      <a class="start-card" href={sitePath("/topics/politics/")}
+      <a class="start-card" href={sitePath("/topics/#topic-pathway-democracy")}
         ><span>03</span><h2>Explore democracy and institutions</h2><p>
           Browse the institutional, law, and political previews currently mapped to the public
           archive.
-        </p><strong>Open politics →</strong></a
+        </p><strong>Open the democracy plugin →</strong></a
       >
-      <a class="start-card" href={sitePath("/topics/science/")}
+      <a class="start-card" href={sitePath("/topics/#topic-pathway-human-capability")}
         ><span>04</span><h2>Explore science and human capability</h2><p>
           See how science, technology, and capability questions are held as research directions.
-        </p><strong>Open science →</strong></a
+        </p><strong>Open the science plugin →</strong></a
       >
-      <a class="start-card" href={sitePath("/topics/economics/")}
+      <a class="start-card" href={sitePath("/topics/#topic-pathway-migration")}
         ><span>05</span><h2>Explore migration and political economy</h2><p>
           Begin with labor, welfare, work, and the political-economic structure of public life.
-        </p><strong>Open economics →</strong></a
+        </p><strong>Open the migration plugin →</strong></a
       >
       <a class="start-card start-card-dark" href={sitePath("/library/")}
         ><span>06</span><h2>See the reviewed library</h2><p>
@@ -51,4 +52,5 @@ import { sitePath } from "../../lib/paths";
       >
     </div>
   </section>
+  <TopicVolumeMap />
 </BaseLayout>

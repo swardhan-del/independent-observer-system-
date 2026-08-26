@@ -32,6 +32,26 @@ import { slugify } from "../lib/slugs";
               </h3>
               <p class="topic-volume-lens">{connection.lens}</p>
               <p>{item.description}</p>
+              <div class="topic-volume-core">
+                <p class="topic-volume-subhead">Core ideas</p>
+                <ul>
+                  {connection.coreIdeas.map((idea) => (
+                    <li>{idea}</li>
+                  ))}
+                </ul>
+              </div>
+              <div
+                class="topic-volume-work-links"
+                aria-label={item.volume + " public entry points"}
+              >
+                <p class="topic-volume-subhead">Public entry points</p>
+                {connection.contentLinks.map((content) => (
+                  <a href={sitePath(content.path)}>
+                    <span>{content.kind}</span>
+                    {content.label}
+                  </a>
+                ))}
+              </div>
               <div class="topic-volume-topics" aria-label={item.volume + " connected topics"}>
                 {connection.topicSlugs.map((slug) => {
                   const topic = topicPluginFor(slug);

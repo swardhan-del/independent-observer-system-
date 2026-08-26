@@ -12,7 +12,9 @@ import { topicHubs } from "../data/topics";
 
 const sourceRoot = join(process.cwd(), "src");
 const topicIndex = readFileSync(join(sourceRoot, "pages/topics/index.astro"), "utf8");
+const startIndex = readFileSync(join(sourceRoot, "pages/start/index.astro"), "utf8");
 const topicAtlas = readFileSync(join(sourceRoot, "components/TopicAtlas.astro"), "utf8");
+const topicVolumeMap = readFileSync(join(sourceRoot, "components/TopicVolumeMap.astro"), "utf8");
 const topicReviewQueue = readFileSync(
   join(sourceRoot, "components/TopicReviewQueue.astro"),
   "utf8",
@@ -37,6 +39,9 @@ describe("topic discovery plugin", () => {
     ).toBe(true);
     expect(topicPathways).toHaveLength(5);
     expect(topicPathways.every((pathway) => pathway.volumeLabels.length > 0)).toBe(true);
+    expect(topicPathways.every((pathway) => pathway.primaryVolumeLabel.length > 0)).toBe(true);
+    expect(topicPathways.every((pathway) => pathway.coreIdeas.length >= 3)).toBe(true);
+    expect(topicPathways.every((pathway) => pathway.contentLinks.length >= 3)).toBe(true);
     expect(
       topicPathways.every((pathway) =>
         pathway.volumeLabels.every((volume) => volume in volumeTopicConnections),
@@ -82,14 +87,22 @@ describe("topic discovery plugin", () => {
     expect(topicReviewQueue).toContain("Metadata only · not a published article");
   });
 
-  it("labels the five pathways with relevant volume links", () => {
+  it("plugs each pathway into core ideas, volumes, and public entry points", () => {
     const topicPathwaysComponent = readFileSync(
       join(sourceRoot, "components/TopicPathways.astro"),
       "utf8",
     );
-    expect(topicPathwaysComponent).toContain("Five questions across four volumes.");
+    expect(topicPathwaysComponent).toContain("Five routes, plugged into the work.");
+    expect(topicPathwaysComponent).toContain("Discovery plugin");
+    expect(topicPathwaysComponent).toContain("Core ideas");
+    expect(topicPathwaysComponent).toContain("Follow the work");
     expect(topicPathwaysComponent).toContain("Relevant volumes");
     expect(topicPathwaysComponent).toContain("slugify(volume.title)");
+    expect(startIndex).toContain("<TopicVolumeMap />");
+    expect(startIndex).toContain("topic-pathway-method");
+    expect(topicVolumeMap).toContain("Public entry points");
+    expect(topicVolumeMap).toContain("connection.coreIdeas");
+    expect(topicVolumeMap).toContain("connection.contentLinks");
   });
 
   it("connects all four roadmap volumes to at least two topic hubs", () => {
@@ -102,6 +115,12 @@ describe("topic discovery plugin", () => {
     expect(
       Object.values(volumeTopicConnections).every(
         (connection: { topicSlugs: string[] }) => connection.topicSlugs.length >= 2,
+      ),
+    ).toBe(true);
+    expect(
+      Object.values(volumeTopicConnections).every(
+        (connection: { coreIdeas: string[]; contentLinks: unknown[] }) =>
+          connection.coreIdeas.length >= 3 && connection.contentLinks.length >= 2,
       ),
     ).toBe(true);
   });
