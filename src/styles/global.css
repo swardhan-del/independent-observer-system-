@@ -2447,6 +2447,24 @@ kbd {
   font-size: 0.88rem;
 }
 
+.evidence-source {
+  display: inline-flex;
+  gap: 7px;
+  margin-top: 13px;
+  padding-top: 9px;
+  border-top: 1px solid rgb(63 77 92 / 18%);
+  color: var(--navy-700);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.evidence-source:hover {
+  color: var(--gold-ink);
+}
+
 .claim-map ol,
 .series-timeline,
 .explainer-timeline,

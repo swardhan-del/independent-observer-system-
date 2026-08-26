@@ -188,6 +188,7 @@ describe("interactive preview tools", () => {
     expect(reader).toContain("data-reader-download-citation");
     expect(evidence).toContain('aria-pressed="true"');
     expect(evidence).toContain("The full text remains visible");
+    expect(evidence).toContain("data-evidence-source");
   });
 
   it("exposes SSRN provenance and usage signals without inventing ratings", () => {
@@ -229,6 +230,9 @@ describe("interactive preview tools", () => {
     );
     expect(homepage).toMatch(/Volume II follows power\s+through sovereignty and institutions/);
     expect(homepage).toContain("<HomepageVolumeGuide />");
+    expect(homepage).toContain("ssrnPreprintDocuments");
+    expect(homepage).toContain("The public Volume I SSRN record reports");
+    expect(homepage).toContain("source: volumeOneSource");
     expect(homepage).toContain("research published through SSRN, ResearchGate, and Zenodo");
     expect(homepage).toContain("new research, revisions, and evidence continue to develop here");
     expect(homepageVolumeGuide).toContain("Volume I establishes the method of observation");

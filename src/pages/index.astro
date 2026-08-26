@@ -2,10 +2,22 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import EditorialCard from "../components/EditorialCard.astro";
 import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
+import { ssrnPreprintDocuments } from "../data/ssrn";
 import { sitePath } from "../lib/paths";
 import { socialLinks } from "../data/social";
 import EvidenceLayer from "../components/EvidenceLayer.astro";
 import HomepageVolumeGuide from "../components/HomepageVolumeGuide.astro";
+
+const volumeOneMethod = ssrnPreprintDocuments.find(
+  (entry) => entry.id === "independent-observer-volume-one-ssrn",
+);
+const volumeOneMethodHref = volumeOneMethod
+  ? sitePath(`/library/documents/${volumeOneMethod.id}/`)
+  : sitePath("/library/");
+const volumeOneSource = {
+  label: "Read the Volume I public record",
+  href: volumeOneMethodHref,
+};
 ---
 
 <BaseLayout
@@ -175,18 +187,25 @@ import HomepageVolumeGuide from "../components/HomepageVolumeGuide.astro";
       </div>
       <EvidenceLayer
         blocks={[
-          { category: "Documented fact", text: "A claim supported by a reviewed source record." },
+          {
+            category: "Documented fact",
+            text: `The public Volume I SSRN record reports ${volumeOneMethod?.metrics?.downloads ?? "—"} downloads and ${volumeOneMethod?.metrics?.abstractViews ?? "—"} abstract views in the latest retrieved result. These figures are usage signals, not a quality rating.`,
+            source: volumeOneSource,
+          },
           {
             category: "Interpretation",
-            text: "The author's analysis of what the record may mean.",
+            text: "The foundation paper interprets information asymmetry and institutional design as part of political economy; it asks readers to inspect the record before accepting a conclusion.",
+            source: volumeOneSource,
           },
           {
             category: "Hypothesis",
-            text: "An explanation that remains open to testing and revision.",
+            text: "If the basis and limits of an argument are visible, public disagreement may become more correctable.",
+            source: volumeOneSource,
           },
           {
             category: "Limitation",
-            text: "A boundary, gap, or unresolved issue that should remain visible.",
+            text: "This is a working paper, not peer review; the usage figures do not establish the method or prove a claim about any person or institution.",
+            source: volumeOneSource,
           },
         ]}
       />

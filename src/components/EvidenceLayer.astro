@@ -11,6 +11,10 @@ export type EvidenceCategory =
 export type EvidenceBlock = {
   category: EvidenceCategory;
   text: string;
+  source?: {
+    label: string;
+    href: string;
+  };
 };
 
 type Props = {
@@ -44,6 +48,11 @@ const { blocks } = Astro.props as Props;
         <article class="evidence-block" data-evidence-category={block.category}>
           <span class="evidence-label">{block.category}</span>
           <p>{block.text}</p>
+          {block.source && (
+            <a class="evidence-source" data-evidence-source href={block.source.href}>
+              {block.source.label} <span aria-hidden="true">→</span>
+            </a>
+          )}
         </article>
       ))
     }
