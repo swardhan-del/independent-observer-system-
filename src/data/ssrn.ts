@@ -5,12 +5,14 @@ const metricsDate = "25 August 2026";
 
 type SsrnInput = Omit<PublicDocument, "sourceLabel" | "status" | "author" | "metrics"> & {
   metrics: Omit<NonNullable<PublicDocument["metrics"]>, "checkedAt">;
+  publicationContext?: string;
 };
 
 function sections(
   abstractText: string,
   readingPoints: string[],
   limitation: string,
+  publicationContext?: string,
 ): PublicDocumentSection[] {
   return [
     {
@@ -28,6 +30,7 @@ function sections(
       heading: "Publication boundary",
       paragraphs: [
         "This page is a curated public reading copy assembled from the matching Dropbox preprint controller and the author-linked SSRN record. It does not mirror the private archive or reproduce alternate drafts.",
+        ...(publicationContext ? [publicationContext] : []),
         limitation,
       ],
     },
@@ -320,6 +323,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
         "The public-facing purpose is to make the basis and limits of an argument visible before asking readers to accept its conclusion.",
       ],
       "The SSRN result reports 23 downloads and 113 abstract views. It is a foundational working paper, not a claim that the full Independent Observer series has been published or peer reviewed.",
+      "This page is the public entry point for Volume I’s Foundational Manifesto, the one Volume I paper currently represented by a matched public SSRN record. It explains the method of observation, documentation, information asymmetry, institutional design, and public reasoning; other Volume I papers remain outside this reading copy until their public records and release status are separately verified.",
     ),
     citations: [
       {
