@@ -1,0 +1,350 @@
+---
+import {
+  topicPluginDefinitions,
+  topicPluginFor,
+  volumeTopicConnections,
+} from "../../plugins/topic-discovery/catalog";
+import { volumeResearchMap } from "../data/volume-research";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+
+const publicCopyCount = volumeResearchMap.reduce(
+  (total, volume) => total + volume.papers.length,
+  0,
+);
+const catalogueStats = [
+  { value: String(volumeResearchMap.length), label: "Volumes indexed" },
+  { value: String(publicCopyCount), label: "Public reading copies" },
+  { value: String(topicPluginDefinitions.length), label: "Topic lenses" },
+  { value: "Human", label: "Release gate" },
+];
+---
+
+<section
+  class="section section-white publication-catalogue"
+  aria-labelledby="publication-catalogue-title"
+>
+  <div class="shell">
+    <div class="section-heading publication-catalogue-heading">
+      <div>
+        <p class="eyebrow">Official catalogue</p>
+        <h2 id="publication-catalogue-title">The work, indexed by volume.</h2>
+      </div>
+      <p>
+        Investigate the Independent Observer program by volume, status, topic, and public reading
+        copy. Every record keeps its editorial state visible.
+      </p>
+    </div>
+
+    <dl class="publication-catalogue-ledger" aria-label="Catalogue summary">
+      {
+        catalogueStats.map((stat) => (
+          <div>
+            <dt>{stat.value}</dt>
+            <dd>{stat.label}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="publication-catalogue-controls" data-publication-catalogue>
+      <div class="publication-catalogue-control-heading">
+        <div>
+          <p class="eyebrow">Investigative index</p>
+          <h3>Find the line of inquiry.</h3>
+        </div>
+        <p>Search the catalogue locally. No query or reading-list data leaves this browser.</p>
+      </div>
+      <div class="publication-catalogue-search">
+        <label for="publication-catalogue-query">Search the catalogue</label>
+        <input
+          id="publication-catalogue-query"
+          type="search"
+          data-catalogue-query
+          autocomplete="off"
+          placeholder="Try migration, automation, welfare, or Volume II"
+        />
+      </div>
+      <div class="publication-catalogue-filter-groups">
+        <div class="publication-catalogue-filter-group" role="group" aria-label="Filter by volume">
+          <span>Volume</span>
+          <button type="button" data-catalogue-volume="all" aria-pressed="true">All</button>
+          {
+            volumeResearchMap.map((item) => (
+              <button type="button" data-catalogue-volume={item.volume} aria-pressed="false">
+                {item.volume}
+              </button>
+            ))
+          }
+        </div>
+        <div class="publication-catalogue-filter-group" role="group" aria-label="Filter by status">
+          <span>Status</span>
+          <button type="button" data-catalogue-status="all" aria-pressed="true">All</button>
+          <button
+            type="button"
+            data-catalogue-status="in editorial development"
+            aria-pressed="false"
+          >
+            In development
+          </button>
+          <button type="button" data-catalogue-status="concept preview" aria-pressed="false">
+            Concept preview
+          </button>
+        </div>
+      </div>
+      <p
+        class="publication-catalogue-status"
+        data-catalogue-status-message
+        role="status"
+        aria-live="polite"
+      >
+        Showing all {volumeResearchMap.length} volume records
+      </p>
+    </div>
+
+    <p class="publication-catalogue-boundary">
+      Catalogue record, not release claim: public reading copies are indexed for discovery, while
+      volume publication still requires source, rights, quality, and human approval gates.
+    </p>
+
+    <ol
+      class="publication-catalogue-grid"
+      data-catalogue-grid
+      aria-label="Independent Observer publication catalogue"
+    >
+      {
+        volumeResearchMap.map((item, index) => {
+          const connection = volumeTopicConnections[item.volume];
+          const volumeSlug = slugify(item.volume);
+          const searchText = [
+            item.volume,
+            item.title,
+            item.category,
+            item.description,
+            item.status,
+            connection.lens,
+            ...connection.coreIdeas,
+            ...item.papers.map((paper) => paper.title),
+          ].join(" ");
+          const leadingPaper = item.papers[0];
+
+          return (
+            <li
+              class="publication-catalogue-card"
+              id={`catalogue-${volumeSlug}`}
+              data-catalogue-card
+              data-catalogue-volume={item.volume}
+              data-catalogue-status={item.status.toLocaleLowerCase()}
+              data-catalogue-search={searchText}
+              aria-labelledby={`catalogue-${volumeSlug}-title`}
+            >
+              <div class="publication-catalogue-card-topline">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span>{item.volume}</span>
+              </div>
+              <div class="publication-catalogue-card-heading">
+                <span class="status-pill">{item.status}</span>
+                <span class="publication-catalogue-record-label">Catalogue record</span>
+              </div>
+              <h3 id={`catalogue-${volumeSlug}-title`}>
+                <a href={sitePath(`/series/${slugify(item.title)}/`)}>{item.title}</a>
+              </h3>
+              <p class="publication-catalogue-lens">{connection.lens}</p>
+              <p>{item.description}</p>
+
+              <details class="publication-catalogue-details" open>
+                <summary>Core lines of inquiry</summary>
+                <ul>
+                  {connection.coreIdeas.map((idea) => (
+                    <li>{idea}</li>
+                  ))}
+                </ul>
+              </details>
+
+              <div class="publication-catalogue-signal">
+                <div>
+                  <p class="publication-catalogue-subhead">Public research signal</p>
+                  <strong>
+                    {item.papers.length}{" "}
+                    {item.papers.length === 1 ? "reading copy" : "reading copies"}
+                  </strong>
+                </div>
+                {leadingPaper && (
+                  <p>
+                    Leading public signal: {leadingPaper.metrics?.downloads ?? "—"} downloads ·{" "}
+                    {leadingPaper.metrics?.abstractViews ?? "—"} abstract views
+                  </p>
+                )}
+              </div>
+
+              <div class="publication-catalogue-papers">
+                <p class="publication-catalogue-subhead">Public record</p>
+                <ul>
+                  {item.papers.map((paper) => (
+                    <li>
+                      <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
+                      <span>{paper.status} · usage signal only</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class="publication-catalogue-papers publication-catalogue-entry-points">
+                <p class="publication-catalogue-subhead">Connected public work</p>
+                <ul>
+                  {connection.contentLinks.map((content) => (
+                    <li>
+                      <a href={sitePath(content.path)}>{content.label}</a>
+                      <span>{content.kind}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class="publication-catalogue-topics" aria-label={`${item.volume} topic lenses`}>
+                {connection.topicSlugs.map((slug) => {
+                  const topic = topicPluginFor(slug);
+                  return <a href={sitePath(`/topics/${slug}/`)}>{topic.name}</a>;
+                })}
+              </div>
+
+              <div class="publication-catalogue-card-footer">
+                <a class="card-open-link" href={sitePath(`/series/${slugify(item.title)}/`)}>
+                  Open investigative file →
+                </a>
+                <button
+                  class="card-save"
+                  type="button"
+                  data-reading-toggle
+                  data-reading-id={`route:${sitePath(`/series/${slugify(item.title)}/`)}`}
+                  data-reading-title={item.title}
+                  data-reading-href={sitePath(`/series/${slugify(item.title)}/`)}
+                  data-reading-type="Publication catalogue"
+                  aria-pressed="false"
+                >
+                  Save
+                </button>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ol>
+    <p class="publication-catalogue-empty" data-catalogue-empty hidden>
+      No catalogue records match that investigation. Try a volume, topic, or status filter.
+    </p>
+  </div>
+</section>
+
+<script>
+  import { normalizeSearchText } from "../lib/search";
+
+  document.querySelectorAll<HTMLElement>("[data-publication-catalogue]").forEach((root) => {
+    const query = root.querySelector<HTMLInputElement>("[data-catalogue-query]");
+    const count = root.querySelector<HTMLElement>("[data-catalogue-status-message]");
+    const catalogue = root.parentElement;
+    const cards = catalogue
+      ? [...catalogue.querySelectorAll<HTMLElement>("[data-catalogue-card]")]
+      : [];
+    const empty = catalogue?.querySelector<HTMLElement>("[data-catalogue-empty]");
+    const volumeButtons = [...root.querySelectorAll<HTMLButtonElement>("[data-catalogue-volume]")];
+    const statusButtons = [...root.querySelectorAll<HTMLButtonElement>("[data-catalogue-status]")];
+
+    if (!query || !count || !empty || cards.length === 0) return;
+
+    let activeVolume = "all";
+    let activeStatus = "all";
+
+    const syncUrl = () => {
+      const url = new URL(window.location.href);
+      const value = query.value.trim();
+      if (value) url.searchParams.set("q", value);
+      else url.searchParams.delete("q");
+      if (activeVolume === "all") url.searchParams.delete("volume");
+      else url.searchParams.set("volume", activeVolume);
+      if (activeStatus === "all") url.searchParams.delete("status");
+      else url.searchParams.set("status", activeStatus);
+      window.history.replaceState(
+        null,
+        "",
+        url.pathname + (url.search ? url.search : "") + url.hash,
+      );
+    };
+
+    const syncButtons = () => {
+      for (const button of volumeButtons) {
+        button.setAttribute(
+          "aria-pressed",
+          String((button.dataset.catalogueVolume ?? "all") === activeVolume),
+        );
+      }
+      for (const button of statusButtons) {
+        button.setAttribute(
+          "aria-pressed",
+          String((button.dataset.catalogueStatus ?? "all") === activeStatus),
+        );
+      }
+    };
+
+    const update = (writeUrl = true) => {
+      const terms = normalizeSearchText(query.value).split(" ").filter(Boolean);
+      let visible = 0;
+      for (const card of cards) {
+        const tokens = new Set(
+          normalizeSearchText(card.dataset.catalogueSearch ?? "")
+            .split(" ")
+            .filter(Boolean),
+        );
+        const matchesQuery = terms.every((term) => tokens.has(term));
+        const matchesVolume =
+          activeVolume === "all" || card.dataset.catalogueVolume === activeVolume;
+        const matchesStatus =
+          activeStatus === "all" || card.dataset.catalogueStatus === activeStatus;
+        const isVisible = matchesQuery && matchesVolume && matchesStatus;
+        card.hidden = !isVisible;
+        if (isVisible) visible += 1;
+      }
+      count.textContent = `Showing ${visible} of ${cards.length} volume records`;
+      empty.hidden = visible !== 0;
+      if (writeUrl) syncUrl();
+    };
+
+    for (const button of volumeButtons) {
+      button.addEventListener("click", () => {
+        activeVolume = button.dataset.catalogueVolume ?? "all";
+        syncButtons();
+        update();
+      });
+    }
+    for (const button of statusButtons) {
+      button.addEventListener("click", () => {
+        activeStatus = button.dataset.catalogueStatus ?? "all";
+        syncButtons();
+        update();
+      });
+    }
+    query.addEventListener("input", () => update());
+
+    const applyUrlState = () => {
+      const params = new URLSearchParams(window.location.search);
+      query.value = params.get("q") ?? "";
+      const requestedVolume = params.get("volume") ?? "all";
+      const requestedStatus = params.get("status") ?? "all";
+      activeVolume = volumeButtons.some(
+        (button) => button.dataset.catalogueVolume === requestedVolume,
+      )
+        ? requestedVolume
+        : "all";
+      activeStatus = statusButtons.some(
+        (button) => button.dataset.catalogueStatus === requestedStatus,
+      )
+        ? requestedStatus
+        : "all";
+      syncButtons();
+      update(false);
+    };
+
+    window.addEventListener("popstate", applyUrlState);
+    applyUrlState();
+  });
+</script>

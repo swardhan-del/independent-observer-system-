@@ -21,10 +21,10 @@ const featuredDocuments = ssrnPreprintDocuments.filter((entry) => entry.volume =
 <BaseLayout title={item.title} description={item.description} currentPath={currentPath}>
   <EditorialDetail
     item={item}
-    eyebrow={`${item.volume} roadmap`}
-    backLabel="Back to series roadmap"
+    eyebrow={`${item.volume} catalogue file`}
+    backLabel="Back to publication catalogue"
     backHref={sitePath("/series/")}
-    statusNote="This is a public roadmap entry. The series remains in development; publication, peer review, and commercial release are not implied."
+    statusNote="This is a public catalogue entry. The volume remains in development; publication, peer review, and commercial release are not implied."
     featuredDocuments={featuredDocuments}
   />
 </BaseLayout>

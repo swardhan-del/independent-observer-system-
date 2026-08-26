@@ -13,6 +13,7 @@ const card = readFileSync(join(sourceRoot, "components/EditorialCard.astro"), "u
 const readingList = readFileSync(join(sourceRoot, "components/ReadingList.astro"), "utf8");
 const layout = readFileSync(join(sourceRoot, "layouts/BaseLayout.astro"), "utf8");
 const series = readFileSync(join(sourceRoot, "pages/series/index.astro"), "utf8");
+const catalogue = readFileSync(join(sourceRoot, "components/PublicationCatalogue.astro"), "utf8");
 const reader = readFileSync(join(sourceRoot, "components/DocumentReader.astro"), "utf8");
 const evidence = readFileSync(join(sourceRoot, "components/EvidenceLayer.astro"), "utf8");
 const detail = readFileSync(join(sourceRoot, "components/EditorialDetail.astro"), "utf8");
@@ -41,7 +42,12 @@ describe("interactive preview tools", () => {
     expect(filter).toContain("replaceState");
     expect(card).toContain("data-filter-card");
     expect(card).toContain("data-search-text");
-    expect(series).toContain("data-filter-card");
+    expect(series).toContain("<PublicationCatalogue />");
+    expect(catalogue).toContain("data-publication-catalogue");
+    expect(catalogue).toContain("data-catalogue-query");
+    expect(catalogue).toContain("data-catalogue-volume");
+    expect(catalogue).toContain("data-catalogue-status");
+    expect(catalogue).toContain("replaceState");
   });
 
   it("keeps collection forms explicitly disabled until a privacy-safe service exists", () => {
@@ -67,6 +73,17 @@ describe("interactive preview tools", () => {
     expect(documentaries).toContain("Research state:");
     expect(documentaries).toContain("Reading copy →");
     expect(documentaries).toContain("SSRN ↗");
+  });
+
+  it("presents the series as an official catalogue without collapsing editorial status", () => {
+    expect(series).toContain('title="Publication Catalogue"');
+    expect(series).not.toContain("review roadmap, not a publication catalogue");
+    expect(series).toContain("catalogue record does not make a volume a finished publication");
+    expect(catalogue).toContain("Official catalogue");
+    expect(catalogue).toContain("Open investigative file");
+    expect(catalogue).toContain("Connected public work");
+    expect(catalogue).toContain("usage signal only");
+    expect(catalogue).toContain("human approval gates");
   });
 
   it("ships a browser-local reading list without an account or collection endpoint", () => {

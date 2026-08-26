@@ -1,94 +1,25 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ContentFilter from "../../components/ContentFilter.astro";
 import PageHero from "../../components/PageHero.astro";
 import EditorialCard from "../../components/EditorialCard.astro";
+import PublicationCatalogue from "../../components/PublicationCatalogue.astro";
 import { dropboxFeedItems } from "../../data/dropbox-content.generated";
-import { seriesItems } from "../../data/series";
 import { sitePath } from "../../lib/paths";
-import { slugify } from "../../lib/slugs";
 
 const automatedSeriesItems = dropboxFeedItems.filter((item) => item.kind === "series");
 ---
 
 <BaseLayout
-  title="Series Roadmap"
-  description="A preview roadmap for the four-volume Independent Observer nonfiction series."
+  title="Publication Catalogue"
+  description="The official public-safe catalogue of the four-volume Independent Observer research program."
   currentPath="/series/"
 >
   <PageHero
-    eyebrow="Publication roadmap"
-    title="One series. Four mechanisms."
-    description="A public-safe view of the Independent Observer series as it develops across democratic capacity, sovereignty, social citizenship, and human capability."
+    eyebrow="Publication catalogue"
+    title="One series. Four lines of inquiry."
+    description="An official public-safe index of the Independent Observer program: its four volumes, public reading copies, investigative files, and visible release boundaries."
   />
-  <section class="section section-white">
-    <div class="shell">
-      <h2 class="sr-only">Independent Observer volume previews</h2>
-      <div class="placeholder-notice">
-        This is a review roadmap, not a publication catalogue. Candidate titles and descriptions may
-        change; no volume is represented as published, peer reviewed, or commercially released.
-      </div>
-      <ol class="series-timeline" aria-label="Four-volume series roadmap">
-        {
-          seriesItems.map((item, index) => (
-            <li>
-              <span>{item.volume}</span>
-              <strong>{String(index + 1).padStart(2, "0")}</strong>
-              <a href={sitePath(`/series/${slugify(item.title)}/`)}>{item.title}</a>
-              <small>{item.status}</small>
-            </li>
-          ))
-        }
-      </ol>
-      <ContentFilter targetId="series-preview-grid" itemCount={seriesItems.length} />
-      <div class="card-grid" id="series-preview-grid">
-        {
-          seriesItems.map((item, index) => (
-            <article
-              class="editorial-card"
-              data-filter-card
-              data-search-text={[
-                item.title,
-                item.volume,
-                item.category,
-                item.description,
-                item.status,
-              ]
-                .join(" ")
-                .toLocaleLowerCase()}
-              data-status={item.status.toLocaleLowerCase()}
-            >
-              <div class="card-meta">
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <span>{item.volume}</span>
-              </div>
-              <h3>{item.title}</h3>
-              <p class="card-category">{item.category}</p>
-              <p>{item.description}</p>
-              <div class="card-footer">
-                <span class="status-pill">{item.status}</span>
-                <button
-                  class="card-save"
-                  type="button"
-                  data-reading-toggle
-                  data-reading-id={`route:${sitePath(`/series/${slugify(item.title)}/`)}`}
-                  data-reading-title={item.title}
-                  data-reading-href={sitePath(`/series/${slugify(item.title)}/`)}
-                  data-reading-type="Series roadmap"
-                  aria-pressed="false"
-                >
-                  Save
-                </button>
-                <a class="card-open-link" href={sitePath(`/series/${slugify(item.title)}/`)}>
-                  Open roadmap note →
-                </a>
-              </div>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-  </section>
+  <PublicationCatalogue />
   {
     automatedSeriesItems.length > 0 && (
       <section class="section section-navy">
@@ -96,7 +27,7 @@ const automatedSeriesItems = dropboxFeedItems.filter((item) => item.kind === "se
           <div class="section-heading">
             <div>
               <p class="eyebrow">Approved archive feed</p>
-              <h2>New roadmap notes</h2>
+              <h2>New catalogue records</h2>
             </div>
             <p>Structured updates arrive from Dropbox only after explicit website approval.</p>
           </div>
@@ -115,10 +46,10 @@ const automatedSeriesItems = dropboxFeedItems.filter((item) => item.kind === "se
       <div class="prose">
         <h2>Public promise before publication</h2>
         <p>
-          A finished volume must pass claim-level evidence review, rights and provenance checks,
-          fairness review, rendered visual QA, cloud-state verification, and dated author approval.
-          The roadmap keeps those gates visible rather than converting a working archive into an
-          implied release.
+          A catalogue record does not make a volume a finished publication. A released volume must
+          pass claim-level evidence review, rights and provenance checks, fairness review, rendered
+          visual QA, cloud-state verification, and dated author approval. The catalogue keeps those
+          gates visible while making the work easier to investigate.
         </p>
         <p>
           <a href={sitePath("/research/")}>Explore the research desk</a> while the series develops.
