@@ -69,6 +69,25 @@ export const volumeThreeResearchRecords: VolumeThreeResearchRecord[] = [
     sourceDescription: "Matched Volume III source record · public reading copy not yet cleared",
   },
   {
+    id: "social-class-and-welfare",
+    title: "Social Class and Welfare",
+    status: "Working-paper direction",
+    lenses: [
+      "Welfare and social control",
+      "Labor markets",
+      "Taxation and ownership",
+      "Public visibility",
+    ],
+    summary:
+      "A Volume III working-paper direction centered on social class, welfare, and taxation. It treats welfare socialism as an open analytical question: when does collective provision expand social citizenship, and when does administration become social control?",
+    whyItMatters:
+      "It gives Managed Decline a direct bridge between economic insecurity and public policy, asking how welfare institutions distribute time, dignity, work access, and visibility across class lines.",
+    boundary:
+      "“Welfare socialism” is used here as a question for analysis, not as a settled description, political endorsement, or verified finding. The source remains private working material.",
+    sourceDescription:
+      "Matched Volume III source inventory file · public reading copy not yet cleared",
+  },
+  {
     id: "prescription-pad-to-power",
     title: "From Prescription Pad to Power",
     status: "Working-paper direction",

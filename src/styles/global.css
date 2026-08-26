@@ -3620,6 +3620,21 @@ kbd {
   color: var(--slate-700);
 }
 
+.volume-dossier-empty p {
+  margin: 0;
+}
+
+.volume-dossier-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.volume-dossier-empty-actions .filter-button[hidden] {
+  display: none;
+}
+
 .volume-dossier-footnote {
   max-width: 780px;
   margin: 22px 0 0;

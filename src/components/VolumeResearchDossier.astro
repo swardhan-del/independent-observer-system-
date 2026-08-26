@@ -137,10 +137,20 @@ const { publicDocuments = [] } = Astro.props as Props;
         })
       }
     </div>
-    <p class="volume-dossier-empty" data-volume-dossier-empty hidden>
-      No Volume III research line matches that search. Try a broader term such as labor, welfare,
-      tax, health, access, or visibility.
-    </p>
+    <div class="volume-dossier-empty" data-volume-dossier-empty hidden>
+      <p data-volume-dossier-empty-message>
+        No Volume III research line matches the current filters. Try a broader term such as labor,
+        welfare, tax, health, access, or visibility.
+      </p>
+      <div class="volume-dossier-empty-actions">
+        <button type="button" class="filter-button" data-dossier-clear-search hidden>
+          Clear search
+        </button>
+        <button type="button" class="filter-button" data-dossier-clear-lens hidden>
+          Show all lenses
+        </button>
+      </div>
+    </div>
     <p class="volume-dossier-footnote">
       Research inventory status is descriptive. It does not imply publication, peer review,
       endorsement, or a release decision.
@@ -154,6 +164,9 @@ const { publicDocuments = [] } = Astro.props as Props;
     const query = dossier.querySelector("[data-volume-dossier-query]");
     const count = dossier.querySelector("[data-volume-dossier-count]");
     const empty = dossier.querySelector("[data-volume-dossier-empty]");
+    const emptyMessage = dossier.querySelector("[data-volume-dossier-empty-message]");
+    const clearSearch = dossier.querySelector("[data-dossier-clear-search]");
+    const clearLens = dossier.querySelector("[data-dossier-clear-lens]");
     const cards = [...dossier.querySelectorAll("[data-volume-dossier-card]")];
     const filterButtons = [...dossier.querySelectorAll("[data-dossier-lens]")];
     const url = new URL(window.location.href);
@@ -185,6 +198,17 @@ const { publicDocuments = [] } = Astro.props as Props;
       if (count)
         count.textContent = `${visible} research ${visible === 1 ? "line" : "lines"} shown`;
       if (empty) empty.toggleAttribute("hidden", visible !== 0);
+      if (emptyMessage && visible === 0) {
+        if (search && selectedLens !== "all") {
+          emptyMessage.textContent = `No Volume III research line matches both “${search}” and “${selectedLens}”. The filters work together; clear one to broaden the view.`;
+        } else if (search) {
+          emptyMessage.textContent = `No Volume III research line matches “${search}”. Try a broader term such as labor, welfare, tax, health, access, or visibility.`;
+        } else {
+          emptyMessage.textContent = `No Volume III research line uses the “${selectedLens}” lens yet. Show all lenses to return to the full dossier.`;
+        }
+      }
+      if (clearSearch) clearSearch.toggleAttribute("hidden", visible !== 0 || !search);
+      if (clearLens) clearLens.toggleAttribute("hidden", visible !== 0 || selectedLens === "all");
       filterButtons.forEach((button) => {
         const isActive = button.getAttribute("data-dossier-lens") === selectedLens;
         button.setAttribute("aria-pressed", String(isActive));
@@ -203,6 +227,15 @@ const { publicDocuments = [] } = Astro.props as Props;
         selectedLens = button.getAttribute("data-dossier-lens") || "all";
         render();
       });
+    });
+    clearSearch?.addEventListener("click", () => {
+      if (query instanceof HTMLInputElement) query.value = "";
+      render();
+      query instanceof HTMLInputElement && query.focus();
+    });
+    clearLens?.addEventListener("click", () => {
+      selectedLens = "all";
+      render();
     });
     render();
   }

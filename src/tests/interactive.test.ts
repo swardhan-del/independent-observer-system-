@@ -139,8 +139,11 @@ describe("interactive preview tools", () => {
     expect(volumeResearchDossier).toContain("data-dossier-lens");
     expect(volumeResearchDossier).toContain("searchParams");
     expect(volumeResearchDossier).toContain("replaceState");
+    expect(volumeResearchDossier).toContain("data-dossier-clear-search");
+    expect(volumeResearchDossier).toContain("data-dossier-clear-lens");
+    expect(volumeResearchDossier).toContain("The filters work together");
     expect(volumeResearchDossier).not.toMatch(/fetch\s*\(/);
-    expect(volumeThreeResearchRecords).toHaveLength(6);
+    expect(volumeThreeResearchRecords).toHaveLength(7);
     expect(volumeThreeResearchLenses).toEqual([
       "Labor markets",
       "Licensing and access",
@@ -155,7 +158,15 @@ describe("interactive preview tools", () => {
     });
     expect(
       volumeThreeResearchRecords.filter((record) => record.status === "Working-paper direction"),
-    ).toHaveLength(5);
+    ).toHaveLength(6);
+    expect(volumeThreeResearchRecords).toContainEqual(
+      expect.objectContaining({
+        id: "social-class-and-welfare",
+        title: "Social Class and Welfare",
+        lenses: expect.arrayContaining(["Taxation and ownership"]),
+        summary: expect.stringContaining("welfare socialism"),
+      }),
+    );
     expect(
       volumeThreeResearchRecords.every(
         (record) => !record.sourceDescription.includes("Dropbox desktop"),
