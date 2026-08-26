@@ -146,6 +146,12 @@ describe("built website", () => {
     expect(html).toContain("Managed Decline");
     expect(html).toContain("Public reading copies in this volume");
     expect(html).toContain("The Wardhan Tax Doctrine");
+    expect(html).toContain(
+      "The Wardhan Tax Doctrine asks whether the tax system can recognize time spent acquiring skills",
+    );
+    expect(html).toContain(
+      "not enacted law, an official revenue score, or individualized tax advice",
+    );
     expect(html).toContain("Current document");
     expect(html).not.toContain("curated public reading copy assembled from the matching Dropbox");
     expect(html).not.toContain("/Independent Observer desktop/");

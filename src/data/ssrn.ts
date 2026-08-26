@@ -187,18 +187,18 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
       "The Wardhan Tax Doctrine: Time-as-Deduction, W-2 Relief, and an Eisenhower-Era Return to Progressivity",
     category: "Political Economy & Tax",
     description:
-      "A policy working paper proposing a labor-and-capital tax framework built around time investment, wage relief, and progressive treatment of ownership income.",
+      "A Volume III policy working paper asking how tax design can recognize time spent building skills, reduce pressure on wage labor, and restore progressive treatment of selected ownership income. It connects the proposed credits and relief mechanisms to eligibility rules, reporting, and audit design.",
     sourceModified: "Dropbox submission package matched to SSRN abstract 5477606",
     publicationDate: "3 October 2025",
     dateLabel: "Posted",
     sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5477606",
     metrics: { downloads: 42, abstractViews: 202, citations: 0 },
     sections: sections(
-      "The paper proposes a tax framework that would reduce pressure on wage labor while restoring progressivity at the top. Its design includes a refundable time-investment credit, relief for low-to-moderate W-2 wages, and narrower treatment of selected capital preferences, accompanied by administrative reporting and audit mechanisms.",
+      "The Wardhan Tax Doctrine asks whether the tax system can recognize time spent acquiring skills as a form of investment rather than treating it only as a private cost. Its proposed framework combines a refundable time-investment credit, targeted relief for low-to-moderate W-2 earners, and narrower treatment of selected capital preferences, with the stated aim of reducing pressure on wage labor while restoring progressivity at the top. The paper treats eligibility rules, administrative reporting, documentation, and audit mechanisms as part of the policy itself: distributional reform is not complete unless the system can identify who qualifies, record the relevant activity, and be reviewed for compliance. This is a policy proposal for public analysis, not enacted law, an official revenue score, or individualized tax advice.",
       [
-        "Time spent acquiring skills is treated as a possible policy object rather than an invisible private cost.",
-        "The proposal separates labor-side relief from capital-side preference reform.",
-        "Administrative feasibility and reporting design are part of the proposal, not afterthoughts.",
+        "The paper treats time spent acquiring skills as a possible policy object, asking how a tax system might recognize training and human-capital formation without confusing a proposal with a guaranteed benefit.",
+        "It separates labor-side relief for W-2 earners from capital-side preference reform, so the reader can see which distributional problem each mechanism is intended to address.",
+        "Eligibility, documentation, reporting, and audit design are presented as core parts of the doctrine rather than administrative afterthoughts.",
       ],
       "The SSRN result reports 42 downloads and 202 abstract views. This page presents a policy proposal as a proposal; it does not describe the model as enacted law, fiscal scoring, or independent legal advice.",
     ),
