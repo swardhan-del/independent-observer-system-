@@ -19,6 +19,7 @@ export type TopicPathway = {
   question: string;
   description: string;
   topicSlugs: string[];
+  volumeLabels: string[];
 };
 
 export type VolumeTopicConnection = {
@@ -87,6 +88,7 @@ export const topicPathways: TopicPathway[] = [
     description:
       "Begin with the method anchor, then move through democratic capacity and public reasoning.",
     topicSlugs: ["law", "politics", "history"],
+    volumeLabels: ["Volume I", "Volume II"],
   },
   {
     id: "ai-labor",
@@ -96,6 +98,7 @@ export const topicPathways: TopicPathway[] = [
     description:
       "Follow work, infrastructure, task exposure, and the institutions that shape transition.",
     topicSlugs: ["technology", "economics", "science"],
+    volumeLabels: ["Volume III", "Volume IV"],
   },
   {
     id: "democracy",
@@ -104,6 +107,7 @@ export const topicPathways: TopicPathway[] = [
     description:
       "Compare formal legitimacy with the procedures and resources that make institutions usable.",
     topicSlugs: ["politics", "law", "history"],
+    volumeLabels: ["Volume I", "Volume II"],
   },
   {
     id: "human-capability",
@@ -112,6 +116,7 @@ export const topicPathways: TopicPathway[] = [
     description:
       "Read the science and technology map with its uncertainty and release boundaries visible.",
     topicSlugs: ["science", "technology"],
+    volumeLabels: ["Volume IV"],
   },
   {
     id: "migration",
@@ -120,6 +125,7 @@ export const topicPathways: TopicPathway[] = [
     description:
       "Connect demographic change to institutions, work, borders, and the allocation of risk.",
     topicSlugs: ["economics", "politics", "history"],
+    volumeLabels: ["Volume II", "Volume III"],
   },
 ];
 

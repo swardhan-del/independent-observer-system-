@@ -1,7 +1,9 @@
 ---
 import type { TopicPathway } from "../../plugins/topic-discovery/catalog";
 import { topicPluginFor } from "../../plugins/topic-discovery/catalog";
+import { seriesItems } from "../data/series";
 import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
 
 type Props = {
   pathways: TopicPathway[];
@@ -15,11 +17,12 @@ const { pathways } = Astro.props as Props;
     <div class="section-heading">
       <div>
         <p class="eyebrow">Start with a question</p>
-        <h2 id="topic-pathways-title">Choose a route into the archive.</h2>
+        <h2 id="topic-pathways-title">Five questions across four volumes.</h2>
       </div>
       <p>
-        These pathways connect subjects without pretending that a preview, preprint, or roadmap note
-        is a finished Independent Observer publication.
+        Choose a question, then follow it into the volumes and topic hubs where the work is
+        organized. These are routes through public previews and preprints, not claims that
+        unfinished work is a finished Independent Observer publication.
       </p>
     </div>
     <div class="topic-pathway-grid">
@@ -37,6 +40,21 @@ const { pathways } = Astro.props as Props;
                 const topic = topicPluginFor(slug);
                 return <a href={sitePath(`/topics/${slug}/`)}>{topic.name}</a>;
               })}
+            </div>
+            <div class="topic-pathway-volumes" aria-label={`${pathway.label} relevant volumes`}>
+              <span class="topic-pathway-subhead">Relevant volumes</span>
+              <div class="topic-pathway-volume-links">
+                {pathway.volumeLabels.map((volumeLabel) => {
+                  const volume = seriesItems.find((item) => item.volume === volumeLabel);
+                  if (!volume) return null;
+                  return (
+                    <a href={sitePath(`/series/${slugify(volume.title)}/`)}>
+                      <span>{volumeLabel}</span>
+                      {volume.title}
+                    </a>
+                  );
+                })}
+              </div>
             </div>
           </article>
         ))

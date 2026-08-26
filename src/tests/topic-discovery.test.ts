@@ -35,6 +35,13 @@ describe("topic discovery plugin", () => {
         ),
       ),
     ).toBe(true);
+    expect(topicPathways).toHaveLength(5);
+    expect(topicPathways.every((pathway) => pathway.volumeLabels.length > 0)).toBe(true);
+    expect(
+      topicPathways.every((pathway) =>
+        pathway.volumeLabels.every((volume) => volume in volumeTopicConnections),
+      ),
+    ).toBe(true);
   });
 
   it("maps public SSRN signals into topic hubs without treating them as releases", () => {
@@ -64,7 +71,7 @@ describe("topic discovery plugin", () => {
   });
 
   it("wires the topic atlas, URL view state, and visible human-release boundary", () => {
-    expect(topicIndex).not.toContain("<TopicPathways pathways={topicPathways} />");
+    expect(topicIndex).toContain("<TopicPathways pathways={topicPathways} />");
     expect(topicIndex).toContain("<TopicVolumeMap />");
     expect(topicIndex).toContain("<TopicAtlas topics={topicHubs} />");
     expect(topicIndex).toContain("<TopicReviewQueue signals={reviewQueueSignals} />");
@@ -73,6 +80,16 @@ describe("topic discovery plugin", () => {
     expect(topicAtlas).toContain('aria-live="polite"');
     expect(topicReviewQueue).toContain("signal.status");
     expect(topicReviewQueue).toContain("Metadata only · not a published article");
+  });
+
+  it("labels the five pathways with relevant volume links", () => {
+    const topicPathwaysComponent = readFileSync(
+      join(sourceRoot, "components/TopicPathways.astro"),
+      "utf8",
+    );
+    expect(topicPathwaysComponent).toContain("Five questions across four volumes.");
+    expect(topicPathwaysComponent).toContain("Relevant volumes");
+    expect(topicPathwaysComponent).toContain("slugify(volume.title)");
   });
 
   it("connects all four roadmap volumes to at least two topic hubs", () => {

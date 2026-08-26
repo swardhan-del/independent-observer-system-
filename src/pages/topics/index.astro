@@ -2,9 +2,10 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import TopicAtlas from "../../components/TopicAtlas.astro";
+import TopicPathways from "../../components/TopicPathways.astro";
 import TopicReviewQueue from "../../components/TopicReviewQueue.astro";
 import TopicVolumeMap from "../../components/TopicVolumeMap.astro";
-import { reviewQueueSignals } from "../../../plugins/topic-discovery/catalog";
+import { reviewQueueSignals, topicPathways } from "../../../plugins/topic-discovery/catalog";
 import { topicHubs } from "../../data/topics";
 ---
 
@@ -18,6 +19,7 @@ import { topicHubs } from "../../data/topics";
     title="Six fields. Four volumes. One research spine."
     description="The topic hubs connect the four-volume Independent Observer project, showing how method, institutions, political economy, science, and technology belong to one developing body of work."
   />
+  <TopicPathways pathways={topicPathways} />
   <TopicVolumeMap />
   <section class="section section-white">
     <div class="shell">
