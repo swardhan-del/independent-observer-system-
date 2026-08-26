@@ -2,11 +2,17 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { publicDocumentItems } from "../data/documents";
+import { seriesItems } from "../data/series";
+import { slugify } from "../lib/slugs";
 
 const distRoot = join(process.cwd(), "dist");
 const routes = [
   { route: "/", file: "index.html" },
   { route: "/series/", file: "series/index.html" },
+  ...seriesItems.map((entry) => ({
+    route: `/series/${slugify(entry.title)}/`,
+    file: `series/${slugify(entry.title)}/index.html`,
+  })),
   { route: "/library/", file: "library/index.html" },
   { route: "/research/", file: "research/index.html" },
   { route: "/documentaries/", file: "documentaries/index.html" },

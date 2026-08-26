@@ -2,10 +2,13 @@ import type { APIRoute } from "astro";
 import { sitePath } from "../lib/paths";
 import { topicHubs } from "../data/topics";
 import { publicDocumentItems } from "../data/documents";
+import { seriesItems } from "../data/series";
+import { slugify } from "../lib/slugs";
 
 const publicRoutes = [
   "/",
   "/series/",
+  ...seriesItems.map((entry) => `/series/${slugify(entry.title)}/`),
   "/library/",
   "/research/",
   "/documentaries/",

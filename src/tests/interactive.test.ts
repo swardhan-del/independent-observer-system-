@@ -5,6 +5,10 @@ import { rankSearchEntries, normalizeSearchText } from "../lib/search";
 import { migrateReadingList, sortReadingList } from "../lib/reading-list";
 import { relatedRecords } from "../lib/related";
 import { volumeResearchMap } from "../data/volume-research";
+import {
+  volumeThreeResearchLenses,
+  volumeThreeResearchRecords,
+} from "../data/volume-three-research";
 import { researchCatalogueRecords, researchCatalogueVolumes } from "../lib/research-catalogue";
 
 const sourceRoot = join(process.cwd(), "src");
@@ -23,6 +27,11 @@ const volumeResearchMapSource = readFileSync(
   join(sourceRoot, "components/VolumeResearchMap.astro"),
   "utf8",
 );
+const volumeResearchDossier = readFileSync(
+  join(sourceRoot, "components/VolumeResearchDossier.astro"),
+  "utf8",
+);
+const seriesDetail = readFileSync(join(sourceRoot, "pages/series/[slug].astro"), "utf8");
 const researchPage = readFileSync(join(sourceRoot, "pages/research/[slug].astro"), "utf8");
 const about = readFileSync(join(sourceRoot, "pages/about/index.astro"), "utf8");
 const homepage = readFileSync(join(sourceRoot, "pages/index.astro"), "utf8");
@@ -104,6 +113,38 @@ describe("interactive preview tools", () => {
     expect(volumeResearchMapSource).toContain("Current volume for this entry");
     expect(volumeResearchMap).toHaveLength(4);
     expect(volumeResearchMap.every((volume) => volume.papers.length > 0)).toBe(true);
+  });
+
+  it("connects Volume III catalogue work to public-safe research directions", () => {
+    expect(seriesDetail).toContain("showVolumeResearchDossier");
+    expect(seriesDetail).toContain('item.volume === "Volume III"');
+    expect(volumeResearchDossier).toContain("data-volume-three-dossier");
+    expect(volumeResearchDossier).toContain("data-volume-dossier-query");
+    expect(volumeResearchDossier).toContain("data-dossier-lens");
+    expect(volumeResearchDossier).toContain("searchParams");
+    expect(volumeResearchDossier).toContain("replaceState");
+    expect(volumeResearchDossier).not.toMatch(/fetch\s*\(/);
+    expect(volumeThreeResearchRecords).toHaveLength(6);
+    expect(volumeThreeResearchLenses).toEqual([
+      "Labor markets",
+      "Licensing and access",
+      "Welfare and social control",
+      "Taxation and ownership",
+      "Health systems",
+      "Public visibility",
+    ]);
+    expect(volumeThreeResearchRecords[0]).toMatchObject({
+      status: "Public reading copy",
+      publicDocumentId: "wardhan-tax-doctrine-ssrn",
+    });
+    expect(
+      volumeThreeResearchRecords.filter((record) => record.status === "Working-paper direction"),
+    ).toHaveLength(5);
+    expect(
+      volumeThreeResearchRecords.every(
+        (record) => !record.sourceDescription.includes("Dropbox desktop"),
+      ),
+    ).toBe(true);
   });
 
   it("connects documentary planning to all four volume research signals", () => {

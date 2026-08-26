@@ -1,0 +1,209 @@
+---
+import type { PublicDocument } from "../data/documents";
+import {
+  volumeThreeResearchLenses,
+  volumeThreeResearchRecords,
+} from "../data/volume-three-research";
+import { sitePath } from "../lib/paths";
+
+type Props = {
+  publicDocuments?: PublicDocument[];
+};
+
+const { publicDocuments = [] } = Astro.props as Props;
+---
+
+<section
+  class="section section-white volume-research-dossier"
+  id="volume-three-research"
+  aria-labelledby="volume-three-research-title"
+  data-volume-three-dossier
+>
+  <div class="shell">
+    <div class="volume-dossier-heading">
+      <div>
+        <p class="eyebrow">Volume III research file</p>
+        <h2 id="volume-three-research-title">The papers behind Managed Decline.</h2>
+      </div>
+      <div class="volume-dossier-intro">
+        <p>
+          This is the working research spine for Volume III: the source directions that connect
+          labor, licensing, welfare, taxation, health systems, and public visibility to economic
+          insecurity.
+        </p>
+        <p>
+          One matched SSRN record is available as a public reading copy. The other source records
+          are shown as bounded directions until their own public clearance and human release gates
+          are complete.
+        </p>
+      </div>
+    </div>
+
+    <div class="volume-dossier-controls" data-volume-dossier-controls>
+      <label for="volume-three-research-query">Find a Volume III research line</label>
+      <input
+        id="volume-three-research-query"
+        type="search"
+        placeholder="Search labor, welfare, taxation…"
+        autocomplete="off"
+        data-volume-dossier-query
+      />
+      <div class="volume-dossier-filters" aria-label="Filter Volume III research lines">
+        <button
+          type="button"
+          class="filter-button is-active"
+          aria-pressed="true"
+          data-dossier-lens="all"
+        >
+          All lines
+        </button>
+        {
+          volumeThreeResearchLenses.map((lens) => (
+            <button
+              type="button"
+              class="filter-button"
+              aria-pressed="false"
+              data-dossier-lens={lens}
+            >
+              {lens}
+            </button>
+          ))
+        }
+      </div>
+      <p class="volume-dossier-count" role="status" aria-live="polite" data-volume-dossier-count>
+        {volumeThreeResearchRecords.length} research lines shown
+      </p>
+    </div>
+
+    <div class="volume-dossier-grid">
+      {
+        volumeThreeResearchRecords.map((record, index) => {
+          const publicDocument = record.publicDocumentId
+            ? publicDocuments.find((document) => document.id === record.publicDocumentId)
+            : undefined;
+          return (
+            <article
+              class="volume-dossier-card"
+              data-volume-dossier-card
+              data-dossier-lenses={record.lenses.join("|")}
+              data-dossier-search={[
+                record.title,
+                record.status,
+                record.summary,
+                ...record.lenses,
+              ].join(" ")}
+            >
+              <div class="volume-dossier-card-meta">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span class:list={{ "is-public": record.status === "Public reading copy" }}>
+                  {record.status}
+                </span>
+              </div>
+              <h3>
+                {publicDocument ? (
+                  <a href={sitePath(`/library/documents/${publicDocument.id}/`)}>{record.title}</a>
+                ) : (
+                  record.title
+                )}
+              </h3>
+              <p>{record.summary}</p>
+              <ul class="volume-dossier-lenses" aria-label={`${record.title} research lenses`}>
+                {record.lenses.map((lens) => (
+                  <li>{lens}</li>
+                ))}
+              </ul>
+              <details>
+                <summary>Open research note</summary>
+                <div class="volume-dossier-note">
+                  <p>
+                    <strong>Why it matters.</strong> {record.whyItMatters}
+                  </p>
+                  <p>
+                    <strong>Boundary.</strong> {record.boundary}
+                  </p>
+                  <p class="volume-dossier-source">{record.sourceDescription}</p>
+                </div>
+              </details>
+              {publicDocument && (
+                <a
+                  class="volume-dossier-link"
+                  href={sitePath(`/library/documents/${publicDocument.id}/`)}
+                >
+                  Open public reading copy →
+                </a>
+              )}
+            </article>
+          );
+        })
+      }
+    </div>
+    <p class="volume-dossier-empty" data-volume-dossier-empty hidden>
+      No Volume III research line matches that search. Try a broader term such as labor, welfare,
+      tax, health, access, or visibility.
+    </p>
+    <p class="volume-dossier-footnote">
+      Research inventory status is descriptive. It does not imply publication, peer review,
+      endorsement, or a release decision.
+    </p>
+  </div>
+</section>
+
+<script>
+  const dossier = document.querySelector("[data-volume-three-dossier]");
+  if (dossier instanceof HTMLElement) {
+    const query = dossier.querySelector("[data-volume-dossier-query]");
+    const count = dossier.querySelector("[data-volume-dossier-count]");
+    const empty = dossier.querySelector("[data-volume-dossier-empty]");
+    const cards = [...dossier.querySelectorAll("[data-volume-dossier-card]")];
+    const filterButtons = [...dossier.querySelectorAll("[data-dossier-lens]")];
+    const url = new URL(window.location.href);
+    let selectedLens = url.searchParams.get("lens") || "all";
+
+    const updateUrl = () => {
+      const nextUrl = new URL(window.location.href);
+      const search = query instanceof HTMLInputElement ? query.value.trim() : "";
+      if (search) nextUrl.searchParams.set("q", search);
+      else nextUrl.searchParams.delete("q");
+      if (selectedLens !== "all") nextUrl.searchParams.set("lens", selectedLens);
+      else nextUrl.searchParams.delete("lens");
+      window.history.replaceState({}, "", nextUrl);
+    };
+
+    const render = () => {
+      const search =
+        query instanceof HTMLInputElement ? query.value.trim().toLocaleLowerCase() : "";
+      let visible = 0;
+      cards.forEach((card) => {
+        const text = card.getAttribute("data-dossier-search")?.toLocaleLowerCase() ?? "";
+        const lenses = card.getAttribute("data-dossier-lenses")?.split("|") ?? [];
+        const matches =
+          (!search || text.includes(search)) &&
+          (selectedLens === "all" || lenses.includes(selectedLens));
+        card.toggleAttribute("hidden", !matches);
+        if (matches) visible += 1;
+      });
+      if (count)
+        count.textContent = `${visible} research ${visible === 1 ? "line" : "lines"} shown`;
+      if (empty) empty.toggleAttribute("hidden", visible !== 0);
+      filterButtons.forEach((button) => {
+        const isActive = button.getAttribute("data-dossier-lens") === selectedLens;
+        button.setAttribute("aria-pressed", String(isActive));
+        button.classList.toggle("is-active", isActive);
+      });
+      updateUrl();
+    };
+
+    const initialQuery = url.searchParams.get("q");
+    if (query instanceof HTMLInputElement && initialQuery) query.value = initialQuery;
+    if (!filterButtons.some((button) => button.getAttribute("data-dossier-lens") === selectedLens))
+      selectedLens = "all";
+    query?.addEventListener("input", render);
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        selectedLens = button.getAttribute("data-dossier-lens") || "all";
+        render();
+      });
+    });
+    render();
+  }
+</script>

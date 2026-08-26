@@ -8,6 +8,7 @@ import { slugify } from "../lib/slugs";
 import EvidenceLayer from "./EvidenceLayer.astro";
 import ClaimMap from "./ClaimMap.astro";
 import VolumeResearchMap from "./VolumeResearchMap.astro";
+import VolumeResearchDossier from "./VolumeResearchDossier.astro";
 
 type DetailItem = EditorialItem & {
   volume?: string;
@@ -23,6 +24,8 @@ type Props = {
   heroClassName?: string;
   showVolumeConnection?: boolean;
   showVolumeResearchMap?: boolean;
+  showVolumeResearchDossier?: boolean;
+  volumeDossierDocuments?: PublicDocument[];
 };
 
 const {
@@ -35,6 +38,8 @@ const {
   heroClassName,
   showVolumeConnection = false,
   showVolumeResearchMap = false,
+  showVolumeResearchDossier = false,
+  volumeDossierDocuments = [],
 } = Astro.props as Props;
 const volumeRecord = item.volume
   ? seriesItems.find(
@@ -130,6 +135,8 @@ const volumeRecord = item.volume
     </div>
   </div>
 </section>
+
+{showVolumeResearchDossier && <VolumeResearchDossier publicDocuments={volumeDossierDocuments} />}
 
 {
   featuredDocuments.length > 0 && (
