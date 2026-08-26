@@ -183,7 +183,7 @@ describe("built website", () => {
       /<a\b[^>]*class=["'][^"']*skip-link[^"']*["'][^>]*href=["']#main-content["']/i,
     );
     expect(tags(html, "nav").filter((tag) => Boolean(attribute(tag, "aria-label")))).toHaveLength(
-      route === "/topics/" || route.startsWith("/library/documents/") ? 3 : 2,
+      route === "/" || route === "/topics/" || route.startsWith("/library/documents/") ? 3 : 2,
     );
     expect(new Set(pageIds).size).toBe(pageIds.length);
     expect(headings[0]).toBe(1);

@@ -3,10 +3,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import EditorialCard from "../components/EditorialCard.astro";
 import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
 import { ssrnPreprintDocuments } from "../data/ssrn";
+import { seriesItems } from "../data/series";
 import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
 import { socialLinks } from "../data/social";
 import EvidenceLayer from "../components/EvidenceLayer.astro";
 import HomepageVolumeGuide from "../components/HomepageVolumeGuide.astro";
+import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
 
 const volumeOneMethod = ssrnPreprintDocuments.find(
   (entry) => entry.id === "independent-observer-volume-one-ssrn",
@@ -18,6 +21,15 @@ const volumeOneSource = {
   label: "Read the Volume I public record",
   href: volumeOneMethodHref,
 };
+const highestDownloadDocument = [...ssrnPreprintDocuments]
+  .filter((entry) => typeof entry.metrics?.downloads === "number")
+  .sort((a, b) => (b.metrics?.downloads ?? 0) - (a.metrics?.downloads ?? 0))[0];
+const heroVolumeLinks = seriesItems.map((item, index) => ({
+  ...item,
+  number: String(index + 1).padStart(2, "0"),
+  href: sitePath(`/series/${slugify(item.title)}/`),
+  lens: volumeTopicConnections[item.volume].lens,
+}));
 ---
 
 <BaseLayout
@@ -31,22 +43,77 @@ const volumeOneSource = {
         <p class="eyebrow">Independent analysis for a complex age</p>
         <h1>Observe the system.<br /><em>Question the frame.</em></h1>
         <p class="hero-summary">
-          Independent Observer is an independent public home for reports, research, and documentary
-          work that examines how history, institutions, political economy, science, and technology
-          shape public life.
+          Independent Observer is the public home for a four-volume inquiry: Volume I develops the
+          method of observation; Volume II follows sovereignty and institutions; Volume III examines
+          work and social citizenship; and Volume IV asks how AI, science, infrastructure, and human
+          capability reshape public life.
+        </p>
+        <p class="hero-summary hero-summary-secondary">
+          Its purpose is to keep the record, the interpretation, and the limits visible—so readers
+          can follow how a public argument is made and revise it when the evidence changes.
         </p>
         <div class="hero-actions">
           <a class="button" href={sitePath("/research/")}>Explore the research</a>
           <a class="button button-secondary" href={sitePath("/about/")}>Read the mission</a>
         </div>
       </div>
-      <aside class="hero-note" aria-label="Editorial status">
-        <span>Editorial status</span>
+      <aside class="hero-note" aria-labelledby="hero-note-title">
+        <div class="hero-note-heading">
+          <span>Public research index</span>
+          <span class="hero-note-status">Open · 2026</span>
+        </div>
+        <h2 id="hero-note-title">Four volumes. One observing method.</h2>
         <p>
-          A public archive of research published through SSRN, ResearchGate, and Zenodo. The work
-          remains ongoing: new research, revisions, and evidence continue to develop here. Reports
-          still pass an explicit public-release review; private working material remains in Dropbox.
+          Public previews and matched SSRN records make the developing work legible. Research
+          published through SSRN, ResearchGate, and Zenodo enters this index only as reviewed,
+          public-safe material. New research, revisions, and evidence continue to develop here;
+          private drafts remain in the Dropbox working archive until human release review.
         </p>
+        <dl class="hero-note-stats">
+          <div>
+            <dt>{seriesItems.length}</dt>
+            <dd>volumes</dd>
+          </div>
+          <div>
+            <dt>{topics.length}</dt>
+            <dd>fields</dd>
+          </div>
+          <div>
+            <dt>{ssrnPreprintDocuments.length}</dt>
+            <dd>SSRN records</dd>
+          </div>
+        </dl>
+        <nav class="hero-volume-nav" aria-label="Explore the four volumes">
+          {
+            heroVolumeLinks.map((volume) => (
+              <a class="hero-volume-link" href={volume.href}>
+                <span class="hero-volume-number">{volume.number}</span>
+                <span class="hero-volume-copy">
+                  <strong>{volume.title}</strong>
+                  <span>{volume.lens}</span>
+                </span>
+                <span class="hero-volume-arrow" aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            ))
+          }
+        </nav>
+        {
+          highestDownloadDocument && (
+            <a
+              class="hero-note-signal"
+              href={sitePath(`/library/documents/${highestDownloadDocument.id}/`)}
+            >
+              <span>Highest retrieved SSRN usage signal</span>
+              <strong>{highestDownloadDocument.title}</strong>
+              <small>
+                {highestDownloadDocument.metrics?.downloads ?? "—"} downloads · usage signal—not a
+                quality rating
+              </small>
+            </a>
+          )
+        }
       </aside>
     </div>
     <div class="hero-watermark" aria-hidden="true">IO</div>

@@ -255,8 +255,18 @@ describe("interactive preview tools", () => {
     expect(homepage).toContain("ssrnPreprintDocuments");
     expect(homepage).toContain("The public Volume I SSRN record reports");
     expect(homepage).toContain("source: volumeOneSource");
-    expect(homepage).toContain("research published through SSRN, ResearchGate, and Zenodo");
-    expect(homepage).toContain("new research, revisions, and evidence continue to develop here");
+    expect(homepage.replace(/\s+/g, " ")).toMatch(
+      /research published through SSRN, ResearchGate, and Zenodo/i,
+    );
+    expect(homepage.replace(/\s+/g, " ")).toMatch(
+      /new research, revisions, and evidence continue to develop here/i,
+    );
+    expect(homepage).toContain('aria-labelledby="hero-note-title"');
+    expect(homepage).toContain("Four volumes. One observing method.");
+    expect(homepage).toContain("hero-volume-nav");
+    expect(homepage).toContain("heroVolumeLinks.map");
+    expect(homepage).toContain("Highest retrieved SSRN usage signal");
+    expect(homepage.replace(/\s+/g, " ")).toContain("usage signal—not a quality rating");
     expect(homepageVolumeGuide).toContain("Volume I establishes the method of observation");
     expect(homepageVolumeGuide).toContain("seriesItems.map");
     expect(homepageVolumeGuide).toContain("volumeTopicConnections[item.volume]");
