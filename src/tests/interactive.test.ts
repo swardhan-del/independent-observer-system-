@@ -187,6 +187,7 @@ describe("interactive preview tools", () => {
     expect(reader).toContain("data-copy-section-link");
     expect(reader).toContain('className="document-reader-hero"');
     expect(ssrn).toContain("Volume I is the method anchor for the Independent Observer");
+    expect(reader).not.toContain('class="reader-notice"');
     expect(reader).toContain("reader-limitations");
     expect(reader).toContain("data-reader-download-citation");
     expect(evidence).toContain('aria-pressed="true"');
