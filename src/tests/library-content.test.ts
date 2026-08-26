@@ -55,11 +55,11 @@ describe("library content blocks", () => {
     expect(libraryPage).toContain("<LibraryContentBlocks />");
     expect(libraryPage).not.toContain("Three public summaries.");
     expect(contentBlocks).toContain("data-library-volume-filter");
-    expect(contentBlocks).toContain("Public SSRN shelf");
+    expect(contentBlocks).toContain("Additional public SSRN shelf");
     expect(contentBlocks).toContain("Core ideas");
     expect(contentBlocks).toContain("Why this volume matters");
     expect(contentBlocks).toContain("Representative public paper");
-    expect(contentBlocks).toMatch(/current public\s+signal/);
+    expect(contentBlocks).toContain("Highest current download signal in this volume");
     expect(contentBlocks).toContain("window.history.replaceState");
   });
 
@@ -67,6 +67,12 @@ describe("library content blocks", () => {
     expect(volumeResearchMap).toHaveLength(4);
     expect(volumeResearchMap.every((item) => item.papers.length > 0)).toBe(true);
     expect(new Set(volumeResearchMap.map((item) => item.papers[0]?.volume)).size).toBe(4);
+    expect(volumeResearchMap.map((item) => item.papers[0]?.id)).toEqual([
+      "independent-observer-volume-one-ssrn",
+      "who-deported-more-ssrn",
+      "wardhan-tax-doctrine-ssrn",
+      "disconnected-hearts-ssrn",
+    ]);
     expect(contentBlocks).not.toContain("highest-rated");
     expect(contentBlocks).toContain("not quality ratings");
   });

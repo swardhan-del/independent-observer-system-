@@ -60,6 +60,7 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
           const preprints =
             volumeResearchMap.find((item) => item.volume === guide.volume)?.papers ?? [];
           const representativePaper = preprints[0];
+          const additionalPreprints = preprints.slice(1);
           return (
             <article
               class="library-volume-block"
@@ -123,10 +124,8 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
                   </div>
                   <div class="library-representative-paper-meta">
                     <span class="status-pill">{representativePaper.status}</span>
-                    <span>
-                      {representativePaper.metrics?.downloads ?? "—"} downloads · current public
-                      signal
-                    </span>
+                    <span>{representativePaper.metrics?.downloads ?? "—"} downloads</span>
+                    <span>Highest current download signal in this volume; not a rating.</span>
                     {representativePaper.sourceUrl && (
                       <a
                         href={representativePaper.sourceUrl}
@@ -140,19 +139,20 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
                 </div>
               )}
 
-              <div class="library-preprint-shelf" aria-labelledby={`${volumeId}-preprints`}>
-                <div class="library-preprint-heading">
-                  <div>
-                    <p class="library-block-label">Public SSRN shelf</p>
-                    <h4 id={`${volumeId}-preprints`}>Preprints connected to {guide.volume}</h4>
+              {additionalPreprints.length > 0 && (
+                <div class="library-preprint-shelf" aria-labelledby={`${volumeId}-preprints`}>
+                  <div class="library-preprint-heading">
+                    <div>
+                      <p class="library-block-label">Additional public SSRN shelf</p>
+                      <h4 id={`${volumeId}-preprints`}>More reading copies from {guide.volume}</h4>
+                    </div>
+                    <span>
+                      {additionalPreprints.length}{" "}
+                      {additionalPreprints.length === 1 ? "reading copy" : "reading copies"}
+                    </span>
                   </div>
-                  <span>
-                    {preprints.length} {preprints.length === 1 ? "reading copy" : "reading copies"}
-                  </span>
-                </div>
-                {preprints.length > 0 ? (
                   <div class="library-preprint-grid">
-                    {preprints.map((entry) => (
+                    {additionalPreprints.map((entry) => (
                       <article class="library-preprint-card">
                         <span class="library-preprint-status">SSRN preprint</span>
                         <h5>
@@ -173,13 +173,8 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
                       </article>
                     ))}
                   </div>
-                ) : (
-                  <p class="library-preprint-empty">
-                    No public SSRN reading copy is currently mapped to this volume. The roadmap
-                    remains visible without inventing a publication.
-                  </p>
-                )}
-              </div>
+                </div>
+              )}
             </article>
           );
         })
