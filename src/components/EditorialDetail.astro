@@ -20,6 +20,7 @@ type Props = {
   backHref: string;
   statusNote: string;
   featuredDocuments?: PublicDocument[];
+  heroClassName?: string;
   showVolumeConnection?: boolean;
   showVolumeResearchMap?: boolean;
 };
@@ -31,6 +32,7 @@ const {
   backHref,
   statusNote,
   featuredDocuments = [],
+  heroClassName,
   showVolumeConnection = false,
   showVolumeResearchMap = false,
 } = Astro.props as Props;
@@ -41,7 +43,12 @@ const volumeRecord = item.volume
   : undefined;
 ---
 
-<PageHero eyebrow={eyebrow} title={item.title} description={item.description} />
+<PageHero
+  eyebrow={eyebrow}
+  title={item.title}
+  description={item.description}
+  className={heroClassName}
+/>
 
 <section class="section section-white">
   <div class="shell page-grid">

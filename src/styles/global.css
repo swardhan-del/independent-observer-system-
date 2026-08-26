@@ -1547,6 +1547,23 @@ textarea {
   line-height: 1.52;
 }
 
+.research-detail-hero .page-hero-inner {
+  padding-block: 78px 62px;
+}
+
+.research-detail-hero h1 {
+  max-width: 920px;
+  font-size: clamp(2.75rem, 5.3vw, 4.7rem);
+  line-height: 0.98;
+}
+
+.research-detail-hero .page-intro {
+  max-width: 900px;
+  margin-top: 24px;
+  font-size: clamp(1.12rem, 1.8vw, 1.42rem);
+  line-height: 1.52;
+}
+
 .page-intro {
   max-width: 760px;
   margin: 30px 0 0;
@@ -4631,6 +4648,19 @@ kbd {
   }
 
   .about-hero .page-intro {
+    margin-top: 20px;
+    font-size: 1.1rem;
+  }
+
+  .research-detail-hero .page-hero-inner {
+    padding-block: 56px 48px;
+  }
+
+  .research-detail-hero h1 {
+    font-size: clamp(2.25rem, 10vw, 3.3rem);
+  }
+
+  .research-detail-hero .page-intro {
     margin-top: 20px;
     font-size: 1.1rem;
   }

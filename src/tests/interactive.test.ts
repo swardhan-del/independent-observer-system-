@@ -303,6 +303,7 @@ describe("interactive preview tools", () => {
     expect(detail).toContain("detailSections");
     expect(detail).toContain('aria-label="Research brief"');
     expect(detail).toContain("detail-section-index");
+    expect(researchPage).toContain('heroClassName="research-detail-hero"');
   });
 
   it("connects the About page to the Volume I method and public reading copy", () => {

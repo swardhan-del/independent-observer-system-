@@ -29,7 +29,7 @@ export const researchItems: EditorialItem[] = [
     title: "Lawsuits Are Illusions: Where Institutional Power Actually Resides",
     category: "Law & Institutions",
     description:
-      "A proposed analysis of the distance between formal legal remedies and the practical distribution of institutional power.",
+      "A Volume III research inquiry into how legal remedies become usable—or remain formal—using working-paper directions on Terry v. Ohio, mass incarceration, social control, and the Volume II question of practical democratic access.",
     status: "In editorial development",
     volume: "Volume III",
     readingTime: "Essay concept · Volume III",
@@ -51,9 +51,35 @@ export const researchItems: EditorialItem[] = [
           "What would a restoration-focused policy have to measure before it could be compared with punitive or exclusionary systems?",
         ],
       },
+      {
+        heading: "Volume III research directions",
+        paragraphs: [
+          "One Volume III working-paper direction follows the paper's argument from Vietnam veterans' unmet reintegration needs to Terry v. Ohio and the institutional growth of discretionary policing. This page does not treat Terry v. Ohio as a single-cause explanation for mass incarceration; it marks a historical mechanism for further legal and empirical testing.",
+          "A second Volume III direction, Welfare, Wealthfare, and Social Control in Advanced Democracies, asks whether deindustrialization, blocked education and employment, welfare administration, surveillance, and punishment can create forms of structural confinement without a formal prison sentence. 'Open-air prison' is an analytical hypothesis in that working paper, not a verified description of every neighborhood.",
+          "Together with the public Volume III reading copy The Wardhan Tax Doctrine, these directions make the volume's concern concrete: who carries the cost of change, how institutions record failure, and whether public systems restore capacity or manage it.",
+        ],
+        items: [
+          "Terry v. Ohio and discretionary enforcement.",
+          "Mass incarceration and the 'failure economy': distinguish documented policy mechanisms from claims about motive.",
+          "Societal failure as a systems question: education, employment, welfare, records, and legal access.",
+          "Counterargument: avoid single-cause explanations and keep agency, institutional variation, and uncertainty visible.",
+        ],
+      },
+      {
+        heading: "Volume II context",
+        paragraphs: [
+          "The adjacent Volume II research line, Democracy's Achilles' Heel: Institutional Incentives and Political Outcomes, examines the distance between formal political equality and the practical ability to set agendas, obtain information, participate, and secure institutional correction.",
+          "That connection helps explain why this preview asks about usable remedies rather than lawsuits alone: rights, procedures, administration, and public capacity must meet before a formal remedy changes lived conditions. The Volume II manuscript remains a working/preprint direction, not a released Independent Observer publication.",
+        ],
+        items: [
+          "Resource conversion and access.",
+          "Information gatekeeping and institutional referees.",
+          "Correction channels between elections.",
+        ],
+      },
     ],
     sourceNote:
-      "This public catalogue relationship is grounded in the Volume III source organization and its working-paper direction. The raw Dropbox file, alternate drafts, private metadata, and unverified claims remain outside the website. The selected public Volume III reading copy below is presented as related context, not as proof of the concept.",
+      "This public catalogue relationship draws on the audited Volume III working-paper directions From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential and Welfare, Wealthfare, and Social Control in Advanced Democracies, alongside the Volume II working-paper direction Democracy's Achilles' Heel: Institutional Incentives and Political Outcomes. These source reservoirs inform the research map; they are not public releases. Raw Dropbox files, alternate drafts, private metadata, and unverified claims remain outside the website.",
   },
   {
     title: "The Welfare Paradox",

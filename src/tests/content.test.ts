@@ -82,7 +82,25 @@ describe("editorial preview data", () => {
     expect(
       entry?.detailSections?.flatMap((section) => section.paragraphs ?? []).join(" "),
     ).toContain("Terry v. Ohio");
-    expect(entry?.sourceNote).toContain("raw Dropbox file");
+    expect(
+      entry?.detailSections?.flatMap((section) => section.paragraphs ?? []).join(" "),
+    ).toContain("mass incarceration");
+    expect(
+      entry?.detailSections?.flatMap((section) => section.paragraphs ?? []).join(" "),
+    ).toContain("Welfare, Wealthfare");
+    expect(
+      entry?.detailSections?.find((section) => section.heading === "Volume II context")?.paragraphs,
+    ).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining("Democracy's Achilles' Heel"),
+        expect.stringContaining("not a released Independent Observer publication"),
+      ]),
+    );
+    expect(
+      entry?.detailSections?.find((section) => section.heading === "Volume III research directions")
+        ?.items,
+    ).toEqual(expect.arrayContaining([expect.stringContaining("single-cause")]));
+    expect(entry?.sourceNote).toContain("Raw Dropbox files");
     expect(entry?.status).toBe("In editorial development");
   });
 
