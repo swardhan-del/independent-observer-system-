@@ -18,6 +18,7 @@ const evidence = readFileSync(join(sourceRoot, "components/EvidenceLayer.astro")
 const detail = readFileSync(join(sourceRoot, "components/EditorialDetail.astro"), "utf8");
 const about = readFileSync(join(sourceRoot, "pages/about/index.astro"), "utf8");
 const videos = readFileSync(join(sourceRoot, "pages/videos/index.astro"), "utf8");
+const documentaries = readFileSync(join(sourceRoot, "pages/documentaries/index.astro"), "utf8");
 
 describe("interactive preview tools", () => {
   it("ships browser-local site search without a collection endpoint", () => {
@@ -57,6 +58,15 @@ describe("interactive preview tools", () => {
     expect(detail).toContain("Evidence with a release boundary.");
     expect(detail).toContain('target="_blank"');
     expect(detail).toContain('rel="noreferrer"');
+  });
+
+  it("connects documentary planning to all four volume research signals", () => {
+    expect(documentaries).toContain("What each volume is building.");
+    expect(documentaries).toContain("Leading public signals in this volume");
+    expect(documentaries).toContain("SSRN does not provide a reliable star-rating field");
+    expect(documentaries).toContain("Research state:");
+    expect(documentaries).toContain("Reading copy →");
+    expect(documentaries).toContain("SSRN ↗");
   });
 
   it("ships a browser-local reading list without an account or collection endpoint", () => {

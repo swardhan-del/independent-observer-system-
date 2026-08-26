@@ -4,6 +4,7 @@ import ContentFilter from "../../components/ContentFilter.astro";
 import PageHero from "../../components/PageHero.astro";
 import EditorialCard from "../../components/EditorialCard.astro";
 import { documentaryItems } from "../../data/content";
+import { volumeResearchMap } from "../../data/volume-research";
 import { sitePath } from "../../lib/paths";
 import { slugify } from "../../lib/slugs";
 ---
@@ -37,6 +38,86 @@ import { slugify } from "../../lib/slugs";
           ))
         }
       </div>
+    </div>
+  </section>
+  <section
+    class="section section-navy documentary-volume-research"
+    aria-labelledby="documentary-volume-research-title"
+  >
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Four-volume research desk</p>
+          <h2 id="documentary-volume-research-title">What each volume is building.</h2>
+        </div>
+        <p>
+          Documentary treatment follows the research spine. The papers below are public SSRN
+          preprints matched to the reviewed project map; they remain working material while each
+          volume undergoes continuing source, overlap, rights, and author review.
+        </p>
+      </div>
+      <div class="placeholder-notice documentary-metrics-note">
+        SSRN does not provide a reliable star-rating field for these records. “Leading public
+        signals” means retrieved downloads and abstract views used for discovery—not scholarly
+        quality, peer review, or release approval.
+      </div>
+      <ol
+        class="documentary-volume-grid"
+        aria-label="Research papers by Independent Observer volume"
+      >
+        {
+          volumeResearchMap.map((volume, index) => (
+            <li class="documentary-volume-card">
+              <div class="documentary-volume-topline">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span>{volume.volume}</span>
+              </div>
+              <h3>
+                <a href={sitePath(`/series/${slugify(volume.title)}/`)}>{volume.title}</a>
+              </h3>
+              <p class="documentary-volume-category">{volume.category}</p>
+              <p>{volume.description}</p>
+              <p class="documentary-volume-status">
+                Research state: {volume.status}; public papers remain under revision and
+                verification.
+              </p>
+              <div class="documentary-volume-papers">
+                <p class="documentary-volume-subhead">Leading public signals in this volume</p>
+                {volume.papers.length > 0 ? (
+                  volume.papers.slice(0, 2).map((paper, paperIndex) => (
+                    <article class="documentary-paper-card">
+                      <div class="documentary-paper-meta">
+                        <span>{String(paperIndex + 1).padStart(2, "0")}</span>
+                        <span>
+                          {paper.metrics?.downloads ?? "—"} downloads ·{" "}
+                          {paper.metrics?.abstractViews ?? "—"} views
+                        </span>
+                      </div>
+                      <h4>
+                        <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
+                      </h4>
+                      <p>{paper.category}</p>
+                      <div class="documentary-paper-links">
+                        <a href={sitePath(`/library/documents/${paper.id}/`)}>Reading copy →</a>
+                        {paper.sourceUrl && (
+                          <a href={paper.sourceUrl} target="_blank" rel="noreferrer">
+                            SSRN ↗
+                          </a>
+                        )}
+                      </div>
+                    </article>
+                  ))
+                ) : (
+                  <p class="documentary-volume-empty">
+                    No matched SSRN record is listed for this volume yet. The research roadmap
+                    remains visible without manufacturing a paper or a documentary release.
+                  </p>
+                )}
+              </div>
+            </li>
+          ))
+        }
+      </ol>
     </div>
   </section>
   <section class="section section-white">

@@ -6,6 +6,7 @@ import { ssrnPreprintDocuments } from "../data/ssrn";
 import { seriesItems } from "../data/series";
 import { publicLibrarySnapshot } from "../data/public-library";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
+import { volumeResearchMap } from "../data/volume-research";
 
 describe("editorial preview data", () => {
   it("keeps all sample work clearly labeled as unfinished", () => {
@@ -40,6 +41,27 @@ describe("editorial preview data", () => {
         (item) => item.status.includes("preview") || item.status.includes("development"),
       ),
     ).toBe(true);
+  });
+
+  it("maps public usage signals to every volume without calling them ratings", () => {
+    expect(volumeResearchMap.map((item) => item.volume)).toEqual([
+      "Volume I",
+      "Volume II",
+      "Volume III",
+      "Volume IV",
+    ]);
+    expect(
+      volumeResearchMap.every((item) => item.papers.every((paper) => paper.volume === item.volume)),
+    ).toBe(true);
+    expect(volumeResearchMap.find((item) => item.volume === "Volume I")?.papers[0]?.id).toBe(
+      "independent-observer-volume-one-ssrn",
+    );
+    expect(volumeResearchMap.find((item) => item.volume === "Volume II")?.papers[0]?.id).toBe(
+      "who-deported-more-ssrn",
+    );
+    expect(volumeResearchMap.find((item) => item.volume === "Volume IV")?.papers[0]?.id).toBe(
+      "disconnected-hearts-ssrn",
+    );
   });
 
   it("gives The Autonomous Illusion a substantive, still-preview-safe brief", () => {
