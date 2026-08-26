@@ -7,6 +7,7 @@ import { seriesItems } from "../data/series";
 import { slugify } from "../lib/slugs";
 import EvidenceLayer from "./EvidenceLayer.astro";
 import ClaimMap from "./ClaimMap.astro";
+import VolumeResearchMap from "./VolumeResearchMap.astro";
 
 type DetailItem = EditorialItem & {
   volume?: string;
@@ -20,6 +21,7 @@ type Props = {
   statusNote: string;
   featuredDocuments?: PublicDocument[];
   showVolumeConnection?: boolean;
+  showVolumeResearchMap?: boolean;
 };
 
 const {
@@ -30,6 +32,7 @@ const {
   statusNote,
   featuredDocuments = [],
   showVolumeConnection = false,
+  showVolumeResearchMap = false,
 } = Astro.props as Props;
 const volumeRecord = item.volume
   ? seriesItems.find(
@@ -207,4 +210,11 @@ const volumeRecord = item.volume
       limitation="This preview does not yet support a publishable conclusion."
     />
   </div>
+  {
+    showVolumeResearchMap && (
+      <div class="shell">
+        <VolumeResearchMap currentVolume={item.volume} />
+      </div>
+    )
+  }
 </section>

@@ -27,6 +27,10 @@ Scope: static-first Astro improvements; no release, deployment, merge, secret co
 | Operating standard       | Not hosted by the website                                  | Exact owner-provided Publication Operating System DOCX hosted on the review deployment with a dedicated reference page, search entry, sitemap route, and integrity test; it is not an article or feed item                                                                                                                                        |
 | Privacy boundary         | Approval-gated generated data and local interactions       | Same fail-closed feed; generated feed remains empty; no network search, accounts, analytics, tracking, or private-file exposure added                                                                                                                                                                                                             |
 
+## Research desk volume map
+
+Research detail pages now carry a separate four-volume research map beneath the evidence controls. It explains the relative role of Volume I (method), Volume II (power and sovereignty), Volume III (work and social citizenship), and Volume IV (capability and adaptation), then links only to the existing public-safe concept and SSRN records. This map does not relabel any preview as published and remains distinct from publication status, topic hubs, and the public library.
+
 ## Editorial and release boundary
 
 - `src/data/dropbox-content.generated.ts` remains generated and empty for the current build.
@@ -90,4 +94,4 @@ The following categories were explicitly excluded from implementation and public
 
 ## Verification record
 
-Verification on 2026-08-26: format check passed; Astro check passed with 0 errors, 0 warnings, and 0 hints; `npm test` passed with 173 tests across 9 files; production and GitHub Pages builds each produced 38 static pages; built-output tests passed with 173 tests; the custom-domain root build passed; the SEO audit passed all 38 HTML files; and the public artifact leakage scan passed. A green result does not authorize merge, article publication, or Dropbox mutation.
+Verification on 2026-08-26: format check passed; `npm test` passed with 174 tests across 9 files; production and GitHub Pages builds each produced 38 static pages; built-output tests passed with 174 tests; the custom-domain root build passed; the SEO audit passed all 38 HTML files; and the public artifact leakage scan passed. A green result does not authorize merge, article publication, or Dropbox mutation.

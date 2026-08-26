@@ -19,6 +19,11 @@ const catalogue = readFileSync(join(sourceRoot, "components/PublicationCatalogue
 const reader = readFileSync(join(sourceRoot, "components/DocumentReader.astro"), "utf8");
 const evidence = readFileSync(join(sourceRoot, "components/EvidenceLayer.astro"), "utf8");
 const detail = readFileSync(join(sourceRoot, "components/EditorialDetail.astro"), "utf8");
+const volumeResearchMapSource = readFileSync(
+  join(sourceRoot, "components/VolumeResearchMap.astro"),
+  "utf8",
+);
+const researchPage = readFileSync(join(sourceRoot, "pages/research/[slug].astro"), "utf8");
 const about = readFileSync(join(sourceRoot, "pages/about/index.astro"), "utf8");
 const homepage = readFileSync(join(sourceRoot, "pages/index.astro"), "utf8");
 const ssrn = readFileSync(join(sourceRoot, "data/ssrn.ts"), "utf8");
@@ -87,6 +92,18 @@ describe("interactive preview tools", () => {
     expect(detail).toContain("Evidence with a release boundary.");
     expect(detail).toContain('target="_blank"');
     expect(detail).toContain('rel="noreferrer"');
+  });
+
+  it("keeps the research desk distinct while mapping essays across all four volumes", () => {
+    expect(researchPage).toContain("showVolumeResearchMap");
+    expect(detail).toContain("<VolumeResearchMap currentVolume={item.volume} />");
+    expect(volumeResearchMapSource).toContain("Research and essays across four volumes.");
+    expect(volumeResearchMapSource).toContain("not another publication-status category");
+    expect(volumeResearchMapSource).toContain("libraryVolumeGuides");
+    expect(volumeResearchMapSource).toContain("volume.papers");
+    expect(volumeResearchMapSource).toContain("Current volume for this entry");
+    expect(volumeResearchMap).toHaveLength(4);
+    expect(volumeResearchMap.every((volume) => volume.papers.length > 0)).toBe(true);
   });
 
   it("connects documentary planning to all four volume research signals", () => {
