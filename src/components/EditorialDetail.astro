@@ -3,6 +3,8 @@ import type { EditorialItem } from "../data/content";
 import type { PublicDocument } from "../data/documents";
 import PageHero from "./PageHero.astro";
 import { sitePath } from "../lib/paths";
+import { seriesItems } from "../data/series";
+import { slugify } from "../lib/slugs";
 import EvidenceLayer from "./EvidenceLayer.astro";
 import ClaimMap from "./ClaimMap.astro";
 
@@ -17,6 +19,7 @@ type Props = {
   backHref: string;
   statusNote: string;
   featuredDocuments?: PublicDocument[];
+  showVolumeConnection?: boolean;
 };
 
 const {
@@ -26,7 +29,13 @@ const {
   backHref,
   statusNote,
   featuredDocuments = [],
+  showVolumeConnection = false,
 } = Astro.props as Props;
+const volumeRecord = item.volume
+  ? seriesItems.find(
+      (volume) => item.volume === volume.volume || item.volume?.startsWith(`${volume.volume} ·`),
+    )
+  : undefined;
 ---
 
 <PageHero eyebrow={eyebrow} title={item.title} description={item.description} />
@@ -43,6 +52,23 @@ const {
       <p>{item.description}</p>
       {item.detailLead && <p class="detail-lead">{item.detailLead}</p>}
       <p>{statusNote}</p>
+      {
+        showVolumeConnection && volumeRecord && (
+          <aside class="detail-volume-connection" aria-labelledby="detail-volume-title">
+            <p class="eyebrow">Volume connection</p>
+            <h3 id="detail-volume-title">
+              <a href={sitePath(`/series/${slugify(volumeRecord.title)}/`)}>
+                {volumeRecord.volume}: {volumeRecord.title}
+              </a>
+            </h3>
+            <p>{volumeRecord.description}</p>
+            <p>
+              This catalogue link connects the preview to the volume's public research spine. It
+              does not turn either entry into a released publication.
+            </p>
+          </aside>
+        )
+      }
       {
         item.detailSections && (
           <div class="detail-sections" aria-label="Research brief">

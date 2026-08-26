@@ -72,6 +72,20 @@ describe("editorial preview data", () => {
     expect(entry?.status).toBe("Concept preview");
   });
 
+  it("connects the institutional-power concept to Volume III without publishing its source reservoir", () => {
+    const entry = researchItems.find(
+      (item) => item.title === "Lawsuits Are Illusions: Where Institutional Power Actually Resides",
+    );
+    expect(entry?.volume).toBe("Volume III");
+    expect(entry?.detailLead).toContain("Volume III-connected");
+    expect(entry?.detailSections?.[0]?.heading).toBe("Volume III connection");
+    expect(
+      entry?.detailSections?.flatMap((section) => section.paragraphs ?? []).join(" "),
+    ).toContain("Terry v. Ohio");
+    expect(entry?.sourceNote).toContain("raw Dropbox file");
+    expect(entry?.status).toBe("In editorial development");
+  });
+
   it("connects The Cost of Looking Away to Volume II evidence without publishing it", () => {
     const entry = videoItems.find((item) => item.title === "The Cost of Looking Away");
     expect(entry?.volume).toBe("Volume II · Democracy & Institutions");

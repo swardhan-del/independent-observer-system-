@@ -31,7 +31,29 @@ export const researchItems: EditorialItem[] = [
     description:
       "A proposed analysis of the distance between formal legal remedies and the practical distribution of institutional power.",
     status: "In editorial development",
-    readingTime: "Essay concept",
+    volume: "Volume III",
+    readingTime: "Essay concept · Volume III",
+    detailLead:
+      "This Volume III-connected inquiry follows the gap between a legal remedy on paper and the institutional capacity required to make that remedy usable: access, enforcement, welfare administration, work, and public visibility.",
+    detailSections: [
+      {
+        heading: "Volume III connection",
+        paragraphs: [
+          "The concept is mapped to Volume III, Managed Decline, because it asks how law, enforcement, welfare, taxation, labor, and public records distribute practical power and insecurity.",
+          "The closely related Volume III working-paper direction is From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential. That source remains working material in the private archive; this page uses the relationship as a research map, not as a claim that the paper or this concept has been released.",
+        ],
+      },
+      {
+        heading: "Questions carried into the volume",
+        items: [
+          "When formal legal remedies exist, what determines whether a person can reach, understand, and use them?",
+          "How do enforcement, welfare, and labor systems record hardship—and how might those records conceal institutional choices?",
+          "What would a restoration-focused policy have to measure before it could be compared with punitive or exclusionary systems?",
+        ],
+      },
+    ],
+    sourceNote:
+      "This public catalogue relationship is grounded in the Volume III source organization and its working-paper direction. The raw Dropbox file, alternate drafts, private metadata, and unverified claims remain outside the website. The selected public Volume III reading copy below is presented as related context, not as proof of the concept.",
   },
   {
     title: "The Welfare Paradox",

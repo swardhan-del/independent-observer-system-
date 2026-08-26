@@ -240,6 +240,11 @@ describe("interactive preview tools", () => {
     expect(readFileSync(join(sourceRoot, "pages/series/[slug].astro"), "utf8")).toContain(
       "featuredDocuments",
     );
+    expect(readFileSync(join(sourceRoot, "pages/research/[slug].astro"), "utf8")).toContain(
+      "featuredDocuments",
+    );
+    expect(detail).toContain("Volume connection");
+    expect(detail).toContain("volumeRecord");
   });
 
   it("indexes all four volumes, their public SSRN copies, and research concepts together", () => {
@@ -258,6 +263,12 @@ describe("interactive preview tools", () => {
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "Research concept"),
     ).toHaveLength(3);
+    expect(
+      researchCatalogueRecords.find(
+        (record) =>
+          record.title === "Lawsuits Are Illusions: Where Institutional Power Actually Resides",
+      ),
+    ).toMatchObject({ kind: "Research concept", volume: "Volume III" });
     expect(
       new Set(
         researchCatalogueRecords
