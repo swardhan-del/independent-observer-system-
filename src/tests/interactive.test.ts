@@ -26,6 +26,7 @@ const homepageVolumeGuide = readFileSync(
 );
 const videos = readFileSync(join(sourceRoot, "pages/videos/index.astro"), "utf8");
 const documentaries = readFileSync(join(sourceRoot, "pages/documentaries/index.astro"), "utf8");
+const contact = readFileSync(join(sourceRoot, "pages/contact/index.astro"), "utf8");
 
 describe("interactive preview tools", () => {
   it("ships browser-local site search without a collection endpoint", () => {
@@ -60,9 +61,15 @@ describe("interactive preview tools", () => {
     expect(readFileSync(join(sourceRoot, "pages/index.astro"), "utf8")).toContain(
       'aria-label="Newsletter preview"',
     );
-    expect(readFileSync(join(sourceRoot, "pages/contact/index.astro"), "utf8")).toContain(
-      "Preview only—this form does not transmit or store data.",
+    expect(contact).toContain("Contact is not open yet.");
+    expect(contact).toContain("Not available for contact");
+    expect(contact).toContain("Siddhartha Harsh Wardhan");
+    expect(contact).toContain("future social-media company");
+    expect(contact.replace(/\s+/g, " ")).toContain(
+      "Nothing submitted here is collected, stored, or forwarded.",
     );
+    expect(contact).not.toContain("<form");
+    expect(contact).not.toContain("contact-name");
   });
 
   it("renders a visible public source trail and release boundary for annotated previews", () => {

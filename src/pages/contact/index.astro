@@ -5,43 +5,55 @@ import PageHero from "../../components/PageHero.astro";
 
 <BaseLayout
   title="Contact"
-  description="Contact page preview for Independent Observer."
+  description="Independent Observer contact information and future correspondence plans."
   currentPath="/contact/"
 >
   <PageHero
     eyebrow="Contact"
-    title="Begin with the substance."
-    description="A future contact channel for corrections, research leads, documentary inquiries, and professional correspondence."
+    title="Contact is not open yet."
+    description="Independent Observer has only recently begun taking shape. There is no public email address, intake form, or active correspondence channel; future contact arrangements will be considered as the research and the author's wider plans develop."
   />
   <section class="section section-white">
     <div class="shell page-grid">
       <div class="prose">
-        <h2>Contact system not yet activated</h2>
+        <h2>Not available for contact</h2>
         <p>
-          No public email address or form-processing service has been configured. This prevents the
-          preview from inventing contact details or collecting information without a privacy policy.
+          This project is at an early stage. Questions, corrections, and disagreements may become
+          part of a future public discussion, but this site is not currently accepting messages or
+          promising a response.
         </p>
-        <h3>Planned inquiry categories</h3>
-        <ul>
-          <li>Corrections and source challenges</li>
-          <li>Research leads and public records</li>
-          <li>Documentary and media inquiries</li>
-          <li>Rights, licensing, and professional correspondence</li>
-        </ul>
+        <h3>About the author</h3>
+        <p>
+          Siddhartha Harsh Wardhan is building Independent Observer as a public home for
+          evidence-led research, documentary work, and cross-disciplinary explanation. The project
+          begins with observation, documentation, and visible limits rather than a finished
+          publication program.
+        </p>
+        <h3>Future direction</h3>
+        <p>
+          The author is considering a future social-media company alongside this research work. That
+          possibility is not an active company, service, or launch announcement from this page.
+        </p>
+        <h3>When this changes</h3>
+        <p>
+          A public contact route may be added later, after the project's publication and privacy
+          arrangements are ready. Until then, the absence of a contact channel is deliberate.
+        </p>
       </div>
-      <form class="contact-panel" aria-label="Contact form preview" onsubmit="return false">
-        <div class="placeholder-notice">
-          Preview only—this form does not transmit or store data.
-        </div>
-        <h2>Send an inquiry</h2>
-        <label for="contact-name">Name</label>
-        <input id="contact-name" type="text" disabled />
-        <label for="contact-email">Email</label>
-        <input id="contact-email" type="email" disabled />
-        <label for="contact-message">Message</label>
-        <textarea id="contact-message" disabled></textarea>
-        <button class="button" type="button" disabled>Coming later</button>
-      </form>
+      <aside class="contact-panel contact-panel-closed" aria-labelledby="contact-closed-title">
+        <p class="contact-panel-kicker">Not accepting messages</p>
+        <h2 id="contact-closed-title">The correspondence door is closed for now.</h2>
+        <p>
+          No email address or message form is active. Nothing submitted here is collected, stored,
+          or forwarded.
+        </p>
+        <div class="contact-panel-rule" aria-hidden="true"></div>
+        <p class="contact-panel-note">
+          Future discussion may include corrections, public records, documentary inquiries, rights,
+          and professional correspondence—but only after a clear privacy policy and response process
+          are in place.
+        </p>
+      </aside>
     </div>
   </section>
 </BaseLayout>
