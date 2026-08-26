@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { rankSearchEntries, normalizeSearchText } from "../lib/search";
 import { migrateReadingList, sortReadingList } from "../lib/reading-list";
 import { relatedRecords } from "../lib/related";
+import { volumeResearchMap } from "../data/volume-research";
 
 const sourceRoot = join(process.cwd(), "src");
 const header = readFileSync(join(sourceRoot, "components/Header.astro"), "utf8");
@@ -99,6 +100,15 @@ describe("interactive preview tools", () => {
     expect(series).not.toContain("review roadmap, not a publication catalogue");
     expect(series).toContain("catalogue record does not make a volume a finished publication");
     expect(catalogue).toContain("Official catalogue");
+    expect(catalogue).toContain("The four-volume spine");
+    expect(catalogue).toContain("Four volumes, four lines of inquiry.");
+    expect(catalogue).toContain("volumeResearchMap.map((item, index)");
+    expect(volumeResearchMap.map((item) => item.volume)).toEqual([
+      "Volume I",
+      "Volume II",
+      "Volume III",
+      "Volume IV",
+    ]);
     expect(catalogue).toContain("Open investigative file");
     expect(catalogue).toContain("Connected public work");
     expect(catalogue.replace(/\s+/g, " ")).toContain("usage signal only");

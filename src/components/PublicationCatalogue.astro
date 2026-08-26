@@ -47,6 +47,41 @@ const catalogueStats = [
       }
     </dl>
 
+    <section
+      class="publication-catalogue-volume-spine"
+      aria-labelledby="catalogue-volume-spine-title"
+    >
+      <div class="publication-catalogue-volume-spine-heading">
+        <div>
+          <p class="eyebrow">The four-volume spine</p>
+          <h3 id="catalogue-volume-spine-title">Four volumes, four lines of inquiry.</h3>
+        </div>
+        <p>
+          The catalogue is one connected programme. Each volume carries a distinct question while
+          sharing the Independent Observer method.
+        </p>
+      </div>
+      <ol class="publication-catalogue-volume-spine-list">
+        {
+          volumeResearchMap.map((item, index) => {
+            const connection = volumeTopicConnections[item.volume];
+            return (
+              <li>
+                <a href={sitePath(`/series/${slugify(item.title)}/`)}>
+                  <span>
+                    {String(index + 1).padStart(2, "0")} · {item.volume}
+                  </span>
+                  <strong>{item.title}</strong>
+                  <em>{connection.lens}</em>
+                  <small>{item.status}</small>
+                </a>
+              </li>
+            );
+          })
+        }
+      </ol>
+    </section>
+
     <div class="publication-catalogue-controls" data-publication-catalogue>
       <div class="publication-catalogue-control-heading">
         <div>
