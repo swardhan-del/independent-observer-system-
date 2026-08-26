@@ -13,6 +13,8 @@ Audit and Human Approval Copy Plan in Dropbox (2026-08-22).
 - src/components/TopicPathways.astro — question-led entry points.
 - src/components/TopicAtlas.astro — browser-local filters for preprints,
   previews, roadmap notes, and held-for-release signals.
+- src/components/TopicVolumeMap.astro — the four-volume spine that connects
+  every subject hub to the series roadmap.
 - src/components/TopicReviewQueue.astro — visible human-release boundary.
 
 ## Safety boundary

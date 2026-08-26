@@ -21,6 +21,11 @@ export type TopicPathway = {
   topicSlugs: string[];
 };
 
+export type VolumeTopicConnection = {
+  lens: string;
+  topicSlugs: string[];
+};
+
 export type ReviewQueueSignal = {
   title: string;
   status: "Awaiting human release";
@@ -117,6 +122,29 @@ export const topicPathways: TopicPathway[] = [
     topicSlugs: ["economics", "politics", "history"],
   },
 ];
+
+/**
+ * The four-volume spine is the primary relationship on the Topics page. Topic hubs are lenses
+ * on these volumes, not separate collections competing for attention.
+ */
+export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
+  "Volume I": {
+    lens: "Foundation, evidence, and democratic capacity",
+    topicSlugs: ["history", "politics", "law"],
+  },
+  "Volume II": {
+    lens: "Sovereignty, institutions, and public power",
+    topicSlugs: ["history", "politics", "economics"],
+  },
+  "Volume III": {
+    lens: "Work, social citizenship, and economic insecurity",
+    topicSlugs: ["economics", "law", "politics"],
+  },
+  "Volume IV": {
+    lens: "AI, science, infrastructure, and human capability",
+    topicSlugs: ["technology", "science", "economics"],
+  },
+};
 
 /**
  * Safe release signals only. The underlying drafts remain in Dropbox and are not linked as

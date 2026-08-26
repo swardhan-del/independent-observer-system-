@@ -1,0 +1,48 @@
+---
+import { volumeTopicConnections, topicPluginFor } from "../../plugins/topic-discovery/catalog";
+import { seriesItems } from "../data/series";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+---
+
+<section class="section section-navy topic-volume-map" aria-labelledby="topic-volume-map-title">
+  <div class="shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Four-volume research spine</p>
+        <h2 id="topic-volume-map-title">One project, four connected volumes.</h2>
+      </div>
+      <p>
+        The subjects below are lenses on the same Independent Observer program. Start with a volume,
+        then follow its questions into history, politics, economics, law, science, or technology.
+      </p>
+    </div>
+    <ol class="topic-volume-grid" aria-label="Independent Observer four-volume map">
+      {
+        seriesItems.map((item, index) => {
+          const connection = volumeTopicConnections[item.volume];
+          return (
+            <li class="topic-volume-card">
+              <div class="topic-volume-topline">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span>{item.volume}</span>
+              </div>
+              <h3>
+                <a href={sitePath("/series/" + slugify(item.title) + "/")}>{item.title}</a>
+              </h3>
+              <p class="topic-volume-lens">{connection.lens}</p>
+              <p>{item.description}</p>
+              <div class="topic-volume-topics" aria-label={item.volume + " connected topics"}>
+                {connection.topicSlugs.map((slug) => {
+                  const topic = topicPluginFor(slug);
+                  return <a href={sitePath("/topics/" + slug + "/")}>{topic.name}</a>;
+                })}
+              </div>
+              <span class="topic-volume-status">{item.status}</span>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</section>

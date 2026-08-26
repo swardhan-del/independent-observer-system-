@@ -2,9 +2,9 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import TopicAtlas from "../../components/TopicAtlas.astro";
-import TopicPathways from "../../components/TopicPathways.astro";
 import TopicReviewQueue from "../../components/TopicReviewQueue.astro";
-import { reviewQueueSignals, topicPathways } from "../../../plugins/topic-discovery/catalog";
+import TopicVolumeMap from "../../components/TopicVolumeMap.astro";
+import { reviewQueueSignals } from "../../../plugins/topic-discovery/catalog";
 import { topicHubs } from "../../data/topics";
 ---
 
@@ -15,20 +15,21 @@ import { topicHubs } from "../../data/topics";
 >
   <PageHero
     eyebrow="Browse by subject"
-    title="Six connected fields."
-    description="Topic hubs make the archive easier to enter without turning unfinished work into implied publication."
+    title="Six fields. Four volumes. One research spine."
+    description="The topic hubs connect the four-volume Independent Observer project, showing how method, institutions, political economy, science, and technology belong to one developing body of work."
   />
-  <TopicPathways pathways={topicPathways} />
+  <TopicVolumeMap />
   <section class="section section-white">
     <div class="shell">
       <div class="section-heading topic-atlas-heading">
         <div>
-          <p class="eyebrow">Subject atlas</p>
-          <h2>Find the signal you need.</h2>
+          <p class="eyebrow">Connected topic atlas</p>
+          <h2>Follow the subjects across each volume.</h2>
         </div>
         <p>
           Filter the map by public SSRN preprints, editorial previews, four-volume roadmap notes, or
-          work still held behind the human release gate.
+          work still held behind the human release gate. A topic is an entry point; the volumes are
+          the spine.
         </p>
       </div>
       <TopicAtlas topics={topicHubs} />

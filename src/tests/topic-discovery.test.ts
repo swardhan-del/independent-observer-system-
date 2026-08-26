@@ -6,6 +6,7 @@ import {
   reviewQueueSignals,
   topicPathways,
   topicPluginDefinitions,
+  volumeTopicConnections,
 } from "../../plugins/topic-discovery/catalog";
 import { topicHubs } from "../data/topics";
 
@@ -63,7 +64,8 @@ describe("topic discovery plugin", () => {
   });
 
   it("wires the topic atlas, URL view state, and visible human-release boundary", () => {
-    expect(topicIndex).toContain("<TopicPathways pathways={topicPathways} />");
+    expect(topicIndex).not.toContain("<TopicPathways pathways={topicPathways} />");
+    expect(topicIndex).toContain("<TopicVolumeMap />");
     expect(topicIndex).toContain("<TopicAtlas topics={topicHubs} />");
     expect(topicIndex).toContain("<TopicReviewQueue signals={reviewQueueSignals} />");
     expect(topicAtlas).toContain("data-topic-view");
@@ -71,5 +73,19 @@ describe("topic discovery plugin", () => {
     expect(topicAtlas).toContain('aria-live="polite"');
     expect(topicReviewQueue).toContain("signal.status");
     expect(topicReviewQueue).toContain("Metadata only · not a published article");
+  });
+
+  it("connects all four roadmap volumes to at least two topic hubs", () => {
+    expect(Object.keys(volumeTopicConnections)).toEqual([
+      "Volume I",
+      "Volume II",
+      "Volume III",
+      "Volume IV",
+    ]);
+    expect(
+      Object.values(volumeTopicConnections).every(
+        (connection: { topicSlugs: string[] }) => connection.topicSlugs.length >= 2,
+      ),
+    ).toBe(true);
   });
 });
