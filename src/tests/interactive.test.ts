@@ -5,6 +5,7 @@ import { rankSearchEntries, normalizeSearchText } from "../lib/search";
 import { migrateReadingList, sortReadingList } from "../lib/reading-list";
 import { relatedRecords } from "../lib/related";
 import { volumeResearchMap } from "../data/volume-research";
+import { researchCatalogueRecords, researchCatalogueVolumes } from "../lib/research-catalogue";
 
 const sourceRoot = join(process.cwd(), "src");
 const header = readFileSync(join(sourceRoot, "components/Header.astro"), "utf8");
@@ -28,6 +29,10 @@ const homepageVolumeGuide = readFileSync(
 const videos = readFileSync(join(sourceRoot, "pages/videos/index.astro"), "utf8");
 const documentaries = readFileSync(join(sourceRoot, "pages/documentaries/index.astro"), "utf8");
 const contact = readFileSync(join(sourceRoot, "pages/contact/index.astro"), "utf8");
+const researchCatalogue = readFileSync(
+  join(sourceRoot, "components/ResearchCatalogue.astro"),
+  "utf8",
+);
 
 describe("interactive preview tools", () => {
   it("ships browser-local site search without a collection endpoint", () => {
@@ -230,12 +235,39 @@ describe("interactive preview tools", () => {
   it("exposes SSRN provenance and usage signals without inventing ratings", () => {
     expect(reader).toContain("Open SSRN record");
     expect(reader).toContain("SSRN signal");
-    expect(readFileSync(join(sourceRoot, "pages/research/index.astro"), "utf8")).toContain(
-      "Public SSRN-linked articles",
-    );
+    expect(researchCatalogue).toContain("SSRN reading copies");
+    expect(researchCatalogue).toContain("descriptive discovery signals, not ratings");
     expect(readFileSync(join(sourceRoot, "pages/series/[slug].astro"), "utf8")).toContain(
       "featuredDocuments",
     );
+  });
+
+  it("indexes all four volumes, their public SSRN copies, and research concepts together", () => {
+    expect(researchCatalogue).toContain("data-research-catalogue");
+    expect(researchCatalogue).toContain('data-research-filter="volume"');
+    expect(researchCatalogue).toContain("URLSearchParams");
+    expect(researchCatalogue).toContain("rankSearchEntries");
+    expect(researchCatalogueRecords).toHaveLength(14);
+    expect(researchCatalogueVolumes).toEqual(["Volume I", "Volume II", "Volume III", "Volume IV"]);
+    expect(
+      researchCatalogueRecords.filter((record) => record.kind === "Volume record"),
+    ).toHaveLength(4);
+    expect(
+      researchCatalogueRecords.filter((record) => record.kind === "SSRN preprint"),
+    ).toHaveLength(7);
+    expect(
+      researchCatalogueRecords.filter((record) => record.kind === "Research concept"),
+    ).toHaveLength(3);
+    expect(
+      new Set(
+        researchCatalogueRecords
+          .filter((record) => record.kind === "SSRN preprint")
+          .map((record) => record.volume),
+      ),
+    ).toEqual(new Set(["Volume I", "Volume II", "Volume III", "Volume IV"]));
+    expect(
+      researchCatalogueRecords.filter((record) => record.kind === "SSRN preprint")[0]?.title,
+    ).toContain("Who Deported More");
   });
 
   it("supports richer concept briefs without changing their publication status", () => {

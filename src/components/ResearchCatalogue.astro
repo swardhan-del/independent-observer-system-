@@ -1,0 +1,243 @@
+---
+import {
+  researchCatalogueKinds,
+  researchCatalogueRecords,
+  researchCatalogueStatuses,
+  researchCatalogueTopics,
+  researchCatalogueVolumes,
+} from "../lib/research-catalogue";
+import ResearchCatalogueCard from "./ResearchCatalogueCard.astro";
+
+const serializedIndex = JSON.stringify(researchCatalogueRecords).replace(/</g, "\\u003c");
+const kindLabels: Record<string, string> = {
+  "Volume record": "Volume records",
+  "SSRN preprint": "SSRN reading copies",
+  "Research concept": "Research concepts",
+};
+const statusLabels: Record<string, string> = {
+  "In editorial development": "In development",
+  "Concept preview": "Concept preview",
+  "SSRN preprint": "SSRN preprint",
+};
+const topics = researchCatalogueTopics;
+const volumes = researchCatalogueVolumes;
+const statuses = researchCatalogueStatuses;
+---
+
+<section
+  class="section section-white research-catalogue"
+  data-research-catalogue
+  data-index={serializedIndex}
+>
+  <div class="shell">
+    <div class="section-heading research-catalogue-heading">
+      <div>
+        <p class="eyebrow">Local research catalogue</p>
+        <h2 id="research-catalogue-title">Four volumes, one searchable research spine.</h2>
+      </div>
+      <p>
+        Find the four volume records, their public SSRN reading copies, and the research concepts
+        connected to the programme. Search runs locally; every editorial status remains visible.
+      </p>
+    </div>
+
+    <div class="research-catalogue-controls" aria-labelledby="research-catalogue-title">
+      <div class="research-catalogue-control-heading">
+        <div>
+          <p class="eyebrow">Investigative index</p>
+          <h3>Search by volume, topic, or paper.</h3>
+        </div>
+        <p>
+          This catalogue connects public-safe records across Volumes I–IV. It does not turn a
+          preprint, concept, or volume record into a released publication.
+        </p>
+      </div>
+      <div class="research-catalogue-search">
+        <label for="research-catalogue-query">Search the research catalogue</label>
+        <input
+          id="research-catalogue-query"
+          data-research-query
+          type="search"
+          autocomplete="off"
+          placeholder="Try AI, migration, Volume IV, or a paper title"
+          aria-controls="research-catalogue-grid"
+          aria-describedby="research-catalogue-status"
+        />
+      </div>
+      <div class="research-catalogue-filters" aria-label="Research catalogue filters">
+        <label>
+          Content type
+          <select data-research-filter="kind">
+            <option value="">All records</option>
+            {researchCatalogueKinds.map((kind) => <option value={kind}>{kindLabels[kind]}</option>)}
+          </select>
+        </label>
+        <label>
+          Topic
+          <select data-research-filter="topic">
+            <option value="">All topics</option>
+            {topics.map((topic) => <option value={topic}>{topic}</option>)}
+          </select>
+        </label>
+        <label>
+          Status
+          <select data-research-filter="status">
+            <option value="">All statuses</option>
+            {
+              statuses.map((status) => (
+                <option value={status}>{statusLabels[status] ?? status}</option>
+              ))
+            }
+          </select>
+        </label>
+        <label>
+          Volume
+          <select data-research-filter="volume">
+            <option value="">All volumes</option>
+            {volumes.map((volume) => <option value={volume}>{volume}</option>)}
+          </select>
+        </label>
+      </div>
+      <div class="research-catalogue-status-row">
+        <p id="research-catalogue-status" data-research-status role="status" aria-live="polite">
+          Showing {researchCatalogueRecords.length} research records across four volumes.
+        </p>
+        <button type="button" data-research-reset hidden>Reset filters</button>
+      </div>
+    </div>
+
+    <p class="research-catalogue-boundary">
+      Public-safe catalogue: SSRN usage figures are descriptive discovery signals, not ratings or
+      endorsements. Publication still requires source, rights, quality, and human approval gates.
+    </p>
+
+    <ol
+      class="research-catalogue-grid"
+      id="research-catalogue-grid"
+      data-research-grid
+      aria-label="Independent Observer research catalogue"
+    >
+      {
+        researchCatalogueRecords.map((record, index) => (
+          <ResearchCatalogueCard record={record} index={index + 1} />
+        ))
+      }
+    </ol>
+
+    <div class="research-catalogue-empty" data-research-empty hidden>
+      <p>No catalogue records match that combination.</p>
+      <p>Try a broader term, another volume, or one of these local searches:</p>
+      <div>
+        <button type="button" data-research-suggestion="AI">AI</button>
+        <button type="button" data-research-suggestion="migration">Migration</button>
+        <button type="button" data-research-suggestion="Volume IV">Volume IV</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { rankSearchEntries } from "../lib/search";
+  import type { ResearchCatalogueRecord } from "../lib/research-catalogue";
+
+  document.querySelectorAll<HTMLElement>("[data-research-catalogue]").forEach((root) => {
+    const input = root.querySelector<HTMLInputElement>("[data-research-query]");
+    const status = root.querySelector<HTMLElement>("[data-research-status]");
+    const reset = root.querySelector<HTMLButtonElement>("[data-research-reset]");
+    const empty = root.querySelector<HTMLElement>("[data-research-empty]");
+    const grid = root.querySelector<HTMLOListElement>("[data-research-grid]");
+    const filters = [...root.querySelectorAll<HTMLSelectElement>("[data-research-filter]")];
+    const cards = grid ? [...grid.querySelectorAll<HTMLElement>("[data-research-card]")] : [];
+    const index = JSON.parse(root.dataset.index ?? "[]") as Array<ResearchCatalogueRecord>;
+    const originalOrder = [...cards];
+
+    if (!input || !status || !reset || !empty || !grid || !cards.length) return;
+
+    const filterValues = () =>
+      Object.fromEntries(
+        filters
+          .map((control) => [control.dataset.researchFilter ?? "", control.value])
+          .filter(([, value]) => value),
+      );
+
+    const syncUrl = () => {
+      const url = new URL(window.location.href);
+      const params = new URLSearchParams();
+      if (input.value.trim()) params.set("q", input.value.trim());
+      for (const control of filters) {
+        if (control.value) params.set(control.dataset.researchFilter ?? "", control.value);
+      }
+      const query = params.toString();
+      window.history.replaceState(
+        null,
+        "",
+        `${url.pathname}${query ? `?${query}` : ""}${url.hash}`,
+      );
+    };
+
+    const update = (writeUrl = true) => {
+      const query = input.value.trim();
+      const selected = filterValues();
+      const kind = selected.kind;
+      const entries = index.filter((entry) => !kind || entry.kind === kind);
+      const matches = rankSearchEntries(entries, query, {
+        topic: selected.topic,
+        status: selected.status,
+        volume: selected.volume,
+      });
+      const matchIds = new Set(matches.map((entry) => entry.id));
+      const hasFilters = Boolean(query || Object.keys(selected).length);
+
+      for (const card of cards) card.hidden = !matchIds.has(card.dataset.researchCard ?? "");
+
+      if (hasFilters) {
+        for (const match of matches) {
+          const card = cards.find((candidate) => candidate.dataset.researchCard === match.id);
+          if (card) grid.append(card);
+        }
+      } else {
+        for (const card of originalOrder) grid.append(card);
+      }
+
+      status.textContent = hasFilters
+        ? `Showing ${matches.length} of ${index.length} research records.`
+        : `Showing ${index.length} research records across four volumes.`;
+      empty.hidden = matches.length !== 0;
+      reset.hidden = !hasFilters;
+      if (writeUrl) syncUrl();
+    };
+
+    input.addEventListener("input", () => update());
+    for (const control of filters) control.addEventListener("change", () => update());
+
+    reset.addEventListener("click", () => {
+      input.value = "";
+      for (const control of filters) control.value = "";
+      update();
+      input.focus();
+    });
+
+    for (const suggestion of root.querySelectorAll<HTMLButtonElement>(
+      "[data-research-suggestion]",
+    )) {
+      suggestion.addEventListener("click", () => {
+        input.value = suggestion.dataset.researchSuggestion ?? "";
+        update();
+        input.focus();
+      });
+    }
+
+    const applyUrlState = () => {
+      const params = new URLSearchParams(window.location.search);
+      input.value = params.get("q") ?? "";
+      for (const control of filters) {
+        const value = params.get(control.dataset.researchFilter ?? "") ?? "";
+        control.value = [...control.options].some((option) => option.value === value) ? value : "";
+      }
+      update(false);
+    };
+
+    window.addEventListener("popstate", applyUrlState);
+    applyUrlState();
+  });
+</script>
