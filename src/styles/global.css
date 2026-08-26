@@ -100,9 +100,50 @@ textarea {
 }
 
 .site-header {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   background: var(--navy-900);
+  background-image:
+    radial-gradient(ellipse at 86% 18%, rgb(198 161 91 / 13%) 0%, transparent 31%),
+    radial-gradient(ellipse at 16% 100%, rgb(23 59 97 / 34%) 0%, transparent 44%),
+    linear-gradient(112deg, var(--navy-950) 0%, var(--navy-900) 52%, #0c2947 100%);
   color: var(--white);
   transition: box-shadow 0.3s ease;
+}
+
+.site-header::before,
+.site-header::after {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  content: "";
+}
+
+.site-header::before {
+  inset: 0;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 118px, rgb(255 255 255 / 3%) 119px 120px),
+    repeating-linear-gradient(0deg, transparent 0 54px, rgb(255 255 255 / 2.5%) 55px 56px);
+  opacity: 0.6;
+}
+
+.site-header::after {
+  top: 32px;
+  right: clamp(-180px, 4vw, 52px);
+  width: clamp(300px, 38vw, 520px);
+  height: 220px;
+  border: 1px solid rgb(198 161 91 / 20%);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 38px rgb(198 161 91 / 4%),
+    0 0 0 76px rgb(198 161 91 / 2%);
+  transform: rotate(-12deg);
+}
+
+.site-header > * {
+  position: relative;
+  z-index: 1;
 }
 
 .sticky-header {
@@ -124,6 +165,7 @@ textarea {
   justify-content: space-between;
   gap: 28px;
   padding-block: 30px 26px;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 1.5%) 50%, transparent);
 }
 
 .brand {
