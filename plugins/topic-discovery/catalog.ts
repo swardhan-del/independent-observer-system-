@@ -179,12 +179,13 @@ export const topicPathways: TopicPathway[] = [
     description:
       "Compare formal legitimacy with the procedures and resources that make institutions usable.",
     topicSlugs: ["politics", "law", "history"],
-    volumeLabels: ["Volume I", "Volume II"],
+    volumeLabels: ["Volume I", "Volume II", "Volume IV"],
     primaryVolumeLabel: "Volume I",
     coreIdeas: [
       "Separate formal legitimacy from the capacity to make institutions usable.",
       "Read law, procedure, enforcement, and evidence together.",
       "Ask who can decide, who can review, and who bears the consequences.",
+      "Test how scientific and technical capacity changes institutional action.",
     ],
     contentLinks: [
       {
@@ -206,6 +207,16 @@ export const topicPathways: TopicPathway[] = [
         kind: "Documentary preview",
         label: "Could America Leave NATO?",
         path: "/documentaries/could-america-leave-nato/",
+      },
+      {
+        kind: "Series roadmap",
+        label: "The Last Human Workforce · Volume IV",
+        path: "/series/the-last-human-workforce/",
+      },
+      {
+        kind: "Research preview",
+        label: "The Autonomous Illusion",
+        path: "/research/the-autonomous-illusion/",
       },
     ],
   },

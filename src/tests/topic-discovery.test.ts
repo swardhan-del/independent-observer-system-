@@ -101,6 +101,13 @@ describe("topic discovery plugin", () => {
     expect(startIndex).toContain("<TopicVolumeMap />");
     expect(startIndex).toContain("Explore the four volumes in development.");
     expect(startIndex).toContain("Siddhartha Harsh Wardhan");
+    expect(startIndex).toContain("Understand Volume I’s method");
+    expect(startIndex).toContain("Explore Volume IV: AI and labor");
+    expect(startIndex).toContain("Connect democracy to Volume IV capacity");
+    expect(startIndex).toContain("Explore Volume IV: science and capability");
+    expect(startIndex).toContain("Explore Volumes II–III: migration and political economy");
+    expect(startIndex).toContain("time, resources, distance, and economic position");
+    expect(startIndex).toContain("The Autonomous Illusion");
     expect(startIndex.indexOf("<TopicVolumeMap />")).toBeLessThan(
       startIndex.indexOf('<section class="section section-white">'),
     );
