@@ -1,0 +1,212 @@
+---
+import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
+import { topicPluginFor } from "../../plugins/topic-discovery/catalog";
+import { ssrnPreprintDocuments } from "../data/ssrn";
+import { seriesItems } from "../data/series";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+
+const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
+---
+
+<section
+  class="section section-navy library-content-blocks"
+  id="public-volume-content"
+  aria-labelledby="library-content-title"
+>
+  <div class="shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Public content blocks</p>
+        <h2 id="library-content-title">Four volumes. Four ways into the work.</h2>
+      </div>
+      <p>
+        Each block names the volume's core ideas, connects its topic lenses, and points to the
+        public SSRN preprints already available as reading copies. Preprints are not presented as
+        peer-reviewed or Independent Observer-published articles.
+      </p>
+    </div>
+
+    <div class="library-volume-toolbar">
+      <div class="library-volume-filters" role="group" aria-label="Filter library by volume">
+        <button type="button" data-library-volume-filter="all" aria-pressed="true">
+          All four volumes
+        </button>
+        {
+          libraryVolumeGuides.map((guide) => (
+            <button
+              type="button"
+              data-library-volume-filter={slugify(guide.volume)}
+              aria-pressed="false"
+            >
+              {guide.volume}
+            </button>
+          ))
+        }
+      </div>
+      <p class="library-volume-status" data-library-volume-status role="status" aria-live="polite">
+        Showing all four volumes
+      </p>
+    </div>
+
+    <div class="library-volume-blocks">
+      {
+        libraryVolumeGuides.map((guide, index) => {
+          const series = seriesByVolume.get(guide.volume);
+          if (!series) return null;
+          const volumeSlug = slugify(guide.volume);
+          const volumeId = `library-${volumeSlug}`;
+          const preprints = ssrnPreprintDocuments.filter((entry) => entry.volume === guide.volume);
+          return (
+            <article
+              class="library-volume-block"
+              id={volumeId}
+              data-library-volume-card={volumeSlug}
+              aria-labelledby={`${volumeId}-title`}
+            >
+              <div class="library-volume-block-header">
+                <div class="card-meta">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <span>{guide.volume}</span>
+                </div>
+                <span class="status-pill">{series.status}</span>
+              </div>
+              <h3 id={`${volumeId}-title`}>
+                <a href={sitePath(`/series/${slugify(series.title)}/`)}>{series.title}</a>
+              </h3>
+              <p class="library-volume-focus">{guide.focus}</p>
+              <p class="library-volume-summary">{guide.summary}</p>
+
+              <div class="library-volume-ideas">
+                <div>
+                  <p class="library-block-label">Core ideas</p>
+                  <ul>
+                    {guide.coreIdeas.map((idea) => (
+                      <li>{idea}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p class="library-block-label">Topic lenses</p>
+                  <div class="library-topic-links">
+                    {guide.topicSlugs.map((slug) => {
+                      const topic = topicPluginFor(slug);
+                      return <a href={sitePath(`/topics/${slug}/`)}>{topic.name}</a>;
+                    })}
+                  </div>
+                  <a
+                    class="library-volume-roadmap-link"
+                    href={sitePath(`/series/${slugify(series.title)}/`)}
+                  >
+                    Open the {guide.volume} roadmap note →
+                  </a>
+                </div>
+              </div>
+
+              <div class="library-preprint-shelf" aria-labelledby={`${volumeId}-preprints`}>
+                <div class="library-preprint-heading">
+                  <div>
+                    <p class="library-block-label">Public SSRN shelf</p>
+                    <h4 id={`${volumeId}-preprints`}>Preprints connected to {guide.volume}</h4>
+                  </div>
+                  <span>
+                    {preprints.length} {preprints.length === 1 ? "reading copy" : "reading copies"}
+                  </span>
+                </div>
+                {preprints.length > 0 ? (
+                  <div class="library-preprint-grid">
+                    {preprints.map((entry) => (
+                      <article class="library-preprint-card">
+                        <span class="library-preprint-status">SSRN preprint</span>
+                        <h5>
+                          <a href={sitePath(`/library/documents/${entry.id}/`)}>{entry.title}</a>
+                        </h5>
+                        <p>{entry.description}</p>
+                        <div class="library-preprint-footer">
+                          <span>
+                            {entry.metrics?.downloads ?? "—"} downloads ·{" "}
+                            {entry.metrics?.abstractViews ?? "—"} views
+                          </span>
+                          {entry.sourceUrl && (
+                            <a href={entry.sourceUrl} target="_blank" rel="noopener noreferrer">
+                              SSRN record ↗
+                            </a>
+                          )}
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                ) : (
+                  <p class="library-preprint-empty">
+                    No public SSRN reading copy is currently mapped to this volume. The roadmap
+                    remains visible without inventing a publication.
+                  </p>
+                )}
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const section = document.querySelector<HTMLElement>(".library-content-blocks");
+  if (section) {
+    const cards = [...section.querySelectorAll<HTMLElement>("[data-library-volume-card]")];
+    const filters = [
+      ...section.querySelectorAll<HTMLButtonElement>("[data-library-volume-filter]"),
+    ];
+    const status = section.querySelector<HTMLElement>("[data-library-volume-status]");
+    if (cards.length && filters.length && status) {
+      let selected = "all";
+      const labels = new Map(
+        filters.map((filter) => [
+          filter.dataset.libraryVolumeFilter ?? "",
+          filter.textContent?.trim() ?? "",
+        ]),
+      );
+      const labelFor = (value: string) =>
+        value === "all" ? "all four volumes" : (labels.get(value) ?? value);
+      const updateUrl = () => {
+        const url = new URL(window.location.href);
+        if (selected === "all") url.searchParams.delete("volume");
+        else url.searchParams.set("volume", selected);
+        window.history.replaceState(
+          null,
+          "",
+          url.pathname + (url.search ? url.search : "") + url.hash,
+        );
+      };
+      const render = (persist = true) => {
+        cards.forEach((card) => {
+          card.hidden = selected !== "all" && card.dataset.libraryVolumeCard !== selected;
+        });
+        filters.forEach((filter) =>
+          filter.setAttribute(
+            "aria-pressed",
+            String(filter.dataset.libraryVolumeFilter === selected),
+          ),
+        );
+        status.textContent = `Showing ${labelFor(selected)}`;
+        if (persist) updateUrl();
+      };
+      filters.forEach((filter) =>
+        filter.addEventListener("click", () => {
+          selected = filter.dataset.libraryVolumeFilter ?? "all";
+          render();
+        }),
+      );
+      const readUrl = () => {
+        const value = new URLSearchParams(window.location.search).get("volume") ?? "all";
+        selected = filters.some((filter) => filter.dataset.libraryVolumeFilter === value)
+          ? value
+          : "all";
+        render(false);
+      };
+      window.addEventListener("popstate", readUrl);
+      readUrl();
+    }
+  }
+</script>

@@ -5,6 +5,7 @@ import { publicDocumentItems } from "../data/documents";
 import { ssrnPreprintDocuments } from "../data/ssrn";
 import { seriesItems } from "../data/series";
 import { publicLibrarySnapshot } from "../data/public-library";
+import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
 
 describe("editorial preview data", () => {
   it("keeps all sample work clearly labeled as unfinished", () => {
@@ -99,7 +100,10 @@ describe("editorial preview data", () => {
 
 describe("public library data", () => {
   it("keeps the Dropbox-derived archive summary public-safe", () => {
-    expect(publicLibrarySnapshot.volumes).toHaveLength(3);
+    expect(libraryVolumeGuides).toHaveLength(4);
+    expect(
+      publicLibrarySnapshot.stats.find((stat) => stat.label === "Public volume summaries")?.value,
+    ).toBe("4");
     expect(
       publicLibrarySnapshot.stats.find((stat) => stat.label === "Raw archive files published")
         ?.value,

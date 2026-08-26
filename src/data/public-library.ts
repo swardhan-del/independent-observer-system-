@@ -4,12 +4,6 @@ export type PublicLibraryStat = {
   detail: string;
 };
 
-export type PublicLibraryVolume = {
-  title: string;
-  summary: string;
-  focus: string;
-};
-
 export type PublicLibraryArea = {
   title: string;
   summary: string;
@@ -38,8 +32,8 @@ export const publicLibrarySnapshot = {
     },
     {
       label: "Public volume summaries",
-      value: "3",
-      detail: "High-level summaries available on this site.",
+      value: "4",
+      detail: "High-level summaries available for the four-volume roadmap.",
     },
     {
       label: "Raw archive files published",
@@ -54,26 +48,6 @@ export const publicLibrarySnapshot = {
         "One exact owner-provided publication operating standard is hosted outside the article feed.",
     },
   ] satisfies PublicLibraryStat[],
-  volumes: [
-    {
-      title: "Volume One",
-      focus: "Foundation and evidence archive",
-      summary:
-        "Fact gathering, source context, data, timelines, claims, and contradictions. The aim is to preserve what can be checked while marking uncertainty instead of flattening it.",
-    },
-    {
-      title: "Volume Two",
-      focus: "Institutional and public-issue analysis",
-      summary:
-        "Political, economic, historical, technological, institutional, and social developments examined by comparing explanations and separating evidence from interpretation, hypothesis, and opinion.",
-    },
-    {
-      title: "Volume Three",
-      focus: "Synthesis, implications, and proposals",
-      summary:
-        "Forward-looking judgments, emerging trends, and constructive ideas developed with sourcing, careful language, visible uncertainty, and peaceful, lawful civic engagement.",
-    },
-  ] satisfies PublicLibraryVolume[],
   areas: [
     {
       title: "Primary research body",

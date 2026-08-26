@@ -3,7 +3,8 @@ import { documentaryItems, researchItems, topics, videoItems } from "../data/con
 import { dropboxFeedItems } from "../data/dropbox-content.generated";
 import { publicDocumentItems } from "../data/documents";
 import { seriesItems } from "../data/series";
-import { publicLibrarySnapshot } from "../data/public-library";
+import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
+import { topicPluginFor } from "../../plugins/topic-discovery/catalog";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 import type { SearchEntry } from "../lib/search";
@@ -130,15 +131,17 @@ const searchItems: SearchEntry[] = [
     format: "topic hub",
     href: sitePath(`/topics/${topic.name.toLocaleLowerCase()}/`),
   })),
-  ...publicLibrarySnapshot.volumes.map((volume) => ({
-    id: `volume:${volume.title}`,
-    title: volume.title,
-    category: volume.focus,
-    description: volume.summary,
+  ...libraryVolumeGuides.map((guide) => ({
+    id: `volume:${guide.volume}`,
+    title: guide.volume,
+    category: guide.focus,
+    description: guide.summary,
     status: "Public summary",
-    type: "Published document" as const,
-    format: "archive summary",
-    href: sitePath("/library/"),
+    type: "Series" as const,
+    topics: guide.topicSlugs.map((slug) => topicPluginFor(slug).name),
+    volume: guide.volume,
+    format: "volume content block",
+    href: sitePath(`/library/#library-${slugify(guide.volume)}`),
   })),
 ];
 

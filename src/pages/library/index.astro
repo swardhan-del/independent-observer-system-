@@ -1,17 +1,18 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import LibraryContentBlocks from "../../components/LibraryContentBlocks.astro";
 import PageHero from "../../components/PageHero.astro";
 import { dropboxFeedItems } from "../../data/dropbox-content.generated";
 import { publicDocumentItems } from "../../data/documents";
 import { publicLibrarySnapshot } from "../../data/public-library";
 import { sitePath } from "../../lib/paths";
 
-const { areas, note, stats, volumes } = publicLibrarySnapshot;
+const { areas, note, stats } = publicLibrarySnapshot;
 ---
 
 <BaseLayout
   title="Public Research Library"
-  description="A public-safe map of the Independent Observer research archive, its three public volume summaries, and the boundaries around private source material."
+  description="A public-safe map of the Independent Observer research archive, its four-volume content blocks, SSRN preprints, and the boundaries around private source material."
   currentPath="/library/"
 >
   <PageHero
@@ -40,6 +41,11 @@ const { areas, note, stats, volumes } = publicLibrarySnapshot;
                   <strong>{stat.label}</strong>
                 </p>
                 <p>{stat.detail}</p>
+                {stat.label === "Public volume summaries" && (
+                  <a class="library-stat-link" href="#public-volume-content">
+                    Explore the four-volume map →
+                  </a>
+                )}
               </article>
             ))
           }
@@ -48,38 +54,7 @@ const { areas, note, stats, volumes } = publicLibrarySnapshot;
     </div>
   </section>
 
-  <section class="section section-navy">
-    <div class="shell">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Research volumes</p>
-          <h2>Three public summaries.</h2>
-        </div>
-        <p>
-          The summaries describe the research architecture without presenting any volume as a
-          finished, peer-reviewed, or commercially released publication.
-        </p>
-      </div>
-      <div class="card-grid">
-        {
-          volumes.map((volume, index) => (
-            <article class="editorial-card">
-              <div class="card-meta">
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <span>Public summary</span>
-              </div>
-              <h3>{volume.title}</h3>
-              <p class="card-category">{volume.focus}</p>
-              <p>{volume.summary}</p>
-              <div class="card-footer">
-                <span class="status-pill">Overview only</span>
-              </div>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-  </section>
+  <LibraryContentBlocks />
 
   <section class="section section-white">
     <div class="shell">
