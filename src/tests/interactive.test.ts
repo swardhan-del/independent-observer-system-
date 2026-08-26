@@ -235,10 +235,14 @@ describe("interactive preview tools", () => {
     expect(about).toContain("independent-observer-volume-one-ssrn");
     expect(about).toContain("series/independent-observer");
     expect(about).toContain("Independent Observer is a connected four-volume inquiry.");
-    expect(about).toContain("Volume II follows power through democracy, sovereignty, migration");
-    expect(about).toMatch(
-      /Volume III asks how work,\s+taxation, welfare, time, and social citizenship/,
-    );
+    expect(about).toContain('aria-label="Independent Observer volumes"');
+    expect(about).toContain("The Empire Beneath Democracy");
+    expect(about).toContain("Managed Decline");
+    expect(about).toContain("The Last Human Workforce");
+    expect(about).toContain("The method volume.");
+    expect(about).toContain("The power-and-sovereignty volume.");
+    expect(about).toContain("The work-and-social-citizenship volume.");
+    expect(about).toContain("The technology-and-human-capability volume.");
     expect(about).toContain("<TopicVolumeMap />");
   });
 

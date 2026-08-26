@@ -48,7 +48,7 @@ describe("accessible color tokens", () => {
       "\\.eyebrow",
       "\\.mission-grid \\.index",
       "\\.topic span",
-      "\\.principle span",
+      "\\.mission-volume-number",
     ]) {
       expect(stylesheet).toMatch(
         new RegExp(`${selector}\\s*\\{[^}]*color:\\s*var\\(--gold-ink\\)`, "s"),
