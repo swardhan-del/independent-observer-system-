@@ -193,6 +193,12 @@ describe("interactive preview tools", () => {
     expect(about).toContain("Charles Hamilton Houston");
     expect(about).toContain("independent-observer-volume-one-ssrn");
     expect(about).toContain("series/independent-observer");
+    expect(about).toContain("Independent Observer is a connected four-volume inquiry.");
+    expect(about).toContain("Volume II follows power through democracy, sovereignty, migration");
+    expect(about).toMatch(
+      /Volume III asks how work,\s+taxation, welfare, time, and social citizenship/,
+    );
+    expect(about).toContain("<TopicVolumeMap />");
   });
 
   it("keeps video, reels, and survey pathways visibly preview-only", () => {
