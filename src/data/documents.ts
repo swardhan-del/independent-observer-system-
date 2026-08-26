@@ -37,6 +37,7 @@ export type PublicDocument = {
   updatedDate?: string;
   status?: string;
   sourceUrl?: string;
+  researchGateUrl?: string;
   metrics?: PublicDocumentMetrics;
   notes?: string[];
   limitations?: string[];

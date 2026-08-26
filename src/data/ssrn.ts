@@ -65,6 +65,8 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
     publicationDate: "13 October 2025",
     dateLabel: "Posted",
     sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5495878",
+    researchGateUrl:
+      "https://www.researchgate.net/publication/396491871_Who_Deported_More_Measuring_Removals_Returns_and_Enforcement_Priorities_Across_Presidential_Administrations_2000-2025",
     metrics: { downloads: 126, abstractViews: 6397, citations: 0, rank: 592433 },
     sections: sections(
       "The paper argues that public debate often collapses distinct immigration pathways into one deportation score. It separates removals, returns, and Title 42 expulsions, distinguishes interior from border enforcement, and uses official immigration-statistics series to make comparisons more consistent.",
@@ -145,6 +147,8 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
     publicationDate: "6 November 2025",
     dateLabel: "Posted",
     sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5578130",
+    researchGateUrl:
+      "https://www.researchgate.net/publication/397333270_Disconnected_Hearts_-_The_Tech_Revolution_of_Intimacy",
     metrics: { downloads: 47, abstractViews: 152, citations: 0 },
     sections: sections(
       "The paper describes a digital transformation of intimacy in which technology, economic liberalization, declining birth rates, and social isolation interact. It links the commodification of labor and the virtualization of connection without treating digital mediation as a complete explanation for demographic change.",

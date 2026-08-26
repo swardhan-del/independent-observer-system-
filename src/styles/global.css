@@ -850,6 +850,127 @@ textarea {
   font-size: 1.15rem;
 }
 
+.reading-list-recommendations {
+  display: grid;
+  gap: 18px;
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--slate-300);
+}
+
+.reading-list-recommendations-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.reading-list-recommendations-heading h3,
+.reading-list-recommendation-group h4 {
+  margin: 0;
+  color: var(--navy-900);
+  font-family: var(--serif);
+  font-weight: 400;
+}
+
+.reading-list-recommendations-heading h3 {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  letter-spacing: -0.03em;
+}
+
+.reading-list-save-all,
+.reading-list-recommendation-actions button {
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid var(--navy-900);
+  background: var(--navy-900);
+  color: var(--white);
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.reading-list-save-all:hover,
+.reading-list-recommendation-actions button:hover {
+  background: var(--gold-ink);
+  border-color: var(--gold-ink);
+}
+
+.reading-list-recommendations-intro,
+.reading-list-recommendation-card p {
+  margin: 0;
+  color: var(--slate-700);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.reading-list-recommendation-group {
+  display: grid;
+  gap: 10px;
+}
+
+.reading-list-recommendation-group h4 {
+  font-size: 1.2rem;
+}
+
+.reading-list-recommendation-grid {
+  display: grid;
+  gap: 1px;
+  background: var(--slate-300);
+}
+
+.reading-list-recommendation-card {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  background: var(--white);
+}
+
+.reading-list-recommendation-status {
+  color: var(--gold-ink);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.reading-list-recommendation-card h5 {
+  margin: 0;
+  color: var(--navy-900);
+  font-family: var(--serif);
+  font-size: 1.08rem;
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.reading-list-recommendation-card h5 a,
+.reading-list-recommendation-actions a {
+  color: var(--navy-900);
+  text-decoration: none;
+}
+
+.reading-list-recommendation-card h5 a:hover,
+.reading-list-recommendation-actions a:hover {
+  color: var(--gold-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.reading-list-recommendation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px 12px;
+}
+
+.reading-list-recommendation-actions a {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
 .reading-list-items {
   display: grid;
   gap: 1px;
@@ -2538,6 +2659,15 @@ kbd {
     margin-top: 7px;
   }
 
+  .reading-list-recommendations-heading {
+    display: block;
+  }
+
+  .reading-list-save-all {
+    width: 100%;
+    margin-top: 12px;
+  }
+
   .reading-list-item-controls {
     justify-content: start;
   }
@@ -2637,6 +2767,11 @@ kbd {
   }
 
   .reading-list-item {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .reading-list-recommendation-actions {
     align-items: start;
     flex-direction: column;
   }

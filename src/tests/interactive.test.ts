@@ -58,6 +58,11 @@ describe("interactive preview tools", () => {
     expect(readingList).not.toMatch(/fetch\s*\(/);
     expect(readingList).toContain("data-reading-export");
     expect(readingList).toContain("io:reading-list-updated");
+    expect(readingList).toContain("Recommended public previews");
+    expect(readingList).toContain("Highest-download matched SSRN preprints");
+    expect(readingList).toContain("Books and volumes in development");
+    expect(readingList).toContain("data-reading-save-all");
+    expect(readingList).toContain("researchGateUrl");
   });
 
   it("ranks AI by token boundaries and controlled synonyms", () => {

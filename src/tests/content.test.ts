@@ -95,6 +95,13 @@ describe("editorial preview data", () => {
     expect(ssrnPreprintDocuments.some((entry) => entry.title.includes("Who Deported More"))).toBe(
       true,
     );
+    expect(
+      ssrnPreprintDocuments.find((entry) => entry.id === "who-deported-more-ssrn")?.researchGateUrl,
+    ).toContain("researchgate.net/publication/396491871");
+    expect(
+      ssrnPreprintDocuments.find((entry) => entry.id === "disconnected-hearts-ssrn")
+        ?.researchGateUrl,
+    ).toContain("researchgate.net/publication/397333270");
   });
 });
 
