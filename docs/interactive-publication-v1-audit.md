@@ -84,4 +84,4 @@ The following categories were explicitly excluded from implementation and public
 
 ## Verification record
 
-Verification on 2026-08-26: format check passed; Astro check passed with 0 errors, 0 warnings, and 0 hints; `npm test` passed with 162 tests across 9 files; production and GitHub Pages builds each produced 38 static pages; built-output tests passed with 162 tests; the custom-domain root build passed; the SEO audit passed all 38 HTML files; and the public artifact leakage scan passed. A green result does not authorize merge, article publication, or Dropbox mutation.
+Verification on 2026-08-26: format check passed; Astro check passed with 0 errors, 0 warnings, and 0 hints; `npm test` passed with 164 tests across 9 files; production and GitHub Pages builds each produced 38 static pages; built-output tests passed with 164 tests; the custom-domain root build passed; the SEO audit passed all 38 HTML files; and the public artifact leakage scan passed. A green result does not authorize merge, article publication, or Dropbox mutation.
