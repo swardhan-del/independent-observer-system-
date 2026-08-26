@@ -4858,6 +4858,26 @@ kbd {
   line-height: 1.65;
 }
 
+.library-volume-importance {
+  max-width: 760px;
+  margin-top: 26px;
+  padding: 18px 20px;
+  border-left: 3px solid var(--gold);
+  background: rgb(255 255 255 / 6%);
+}
+
+.library-volume-importance .library-block-label {
+  margin-bottom: 8px;
+}
+
+.library-volume-importance p:last-child {
+  margin: 0;
+  color: var(--white);
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  line-height: 1.35;
+}
+
 .library-volume-ideas {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(220px, 0.75fr);
@@ -4919,6 +4939,63 @@ kbd {
 
 .library-volume-roadmap-link:hover {
   color: var(--gold-light);
+}
+
+.library-representative-paper {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.35fr);
+  gap: 24px;
+  margin-top: 32px;
+  padding: 22px;
+  border: 1px solid rgb(234 214 167 / 40%);
+  background: rgb(0 0 0 / 10%);
+}
+
+.library-representative-paper h4 {
+  max-width: 680px;
+  margin: 0 0 10px;
+  color: var(--white);
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.12;
+}
+
+.library-representative-paper h4 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.library-representative-paper h4 a:hover {
+  color: var(--gold-light);
+}
+
+.library-representative-paper p:last-child {
+  max-width: 700px;
+  margin: 0;
+  color: var(--slate-300);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.library-representative-paper-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 11px;
+  color: var(--slate-300);
+  font-size: 0.7rem;
+  line-height: 1.35;
+}
+
+.library-representative-paper-meta a {
+  color: var(--gold-light);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.library-representative-paper-meta a:hover {
+  color: var(--white);
 }
 
 .library-preprint-shelf {
@@ -5028,7 +5105,8 @@ kbd {
   }
 
   .library-volume-ideas,
-  .library-preprint-grid {
+  .library-preprint-grid,
+  .library-representative-paper {
     grid-template-columns: 1fr;
   }
 }
@@ -5038,6 +5116,10 @@ kbd {
   .library-preprint-heading,
   .library-preprint-footer {
     display: block;
+  }
+
+  .library-representative-paper-meta {
+    margin-top: 20px;
   }
 
   .library-volume-block-header .status-pill,

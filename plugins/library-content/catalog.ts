@@ -7,6 +7,7 @@
 export type LibraryVolumeGuide = {
   volume: "Volume I" | "Volume II" | "Volume III" | "Volume IV";
   focus: string;
+  importance: string;
   summary: string;
   coreIdeas: string[];
   topicSlugs: string[];
@@ -16,6 +17,8 @@ export const libraryVolumeGuides: LibraryVolumeGuide[] = [
   {
     volume: "Volume I",
     focus: "Method, evidence, and democratic capacity",
+    importance:
+      "This is the method anchor: it gives the observer a way to test how a public conclusion was formed before accepting it.",
     summary:
       "The method anchor: how to connect law, labor, media, history, and public reasoning while keeping the basis and limits of an argument visible.",
     coreIdeas: [
@@ -28,6 +31,8 @@ export const libraryVolumeGuides: LibraryVolumeGuide[] = [
   {
     volume: "Volume II",
     focus: "History, sovereignty, and institutional power",
+    importance:
+      "This volume extends observation into power: it asks how history, institutions, enforcement, migration, and markets shape public authority.",
     summary:
       "A comparative volume about how historical power shifts, enforcement, migration, identity, markets, and constitutional arrangements shape public authority.",
     coreIdeas: [
@@ -40,6 +45,8 @@ export const libraryVolumeGuides: LibraryVolumeGuide[] = [
   {
     volume: "Volume III",
     focus: "Work, taxation, and social citizenship",
+    importance:
+      "This volume makes distribution concrete by asking how time, taxation, work, and social citizenship decide who carries the cost of change.",
     summary:
       "A political-economy volume about labor markets, time, taxation, welfare, licensing, health systems, and the public arrangements that distribute insecurity.",
     coreIdeas: [
@@ -52,6 +59,8 @@ export const libraryVolumeGuides: LibraryVolumeGuide[] = [
   {
     volume: "Volume IV",
     focus: "AI, infrastructure, science, and human capability",
+    importance:
+      "This volume tests whether technological promise becomes human capability by following infrastructure, science, labor, intimacy, and institutional adaptation.",
     summary:
       "A future-facing volume about automation, compute, energy, human work, intimacy, demographic life, scientific capability, and institutional adaptation.",
     coreIdeas: [

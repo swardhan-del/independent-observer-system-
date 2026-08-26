@@ -1,8 +1,8 @@
 ---
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
 import { topicPluginFor } from "../../plugins/topic-discovery/catalog";
-import { ssrnPreprintDocuments } from "../data/ssrn";
 import { seriesItems } from "../data/series";
+import { volumeResearchMap } from "../data/volume-research";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 
@@ -18,12 +18,13 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
     <div class="section-heading">
       <div>
         <p class="eyebrow">Public content blocks</p>
-        <h2 id="library-content-title">Four volumes. Four ways into the work.</h2>
+        <h2 id="library-content-title">Four volumes. Four reasons the work matters.</h2>
       </div>
       <p>
-        Each block names the volume's core ideas, connects its topic lenses, and points to the
-        public SSRN preprints already available as reading copies. Preprints are not presented as
-        peer-reviewed or Independent Observer-published articles.
+        The Independent Observer is one connected research project with four distinct lines of
+        inquiry. Each block explains a volume's purpose, principles, subject lenses, and public
+        reading copies. SSRN downloads are discovery signals, not quality ratings, peer review, or
+        publication approval.
       </p>
     </div>
 
@@ -56,7 +57,9 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
           if (!series) return null;
           const volumeSlug = slugify(guide.volume);
           const volumeId = `library-${volumeSlug}`;
-          const preprints = ssrnPreprintDocuments.filter((entry) => entry.volume === guide.volume);
+          const preprints =
+            volumeResearchMap.find((item) => item.volume === guide.volume)?.papers ?? [];
+          const representativePaper = preprints[0];
           return (
             <article
               class="library-volume-block"
@@ -75,6 +78,10 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
                 <a href={sitePath(`/series/${slugify(series.title)}/`)}>{series.title}</a>
               </h3>
               <p class="library-volume-focus">{guide.focus}</p>
+              <div class="library-volume-importance">
+                <p class="library-block-label">Why this volume matters</p>
+                <p>{guide.importance}</p>
+              </div>
               <p class="library-volume-summary">{guide.summary}</p>
 
               <div class="library-volume-ideas">
@@ -102,6 +109,36 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
                   </a>
                 </div>
               </div>
+
+              {representativePaper && (
+                <div class="library-representative-paper">
+                  <div>
+                    <p class="library-block-label">Representative public paper</p>
+                    <h4>
+                      <a href={sitePath(`/library/documents/${representativePaper.id}/`)}>
+                        {representativePaper.title}
+                      </a>
+                    </h4>
+                    <p>{representativePaper.description}</p>
+                  </div>
+                  <div class="library-representative-paper-meta">
+                    <span class="status-pill">{representativePaper.status}</span>
+                    <span>
+                      {representativePaper.metrics?.downloads ?? "—"} downloads · current public
+                      signal
+                    </span>
+                    {representativePaper.sourceUrl && (
+                      <a
+                        href={representativePaper.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Open SSRN record ↗
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
 
               <div class="library-preprint-shelf" aria-labelledby={`${volumeId}-preprints`}>
                 <div class="library-preprint-heading">
