@@ -306,7 +306,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
       "Independent Observer: Critical Studies in Philosophy, Politics, Economics, and History — Volume I (Foundational Manifesto)",
     category: "Method & Democratic Capacity",
     description:
-      "The SSRN-linked foundation for the Independent Observer method: a systems-level framework for connecting law, labor, media, evidence, and democratic capacity.",
+      "Volume I is the method anchor for the Independent Observer: a systems-level reading of how law, labor, media, evidence, and democratic capacity shape public life. It connects philosophy, political economy, historical analysis, and public reasoning while keeping the limits of a working paper visible.",
     sourceModified: "Dropbox Volume I SSRN-ready controller matched to SSRN abstract 5431958",
     publicationDate: "19 September 2025",
     dateLabel: "Posted",

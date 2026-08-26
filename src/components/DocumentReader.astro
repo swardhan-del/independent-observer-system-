@@ -25,7 +25,12 @@ const suggestedCitation = citationComplete
 const related = relatedEntries.filter((candidate) => candidate.id !== entry.id).slice(0, 3);
 ---
 
-<PageHero eyebrow="Public document reader" title={entry.title} description={entry.description} />
+<PageHero
+  eyebrow="Public document reader"
+  title={entry.title}
+  description={entry.description}
+  className="document-reader-hero"
+/>
 
 <div class="reader-progress" data-reader-progress aria-hidden="true"><span></span></div>
 <section class="section section-white reader-shell">

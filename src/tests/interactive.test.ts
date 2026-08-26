@@ -19,6 +19,7 @@ const evidence = readFileSync(join(sourceRoot, "components/EvidenceLayer.astro")
 const detail = readFileSync(join(sourceRoot, "components/EditorialDetail.astro"), "utf8");
 const about = readFileSync(join(sourceRoot, "pages/about/index.astro"), "utf8");
 const homepage = readFileSync(join(sourceRoot, "pages/index.astro"), "utf8");
+const ssrn = readFileSync(join(sourceRoot, "data/ssrn.ts"), "utf8");
 const homepageVolumeGuide = readFileSync(
   join(sourceRoot, "components/HomepageVolumeGuide.astro"),
   "utf8",
@@ -184,6 +185,8 @@ describe("interactive preview tools", () => {
   it("provides reader and evidence-layer primitives with no-JavaScript content", () => {
     expect(reader).toContain("data-reader-progress");
     expect(reader).toContain("data-copy-section-link");
+    expect(reader).toContain('className="document-reader-hero"');
+    expect(ssrn).toContain("Volume I is the method anchor for the Independent Observer");
     expect(reader).toContain("reader-limitations");
     expect(reader).toContain("data-reader-download-citation");
     expect(evidence).toContain('aria-pressed="true"');
