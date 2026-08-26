@@ -215,6 +215,8 @@ describe("interactive preview tools", () => {
 
   it("connects the About page to the Volume I method and public reading copy", () => {
     expect(about).toContain("Observe before you react.");
+    expect(about).toContain('className="about-hero"');
+    expect(about).toContain("time, resources, institutional access, and economic room");
     expect(about).toContain("Volume I · Method");
     expect(about).toContain("documented fact");
     expect(about).toContain("Charles Hamilton Houston");

@@ -1241,6 +1241,23 @@ textarea {
   line-height: 1.52;
 }
 
+.about-hero .page-hero-inner {
+  padding-block: 78px 62px;
+}
+
+.about-hero h1 {
+  max-width: 950px;
+  font-size: clamp(2.8rem, 5.4vw, 5rem);
+  line-height: 0.98;
+}
+
+.about-hero .page-intro {
+  max-width: 900px;
+  margin-top: 24px;
+  font-size: clamp(1.12rem, 1.8vw, 1.42rem);
+  line-height: 1.52;
+}
+
 .page-intro {
   max-width: 760px;
   margin: 30px 0 0;
@@ -3655,6 +3672,19 @@ kbd {
   }
 
   .document-reader-hero .page-intro {
+    margin-top: 20px;
+    font-size: 1.1rem;
+  }
+
+  .about-hero .page-hero-inner {
+    padding-block: 56px 48px;
+  }
+
+  .about-hero h1 {
+    font-size: clamp(2.35rem, 11vw, 3.4rem);
+  }
+
+  .about-hero .page-intro {
     margin-top: 20px;
     font-size: 1.1rem;
   }
