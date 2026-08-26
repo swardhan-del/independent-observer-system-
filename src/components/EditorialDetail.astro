@@ -5,7 +5,7 @@ import PageHero from "./PageHero.astro";
 import { sitePath } from "../lib/paths";
 import { seriesItems } from "../data/series";
 import { slugify } from "../lib/slugs";
-import EvidenceLayer from "./EvidenceLayer.astro";
+import EvidenceLayer, { type EvidenceBlock } from "./EvidenceLayer.astro";
 import ClaimMap from "./ClaimMap.astro";
 import VolumeResearchMap from "./VolumeResearchMap.astro";
 import VolumeResearchDossier from "./VolumeResearchDossier.astro";
@@ -26,6 +26,21 @@ type Props = {
   showVolumeResearchMap?: boolean;
   showVolumeResearchDossier?: boolean;
   volumeDossierDocuments?: PublicDocument[];
+  evidenceBlocks?: EvidenceBlock[];
+  evidenceTitle?: string;
+  evidenceIntro?: string;
+  evidenceStatusNote?: string;
+  evidenceSource?: {
+    label: string;
+    href: string;
+  };
+  claimMap?: {
+    claim: string;
+    evidence: string;
+    mechanism: string;
+    counterargument: string;
+    limitation: string;
+  };
 };
 
 const {
@@ -40,12 +55,56 @@ const {
   showVolumeResearchMap = false,
   showVolumeResearchDossier = false,
   volumeDossierDocuments = [],
+  evidenceBlocks,
+  evidenceTitle,
+  evidenceIntro,
+  evidenceStatusNote,
+  evidenceSource,
+  claimMap,
 } = Astro.props as Props;
 const volumeRecord = item.volume
   ? seriesItems.find(
       (volume) => item.volume === volume.volume || item.volume?.startsWith(`${volume.volume} ·`),
     )
   : undefined;
+const defaultEvidenceBlocks: EvidenceBlock[] = [
+  {
+    category: "Documented fact",
+    text: "This entry is a public editorial preview. It is not presented as a released article or verified finding.",
+  },
+  {
+    category: "Interpretation",
+    text: "The eventual article will separate the author's reading of the material from the source record.",
+  },
+  {
+    category: "Hypothesis",
+    text: "Any explanatory hypothesis will be labeled and tested against the published evidence.",
+  },
+  {
+    category: "Policy proposal",
+    text: "No policy recommendation is being made by this preview.",
+  },
+  {
+    category: "Limitation",
+    text: "Citations, full methods, dates, and release metadata are not complete for this preview.",
+  },
+  {
+    category: "Counterargument",
+    text: "A finished version must represent strong opposing explanations before evaluating them.",
+  },
+  {
+    category: "Unresolved question",
+    text: "What remains uncertain will stay visible rather than being converted into a confident conclusion.",
+  },
+];
+const defaultClaimMap = {
+  claim: "Reserved for the eventual, reviewed thesis.",
+  evidence: "Reserved for source-verified material and complete citations.",
+  mechanism: "Reserved for the causal or institutional explanation.",
+  counterargument: "Reserved for the strongest competing explanation.",
+  limitation: "This preview does not yet support a publishable conclusion.",
+};
+const selectedClaimMap = claimMap ?? defaultClaimMap;
 ---
 
 <PageHero
@@ -185,43 +244,18 @@ const volumeRecord = item.volume
 <section class="section section-rule">
   <div class="shell reader-tools-grid">
     <EvidenceLayer
-      blocks={[
-        {
-          category: "Documented fact",
-          text: "This entry is a public editorial preview. It is not presented as a released article or verified finding.",
-        },
-        {
-          category: "Interpretation",
-          text: "The eventual article will separate the author's reading of the material from the source record.",
-        },
-        {
-          category: "Hypothesis",
-          text: "Any explanatory hypothesis will be labeled and tested against the published evidence.",
-        },
-        {
-          category: "Policy proposal",
-          text: "No policy recommendation is being made by this preview.",
-        },
-        {
-          category: "Limitation",
-          text: "Citations, full methods, dates, and release metadata are not complete for this preview.",
-        },
-        {
-          category: "Counterargument",
-          text: "A finished version must represent strong opposing explanations before evaluating them.",
-        },
-        {
-          category: "Unresolved question",
-          text: "What remains uncertain will stay visible rather than being converted into a confident conclusion.",
-        },
-      ]}
+      blocks={evidenceBlocks ?? defaultEvidenceBlocks}
+      title={evidenceTitle}
+      intro={evidenceIntro}
+      statusNote={evidenceStatusNote}
+      source={evidenceSource}
     />
     <ClaimMap
-      claim="Reserved for the eventual, reviewed thesis."
-      evidence="Reserved for source-verified material and complete citations."
-      mechanism="Reserved for the causal or institutional explanation."
-      counterargument="Reserved for the strongest competing explanation."
-      limitation="This preview does not yet support a publishable conclusion."
+      claim={selectedClaimMap.claim}
+      evidence={selectedClaimMap.evidence}
+      mechanism={selectedClaimMap.mechanism}
+      counterargument={selectedClaimMap.counterargument}
+      limitation={selectedClaimMap.limitation}
     />
   </div>
   {

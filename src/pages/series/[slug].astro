@@ -5,6 +5,10 @@ import { seriesItems } from "../../data/series";
 import { slugify } from "../../lib/slugs";
 import { sitePath } from "../../lib/paths";
 import { ssrnPreprintDocuments } from "../../data/ssrn";
+import {
+  volumeThreeTaxDoctrineClaimMap,
+  volumeThreeTaxDoctrineEvidence,
+} from "../../data/volume-three-evidence";
 
 export function getStaticPaths() {
   return seriesItems.map((item) => ({
@@ -28,5 +32,22 @@ const featuredDocuments = ssrnPreprintDocuments.filter((entry) => entry.volume =
     featuredDocuments={item.volume === "Volume III" ? [] : featuredDocuments}
     volumeDossierDocuments={featuredDocuments}
     showVolumeResearchDossier={item.volume === "Volume III"}
+    evidenceBlocks={item.volume === "Volume III" ? [...volumeThreeTaxDoctrineEvidence] : undefined}
+    evidenceTitle={item.volume === "Volume III"
+      ? "Case study: The Wardhan Tax Doctrine"
+      : undefined}
+    evidenceIntro={item.volume === "Volume III"
+      ? "Read one Volume III paper through distinct evidence categories. Selecting a layer isolates the type of statement; it never ranks credibility."
+      : undefined}
+    evidenceStatusNote={item.volume === "Volume III"
+      ? "Volume III public reading copy · SSRN preprint · policy proposal under review"
+      : undefined}
+    evidenceSource={item.volume === "Volume III"
+      ? {
+          label: "The Wardhan Tax Doctrine on SSRN",
+          href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5477606",
+        }
+      : undefined}
+    claimMap={item.volume === "Volume III" ? { ...volumeThreeTaxDoctrineClaimMap } : undefined}
   />
 </BaseLayout>

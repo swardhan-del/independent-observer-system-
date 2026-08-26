@@ -1,4 +1,6 @@
 ---
+import { sitePath } from "../lib/paths";
+
 export type EvidenceCategory =
   | "Documented fact"
   | "Interpretation"
@@ -14,24 +16,58 @@ export type EvidenceBlock = {
   source?: {
     label: string;
     href: string;
+    internal?: boolean;
   };
 };
 
 type Props = {
   blocks: EvidenceBlock[];
+  title?: string;
+  intro?: string;
+  statusNote?: string;
+  source?: {
+    label: string;
+    href: string;
+  };
 };
 
-const { blocks } = Astro.props as Props;
+const {
+  blocks,
+  title = "Evidence layer",
+  intro = "Highlighting is a reading aid, not a credibility score. The full text remains visible.",
+  statusNote,
+  source,
+} = Astro.props as Props;
 ---
 
 <section class="evidence-layer" data-evidence-layer aria-labelledby="evidence-layer-title">
   <div class="evidence-layer-heading">
     <div>
       <p class="eyebrow">Reader control</p>
-      <h2 id="evidence-layer-title">Evidence layer</h2>
+      <h2 id="evidence-layer-title">{title}</h2>
     </div>
-    <p>Highlighting is a reading aid, not a credibility score. The full text remains visible.</p>
+    <p>{intro}</p>
   </div>
+  {
+    (statusNote || source) && (
+      <div class="evidence-layer-context">
+        {statusNote && (
+          <p>
+            <strong>Publication status</strong>
+            {statusNote}
+          </p>
+        )}
+        {source && (
+          <p>
+            <strong>Source</strong>
+            <a href={source.href} target="_blank" rel="noreferrer">
+              {source.label} ↗
+            </a>
+          </p>
+        )}
+      </div>
+    )
+  }
   <div class="evidence-controls" role="group" aria-label="Highlight evidence categories">
     <button type="button" data-evidence-filter="all" aria-pressed="true">All layers</button>
     {
@@ -49,7 +85,11 @@ const { blocks } = Astro.props as Props;
           <span class="evidence-label">{block.category}</span>
           <p>{block.text}</p>
           {block.source && (
-            <a class="evidence-source" data-evidence-source href={block.source.href}>
+            <a
+              class="evidence-source"
+              data-evidence-source
+              href={block.source.internal ? sitePath(block.source.href) : block.source.href}
+            >
               {block.source.label} <span aria-hidden="true">→</span>
             </a>
           )}

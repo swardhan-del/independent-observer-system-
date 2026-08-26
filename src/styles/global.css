@@ -3093,6 +3093,38 @@ kbd {
   font-size: 0.82rem;
 }
 
+.evidence-layer-context {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border-left: 3px solid var(--gold);
+  background: #f7f4ed;
+  color: var(--slate-700);
+  font-size: 0.78rem;
+}
+
+.evidence-layer-context p {
+  margin: 0;
+}
+
+.evidence-layer-context strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--gold-ink);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.evidence-layer-context a {
+  color: var(--navy-700);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 .evidence-controls {
   display: flex;
   flex-wrap: wrap;

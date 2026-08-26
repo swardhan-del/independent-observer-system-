@@ -26,6 +26,7 @@ const readerVolumeContext = readFileSync(
   "utf8",
 );
 const evidence = readFileSync(join(sourceRoot, "components/EvidenceLayer.astro"), "utf8");
+const volumeThreeEvidence = readFileSync(join(sourceRoot, "data/volume-three-evidence.ts"), "utf8");
 const detail = readFileSync(join(sourceRoot, "components/EditorialDetail.astro"), "utf8");
 const volumeResearchMapSource = readFileSync(
   join(sourceRoot, "components/VolumeResearchMap.astro"),
@@ -105,6 +106,27 @@ describe("interactive preview tools", () => {
     expect(detail).toContain("Evidence with a release boundary.");
     expect(detail).toContain('target="_blank"');
     expect(detail).toContain('rel="noreferrer"');
+    expect(detail).toContain("evidenceBlocks");
+    expect(detail).toContain("selectedClaimMap");
+    expect(evidence).toContain("Publication status");
+    expect(evidence).toContain("data-evidence-filter");
+    expect(evidence).toContain("sitePath");
+    expect(volumeThreeEvidence).toContain("internal: true");
+  });
+
+  it("gives Volume III one source-labeled paper a complete evidence reading", () => {
+    expect(seriesDetail).toContain("volumeThreeTaxDoctrineEvidence");
+    expect(seriesDetail).toContain("Case study: The Wardhan Tax Doctrine");
+    expect(volumeThreeEvidence).toContain("abstract 5477606");
+    expect(volumeThreeEvidence).toContain("Documented fact");
+    expect(volumeThreeEvidence).toContain("Interpretation");
+    expect(volumeThreeEvidence).toContain("Hypothesis");
+    expect(volumeThreeEvidence).toContain("Policy proposal");
+    expect(volumeThreeEvidence).toContain("Limitation");
+    expect(volumeThreeEvidence).toContain("Counterargument");
+    expect(volumeThreeEvidence).toContain("Unresolved question");
+    expect(volumeThreeEvidence).toContain("No official fiscal score");
+    expect(volumeThreeEvidence).not.toContain("confidence score");
   });
 
   it("connects public document readers to their actual volume and same-volume copies", () => {
