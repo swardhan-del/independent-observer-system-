@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
+import { sitePath } from "../../lib/paths";
 ---
 
 <BaseLayout
@@ -11,8 +12,61 @@ import PageHero from "../../components/PageHero.astro";
   <PageHero
     eyebrow="About the project"
     title="Independence is a method, not a pose."
-    description="Independent Observer is being developed as a serious home for cross-disciplinary research, documentary work, and public explanation."
+    description="Volume I begins with a discipline of observation: document the record before joining the reaction. Independent Observer makes its sources, definitions, inferences, limits, and corrections visible so readers can test how a conclusion was made."
   />
+  <section class="section section-navy" aria-labelledby="volume-one-method-title">
+    <div class="shell page-grid">
+      <aside class="page-aside">Volume I · Method</aside>
+      <div class="prose">
+        <h2 id="volume-one-method-title">Observe before you react.</h2>
+        <p>
+          Volume I treats observation as active work, not passive distance. It asks who has the
+          time, resources, institutional access, and economic room to watch before reacting—and how
+          those conditions shape what becomes visible.
+        </p>
+        <p>
+          The point is not to pretend that a person or archive has no perspective. The point is to
+          leave the record open to inspection: define the terms, date the evidence, separate
+          documented fact from interpretation, and show what would change the argument.
+        </p>
+        <h3>Documentation is a public technology.</h3>
+        <p>
+          A documented record can outlast the immediate controversy. It lets later readers compare
+          what was said, what was observed, what was inferred, and what was corrected. That is one
+          way history becomes more than repetition.
+        </p>
+        <p>
+          A documented Harvard example is Charles Hamilton Houston: Harvard Law School records
+          identify him as the first Black editor of the Harvard Law Review, while archival accounts
+          describe his later surveying of conditions and use of film in legal work. The example is
+          here for its discipline of building a record before argument—not as proof that any
+          observer is free from values or bias. Read the
+          <a
+            href="https://hls.harvard.edu/today/the-man-who-killed-jim-crow-the-legacy-of-charles-hamilton-houston/"
+            target="_blank"
+            rel="noopener noreferrer">Harvard Law School account</a
+          > and the
+          <a
+            href="https://www.law.cornell.edu/houston/housbio.htm"
+            target="_blank"
+            rel="noopener noreferrer">Cornell archive</a
+          >.
+        </p>
+        <div class="about-method-callout">
+          <strong>Volume I rule:</strong>
+          keep documented fact, interpretation, hypothesis, policy proposal, limitation, counterargument,
+          and unresolved question distinguishable.
+        </div>
+        <p>
+          <a href={sitePath("/library/documents/independent-observer-volume-one-ssrn/")}
+            >Read the Volume I public copy →</a
+          >
+          <span aria-hidden="true"> · </span>
+          <a href={sitePath("/series/independent-observer/")}>See its place in the series →</a>
+        </p>
+      </div>
+    </div>
+  </section>
   <section class="section section-white">
     <div class="shell page-grid">
       <aside class="page-aside">Mission</aside>

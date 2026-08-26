@@ -567,6 +567,32 @@ textarea {
   color: var(--slate-300);
 }
 
+.section-navy .prose h2,
+.section-navy .prose h3 {
+  color: var(--white);
+}
+
+.section-navy .prose p,
+.section-navy .prose li {
+  color: var(--slate-300);
+}
+
+.section-navy .prose a {
+  color: var(--gold-light);
+}
+
+.about-method-callout {
+  margin: 30px 0 34px;
+  padding: 17px 20px;
+  border-left: 4px solid var(--gold);
+  background: var(--navy-800);
+  color: var(--slate-300);
+}
+
+.about-method-callout strong {
+  color: var(--gold-light);
+}
+
 .mission-grid {
   display: grid;
   grid-template-columns: 0.48fr 1.52fr;

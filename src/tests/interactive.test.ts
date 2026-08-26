@@ -16,6 +16,8 @@ const series = readFileSync(join(sourceRoot, "pages/series/index.astro"), "utf8"
 const reader = readFileSync(join(sourceRoot, "components/DocumentReader.astro"), "utf8");
 const evidence = readFileSync(join(sourceRoot, "components/EvidenceLayer.astro"), "utf8");
 const detail = readFileSync(join(sourceRoot, "components/EditorialDetail.astro"), "utf8");
+const about = readFileSync(join(sourceRoot, "pages/about/index.astro"), "utf8");
+const videos = readFileSync(join(sourceRoot, "pages/videos/index.astro"), "utf8");
 
 describe("interactive preview tools", () => {
   it("ships browser-local site search without a collection endpoint", () => {
@@ -165,5 +167,22 @@ describe("interactive preview tools", () => {
     expect(detail).toContain("detailSections");
     expect(detail).toContain('aria-label="Research brief"');
     expect(detail).toContain("detail-section-index");
+  });
+
+  it("connects the About page to the Volume I method and public reading copy", () => {
+    expect(about).toContain("Observe before you react.");
+    expect(about).toContain("Volume I · Method");
+    expect(about).toContain("documented fact");
+    expect(about).toContain("Charles Hamilton Houston");
+    expect(about).toContain("independent-observer-volume-one-ssrn");
+    expect(about).toContain("series/independent-observer");
+  });
+
+  it("keeps video, reels, and survey pathways visibly preview-only", () => {
+    expect(videos).toContain("Shorts &amp; reels");
+    expect(videos).toContain("Independent Observer Survey");
+    expect(videos).toContain("no responses, findings, or audience data are published here");
+    expect(videos).toContain('id="independent-observer-survey"');
+    expect(videos).toContain("Concept preview");
   });
 });
