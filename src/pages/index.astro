@@ -5,6 +5,7 @@ import { documentaryItems, researchItems, topics, videoItems } from "../data/con
 import { sitePath } from "../lib/paths";
 import { socialLinks } from "../data/social";
 import EvidenceLayer from "../components/EvidenceLayer.astro";
+import HomepageVolumeGuide from "../components/HomepageVolumeGuide.astro";
 ---
 
 <BaseLayout
@@ -61,13 +62,22 @@ import EvidenceLayer from "../components/EvidenceLayer.astro";
       <div class="index" aria-hidden="true">01</div>
       <div class="mission-copy">
         <p>
-          Serious inquiry begins before certainty: with the discipline to separate evidence,
-          interpretation, institutional narrative, and unresolved questions.
+          Volume I begins with a practical philosophy: observation comes before reaction. Before a
+          public event becomes a claim, the record must be named—what happened, who recorded it,
+          which terms define it, what the source cannot establish, and what remains unknown.
         </p>
         <p>
-          This site is a durable public home for long-form essays, documentary research, and concise
-          public explainers. It is independent of social-platform feeds, while its private working
-          archive remains in Dropbox.
+          Observation is not passive distance. The capacity to watch is shaped by time, money,
+          safety, institutional access, and economic room. Independent Observer treats those
+          conditions as part of the evidence: the observer, the record, the institution, and the
+          limits of the account all remain visible.
+        </p>
+        <p>
+          That discipline becomes the foundation for the rest of the series. Volume II follows power
+          through sovereignty and institutions; Volume III follows work, welfare, taxation, and
+          social citizenship; Volume IV follows automation, science, infrastructure, and human
+          capability. The site is their public home, while the private working archive remains in
+          Dropbox.
         </p>
       </div>
     </div>
@@ -102,7 +112,8 @@ import EvidenceLayer from "../components/EvidenceLayer.astro";
         </div>
         <p>
           Search the site from the masthead, or start with a desk, the public library, or one of the
-          six coverage fields below.
+          six coverage fields. Each topic is a lens on one of the four volumes, not a separate
+          publication competing with the series.
         </p>
       </div>
       <div class="discovery-grid">
@@ -141,6 +152,7 @@ import EvidenceLayer from "../components/EvidenceLayer.astro";
           ))
         }
       </div>
+      <HomepageVolumeGuide />
       <p class="form-note">
         Tip: press <kbd>⌘</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Mac or
         <kbd>Ctrl</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Windows to open search.

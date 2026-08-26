@@ -1,0 +1,45 @@
+---
+import { topicPluginFor, volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
+import { seriesItems } from "../data/series";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+---
+
+<div class="homepage-volume-guide" aria-labelledby="homepage-volume-guide-title">
+  <div class="homepage-volume-guide-heading">
+    <div>
+      <p class="eyebrow">The four-volume spine</p>
+      <h3 id="homepage-volume-guide-title">One philosophy, four fields of action.</h3>
+    </div>
+    <p>
+      Volume I establishes the method of observation. Volumes II, III, and IV carry that method into
+      power, work, and human capability.
+    </p>
+  </div>
+  <ol class="homepage-volume-grid" aria-label="Topics connected to each volume">
+    {
+      seriesItems.map((item, index) => {
+        const connection = volumeTopicConnections[item.volume];
+        return (
+          <li class="homepage-volume-card">
+            <div class="homepage-volume-topline">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{item.volume}</span>
+            </div>
+            <h4>
+              <a href={sitePath(`/series/${slugify(item.title)}/`)}>{item.title}</a>
+            </h4>
+            <p class="homepage-volume-lens">{connection.lens}</p>
+            <p>{item.description}</p>
+            <div class="homepage-volume-topics" aria-label={`${item.volume} topics`}>
+              {connection.topicSlugs.map((slug) => {
+                const topic = topicPluginFor(slug);
+                return <a href={sitePath(`/topics/${slug}/`)}>{topic.name}</a>;
+              })}
+            </div>
+          </li>
+        );
+      })
+    }
+  </ol>
+</div>

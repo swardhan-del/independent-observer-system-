@@ -18,6 +18,11 @@ const reader = readFileSync(join(sourceRoot, "components/DocumentReader.astro"),
 const evidence = readFileSync(join(sourceRoot, "components/EvidenceLayer.astro"), "utf8");
 const detail = readFileSync(join(sourceRoot, "components/EditorialDetail.astro"), "utf8");
 const about = readFileSync(join(sourceRoot, "pages/about/index.astro"), "utf8");
+const homepage = readFileSync(join(sourceRoot, "pages/index.astro"), "utf8");
+const homepageVolumeGuide = readFileSync(
+  join(sourceRoot, "components/HomepageVolumeGuide.astro"),
+  "utf8",
+);
 const videos = readFileSync(join(sourceRoot, "pages/videos/index.astro"), "utf8");
 const documentaries = readFileSync(join(sourceRoot, "pages/documentaries/index.astro"), "utf8");
 
@@ -216,6 +221,19 @@ describe("interactive preview tools", () => {
       /Volume III asks how work,\s+taxation, welfare, time, and social citizenship/,
     );
     expect(about).toContain("<TopicVolumeMap />");
+  });
+
+  it("explains Volume I observation and connects all four volumes to topic hubs", () => {
+    expect(homepage).toContain(
+      "Volume I begins with a practical philosophy: observation comes before reaction.",
+    );
+    expect(homepage).toMatch(/Volume II follows power\s+through sovereignty and institutions/);
+    expect(homepage).toContain("<HomepageVolumeGuide />");
+    expect(homepageVolumeGuide).toContain("Volume I establishes the method of observation");
+    expect(homepageVolumeGuide).toContain("seriesItems.map");
+    expect(homepageVolumeGuide).toContain("volumeTopicConnections[item.volume]");
+    expect(homepageVolumeGuide).toContain("item.volume");
+    expect(homepageVolumeGuide).toContain("topicPluginFor(slug)");
   });
 
   it("keeps video, reels, and survey pathways visibly preview-only", () => {
