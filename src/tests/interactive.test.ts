@@ -94,6 +94,8 @@ describe("interactive preview tools", () => {
 
   it("presents the series as an official catalogue without collapsing editorial status", () => {
     expect(series).toContain('title="Publication Catalogue"');
+    expect(series).toContain('title="One series. Four volumes."');
+    expect(series).toContain("Four lines of inquiry, one for each Independent Observer volume");
     expect(series).not.toContain("review roadmap, not a publication catalogue");
     expect(series).toContain("catalogue record does not make a volume a finished publication");
     expect(catalogue).toContain("Official catalogue");
@@ -103,6 +105,7 @@ describe("interactive preview tools", () => {
     expect(catalogue).toContain("human approval gates");
     expect(catalogue).toContain("Public-safe SSRN records connected to");
     expect(catalogue).toContain("SSRN record ↗");
+    expect(catalogue).toContain("Find a volume and its line of inquiry.");
     expect(catalogue).not.toContain("Published papers");
   });
 
