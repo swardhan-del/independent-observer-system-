@@ -1,0 +1,64 @@
+---
+import type { PublicDocument } from "../data/documents";
+import type { SeriesItem } from "../data/series";
+import { sitePath } from "../lib/paths";
+
+type Props = {
+  entry: PublicDocument;
+  volumeRecord?: SeriesItem;
+  volumeDocuments: PublicDocument[];
+};
+
+const { entry, volumeRecord, volumeDocuments } = Astro.props as Props;
+const volumeTitle = volumeRecord?.title ?? entry.volume ?? "Independent Observer";
+const volumeDescription =
+  volumeRecord?.description ??
+  "A public reading context for documents connected to this Independent Observer volume.";
+---
+
+<aside
+  class="reader-volume-context"
+  aria-labelledby="reader-volume-context-title"
+  data-reader-volume-context
+>
+  <div class="reader-volume-context-heading">
+    <p class="eyebrow">{entry.volume} publication context</p>
+    <h3 id="reader-volume-context-title">{volumeTitle}</h3>
+    <p>{volumeDescription}</p>
+  </div>
+
+  <div class="reader-volume-context-list">
+    <p class="reader-volume-context-label">Public reading copies in this volume</p>
+    <p class="reader-volume-context-note">
+      These are the public SSRN-linked documents currently indexed for {entry.volume}. Each item
+      keeps its own status; a preprint is not the same as a released book or a completed volume.
+    </p>
+    <ol aria-label={`${entry.volume} public reading copies`}>
+      {
+        volumeDocuments.map((document) => (
+          <li class:list={{ "is-current": document.id === entry.id }}>
+            <div class="reader-volume-card-topline">
+              <span>{document.volume}</span>
+              <span>{document.status ?? "Reviewed public copy"}</span>
+            </div>
+            <h4>
+              <a href={sitePath(`/library/documents/${document.id}/`)}>{document.title}</a>
+            </h4>
+            <p>{document.description}</p>
+            <div class="reader-volume-card-meta">
+              <span>{document.category}</span>
+              {document.metrics?.downloads !== undefined && (
+                <span>{document.metrics.downloads} SSRN downloads</span>
+              )}
+              {document.id === entry.id && <span>Current document</span>}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="reader-volume-context-boundary">
+      Volume publication, peer review, and release still require the project’s source, rights,
+      quality, and human approval gates.
+    </p>
+  </div>
+</aside>

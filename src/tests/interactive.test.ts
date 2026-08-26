@@ -21,6 +21,10 @@ const layout = readFileSync(join(sourceRoot, "layouts/BaseLayout.astro"), "utf8"
 const series = readFileSync(join(sourceRoot, "pages/series/index.astro"), "utf8");
 const catalogue = readFileSync(join(sourceRoot, "components/PublicationCatalogue.astro"), "utf8");
 const reader = readFileSync(join(sourceRoot, "components/DocumentReader.astro"), "utf8");
+const readerVolumeContext = readFileSync(
+  join(sourceRoot, "components/ReaderVolumeContext.astro"),
+  "utf8",
+);
 const evidence = readFileSync(join(sourceRoot, "components/EvidenceLayer.astro"), "utf8");
 const detail = readFileSync(join(sourceRoot, "components/EditorialDetail.astro"), "utf8");
 const volumeResearchMapSource = readFileSync(
@@ -101,6 +105,18 @@ describe("interactive preview tools", () => {
     expect(detail).toContain("Evidence with a release boundary.");
     expect(detail).toContain('target="_blank"');
     expect(detail).toContain('rel="noreferrer"');
+  });
+
+  it("connects public document readers to their actual volume and same-volume copies", () => {
+    expect(reader).toContain("ssrnPreprintDocuments");
+    expect(reader).toContain('section.id === "publication-boundary"');
+    expect(reader).toContain("<ReaderVolumeContext");
+    expect(readerVolumeContext).toContain("Public reading copies in this volume");
+    expect(readerVolumeContext).toContain("a preprint is not the same as a released book");
+    expect(readerVolumeContext).toContain("Current document");
+    expect(readerVolumeContext).toContain("human approval gates");
+    expect(ssrn).toContain("public reading copy connected to the Independent Observer program");
+    expect(ssrn).not.toContain("curated public reading copy assembled from the matching Dropbox");
   });
 
   it("keeps the research desk distinct while mapping essays across all four volumes", () => {

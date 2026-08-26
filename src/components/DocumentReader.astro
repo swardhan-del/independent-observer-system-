@@ -1,7 +1,10 @@
 ---
 import type { PublicDocument } from "../data/documents";
+import { ssrnPreprintDocuments } from "../data/ssrn";
+import { seriesItems } from "../data/series";
 import PageHero from "./PageHero.astro";
 import RelatedContent from "./RelatedContent.astro";
+import ReaderVolumeContext from "./ReaderVolumeContext.astro";
 import { sitePath } from "../lib/paths";
 
 type Props = {
@@ -23,6 +26,14 @@ const suggestedCitation = citationComplete
   ? `${entry.author}. “${entry.title}.” Independent Observer, ${entry.publicationDate}.`
   : `Independent Observer. “${entry.title}.” ${entry.sourceLabel}. Reviewed public copy.`;
 const related = relatedEntries.filter((candidate) => candidate.id !== entry.id).slice(0, 3);
+const volumeDocuments = entry.volume
+  ? ssrnPreprintDocuments
+      .filter((document) => document.volume === entry.volume)
+      .sort((left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1))
+  : [];
+const volumeRecord = entry.volume
+  ? seriesItems.find((volume) => volume.volume === entry.volume)
+  : undefined;
 ---
 
 <PageHero
@@ -170,6 +181,15 @@ const related = relatedEntries.filter((candidate) => candidate.id !== entry.id).
                 ))}
               </ul>
             )}
+            {section.id === "publication-boundary" &&
+              entry.volume &&
+              volumeDocuments.length > 0 && (
+                <ReaderVolumeContext
+                  entry={entry}
+                  volumeRecord={volumeRecord}
+                  volumeDocuments={volumeDocuments}
+                />
+              )}
           </section>
         ))
       }

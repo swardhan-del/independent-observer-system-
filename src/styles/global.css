@@ -4618,6 +4618,111 @@ kbd {
   margin-top: 10px;
 }
 
+.reader-volume-context {
+  display: grid;
+  gap: 26px;
+  margin-top: 34px;
+  padding: 24px;
+  border: 1px solid var(--slate-300);
+  border-top: 4px solid var(--gold);
+  background: #f5f2eb;
+}
+
+.reader-volume-context-heading h3 {
+  margin: 0 0 10px;
+  color: var(--navy-900);
+  font-family: var(--serif);
+  font-size: clamp(1.7rem, 3vw, 2.35rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.reader-volume-context-heading p:last-child,
+.reader-volume-context-note,
+.reader-volume-context-boundary,
+.reader-volume-context-list li p {
+  margin: 0;
+  color: var(--slate-700);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.reader-volume-context-label {
+  margin: 0 0 7px;
+  color: var(--gold-ink);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.reader-volume-context-list ol {
+  display: grid;
+  gap: 12px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reader-volume-context-list li {
+  padding: 17px;
+  border: 1px solid var(--slate-300);
+  background: var(--white);
+}
+
+.reader-volume-context-list li.is-current {
+  border-color: var(--gold);
+  box-shadow: inset 4px 0 var(--gold);
+}
+
+.reader-volume-card-topline,
+.reader-volume-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  color: var(--slate-500);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.reader-volume-card-topline span:first-child {
+  color: var(--gold-ink);
+}
+
+.reader-volume-context-list h4 {
+  margin: 10px 0 8px;
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+}
+
+.reader-volume-context-list h4 a {
+  color: var(--navy-900);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.reader-volume-context-list h4 a:hover {
+  color: var(--gold-ink);
+}
+
+.reader-volume-card-meta {
+  margin-top: 13px;
+}
+
+.reader-volume-context-boundary {
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid var(--slate-300);
+  font-size: 0.82rem;
+}
+
 .document-reader .detail-actions {
   margin-top: 50px;
 }

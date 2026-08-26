@@ -139,6 +139,18 @@ describe("built website", () => {
     );
   });
 
+  it("shows a document's actual volume and public reading-copy stack", () => {
+    const html = readOutput("library/documents/wardhan-tax-doctrine-ssrn/index.html");
+
+    expect(html).toContain("Volume III publication context");
+    expect(html).toContain("Managed Decline");
+    expect(html).toContain("Public reading copies in this volume");
+    expect(html).toContain("The Wardhan Tax Doctrine");
+    expect(html).toContain("Current document");
+    expect(html).not.toContain("curated public reading copy assembled from the matching Dropbox");
+    expect(html).not.toContain("/Independent Observer desktop/");
+  });
+
   const homeHtml = readOutput("index.html");
   const homeCanonical = canonical(homeHtml);
   if (!homeCanonical) throw new Error("The home page is missing its canonical URL.");

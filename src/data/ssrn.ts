@@ -29,7 +29,7 @@ function sections(
       id: "publication-boundary",
       heading: "Publication boundary",
       paragraphs: [
-        "This page is a curated public reading copy assembled from the matching Dropbox preprint controller and the author-linked SSRN record. It does not mirror the private archive or reproduce alternate drafts.",
+        "This document is presented as a public reading copy connected to the Independent Observer program. Its source trail and status remain visible so readers can distinguish a working preprint from a released publication.",
         ...(publicationContext ? [publicationContext] : []),
         limitation,
       ],
