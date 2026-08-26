@@ -339,7 +339,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
       "The public page uses a short curated reading copy and the author-linked SSRN record.",
     ],
     limitations: [
-      "The foundation is a working paper and invites further empirical testing.",
+      "The broader Independent Observer research project began within the past year. This foundation is an early working paper, open to discussion, empirical testing, and revision.",
       "Methodological claims are not the same as findings about any individual institution or person.",
       "SSRN usage figures are descriptive and not a quality rating.",
     ],

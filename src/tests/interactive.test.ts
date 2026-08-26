@@ -190,6 +190,8 @@ describe("interactive preview tools", () => {
     expect(ssrn).toContain(
       "the one Volume I paper currently represented by a matched public SSRN record",
     );
+    expect(ssrn).toContain("began within the past year");
+    expect(ssrn).toContain("open to discussion, empirical testing, and revision");
     expect(reader).not.toContain('class="reader-notice"');
     expect(reader).toContain("reader-limitations");
     expect(reader).toContain("data-reader-download-citation");
