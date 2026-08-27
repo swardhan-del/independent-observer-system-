@@ -146,8 +146,8 @@ describe("built website", () => {
     const html = readOutput("start-here/index.html");
     expect(metaContent(html, "name", "robots")).toBe("noindex,follow");
     expect(html).toContain('http-equiv="refresh"');
-    expect(html).toContain('href="/start/"');
-    expect(canonical(html)).toBe("https://independentobserver.org/start/");
+    expect(html).toContain(`href="${basePath}start/"`);
+    expect(canonical(html)).toBe(new URL(sitePathForTest("/start/"), homeCanonical).href);
   });
 
   it("publishes security.txt without a private contact address", () => {
