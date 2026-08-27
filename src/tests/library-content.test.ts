@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
+import { publicLibrarySnapshot } from "../data/public-library";
 import { ssrnPreprintDocuments } from "../data/ssrn";
 import { seriesItems } from "../data/series";
 import { volumeResearchMap } from "../data/volume-research";
@@ -16,6 +17,7 @@ const researchShelf = readFileSync(
   join(sourceRoot, "components/LibraryResearchShelf.astro"),
   "utf8",
 );
+const siteSearch = readFileSync(join(sourceRoot, "components/SiteSearch.astro"), "utf8");
 
 describe("library content blocks", () => {
   it("covers each roadmap volume with core ideas and topic lenses", () => {
@@ -55,6 +57,16 @@ describe("library content blocks", () => {
     ).toBe(true);
   });
 
+  it("describes the public archive and its four scholarly volume boundaries", () => {
+    expect(libraryPage).not.toContain("drawn from a reviewed Dropbox export");
+    expect(libraryPage).toContain("source-led social-science papers");
+    expect(libraryPage).toContain("Volume I develops the philosophy and method");
+    expect(libraryPage).toContain("Volume IV examines science, technology, AI");
+    expect(libraryPage).toContain("academic discussion grounded in references");
+    expect(publicLibrarySnapshot.note).toContain("SSRN records");
+    expect(publicLibrarySnapshot.note).toContain("ResearchGate records");
+  });
+
   it("wires the library page to the progressive volume filter block", () => {
     expect(libraryPage).toContain("<LibraryContentBlocks />");
     expect(libraryPage).toContain("<LibraryResearchShelf />");
@@ -81,7 +93,21 @@ describe("library content blocks", () => {
     expect(researchShelf).toContain("paperQ");
     expect(researchShelf).toContain("replace(/[^\\p{L}\\p{N}]+/gu");
     expect(researchShelf).toContain("Open SSRN record");
+    expect(researchShelf).toContain("Open ResearchGate record");
+    expect(researchShelf).toContain("ResearchGate record");
     expect(researchShelf).not.toContain("releaseApproved = true");
+  });
+
+  it("keeps Volume I, II, and III public preprints in the local search index", () => {
+    const firstThreeVolumes = ssrnPreprintDocuments.filter((entry) =>
+      ["Volume I", "Volume II", "Volume III"].includes(entry.volume ?? ""),
+    );
+    expect(firstThreeVolumes).toHaveLength(5);
+    expect(firstThreeVolumes.every((entry) => entry.sourceUrl)).toBe(true);
+    expect(siteSearch).toContain("...publicDocumentItems.map");
+    expect(siteSearch).toContain("SSRN preprint");
+    expect(siteSearch).toContain("ResearchGate record");
+    expect(siteSearch).toContain("Search public papers, work, fields, and volume guides");
   });
 
   it("keeps the homepage volume guide linked to the public paper shelf", () => {

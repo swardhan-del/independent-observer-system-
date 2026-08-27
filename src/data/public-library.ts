@@ -18,7 +18,7 @@ export type PublicLibraryArea = {
  */
 export const publicLibrarySnapshot = {
   label: "Public archive snapshot",
-  note: "A reviewed public-safe map of the Independent Observer working archive. It gives readers visibility into the project without publishing raw files, private names, local paths, or unpublished evidence.",
+  note: "A public archive of Independent Observer research papers and public reading copies. It links SSRN records and selected ResearchGate records across four volumes while keeping source, status, and limitation boundaries visible.",
   stats: [
     {
       label: "Source folders reviewed",

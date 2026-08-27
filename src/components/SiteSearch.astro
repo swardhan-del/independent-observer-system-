@@ -105,7 +105,10 @@ const searchItems: SearchEntry[] = [
       entry.status === "SSRN preprint" ? ("Research" as const) : ("Published document" as const),
     topics: topicsForCategory(entry.category),
     volume: entry.volume,
-    format: "document",
+    format:
+      entry.status === "SSRN preprint"
+        ? `SSRN preprint${entry.researchGateUrl ? " · ResearchGate record" : ""}`
+        : "document",
     href: sitePath(`/library/documents/${entry.id}/`),
   })),
   {
@@ -172,13 +175,13 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
           >Close</button
         >
       </div>
-      <label for="site-search-input">Search public work, fields, and archive summaries</label>
+      <label for="site-search-input">Search public papers, work, fields, and volume guides</label>
       <input
         id="site-search-input"
         data-search-input
         type="search"
         autocomplete="off"
-        placeholder="Try “institutional power”, “AI”, or “archive”"
+        placeholder="Try “Volume I”, “SSRN”, “AI”, or “migration”"
         aria-controls="site-search-results"
         aria-describedby="site-search-status"
       />
@@ -225,7 +228,7 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
         role="status"
         aria-live="polite"
       >
-        Type to search the public preview.
+        Type to search papers, volume guides, and public work.
       </p>
       <ul
         class="search-results"
@@ -307,7 +310,7 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
       if (writeUrl) syncUrl();
 
       if (!query && !Object.keys(filters()).length) {
-        status.textContent = "Type to search the public preview.";
+        status.textContent = "Type to search papers, volume guides, and public work.";
         return;
       }
 

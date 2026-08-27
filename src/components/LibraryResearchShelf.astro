@@ -25,7 +25,9 @@ const papers = [...ssrnPreprintDocuments].sort(
       <p>
         Each volume has a distinct question, set of principles, and public entry point. The linked
         records below are public SSRN reading copies selected from matched, public-safe records;
-        usage counts are discovery signals, not ratings or publication approval.
+        usage counts are discovery signals, not ratings or publication approval. The local search
+        index covers every public SSRN reading copy currently in the site data and exposes a
+        matching ResearchGate record only when a verified public URL exists.
       </p>
     </div>
 
@@ -115,15 +117,26 @@ const papers = [...ssrnPreprintDocuments].sort(
                   <div>
                     <strong>{representativePaper.metrics?.downloads ?? "—"} downloads</strong>
                     <span>SSRN usage signal · not a quality score</span>
-                    {representativePaper.sourceUrl && (
-                      <a
-                        href={representativePaper.sourceUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Open SSRN record ↗
-                      </a>
-                    )}
+                    <div class="library-external-links">
+                      {representativePaper.sourceUrl && (
+                        <a
+                          href={representativePaper.sourceUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Open SSRN record ↗
+                        </a>
+                      )}
+                      {representativePaper.researchGateUrl && (
+                        <a
+                          href={representativePaper.researchGateUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Open ResearchGate record ↗
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
@@ -172,7 +185,7 @@ const papers = [...ssrnPreprintDocuments].sort(
               class="library-paper-card"
               data-library-paper-card
               data-paper-volume={paper.volume ?? "Unassigned"}
-              data-paper-search={`${paper.title} ${paper.category} ${paper.description} ${paper.volume ?? ""}`}
+              data-paper-search={`${paper.title} ${paper.category} ${paper.description} ${paper.volume ?? ""} SSRN ${paper.researchGateUrl ? "ResearchGate" : ""}`}
             >
               <div class="card-meta">
                 <span>{paper.volume ?? "Independent Observer"}</span>
@@ -188,11 +201,18 @@ const papers = [...ssrnPreprintDocuments].sort(
                   {paper.metrics?.downloads ?? "—"} downloads ·{" "}
                   {paper.metrics?.abstractViews ?? "—"} views
                 </span>
-                {paper.sourceUrl && (
-                  <a href={paper.sourceUrl} target="_blank" rel="noopener noreferrer">
-                    SSRN record ↗
-                  </a>
-                )}
+                <div class="library-external-links">
+                  {paper.sourceUrl && (
+                    <a href={paper.sourceUrl} target="_blank" rel="noopener noreferrer">
+                      SSRN record ↗
+                    </a>
+                  )}
+                  {paper.researchGateUrl && (
+                    <a href={paper.researchGateUrl} target="_blank" rel="noopener noreferrer">
+                      ResearchGate record ↗
+                    </a>
+                  )}
+                </div>
               </div>
             </article>
           ))
