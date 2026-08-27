@@ -90,6 +90,16 @@ limitation, counterargument, and unresolved question are separate layers, with a
 does not assign a confidence score. This remains a Volume II concept preview; it does not create a
 player, publish a transcript, or assert release approval.
 
+A second comment-focused pass makes the Public Library a usable four-volume research shelf rather
+than leaving the volume explanation below the archive snapshot. The first view now presents each
+volume's focus, public reading-copy count, current download signal, status, importance, core
+principles, and direct catalogue/topic links. A local paper browser then indexes all seven public
+SSRN reading copies by volume, title, subject, status, downloads, and views; query and volume state
+persist as `paperQ` and `paperVolume` without sending data off-device. Download counts are explicitly
+described as discovery signals, not ratings. The jump rail is an accessible labelled group rather
+than a competing navigation landmark, and the responsive rules collapse the shelf and paper cards
+for narrow screens.
+
 ## Dependency and plugin review
 
 ### Dependencies
@@ -136,4 +146,10 @@ The following categories were explicitly excluded from implementation and public
 
 ## Verification record
 
-Verification on 2026-08-27: `npm run format:check`, `npm run lint`, `npm test`, `npm run build`, `npm run build:pages`, `npm run test:built`, `SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build`, and `SEO_SITE_URL=https://independentobserver.org npm run seo:audit` all passed. The updated test suite passed with 195 tests across 9 files; production, Pages, and custom-domain root builds each produced 38 static pages; `astro check` reported 0 errors, warnings, or hints; the SEO audit checked all 38 HTML files. A green result does not authorize merge, article publication, or Dropbox mutation.
+Verification on 2026-08-27: the initial full verification passed before this second pass. After the
+library shelf changes, `npm test` passed with 196 tests across 9 files and produced 38 static pages;
+`astro check` reported 0 errors, warnings, or hints. The remaining full verification commands
+(`npm run format:check`, `npm run lint`, `npm run build:pages`, `npm run test:built`,
+`SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build`, and
+`SEO_SITE_URL=https://independentobserver.org npm run seo:audit`) are run again before the commit is
+pushed. A green result does not authorize merge, article publication, or Dropbox mutation.

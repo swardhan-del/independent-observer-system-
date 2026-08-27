@@ -12,6 +12,10 @@ const contentBlocks = readFileSync(
   join(sourceRoot, "components/LibraryContentBlocks.astro"),
   "utf8",
 );
+const researchShelf = readFileSync(
+  join(sourceRoot, "components/LibraryResearchShelf.astro"),
+  "utf8",
+);
 
 describe("library content blocks", () => {
   it("covers each roadmap volume with core ideas and topic lenses", () => {
@@ -53,6 +57,7 @@ describe("library content blocks", () => {
 
   it("wires the library page to the progressive volume filter block", () => {
     expect(libraryPage).toContain("<LibraryContentBlocks />");
+    expect(libraryPage).toContain("<LibraryResearchShelf />");
     expect(libraryPage).not.toContain("Three public summaries.");
     expect(contentBlocks).toContain("data-library-volume-filter");
     expect(contentBlocks).toContain("Additional public SSRN shelf");
@@ -61,6 +66,22 @@ describe("library content blocks", () => {
     expect(contentBlocks).toContain("Representative public paper");
     expect(contentBlocks).toContain("Highest current download signal in this volume");
     expect(contentBlocks).toContain("window.history.replaceState");
+  });
+
+  it("puts all four volumes and their matched papers into a first-class public shelf", () => {
+    expect(researchShelf).toContain("Four-volume research shelf");
+    expect(researchShelf).toContain("Follow the work by volume");
+    expect(researchShelf).toContain("Core principles");
+    expect(researchShelf).toContain("Highest current download signal");
+    expect(researchShelf).toContain("not a quality score");
+    expect(researchShelf).toContain("Public paper index");
+    expect(researchShelf).toContain("data-library-paper-filter");
+    expect(researchShelf).toContain("data-library-paper-query");
+    expect(researchShelf).toContain("paperVolume");
+    expect(researchShelf).toContain("paperQ");
+    expect(researchShelf).toContain("replace(/[^\\p{L}\\p{N}]+/gu");
+    expect(researchShelf).toContain("Open SSRN record");
+    expect(researchShelf).not.toContain("releaseApproved = true");
   });
 
   it("selects one public-safe paper signal for every volume", () => {

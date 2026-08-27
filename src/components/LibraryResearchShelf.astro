@@ -1,0 +1,280 @@
+---
+import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
+import { seriesItems } from "../data/series";
+import { ssrnPreprintDocuments } from "../data/ssrn";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+
+const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
+const papers = [...ssrnPreprintDocuments].sort(
+  (left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1),
+);
+---
+
+<section
+  class="section section-white library-research-shelf"
+  id="research-shelf"
+  aria-labelledby="research-shelf-title"
+>
+  <div class="shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Four-volume research shelf</p>
+        <h2 id="research-shelf-title">Follow the work by volume.</h2>
+      </div>
+      <p>
+        Each volume has a distinct question, set of principles, and public entry point. The linked
+        records below are public SSRN reading copies selected from matched, public-safe records;
+        usage counts are discovery signals, not ratings or publication approval.
+      </p>
+    </div>
+
+    <div class="library-volume-rail" role="group" aria-label="Jump to a volume">
+      {
+        libraryVolumeGuides.map((guide, index) => {
+          const series = seriesByVolume.get(guide.volume);
+          const guideSlug = slugify(guide.volume);
+          const volumePapers = papers.filter((paper) => paper.volume === guide.volume);
+          const paper = volumePapers[0];
+          return (
+            <a class="library-volume-rail-card" href={`#research-${guideSlug}`}>
+              <span class="card-meta">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span>{guide.volume}</span>
+              </span>
+              <strong>{guide.focus}</strong>
+              <span>
+                {volumePapers.length} public reading {volumePapers.length === 1 ? "copy" : "copies"}
+              </span>
+              {paper && <span>{paper.metrics?.downloads ?? "—"} downloads · not a rating</span>}
+              {series && <span class="library-volume-rail-link">View volume brief →</span>}
+            </a>
+          );
+        })
+      }
+    </div>
+
+    <div class="library-volume-shelf">
+      {
+        libraryVolumeGuides.map((guide, index) => {
+          const series = seriesByVolume.get(guide.volume);
+          const guideSlug = slugify(guide.volume);
+          const volumePapers = papers.filter((paper) => paper.volume === guide.volume);
+          const representativePaper = volumePapers[0];
+          return (
+            <article
+              class="library-volume-shelf-card"
+              id={`research-${guideSlug}`}
+              aria-labelledby={`research-${guideSlug}-title`}
+            >
+              <div class="library-volume-shelf-card-header">
+                <div class="card-meta">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <span>{guide.volume}</span>
+                </div>
+                {series && <span class="status-pill">{series.status}</span>}
+              </div>
+              <h3 id={`research-${guideSlug}-title`}>{guide.focus}</h3>
+              <p class="library-volume-shelf-importance">{guide.importance}</p>
+              <div class="library-volume-shelf-columns">
+                <div>
+                  <p class="library-block-label">Core principles</p>
+                  <ul>
+                    {guide.coreIdeas.slice(0, 3).map((idea) => (
+                      <li>{idea}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p class="library-block-label">Public entry points</p>
+                  <p>
+                    <a href={sitePath(`/series/${slugify(series?.title ?? guide.volume)}/`)}>
+                      Explore the {guide.volume} catalogue file →
+                    </a>
+                  </p>
+                  <p>
+                    <a
+                      href={sitePath(`/topics/?matrix-volume=${encodeURIComponent(guide.volume)}`)}
+                    >
+                      Map its topic lenses →
+                    </a>
+                  </p>
+                </div>
+              </div>
+              {representativePaper && (
+                <div class="library-volume-shelf-paper">
+                  <div>
+                    <p class="library-block-label">Highest current download signal</p>
+                    <h4>
+                      <a href={sitePath(`/library/documents/${representativePaper.id}/`)}>
+                        {representativePaper.title}
+                      </a>
+                    </h4>
+                    <p>{representativePaper.description}</p>
+                  </div>
+                  <div>
+                    <strong>{representativePaper.metrics?.downloads ?? "—"} downloads</strong>
+                    <span>SSRN usage signal · not a quality score</span>
+                    {representativePaper.sourceUrl && (
+                      <a
+                        href={representativePaper.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Open SSRN record ↗
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
+            </article>
+          );
+        })
+      }
+    </div>
+
+    <div class="library-paper-browser" data-library-paper-shelf>
+      <div class="library-paper-browser-heading">
+        <div>
+          <p class="eyebrow">Public paper index</p>
+          <h3>Search the linked records.</h3>
+        </div>
+        <p data-library-paper-status role="status" aria-live="polite">
+          Showing all {papers.length} public SSRN reading copies
+        </p>
+      </div>
+      <div class="library-paper-browser-controls">
+        <label>
+          <span>Search papers</span>
+          <input
+            type="search"
+            data-library-paper-query
+            placeholder="Search title, subject, or volume"
+          />
+        </label>
+        <div class="library-paper-filters" role="group" aria-label="Filter public papers by volume">
+          <button type="button" data-library-paper-filter="all" aria-pressed="true"
+            >All volumes</button
+          >
+          {
+            libraryVolumeGuides.map((guide) => (
+              <button type="button" data-library-paper-filter={guide.volume} aria-pressed="false">
+                {guide.volume}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+      <div class="library-paper-grid">
+        {
+          papers.map((paper) => (
+            <article
+              class="library-paper-card"
+              data-library-paper-card
+              data-paper-volume={paper.volume ?? "Unassigned"}
+              data-paper-search={`${paper.title} ${paper.category} ${paper.description} ${paper.volume ?? ""}`}
+            >
+              <div class="card-meta">
+                <span>{paper.volume ?? "Independent Observer"}</span>
+                <span>{paper.category}</span>
+              </div>
+              <span class="library-paper-status">{paper.status}</span>
+              <h4>
+                <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
+              </h4>
+              <p>{paper.description}</p>
+              <div class="library-paper-card-footer">
+                <span>
+                  {paper.metrics?.downloads ?? "—"} downloads ·{" "}
+                  {paper.metrics?.abstractViews ?? "—"} views
+                </span>
+                {paper.sourceUrl && (
+                  <a href={paper.sourceUrl} target="_blank" rel="noopener noreferrer">
+                    SSRN record ↗
+                  </a>
+                )}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+      <p class="library-paper-empty" data-library-paper-empty hidden>
+        No public paper matches those refinements. Try a broader title, subject, or volume.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const shelf = document.querySelector<HTMLElement>("[data-library-paper-shelf]");
+  if (shelf) {
+    const query = shelf.querySelector<HTMLInputElement>("[data-library-paper-query]");
+    const cards = [...shelf.querySelectorAll<HTMLElement>("[data-library-paper-card]")];
+    const filters = [...shelf.querySelectorAll<HTMLButtonElement>("[data-library-paper-filter]")];
+    const status = shelf.querySelector<HTMLElement>("[data-library-paper-status]");
+    const empty = shelf.querySelector<HTMLElement>("[data-library-paper-empty]");
+    let selectedVolume = "all";
+    let selectedQuery = "";
+    const normalize = (value: string) =>
+      value
+        .normalize("NFKD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^\p{L}\p{N}]+/gu, " ")
+        .toLocaleLowerCase()
+        .trim();
+    const updateUrl = () => {
+      const url = new URL(window.location.href);
+      if (selectedVolume === "all") url.searchParams.delete("paperVolume");
+      else url.searchParams.set("paperVolume", selectedVolume);
+      if (selectedQuery) url.searchParams.set("paperQ", selectedQuery);
+      else url.searchParams.delete("paperQ");
+      window.history.replaceState(
+        null,
+        "",
+        url.pathname + (url.search ? url.search : "") + url.hash,
+      );
+    };
+    const render = (persist = true) => {
+      const queryTokens = normalize(selectedQuery).split(/\s+/).filter(Boolean);
+      let visible = 0;
+      cards.forEach((card) => {
+        const matchesVolume =
+          selectedVolume === "all" || card.dataset.paperVolume === selectedVolume;
+        const searchTokens = normalize(card.dataset.paperSearch ?? "")
+          .split(/\s+/)
+          .filter(Boolean);
+        const matchesQuery = queryTokens.every((token) => searchTokens.includes(token));
+        const show = matchesVolume && matchesQuery;
+        card.hidden = !show;
+        if (show) visible += 1;
+      });
+      filters.forEach((filter) =>
+        filter.setAttribute(
+          "aria-pressed",
+          String(filter.dataset.libraryPaperFilter === selectedVolume),
+        ),
+      );
+      if (status)
+        status.textContent = `Showing ${visible} of ${cards.length} public SSRN reading copies`;
+      if (empty) empty.hidden = visible !== 0;
+      if (persist) updateUrl();
+    };
+    filters.forEach((filter) =>
+      filter.addEventListener("click", () => {
+        selectedVolume = filter.dataset.libraryPaperFilter ?? "all";
+        render();
+      }),
+    );
+    query?.addEventListener("input", () => {
+      selectedQuery = query.value;
+      render();
+    });
+    const params = new URLSearchParams(window.location.search);
+    selectedVolume = params.get("paperVolume") ?? "all";
+    if (!filters.some((filter) => filter.dataset.libraryPaperFilter === selectedVolume))
+      selectedVolume = "all";
+    selectedQuery = params.get("paperQ") ?? "";
+    if (query) query.value = selectedQuery;
+    render(false);
+  }
+</script>

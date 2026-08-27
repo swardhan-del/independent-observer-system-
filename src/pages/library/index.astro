@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import LibraryContentBlocks from "../../components/LibraryContentBlocks.astro";
+import LibraryResearchShelf from "../../components/LibraryResearchShelf.astro";
 import PageHero from "../../components/PageHero.astro";
 import { dropboxFeedItems } from "../../data/dropbox-content.generated";
 import { publicDocumentItems } from "../../data/documents";
@@ -20,6 +21,8 @@ const { areas, note, stats } = publicLibrarySnapshot;
     title="See the map behind the work."
     description="A public-safe overview of the Independent Observer research structure, drawn from a reviewed Dropbox export without exposing raw archive material."
   />
+
+  <LibraryResearchShelf />
 
   <section class="section section-white">
     <div class="shell page-grid">
