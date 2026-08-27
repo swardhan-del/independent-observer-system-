@@ -163,7 +163,11 @@ describe("built website", () => {
     const html = readOutput("library/documents/wardhan-tax-doctrine-ssrn/index.html");
 
     expect(html).toContain("Volume III publication context");
+    expect(html).toContain("Volume III · Managed Decline");
     expect(html).toContain("Managed Decline");
+    expect(html).toContain(
+      "Volume III’s inquiry into labor markets, welfare, taxation, and administrative access",
+    );
     expect(html).toContain("Public reading copies in this volume");
     expect(html).toContain("The Wardhan Tax Doctrine");
     expect(html).toContain(

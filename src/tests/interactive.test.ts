@@ -346,6 +346,7 @@ describe("interactive preview tools", () => {
     expect(reader).not.toContain('class="reader-notice"');
     expect(reader).toContain("reader-limitations");
     expect(reader).toContain("data-reader-download-citation");
+    expect(reader).toContain("<dt>Volume</dt>");
     expect(evidence).toContain('aria-pressed="true"');
     expect(evidence).toContain("The full text remains visible");
     expect(evidence).toContain("data-evidence-source");

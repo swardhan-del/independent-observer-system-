@@ -50,6 +50,17 @@ const volumeRecord = entry.volume
       <p class="eyebrow">Document details</p>
       <dl class="reader-meta">
         <div><dt>Status</dt><dd>{status}</dd></div>
+        {
+          entry.volume && (
+            <div>
+              <dt>Volume</dt>
+              <dd>
+                {entry.volume}
+                {volumeRecord ? ` · ${volumeRecord.title}` : ""}
+              </dd>
+            </div>
+          )
+        }
         <div><dt>Desk</dt><dd>{entry.category}</dd></div>
         <div><dt>Source</dt><dd>{entry.sourceLabel}</dd></div>
         {

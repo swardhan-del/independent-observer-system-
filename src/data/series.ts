@@ -34,7 +34,7 @@ export const seriesItems: SeriesItem[] = [
     title: "Managed Decline",
     category: "Work and social citizenship",
     description:
-      "A concept-stage account of how labor markets, licensing, welfare, taxation, health systems, and public visibility shape economic insecurity.",
+      "A concept-stage account of Managed Decline: how labor markets, licensing, welfare, taxation, health systems, and public visibility distribute time, security, and economic opportunity—and how administrative systems can turn constrained choices into measurable social outcomes.",
     status: "Concept preview",
   },
   {

@@ -187,7 +187,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
       "The Wardhan Tax Doctrine: Time-as-Deduction, W-2 Relief, and an Eisenhower-Era Return to Progressivity",
     category: "Political Economy & Tax",
     description:
-      "A Volume III policy working paper asking how tax design can recognize time spent building skills, reduce pressure on wage labor, and restore progressive treatment of selected ownership income. It connects the proposed credits and relief mechanisms to eligibility rules, reporting, and audit design.",
+      "A Volume III policy working paper within Managed Decline. It asks how tax design can recognize time spent building skills, reduce pressure on wage labor, and restore progressive treatment of selected ownership income. Its placement is deliberate: the paper addresses Volume III’s inquiry into labor markets, welfare, taxation, and administrative access, rather than Volume I’s method foundation or Volume II’s sovereignty and institutional design. It connects the proposed credits and relief mechanisms to eligibility rules, reporting, documentation, and audit design.",
     sourceModified: "Dropbox submission package matched to SSRN abstract 5477606",
     publicationDate: "3 October 2025",
     dateLabel: "Posted",

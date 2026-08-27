@@ -110,6 +110,19 @@ describe("library content blocks", () => {
     expect(siteSearch).toContain("Search public papers, work, fields, and volume guides");
   });
 
+  it("makes the Volume III tax paper's placement and scope explicit", () => {
+    const taxPaper = ssrnPreprintDocuments.find(
+      (entry) => entry.id === "wardhan-tax-doctrine-ssrn",
+    );
+    const volumeThree = seriesItems.find((entry) => entry.volume === "Volume III");
+
+    expect(taxPaper?.description).toContain("within Managed Decline");
+    expect(taxPaper?.description).toContain("Volume I’s method foundation");
+    expect(taxPaper?.description).toContain("Volume II’s sovereignty and institutional design");
+    expect(volumeThree?.description).toContain("labor markets, licensing, welfare, taxation");
+    expect(volumeThree?.description).toContain("health systems, and public visibility");
+  });
+
   it("keeps the homepage volume guide linked to the public paper shelf", () => {
     const homepageVolumeGuide = readFileSync(
       join(sourceRoot, "components/HomepageVolumeGuide.astro"),
