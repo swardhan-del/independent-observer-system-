@@ -84,6 +84,17 @@ describe("library content blocks", () => {
     expect(researchShelf).not.toContain("releaseApproved = true");
   });
 
+  it("keeps the homepage volume guide linked to the public paper shelf", () => {
+    const homepageVolumeGuide = readFileSync(
+      join(sourceRoot, "components/HomepageVolumeGuide.astro"),
+      "utf8",
+    );
+    expect(homepageVolumeGuide).toContain("public ");
+    expect(homepageVolumeGuide).toContain("in this volume");
+    expect(homepageVolumeGuide).toContain("library/documents/${paper.id}");
+    expect(homepageVolumeGuide).toContain("SSRN usage signal only");
+  });
+
   it("selects one public-safe paper signal for every volume", () => {
     expect(volumeResearchMap).toHaveLength(4);
     expect(volumeResearchMap.every((item) => item.papers.length > 0)).toBe(true);

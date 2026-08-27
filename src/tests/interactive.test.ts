@@ -154,6 +154,17 @@ describe("interactive preview tools", () => {
     expect(volumeResearchMap.every((volume) => volume.papers.length > 0)).toBe(true);
   });
 
+  it("connects the homepage volume guide to every public paper without implying release", () => {
+    expect(homepageVolumeGuide).toContain("ssrnPreprintDocuments");
+    expect(homepageVolumeGuide).toContain("papersByVolume");
+    expect(homepageVolumeGuide).toContain("public ");
+    expect(homepageVolumeGuide).toContain("in this volume");
+    expect(homepageVolumeGuide).toContain("SSRN usage signal only");
+    expect(homepageVolumeGuide).toContain("until its own release");
+    expect(homepageVolumeGuide).toContain("gate is complete");
+    expect(homepageVolumeGuide).toContain("/library/documents/${paper.id}/");
+  });
+
   it("connects Volume III catalogue work to public-safe research directions", () => {
     expect(seriesDetail).toContain("showVolumeResearchDossier");
     expect(seriesDetail).toContain('item.volume === "Volume III"');

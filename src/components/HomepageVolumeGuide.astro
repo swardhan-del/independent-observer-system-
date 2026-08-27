@@ -1,8 +1,18 @@
 ---
 import { topicPluginFor, volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
 import { seriesItems } from "../data/series";
+import { ssrnPreprintDocuments } from "../data/ssrn";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
+
+const papersByVolume = new Map(
+  seriesItems.map((item) => [
+    item.volume,
+    ssrnPreprintDocuments
+      .filter((paper) => paper.volume === item.volume)
+      .sort((left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1)),
+  ]),
+);
 ---
 
 <div class="homepage-volume-guide" aria-labelledby="homepage-volume-guide-title">
@@ -12,16 +22,20 @@ import { slugify } from "../lib/slugs";
       <h3 id="homepage-volume-guide-title">One philosophy, four fields of action.</h3>
     </div>
     <p>
-      Volume I establishes the method of observation. Volumes II, III, and IV carry that method into
-      power, work, and human capability.
+      Volume I establishes the method of observation. Volume II follows sovereignty and public
+      power. Volume III examines work and social citizenship. Volume IV follows AI, science,
+      infrastructure, intimacy, and human capability. The linked public papers show where the
+      research is already inspectable; each remains a preprint or reading copy until its own release
+      gate is complete.
     </p>
   </div>
   <ol class="homepage-volume-grid" aria-label="Topics connected to each volume">
     {
       seriesItems.map((item, index) => {
         const connection = volumeTopicConnections[item.volume];
+        const papers = papersByVolume.get(item.volume) ?? [];
         return (
-          <li class="homepage-volume-card">
+          <li class="homepage-volume-card" id={`homepage-${slugify(item.volume)}`}>
             <div class="homepage-volume-topline">
               <span>{String(index + 1).padStart(2, "0")}</span>
               <span>{item.volume}</span>
@@ -31,6 +45,23 @@ import { slugify } from "../lib/slugs";
             </h4>
             <p class="homepage-volume-lens">{connection.lens}</p>
             <p>{item.description}</p>
+            <div class="homepage-volume-papers">
+              <p class="homepage-volume-papers-label">
+                {papers.length} public {papers.length === 1 ? "paper" : "papers"} in this volume
+              </p>
+              {papers.length > 0 && (
+                <ul>
+                  {papers.map((paper) => (
+                    <li>
+                      <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
+                      <span>
+                        {paper.metrics?.downloads ?? "—"} downloads · SSRN usage signal only
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
             <div class="homepage-volume-topics" aria-label={`${item.volume} topics`}>
               {connection.topicSlugs.map((slug) => {
                 const topic = topicPluginFor(slug);
