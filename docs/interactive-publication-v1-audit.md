@@ -84,6 +84,13 @@ work without substring-matching an unrelated word. The new controls preserve URL
 an honest empty-state recovery path. The Volume III dossier uses the same boundary-aware approach
 for terms such as welfare, taxation, licensing, and visibility.
 
+The final annotation pass makes the Topics route builder's public-state selector functional rather
+than descriptive: each of the five routes carries its available preprint, preview, and roadmap
+states, while `Held for human release` correctly produces an explicit no-route result because no
+pathway is released. The builder now exposes a local copy-link action that preserves subject,
+question, and state in the URL and anchors the reviewer at the route builder. Clipboard failure is
+announced without blocking manual address-bar copying.
+
 The flagship video concept now has a source-labeled evidence case study based on the already-public
 EAVS source notes: documented participation figures, interpretation, hypothesis, policy boundary,
 limitation, counterargument, and unresolved question are separate layers, with a claim map that
@@ -146,11 +153,9 @@ The following categories were explicitly excluded from implementation and public
 
 ## Verification record
 
-Verification on 2026-08-27: the initial full verification passed before this second pass. After the
-library shelf changes, `npm test` passed with 196 tests across 9 files and produced 38 static pages;
-`astro check` reported 0 errors, warnings, or hints. The remaining full verification commands
-(`npm run format:check`, `npm run lint`, `npm run build:pages`, `npm run test:built`,
+Verification on 2026-08-27: after the final Topic Hub route-state and copy-link pass, formatting,
+`astro check`, `npm test`, `npm run build:pages`, `npm run test:built`,
 `SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build`, and
-`SEO_SITE_URL=https://independentobserver.org npm run seo:audit`) were run again after the library
-shelf changes and passed. A green result does not authorize merge, article publication, or Dropbox
-mutation.
+`SEO_SITE_URL=https://independentobserver.org npm run seo:audit` all passed. The suite passed with
+198 tests across 9 files and produced 38 static pages; `astro check` reported 0 errors, warnings,
+or hints. A green result does not authorize merge, article publication, or Dropbox mutation.

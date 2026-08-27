@@ -107,7 +107,11 @@ describe("topic discovery plugin", () => {
     expect(topicQuestionBuilder).toContain("Build the route");
     expect(topicQuestionBuilder).toContain("data-question-concern");
     expect(topicQuestionBuilder).toContain("data-question-status");
-    expect(topicQuestionBuilder).toContain("No route matches both selections exactly");
+    expect(topicQuestionBuilder).toContain("data-question-statuses");
+    expect(topicQuestionBuilder).toContain("data-question-copy-link");
+    expect(topicQuestionBuilder).toContain("No pathway is currently released");
+    expect(topicQuestionBuilder).toContain("navigator.clipboard.writeText(routeUrl())");
+    expect(topicQuestionBuilder).toContain("No route matches all three selections exactly");
     expect(topicQuestionBuilder).not.toMatch(/fetch\s*\(/);
     expect(topicVolumeMatrix).toContain("Six fields across four volumes.");
     expect(topicVolumeMatrix).toContain("<table");

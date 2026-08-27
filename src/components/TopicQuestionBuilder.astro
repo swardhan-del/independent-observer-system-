@@ -21,6 +21,10 @@ const statusOptions = [
   { value: "release", label: "Held for human release" },
 ];
 
+const statusLabels = Object.fromEntries(
+  statusOptions.map((status) => [status.value, status.label]),
+);
+
 const concernsByPathway: Record<string, string[]> = {
   method: ["evidence", "institutions", "public-power"],
   "ai-labor": ["ai", "labor", "human-capability"],
@@ -34,6 +38,15 @@ const fields = topicPluginDefinitions.map((topic) => ({ value: topic.slug, label
 function volumeHref(label: string) {
   const volume = seriesItems.find((item) => item.volume === label);
   return volume ? sitePath(`/series/${slugify(volume.title)}/`) : sitePath("/series/");
+}
+
+function pathwayStatuses(pathway: (typeof topicPathways)[number]) {
+  const statuses = new Set<string>(["roadmap"]);
+  pathway.contentLinks.forEach((content) => {
+    if (content.kind === "SSRN preprint") statuses.add("preprint");
+    if (content.kind.includes("preview")) statuses.add("preview");
+  });
+  return [...statuses];
 }
 ---
 
@@ -96,6 +109,7 @@ function volumeHref(label: string) {
             data-question-route={pathway.id}
             data-question-fields={pathway.topicSlugs.join(",")}
             data-question-concerns={(concernsByPathway[pathway.id] ?? []).join(",")}
+            data-question-statuses={pathwayStatuses(pathway).join(",")}
             hidden={index !== 0}
           >
             <div>
@@ -126,6 +140,14 @@ function volumeHref(label: string) {
               <p>
                 <strong>Public entry points</strong>
               </p>
+              <div
+                class="topic-question-state-tags"
+                aria-label={`${pathway.label} available states`}
+              >
+                {pathwayStatuses(pathway).map((value) => (
+                  <span>{statusLabels[value] ?? value}</span>
+                ))}
+              </div>
               <div>
                 {pathway.contentLinks.slice(0, 4).map((content) => (
                   <a href={sitePath(content.path)}>
@@ -134,6 +156,9 @@ function volumeHref(label: string) {
                   </a>
                 ))}
               </div>
+              <button type="button" class="topic-question-copy" data-question-copy-link>
+                Copy route link
+              </button>
             </div>
           </article>
         ))
@@ -141,6 +166,13 @@ function volumeHref(label: string) {
       <p class="topic-question-status" data-question-status-message>
         Choose a subject or concern to refine this route. The links remain public-safe and
         status-labelled.
+      </p>
+      <p
+        class="topic-question-copy-status"
+        data-question-copy-status
+        role="status"
+        aria-live="polite"
+      >
       </p>
     </div>
 
@@ -160,8 +192,10 @@ function volumeHref(label: string) {
     const concern = root.querySelector<HTMLSelectElement>("[data-question-concern]");
     const status = root.querySelector<HTMLSelectElement>("[data-question-status]");
     const message = root.querySelector<HTMLElement>("[data-question-status-message]");
+    const copyStatus = root.querySelector<HTMLElement>("[data-question-copy-status]");
+    const copyButtons = [...root.querySelectorAll<HTMLButtonElement>("[data-question-copy-link]")];
     const routes = [...root.querySelectorAll<HTMLElement>("[data-question-route]")];
-    if (!form || !field || !concern || !status || !message || !routes.length) return;
+    if (!form || !field || !concern || !status || !message || !copyStatus || !routes.length) return;
 
     const updateUrl = () => {
       const url = new URL(window.location.href);
@@ -183,15 +217,21 @@ function volumeHref(label: string) {
     const render = (persist = true) => {
       const selectedField = field.value;
       const selectedConcern = concern.value;
+      const selectedStatus = status.value;
       const matching = routes.filter((route) => {
         const fields = route.dataset.questionFields?.split(",") ?? [];
         const concerns = route.dataset.questionConcerns?.split(",") ?? [];
+        const statuses = route.dataset.questionStatuses?.split(",") ?? [];
         return (
           (selectedField === "all" || fields.includes(selectedField)) &&
-          (selectedConcern === "all" || concerns.includes(selectedConcern))
+          (selectedConcern === "all" || concerns.includes(selectedConcern)) &&
+          (selectedStatus === "all" || statuses.includes(selectedStatus))
         );
       });
-      const fallback = selectedField === "all" && selectedConcern === "all" ? routes : [];
+      const fallback =
+        selectedField === "all" && selectedConcern === "all" && selectedStatus === "all"
+          ? routes
+          : [];
       const selected = matching[0] ?? fallback[0] ?? routes[0];
       routes.forEach((route) => {
         const isSelected = route === selected;
@@ -205,8 +245,29 @@ function volumeHref(label: string) {
         "the public work";
       message.textContent = matching.length
         ? `${routeLabel} is the closest public route for ${statusLabel.toLocaleLowerCase()}. The full text and release boundary remain visible.`
-        : `No route matches both selections exactly. Showing the nearest public route, with ${statusLabel.toLocaleLowerCase()} treated as a filter rather than a publication claim.`;
+        : `No route matches all three selections exactly. Showing the nearest public route, with ${statusLabel.toLocaleLowerCase()} treated as a filter rather than a publication claim. No pathway is currently released.`;
       if (persist) updateUrl();
+    };
+
+    const routeUrl = () => {
+      const url = new URL(window.location.href);
+      if (field.value === "all") url.searchParams.delete("field");
+      else url.searchParams.set("field", field.value);
+      if (concern.value === "all") url.searchParams.delete("concern");
+      else url.searchParams.set("concern", concern.value);
+      if (status.value === "all") url.searchParams.delete("state");
+      else url.searchParams.set("state", status.value);
+      url.hash = "question-builder";
+      return url.toString();
+    };
+
+    const copyRouteUrl = async () => {
+      try {
+        await navigator.clipboard.writeText(routeUrl());
+        copyStatus.textContent = "Route link copied.";
+      } catch {
+        copyStatus.textContent = "Copy is unavailable here. Select the address manually.";
+      }
     };
 
     const initial = new URLSearchParams(window.location.search);
@@ -223,6 +284,7 @@ function volumeHref(label: string) {
     [field, concern, status].forEach((control) =>
       control.addEventListener("change", () => render()),
     );
+    copyButtons.forEach((button) => button.addEventListener("click", () => copyRouteUrl()));
     window.addEventListener("popstate", () => {
       const next = new URLSearchParams(window.location.search);
       field.value = next.get("field") ?? "all";
