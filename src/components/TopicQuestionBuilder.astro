@@ -1,0 +1,235 @@
+---
+import { topicPathways, topicPluginDefinitions } from "../../plugins/topic-discovery/catalog";
+import { seriesItems } from "../data/series";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+
+const concernOptions = [
+  { value: "institutions", label: "Institutions and authority" },
+  { value: "labor", label: "Labor and distribution" },
+  { value: "migration", label: "Migration and demography" },
+  { value: "ai", label: "AI and automation" },
+  { value: "public-power", label: "Public power and democracy" },
+  { value: "evidence", label: "Evidence and uncertainty" },
+  { value: "human-capability", label: "Science and human capability" },
+];
+
+const statusOptions = [
+  { value: "preprint", label: "Public SSRN preprint" },
+  { value: "preview", label: "Research or documentary preview" },
+  { value: "roadmap", label: "Four-volume catalogue" },
+  { value: "release", label: "Held for human release" },
+];
+
+const concernsByPathway: Record<string, string[]> = {
+  method: ["evidence", "institutions", "public-power"],
+  "ai-labor": ["ai", "labor", "human-capability"],
+  democracy: ["institutions", "public-power", "evidence"],
+  "human-capability": ["human-capability", "evidence", "ai"],
+  migration: ["migration", "labor", "public-power"],
+};
+
+const fields = topicPluginDefinitions.map((topic) => ({ value: topic.slug, label: topic.name }));
+
+function volumeHref(label: string) {
+  const volume = seriesItems.find((item) => item.volume === label);
+  return volume ? sitePath(`/series/${slugify(volume.title)}/`) : sitePath("/series/");
+}
+---
+
+<section
+  class="section section-navy topic-question-builder"
+  id="question-builder"
+  data-topic-question-builder
+  aria-labelledby="question-builder-title"
+>
+  <div class="shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Investigative entry point</p>
+        <h2 id="question-builder-title">Choose a question. Get the relevant volume.</h2>
+      </div>
+      <p>
+        This local route builder connects a subject and concern to the public-safe work already in
+        the catalogue. It does not publish a draft, score credibility, or send your selections
+        anywhere.
+      </p>
+    </div>
+
+    <form class="topic-question-form" data-question-form>
+      <div class="topic-question-field">
+        <label for="question-field">Subject</label>
+        <select id="question-field" name="field" data-question-field>
+          <option value="all">Any subject</option>
+          {fields.map((field) => <option value={field.value}>{field.label}</option>)}
+        </select>
+      </div>
+      <div class="topic-question-field">
+        <label for="question-concern">Question</label>
+        <select id="question-concern" name="concern" data-question-concern>
+          <option value="all">Any concern</option>
+          {concernOptions.map((concern) => <option value={concern.value}>{concern.label}</option>)}
+        </select>
+      </div>
+      <div class="topic-question-field">
+        <label for="question-status">Public state</label>
+        <select id="question-status" name="status" data-question-status>
+          <option value="all">Any public state</option>
+          {statusOptions.map((status) => <option value={status.value}>{status.label}</option>)}
+        </select>
+      </div>
+      <button class="button" type="submit">Build the route →</button>
+    </form>
+
+    <div
+      class="topic-question-result"
+      data-question-result
+      role="region"
+      aria-live="polite"
+      aria-labelledby="question-result-title"
+    >
+      <div class="topic-question-result-label" id="question-result-title">Recommended route</div>
+      {
+        topicPathways.map((pathway, index) => (
+          <article
+            class:list={{ "topic-question-route": true, "is-selected": index === 0 }}
+            data-question-route={pathway.id}
+            data-question-fields={pathway.topicSlugs.join(",")}
+            data-question-concerns={(concernsByPathway[pathway.id] ?? []).join(",")}
+            hidden={index !== 0}
+          >
+            <div>
+              <p class="topic-question-route-kicker">{pathway.label}</p>
+              <h3>{pathway.question}</h3>
+              <p>{pathway.description}</p>
+            </div>
+            <div class="topic-question-route-meta">
+              <p>
+                <strong>Primary volume</strong>
+              </p>
+              <a href={volumeHref(pathway.primaryVolumeLabel)}>{pathway.primaryVolumeLabel}</a>
+              <p class="topic-question-volume-title">
+                {seriesItems.find((item) => item.volume === pathway.primaryVolumeLabel)?.title}
+              </p>
+              <p>
+                <strong>Connected fields</strong>
+              </p>
+              <div class="topic-question-tags">
+                {pathway.topicSlugs.map((slug) => (
+                  <a href={sitePath(`/topics/${slug}/`)}>
+                    {topicPluginDefinitions.find((topic) => topic.slug === slug)?.name}
+                  </a>
+                ))}
+              </div>
+            </div>
+            <div class="topic-question-follow">
+              <p>
+                <strong>Public entry points</strong>
+              </p>
+              <div>
+                {pathway.contentLinks.slice(0, 4).map((content) => (
+                  <a href={sitePath(content.path)}>
+                    <span>{content.kind}</span>
+                    {content.label} →
+                  </a>
+                ))}
+              </div>
+            </div>
+          </article>
+        ))
+      }
+      <p class="topic-question-status" data-question-status-message>
+        Choose a subject or concern to refine this route. The links remain public-safe and
+        status-labelled.
+      </p>
+    </div>
+
+    <noscript>
+      <p class="topic-question-noscript">
+        The route builder is optional. Use the six field links in the quick map above or open the
+        <a href={sitePath("/series/")}>four-volume publication catalogue</a>.
+      </p>
+    </noscript>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-topic-question-builder]").forEach((root) => {
+    const form = root.querySelector<HTMLFormElement>("[data-question-form]");
+    const field = root.querySelector<HTMLSelectElement>("[data-question-field]");
+    const concern = root.querySelector<HTMLSelectElement>("[data-question-concern]");
+    const status = root.querySelector<HTMLSelectElement>("[data-question-status]");
+    const message = root.querySelector<HTMLElement>("[data-question-status-message]");
+    const routes = [...root.querySelectorAll<HTMLElement>("[data-question-route]")];
+    if (!form || !field || !concern || !status || !message || !routes.length) return;
+
+    const updateUrl = () => {
+      const url = new URL(window.location.href);
+      for (const [key, control] of [
+        ["field", field],
+        ["concern", concern],
+        ["state", status],
+      ] as const) {
+        if (control.value === "all") url.searchParams.delete(key);
+        else url.searchParams.set(key, control.value);
+      }
+      window.history.replaceState(
+        null,
+        "",
+        url.pathname + (url.search ? url.search : "") + url.hash,
+      );
+    };
+
+    const render = (persist = true) => {
+      const selectedField = field.value;
+      const selectedConcern = concern.value;
+      const matching = routes.filter((route) => {
+        const fields = route.dataset.questionFields?.split(",") ?? [];
+        const concerns = route.dataset.questionConcerns?.split(",") ?? [];
+        return (
+          (selectedField === "all" || fields.includes(selectedField)) &&
+          (selectedConcern === "all" || concerns.includes(selectedConcern))
+        );
+      });
+      const fallback = selectedField === "all" && selectedConcern === "all" ? routes : [];
+      const selected = matching[0] ?? fallback[0] ?? routes[0];
+      routes.forEach((route) => {
+        const isSelected = route === selected;
+        route.hidden = !isSelected;
+        route.classList.toggle("is-selected", isSelected);
+      });
+      const statusLabel =
+        status.options[status.selectedIndex]?.textContent?.trim() ?? "Any public state";
+      const routeLabel =
+        selected.querySelector<HTMLElement>(".topic-question-route-kicker")?.textContent?.trim() ??
+        "the public work";
+      message.textContent = matching.length
+        ? `${routeLabel} is the closest public route for ${statusLabel.toLocaleLowerCase()}. The full text and release boundary remain visible.`
+        : `No route matches both selections exactly. Showing the nearest public route, with ${statusLabel.toLocaleLowerCase()} treated as a filter rather than a publication claim.`;
+      if (persist) updateUrl();
+    };
+
+    const initial = new URLSearchParams(window.location.search);
+    if ([...field.options].some((option) => option.value === initial.get("field")))
+      field.value = initial.get("field") ?? "all";
+    if ([...concern.options].some((option) => option.value === initial.get("concern")))
+      concern.value = initial.get("concern") ?? "all";
+    if ([...status.options].some((option) => option.value === initial.get("state")))
+      status.value = initial.get("state") ?? "all";
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      render();
+    });
+    [field, concern, status].forEach((control) =>
+      control.addEventListener("change", () => render()),
+    );
+    window.addEventListener("popstate", () => {
+      const next = new URLSearchParams(window.location.search);
+      field.value = next.get("field") ?? "all";
+      concern.value = next.get("concern") ?? "all";
+      status.value = next.get("state") ?? "all";
+      render(false);
+    });
+    render(false);
+  });
+</script>

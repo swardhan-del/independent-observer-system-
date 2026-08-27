@@ -4,6 +4,7 @@ import EditorialDetail from "../../components/EditorialDetail.astro";
 import { videoItems } from "../../data/content";
 import { slugify } from "../../lib/slugs";
 import { sitePath } from "../../lib/paths";
+import type { EvidenceBlock } from "../../components/EvidenceLayer.astro";
 
 export function getStaticPaths() {
   return videoItems.map((item) => ({
@@ -14,6 +15,52 @@ export function getStaticPaths() {
 
 const { item } = Astro.props;
 const currentPath = `/videos/${slugify(item.title)}/`;
+const isLookingAway = item.title === "The Cost of Looking Away";
+const lookingAwayEvidence: EvidenceBlock[] = [
+  {
+    category: "Documented fact",
+    text: "The public-safe audit's source notes report more than 158 million counted ballots in the 2024 U.S. general election and turnout of 64.7% of the citizen voting-age population. Those figures document participation; they do not by themselves establish equal access to agenda-setting, administration, review, or correction.",
+    source: {
+      label: "U.S. Election Assistance Commission · 2024 EAVS report",
+      href: "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+    },
+  },
+  {
+    category: "Interpretation",
+    text: "The concept reads the distance between a visible public record and a usable institutional response. It treats attention, procedure, and correction as separate steps that should not be collapsed into one claim about civic health.",
+  },
+  {
+    category: "Hypothesis",
+    text: "Evidence may fail to produce correction when access burdens, information asymmetry, or procedural delay interrupt the path from observation to a forum that can act.",
+  },
+  {
+    category: "Policy proposal",
+    text: "No policy recommendation is made by this concept preview. A future treatment could compare public correction routes without presenting that comparison as a settled design.",
+  },
+  {
+    category: "Limitation",
+    text: "This is a Volume II concept preview. No released video, full transcript, final production dossier, completed rights package, or publication approval is asserted here.",
+  },
+  {
+    category: "Counterargument",
+    text: "High participation can indicate substantial institutional capacity. The cited figures do not prove capture, suppression, or bad faith, and the concept should not imply those conclusions without separate evidence.",
+  },
+  {
+    category: "Unresolved question",
+    text: "Which access, administrative, information, and correction pathway should be tested to determine when a public record becomes institutionally usable?",
+  },
+];
+const lookingAwayClaimMap = {
+  claim: "A visible public record does not guarantee a usable route to review or correction.",
+  evidence:
+    "The 2024 EAVS participation figures document a large public record while leaving the quality and accessibility of downstream review as a separate question.",
+  mechanism:
+    "Access → information → administration → hearing → correction. A break at any step can leave evidence visible but ineffective.",
+  counterargument:
+    "Participation itself can show institutional capacity; the record does not establish institutional failure.",
+  limitation:
+    "The video and its full source-and-production package remain in development and are not released.",
+};
 ---
 
 <BaseLayout title={item.title} description={item.description} currentPath={currentPath}>
@@ -23,5 +70,20 @@ const currentPath = `/videos/${slugify(item.title)}/`;
     backLabel="Back to videos"
     backHref={sitePath("/videos/")}
     statusNote={`Publication status: ${item.status}. This is a preview entry. A future release may include a player, transcript, citations, and platform links after publication review.`}
+    evidenceBlocks={isLookingAway ? lookingAwayEvidence : undefined}
+    evidenceTitle={isLookingAway ? "Case study: The Cost of Looking Away" : undefined}
+    evidenceIntro={isLookingAway
+      ? "A reader-controlled map of the source record, interpretation, testable hypothesis, competing explanation, and limits. Highlighting changes emphasis, not evidentiary status."
+      : undefined}
+    evidenceStatusNote={isLookingAway
+      ? "Volume II concept preview; the related working paper remains awaiting human release."
+      : undefined}
+    evidenceSource={isLookingAway
+      ? {
+          label: "U.S. Election Assistance Commission · 2024 EAVS report",
+          href: "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+        }
+      : undefined}
+    claimMap={isLookingAway ? lookingAwayClaimMap : undefined}
   />
 </BaseLayout>

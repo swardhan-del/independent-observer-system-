@@ -46,6 +46,7 @@ const homepageVolumeGuide = readFileSync(
   "utf8",
 );
 const videos = readFileSync(join(sourceRoot, "pages/videos/index.astro"), "utf8");
+const videoDetail = readFileSync(join(sourceRoot, "pages/videos/[slug].astro"), "utf8");
 const documentaries = readFileSync(join(sourceRoot, "pages/documentaries/index.astro"), "utf8");
 const contact = readFileSync(join(sourceRoot, "pages/contact/index.astro"), "utf8");
 const researchCatalogue = readFileSync(
@@ -451,5 +452,14 @@ describe("interactive preview tools", () => {
     expect(videos).toContain("no responses, findings, or audience data are published here");
     expect(videos).toContain('id="independent-observer-survey"');
     expect(videos).toContain("Concept preview");
+  });
+
+  it("gives the flagship video preview a source-labeled evidence case study", () => {
+    expect(videoDetail).toContain("Case study: The Cost of Looking Away");
+    expect(videoDetail).toContain("lookingAwayEvidence");
+    expect(videoDetail).toContain("2024 EAVS report");
+    expect(videoDetail).toContain("lookingAwayClaimMap");
+    expect(videoDetail).toContain("awaiting human release");
+    expect(videoDetail).not.toContain("releaseApproved = true");
   });
 });

@@ -171,6 +171,26 @@ const { publicDocuments = [] } = Astro.props as Props;
     const filterButtons = [...dossier.querySelectorAll("[data-dossier-lens]")];
     const url = new URL(window.location.href);
     let selectedLens = url.searchParams.get("lens") || "all";
+    const synonymGroups = [
+      ["labor", "workforce", "employment", "work"],
+      ["welfare", "social", "socialism", "wealthfare"],
+      ["tax", "taxation", "ownership"],
+      ["health", "medical", "care"],
+      ["access", "licensing", "license"],
+      ["visibility", "visible", "records", "surveillance"],
+    ];
+    const normalize = (value: string) =>
+      value
+        .normalize("NFKD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLocaleLowerCase("en")
+        .replace(/[^\p{L}\p{N}]+/gu, " ")
+        .trim();
+    const queryGroups = (value: string) =>
+      normalize(value)
+        .split(" ")
+        .filter(Boolean)
+        .map((token) => synonymGroups.find((group) => group.includes(token)) ?? [token]);
 
     const updateUrl = () => {
       const nextUrl = new URL(window.location.href);
@@ -183,14 +203,16 @@ const { publicDocuments = [] } = Astro.props as Props;
     };
 
     const render = () => {
-      const search =
-        query instanceof HTMLInputElement ? query.value.trim().toLocaleLowerCase() : "";
+      const search = query instanceof HTMLInputElement ? query.value.trim() : "";
+      const groups = queryGroups(search);
       let visible = 0;
       cards.forEach((card) => {
-        const text = card.getAttribute("data-dossier-search")?.toLocaleLowerCase() ?? "";
+        const tokens = new Set(
+          normalize(card.getAttribute("data-dossier-search") ?? "").split(" "),
+        );
         const lenses = card.getAttribute("data-dossier-lenses")?.split("|") ?? [];
         const matches =
-          (!search || text.includes(search)) &&
+          (!groups.length || groups.every((group) => group.some((term) => tokens.has(term)))) &&
           (selectedLens === "all" || lenses.includes(selectedLens));
         card.toggleAttribute("hidden", !matches);
         if (matches) visible += 1;

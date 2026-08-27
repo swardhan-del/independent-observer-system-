@@ -23,17 +23,20 @@ export const publicLibrarySnapshot = {
     {
       label: "Source folders reviewed",
       value: "15",
-      detail: "Aggregate count from the reviewed public export.",
+      detail:
+        "Aggregate count from the reviewed public export; the four volume blocks below are the reader-facing index.",
     },
     {
       label: "Source files inventoried",
       value: "341",
-      detail: "Inventory context only; files remain in the private archive.",
+      detail:
+        "341 files were inventoried for context. Only matched public-safe summaries and SSRN records are linked below; raw files remain private.",
     },
     {
       label: "Public volume summaries",
       value: "4",
-      detail: "High-level summaries available for the four-volume roadmap.",
+      detail:
+        "Four volume summaries: method; sovereignty and institutions; work and social citizenship; AI, science, and human capability.",
     },
     {
       label: "Raw archive files published",

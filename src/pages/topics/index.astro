@@ -6,6 +6,8 @@ import TopicPathways from "../../components/TopicPathways.astro";
 import TopicReviewQueue from "../../components/TopicReviewQueue.astro";
 import TopicVolumeMap from "../../components/TopicVolumeMap.astro";
 import TopicSpineNavigator from "../../components/TopicSpineNavigator.astro";
+import TopicQuestionBuilder from "../../components/TopicQuestionBuilder.astro";
+import TopicVolumeMatrix from "../../components/TopicVolumeMatrix.astro";
 import { reviewQueueSignals, topicPathways } from "../../../plugins/topic-discovery/catalog";
 import { topicHubs } from "../../data/topics";
 ---
@@ -23,8 +25,10 @@ import { topicHubs } from "../../data/topics";
   >
     <TopicSpineNavigator />
   </PageHero>
+  <TopicQuestionBuilder />
   <TopicPathways pathways={topicPathways} />
   <TopicVolumeMap />
+  <TopicVolumeMatrix />
   <section class="section section-white">
     <div class="shell">
       <div class="section-heading topic-atlas-heading">

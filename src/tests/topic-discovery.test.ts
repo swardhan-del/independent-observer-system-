@@ -18,6 +18,14 @@ const topicSpineNavigator = readFileSync(
   "utf8",
 );
 const topicAtlas = readFileSync(join(sourceRoot, "components/TopicAtlas.astro"), "utf8");
+const topicQuestionBuilder = readFileSync(
+  join(sourceRoot, "components/TopicQuestionBuilder.astro"),
+  "utf8",
+);
+const topicVolumeMatrix = readFileSync(
+  join(sourceRoot, "components/TopicVolumeMatrix.astro"),
+  "utf8",
+);
 const topicVolumeMap = readFileSync(join(sourceRoot, "components/TopicVolumeMap.astro"), "utf8");
 const topicReviewQueue = readFileSync(
   join(sourceRoot, "components/TopicReviewQueue.astro"),
@@ -85,11 +93,28 @@ describe("topic discovery plugin", () => {
     expect(topicIndex).toContain("<TopicSpineNavigator />");
     expect(topicIndex).toContain("<TopicPathways pathways={topicPathways} />");
     expect(topicIndex).toContain("<TopicVolumeMap />");
+    expect(topicIndex).toContain("<TopicQuestionBuilder />");
+    expect(topicIndex).toContain("<TopicVolumeMatrix />");
     expect(topicIndex).toContain("<TopicAtlas topics={topicHubs} />");
     expect(topicIndex).toContain("<TopicReviewQueue signals={reviewQueueSignals} />");
     expect(topicAtlas).toContain("data-topic-view");
     expect(topicAtlas).toContain("URLSearchParams");
     expect(topicAtlas).toContain('aria-live="polite"');
+    expect(topicAtlas).toContain("synonymGroups");
+    expect(topicAtlas).toContain("data-topic-type-filter");
+    expect(topicAtlas).toContain("data-topic-volume-filter");
+    expect(topicAtlas).toContain("data-topic-clear");
+    expect(topicQuestionBuilder).toContain("Build the route");
+    expect(topicQuestionBuilder).toContain("data-question-concern");
+    expect(topicQuestionBuilder).toContain("data-question-status");
+    expect(topicQuestionBuilder).toContain("No route matches both selections exactly");
+    expect(topicQuestionBuilder).not.toMatch(/fetch\s*\(/);
+    expect(topicVolumeMatrix).toContain("Six fields across four volumes.");
+    expect(topicVolumeMatrix).toContain("<table");
+    expect(topicVolumeMatrix).toContain("data-matrix-cell");
+    expect(topicVolumeMatrix).toContain("aria-label");
+    expect(topicVolumeMatrix).toContain("data-matrix-links");
+    expect(topicVolumeMatrix).toContain("replaceState");
     expect(topicReviewQueue).toContain("signal.status");
     expect(topicReviewQueue).toContain("Metadata only · not a published article");
     expect(topicSpineNavigator).toContain(
