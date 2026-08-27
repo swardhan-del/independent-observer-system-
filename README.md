@@ -6,7 +6,7 @@ Repository provenance: this project was initialized as `independent-observer-sys
 
 ## Status
 
-Vercel is the canonical production host for `https://independentobserver.org`; the GitHub Pages project site is retained as a secondary fallback deployment. The repository's Vercel project is connected to this GitHub repository and its production deployment follows `main`. Sample cards are explicitly labeled **Concept preview** or **In editorial development**. The site does not claim that placeholder work has been published, peer reviewed, or institutionally affiliated.
+`https://independentobserver.org` is the canonical production origin and GitHub Pages is retained as a secondary fallback deployment. The known-good production deployment is preserved for rollback; a read-only audit found that its Vercel deployment metadata does not carry a Git commit, so this review branch is the traceable integration candidate and production provenance must be re-established from reviewed `main` before release. Sample cards are explicitly labeled **Concept preview** or **In editorial development**. The site does not claim that candidate work has been published, peer reviewed, or institutionally affiliated.
 
 ## Requirements
 
@@ -35,6 +35,8 @@ npm run lint
 npm test
 npm run build
 npm run build:pages
+npm run verify:operating-system
+SEO_SITE_URL=https://independentobserver.org npm run seo:audit
 ```
 
 `npm test` creates a fresh normal production build before running the content, route, link,
@@ -84,7 +86,7 @@ These settings generate absolute canonical and social-sharing URLs at build time
 
 ## Public Research Library
 
-The public site now includes [`/library/`](https://independentobserver.org/library/), a reviewed public-safe map of the Independent Observer Dropbox archive. It publishes aggregate counts, three high-level volume summaries, and broad research areas; it does not publish raw files, local paths, private records, draft evidence, or working archive filenames.
+The public site now includes [`/library/`](https://independentobserver.org/library/), a reviewed public-safe map of the Independent Observer archive. It publishes aggregate counts, four high-level volume summaries, and broad research areas; it does not publish raw files, local paths, private records, draft evidence, or working archive filenames.
 
 The library is a reviewed snapshot from the Dropbox `public_export` package. It is deliberately separate from the protected archive and is labeled as a snapshot so aggregate counts are not mistaken for a live inventory. The existing approved-feed automation remains narrower: it accepts only structured preview items from `/Independent Observer desktop/Website Feed/approved`, opens a pull request, and waits for CI and human review.
 
@@ -119,7 +121,8 @@ The canonical public origin is `https://independentobserver.org`, served by the 
 project `independent-observer`. The Vercel-provided alias
 [`independent-observer.vercel.app`](https://independent-observer.vercel.app/) remains a verified
 fallback address. The apex custom domain is the canonical origin; `www.independentobserver.org`
-redirects to it.
+redirects to it. The current production artifact is retained for rollback, while the release
+candidate must be rebuilt from a reviewed Git commit before promotion.
 
 The public indexing policy is deliberate:
 
@@ -172,6 +175,13 @@ The workflow produces only `src/data/dropbox-content.generated.ts`; it never cop
 into `public/` and never deploys directly. The sequence is:
 
 `approved Dropbox folder -> validation -> generated website data -> pull request -> CI -> human review -> merge -> deployment`
+
+The review branch also carries a sanitized metadata registry in
+`src/data/publication-registry.ts` and a metadata-only next-clearance queue in
+`src/data/clearance-queue.ts`. The six first-wave candidates remain `public_preview` records awaiting
+human release; they have no public article routes, no release flag, and no manuscript text in the
+registry. A local ignored audit manifest may hold source-level checksums and reviewer notes for
+release management, but it is never committed or included in the build.
 
 To activate the workflow, the repository owner must configure the read-only Dropbox credentials as
 GitHub repository secrets named `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and `DROPBOX_REFRESH_TOKEN`.

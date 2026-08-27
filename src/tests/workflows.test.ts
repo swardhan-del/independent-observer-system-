@@ -6,6 +6,7 @@ const workflowRoot = join(process.cwd(), ".github/workflows");
 const ci = readFileSync(join(workflowRoot, "ci.yml"), "utf8");
 const deploy = readFileSync(join(workflowRoot, "deploy.yml"), "utf8");
 const sync = readFileSync(join(workflowRoot, "sync-dropbox-content.yml"), "utf8");
+const vercelHeaders = readFileSync(join(process.cwd(), "vercel.json"), "utf8");
 
 function triggerKeys(workflow: string) {
   const triggerBlock = workflow.match(/^on:\s*\n([\s\S]*?)^permissions:/m)?.[1] ?? "";
@@ -71,5 +72,19 @@ describe("workflow publication safety", () => {
     expect(script).toContain("sourceVerified");
     expect(script).toContain("MAX_ARTIFACT_BYTES");
     expect(script).not.toContain("assetPath");
+  });
+
+  it("checks the hosted operating standard and production dependency surface", () => {
+    expect(ci).toContain("npm run verify:operating-system");
+    expect(ci).toContain("npm audit --omit=dev --audit-level=high");
+  });
+
+  it("defines security headers for the canonical Vercel host", () => {
+    expect(vercelHeaders).toContain("Content-Security-Policy");
+    expect(vercelHeaders).toContain("frame-ancestors 'none'");
+    expect(vercelHeaders).toContain("X-Content-Type-Options");
+    expect(vercelHeaders).toContain("Strict-Transport-Security");
+    expect(vercelHeaders).toContain("Referrer-Policy");
+    expect(vercelHeaders).toContain("Permissions-Policy");
   });
 });

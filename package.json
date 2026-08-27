@@ -13,6 +13,7 @@
     "format:check": "prettier --check .",
     "test": "astro check && astro build && vitest run",
     "test:built": "vitest run",
+    "verify:operating-system": "node scripts/verify-publication-operating-system.mjs",
     "seo:audit": "node plugins/seo/seo-audit.mjs",
     "domain:preflight": "node plugins/hosting/custom-domain-preflight.mjs"
   },

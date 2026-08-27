@@ -20,6 +20,7 @@ const routes = [
   { route: "/about/", file: "about/index.html" },
   { route: "/contact/", file: "contact/index.html" },
   { route: "/start/", file: "start/index.html" },
+  { route: "/start-here/", file: "start-here/index.html" },
   { route: "/publication-operating-system/", file: "publication-operating-system/index.html" },
   { route: "/topics/", file: "topics/index.html" },
   { route: "/topics/history/", file: "topics/history/index.html" },
@@ -33,7 +34,9 @@ const routes = [
     file: `library/documents/${entry.id}/index.html`,
   })),
 ] as const;
-const sitemapRoutes = routes.map(({ route }) => route);
+const sitemapRoutes = routes
+  .filter(({ route }) => route !== "/start-here/")
+  .map(({ route }) => route);
 
 function readOutput(relativePath: string) {
   return readFileSync(join(distRoot, relativePath), "utf8");
@@ -139,6 +142,23 @@ describe("built website", () => {
     );
   });
 
+  it("keeps the legacy Start Here route out of indexing and points it to the current route", () => {
+    const html = readOutput("start-here/index.html");
+    expect(metaContent(html, "name", "robots")).toBe("noindex,follow");
+    expect(html).toContain('http-equiv="refresh"');
+    expect(html).toContain('href="/start/"');
+    expect(canonical(html)).toBe("https://independentobserver.org/start/");
+  });
+
+  it("publishes security.txt without a private contact address", () => {
+    const security = readOutput(".well-known/security.txt");
+    expect(security).toContain("Contact: https://independentobserver.org/contact/");
+    expect(security).toContain(
+      "Canonical: https://independentobserver.org/.well-known/security.txt",
+    );
+    expect(security).not.toMatch(/@/);
+  });
+
   it("shows a document's actual volume and public reading-copy stack", () => {
     const html = readOutput("library/documents/wardhan-tax-doctrine-ssrn/index.html");
 
@@ -194,10 +214,9 @@ describe("built website", () => {
     const feed = readOutput("feed.xml");
     const itemBlocks = [...feed.matchAll(/<item>[\s\S]*?<\/item>/g)].map((match) => match[0]);
 
-    expect(itemBlocks).toHaveLength(6);
+    expect(itemBlocks).toHaveLength(7);
     expect(feed).toContain("Status: In editorial development. Research preview.");
     expect(feed).toContain("Status: Concept preview. Video preview.");
-    expect(feed).not.toContain("The Cost of Looking Away");
     expect(feed).not.toContain("Power, Procedure, and the Public Record");
     expect(itemBlocks.every((item) => item.includes("Status: "))).toBe(true);
   });

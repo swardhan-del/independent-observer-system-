@@ -2,21 +2,24 @@
 
 This checklist documents the verified architecture without changing hosting, DNS, or deployment state.
 
-## Verified architecture — 2026-08-22
+## Verified architecture — 2026-08-27
 
 - Canonical production host: the existing Vercel project `independent-observer`.
 - Canonical origin: `https://independentobserver.org`.
 - Verified Vercel fallback alias: [independent-observer.vercel.app](https://independent-observer.vercel.app/).
 - `www.independentobserver.org` is attached to the same project and redirects to the apex origin.
-- The Vercel project is connected to this GitHub repository and its latest production deployment was
-  built from `main` commit `4f4d776b85bd19b406ef4ffaf9be79fbcc13059a`.
+- The current production deployment is retained as a rollback candidate. Its read-only Vercel
+  metadata did not include a Git commit, so it is not treated as clean release provenance. The
+  review branch is the traceable integration candidate and must be rebuilt from reviewed `main`
+  before a future production promotion.
 - GitHub Pages remains a secondary project-site fallback at
   `https://swardhan-del.github.io/independent-observer-system-/` and is built only from `main`.
 - The custom domain, Vercel aliases, homepage, `robots.txt`, `sitemap.xml`, and `feed.xml` returned
   HTTP 200 during the read-only preflight. Canonical and discovery metadata use the apex origin.
 
 Do not create a second Vercel project or duplicate canonical metadata. This release-candidate task
-does not alter Vercel settings, DNS, domains, or production traffic.
+does not alter Vercel settings, DNS, domains, or production traffic. A production promotion still
+requires explicit owner approval after the reconciled pull request is reviewed.
 
 ## Build configuration
 

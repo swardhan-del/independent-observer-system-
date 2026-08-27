@@ -11,12 +11,19 @@ type Props = {
   description: string;
   currentPath?: string;
   noindex?: boolean;
+  canonicalPath?: string;
 };
 
-const { title, description, currentPath = "/", noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  currentPath = "/",
+  noindex = false,
+  canonicalPath = currentPath,
+} = Astro.props;
 const fullTitle = title === "Home" ? "Independent Observer" : `${title} | Independent Observer`;
 const publicOrigin = Astro.site ?? new URL(Astro.url.origin);
-const canonicalUrl = new URL(sitePath(currentPath), publicOrigin).href;
+const canonicalUrl = new URL(sitePath(canonicalPath), publicOrigin).href;
 const websiteUrl = new URL(sitePath("/"), publicOrigin).href;
 const socialImageUrl = new URL(sitePath("/og-cover.jpg"), publicOrigin).href;
 const sitemapUrl = new URL(sitePath("/sitemap.xml"), publicOrigin).href;

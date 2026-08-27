@@ -115,6 +115,26 @@ No dependency was added. The interaction layer uses Astro, TypeScript, CSS, nati
 
 `npm ci` on the base toolchain reported 20 existing audit findings (5 moderate, 15 high) in the installed development dependency tree. This branch did not add or upgrade a package, and the findings were not silently bypassed or represented as resolved; they remain a separate dependency-maintenance task.
 
+The production dependency surface is clean under the release check (`npm audit --omit=dev
+--audit-level=high` reports 0 findings). The existing development-tree findings remain documented
+for a separate maintenance change; no unrelated major upgrade was introduced here.
+
+### Release-control additions
+
+- `src/data/publication-registry.ts` is the sanitized repository registry. It carries seven existing
+  external preprint records plus the six first-wave candidates as metadata only. Candidate records
+  remain `public_preview` and `awaiting_human_release`, with no public route or release flag.
+- `src/data/clearance-queue.ts` records the twelve next-wave titles as metadata-only review items.
+  Manuscript text and public routes are intentionally absent, and the ambiguous volume assignment for
+  `The Rival the West Built` remains unset rather than guessed.
+- `private/audit-manifest.json` is a local-only, gitignored source-audit manifest. It is not part of
+  the repository diff or production build.
+- `scripts/verify-publication-operating-system.mjs` recomputes the hosted DOCX SHA-256 and checks
+  its ZIP signature during CI; the current verified hash is
+  `07984db194983a9ac7f50c244c8a4afea7b4b810602bd9abfb4d309bab1445ed`.
+- `vercel.json`, `public/.well-known/security.txt`, `SECURITY.md`, and `.github/CODEOWNERS` add
+  release headers, a security contact route, maintainer ownership, and a dependency review policy.
+
 ### Retained repository integrations
 
 - `plugins/seo/seo-audit.mjs` — retained and exercised after the custom-domain build.
@@ -153,9 +173,11 @@ The following categories were explicitly excluded from implementation and public
 
 ## Verification record
 
-Verification on 2026-08-27: after the final Topic Hub route-state and copy-link pass, formatting,
-`astro check`, `npm test`, `npm run build:pages`, `npm run test:built`,
-`SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build`, and
-`SEO_SITE_URL=https://independentobserver.org npm run seo:audit` all passed. The suite passed with
-198 tests across 9 files and produced 38 static pages; `astro check` reported 0 errors, warnings,
-or hints. A green result does not authorize merge, article publication, or Dropbox mutation.
+Verification on 2026-08-27: formatting, `astro check`, `npm test`, `npm run build:pages`,
+`npm run test:built`, `SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build`,
+`npm run verify:operating-system`, `npm audit --omit=dev --audit-level=high`,
+`SEO_SITE_URL=https://independentobserver.org npm run seo:audit`, and the custom-domain preflight
+all passed. The suite passed with 211 tests across 10 files and produced 38 static pages;
+`astro check` reported 0 errors, warnings, or hints. `npm ci` still reports 20 existing development
+dependency findings (5 moderate, 15 high), documented above. A green result does not authorize
+merge, article publication, production promotion, or Dropbox mutation.

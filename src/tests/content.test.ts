@@ -18,7 +18,10 @@ describe("editorial preview data", () => {
   });
 
   it("does not expose known template video cards as editorial work", () => {
-    expect(videoItems.map((item) => item.title)).toEqual(["Why Evidence Alone Is Not Enough"]);
+    expect(videoItems.map((item) => item.title)).toEqual([
+      "Why Evidence Alone Is Not Enough",
+      "The Cost of Looking Away",
+    ]);
     expect(videoItems.map((item) => item.description).join(" ")).not.toMatch(
       /sample video entry|placeholder for a future explainer/i,
     );
