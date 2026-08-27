@@ -151,5 +151,6 @@ library shelf changes, `npm test` passed with 196 tests across 9 files and produ
 `astro check` reported 0 errors, warnings, or hints. The remaining full verification commands
 (`npm run format:check`, `npm run lint`, `npm run build:pages`, `npm run test:built`,
 `SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build`, and
-`SEO_SITE_URL=https://independentobserver.org npm run seo:audit`) are run again before the commit is
-pushed. A green result does not authorize merge, article publication, or Dropbox mutation.
+`SEO_SITE_URL=https://independentobserver.org npm run seo:audit`) were run again after the library
+shelf changes and passed. A green result does not authorize merge, article publication, or Dropbox
+mutation.
