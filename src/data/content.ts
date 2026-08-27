@@ -207,13 +207,6 @@ export const videoItems: EditorialItem[] = [
       },
     ],
   },
-  {
-    title: "Power, Procedure, and the Public Record",
-    category: "Law & Institutions",
-    description:
-      "A placeholder for a future explainer on how procedure can determine whether facts ever receive substantive consideration.",
-    status: "Concept preview",
-  },
 ];
 
 export const topics = [

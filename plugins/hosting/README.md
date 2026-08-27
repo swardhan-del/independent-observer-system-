@@ -18,6 +18,8 @@ The check verifies:
 - `robots.txt`, `sitemap.xml`, and `feed.xml`;
 - canonical metadata, robots, and sitemap URLs pointing to the custom origin.
 
-It never registers a domain, changes DNS, changes Vercel, or publishes files. It is expected to fail while the domain is unregistered or not attached to Vercel.
+It never registers a domain, changes DNS, changes Vercel, or publishes files. It fails closed if the
+domain is unregistered, not attached to Vercel, or serving metadata for another origin.
 
-The existing Vercel address remains the verified public fallback until this preflight passes.
+The verified Vercel project is the canonical production host at `https://independentobserver.org`;
+the Vercel-provided project alias and GitHub Pages project site remain secondary fallbacks.
