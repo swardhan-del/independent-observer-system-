@@ -25,7 +25,12 @@
         <button class="reading-list-clear" type="button" data-reading-clear hidden>
           Clear saved previews
         </button>
+        <label class="reading-list-import">
+          Import JSON
+          <input type="file" accept="application/json,.json" data-reading-import />
+        </label>
       </div>
+      <p class="form-note" role="status" aria-live="polite" data-reading-import-status></p>
       <p class="form-note">
         Your list stays in this browser. It is not transmitted, published, or connected to an
         account.
@@ -35,11 +40,12 @@
 </div>
 
 <script>
-  type SavedItem = {
-    id: string;
-    title: string;
-    href: string;
-  };
+  import {
+    isSafeInternalHref,
+    parseReadingListImport,
+    parseStoredReadingList,
+    type SavedReadingListItem,
+  } from "../lib/reading-list";
 
   const storageKey = "independent-observer:reading-list:v1";
   const root = document.querySelector<HTMLElement>("[data-reading-list]");
@@ -50,24 +56,22 @@
   const empty = root?.querySelector<HTMLElement>("[data-reading-empty]");
   const items = root?.querySelector<HTMLOListElement>("[data-reading-items]");
   const clearButton = root?.querySelector<HTMLButtonElement>("[data-reading-clear]");
+  const importInput = root?.querySelector<HTMLInputElement>("[data-reading-import]");
+  const importStatus = root?.querySelector<HTMLElement>("[data-reading-import-status]");
 
-  if (dialog && openButton && closeButton && count && empty && items && clearButton) {
-    const load = (): SavedItem[] => {
-      try {
-        const stored = JSON.parse(localStorage.getItem(storageKey) ?? "[]");
-        return Array.isArray(stored)
-          ? stored.filter(
-              (item): item is SavedItem =>
-                item &&
-                typeof item.id === "string" &&
-                typeof item.title === "string" &&
-                typeof item.href === "string",
-            )
-          : [];
-      } catch {
-        return [];
-      }
-    };
+  if (
+    dialog &&
+    openButton &&
+    closeButton &&
+    count &&
+    empty &&
+    items &&
+    clearButton &&
+    importInput &&
+    importStatus
+  ) {
+    const load = (): SavedReadingListItem[] =>
+      parseStoredReadingList(localStorage.getItem(storageKey) ?? "[]");
 
     let saved = load();
 
@@ -144,7 +148,7 @@
         const id = button.dataset.readingId;
         const title = button.dataset.readingTitle;
         const href = button.dataset.readingHref;
-        if (!id || !title || !href) return;
+        if (!id || !title || !href || !isSafeInternalHref(href)) return;
 
         if (saved.some((item) => item.id === id)) {
           saved = saved.filter((item) => item.id !== id);
@@ -156,6 +160,29 @@
         render();
         updateToggleButtons();
       });
+    });
+
+    importInput.addEventListener("change", async () => {
+      const file = importInput.files?.[0];
+      importInput.value = "";
+      if (!file) return;
+      if (file.size > 1_048_576) {
+        importStatus.textContent = "Import rejected: the file is larger than 1 MiB.";
+        return;
+      }
+      const imported = parseReadingListImport(await file.text());
+      if (!imported) {
+        importStatus.textContent =
+          "Import rejected: the JSON schema or an internal link was unsafe.";
+        return;
+      }
+      const merged = new Map(saved.map((item) => [item.id, item]));
+      imported.forEach((item) => merged.set(item.id, item));
+      saved = Array.from(merged.values()).slice(0, 500);
+      persist();
+      render();
+      updateToggleButtons();
+      importStatus.textContent = `Imported ${imported.length} safe item${imported.length === 1 ? "" : "s"}.`;
     });
 
     render();

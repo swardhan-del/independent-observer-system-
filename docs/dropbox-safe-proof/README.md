@@ -9,7 +9,7 @@ This folder is a public-safe control document for the Independent Observer websi
 - Source authority: the Dropbox folder named `Independent Observer desktop`.
 - The Dropbox inventory was read-only. No Dropbox file or folder was moved, renamed, deleted, shared, or overwritten.
 - The top-level Dropbox inventory completed without pagination: 31 entries were observed.
-- The current intake folder `Website Feed/approved` had no approved feed manifest in the audited snapshot. The workflow therefore fails closed and publishes no new Dropbox feed item.
+- The current owner-approved website-feed intake had no approved feed manifest in the audited snapshot. The workflow therefore fails closed and publishes no new Dropbox feed item.
 - Private source paths, file IDs, hashes, credentials, browser records, internal project identifiers, and raw research/archive files are intentionally omitted from this public repository.
 
 ## What this audit proves
@@ -37,7 +37,7 @@ The file named `independent-observer-approved-preview.zip` was inspected read-on
 
 ## Safe integration rule
 
-Future automation may read only the exact `Website Feed/approved` intake folder. If that folder or its manifest is unavailable, the workflow must fail closed. For each approved item, the workflow should:
+Future automation may read only the exact owner-configured approved website-feed intake. If that intake or its manifest is unavailable, the workflow must fail closed. For each approved item, the workflow should:
 
 1. preserve the Dropbox original;
 2. create a public-safe structured summary rather than copying the raw document;
@@ -49,4 +49,4 @@ Do not place raw PDFs, DOCX files, ZIP archives, private audit registers, browse
 
 ## Recheck trigger
 
-Repeat this audit before any new Dropbox-to-website publication, after the `Website Feed/approved` folder changes, or when a source item is materially revised. This folder documents the safe boundary; it does not authorize publication by itself.
+Repeat this audit before any new Dropbox-to-website publication, after the approved website-feed intake changes, or when a source item is materially revised. This folder documents the safe boundary; it does not authorize publication by itself.

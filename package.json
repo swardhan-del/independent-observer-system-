@@ -14,7 +14,9 @@
     "test": "astro check && astro build && vitest run",
     "test:built": "vitest run",
     "seo:audit": "node plugins/seo/seo-audit.mjs",
-    "domain:preflight": "node plugins/hosting/custom-domain-preflight.mjs"
+    "domain:preflight": "node plugins/hosting/custom-domain-preflight.mjs",
+    "security:provenance": "node scripts/security/check-production-provenance.mjs",
+    "security:secrets": "node scripts/security/scan-secrets.mjs"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",

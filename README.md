@@ -86,11 +86,11 @@ These settings generate absolute canonical and social-sharing URLs at build time
 
 The public site now includes [`/library/`](https://swardhan-del.github.io/independent-observer-system-/library/), a reviewed public-safe map of the Independent Observer Dropbox archive. It publishes aggregate counts, three high-level volume summaries, and broad research areas; it does not publish raw files, local paths, private records, draft evidence, or working archive filenames.
 
-The library is a reviewed snapshot from the Dropbox `public_export` package. It is deliberately separate from the protected archive and is labeled as a snapshot so aggregate counts are not mistaken for a live inventory. The existing approved-feed automation remains narrower: it accepts only structured preview items from `/Independent Observer desktop/Website Feed/approved`, opens a pull request, and waits for CI and human review.
+The library is a reviewed snapshot from an owner-controlled public-safe export. It is deliberately separate from the protected archive and is labeled as a snapshot so aggregate counts are not mistaken for a live inventory. The existing approved-feed automation remains narrower: it accepts only structured preview items from the exact owner-configured intake folder, opens a pull request, and waits for CI and human review.
 
 The library also includes a public document reader. It publishes reviewed plain-text sections rather than mirroring Dropbox PDFs, DOCX files, private notes, or local archive paths. The reader provides a table of contents and stable section links so approved material can be found and read on the site.
 
-If that exact approved folder is unavailable, the automation must fail closed. Do not repoint it at the general Independent Observer archive or at a catalog manifest. To publish more material, first create a small public-safe summary, mark it approved, and let the review workflow handle it.
+If the exact approved intake folder is unavailable, the automation must fail closed. Do not repoint it at the general archive or at a catalog manifest. To publish more material, first create a small public-safe summary, mark it approved, and let the review workflow handle it.
 
 ## Integration boundary
 
@@ -137,9 +137,7 @@ Replace placeholder descriptions only with verified, publication-ready material.
 ## Dropbox website-feed automation
 
 The repository includes an approval-gated workflow at `.github/workflows/sync-dropbox-content.yml`.
-It reads only `manifest.json` from this exact approved folder:
-
-`/Independent Observer desktop/Website Feed/approved`
+It reads only `manifest.json` from the exact owner-configured approved intake folder. The repository intentionally does not publish the private workspace taxonomy.
 
 The workflow fails closed when the folder, manifest, credentials, manifest schema, approval gates,
 source declarations, or artifact checks are unavailable or invalid. The manifest must use
@@ -153,7 +151,7 @@ Restricted text and private, legal-evidence, raw-research, credential, or unpubl
 The workflow produces only `src/data/dropbox-content.generated.ts`; it never copies raw Dropbox files
 into `public/` and never deploys directly. The sequence is:
 
-`approved Dropbox folder -> validation -> generated website data -> pull request -> CI -> human review -> merge -> deployment`
+`approved private intake -> validation -> generated website data -> pull request -> CI -> human review -> merge -> deployment`
 
 To activate the workflow, the repository owner must configure the read-only Dropbox credentials as
 GitHub repository secrets named `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and `DROPBOX_REFRESH_TOKEN`.

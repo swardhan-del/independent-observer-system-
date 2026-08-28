@@ -13,6 +13,16 @@ function triggerKeys(workflow: string) {
 }
 
 describe("workflow publication safety", () => {
+  it("pins third-party actions and keeps elevated permissions scoped", () => {
+    for (const workflow of [ci, deploy, sync]) {
+      expect(workflow).not.toMatch(/uses:\s+[^\s]+@v\d/);
+      expect(workflow).toContain("actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683");
+      expect(workflow).toContain("actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020");
+    }
+    expect(sync).toMatch(/permissions:\s*\n\s+contents: read/);
+    expect(sync).toMatch(/environment:\s*\n\s+name:\s+dropbox-sync/);
+  });
+
   it("keeps continuous integration read-only and deployment-free", () => {
     expect(triggerKeys(ci)).toEqual(["pull_request", "push", "workflow_dispatch"]);
     expect(ci).toMatch(/^permissions:\s*\n  contents: read$/m);
