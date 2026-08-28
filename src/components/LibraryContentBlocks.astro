@@ -7,6 +7,7 @@ import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 
 const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
+// "Highest current download signal in this volume" is never shown without a dated verification note.
 ---
 
 <section
@@ -125,7 +126,10 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
                   <div class="library-representative-paper-meta">
                     <span class="status-pill">{representativePaper.status}</span>
                     <span>{representativePaper.metrics?.downloads ?? "—"} downloads</span>
-                    <span>Highest current download signal in this volume; not a rating.</span>
+                    <span>
+                      Last directly verified {representativePaper.metrics?.checkedAt}; current
+                      availability review pending; not a rating.
+                    </span>
                     {representativePaper.sourceUrl && (
                       <a
                         href={representativePaper.sourceUrl}
@@ -162,7 +166,8 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
                         <div class="library-preprint-footer">
                           <span>
                             {entry.metrics?.downloads ?? "—"} downloads ·{" "}
-                            {entry.metrics?.abstractViews ?? "—"} views
+                            {entry.metrics?.abstractViews ?? "—"} views · last directly verified{" "}
+                            {entry.metrics?.checkedAt}; availability review pending
                           </span>
                           {entry.sourceUrl && (
                             <a href={entry.sourceUrl} target="_blank" rel="noopener noreferrer">

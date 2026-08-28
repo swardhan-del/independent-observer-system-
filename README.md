@@ -35,14 +35,17 @@ npm run lint
 npm test
 npm run build
 npm run build:pages
+npm run verify:pages-fallback
+npm run verify:canonical-origin
 npm run verify:operating-system
 SEO_SITE_URL=https://independentobserver.org npm run seo:audit
 ```
 
 `npm test` creates a fresh normal production build before running the content, route, link,
 accessibility-structure, metadata, contrast, and workflow-safety tests. `npm run build:pages`
-creates the GitHub Pages fallback project-site build. Builds and tests only write to `dist/`; they
-do not publish or deploy the website.
+creates the GitHub Pages fallback project-site build. That fallback is custom-domain canonical,
+noindex, and crawl-disallowed. Builds and tests only write to `dist/`; they do not publish or deploy
+the website.
 
 To apply formatting:
 
@@ -88,7 +91,7 @@ These settings generate absolute canonical and social-sharing URLs at build time
 
 The public site now includes [`/library/`](https://independentobserver.org/library/), a reviewed public-safe map of the Independent Observer archive. It publishes aggregate counts, four high-level volume summaries, and broad research areas; it does not publish raw files, local paths, private records, draft evidence, or working archive filenames.
 
-The library is a reviewed snapshot from the Dropbox `public_export` package. It is deliberately separate from the protected archive and is labeled as a snapshot so aggregate counts are not mistaken for a live inventory. The existing approved-feed automation remains narrower: it accepts only structured preview items from `/Independent Observer desktop/Website Feed/approved`, opens a pull request, and waits for CI and human review.
+The library is a reviewed snapshot from the Dropbox `public_export` package. It is deliberately separate from the protected archive and is labeled as a snapshot so aggregate counts are not mistaken for a live inventory. The existing approved-feed automation remains narrower: it accepts only structured preview items from the dedicated approved website-feed folder, opens a pull request, and waits for CI and human review.
 
 The library also includes a public document reader. It publishes reviewed plain-text sections rather than mirroring Dropbox PDFs, DOCX files, private notes, or local archive paths. The reader provides a table of contents and stable section links so approved material can be found and read on the site.
 
@@ -128,9 +131,9 @@ The public indexing policy is deliberate:
 
 - `sitemap.xml` lists genuine public section pages and the public library. Detail routes remain out
   until they contain finished, review-cleared publications.
-- `feed.xml` contains only maintained public-safe editorial previews and development items, with
-  their status stated in each entry. Template cards, private material, and unpublished Dropbox
-  artifacts are excluded.
+- `feed.xml` contains only owner-approved releases. Preview cards, external records, private
+  material, and unpublished Dropbox artifacts are excluded until a release is real.
+- `feed.atom.xml` remains empty until an owner-approved release is recorded in the release log.
 
 ## GitHub Pages fallback deployment
 
@@ -143,8 +146,8 @@ After a reviewed pull request is merged and CI succeeds, the deployment workflow
 current `main` branch to the project-site fallback automatically. The workflow still refuses to
 deploy from any branch other than `main`. A manual `workflow_dispatch` run remains available, but
 requires the explicit deployment confirmation input and any protected `github-pages` environment
-approval. GitHub Pages is not the canonical origin and its project-site URLs must not be used for
-canonical or social metadata.
+approval. GitHub Pages is not the canonical origin; its fallback artifact is noindex and uses the
+custom domain in canonical and social metadata.
 
 ## Content editing
 
@@ -160,7 +163,9 @@ Replace placeholder descriptions only with verified, publication-ready material.
 The repository includes an approval-gated workflow at `.github/workflows/sync-dropbox-content.yml`.
 It reads only `manifest.json` from this exact approved folder:
 
-`/Independent Observer desktop/Website Feed/approved`
+The workflow reads the dedicated approved website-feed folder configured in the private
+`DROPBOX_APPROVED_PATH` GitHub Actions variable. The path value is intentionally not stored in this
+repository.
 
 The workflow fails closed when the folder, manifest, credentials, manifest schema, approval gates,
 source declarations, or artifact checks are unavailable or invalid. The manifest must use

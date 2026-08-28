@@ -43,6 +43,7 @@ function makeDocument(input: SsrnInput): PublicDocument {
     sourceLabel: "Dropbox preprint controller · SSRN public record",
     status: "SSRN preprint",
     author,
+    externalVerification: "needs_review",
     metrics: {
       ...input.metrics,
       checkedAt: metricsDate,
@@ -78,7 +79,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
         "Administrative choices and enforcement venues can change headline totals without representing the same underlying event.",
         "The proposed reporting template favors comparable year-by-year series over partisan scorekeeping.",
       ],
-      "The SSRN record reports 126 downloads and 6,397 abstract views in the latest public result retrieved for this audit. Metrics change over time; SSRN does not provide a star-rating field for this paper. The matching Dropbox version requires removal of an older appendix before any longer-form release.",
+      "The last directly verified public SSRN result (25 August 2026) reported 126 downloads and 6,397 abstract views. A 28 August 2026 recheck was access-blocked, so current availability is not confirmed. Metrics change over time; SSRN does not provide a star-rating field for this paper. The matching Dropbox version requires removal of an older appendix before any longer-form release.",
     ),
     citations: [
       {
@@ -118,7 +119,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
         "The paper frames its objective as explanation and measurement, not candidate advocacy.",
         "Service delivery, housing, schools, safety, permitting, and small-business conditions are treated as politically relevant outcomes.",
       ],
-      "The latest public SSRN result retrieved for this audit reports 56 downloads and 546 abstract views. Those figures are usage signals, not a rating or evidence that every causal claim is established.",
+      "The last directly verified public SSRN result (25 August 2026) reported 56 downloads and 546 abstract views. A 28 August 2026 recheck was access-blocked, so current availability is not confirmed. Those figures are usage signals, not a rating or evidence that every causal claim is established.",
     ),
     citations: [
       {
@@ -160,7 +161,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
         "The paper connects labor, intimacy, identity, and demographic questions across a wider Volume IV research arc.",
         "Its central contribution is a research frame for asking how institutions shape the conditions under which connection is possible.",
       ],
-      "The SSRN result reports 47 downloads and 152 abstract views. The site uses the public summary and links to the SSRN record; it does not reproduce email addresses, private correspondence, or alternate archive copies.",
+      "The last directly verified public SSRN result (25 August 2026) reported 47 downloads and 152 abstract views. A 28 August 2026 recheck was access-blocked, so current availability is not confirmed. The site uses the public summary and links to the SSRN record; it does not reproduce email addresses, private correspondence, or alternate archive copies.",
     ),
     citations: [
       {
@@ -244,7 +245,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
         "The analysis connects gender economics, human capital, fertility, migration, and public policy.",
         "The paper presents a comparative policy frame rather than a single universal solution.",
       ],
-      "The SSRN result reports 39 downloads and 225 abstract views. Several quantitative claims in the underlying preprint require careful source and currentness review; the website therefore foregrounds the thesis and boundary rather than reproducing every number.",
+      "The last directly verified public SSRN result (25 August 2026) reported 39 downloads and 225 abstract views. A 28 August 2026 recheck was access-blocked, so current availability is not confirmed. Several quantitative claims in the underlying preprint require careful source and currentness review; the website therefore foregrounds the thesis and boundary rather than reproducing every number.",
     ),
     citations: [
       {
@@ -285,7 +286,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
         "The paper links democratic vulnerability to literacy, corruption, inequality, and working-class exclusion.",
         "The conclusion asks what a more durable democratic political economy would need to change.",
       ],
-      "The SSRN result reports 38 downloads and 161 abstract views. Historical analogy can illuminate mechanisms, but it does not prove that different periods or states are equivalent.",
+      "The last directly verified public SSRN result (25 August 2026) reported 38 downloads and 161 abstract views. A 28 August 2026 recheck was access-blocked, so current availability is not confirmed. Historical analogy can illuminate mechanisms, but it does not prove that different periods or states are equivalent.",
     ),
     citations: [
       {
@@ -326,7 +327,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
         "The framework joins political theory, economic policy, historical analysis, and public reasoning.",
         "The public-facing purpose is to make the basis and limits of an argument visible before asking readers to accept its conclusion.",
       ],
-      "The SSRN result reports 23 downloads and 113 abstract views. It is a foundational working paper, not a claim that the full Independent Observer series has been published or peer reviewed.",
+      "The last directly verified public SSRN result (25 August 2026) reported 23 downloads and 113 abstract views. A 28 August 2026 recheck was access-blocked, so current availability is not confirmed. It is a foundational working paper, not a claim that the full Independent Observer series has been published or peer reviewed.",
       "This page is the public entry point for Volume I’s Foundational Manifesto, the one Volume I paper currently represented by a matched public SSRN record. It explains the method of observation, documentation, information asymmetry, institutional design, and public reasoning; other Volume I papers remain outside this reading copy until their public records and release status are separately verified.",
     ),
     citations: [

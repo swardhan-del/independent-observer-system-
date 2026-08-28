@@ -12,8 +12,8 @@ This checklist documents the verified architecture without changing hosting, DNS
   metadata did not include a Git commit, so it is not treated as clean release provenance. The
   review branch is the traceable integration candidate and must be rebuilt from reviewed `main`
   before a future production promotion.
-- GitHub Pages remains a secondary project-site fallback at
-  `https://swardhan-del.github.io/independent-observer-system-/` and is built only from `main`.
+- GitHub Pages remains a secondary project-site fallback built only from `main`; its generated
+  pages are noindex, custom-domain canonical, and crawl-disallowed.
 - The custom domain, Vercel aliases, homepage, `robots.txt`, `sitemap.xml`, and `feed.xml` returned
   HTTP 200 during the read-only preflight. Canonical and discovery metadata use the apex origin.
 
@@ -24,8 +24,8 @@ requires explicit owner approval after the reconciled pull request is reviewed.
 ## Build configuration
 
 - `npm run build` is the canonical root-origin build and defaults to `SITE_URL=https://independentobserver.org`.
-- `npm run build:pages` produces the GitHub Pages fallback with
-  `SITE_URL=https://swardhan-del.github.io` and `BASE_PATH=/independent-observer-system-`.
+- `npm run build:pages` produces the GitHub Pages fallback with the custom origin,
+  `BASE_PATH=/independent-observer-system-`, and an explicit noindex build flag.
 - The fallback build is useful for resilience and verification; it is not the canonical origin.
 
 ## Non-mutating preflight

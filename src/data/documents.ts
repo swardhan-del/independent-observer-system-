@@ -23,6 +23,8 @@ export type PublicDocumentMetrics = {
   checkedAt: string;
 };
 
+export type ExternalVerificationStatus = "verified" | "needs_review";
+
 export type PublicDocument = {
   id: string;
   title: string;
@@ -39,6 +41,7 @@ export type PublicDocument = {
   sourceUrl?: string;
   researchGateUrl?: string;
   metrics?: PublicDocumentMetrics;
+  externalVerification?: ExternalVerificationStatus;
   notes?: string[];
   limitations?: string[];
   citations?: PublicCitation[];

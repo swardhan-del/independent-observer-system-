@@ -120,7 +120,8 @@ const { areas, note, stats } = publicLibrarySnapshot;
                 {entry.metrics && (
                   <span>
                     SSRN: {entry.metrics.downloads ?? "—"} downloads ·{" "}
-                    {entry.metrics.abstractViews ?? "—"} views
+                    {entry.metrics.abstractViews ?? "—"} views · last directly verified{" "}
+                    {entry.metrics.checkedAt}; availability review pending
                   </span>
                 )}
                 <a class="card-open-link" href={sitePath(`/library/documents/${entry.id}/`)}>

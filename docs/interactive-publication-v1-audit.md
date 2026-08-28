@@ -46,6 +46,32 @@ Research detail pages now carry a separate four-volume research map beneath the 
 - “Lawsuits Are Illusions: Where Institutional Power Actually Resides” is now mapped to Volume III, Managed Decline. The page describes the Volume III connection and the related “From Vietnam to Terry v. Ohio” working-paper direction, while keeping the raw Dropbox source, private metadata, and alternate drafts outside the build. Its related public Volume III SSRN reading copy is shown as context, not as proof or publication.
 - The publication sequence remains: approved manifest → validation → generated public-safe data → pull request → CI → human review → merge → deployment.
 
+## 2026-08-28 reconciliation addendum
+
+- The current PR #29 branch includes the applicable PR #28 canonical-domain and workflow safeguards
+  through the existing reconciliation commits; the two pull requests are not merged independently.
+- The staged six-item queue remains metadata-only: all six records are `public_preview`, have no
+  canonical public route, and remain `awaiting_human_release`. The approved Dropbox intake remains
+  empty.
+- A gitignored private audit manifest now records the six controller checksums, duplicate/version
+  chains, rights, privacy, editorial, QA, and external-record fields. It is not in the repository
+  diff or build output.
+- `/review/regrowing-humanity/` is a noindex staged Evidence Lab. It exposes a 36-record source
+  explorer, grouped numerical-claim audit, contradiction navigator, neuroprosthetic control loop,
+  integration timeline, restoration/enhancement policy matrix, searchable reading transcript, and
+  citation/limitations panels. It does not expose the controller manuscript, private notes, raw
+  figures, or unreviewed media.
+- `/whats-new/`, `feed.xml`, and `feed.atom.xml` are release-controlled. All three remain empty of
+  releases until an owner-approved item reaches protected `main`.
+- The GitHub Pages fallback now uses the custom domain for canonical metadata and carries an
+  explicit noindex/crawl-disallow boundary. `verify:canonical-origin` blocks generated production
+  metadata containing `github.io` or `vercel.app`.
+- All seven existing SSRN records were rechecked on 2026-08-28. The URLs returned an access-blocked
+  interstitial, so their last directly verified usage dates remain visible and current availability
+  is marked review-pending; no record is claimed to be currently downloadable.
+- The unverified X profile link was removed. YouTube and Substack links resolved to their intended
+  profile pages during the read-only check.
+
 ### Volume III research dossier
 
 The `Managed Decline` catalogue page now includes seven public-safe research lines drawn from the read-only Volume III inventory: the public `The Wardhan Tax Doctrine` reading copy plus six bounded working-paper directions covering reintegration and policing, welfare and social control, social class and welfare, health and licensing, macroeconomic/medical labor links, and public visibility. The social-class line names “welfare socialism” only as an open analytical question; it is not presented as a finding or endorsement. Each card explains why the line matters and states its boundary. The dossier is a discovery layer, not a bulk manuscript import: it contains no private source text, local paths, Dropbox links, personal records, unsupported metrics, or release flags. Search and lens filters update `q` and `lens` in the local URL with `history.replaceState`; when a query and lens have no intersection, the empty state explains the conjunction and provides keyboard-accessible recovery buttons; the static cards and native `<details>` notes remain usable without JavaScript.
@@ -127,8 +153,8 @@ for a separate maintenance change; no unrelated major upgrade was introduced her
 - `src/data/clearance-queue.ts` records the twelve next-wave titles as metadata-only review items.
   Manuscript text and public routes are intentionally absent, and the ambiguous volume assignment for
   `The Rival the West Built` remains unset rather than guessed.
-- `private/audit-manifest.json` is a local-only, gitignored source-audit manifest. It is not part of
-  the repository diff or production build.
+- `private/publication-audit-manifest-2026-08-28.json` is a local-only, gitignored source-audit
+  manifest. It is not part of the repository diff or production build.
 - `scripts/verify-publication-operating-system.mjs` recomputes the hosted DOCX SHA-256 and checks
   its ZIP signature during CI; the current verified hash is
   `07984db194983a9ac7f50c244c8a4afea7b4b810602bd9abfb4d309bab1445ed`.
@@ -162,7 +188,8 @@ The following categories were explicitly excluded from implementation and public
 - Motion: existing brand/hero motion remains restrained and the reduced-motion rule disables animated transitions/animations for users who request it.
 - Typography: the homepage hero, mission lead, topic hero, research-detail hero, about hero, and document-reader hero now use more compact responsive display scales so descriptive body copy and volume context have more room at laptop and tablet widths.
 - Performance/privacy: no SPA conversion or third-party runtime was introduced; search and reading-list state stay in the browser; noncritical media behavior is unchanged; no query or list data is sent over the network.
-- GitHub Pages compatibility: all new links use `sitePath()`, and the Pages build remains static. Custom-domain root paths are verified separately.
+- GitHub Pages compatibility: all new links use `sitePath()`, and the Pages build remains static,
+  custom-canonical, noindex, and crawl-disallowed. Custom-origin metadata is verified separately.
 
 ## Deferred because release evidence is unavailable
 
@@ -173,11 +200,10 @@ The following categories were explicitly excluded from implementation and public
 
 ## Verification record
 
-Verification on 2026-08-27: formatting, `astro check`, `npm test`, `npm run build:pages`,
-`npm run test:built`, `SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build`,
-`npm run verify:operating-system`, `npm audit --omit=dev --audit-level=high`,
-`SEO_SITE_URL=https://independentobserver.org npm run seo:audit`, and the custom-domain preflight
-all passed. The suite passed with 211 tests across 10 files and produced 38 static pages;
-`astro check` reported 0 errors, warnings, or hints. `npm ci` still reports 20 existing development
-dependency findings (5 moderate, 15 high), documented above. A green result does not authorize
-merge, article publication, production promotion, or Dropbox mutation.
+Verification on 2026-08-28: formatting, `astro check`, `npm test`, `npm run build:pages`,
+`npm run test:built`, `npm run verify:pages-fallback`, `SITE_URL=https://independentobserver.org
+BASE_PATH=/ npm run build`, `npm run verify:canonical-origin`, `npm run verify:operating-system`,
+`npm audit --omit=dev --audit-level=high`, and `SEO_SITE_URL=https://independentobserver.org
+npm run seo:audit` passed. The suite passed with 227 tests across 10 files and produced 40 static
+pages; `astro check` reported 0 errors, warnings, or hints. A green result does not authorize
+merge, article publication, production promotion, secret configuration, or Dropbox mutation.

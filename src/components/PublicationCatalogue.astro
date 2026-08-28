@@ -217,7 +217,8 @@ const catalogueStats = [
                 {leadingPaper && (
                   <p>
                     Leading public signal: {leadingPaper.metrics?.downloads ?? "—"} downloads ·{" "}
-                    {leadingPaper.metrics?.abstractViews ?? "—"} abstract views
+                    {leadingPaper.metrics?.abstractViews ?? "—"} abstract views · last directly
+                    verified {leadingPaper.metrics?.checkedAt}; availability review pending
                   </p>
                 )}
               </div>
@@ -248,7 +249,8 @@ const catalogueStats = [
                         </div>
                         <span>
                           {paper.status} · {paper.metrics?.downloads ?? "—"} downloads · usage
-                          signal only
+                          signal only · last directly verified {paper.metrics?.checkedAt};
+                          availability review pending
                         </span>
                       </li>
                     ))}

@@ -13,6 +13,7 @@ export type ResearchCatalogueRecord = SearchEntry & {
   metrics?: {
     downloads?: number;
     abstractViews?: number;
+    checkedAt: string;
   };
   sourceUrl?: string;
   researchGateUrl?: string;
@@ -76,6 +77,7 @@ const paperRecords: ResearchCatalogueRecord[] = [...ssrnPreprintDocuments]
     metrics: {
       downloads: paper.metrics?.downloads,
       abstractViews: paper.metrics?.abstractViews,
+      checkedAt: paper.metrics?.checkedAt ?? "not recorded",
     },
     sourceUrl: paper.sourceUrl,
     researchGateUrl: paper.researchGateUrl,

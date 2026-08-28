@@ -22,6 +22,8 @@ const routes = [
   { route: "/start/", file: "start/index.html" },
   { route: "/start-here/", file: "start-here/index.html" },
   { route: "/publication-operating-system/", file: "publication-operating-system/index.html" },
+  { route: "/whats-new/", file: "whats-new/index.html" },
+  { route: "/review/regrowing-humanity/", file: "review/regrowing-humanity/index.html" },
   { route: "/topics/", file: "topics/index.html" },
   { route: "/topics/history/", file: "topics/history/index.html" },
   { route: "/topics/politics/", file: "topics/politics/index.html" },
@@ -35,7 +37,7 @@ const routes = [
   })),
 ] as const;
 const sitemapRoutes = routes
-  .filter(({ route }) => route !== "/start-here/")
+  .filter(({ route }) => !["/start-here/", "/review/regrowing-humanity/"].includes(route))
   .map(({ route }) => route);
 
 function readOutput(relativePath: string) {
@@ -127,7 +129,28 @@ describe("built website", () => {
   it("builds robots, sitemap, and 404 output", () => {
     expect(existsSync(join(distRoot, "robots.txt"))).toBe(true);
     expect(existsSync(join(distRoot, "sitemap.xml"))).toBe(true);
+    expect(existsSync(join(distRoot, "feed.atom.xml"))).toBe(true);
     expect(existsSync(join(distRoot, "404.html"))).toBe(true);
+  });
+
+  it("publishes an honest empty release log until an owner-approved release exists", () => {
+    const html = readOutput("whats-new/index.html");
+    expect(html).toContain("The release log is intentionally empty.");
+    expect(html).toContain("six current candidates remain awaiting human release");
+  });
+
+  it("keeps the staged Evidence Lab noindex and outside release discovery", () => {
+    const html = readOutput("review/regrowing-humanity/index.html");
+    expect(metaContent(html, "name", "robots")).toBe("noindex,follow");
+    expect(html).toContain("Awaiting human release");
+    expect(readOutput("sitemap.xml")).not.toContain("/review/regrowing-humanity/");
+    expect(readOutput("feed.xml")).not.toContain("Regrowing Humanity");
+  });
+
+  it("keeps Atom empty until a real release is recorded", () => {
+    const atom = readOutput("feed.atom.xml");
+    expect(atom).toContain('<feed xmlns="http://www.w3.org/2005/Atom">');
+    expect(atom).not.toContain("<entry>");
   });
 
   it("hosts the exact owner-provided operating-system DOCX", () => {
@@ -192,7 +215,7 @@ describe("built website", () => {
     const sitemapUrl = new URL("sitemap.xml", homeCanonical).href;
 
     expect(robots).toMatch(/^User-agent: \*$/m);
-    expect(robots).toMatch(/^Allow: \/$/m);
+    expect(robots).toMatch(/^(?:Allow: \/|Disallow: \/)$/m);
     expect(robots).toContain(`Sitemap: ${sitemapUrl}`);
   });
 
@@ -214,15 +237,13 @@ describe("built website", () => {
     expect(locations.some((location) => location.endsWith("/404/"))).toBe(false);
   });
 
-  it("keeps RSS limited to labeled public previews and excludes template cards", () => {
+  it("keeps RSS empty until an owner-approved release exists", () => {
     const feed = readOutput("feed.xml");
     const itemBlocks = [...feed.matchAll(/<item>[\s\S]*?<\/item>/g)].map((match) => match[0]);
 
-    expect(itemBlocks).toHaveLength(7);
-    expect(feed).toContain("Status: In editorial development. Research preview.");
-    expect(feed).toContain("Status: Concept preview. Video preview.");
-    expect(feed).not.toContain("Power, Procedure, and the Public Record");
-    expect(itemBlocks.every((item) => item.includes("Status: "))).toBe(true);
+    expect(itemBlocks).toHaveLength(0);
+    expect(feed).toContain('<rss version="2.0">');
+    expect(feed).not.toContain("Status: ");
   });
 
   it.each(routes)("keeps essential structure on $route", ({ file, route }) => {

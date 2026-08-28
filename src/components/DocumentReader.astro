@@ -90,6 +90,13 @@ const volumeRecord = entry.volume
               <dd>
                 {entry.metrics.downloads ?? "—"} downloads · {entry.metrics.abstractViews ?? "—"}{" "}
                 views
+                <>
+                  <br />
+                  <small>
+                    Last directly verified {entry.metrics.checkedAt}. Current SSRN availability is
+                    review-pending.
+                  </small>
+                </>
               </dd>
             </div>
           )
@@ -160,7 +167,9 @@ const volumeRecord = entry.volume
               target="_blank"
               rel="noopener noreferrer"
             >
-              Open SSRN record ↗
+              {entry.externalVerification === "needs_review"
+                ? "Open SSRN record (availability unverified) ↗"
+                : "Open SSRN record ↗"}
             </a>
           )
         }

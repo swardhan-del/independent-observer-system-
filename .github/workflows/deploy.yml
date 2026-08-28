@@ -1,4 +1,4 @@
-name: Deploy website to GitHub Pages
+name: Deploy noindex GitHub Pages fallback
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       confirm_deployment:
-        description: Deploy the current main branch to GitHub Pages
+        description: Deploy the current main branch as a noindex custom-canonical fallback
         required: true
         default: false
         type: boolean
@@ -43,6 +43,8 @@ jobs:
         run: npm ci
       - name: Build GitHub Pages artifact
         run: npm run build:pages
+      - name: Verify noindex fallback artifact
+        run: npm run verify:pages-fallback
       - name: Configure Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
       - name: Upload artifact

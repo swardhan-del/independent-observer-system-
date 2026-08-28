@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { nextClearanceQueue } from "../data/clearance-queue";
 import { publicPublicationRegistry, sixCandidateReleaseQueue } from "../data/publication-registry";
+import { regrowingHumanitySources } from "../data/regrowing-humanity-evidence";
 
 describe("publication release safety", () => {
   it("keeps exactly six candidates awaiting human release", () => {
@@ -58,5 +59,15 @@ describe("publication release safety", () => {
     expect(
       publicPublicationRegistry.every((record) => record.provenanceFingerprint.length > 0),
     ).toBe(true);
+  });
+
+  it("keeps the Evidence Lab source explorer aligned with the reviewed 36-source package", () => {
+    expect(regrowingHumanitySources).toHaveLength(36);
+    expect(regrowingHumanitySources.filter((source) => source.kind === "scholarly")).toHaveLength(
+      30,
+    );
+    expect(
+      regrowingHumanitySources.filter((source) => source.kind === "institutional"),
+    ).toHaveLength(6);
   });
 });

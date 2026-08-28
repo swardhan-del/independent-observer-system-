@@ -73,8 +73,9 @@ const featuredPreprints = [...ssrnPreprintDocuments]
                       <a href={href}>{entry.title}</a>
                     </h5>
                     <p>
-                      {entry.volume} · {entry.metrics?.downloads ?? "—"} downloads · public reading
-                      copy
+                      {entry.volume} · {entry.metrics?.downloads ?? "—"} downloads · last directly
+                      verified {entry.metrics?.checkedAt}; public reading copy, availability review
+                      pending copy
                     </p>
                     <div class="reading-list-recommendation-actions">
                       <button

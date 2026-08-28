@@ -13,6 +13,7 @@ const publicRoutes = [
   "/series/",
   ...seriesItems.map((entry) => `/series/${slugify(entry.title)}/`),
   "/library/",
+  "/whats-new/",
   "/research/",
   "/documentaries/",
   "/videos/",

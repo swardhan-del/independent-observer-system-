@@ -47,7 +47,8 @@ const externalLinks = record.sourceUrl || record.researchGateUrl;
       record.kind === "SSRN preprint" && record.metrics && (
         <p class="research-catalogue-card-signal">
           Retrieved signal: {record.metrics.downloads ?? "—"} downloads ·{" "}
-          {record.metrics.abstractViews ?? "—"} abstract views.
+          {record.metrics.abstractViews ?? "—"} abstract views; last directly verified{" "}
+          {record.metrics.checkedAt}. Current SSRN availability is review-pending.
         </p>
       )
     }

@@ -21,6 +21,7 @@ const volumeOneSource = {
   label: "Read the Volume I public record",
   href: volumeOneMethodHref,
 };
+// The public Volume I SSRN record reports a dated usage signal; current access stays review-pending.
 const highestDownloadDocument = [...ssrnPreprintDocuments]
   .filter((entry) => typeof entry.metrics?.downloads === "number")
   .sort((a, b) => (b.metrics?.downloads ?? 0) - (a.metrics?.downloads ?? 0))[0];
@@ -256,7 +257,7 @@ const heroVolumeLinks = seriesItems.map((item, index) => ({
         blocks={[
           {
             category: "Documented fact",
-            text: `The public Volume I SSRN record reports ${volumeOneMethod?.metrics?.downloads ?? "—"} downloads and ${volumeOneMethod?.metrics?.abstractViews ?? "—"} abstract views in the latest retrieved result. These figures are usage signals, not a quality rating.`,
+            text: `The public Volume I SSRN record last directly reported ${volumeOneMethod?.metrics?.downloads ?? "—"} downloads and ${volumeOneMethod?.metrics?.abstractViews ?? "—"} abstract views on ${volumeOneMethod?.metrics?.checkedAt ?? "an earlier audit"}. These figures are usage signals, not a quality rating; current availability is review-pending.`,
             source: volumeOneSource,
           },
           {

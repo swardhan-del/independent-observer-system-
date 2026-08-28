@@ -23,6 +23,7 @@ export type PublicationRegistryRecord = {
   topics: string[];
   status: ControlledPublicationStatus;
   rightsDecision: "reviewed_public_safe_text" | "pending_final_rights_review";
+  externalVerification: "verified" | "needs_review" | "not_applicable";
   provenanceFingerprint: string;
   verifiedExternalUrl: string | null;
   releaseDecision: ReleaseDecision;
@@ -48,6 +49,7 @@ export const sixCandidateReleaseQueue: PublicationRegistryRecord[] = [
     topics: ["Science", "Technology", "Human capability"],
     status: "public_preview",
     rightsDecision: "pending_final_rights_review",
+    externalVerification: "not_applicable",
     provenanceFingerprint: "audit-2026-08-22-regrowing-humanity",
     verifiedExternalUrl: null,
     releaseDecision: "awaiting_human_release",
@@ -63,6 +65,7 @@ export const sixCandidateReleaseQueue: PublicationRegistryRecord[] = [
     topics: ["History", "Law", "Politics", "Evidence"],
     status: "public_preview",
     rightsDecision: "reviewed_public_safe_text",
+    externalVerification: "not_applicable",
     provenanceFingerprint: "audit-2026-08-22-independent-observer-method",
     verifiedExternalUrl: null,
     releaseDecision: "awaiting_human_release",
@@ -78,6 +81,7 @@ export const sixCandidateReleaseQueue: PublicationRegistryRecord[] = [
     topics: ["Technology", "Economics", "Labor", "Artificial intelligence"],
     status: "public_preview",
     rightsDecision: "reviewed_public_safe_text",
+    externalVerification: "not_applicable",
     provenanceFingerprint: "audit-2026-08-22-last-human-workforce",
     verifiedExternalUrl: null,
     releaseDecision: "awaiting_human_release",
@@ -93,6 +97,7 @@ export const sixCandidateReleaseQueue: PublicationRegistryRecord[] = [
     topics: ["Technology", "Science", "Energy", "Labor"],
     status: "public_preview",
     rightsDecision: "reviewed_public_safe_text",
+    externalVerification: "not_applicable",
     provenanceFingerprint: "audit-2026-08-22-server-as-a-furnace",
     verifiedExternalUrl: null,
     releaseDecision: "awaiting_human_release",
@@ -108,6 +113,7 @@ export const sixCandidateReleaseQueue: PublicationRegistryRecord[] = [
     topics: ["Migration", "Economics", "Politics", "Labor"],
     status: "public_preview",
     rightsDecision: "reviewed_public_safe_text",
+    externalVerification: "not_applicable",
     provenanceFingerprint: "audit-2026-08-22-borrowed-labor",
     verifiedExternalUrl: null,
     releaseDecision: "awaiting_human_release",
@@ -123,6 +129,7 @@ export const sixCandidateReleaseQueue: PublicationRegistryRecord[] = [
     topics: ["Politics", "Law", "Institutions", "Democracy"],
     status: "public_preview",
     rightsDecision: "reviewed_public_safe_text",
+    externalVerification: "not_applicable",
     provenanceFingerprint: "audit-2026-08-22-democracys-achilles-heel",
     verifiedExternalUrl: null,
     releaseDecision: "awaiting_human_release",
@@ -147,6 +154,7 @@ const externalPreprintRecords: PublicationRegistryRecord[] = ssrnPreprintDocumen
       topics: [document.category],
       status: "external_preprint",
       rightsDecision: "reviewed_public_safe_text",
+      externalVerification: "needs_review",
       provenanceFingerprint: `public-ssrn-${document.id}`,
       verifiedExternalUrl: document.sourceUrl ?? null,
       releaseDecision: "external_record_only",

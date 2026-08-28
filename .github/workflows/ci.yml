@@ -62,7 +62,11 @@ jobs:
         run: npm run build:pages
       - name: Test GitHub Pages output
         run: npm run test:built
+      - name: Verify GitHub Pages fallback boundary
+        run: npm run verify:pages-fallback
       - name: Build approved public-origin output
         run: SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build
+      - name: Block non-canonical hosts in generated production metadata
+        run: CANONICAL_ORIGIN=https://independentobserver.org npm run verify:canonical-origin
       - name: Run SEO audit
         run: SEO_SITE_URL=https://independentobserver.org npm run seo:audit

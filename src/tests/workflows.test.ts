@@ -46,7 +46,7 @@ describe("workflow publication safety", () => {
     expect(triggerKeys(sync)).toEqual(["workflow_dispatch", "schedule"]);
     expect(sync).toContain("if: ${{ github.ref == 'refs/heads/main' }}");
     expect(sync).toContain("ref: main");
-    expect(sync).toContain("/Independent Observer desktop/Website Feed/approved");
+    expect(sync).toContain("DROPBOX_SOURCE_PATH: ${{ vars.DROPBOX_APPROVED_PATH }}");
     expect(sync).toContain("DROPBOX_APP_KEY");
     expect(sync).toContain("DROPBOX_APP_SECRET");
     expect(sync).toContain("DROPBOX_REFRESH_TOKEN");
