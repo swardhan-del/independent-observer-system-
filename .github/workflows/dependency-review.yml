@@ -1,4 +1,4 @@
-name: Dependency review
+name: Dependency security
 
 on:
   pull_request:
@@ -9,12 +9,29 @@ permissions:
 
 jobs:
   dependency-review:
+    name: Dependency security (platform-independent review)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
       contents: read
       pull-requests: read
     steps:
-      - name: Review dependency changes
-        # v4.6.0
-        uses: actions/dependency-review-action@ce3cf9537a52e8119d91fd484ab5b8a807627bf8
+      # GitHub Dependency Review is not supported by this repository's current
+      # dependency-graph/Advanced-Security configuration. This is an explicit
+      # replacement gate, not a suppressed failure. Restore the native action
+      # after the owner enables the required repository feature.
+      - name: Checkout
+        # v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Setup Node
+        # v4.4.0
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install locked dependencies without lifecycle scripts
+        run: npm ci --ignore-scripts
+      - name: Review lockfile and dependency advisories
+        run: npm run security:dependency-review
