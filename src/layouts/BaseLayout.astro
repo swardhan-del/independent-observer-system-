@@ -22,7 +22,8 @@ const {
   canonicalPath = currentPath,
 } = Astro.props;
 const fallbackBuild = import.meta.env.PUBLIC_FALLBACK_BUILD === "true";
-const shouldNoindex = noindex || fallbackBuild;
+const previewBuild = import.meta.env.VERCEL_ENV === "preview";
+const shouldNoindex = noindex || fallbackBuild || previewBuild;
 const fullTitle = title === "Home" ? "Independent Observer" : `${title} | Independent Observer`;
 const publicOrigin = Astro.site ?? new URL(Astro.url.origin);
 const canonicalUrl = new URL(sitePath(canonicalPath), publicOrigin).href;

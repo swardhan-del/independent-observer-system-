@@ -77,6 +77,7 @@ describe("workflow publication safety", () => {
   it("checks the hosted operating standard and production dependency surface", () => {
     expect(ci).toContain("npm run verify:operating-system");
     expect(ci).toContain("npm audit --omit=dev --audit-level=high");
+    expect(ci).toContain("npm run verify:preview-indexing");
   });
 
   it("defines security headers for the canonical Vercel host", () => {

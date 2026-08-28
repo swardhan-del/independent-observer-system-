@@ -68,5 +68,7 @@ jobs:
         run: SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build
       - name: Block non-canonical hosts in generated production metadata
         run: CANONICAL_ORIGIN=https://independentobserver.org npm run verify:canonical-origin
+      - name: Verify Vercel preview indexing boundary
+        run: VERCEL_ENV=preview SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build && npm run verify:preview-indexing
       - name: Run SEO audit
         run: SEO_SITE_URL=https://independentobserver.org npm run seo:audit
