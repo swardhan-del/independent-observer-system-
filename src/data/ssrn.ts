@@ -199,6 +199,8 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
         "The paper treats time spent acquiring skills as a possible policy object, asking how a tax system might recognize training and human-capital formation without confusing a proposal with a guaranteed benefit.",
         "It separates labor-side relief for W-2 earners from capital-side preference reform, so the reader can see which distributional problem each mechanism is intended to address.",
         "Eligibility, documentation, reporting, and audit design are presented as core parts of the doctrine rather than administrative afterthoughts.",
+        "The doctrine also distinguishes earnings, asset appreciation, and credit. W-2 and 1099 income, dividends, realized capital gains, and loan proceeds are not interchangeable tax categories; borrowing against appreciated assets can avoid a sale at the time of borrowing while introducing interest, collateral, repayment, and market risk. That difference helps explain how access to assets and credit can compound wealth without claiming that every wealthy person uses the same strategy.",
+        "The institutional question connects with Volume II's inquiry into sovereignty, finance, and administrative power, while the distributive and reporting question belongs with Volume III's Managed Decline. Named case studies and acquisition figures require primary-source verification before they can be treated as evidence.",
       ],
       "The SSRN result reports 42 downloads and 202 abstract views. This page presents a policy proposal as a proposal; it does not describe the model as enacted law, fiscal scoring, or independent legal advice.",
     ),
@@ -218,6 +220,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
     limitations: [
       "The paper is a proposal and does not provide an official budget score or legislative adoption record.",
       "Tax-law effects require jurisdiction-specific legal and fiscal review.",
+      "Claims about named individuals, acquisition figures, personal tax bills, or financing structures require primary-source verification and are not evidence supplied by this reading copy.",
       "Downloads and abstract views are not quality ratings.",
     ],
   }),
