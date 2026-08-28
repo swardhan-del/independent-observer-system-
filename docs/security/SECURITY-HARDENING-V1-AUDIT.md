@@ -9,14 +9,14 @@ Verified remote default SHA before changes: `4f4d776b85bd19b406ef4ffaf9be79fbcc1
 
 ## Verdict
 
-**FAIL for security-hardened release; PASS WITH WARNINGS for the code changes in this branch.** The branch adds meaningful defense in depth, but GitHub main protection, Vercel deployment/firewall state, production provenance, and hosted CodeQL results are not all verifiable here. The PR must remain draft until a human reviews it.
+**FAIL for security-hardened production; PASS WITH WARNINGS for the reviewed branch.** Local gates and hosted CI/CodeQL/Dependency Security now pass on the current head, but GitHub main protection, Vercel deployment/firewall state, and production provenance remain owner-side release gates. The PR must remain draft until a human reviews it.
 
 ## Inventory and evidence
 
 - Public Astro static site. Package manager: npm; lockfile: `package-lock.json`; Node is declared by CI as 22 and Vercel project metadata reported Node 24.x.
 - Vercel project: `independent-observer`, project ID `prj_KF5jNuvfO4aK4dV0WIJfcWoezNGX`, linked to the expected GitHub repository. Observed domains/aliases: `independentobserver.org`, `www.independentobserver.org`, `independent-observer.vercel.app`, and `independent-observer-swardhan1-9944s-projects.vercel.app`.
 - Observed production deployment included a READY deployment but did not expose sufficient Git provenance metadata in the accessible response. Latest observed preview was PR #29 / SHA `112390c...`; this is not production evidence.
-- After the draft PR was opened, Vercel created READY Preview deployments for PR #30 / branch `security/platform-hardening-v1`, including the final pushed branch state; access redirected through Vercel SSO. This demonstrates the preview build path, not production release.
+- After the workflow repair, Vercel created READY Preview deployment `dpl_FgP781hYiYgKCVtgzksqrL8S2cR9` for PR #30 / branch `security/platform-hardening-v1` / SHA `4a04dd884bc7d6b147a2b80902fdcdbc2f1b454e`; access redirected through Vercel SSO. This demonstrates the preview build path, not production release.
 - A read-only request to current `https://independentobserver.org/` returned 200 but exposed only the existing HSTS header; the staged CSP, X-Frame-Options, and Permissions-Policy are not on production because the PR is not merged. `/.env` returned 404. This is a release-gated finding, not a reason to bypass human review.
 - Public routes are generated pages, feed, sitemap, robots, and browser-only reading-list/localStorage UI. No server API, webhook, database, authentication, or upload route was found.
 - GitHub rulesets and branch protection were not readable from the available API context; do not infer that they exist. Open PRs were observed, including PR #29 and PR #28; neither was merged by this audit.
@@ -49,11 +49,11 @@ Tracked text scanning was added and is designed to print only detector/path/line
 
 ## Dependencies and lifecycle scripts
 
-The initial npm audit found five advisories in build/dev transitive dependencies (`fast-uri`, `js-yaml`, `nanoid`, `postcss`, `sharp`); a non-forced `npm audit fix` resolved the local audit to zero vulnerabilities. Install scripts remain limited to package-managed `esbuild`, `fsevents`, and `sharp`/related build tooling; no new script permission was added. Re-run `npm audit` and review the lockfile in CI before merge.
+The initial npm audit found five advisories in build/dev transitive dependencies (`fast-uri`, `js-yaml`, `nanoid`, `postcss`, `sharp`); a non-forced `npm audit fix` resolved the local audit to zero vulnerabilities. Install scripts remain limited to package-managed `esbuild`, `fsevents`, and `sharp`/related build tooling; no new script permission was added. The native Dependency Review action failed with GitHub's explicit unsupported-repository response, so the branch now uses an explicit lockfile/integrity plus npm-audit replacement gate; its hosted run passed on the current head.
 
 ## GitHub security
 
-CI/deploy/sync action references are pinned to immutable commits with human-readable version comments. Default permissions are read-only; write permissions are scoped to Pages or the sync job. Dependency review, Dependabot, CodeQL, provenance, and secret scan workflow steps are added. GitHub branch protection, rulesets, Actions approval policy, and collaborator review remain human-required.
+CI/deploy/sync action references are pinned to immutable commits with human-readable version comments. Default permissions are read-only; write permissions are scoped to Pages or the sync job. Dependabot, hosted CodeQL, platform-independent dependency security, provenance, and secret scan workflow steps are present; the current CI, CodeQL, and Dependency Security runs passed. GitHub branch protection, rulesets, Actions approval policy, and collaborator review remain human-required.
 
 ## Vercel and firewall
 
@@ -69,7 +69,7 @@ The public feed remains generated from the approved boundary. Reading-list impor
 
 ## Tests
 
-Added reading-list security tests and workflow assertions. Verification recorded: `npm ci` passed; `npm run format:check` passed; `npm run lint` passed; `npm test` passed with 87 tests; `npm run build:pages` passed; `npm run test:built` passed with 87 tests; `SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build` passed; `SEO_SITE_URL=https://independentobserver.org npm run seo:audit` passed for 22 HTML files; `npm audit --audit-level=high` passed with 0 vulnerabilities; and the redacted secret scan passed. Hosted CodeQL, Vercel Preview, live header, and native WAF results are not available until the draft PR is pushed and human-owned integrations execute.
+Added reading-list security tests and workflow assertions. Verification recorded: `npm ci` passed; `npm run format:check` passed; `npm run lint` passed; `npm test` passed with 88 tests; `npm run build:pages` passed; `npm run test:built` passed with 88 tests; `SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build` passed; `SEO_SITE_URL=https://independentobserver.org npm run seo:audit` passed for 22 HTML files; dependency replacement and `npm audit --audit-level=high` passed with 0 vulnerabilities; the redacted secret/static scans passed; and hosted CI, CodeQL, Dependency Security, Vercel Preview Comments, and Vercel Preview deployment passed on the current head. Live header and native WAF results remain owner-side production gates.
 
 ## Deferred actions and human actions required
 
