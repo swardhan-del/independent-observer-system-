@@ -16,6 +16,8 @@ Verified remote default SHA before changes: `4f4d776b85bd19b406ef4ffaf9be79fbcc1
 - Public Astro static site. Package manager: npm; lockfile: `package-lock.json`; Node is declared by CI as 22 and Vercel project metadata reported Node 24.x.
 - Vercel project: `independent-observer`, project ID `prj_KF5jNuvfO4aK4dV0WIJfcWoezNGX`, linked to the expected GitHub repository. Observed domains/aliases: `independentobserver.org`, `www.independentobserver.org`, `independent-observer.vercel.app`, and `independent-observer-swardhan1-9944s-projects.vercel.app`.
 - Observed production deployment included a READY deployment but did not expose sufficient Git provenance metadata in the accessible response. Latest observed preview was PR #29 / SHA `112390c...`; this is not production evidence.
+- After the draft PR was opened, Vercel created READY Preview deployment `dpl_HxFQdfFBHFex1j89vbe9yGu5zRwp` for PR #30 / branch `security/platform-hardening-v1` / SHA `9f2b26e...`; access redirected through Vercel SSO. This demonstrates the preview build path, not production release.
+- A read-only request to current `https://independentobserver.org/` returned 200 but exposed only the existing HSTS header; the staged CSP, X-Frame-Options, and Permissions-Policy are not on production because the PR is not merged. `/.env` returned 404. This is a release-gated finding, not a reason to bypass human review.
 - Public routes are generated pages, feed, sitemap, robots, and browser-only reading-list/localStorage UI. No server API, webhook, database, authentication, or upload route was found.
 - GitHub rulesets and branch protection were not readable from the available API context; do not infer that they exist. Open PRs were observed, including PR #29 and PR #28; neither was merged by this audit.
 
@@ -29,6 +31,7 @@ None confirmed.
 
 - **H1 — production provenance and Vercel access controls unverified.** The accessible deployment metadata was insufficient to prove that production can only receive reviewed `main` commits. Human action: verify Deployment Protection, Git linkage, production branch, team members, manual-promotion controls, and audit events.
 - **H2 — native WAF/system mitigation state unverified.** CLI firewall queries failed because the local session was unauthenticated. No rule was published.
+- **H3 — current production security headers are weaker than this branch.** The live site has not received the staged `vercel.json` policy; human review/merge/deployment is required before claiming header enforcement.
 
 ### Moderate
 
