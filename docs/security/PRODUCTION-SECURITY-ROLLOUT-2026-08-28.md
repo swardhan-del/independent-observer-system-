@@ -5,13 +5,13 @@
 - Repository: `swardhan-del/independent-observer-system-` (ID `1306506841`)
 - PR: [#30](https://github.com/swardhan-del/independent-observer-system-/pull/30), ready for review, not merged
 - Reviewed branch: `security/platform-hardening-v1`
-- Reviewed head: `cac22d1e733805f6b09ff52fbdb1338dd7389fa5`
+- Reviewed head: `9f50472ba294600cf2ece6e42ddc1ea6f976ce0b`
 - Default branch: `main` at `4f4d776b85bd19b406ef4ffaf9be79fbcc13059a`
 - Merge SHA: none; merge was stopped by protected-main approval from someone other than the last pusher
 - Canonical domain: `https://independentobserver.org`
 - Vercel project: `independent-observer` / `prj_KF5jNuvfO4aK4dV0WIJfcWoezNGX`
 - Production aliases observed: `independentobserver.org`, `www.independentobserver.org`, `independent-observer.vercel.app`, and the team Vercel alias
-- Reviewed Preview: `dpl_7LVdmX7mth1mjtaKKPhMgap6hiay`, READY, exact reviewed head, PR #30
+- Reviewed Preview: `dpl_9zGGjLJNoGrxFsLQ7J1txcHTsZrR`, READY, exact reviewed head, PR #30
 - Current production deployment: `dpl_7zyiu5XCUUsQT2JubCP1WeZz92AA`, READY, target `production`, aliases include `independentobserver.org` and `www.independentobserver.org`; Vercel returned no Git SHA metadata for this deployment
 - Production rollout deployment: none; the reviewed security branch has not been merged
 - Previous READY production rollback candidate: current target `dpl_7zyiu5XCUUsQT2JubCP1WeZz92AA` is identified, but its source commit is not attributable through returned Vercel metadata
@@ -20,9 +20,9 @@
 
 | Gate                 | Status                | Evidence                                                                                   |
 | -------------------- | --------------------- | ------------------------------------------------------------------------------------------ |
-| CI                   | PASS                  | GitHub run `33188020060`                                                                   |
-| CodeQL               | PASS                  | GitHub run `33188020273`                                                                   |
-| Dependency security  | PASS                  | Platform-independent lockfile/audit run `33188020089`                                      |
+| CI                   | FAIL                  | GitHub run `33244868586` attempt 2; failed before any job/step payload was created         |
+| CodeQL               | PASS                  | GitHub run `33244868588`                                                                   |
+| Dependency security  | PASS                  | Platform-independent lockfile/audit run `33244868641`                                      |
 | npm audit            | PASS                  | 0 high/critical vulnerabilities                                                            |
 | Secret scan          | PASS                  | No active-looking credential; values not printed                                           |
 | Production build     | PASS                  | Approved-origin Astro build                                                                |
@@ -35,7 +35,7 @@
 
 ### Result
 
-**PRODUCTION SECURITY PASS WITH DOCUMENTED LIMITATIONS for the reviewed branch; production rollout stopped before merge.** The blocking action is human approval required by protected `main`, followed by production deployment and read-only verification. Codex did not merge, deploy, promote, publish firewall rules, change domains, or alter Dropbox content.
+**DO NOT LAUNCH.** The reviewed branch has a READY Preview, but current CI is blocked by a pre-run GitHub Actions failure and protected `main` still requires human approval. Production rollout stopped before merge. Codex did not merge, deploy, promote, publish firewall rules, change domains, or alter Dropbox content.
 
 ## Cross-system controls
 
