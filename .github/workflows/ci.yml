@@ -20,11 +20,14 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        # v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: Setup Node
-        uses: actions/setup-node@v4
+        # v4.4.0
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: 22
           cache: npm
@@ -61,3 +64,9 @@ jobs:
         run: SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build
       - name: Run SEO audit
         run: SEO_SITE_URL=https://independentobserver.org npm run seo:audit
+      - name: Scan tracked files for possible secrets
+        run: npm run security:secrets
+      - name: Check deployment provenance metadata
+        run: npm run security:provenance
+      - name: Run static security analysis
+        run: npm run security:static-analysis

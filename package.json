@@ -14,7 +14,11 @@
     "test": "astro check && astro build && vitest run",
     "test:built": "vitest run",
     "seo:audit": "node plugins/seo/seo-audit.mjs",
-    "domain:preflight": "node plugins/hosting/custom-domain-preflight.mjs"
+    "domain:preflight": "node plugins/hosting/custom-domain-preflight.mjs",
+    "security:provenance": "node scripts/security/check-production-provenance.mjs",
+    "security:secrets": "node scripts/security/scan-secrets.mjs",
+    "security:dependency-review": "node scripts/security/check-dependency-lock.mjs && npm audit --audit-level=high",
+    "security:static-analysis": "node scripts/security/static-analysis.mjs"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
