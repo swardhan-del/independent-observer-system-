@@ -5,15 +5,16 @@
 - Repository: `swardhan-del/independent-observer-system-` (ID `1306506841`)
 - PR: [#30](https://github.com/swardhan-del/independent-observer-system-/pull/30), ready for review, not merged
 - Reviewed branch: `security/platform-hardening-v1`
-- Reviewed head: `b42f0130f77ff5b36e86170d67f3a2d908c47f2a`
+- Reviewed head: `cac22d1e733805f6b09ff52fbdb1338dd7389fa5`
 - Default branch: `main` at `4f4d776b85bd19b406ef4ffaf9be79fbcc13059a`
 - Merge SHA: none; merge was stopped by protected-main approval from someone other than the last pusher
 - Canonical domain: `https://independentobserver.org`
 - Vercel project: `independent-observer` / `prj_KF5jNuvfO4aK4dV0WIJfcWoezNGX`
 - Production aliases observed: `independentobserver.org`, `www.independentobserver.org`, `independent-observer.vercel.app`, and the team Vercel alias
-- Reviewed Preview: `dpl_rXTviWv8Jxq1sgYDzNRnLVxvPKQn`, READY, exact reviewed head, PR #30
-- Production deployment: no new rollout deployment
-- Previous READY production rollback candidate: `dpl_7zyiu5XCUUsQT2JubCP1WeZz92AA`; Vercel returned no Git SHA metadata for that deployment
+- Reviewed Preview: `dpl_7LVdmX7mth1mjtaKKPhMgap6hiay`, READY, exact reviewed head, PR #30
+- Current production deployment: `dpl_7zyiu5XCUUsQT2JubCP1WeZz92AA`, READY, target `production`, aliases include `independentobserver.org` and `www.independentobserver.org`; Vercel returned no Git SHA metadata for this deployment
+- Production rollout deployment: none; the reviewed security branch has not been merged
+- Previous READY production rollback candidate: current target `dpl_7zyiu5XCUUsQT2JubCP1WeZz92AA` is identified, but its source commit is not attributable through returned Vercel metadata
 
 ### Release gates
 
@@ -27,7 +28,7 @@
 | Production build     | PASS                  | Approved-origin Astro build                                                                |
 | Preview deployment   | PASS                  | `dpl_rXTviWv8Jxq1sgYDzNRnLVxvPKQn` READY and exact head match                              |
 | Browser smoke        | PASS WITH LIMITATIONS | Preview root is SSO-protected; public pre-rollout route checks passed                      |
-| Security headers     | FAIL for production   | Current public production response lacks staged CSP, frame, and Permissions-Policy headers |
+| Security headers     | FAIL for production   | Current public production response has HSTS only; staged CSP, frame, Permissions-Policy, Referrer-Policy, and `nosniff` are not present |
 | Canonical/provenance | FAIL                  | Production deployment Git metadata unavailable                                             |
 | Rollback identified  | PASS WITH LIMITATIONS | READY production candidate identified; Git SHA unavailable                                 |
 | Native WAF/DDoS      | UNKNOWN               | Authenticated Vercel firewall state unavailable; no changes made                           |
