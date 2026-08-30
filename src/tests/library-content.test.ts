@@ -76,6 +76,8 @@ describe("library content blocks", () => {
       "The Perception Proxy: From Factory Collapse to Podcast Rage, and How Culture-War Influencers Convert Class Displacement into Identity Conflict",
     ]);
     expect(volumeThree?.importance).toContain("fragmented service, platform, and data work");
+    expect(volumeThree?.importance).toContain("political-economy study");
+    expect(volumeThree?.importance).toContain("Volume II’s study of institutions and enforcement");
     expect(volumeThree?.summary).toContain("Managed Decline is a political-economy inquiry");
     const volumeFour = libraryVolumeGuides.find((guide) => guide.volume === "Volume IV");
     expect(volumeFour?.researchPapers.map((paper) => paper.title)).toEqual([

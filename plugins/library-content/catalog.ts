@@ -198,7 +198,7 @@ export const libraryVolumeGuides: LibraryVolumeGuide[] = [
     volume: "Volume III",
     focus: "Work, taxation, and social citizenship",
     importance:
-      "This volume makes distribution concrete by following the move from industrial wage work toward fragmented service, platform, and data work. It asks how time, taxation, welfare, health, education, housing, policing, and ownership decide who carries the cost of change and who can build a future.",
+      "Volume III—Managed Decline—is the political-economy study of how economic change becomes lived insecurity or durable capacity. It follows the move from industrial wage work toward fragmented service, platform, and data work, then connects time, taxation, welfare, health, education, housing, policing, debt, and ownership to the question of who carries the cost of deindustrialization and automation. It links Volume II’s study of institutions and enforcement to Volume IV’s study of technological change by asking whether public systems turn work into social citizenship, mobility, and ownership—or manage people through delay, surveillance, and dependence.",
     summary:
       "Managed Decline is a political-economy inquiry into how economic displacement becomes lived insecurity: wage taxation and asset ownership, welfare and health systems, administrative friction, deindustrialization, algorithmic attention, and the pathways that may turn hours of work into durable capacity.",
     coreIdeas: [
