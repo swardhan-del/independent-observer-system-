@@ -94,6 +94,18 @@ describe("editorial preview data", () => {
       "Sovereignty is relational and material.",
       "Enforcement reveals how power is organized.",
     ]);
+    expect(
+      volumeTwoFramework.families.every((family) => family.fullTitle.length > family.title.length),
+    ).toBe(true);
+    expect(volumeTwoFramework.families.every((family) => family.significance.length > 100)).toBe(
+      true,
+    );
+    expect(volumeTwoFramework.families.every((family) => family.papers.length >= 4)).toBe(true);
+    expect(
+      volumeTwoFramework.families
+        .flatMap((family) => family.papers)
+        .filter((paper) => paper.status === "Public SSRN record"),
+    ).toHaveLength(7);
   });
 
   it("gives Volume IV a descriptive capability and technology brief", () => {

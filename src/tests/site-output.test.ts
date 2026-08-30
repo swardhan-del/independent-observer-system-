@@ -360,6 +360,25 @@ describe("built website", () => {
     expect(html).toContain("Definitions are part of evidence.");
     expect(html).toContain("Sovereignty is relational and material.");
     expect(html).toContain("Enforcement reveals how power is organized.");
+    expect(html).toContain(
+      "Democracy, Institutions, and Party Power: Representation, Agenda-Setting, and the Architecture of Usable Authority",
+    );
+    expect(html).toContain(
+      "Immigration, Citizenship, and Border Governance: Membership, Enforcement, and the Administrative State",
+    );
+    expect(html).toContain(
+      "Civil Rights, the Carceral State, and Legal Power: Doctrine, Discretion, and Unequal Exposure",
+    );
+    expect(html).toContain(
+      "Empire, Geopolitics, and Sovereignty: External Power, Resource Systems, and Practical Independence",
+    );
+    expect(html).toContain("Why it matters to Volume II.");
+    expect(html).toContain("Representative paper titles and descriptions");
+    expect(html).toContain(
+      "Citizens Without a Country: The Democratic Legitimacy Crisis of Non-Resident Birthright Voting in U.S. Federal Elections",
+    );
+    expect(html).toContain("Public SSRN record");
+    expect(html).toContain("Mapped research direction");
     expect(html).toContain("public editorial synthesis");
   });
 

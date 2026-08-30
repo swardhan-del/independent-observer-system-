@@ -133,6 +133,15 @@ describe("interactive preview tools", () => {
     expect(detail).toContain("Related preview reel");
   });
 
+  it("gives the Volume II taxonomy full family briefs and paper-level context", () => {
+    expect(detail).toContain("family.fullTitle");
+    expect(detail).toContain("Why it matters to Volume II.");
+    expect(detail).toContain("Guiding principle.");
+    expect(detail).toContain("Representative paper titles and descriptions");
+    expect(detail).toContain("family.papers");
+    expect(detail).toContain("paper.status");
+  });
+
   it("gives Volume III one source-labeled paper a complete evidence reading", () => {
     expect(seriesDetail).toContain("volumeThreeTaxDoctrineEvidence");
     expect(seriesDetail).toContain("Case study: The Wardhan Tax Doctrine");

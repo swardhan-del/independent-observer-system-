@@ -148,13 +148,35 @@ const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <div>
-                      <h5>{family.title}</h5>
-                      <p>{family.description}</p>
-                      <ul class="detail-volume-family-papers">
-                        {family.relatedTitles.map((title) => (
-                          <li>{title}</li>
-                        ))}
-                      </ul>
+                      <p class="detail-volume-family-label">Paper family · {family.title}</p>
+                      <h5>{family.fullTitle}</h5>
+                      <p class="detail-volume-family-description">{family.description}</p>
+                      <div class="detail-volume-family-context">
+                        <p>
+                          <strong>Why it matters to Volume II.</strong> {family.significance}
+                        </p>
+                        <p>
+                          <strong>Guiding principle.</strong> {family.principle}
+                        </p>
+                      </div>
+                      <div class="detail-volume-family-papers">
+                        <h6>Representative paper titles and descriptions</h6>
+                        <ul>
+                          {family.papers.map((paper) => (
+                            <li>
+                              <p class="detail-volume-family-paper-status">{paper.status}</p>
+                              <h6>
+                                {paper.href ? (
+                                  <a href={sitePath(paper.href)}>{paper.title}</a>
+                                ) : (
+                                  paper.title
+                                )}
+                              </h6>
+                              <p>{paper.description}</p>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   </li>
                 ))}
