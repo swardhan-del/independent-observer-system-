@@ -9,6 +9,37 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
 const papers = [...ssrnPreprintDocuments].sort(
   (left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1),
 );
+
+const volumeIllustrations = {
+  "Volume I": {
+    src: "/volume-illustrations/volume-i-observation.jpg",
+    label: "Record → review → capacity",
+    alt: "Editorial collage of an observation lens, layered records, and linked public nodes.",
+    caption:
+      "A lens sorts records into visible layers while linked public nodes remind readers that democratic capacity depends on who can inspect, challenge, and use the record.",
+  },
+  "Volume II": {
+    src: "/volume-illustrations/volume-ii-sovereignty.jpg",
+    label: "Institutions → power → accountability",
+    alt: "Editorial collage of civic buildings, map layers, legal pathways, and connected institutions.",
+    caption:
+      "An institutional frame sits at the intersection of maps, courts, markets, and public pathways. The image treats sovereignty as something designed and exercised through relationships, not a solitary national pose.",
+  },
+  "Volume III": {
+    src: "/volume-illustrations/volume-iii-distribution.jpg",
+    label: "Work → time → distribution",
+    alt: "Editorial collage of industrial and service work, a time grid, public infrastructure, and balanced pathways.",
+    caption:
+      "A clock divides industrial and service work while paths run toward transport, welfare, education, and ownership. The visual keeps the volume’s question in view: who absorbs economic change, and who receives durable capacity?",
+  },
+  "Volume IV": {
+    src: "/volume-illustrations/volume-iv-capability.jpg",
+    label: "Science → infrastructure → capability",
+    alt: "Editorial collage of a human figure connected to laboratory instruments, energy, compute, and care systems.",
+    caption:
+      "A human figure is connected to laboratory instruments, energy, compute, and care. The visual makes the stack visible: frontier technology becomes capability only when it can be understood, maintained, financed, and governed.",
+  },
+} as const;
 ---
 
 <section
@@ -83,8 +114,38 @@ const papers = [...ssrnPreprintDocuments].sort(
                 </div>
                 {series && <span class="status-pill">{series.status}</span>}
               </div>
-              <h3 id={`research-${guideSlug}-title`}>{guide.focus}</h3>
-              <p class="library-volume-shelf-importance">{guide.importance}</p>
+              <div class="library-volume-shelf-intro">
+                <div>
+                  <h3 id={`research-${guideSlug}-title`}>{guide.focus}</h3>
+                  <p class="library-volume-shelf-importance">{guide.importance}</p>
+                </div>
+                <figure class="library-volume-shelf-illustration">
+                  <details open>
+                    <summary>
+                      <span class="library-volume-shelf-illustration-label">
+                        <span>Visual companion</span>
+                        <strong>{volumeIllustrations[guide.volume].label}</strong>
+                      </span>
+                      <img
+                        src={sitePath(volumeIllustrations[guide.volume].src)}
+                        alt={volumeIllustrations[guide.volume].alt}
+                        width="1100"
+                        height="1100"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <span class="library-volume-shelf-illustration-action">
+                        <span class="is-open">Close visual key</span>
+                        <span class="is-closed">Open visual key</span>
+                      </span>
+                    </summary>
+                    <div class="library-volume-shelf-illustration-key">
+                      <p class="library-block-label">How to read it</p>
+                      <p>{volumeIllustrations[guide.volume].caption}</p>
+                    </div>
+                  </details>
+                </figure>
+              </div>
               <div class="library-volume-shelf-columns">
                 <div>
                   <p class="library-block-label">Core principles</p>

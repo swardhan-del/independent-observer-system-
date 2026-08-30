@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
@@ -154,6 +154,25 @@ describe("library content blocks", () => {
     expect(researchShelf).toContain("Open ResearchGate record");
     expect(researchShelf).toContain("ResearchGate record");
     expect(researchShelf).not.toContain("releaseApproved = true");
+  });
+
+  it("gives each volume an accessible visual companion and interactive visual key", () => {
+    const illustrationFiles = [
+      "volume-i-observation.jpg",
+      "volume-ii-sovereignty.jpg",
+      "volume-iii-distribution.jpg",
+      "volume-iv-capability.jpg",
+    ];
+
+    expect(researchShelf).toContain("library-volume-shelf-illustration");
+    expect(researchShelf).toContain("<details open>");
+    expect(researchShelf).toContain("How to read it");
+    expect(researchShelf).toContain('loading="lazy"');
+    expect(
+      illustrationFiles.every((file) =>
+        existsSync(join(process.cwd(), "public/volume-illustrations", file)),
+      ),
+    ).toBe(true);
   });
 
   it("keeps Volume I, II, and III public preprints in the local search index", () => {
