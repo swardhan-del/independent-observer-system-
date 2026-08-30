@@ -21,7 +21,7 @@ export type VolumeTwoFramework = {
 
 export const volumeTwoFramework: VolumeTwoFramework = {
   intro:
-    "The Dropbox taxonomy organizes Volume II into four paper families rather than a single thesis or a four-paper limit. Together, they examine how democratic authority is designed, enforced, bounded, and made materially dependent. The frame below is a public editorial synthesis of that research map; it does not reproduce private drafts or turn a working paper into a released publication.",
+    "The research taxonomy organizes Volume II into four paper families rather than a single thesis or a four-paper limit. Together, they examine how democratic authority is designed, enforced, bounded, and made materially dependent. The frame below is a public editorial synthesis of that research map; it does not reproduce private drafts or turn a working paper into a released publication.",
   families: [
     {
       title: "Democracy, institutions, and party power",

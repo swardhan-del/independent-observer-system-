@@ -43,7 +43,7 @@ function makeDocument(input: SsrnInput): PublicDocument {
 
   return {
     ...document,
-    sourceLabel: "Dropbox preprint controller · SSRN public record",
+    sourceLabel: "Author preprint controller · SSRN public record",
     status: "SSRN preprint",
     author,
     externalVerification: "needs_review",
@@ -68,7 +68,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
     category: "Demography & Migration",
     description:
       "A data-defined working paper that separates removals, returns, and expulsions before comparing enforcement priorities across administrations.",
-    sourceModified: "Dropbox preprint matched to SSRN abstract 5495878",
+    sourceModified: "Author preprint matched to SSRN abstract 5495878",
     publicationDate: "13 October 2025",
     dateLabel: "Posted",
     sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5495878",
@@ -82,7 +82,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
         "Administrative choices and enforcement venues can change headline totals without representing the same underlying event.",
         "The proposed reporting template favors comparable year-by-year series over partisan scorekeeping.",
       ],
-      "The last directly verified public SSRN result (25 August 2026) reported 126 downloads and 6,397 abstract views. A 28 August 2026 recheck was access-blocked, so current availability is not confirmed. Metrics change over time; SSRN does not provide a star-rating field for this paper. The matching Dropbox version requires removal of an older appendix before any longer-form release.",
+      "The last directly verified public SSRN result (25 August 2026) reported 126 downloads and 6,397 abstract views. A 28 August 2026 recheck was access-blocked, so current availability is not confirmed. Metrics change over time; SSRN does not provide a star-rating field for this paper. The matching author working version requires removal of an older appendix before any longer-form release.",
     ),
     citations: [
       {
@@ -110,7 +110,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
     category: "Politics & Demography",
     description:
       "A working paper that treats Latino voting behavior as internally heterogeneous rather than as a single identity-based bloc.",
-    sourceModified: "Dropbox preprint matched to SSRN abstract 5447654",
+    sourceModified: "Author preprint matched to SSRN abstract 5447654",
     publicationDate: "23 September 2025",
     dateLabel: "Posted",
     sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5447654",
@@ -150,7 +150,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
     category: "Technology & Intimacy",
     description:
       "A short working paper on how automation, economic precarity, and digital mediation reshape intimacy, identity, and demographic life.",
-    sourceModified: "Dropbox submission package matched to SSRN abstract 5578130",
+    sourceModified: "Author submission package matched to SSRN abstract 5578130",
     publicationDate: "6 November 2025",
     dateLabel: "Posted",
     sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5578130",
@@ -192,7 +192,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
     category: "Political Economy & Tax",
     description:
       "A Volume III policy working paper within Managed Decline. It asks how tax design can recognize time spent building skills, reduce pressure on wage labor, and restore progressive treatment of selected ownership income. Its placement is deliberate: the paper addresses Volume III’s inquiry into labor markets, welfare, taxation, and administrative access, rather than Volume I’s method foundation or Volume II’s sovereignty and institutional design. It connects the proposed credits and relief mechanisms to eligibility rules, reporting, documentation, and audit design.",
-    sourceModified: "Dropbox submission package matched to SSRN abstract 5477606",
+    sourceModified: "Author submission package matched to SSRN abstract 5477606",
     publicationDate: "3 October 2025",
     dateLabel: "Posted",
     sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5477606",
@@ -236,7 +236,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
     category: "Gender & Political Economy",
     description:
       "A working paper examining how biological timing, career structures, caregiving policy, and demographic economics interact.",
-    sourceModified: "Dropbox content-confirmed preprint matched to SSRN abstract 5584710",
+    sourceModified: "Author content-confirmed preprint matched to SSRN abstract 5584710",
     publicationDate: "7 November 2025",
     dateLabel: "Posted",
     sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5584710",
@@ -260,7 +260,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
       },
     ],
     notes: [
-      "Selected from a content-confirmed Dropbox preprint with a matching SSRN record.",
+      "Selected from a content-confirmed author preprint with a matching SSRN record.",
       "The page retains visible limitations instead of treating the preprint's comparative claims as settled facts.",
     ],
     limitations: [
@@ -277,7 +277,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
     category: "History & Geopolitics",
     description:
       "A historical working paper connecting colonization, industrialization, economic design, and contemporary competition among major powers.",
-    sourceModified: "Dropbox submission package matched to SSRN abstract 5540740",
+    sourceModified: "Author submission package matched to SSRN abstract 5540740",
     publicationDate: "23 October 2025",
     dateLabel: "Posted",
     sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5540740",
@@ -320,7 +320,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
       "Volume I is the method anchor for the Independent Observer: a systems-level reading of how law, labor, media, evidence, and democratic capacity shape public life. It connects philosophy, political economy, historical analysis, and public reasoning while keeping the limits of a working paper visible.",
     volumeRelevance:
       "This is the method anchor for the entire series. It establishes the volume’s central vocabulary—evidence, information asymmetry, institutional design, and public reasoning—and shows how to make the basis and limits of an argument visible before accepting its conclusion.",
-    sourceModified: "Dropbox Volume I SSRN-ready controller matched to SSRN abstract 5431958",
+    sourceModified: "Author Volume I SSRN-ready controller matched to SSRN abstract 5431958",
     publicationDate: "19 September 2025",
     dateLabel: "Posted",
     sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5431958",
@@ -363,7 +363,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
       "A working paper linking industrial automation in global supply chains, skill mismatch in U.S. labor markets, and mass incarceration and recidivism. It argues that tariffs alone cannot restore employment when production is automated and geographically flexible, and instead pairs industrial policy with vocational and apprenticeship pathways, reentry, second-chance hiring, and local skill investment.",
     volumeRelevance:
       "It demonstrates Volume I’s systems method by reading economic policy, labor-market capability, education, and carceral institutions as one connected structure rather than as isolated issues. Its value to the volume is the move from observation to a testable, people-centered reform agenda.",
-    sourceModified: "Dropbox Volume I PDF matched to SSRN abstract 5432014",
+    sourceModified: "Author Volume I PDF matched to SSRN abstract 5432014",
     publicationDate: "19 September 2025",
     dateLabel: "Posted",
     sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5432014",
@@ -388,8 +388,8 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
       },
     ],
     notes: [
-      "Verified as a public SSRN record matched to a Volume I Dropbox submission PDF.",
-      "The site uses a public-safe synopsis and SSRN link; it does not publish the raw Dropbox PDF.",
+      "Verified as a public SSRN record matched to an author Volume I submission PDF.",
+      "The site uses a public-safe synopsis and SSRN link; it does not publish the raw source PDF.",
     ],
     limitations: [
       "The paper is a working paper, not a peer-reviewed publication.",
@@ -407,7 +407,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
       "A historical and political-economy working paper examining the gap between America’s language of equality and the constitutional, legal, electoral, and economic structures that distribute power. It moves from founding-era exclusions and sovereign immunity to representation, corporate influence, reserve-currency politics, BRICS, and tariffs.",
     volumeRelevance:
       "It extends Volume I’s method from individual claims to institutional comparison: readers can see why historical context, legal structure, definitions, and present-day incentives must be connected before a democracy claim is accepted. It serves as a concrete case of the volume’s focus on legitimacy, public reasoning, and the gap between formal rights and practical capacity.",
-    sourceModified: "Dropbox Volume I PDF matched to SSRN abstract 5442294",
+    sourceModified: "Author Volume I PDF matched to SSRN abstract 5442294",
     publicationDate: "22 September 2025",
     dateLabel: "Posted",
     sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5442294",
@@ -432,8 +432,8 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
       },
     ],
     notes: [
-      "Verified as a public SSRN record matched to a Volume I Dropbox PDF.",
-      "The synopsis is public-safe and does not reproduce the raw Dropbox PDF.",
+      "Verified as a public SSRN record matched to an author Volume I PDF.",
+      "The synopsis is public-safe and does not reproduce the raw source PDF.",
     ],
     limitations: [
       "The paper is a working paper, not a peer-reviewed publication.",

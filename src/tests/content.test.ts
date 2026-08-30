@@ -140,7 +140,7 @@ describe("editorial preview data", () => {
       entry?.detailSections?.find((section) => section.heading === "Volume III research directions")
         ?.items,
     ).toEqual(expect.arrayContaining([expect.stringContaining("single-cause")]));
-    expect(entry?.sourceNote).toContain("Raw Dropbox files");
+    expect(entry?.sourceNote).toContain("Raw source files");
     expect(entry?.status).toBe("In editorial development");
   });
 

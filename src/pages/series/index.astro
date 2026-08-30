@@ -29,7 +29,10 @@ const automatedSeriesItems = dropboxFeedItems.filter((item) => item.kind === "se
               <p class="eyebrow">Approved archive feed</p>
               <h2>New catalogue records</h2>
             </div>
-            <p>Structured updates arrive from Dropbox only after explicit website approval.</p>
+            <p>
+              Structured updates arrive from the approved source feed only after explicit website
+              approval.
+            </p>
           </div>
           <div class="card-grid">
             {automatedSeriesItems.map((item, index) => (

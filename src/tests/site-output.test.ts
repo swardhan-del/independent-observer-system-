@@ -183,6 +183,14 @@ describe("built website", () => {
     expect(html).toContain("public editorial synthesis");
   });
 
+  it("keeps internal archive-provider and chatbot language out of public pages", () => {
+    for (const { file } of routes) {
+      const html = readOutput(file);
+      expect(html).not.toMatch(/dropbox/i);
+      expect(html).not.toMatch(/chatbot|chat bot/i);
+    }
+  });
+
   it("keeps the staged Evidence Lab noindex and outside release discovery", () => {
     const html = readOutput("review/regrowing-humanity/index.html");
     expect(metaContent(html, "name", "robots")).toBe("noindex,follow");

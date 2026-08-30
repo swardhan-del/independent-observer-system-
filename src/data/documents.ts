@@ -56,8 +56,8 @@ const reviewedDocuments: PublicDocument[] = [
     title: "Documentary Projects — Independent Observer",
     category: "Documentary desk",
     description:
-      "A reviewed public-safe reading copy of the Documentary Projects print capture added to the Independent Observer Dropbox workspace.",
-    sourceLabel: "Reviewed Dropbox print capture",
+      "A reviewed public-safe reading copy of the Documentary Projects print capture added to the Independent Observer working archive.",
+    sourceLabel: "Reviewed print capture",
     sourceModified: "August 18, 2026",
     sections: [
       {
@@ -95,7 +95,7 @@ const reviewedDocuments: PublicDocument[] = [
         heading: "Publication boundary",
         paragraphs: [
           "The site is the home base; social channels help people find the work.",
-          "This reading copy preserves the public-facing text from the print capture. It does not expose the original Dropbox file, private research, personal records, or unpublished evidence.",
+          "This reading copy preserves the public-facing text from the print capture. It does not expose the original source file, private research, personal records, or unpublished evidence.",
         ],
       },
     ],

@@ -30,7 +30,7 @@ const featuredDocuments = ssrnPreprintDocuments.filter((entry) => entry.volume =
     backLabel="Back to publication catalogue"
     backHref={sitePath("/series/")}
     statusNote="This is a public catalogue entry. The volume remains in development; publication, peer review, and commercial release are not implied."
-    featuredDocuments={item.volume === "Volume III" ? [] : featuredDocuments}
+    featuredDocuments={item.volume === "Volume I" ? featuredDocuments : []}
     showVolumePapersInPreview={item.volume === "Volume I"}
     volumeFramework={item.volume === "Volume II" ? volumeTwoFramework : undefined}
     volumeDossierDocuments={featuredDocuments}

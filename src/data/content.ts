@@ -79,7 +79,7 @@ export const researchItems: EditorialItem[] = [
       },
     ],
     sourceNote:
-      "This public catalogue relationship draws on the audited Volume III working-paper directions From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential and Welfare, Wealthfare, and Social Control in Advanced Democracies, alongside the Volume II working-paper direction Democracy's Achilles' Heel: Institutional Incentives and Political Outcomes. These source reservoirs inform the research map; they are not public releases. Raw Dropbox files, alternate drafts, private metadata, and unverified claims remain outside the website.",
+      "This public catalogue relationship draws on the audited Volume III working-paper directions From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential and Welfare, Wealthfare, and Social Control in Advanced Democracies, alongside the Volume II working-paper direction Democracy's Achilles' Heel: Institutional Incentives and Political Outcomes. These source reservoirs inform the research map; they are not public releases. Raw source files, alternate drafts, private metadata, and unverified claims remain outside the website.",
   },
   {
     title: "The Welfare Paradox",
@@ -195,7 +195,7 @@ export const videoItems: EditorialItem[] = [
       },
     ],
     sourceNote:
-      "The page uses only the public-safe source notes reviewed in the 2026-08-22 Website Publication Audit. Private Dropbox paths, working-paper files, internal controller evidence, and watermarked video exports remain outside the website.",
+      "The page uses only the public-safe source notes reviewed in the 2026-08-22 Website Publication Audit. Private source paths, working-paper files, internal controller evidence, and watermarked video exports remain outside the website.",
     sourceLinks: [
       {
         label: "U.S. Election Assistance Commission · 2024 EAVS report",
