@@ -290,6 +290,8 @@ describe("interactive preview tools", () => {
   it("connects documentary planning to all four volume research signals", () => {
     expect(documentaries).toContain("What each volume is building.");
     expect(bookRoadmap).toContain("Four books, one connected inquiry.");
+    expect(bookRoadmap).toContain("Meet the four planned books behind Independent Observer");
+    expect(bookRoadmap).toContain("The social-citizenship book");
     expect(bookRoadmap).toContain("There are no Amazon listings");
     expect(documentaries).toContain("Leading public signals in this volume");
     expect(documentaries).toContain("SSRN does not provide a reliable star-rating field");

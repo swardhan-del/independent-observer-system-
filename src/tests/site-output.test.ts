@@ -448,6 +448,11 @@ describe("built website", () => {
     expect(html).toContain("The Empire Beneath Democracy");
     expect(html).toContain("Managed Decline");
     expect(html).toContain("The Last Human Workforce");
+    expect(html).toContain("Meet the four planned books behind Independent Observer");
+    expect(html).toContain("how a claim becomes accountable");
+    expect(html).toContain("who can set the agenda");
+    expect(html).toContain("who carries the cost of economic change");
+    expect(html).toContain("shared human capability");
     expect(html).toContain("Planned book · not released");
     expect(html).toContain("There are no Amazon listings, sales links, release dates");
     expect(html).not.toContain("Buy now");
