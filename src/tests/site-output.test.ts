@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { publicDocumentItems } from "../data/documents";
 import { seriesItems } from "../data/series";
+import { volumeReels } from "../data/video-reels";
 import { slugify } from "../lib/slugs";
 
 const distRoot = join(process.cwd(), "dist");
@@ -131,6 +132,19 @@ describe("built website", () => {
     expect(existsSync(join(distRoot, "sitemap.xml"))).toBe(true);
     expect(existsSync(join(distRoot, "feed.atom.xml"))).toBe(true);
     expect(existsSync(join(distRoot, "404.html"))).toBe(true);
+  });
+
+  it("builds one playable MP4 preview for every volume", () => {
+    const html = readOutput("videos/index.html");
+
+    expect(tags(html, "video")).toHaveLength(volumeReels.length);
+    for (const reel of volumeReels) {
+      const mediaPath = join(distRoot, reel.mediaUrl.replace(/^\//, ""));
+      expect(existsSync(mediaPath), `${reel.mediaUrl} was not copied to dist`).toBe(true);
+      expect(readFileSync(mediaPath).subarray(4, 8).toString()).toBe("ftyp");
+      expect(html).toContain(reel.title);
+      expect(html).toContain(reel.mediaUrl);
+    }
   });
 
   it("explains what each catalogue volume represents", () => {

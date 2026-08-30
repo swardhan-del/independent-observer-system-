@@ -471,6 +471,9 @@ describe("interactive preview tools", () => {
     expect(videos).toContain("no responses, findings, or audience data are published here");
     expect(videos).toContain('id="independent-observer-survey"');
     expect(videos).toContain("Concept preview");
+    expect(videos).toContain("One reel for each volume.");
+    expect(videos).toContain("transcripts, rights checks, citations, and final release dates");
+    expect(videos).toContain("<VolumeReelShelf items={volumeReels} />");
   });
 
   it("gives the flagship video preview a source-labeled evidence case study", () => {

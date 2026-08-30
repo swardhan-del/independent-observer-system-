@@ -8,6 +8,7 @@ import { publicLibrarySnapshot } from "../data/public-library";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
 import { volumeResearchMap } from "../data/volume-research";
 import { volumeTwoFramework } from "../data/volume-two-framework";
+import { volumeReels } from "../data/video-reels";
 
 describe("editorial preview data", () => {
   it("keeps all sample work clearly labeled as unfinished", () => {
@@ -183,6 +184,19 @@ describe("editorial preview data", () => {
       entry?.sourceLinks?.every((source) => source.url.startsWith("https://www.eac.gov/")),
     ).toBe(true);
     expect(entry?.status).toBe("Concept preview");
+  });
+
+  it("provides one public-safe preview reel for every volume", () => {
+    expect(volumeReels).toHaveLength(4);
+    expect(volumeReels.map((reel) => reel.volume)).toEqual([
+      "Volume I",
+      "Volume II",
+      "Volume III",
+      "Volume IV",
+    ]);
+    expect(volumeReels.every((reel) => reel.mediaType === "video/mp4")).toBe(true);
+    expect(volumeReels.every((reel) => reel.sourceNote.includes("Preview asset"))).toBe(true);
+    expect(volumeReels.every((reel) => reel.description.length > 100)).toBe(true);
   });
 
   it("keeps automated Dropbox items within the public-safe status contract", () => {

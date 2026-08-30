@@ -903,6 +903,104 @@ textarea {
   color: var(--slate-700);
 }
 
+.volume-reel-heading {
+  align-items: end;
+  margin-bottom: 26px;
+}
+
+.volume-reel-heading h2 {
+  max-width: 620px;
+}
+
+.volume-reel-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 1px;
+  background: var(--slate-300);
+  border: 1px solid var(--slate-300);
+}
+
+.volume-reel-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  background: var(--white);
+}
+
+.volume-reel-card__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: start;
+  padding: 24px 24px 18px;
+}
+
+.volume-reel-card__meta > a {
+  flex: 0 0 auto;
+  color: var(--navy-700);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.volume-reel-card__meta > a:hover {
+  color: var(--gold-ink);
+}
+
+.volume-reel-card .card-meta {
+  display: block;
+  color: var(--gold-ink);
+  font-size: 0.66rem;
+  line-height: 1.45;
+}
+
+.volume-reel-card__player {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--navy-950);
+  object-fit: contain;
+}
+
+.volume-reel-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.volume-reel-card__body .eyebrow {
+  margin: 0 0 12px;
+  color: var(--gold-ink);
+}
+
+.volume-reel-card__body h3 {
+  margin: 0 0 14px;
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+}
+
+.volume-reel-card__body > p:not(.eyebrow) {
+  margin: 0;
+  color: var(--slate-700);
+}
+
+.volume-reel-card__footer {
+  display: grid;
+  gap: 5px;
+  margin-top: auto;
+  padding-top: 24px;
+  color: var(--slate-500);
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+
 .section-navy .editorial-card p {
   color: var(--slate-300);
 }
@@ -2336,6 +2434,7 @@ kbd {
   }
 
   .card-grid,
+  .volume-reel-grid,
   .topics-grid,
   .discovery-grid,
   .distribution-grid {
@@ -4249,11 +4348,16 @@ kbd {
   }
 
   .card-grid,
+  .volume-reel-grid,
   .topics-grid,
   .discovery-grid,
   .distribution-grid,
   .footer-grid {
     grid-template-columns: 1fr;
+  }
+
+  .volume-reel-card__meta {
+    flex-direction: column;
   }
 
   .editorial-card {
