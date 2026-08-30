@@ -191,7 +191,8 @@ describe("editorial preview data", () => {
 
     expect(entry?.description).toContain("authenticated, interpreted");
     expect(entry?.description).toContain("institutional review");
-    expect(entry?.detailLead).toContain("route from observation to public response");
+    expect(entry?.detailHeading).toBe("What this video is for.");
+    expect(entry?.detailLead).toContain("missing steps between a record and a public response");
     expect(entry?.detailSections?.[0]?.heading).toBe("What the video follows");
     expect(entry?.detailSections?.[0]?.items).toEqual(
       expect.arrayContaining([expect.stringContaining("The institutional test")]),

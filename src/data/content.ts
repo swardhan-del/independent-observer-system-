@@ -18,6 +18,7 @@ export type EditorialItem = {
   status: EditorialStatus;
   volume?: string;
   readingTime?: string;
+  detailHeading?: string;
   detailLead?: string;
   detailSections?: EditorialDetailSection[];
   sourceNote?: string;
@@ -152,8 +153,9 @@ export const videoItems: EditorialItem[] = [
       "A short-form visual essay tracing the gap between having evidence and making it matter. It follows how a record is noticed, authenticated, interpreted, and carried into institutional review—and why access, procedure, competing narratives, and public attention can determine whether a documented fact leads to accountability or disappears.",
     status: "Concept preview",
     readingTime: "Short-form video concept · 3–5 min",
+    detailHeading: "What this video is for.",
     detailLead:
-      "This video is an entry point into the Independent Observer method. It treats evidence as a route from observation to public response, not as a trophy: the record must be preserved, made legible, carried into a forum, and tested before a conclusion can responsibly travel.",
+      "This video is meant to help viewers see the missing steps between a record and a public response. It uses the Independent Observer method to show that evidence must be preserved, made legible, carried into a forum, tested against competing explanations, and connected to a correction path before it can support accountability.",
     detailSections: [
       {
         heading: "What the video follows",

@@ -152,6 +152,8 @@ describe("built website", () => {
 
     expect(html).toContain("video-detail-hero");
     expect(html).toContain("authenticated, interpreted, and carried into institutional review");
+    expect(html).toContain("What this video is for.");
+    expect(html).toContain("missing steps between a record and a public response");
     expect(html).toContain("What the video follows");
     expect(html).toContain("The institutional test");
   });

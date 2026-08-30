@@ -127,7 +127,7 @@ const selectedClaimMap = claimMap ?? defaultClaimMap;
     </aside>
     <div class="prose detail-prose">
       <p class="eyebrow">Public preview</p>
-      <h2>What this entry is for.</h2>
+      <h2>{item.detailHeading ?? "What this entry is for."}</h2>
       <p>{item.description}</p>
       {item.detailLead && <p class="detail-lead">{item.detailLead}</p>}
       <p>{statusNote}</p>
