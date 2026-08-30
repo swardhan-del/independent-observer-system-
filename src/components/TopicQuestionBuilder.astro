@@ -112,10 +112,10 @@ function pathwayStatuses(pathway: (typeof topicPathways)[number]) {
             data-question-statuses={pathwayStatuses(pathway).join(",")}
             hidden={index !== 0}
           >
-            <div>
+            <div class="topic-question-route-main">
               <p class="topic-question-route-kicker">{pathway.label}</p>
               <h3>{pathway.question}</h3>
-              <p>{pathway.description}</p>
+              <p class="topic-question-route-description">{pathway.description}</p>
             </div>
             <div class="topic-question-route-meta">
               <p>
