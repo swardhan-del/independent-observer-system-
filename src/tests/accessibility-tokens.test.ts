@@ -61,4 +61,10 @@ describe("accessible color tokens", () => {
       /\.section-navy \.card-footer\s*\{[^}]*color:\s*var\(--slate-300\)/s,
     );
   });
+
+  it("uses high-contrast ink for the library research-map label", () => {
+    expect(stylesheet).toMatch(
+      /\.library-volume-shelf-research-label\s*\{[^}]*color:\s*var\(--navy-950\)/s,
+    );
+  });
 });

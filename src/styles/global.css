@@ -7964,7 +7964,11 @@ kbd {
 }
 
 .library-volume-shelf-research-label {
-  color: var(--gold-ink);
+  display: inline-block;
+  margin-bottom: 14px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--gold);
+  color: var(--navy-950);
   font-weight: 900;
   letter-spacing: 0.12em;
 }
