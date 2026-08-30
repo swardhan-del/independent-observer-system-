@@ -7037,6 +7037,88 @@ kbd {
   text-decoration: underline;
 }
 
+.library-volume-shelf-research {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
+.library-volume-shelf-research-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.library-volume-shelf-research-heading h4 {
+  margin: 0;
+  color: var(--navy-950);
+  font-family: var(--serif);
+  font-size: 1.65rem;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.library-volume-shelf-research-heading > p {
+  max-width: 400px;
+  margin: 0;
+  color: var(--navy-700);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.library-volume-shelf-research-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 20px;
+  background: var(--line);
+}
+
+.library-volume-shelf-research-card {
+  display: flex;
+  min-height: 280px;
+  flex-direction: column;
+  padding: 22px;
+  background: var(--paper-warm);
+}
+
+.library-volume-shelf-research-lens {
+  color: var(--gold-ink);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.library-volume-shelf-research-card h5 {
+  margin: 18px 0 10px;
+  color: var(--navy-950);
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.library-volume-shelf-research-card p {
+  margin: 0;
+  color: var(--navy-700);
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+
+.library-volume-shelf-research-card .library-volume-shelf-research-relevance {
+  margin-top: auto;
+  padding-top: 18px;
+  color: var(--navy-950);
+  font-size: 0.78rem;
+}
+
+.library-volume-shelf-research-relevance strong {
+  color: var(--gold-ink);
+}
+
 .library-external-links {
   display: flex;
   flex-wrap: wrap;
@@ -7261,7 +7343,8 @@ kbd {
   }
 
   .library-volume-shelf-columns,
-  .library-volume-shelf-paper {
+  .library-volume-shelf-paper,
+  .library-volume-shelf-research-grid {
     grid-template-columns: 1fr;
   }
 
@@ -7313,6 +7396,14 @@ kbd {
   .library-preprint-heading,
   .library-preprint-footer {
     display: block;
+  }
+
+  .library-volume-shelf-research-heading {
+    display: block;
+  }
+
+  .library-volume-shelf-research-heading > p {
+    margin-top: 14px;
   }
 
   .library-representative-paper-meta {

@@ -42,6 +42,33 @@ describe("library content blocks", () => {
     ).toBe(true);
   });
 
+  it("keeps the source-taxonomy research map separate from public SSRN records", () => {
+    const volumeOne = libraryVolumeGuides.find((guide) => guide.volume === "Volume I");
+    const volumeTwo = libraryVolumeGuides.find((guide) => guide.volume === "Volume II");
+
+    expect(volumeOne?.researchPapers.map((paper) => paper.title)).toEqual([
+      "Manifesto of a Destiny: The Independent Observer Method",
+      "Capital Amplification and the Myth of Equal Opportunity",
+      "Quiet Wealth as Risk Management",
+      "The Attention Infrastructure Gap: Why Some Police Shootings Become National Symbols While Others Disappear",
+    ]);
+    expect(volumeTwo?.researchPapers.map((paper) => paper.title)).toEqual([
+      "Democracy’s Achilles’ Heel: Institutional Incentives and Political Outcomes",
+      "Civil Rights Realignment and Party Sorting in the United States: From Reconstruction to Contemporary Populism",
+      "Human Rights, Policing Doctrine, and Hidden Taxation in Modern U.S. Governance",
+      "The Welfare Queen and the Tax Cut: Racialized Dependency Politics and the Fragmentation of the American Working Class",
+      "Empire’s Mirror: Foreign Lobbying, Concentrated Wealth, and Imperial Self-Understanding in the United States",
+    ]);
+    expect(
+      libraryVolumeGuides.find((guide) => guide.volume === "Volume III")?.researchPapers,
+    ).toEqual([]);
+    expect(
+      libraryVolumeGuides.find((guide) => guide.volume === "Volume IV")?.researchPapers,
+    ).toEqual([]);
+    expect(researchShelf).toContain("Source-taxonomy research map");
+    expect(researchShelf).toContain("not public SSRN reading copies or publication approvals");
+  });
+
   it("maps public SSRN preprints to the correct volume without changing their status", () => {
     expect(ssrnPreprintDocuments.every((entry) => entry.status === "SSRN preprint")).toBe(true);
     expect(

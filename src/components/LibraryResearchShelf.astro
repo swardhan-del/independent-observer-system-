@@ -27,7 +27,9 @@ const papers = [...ssrnPreprintDocuments].sort(
         records below are public SSRN reading copies selected from matched, public-safe records;
         usage counts are discovery signals, not ratings or publication approval. The local search
         index covers every public SSRN reading copy currently in the site data and exposes a
-        matching ResearchGate record only when a verified public URL exists.
+        matching ResearchGate record only when a verified public URL exists. The research map
+        beneath selected volume cards identifies additional papers developed in the source taxonomy;
+        those entries are not public SSRN reading copies or publication approvals.
       </p>
     </div>
 
@@ -137,6 +139,34 @@ const papers = [...ssrnPreprintDocuments].sort(
                         </a>
                       )}
                     </div>
+                  </div>
+                </div>
+              )}
+              {guide.researchPapers.length > 0 && (
+                <div class="library-volume-shelf-research">
+                  <div class="library-volume-shelf-research-heading">
+                    <div>
+                      <p class="library-block-label">Source-taxonomy research map</p>
+                      <h4>Additional papers developed for {guide.volume}.</h4>
+                    </div>
+                    <p>
+                      These working research records show the volume’s wider field of inquiry. They
+                      are not public SSRN reading copies or publication approvals.
+                    </p>
+                  </div>
+                  <div class="library-volume-shelf-research-grid">
+                    {guide.researchPapers.map((researchPaper) => (
+                      <article class="library-volume-shelf-research-card">
+                        <span class="library-volume-shelf-research-lens">
+                          Research direction · {researchPaper.lens}
+                        </span>
+                        <h5>{researchPaper.title}</h5>
+                        <p>{researchPaper.description}</p>
+                        <p class="library-volume-shelf-research-relevance">
+                          <strong>Why it belongs here.</strong> {researchPaper.relevance}
+                        </p>
+                      </article>
+                    ))}
                   </div>
                 </div>
               )}
