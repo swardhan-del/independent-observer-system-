@@ -7,6 +7,7 @@ import { seriesItems } from "../data/series";
 import { publicLibrarySnapshot } from "../data/public-library";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
 import { volumeResearchMap } from "../data/volume-research";
+import { volumeTwoFramework } from "../data/volume-two-framework";
 
 describe("editorial preview data", () => {
   it("keeps all sample work clearly labeled as unfinished", () => {
@@ -53,6 +54,35 @@ describe("editorial preview data", () => {
     ).toBe(true);
   });
 
+  it("gives Volume I a substantive method brief", () => {
+    const volumeOne = seriesItems.find((item) => item.volume === "Volume I");
+    expect(volumeOne?.description).toContain("how a public claim becomes believable");
+    expect(volumeOne?.description).toContain("law, labor, media, history, public memory");
+    expect(volumeOne?.description).toContain("disciplined observation before judgment");
+    expect(volumeOne?.description).toContain("not a finished publication");
+  });
+
+  it("gives Volume II a taxonomy-backed four-family and four-principle frame", () => {
+    const volumeTwo = seriesItems.find((item) => item.volume === "Volume II");
+
+    expect(volumeTwo?.description).toContain("four families");
+    expect(volumeTwo?.description).toContain("practical sovereignty");
+    expect(volumeTwoFramework.families).toHaveLength(4);
+    expect(volumeTwoFramework.principles).toHaveLength(4);
+    expect(volumeTwoFramework.families.map((family) => family.title)).toEqual([
+      "Democracy, institutions, and party power",
+      "Immigration, citizenship, and border",
+      "Civil rights, carceral state, and legal power",
+      "Empire, geopolitics, and sovereignty",
+    ]);
+    expect(volumeTwoFramework.principles.map((principle) => principle.title)).toEqual([
+      "Formal democracy is not the same as usable power.",
+      "Definitions are part of evidence.",
+      "Sovereignty is relational and material.",
+      "Enforcement reveals how power is organized.",
+    ]);
+  });
+
   it("maps public usage signals to every volume without calling them ratings", () => {
     expect(volumeResearchMap.map((item) => item.volume)).toEqual([
       "Volume I",
@@ -64,7 +94,7 @@ describe("editorial preview data", () => {
       volumeResearchMap.every((item) => item.papers.every((paper) => paper.volume === item.volume)),
     ).toBe(true);
     expect(volumeResearchMap.find((item) => item.volume === "Volume I")?.papers[0]?.id).toBe(
-      "independent-observer-volume-one-ssrn",
+      "the-illusion-of-equality-ssrn",
     );
     expect(volumeResearchMap.find((item) => item.volume === "Volume II")?.papers[0]?.id).toBe(
       "who-deported-more-ssrn",
@@ -185,6 +215,20 @@ describe("editorial preview data", () => {
       ssrnPreprintDocuments.find((entry) => entry.id === "disconnected-hearts-ssrn")
         ?.researchGateUrl,
     ).toContain("researchgate.net/publication/397333270");
+  });
+
+  it("includes the three verified public Volume I SSRN papers", () => {
+    const volumeOnePapers = ssrnPreprintDocuments.filter((entry) => entry.volume === "Volume I");
+
+    expect(volumeOnePapers.map((entry) => entry.id)).toEqual(
+      expect.arrayContaining([
+        "independent-observer-volume-one-ssrn",
+        "a-systems-centered-manifesto-ssrn",
+        "the-illusion-of-equality-ssrn",
+      ]),
+    );
+    expect(volumeOnePapers).toHaveLength(3);
+    expect(volumeOnePapers.every((entry) => Boolean(entry.volumeRelevance))).toBe(true);
   });
 });
 

@@ -133,10 +133,54 @@ describe("built website", () => {
     expect(existsSync(join(distRoot, "404.html"))).toBe(true);
   });
 
+  it("explains what each catalogue volume represents", () => {
+    const html = readOutput("series/index.html");
+    expect(html).toContain("Volume I is the method foundation");
+    expect(html).toContain("Volume II is the power inquiry");
+    expect(html).toContain("Volume III is the social-citizenship inquiry");
+    expect(html).toContain("Volume IV is the capability inquiry");
+    expect(html).toContain("visible release boundaries");
+  });
+
   it("publishes an honest empty release log until an owner-approved release exists", () => {
     const html = readOutput("whats-new/index.html");
     expect(html).toContain("The release log is intentionally empty.");
     expect(html).toContain("six current candidates remain awaiting human release");
+  });
+
+  it("makes the reviewed public literature visible on the homepage", () => {
+    expect(homeHtml).toContain("The literature behind the inquiry.");
+    expect(homeHtml).toContain("9 public SSRN reading copies");
+    expect(homeHtml).toContain("Who Deported More?");
+    expect(homeHtml).toContain("The Double Tax on Time");
+    expect(homeHtml).toContain("SSRN preprint");
+    expect(homeHtml).not.toContain("/Independent Observer desktop/");
+  });
+
+  it("places the verified Volume I SSRN papers in the public preview", () => {
+    const html = readOutput("series/independent-observer/index.html");
+
+    expect(html).toContain("Papers already posted on SSRN.");
+    expect(html).toContain("A Systems-Centered Manifesto on Automation");
+    expect(html).toContain("The Illusion of Equality");
+    expect(html).toContain("Why it matters to Volume I.");
+    expect(html).toContain("Other files marked");
+    expect(html).not.toContain('id="featured-preprints-title"');
+  });
+
+  it("renders Volume II's four research families and four principles in Public Preview", () => {
+    const html = readOutput("series/the-empire-beneath-democracy/index.html");
+
+    expect(html).toContain("Four paper families. Four principles.");
+    expect(html).toContain("Democracy, institutions, and party power");
+    expect(html).toContain("Immigration, citizenship, and border");
+    expect(html).toContain("Civil rights, carceral state, and legal power");
+    expect(html).toContain("Empire, geopolitics, and sovereignty");
+    expect(html).toContain("Formal democracy is not the same as usable power.");
+    expect(html).toContain("Definitions are part of evidence.");
+    expect(html).toContain("Sovereignty is relational and material.");
+    expect(html).toContain("Enforcement reveals how power is organized.");
+    expect(html).toContain("public editorial synthesis");
   });
 
   it("keeps the staged Evidence Lab noindex and outside release discovery", () => {

@@ -1,0 +1,69 @@
+---
+import { ssrnPreprintDocuments } from "../data/ssrn";
+import { sitePath } from "../lib/paths";
+
+const papers = [...ssrnPreprintDocuments].sort(
+  (left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1),
+);
+---
+
+<section
+  class="section section-navy homepage-literature-shelf"
+  aria-labelledby="homepage-literature-title"
+>
+  <div class="shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Public reading set</p>
+        <h2 id="homepage-literature-title">The literature behind the inquiry.</h2>
+      </div>
+      <p>
+        Independent Observer is not a single argument. It is a connected reading program. This shelf
+        brings together {papers.length} public SSRN reading copies selected from matched, public-safe
+        preprint controllers in the Dropbox review: migration and enforcement, political identity, tax
+        design, history and geopolitics, gender and time, intimacy, and the method of observation. Each
+        record is labeled as an SSRN preprint; a reading copy is not the same as peer review or an approved
+        Independent Observer release.
+      </p>
+    </div>
+
+    <div class="homepage-literature-grid">
+      {
+        papers.map((paper, index) => (
+          <article class="homepage-literature-card">
+            <div class="homepage-literature-topline">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{paper.volume ?? "Independent Observer"}</span>
+            </div>
+            <p class="homepage-literature-meta">
+              {paper.category} · {paper.status}
+            </p>
+            <h3>
+              <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
+            </h3>
+            <p>{paper.description}</p>
+            <div class="homepage-literature-footer">
+              <a href={sitePath(`/library/documents/${paper.id}/`)}>Read the public copy →</a>
+              <span>{paper.metrics?.downloads ?? "—"} downloads · usage signal only</span>
+            </div>
+            {paper.sourceUrl && (
+              <a
+                class="homepage-literature-source"
+                href={paper.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open SSRN record ↗
+              </a>
+            )}
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="homepage-literature-cta">
+      <a class="button" href={sitePath("/library/")}>Explore the full public library →</a>
+      <span>Public summaries, volume context, source links, and visible limitations.</span>
+    </div>
+  </div>
+</section>

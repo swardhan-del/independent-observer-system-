@@ -115,6 +115,13 @@ describe("interactive preview tools", () => {
     expect(volumeThreeEvidence).toContain("internal: true");
   });
 
+  it("places Volume I's verified SSRN papers inside its public preview", () => {
+    expect(seriesDetail).toContain("showVolumePapersInPreview");
+    expect(detail).toContain("Papers already posted on SSRN.");
+    expect(detail).toContain("Why it matters to Volume I.");
+    expect(detail).toContain("Other files marked");
+  });
+
   it("gives Volume III one source-labeled paper a complete evidence reading", () => {
     expect(seriesDetail).toContain("volumeThreeTaxDoctrineEvidence");
     expect(seriesDetail).toContain("Case study: The Wardhan Tax Doctrine");
@@ -339,7 +346,7 @@ describe("interactive preview tools", () => {
     expect(reader).toContain('className="document-reader-hero"');
     expect(ssrn).toContain("Volume I is the method anchor for the Independent Observer");
     expect(ssrn).toContain(
-      "the one Volume I paper currently represented by a matched public SSRN record",
+      "one of three Volume I papers currently represented by matched public SSRN records",
     );
     expect(ssrn).toContain("began within the past year");
     expect(ssrn).toContain("open to discussion, empirical testing, and revision");
@@ -372,14 +379,14 @@ describe("interactive preview tools", () => {
     expect(researchCatalogue).toContain('data-research-filter="volume"');
     expect(researchCatalogue).toContain("URLSearchParams");
     expect(researchCatalogue).toContain("rankSearchEntries");
-    expect(researchCatalogueRecords).toHaveLength(14);
+    expect(researchCatalogueRecords).toHaveLength(16);
     expect(researchCatalogueVolumes).toEqual(["Volume I", "Volume II", "Volume III", "Volume IV"]);
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "Volume record"),
     ).toHaveLength(4);
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "SSRN preprint"),
-    ).toHaveLength(7);
+    ).toHaveLength(9);
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "Research concept"),
     ).toHaveLength(3);

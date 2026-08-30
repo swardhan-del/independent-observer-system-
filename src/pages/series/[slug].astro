@@ -9,6 +9,7 @@ import {
   volumeThreeTaxDoctrineClaimMap,
   volumeThreeTaxDoctrineEvidence,
 } from "../../data/volume-three-evidence";
+import { volumeTwoFramework } from "../../data/volume-two-framework";
 
 export function getStaticPaths() {
   return seriesItems.map((item) => ({
@@ -30,6 +31,8 @@ const featuredDocuments = ssrnPreprintDocuments.filter((entry) => entry.volume =
     backHref={sitePath("/series/")}
     statusNote="This is a public catalogue entry. The volume remains in development; publication, peer review, and commercial release are not implied."
     featuredDocuments={item.volume === "Volume III" ? [] : featuredDocuments}
+    showVolumePapersInPreview={item.volume === "Volume I"}
+    volumeFramework={item.volume === "Volume II" ? volumeTwoFramework : undefined}
     volumeDossierDocuments={featuredDocuments}
     showVolumeResearchDossier={item.volume === "Volume III"}
     evidenceBlocks={item.volume === "Volume III" ? [...volumeThreeTaxDoctrineEvidence] : undefined}

@@ -36,9 +36,10 @@ export const libraryVolumeGuides: LibraryVolumeGuide[] = [
     summary:
       "A comparative volume about how historical power shifts, enforcement, migration, identity, markets, and constitutional arrangements shape public authority.",
     coreIdeas: [
-      "Historical power is carried through institutions, economic design, knowledge, and enforcement.",
-      "Migration and political identity require definitions that distinguish different populations and pathways.",
-      "Formal legitimacy and practical capacity can diverge when institutions cannot make decisions matter.",
+      "Formal democracy is not the same as usable power: access, information, agenda-setting, and correction channels matter.",
+      "Definitions are part of evidence: distinguish populations, legal categories, enforcement pathways, and administrative outcomes.",
+      "Sovereignty is relational: capital, technology, security, labor, and markets shape practical autonomy.",
+      "Enforcement reveals institutional design: emergencies, protection, punishment, and discretion distribute exposure and accountability.",
     ],
     topicSlugs: ["history", "politics", "economics"],
   },

@@ -9,6 +9,7 @@ import EvidenceLayer, { type EvidenceBlock } from "./EvidenceLayer.astro";
 import ClaimMap from "./ClaimMap.astro";
 import VolumeResearchMap from "./VolumeResearchMap.astro";
 import VolumeResearchDossier from "./VolumeResearchDossier.astro";
+import type { VolumeTwoFramework } from "../data/volume-two-framework";
 
 type DetailItem = EditorialItem & {
   volume?: string;
@@ -21,6 +22,8 @@ type Props = {
   backHref: string;
   statusNote: string;
   featuredDocuments?: PublicDocument[];
+  showVolumePapersInPreview?: boolean;
+  volumeFramework?: VolumeTwoFramework;
   heroClassName?: string;
   showVolumeConnection?: boolean;
   showVolumeResearchMap?: boolean;
@@ -50,6 +53,8 @@ const {
   backHref,
   statusNote,
   featuredDocuments = [],
+  showVolumePapersInPreview = false,
+  volumeFramework,
   heroClassName,
   showVolumeConnection = false,
   showVolumeResearchMap = false,
@@ -127,6 +132,88 @@ const selectedClaimMap = claimMap ?? defaultClaimMap;
       {item.detailLead && <p class="detail-lead">{item.detailLead}</p>}
       <p>{statusNote}</p>
       {
+        volumeFramework && (
+          <section class="detail-volume-framework" aria-labelledby="detail-volume-framework-title">
+            <p class="eyebrow">Volume II public reading frame</p>
+            <h3 id="detail-volume-framework-title">Four paper families. Four principles.</h3>
+            <p>{volumeFramework.intro}</p>
+            <div class="detail-volume-framework-group">
+              <h4>Four paper families</h4>
+              <ol class="detail-volume-framework-list">
+                {volumeFramework.families.map((family, index) => (
+                  <li class="detail-volume-framework-item">
+                    <span class="detail-volume-framework-index">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <h5>{family.title}</h5>
+                      <p>{family.description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <div class="detail-volume-framework-group">
+              <h4>Four principles carried through the research map</h4>
+              <ol class="detail-volume-framework-list">
+                {volumeFramework.principles.map((principle, index) => (
+                  <li class="detail-volume-framework-item">
+                    <span class="detail-volume-framework-index">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <h5>{principle.title}</h5>
+                      <p>{principle.description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </section>
+        )
+      }
+      {
+        showVolumePapersInPreview && featuredDocuments.length > 0 && (
+          <section class="detail-volume-papers" aria-labelledby="detail-volume-papers-title">
+            <p class="eyebrow">Public SSRN papers</p>
+            <h3 id="detail-volume-papers-title">Papers already posted on SSRN.</h3>
+            <p>
+              These are the Volume I records matched to the Dropbox research set and verified as
+              public SSRN records. Here, “posted” identifies a public SSRN record; it does not imply
+              peer review. Other files marked “SSRN-ready” remain outside this list until an actual
+              public record is confirmed.
+            </p>
+            <ol class="detail-volume-paper-list">
+              {featuredDocuments.map((entry, index) => (
+                <li class="detail-volume-paper">
+                  <div class="detail-volume-paper-heading">
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <span>{entry.status}</span>
+                  </div>
+                  <h4>
+                    <a href={sitePath(`/library/documents/${entry.id}/`)}>{entry.title}</a>
+                  </h4>
+                  <p>{entry.description}</p>
+                  {entry.volumeRelevance && (
+                    <p>
+                      <strong>Why it matters to Volume I.</strong> {entry.volumeRelevance}
+                    </p>
+                  )}
+                  <div class="detail-volume-paper-links">
+                    <a href={sitePath(`/library/documents/${entry.id}/`)}>Read the public copy →</a>
+                    {entry.sourceUrl && (
+                      <a href={entry.sourceUrl} target="_blank" rel="noopener noreferrer">
+                        Open SSRN record ↗
+                      </a>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )
+      }
+      {
         showVolumeConnection && volumeRecord && (
           <aside class="detail-volume-connection" aria-labelledby="detail-volume-title">
             <p class="eyebrow">Volume connection</p>
@@ -198,7 +285,7 @@ const selectedClaimMap = claimMap ?? defaultClaimMap;
 {showVolumeResearchDossier && <VolumeResearchDossier publicDocuments={volumeDossierDocuments} />}
 
 {
-  featuredDocuments.length > 0 && (
+  featuredDocuments.length > 0 && !showVolumePapersInPreview && (
     <section class="section section-navy" aria-labelledby="featured-preprints-title">
       <div class="shell">
         <div class="section-heading">

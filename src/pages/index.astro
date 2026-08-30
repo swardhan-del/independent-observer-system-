@@ -9,6 +9,7 @@ import { slugify } from "../lib/slugs";
 import { socialLinks } from "../data/social";
 import EvidenceLayer from "../components/EvidenceLayer.astro";
 import HomepageVolumeGuide from "../components/HomepageVolumeGuide.astro";
+import HomepageLiteratureShelf from "../components/HomepageLiteratureShelf.astro";
 import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
 
 const volumeOneMethod = ssrnPreprintDocuments.find(
@@ -44,10 +45,13 @@ const heroVolumeLinks = seriesItems.map((item, index) => ({
         <p class="eyebrow">Independent analysis for a complex age</p>
         <h1>Observe the system.<br /><em>Question the frame.</em></h1>
         <p class="hero-summary">
-          Independent Observer is the public home for a four-volume inquiry: Volume I develops the
-          method of observation; Volume II follows sovereignty and institutions; Volume III examines
-          work and social citizenship; and Volume IV asks how AI, science, infrastructure, and human
-          capability reshape public life.
+          Independent Observer is a public research home for a four-volume inquiry into how people
+          observe, inherit, contest, and reshape public systems. Volume I develops the
+          method—source, record, context, contradiction, and limit—before a conclusion is accepted.
+          Volume II follows sovereignty, migration, institutions, and power; Volume III follows
+          work, taxation, welfare, and social citizenship; and Volume IV follows AI, infrastructure,
+          intimacy, science, and human capability. Its public library connects these questions to
+          reviewed SSRN reading copies and research maps drawn from a bounded public-safe archive.
         </p>
         <p class="hero-summary hero-summary-secondary">
           Its purpose is to keep the record, the interpretation, and the limits visible—so readers
@@ -163,6 +167,8 @@ const heroVolumeLinks = seriesItems.map((item, index) => ({
       </div>
     </div>
   </section>
+
+  <HomepageLiteratureShelf />
 
   <section class="section section-navy">
     <div class="shell newsletter">

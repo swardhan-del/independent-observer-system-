@@ -5,6 +5,7 @@ const metricsDate = "25 August 2026";
 
 type SsrnInput = Omit<PublicDocument, "sourceLabel" | "status" | "author" | "metrics"> & {
   metrics: Omit<NonNullable<PublicDocument["metrics"]>, "checkedAt">;
+  metricsCheckedAt?: string;
   publicationContext?: string;
 };
 
@@ -38,15 +39,17 @@ function sections(
 }
 
 function makeDocument(input: SsrnInput): PublicDocument {
+  const { metricsCheckedAt, ...document } = input;
+
   return {
-    ...input,
+    ...document,
     sourceLabel: "Dropbox preprint controller · SSRN public record",
     status: "SSRN preprint",
     author,
     externalVerification: "needs_review",
     metrics: {
       ...input.metrics,
-      checkedAt: metricsDate,
+      checkedAt: metricsCheckedAt ?? metricsDate,
     },
   };
 }
@@ -315,6 +318,8 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
     category: "Method & Democratic Capacity",
     description:
       "Volume I is the method anchor for the Independent Observer: a systems-level reading of how law, labor, media, evidence, and democratic capacity shape public life. It connects philosophy, political economy, historical analysis, and public reasoning while keeping the limits of a working paper visible.",
+    volumeRelevance:
+      "This is the method anchor for the entire series. It establishes the volume’s central vocabulary—evidence, information asymmetry, institutional design, and public reasoning—and shows how to make the basis and limits of an argument visible before accepting its conclusion.",
     sourceModified: "Dropbox Volume I SSRN-ready controller matched to SSRN abstract 5431958",
     publicationDate: "19 September 2025",
     dateLabel: "Posted",
@@ -328,7 +333,7 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
         "The public-facing purpose is to make the basis and limits of an argument visible before asking readers to accept its conclusion.",
       ],
       "The last directly verified public SSRN result (25 August 2026) reported 23 downloads and 113 abstract views. A 28 August 2026 recheck was access-blocked, so current availability is not confirmed. It is a foundational working paper, not a claim that the full Independent Observer series has been published or peer reviewed.",
-      "This page is the public entry point for Volume I’s Foundational Manifesto, the one Volume I paper currently represented by a matched public SSRN record. It explains the method of observation, documentation, information asymmetry, institutional design, and public reasoning; other Volume I papers remain outside this reading copy until their public records and release status are separately verified.",
+      "This page is the public entry point for Volume I’s Foundational Manifesto, one of three Volume I papers currently represented by matched public SSRN records. It explains the method of observation, documentation, information asymmetry, institutional design, and public reasoning; other Volume I manuscripts remain outside this reading copy until their public records and release status are separately verified.",
     ),
     citations: [
       {
@@ -347,6 +352,93 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
       "The broader Independent Observer research project began within the past year. This foundation is an early working paper, open to discussion, empirical testing, and revision.",
       "Methodological claims are not the same as findings about any individual institution or person.",
       "SSRN usage figures are descriptive and not a quality rating.",
+    ],
+  }),
+  makeDocument({
+    id: "a-systems-centered-manifesto-ssrn",
+    volume: "Volume I",
+    title: "A Systems-Centered Manifesto on Automation, Education, and the Carceral State",
+    category: "Automation, Labor & Democratic Capacity",
+    description:
+      "A working paper linking industrial automation in global supply chains, skill mismatch in U.S. labor markets, and mass incarceration and recidivism. It argues that tariffs alone cannot restore employment when production is automated and geographically flexible, and instead pairs industrial policy with vocational and apprenticeship pathways, reentry, second-chance hiring, and local skill investment.",
+    volumeRelevance:
+      "It demonstrates Volume I’s systems method by reading economic policy, labor-market capability, education, and carceral institutions as one connected structure rather than as isolated issues. Its value to the volume is the move from observation to a testable, people-centered reform agenda.",
+    sourceModified: "Dropbox Volume I PDF matched to SSRN abstract 5432014",
+    publicationDate: "19 September 2025",
+    dateLabel: "Posted",
+    sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5432014",
+    metricsCheckedAt: "30 August 2026",
+    metrics: { downloads: 22, abstractViews: 120, citations: 0 },
+    sections: sections(
+      "The paper connects automation in globalized supply chains with U.S. skill shortages and the labor-market effects of incarceration and recidivism. It argues that reshoring policy needs to be paired with vocational training, apprenticeships, reentry support, and local capability-building rather than relying on tariffs alone.",
+      [
+        "It treats definitions and institutional connections as part of the analysis: automation, skills, incarceration, and reentry are related policy questions.",
+        "It tests whether a trade or industrial policy can improve work without ignoring geographic flexibility and automation.",
+        "It frames second-chance hiring and apprenticeship pathways as human-capital and democratic-capacity interventions.",
+      ],
+      "The SSRN record was verified on 30 August 2026; its usage figures are descriptive signals, not peer review or a quality rating. It is a working paper, and the paper’s proposed relationships require further empirical testing.",
+    ),
+    citations: [
+      {
+        id: "ssrn-5432014",
+        label: "SSRN",
+        citation:
+          "Harsh Wardhan, Siddhartha, A Systems-Centered Manifesto on Automation, Education, and the Carceral State (2025), SSRN abstract 5432014.",
+        url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5432014",
+      },
+    ],
+    notes: [
+      "Verified as a public SSRN record matched to a Volume I Dropbox submission PDF.",
+      "The site uses a public-safe synopsis and SSRN link; it does not publish the raw Dropbox PDF.",
+    ],
+    limitations: [
+      "The paper is a working paper, not a peer-reviewed publication.",
+      "The policy recommendations are proposals, not evidence that any single intervention will produce a given result.",
+      "Downloads and abstract views are usage signals, not scholarly quality ratings.",
+    ],
+  }),
+  makeDocument({
+    id: "the-illusion-of-equality-ssrn",
+    volume: "Volume I",
+    title:
+      "The Illusion of Equality: The Founding Fathers’ Contradictions, The Flaws of Democracy, and The Future of U.S. Economic Influence",
+    category: "Institutional Power & Political Economy",
+    description:
+      "A historical and political-economy working paper examining the gap between America’s language of equality and the constitutional, legal, electoral, and economic structures that distribute power. It moves from founding-era exclusions and sovereign immunity to representation, corporate influence, reserve-currency politics, BRICS, and tariffs.",
+    volumeRelevance:
+      "It extends Volume I’s method from individual claims to institutional comparison: readers can see why historical context, legal structure, definitions, and present-day incentives must be connected before a democracy claim is accepted. It serves as a concrete case of the volume’s focus on legitimacy, public reasoning, and the gap between formal rights and practical capacity.",
+    sourceModified: "Dropbox Volume I PDF matched to SSRN abstract 5442294",
+    publicationDate: "22 September 2025",
+    dateLabel: "Posted",
+    sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5442294",
+    metricsCheckedAt: "30 August 2026",
+    metrics: { downloads: 36, abstractViews: 137, citations: 0 },
+    sections: sections(
+      "This working paper examines the contradiction between founding claims of equality and institutions that excluded or disadvantaged large parts of the population. It combines constitutional history, democratic practice, and political economy to examine how representation, sovereign immunity, corporate influence, reserve-currency dynamics, BRICS coordination, and tariff policy shape modern power.",
+      [
+        "It uses founding-era contradictions and later legal structures to test the distance between formal equality and actual accountability.",
+        "It connects constitutional design, representation, corporate influence, and global economic power in one institutional analysis.",
+        "Its reform discussion gives readers a concrete example of how Volume I moves from diagnosis toward public reasoning about institutional change.",
+      ],
+      "The SSRN record was verified on 30 August 2026; its usage figures are descriptive signals, not peer review or a quality rating. The paper is a working paper and combines historical, legal, and political-economy arguments that remain open to source and interpretation review.",
+    ),
+    citations: [
+      {
+        id: "ssrn-5442294",
+        label: "SSRN",
+        citation:
+          "Harsh Wardhan, Siddhartha, The Illusion of Equality: The Founding Fathers’ Contradictions, The Flaws of Democracy, and The Future of U.S. Economic Influence (2025), SSRN abstract 5442294.",
+        url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5442294",
+      },
+    ],
+    notes: [
+      "Verified as a public SSRN record matched to a Volume I Dropbox PDF.",
+      "The synopsis is public-safe and does not reproduce the raw Dropbox PDF.",
+    ],
+    limitations: [
+      "The paper is a working paper, not a peer-reviewed publication.",
+      "Historical analogies and institutional comparisons require attention to period, jurisdiction, and source selection.",
+      "Downloads and abstract views are usage signals, not scholarly quality ratings.",
     ],
   }),
 ];

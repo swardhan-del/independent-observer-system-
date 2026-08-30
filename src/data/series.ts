@@ -18,7 +18,7 @@ export const seriesItems: SeriesItem[] = [
     title: "Independent Observer",
     category: "Democratic capacity",
     description:
-      "A review-stage foundation for thinking about legitimacy, attention, evidence, public memory, and the practical capacity to use democratic institutions.",
+      "Volume I is the method anchor for the Independent Observer series. It is about how a public claim becomes believable: what was observed, which sources support it, what context or contradiction is missing, how interpretation becomes argument, and how uncertainty is recorded. It brings law, labor, media, history, public memory, and democratic practice into one framework so readers can follow not only a conclusion but the path that produced it. Its central question is whether people can use and correct their institutions in practice, not merely whether those institutions are formally legitimate. The volume represents disciplined observation before judgment and is intended to establish the evidence, memory, and accountability standards used by the later volumes. It remains a review-stage catalogue entry, not a finished publication.",
     status: "In editorial development",
   },
   {
@@ -26,7 +26,7 @@ export const seriesItems: SeriesItem[] = [
     title: "The Empire Beneath Democracy",
     category: "Sovereignty and interdependence",
     description:
-      "A concept-stage examination of how constitutional design, enforcement, alliances, markets, and research policy distribute political power.",
+      "Volume II is the power inquiry of the Independent Observer series: it studies how authority can remain formally democratic while becoming materially managed. Its Dropbox research map brings together four families—democracy, institutions, and party power; immigration, citizenship, and border; civil rights, the carceral state, and legal power; and empire, geopolitics, and sovereignty. Across those families, the volume asks who can set the agenda, who is exposed to enforcement, whose membership is recognized, which definitions make a statistic meaningful, and how capital, technology, security, labor, markets, and alliances shape practical sovereignty. It represents the inquiry beneath constitutional language, party rotation, and national claims of independence: the operating arrangements that narrow or expand usable public power. This remains a concept-stage catalogue entry, not a finished publication.",
     status: "Concept preview",
   },
   {

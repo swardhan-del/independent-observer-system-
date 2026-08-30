@@ -102,7 +102,7 @@ describe("library content blocks", () => {
     const firstThreeVolumes = ssrnPreprintDocuments.filter((entry) =>
       ["Volume I", "Volume II", "Volume III"].includes(entry.volume ?? ""),
     );
-    expect(firstThreeVolumes).toHaveLength(5);
+    expect(firstThreeVolumes).toHaveLength(7);
     expect(firstThreeVolumes.every((entry) => entry.sourceUrl)).toBe(true);
     expect(siteSearch).toContain("...publicDocumentItems.map");
     expect(siteSearch).toContain("SSRN preprint");
@@ -139,7 +139,7 @@ describe("library content blocks", () => {
     expect(volumeResearchMap.every((item) => item.papers.length > 0)).toBe(true);
     expect(new Set(volumeResearchMap.map((item) => item.papers[0]?.volume)).size).toBe(4);
     expect(volumeResearchMap.map((item) => item.papers[0]?.id)).toEqual([
-      "independent-observer-volume-one-ssrn",
+      "the-illusion-of-equality-ssrn",
       "who-deported-more-ssrn",
       "wardhan-tax-doctrine-ssrn",
       "disconnected-hearts-ssrn",

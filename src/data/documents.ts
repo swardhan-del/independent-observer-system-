@@ -31,6 +31,7 @@ export type PublicDocument = {
   volume?: string;
   category: string;
   description: string;
+  volumeRelevance?: string;
   sourceLabel: string;
   sourceModified?: string;
   author?: string;
