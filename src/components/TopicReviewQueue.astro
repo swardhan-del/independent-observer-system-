@@ -4,9 +4,14 @@ import type { ReviewQueueSignal } from "../../plugins/topic-discovery/catalog";
 type Props = {
   signals: ReviewQueueSignal[];
   title?: string;
+  intro?: string;
 };
 
-const { signals, title = "Held for human release" } = Astro.props as Props;
+const {
+  signals,
+  title = "Held for human release",
+  intro = "These safe metadata signals come from the dated source-review package. The underlying drafts remain unlinked and unpublished until the owner closes the human release gate.",
+} = Astro.props as Props;
 ---
 
 {
@@ -18,10 +23,7 @@ const { signals, title = "Held for human release" } = Astro.props as Props;
             <p class="eyebrow">Review boundary</p>
             <h2 id="topic-review-title">{title}</h2>
           </div>
-          <p>
-            These safe metadata signals come from the dated source-review package. The underlying
-            drafts remain unlinked and unpublished until the owner closes the human release gate.
-          </p>
+          <p>{intro}</p>
         </div>
         <div class="topic-review-grid">
           {signals.map((signal, index) => (

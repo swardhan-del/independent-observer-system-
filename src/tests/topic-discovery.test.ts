@@ -75,6 +75,19 @@ describe("topic discovery plugin", () => {
     );
   });
 
+  it("gives the History hub a current, research-grounded public overview", () => {
+    const history = topicHubs.find((topic) => topic.slug === "history");
+
+    expect(history?.description).toContain(
+      "colonization, industrialization, constitutional design",
+    );
+    expect(history?.reviewIntro).toContain("From Colonization to China’s Rise");
+    expect(history?.reviewIntro).toContain(
+      "state funerals, structural literacy, and institutional memory",
+    );
+    expect(history?.reviewIntro).toContain("underlying drafts remain unlinked and unpublished");
+  });
+
   it("keeps six Dropbox-derived review signals metadata-only and held for approval", () => {
     expect(reviewQueueSignals).toHaveLength(6);
     expect(reviewQueueSignals.every((signal) => signal.status === "Awaiting human release")).toBe(
@@ -121,6 +134,7 @@ describe("topic discovery plugin", () => {
     expect(topicVolumeMatrix).toContain("replaceState");
     expect(topicReviewQueue).toContain("signal.status");
     expect(topicReviewQueue).toContain("Metadata only · not a published article");
+    expect(topicReviewQueue).toContain("intro");
     expect(topicSpineNavigator).toContain(
       'aria-label="Explore the Independent Observer research spine"',
     );

@@ -75,5 +75,9 @@ const roadmapCount = topic.related.filter((item) => item.type.startsWith("Volume
       </div>
     </div>
   </section>
-  <TopicReviewQueue signals={reviewSignals} title={"Held for release in " + topic.name} />
+  <TopicReviewQueue
+    signals={reviewSignals}
+    title={"Held for release in " + topic.name}
+    intro={topic.reviewIntro}
+  />
 </BaseLayout>

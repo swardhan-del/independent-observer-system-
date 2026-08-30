@@ -19,6 +19,7 @@ export type TopicHub = {
   name: string;
   slug: string;
   description: string;
+  reviewIntro?: string;
   related: TopicRelatedItem[];
 };
 
@@ -106,7 +107,9 @@ export const topicHubs: TopicHub[] = [
     name: "History",
     slug: "history",
     description:
-      "Power shifts, institutional inheritance, and the decisions that remain active in the present.",
+      "History is a way to trace how colonization, industrialization, constitutional design, political ritual, and public memory continue to distribute power in the present—not a timeline of disconnected events.",
+    reviewIntro:
+      "History on this site is treated as an active system, not as background chronology. The current research map follows how colonization, industrialization, constitutional design, political ritual, and public memory continue to shape power in the present. A public preprint, From Colonization to China’s Rise, reads historical power shifts through knowledge extraction, inequality, institutional control, and strategic economic design—not only through military events. The four-volume map carries those questions into Volume I’s evidence and democratic capacity, Volume II’s sovereignty and enforcement, and Volume III’s labor, taxation, and social citizenship. Other mapped directions examine state funerals, structural literacy, and institutional memory. These are public-safe research signals; underlying drafts remain unlinked and unpublished until the owner closes the human release gate.",
     related: [],
   },
   {

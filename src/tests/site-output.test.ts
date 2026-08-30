@@ -187,6 +187,16 @@ describe("built website", () => {
     expect(html).toContain("not public SSRN reading copies or publication approvals");
   });
 
+  it("renders the History hub's research-grounded overview", () => {
+    const html = readOutput("topics/history/index.html");
+
+    expect(html).toContain("History is a way to trace how colonization, industrialization");
+    expect(html).toContain("History on this site is treated as an active system");
+    expect(html).toContain("From Colonization to China’s Rise");
+    expect(html).toContain("state funerals, structural literacy, and institutional memory");
+    expect(html).toContain("underlying drafts remain unlinked and unpublished");
+  });
+
   it("renders Volume II's four research families and four principles in Public Preview", () => {
     const html = readOutput("series/the-empire-beneath-democracy/index.html");
 
