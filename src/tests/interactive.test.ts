@@ -55,6 +55,16 @@ const homepageVolumeGuide = readFileSync(
   "utf8",
 );
 const videos = readFileSync(join(sourceRoot, "pages/videos/index.astro"), "utf8");
+const volumeVisualStrip = readFileSync(
+  join(sourceRoot, "components/VolumeVisualStrip.astro"),
+  "utf8",
+);
+const bookRoadmap = readFileSync(join(sourceRoot, "components/BookRoadmap.astro"), "utf8");
+const reelTreatmentShelf = readFileSync(
+  join(sourceRoot, "components/ReelTreatmentShelf.astro"),
+  "utf8",
+);
+const reelTreatmentData = readFileSync(join(sourceRoot, "data/video-reel-treatments.ts"), "utf8");
 const stylesheet = readFileSync(join(sourceRoot, "styles/global.css"), "utf8");
 const videoDetail = readFileSync(join(sourceRoot, "pages/videos/[slug].astro"), "utf8");
 const documentaries = readFileSync(join(sourceRoot, "pages/documentaries/index.astro"), "utf8");
@@ -97,19 +107,20 @@ describe("interactive preview tools", () => {
     expect(catalogue).toContain("replaceState");
   });
 
-  it("keeps collection forms explicitly disabled until a privacy-safe service exists", () => {
+  it("ships a transparent inquiry form without creating a collection endpoint", () => {
     expect(readFileSync(join(sourceRoot, "pages/index.astro"), "utf8")).toContain(
       'aria-label="Newsletter preview"',
     );
-    expect(contact).toContain("Contact is not open yet.");
-    expect(contact).toContain("Not available for contact");
-    expect(contact).toContain("Siddhartha Harsh Wardhan");
-    expect(contact).toContain("future social-media company");
-    expect(contact.replace(/\s+/g, " ")).toContain(
-      "Nothing submitted here is collected, stored, or forwarded.",
-    );
-    expect(contact).not.toContain("<form");
-    expect(contact).not.toContain("contact-name");
+    expect(contact).toContain("Questions about Independent Observer.");
+    expect(contact).toContain("<form");
+    expect(contact).toContain("contact-name");
+    expect(contact).toContain("contact-disclosure");
+    expect(contact).toContain("mailto:");
+    expect(contact).toContain("encodeURIComponent");
+    expect(contact).toContain("Nothing is stored by this site");
+    expect(contact).toContain("Questions and discussion");
+    expect(contact).not.toContain("Contact is not open yet.");
+    expect(contact).not.toContain("No email address or message form is active.");
   });
 
   it("renders a visible public source trail and release boundary for annotated previews", () => {
@@ -268,6 +279,8 @@ describe("interactive preview tools", () => {
 
   it("connects documentary planning to all four volume research signals", () => {
     expect(documentaries).toContain("What each volume is building.");
+    expect(bookRoadmap).toContain("Four books, one connected inquiry.");
+    expect(bookRoadmap).toContain("There are no Amazon listings");
     expect(documentaries).toContain("Leading public signals in this volume");
     expect(documentaries).toContain("SSRN does not provide a reliable star-rating field");
     expect(documentaries).toContain("Research state:");
@@ -491,17 +504,17 @@ describe("interactive preview tools", () => {
   });
 
   it("connects the About page to the Volume I method and public reading copy", () => {
-    expect(about).toContain("Observe before you react.");
+    expect(about).toContain('title="Independent Observer"');
     expect(about).toContain('className="about-hero"');
-    expect(about).toContain("time, resources, institutional access, and economic room");
-    expect(about).toContain("Volume I · Method");
-    expect(about).toContain("documented fact");
-    expect(about).toContain("Charles Hamilton Houston");
-    expect(about).toContain("independent-observer-volume-one-ssrn");
+    expect(about).toContain("A public research project about how evidence");
+    expect(about).toContain("One project. Four volumes.");
+    expect(about).toContain("The four Independent Observer volumes");
+    expect(about).toContain("Observation and evidence");
+    expect(about).toContain("Institutions and sovereignty");
+    expect(about).toContain("Work and social citizenship");
+    expect(about).toContain("Science and capability");
     expect(about).toContain("series/independent-observer");
-    expect(about).toContain("Independent Observer is a connected four-volume inquiry.");
-    expect(about).toContain("Volume III examines work, taxation, and");
-    expect(about).toContain("Volume IV tests technological change against human capability");
+    expect(about).not.toContain("Independence is a method, not a pose.");
     expect(aboutVolumeAtlas).toContain('aria-label="Explore the four volumes"');
     expect(aboutVolumeAtlas).toContain("seriesItems.map");
     expect(aboutVolumeAtlas).toContain("libraryVolumeGuides.find");
@@ -574,9 +587,12 @@ describe("interactive preview tools", () => {
 
   it("explains Volume I observation and connects all four volumes to topic hubs", () => {
     expect(homepage).toContain(
-      "Volume I begins with a practical philosophy: observation comes before reaction.",
+      "One research project about what public systems make visible, possible, and changeable.",
     );
-    expect(homepage).toMatch(/Volume II follows power\s+through sovereignty and institutions/);
+    expect(homepage).toContain("The general message of each volume");
+    expect(homepage).toContain("grounded in references, identifiable sources, and visible limits");
+    expect(homepage).toContain("<VolumeVisualStrip compact />");
+    expect(volumeVisualStrip).toContain("volume-visual-strip");
     expect(homepage).toContain("<HomepageVolumeGuide />");
     expect(homepage).toContain("ssrnPreprintDocuments");
     expect(homepage).toContain("The public Volume I SSRN record reports");
@@ -594,6 +610,8 @@ describe("interactive preview tools", () => {
     expect(homepage).toContain("Highest retrieved SSRN usage signal");
     expect(homepage.replace(/\s+/g, " ")).toContain("usage signal—not a quality rating");
     expect(homepageVolumeGuide).toContain("Volume I establishes the method of observation");
+    expect(homepageVolumeGuide).toContain("homepage-volume-sequence");
+    expect(homepageVolumeGuide).toContain("homepage-volume-illustration");
     expect(homepageVolumeGuide).toContain("seriesItems.map");
     expect(homepageVolumeGuide).toContain("volumeTopicConnections[item.volume]");
     expect(homepageVolumeGuide).toContain("item.volume");
@@ -611,6 +629,11 @@ describe("interactive preview tools", () => {
     expect(videos).toContain("video-preview-grid");
     expect(videos).toContain("transcripts, rights checks, citations, and final release dates");
     expect(videos).toContain("<VolumeReelShelf items={volumeReels} />");
+    expect(videos).toContain("<ReelTreatmentShelf />");
+    expect(reelTreatmentShelf).toContain("Storyboard treatment · no playable media yet");
+    expect(reelTreatmentShelf).toContain("eight treatments");
+    expect(reelTreatmentData).toContain("Capability Has a Supply Chain");
+    expect(reelTreatmentData).toContain("The Record Before the Reaction");
     expect(stylesheet).toContain(".video-preview-grid");
     expect(stylesheet).toContain("grid-template-columns: repeat(2, minmax(0, 1fr));");
   });

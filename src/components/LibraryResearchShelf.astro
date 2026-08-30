@@ -62,9 +62,10 @@ const volumeIllustrations = {
         <p>
           The local search index covers every public SSRN reading copy currently in the site data
           and exposes a matching ResearchGate record only when a verified public URL exists. The
-          research map beneath selected volume cards identifies additional papers developed in the
-          source taxonomy; those entries are not public SSRN reading copies or publication
-          approvals.
+          Volume II shelf also explains the research method and the contribution of each public
+          paper. The research map beneath selected volume cards identifies additional papers
+          developed in the source taxonomy; those entries are not public SSRN reading copies or
+          publication approvals.
         </p>
       </div>
     </div>
@@ -146,6 +147,35 @@ const volumeIllustrations = {
                   </details>
                 </figure>
               </div>
+              {guide.volume === "Volume II" && (
+                <div class="library-volume-method" id="library-volume-ii-method">
+                  <div>
+                    <p class="library-block-label">Volume II method</p>
+                    <h4>How the power inquiry is assembled.</h4>
+                    <p>
+                      The method moves from definitions to institutions, then from institutions to
+                      measurable exposure and practical capacity. It keeps constitutional language,
+                      administrative routine, historical inheritance, and geopolitical dependence in
+                      the same frame without treating them as one cause.
+                    </p>
+                  </div>
+                  <ol>
+                    <li>
+                      <strong>Define:</strong> fix the population, period, category, and outcome.
+                    </li>
+                    <li>
+                      <strong>Trace:</strong> follow rules, incentives, enforcement, and records.
+                    </li>
+                    <li>
+                      <strong>Compare:</strong> test indicators against context and contradiction.
+                    </li>
+                    <li>
+                      <strong>Bound:</strong> separate evidence, interpretation, proposal, and
+                      uncertainty.
+                    </li>
+                  </ol>
+                </div>
+              )}
               <div class="library-volume-shelf-columns">
                 <div>
                   <p class="library-block-label">Core principles</p>
@@ -181,6 +211,12 @@ const volumeIllustrations = {
                       </a>
                     </h4>
                     <p>{representativePaper.description}</p>
+                    {representativePaper.volumeRelevance && (
+                      <p class="library-paper-contribution">
+                        <strong>Contribution to {guide.volume}.</strong>{" "}
+                        {representativePaper.volumeRelevance}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <strong>{representativePaper.metrics?.downloads ?? "—"} downloads</strong>
@@ -294,6 +330,11 @@ const volumeIllustrations = {
                 <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
               </h4>
               <p>{paper.description}</p>
+              {paper.volumeRelevance && (
+                <p class="library-paper-contribution">
+                  <strong>Why it contributes.</strong> {paper.volumeRelevance}
+                </p>
+              )}
               <div class="library-paper-card-footer">
                 <span>
                   {paper.metrics?.downloads ?? "—"} downloads ·{" "}

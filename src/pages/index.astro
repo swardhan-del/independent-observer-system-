@@ -10,6 +10,7 @@ import { socialLinks } from "../data/social";
 import EvidenceLayer from "../components/EvidenceLayer.astro";
 import HomepageVolumeGuide from "../components/HomepageVolumeGuide.astro";
 import HomepageLiteratureShelf from "../components/HomepageLiteratureShelf.astro";
+import VolumeVisualStrip from "../components/VolumeVisualStrip.astro";
 import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
 
 const volumeOneMethod = ssrnPreprintDocuments.find(
@@ -145,36 +146,55 @@ const heroVolumeLinks = seriesItems.map((item, index) => ({
 
   <section class="section section-white">
     <div class="shell mission-grid">
-      <div class="index" aria-hidden="true">01</div>
+      <div class="index" aria-hidden="true">IO</div>
       <div class="mission-copy">
-        <p class="eyebrow">The four-volume research spine</p>
-        <h2>One method, four connected questions.</h2>
+        <p class="eyebrow">Independent Observer</p>
+        <h2>
+          One research project about what public systems make visible, possible, and changeable.
+        </h2>
         <p>
-          Volume I begins with a practical philosophy: observation comes before reaction.
-          Independent Observer begins with a practical discipline: observe before reacting. Volume I
-          names the record, its source, its limits, and the conditions that determine what becomes
-          visible. Its public anchor is <a href={volumeOneMethodHref}
-            >{volumeOneMethod?.title ?? "the Volume I public record"}</a
-          >, a method paper about evidence, institutions, memory, and democratic capacity.
+          The project follows evidence from the record to the institution, from institutional power
+          to the distribution of work and security, and from distribution to human capability. It is
+          grounded in references, identifiable sources, and visible limits—not conspiracy framing.
         </p>
-        <p>
-          Volume II follows power through sovereignty and institutions. It carries that method into
-          sovereignty and power through <em>The Empire Beneath Democracy</em>—including <a
-            href={sitePath("/library/documents/who-deported-more-ssrn/")}>Who Deported More?</a
-          > and <em>From Colonization to China’s Rise</em>. Volume III follows the distribution of
-          work, time, taxation, and social citizenship through <em>Managed Decline</em>
-          and <a href={sitePath("/library/documents/wardhan-tax-doctrine-ssrn/")}
-            >The Wardhan Tax Doctrine</a
-          >.
-        </p>
-        <p>
-          Volume IV asks how AI, infrastructure, science, intimacy, and human capability become
-          usable public capacity, with research threads such as <em
-            >Disconnected Hearts — The Tech Revolution of Intimacy</em
-          >. The volumes roll forward as one inquiry: method makes power legible, power explains
-          distribution, distribution shapes capability, and capability returns us to the question of
-          who can observe, participate, and correct the system.
-        </p>
+        <div class="mission-volume-list" aria-label="The general message of each volume">
+          <article class="mission-volume">
+            <span class="mission-volume-number">Volume I</span>
+            <h3><a href={sitePath("/series/independent-observer/")}>Observation</a></h3>
+            <p>Build a record, separate fact from interpretation, and keep correction possible.</p>
+            <a class="mission-volume-link" href={volumeOneMethodHref}>Read the method →</a>
+          </article>
+          <article class="mission-volume">
+            <span class="mission-volume-number">Volume II</span>
+            <h3><a href={sitePath("/series/the-empire-beneath-democracy/")}>Power</a></h3>
+            <p>
+              Trace sovereignty, institutions, membership, and enforcement beneath formal democracy.
+            </p>
+            <a class="mission-volume-link" href={sitePath("/series/the-empire-beneath-democracy/")}
+              >Open the power inquiry →</a
+            >
+          </article>
+          <article class="mission-volume">
+            <span class="mission-volume-number">Volume III</span>
+            <h3><a href={sitePath("/series/managed-decline/")}>Distribution</a></h3>
+            <p>Ask who carries the cost of work, taxation, welfare, and economic change.</p>
+            <a class="mission-volume-link" href={sitePath("/series/managed-decline/")}
+              >Open the social-citizenship inquiry →</a
+            >
+          </article>
+          <article class="mission-volume">
+            <span class="mission-volume-number">Volume IV</span>
+            <h3><a href={sitePath("/series/the-last-human-workforce/")}>Capability</a></h3>
+            <p>Test AI, science, infrastructure, and adaptation against human governance.</p>
+            <a class="mission-volume-link" href={sitePath("/series/the-last-human-workforce/")}
+              >Open the capability inquiry →</a
+            >
+          </article>
+        </div>
+        <div class="mission-visual-map">
+          <p class="eyebrow">A visual way through the program</p>
+          <VolumeVisualStrip compact />
+        </div>
         <a class="button button-secondary" href={sitePath("/about/#about-volume-atlas")}
           >Explore all four volumes →</a
         >

@@ -17,6 +17,26 @@ import { slugify } from "../lib/slugs";
         then follow its questions into history, politics, economics, law, science, or technology.
       </p>
     </div>
+    <div
+      class="topic-volume-concept-map"
+      aria-label="Concept map connecting Independent Observer to the four volumes"
+    >
+      <div class="topic-volume-concept-center">
+        <strong>Independent Observer</strong>
+        <span>observe · connect · correct</span>
+      </div>
+      <div class="topic-volume-concept-nodes">
+        {
+          seriesItems.map((item, index) => (
+            <a class="topic-volume-concept-node" href={sitePath(`/series/${slugify(item.title)}/`)}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <strong>{item.volume}</strong>
+              <small>{item.category}</small>
+            </a>
+          ))
+        }
+      </div>
+    </div>
     <ol class="topic-volume-grid" aria-label="Independent Observer four-volume map">
       {
         seriesItems.map((item, index) => {

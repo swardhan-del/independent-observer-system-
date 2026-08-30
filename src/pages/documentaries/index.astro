@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ContentFilter from "../../components/ContentFilter.astro";
 import PageHero from "../../components/PageHero.astro";
 import EditorialCard from "../../components/EditorialCard.astro";
+import BookRoadmap from "../../components/BookRoadmap.astro";
 import { documentaryItems } from "../../data/content";
 import { volumeResearchMap } from "../../data/volume-research";
 import { sitePath } from "../../lib/paths";
@@ -40,6 +41,7 @@ import { slugify } from "../../lib/slugs";
       </div>
     </div>
   </section>
+  <BookRoadmap />
   <section
     class="section section-navy documentary-volume-research"
     aria-labelledby="documentary-volume-research-title"

@@ -17,6 +17,18 @@ const reviewSignals = reviewQueueForTopic(topic.slug);
 const preprintCount = topic.related.filter((item) => item.type === "SSRN preprint").length;
 const previewCount = topic.related.filter((item) => item.type.includes("preview")).length;
 const roadmapCount = topic.related.filter((item) => item.type.startsWith("Volume")).length;
+const publicOutputItems = topic.related.filter(
+  (item) => item.type === "SSRN preprint" || item.type.includes("preview"),
+);
+const mappedVolumes = [
+  ...new Set(
+    topic.related.map((item) => item.volume).filter((volume): volume is string => Boolean(volume)),
+  ),
+];
+const mappedVolumeSummary =
+  mappedVolumes.length > 1
+    ? `${mappedVolumes.slice(0, -1).join(", ")}, and ${mappedVolumes[mappedVolumes.length - 1]}`
+    : (mappedVolumes[0] ?? "");
 ---
 
 <BaseLayout
@@ -31,15 +43,52 @@ const roadmapCount = topic.related.filter((item) => item.type.startsWith("Volume
         <span class="status-pill">Public discovery map</span>
         <h2>{plugin.question}</h2>
         <p>
-          {plugin.method} Independent Observer has no released article in this field at present; the map
-          below separates public preprints, previews, and roadmap notes.
+          {plugin.method} This hub already has public outputs: {preprintCount} matched SSRN reading
+          {preprintCount === 1 ? " copy" : " copies"} and {previewCount} research, documentary, or video
+          {previewCount === 1 ? "preview" : "previews"}. These are public records and previews, not
+          a claim that a standalone Independent Observer article has been released; the map below
+          keeps them distinct from roadmap notes and work held for human release.
         </p>
         <div class="topic-hub-stat-row" aria-label={topic.name + " map summary"}>
+          <span><strong>{publicOutputItems.length}</strong> public outputs</span>
           <span><strong>{preprintCount}</strong> public preprints</span>
           <span><strong>{previewCount}</strong> previews</span>
           <span><strong>{roadmapCount}</strong> roadmap notes</span>
           <span><strong>{reviewSignals.length}</strong> held for release</span>
         </div>
+        {
+          publicOutputItems.length > 0 && (
+            <div class="topic-hub-outputs">
+              <div class="topic-hub-outputs-heading">
+                <div>
+                  <p class="topic-hub-output-label">Public outputs in this map</p>
+                  <h3>Open the work that is available now.</h3>
+                </div>
+                <p class="topic-hub-output-context">
+                  {mappedVolumes.length > 0
+                    ? `Mapped to ${mappedVolumeSummary} in the four-volume spine.`
+                    : "Connected to the four-volume research spine."}
+                </p>
+              </div>
+              <ul class="topic-hub-output-list" aria-label={topic.name + " public outputs"}>
+                {publicOutputItems.map((item) => (
+                  <li>
+                    <a href={item.href}>
+                      <span>
+                        {item.type}
+                        {item.volume ? ` · ${item.volume}` : ""}
+                      </span>
+                      {item.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <a class="topic-hub-output-catalogue" href={sitePath("/research/")}>
+                Browse the full research catalogue →
+              </a>
+            </div>
+          )
+        }
       </div>
       <div class="card-grid topic-hub-grid">
         {

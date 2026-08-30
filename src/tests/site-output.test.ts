@@ -137,6 +137,18 @@ describe("built website", () => {
     expect(html).toContain("hero-volume-link");
   });
 
+  it("renders the homepage mission as a four-volume visual map", () => {
+    const html = readOutput("index.html");
+
+    expect(html).toContain("One research project about what public systems make visible");
+    expect(html).toContain("The general message of each volume");
+    expect(html).toContain("volume-visual-strip-compact");
+    expect(html).toContain("Observe and document");
+    expect(html).toContain("Locate power and sovereignty");
+    expect(html).toContain("Follow the cost of change");
+    expect(html).toContain("Govern human capability");
+  });
+
   it("builds robots, sitemap, and 404 output", () => {
     expect(existsSync(join(distRoot, "robots.txt"))).toBe(true);
     expect(existsSync(join(distRoot, "sitemap.xml"))).toBe(true);
@@ -197,7 +209,9 @@ describe("built website", () => {
   });
 
   it("makes the reviewed public literature visible on the homepage", () => {
-    expect(homeHtml).toContain("The literature behind the inquiry.");
+    expect(homeHtml).toContain(
+      "The literature behind critical thinking, reasoning, and documentation.",
+    );
     expect(homeHtml).toContain("17 public SSRN reading copies");
     expect(homeHtml).toContain("Who Deported More?");
     expect(homeHtml).toContain("The Double Tax on Time");
@@ -335,6 +349,18 @@ describe("built website", () => {
     expect(html).not.toContain("topic-volume-map");
   });
 
+  it("renders the About page's concise project message before the detailed atlas", () => {
+    const html = readOutput("about/index.html");
+
+    expect(html).toContain("<h1>Independent Observer</h1>");
+    expect(html).toContain("One project. Four volumes.");
+    expect(html).toContain("Observation and evidence");
+    expect(html).toContain("Institutions and sovereignty");
+    expect(html).toContain("Work and social citizenship");
+    expect(html).toContain("Science and capability");
+    expect(html).not.toContain("Independence is a method, not a pose.");
+  });
+
   it("renders the linked four-volume spine on the History hub", () => {
     const html = readOutput("topics/history/index.html");
 
@@ -346,6 +372,112 @@ describe("built website", () => {
     expect(html).toContain("Public entry points");
     expect(html).toContain("The Wardhan Tax Doctrine");
     expect(html).toContain("The Autonomous Illusion");
+  });
+
+  it("shows Politics public outputs while preserving the standalone release boundary", () => {
+    const html = readOutput("topics/politics/index.html");
+
+    expect(html).toContain("This hub already has public outputs");
+    expect(html).toContain("Public outputs in this map");
+    expect(html).toContain("Could America Leave NATO?");
+    expect(html).toContain("The Latino Irony: Why Many Hispanic Americans Support Donald Trump");
+    expect(html).toContain(
+      "From Colonization to China’s Rise: How Historical Power Shifts Still Shape Global Politics and Democracy",
+    );
+    expect(html).toContain("standalone Independent Observer article has been released");
+    expect(html).not.toContain("has no released article in this field at present");
+  });
+
+  it("collapses the empty Politics topic track without inventing a sixth card", () => {
+    const html = readOutput("topics/politics/index.html");
+
+    expect(html).toContain("topic-hub-grid");
+    expect(html).toContain("The Latino Irony: Why Many Hispanic Americans Support Donald Trump");
+    expect(html).toContain("Choose another path");
+    expect(readFileSync(join(process.cwd(), "src/styles/global.css"), "utf8")).toContain(
+      ".topic-hub-grid {\n  grid-template-columns: repeat(auto-fit",
+    );
+  });
+
+  it("maps the requested History and Politics cross-volume connections", () => {
+    const html = readOutput("topics/index.html");
+
+    expect(html).toContain("History, Volume III");
+    expect(html).toContain("Politics, Volume IV");
+    expect(html).toContain("Children Left Behind After a War");
+    expect(html).toContain("The Empire of Distraction");
+    expect(html).toContain("Technical capability becomes political through procurement");
+  });
+
+  it("keeps the science release-review placeholder intentionally empty", () => {
+    const html = readOutput("topics/science/index.html");
+
+    expect(html).toContain(
+      "Regrowing Humanity: How Robotic Limbs Are Becoming Integrated Extensions of the Human Body",
+    );
+    expect(html).toContain("topic-review-grid");
+    expect(html).toContain("Metadata only · not a published article");
+  });
+
+  it("renders the Volume II shelf with method, contribution, and public-safe papers", () => {
+    const html = readOutput("library/index.html");
+
+    expect(html).toContain("Volume II: make power legible.");
+    expect(html).toContain("How the power inquiry is assembled.");
+    expect(html).toContain("Contribution to Volume II.");
+    expect(html).toContain("Why it contributes.");
+    expect(html).toContain("Two Masks, One Face: State Capitalism");
+    expect(html).toContain("The Geography of Enslaved Wealth");
+    expect(html).toContain("volume-ii-sovereignty.jpg");
+    expect(html).not.toMatch(/dropbox/i);
+  });
+
+  it("renders the forthcoming four-book roadmap without release or sales claims", () => {
+    const html = readOutput("documentaries/index.html");
+
+    expect(html).toContain("Four books, one connected inquiry.");
+    expect(html).toContain("Independent Observer");
+    expect(html).toContain("The Empire Beneath Democracy");
+    expect(html).toContain("Managed Decline");
+    expect(html).toContain("The Last Human Workforce");
+    expect(html).toContain("Planned book · not released");
+    expect(html).toContain("There are no Amazon listings, sales links, release dates");
+    expect(html).not.toContain("Buy now");
+  });
+
+  it("renders additional reel storyboards while keeping playable media count at four", () => {
+    const html = readOutput("videos/index.html");
+
+    expect(html).toContain("More questions are in storyboard.");
+    expect(html).toContain("The Record Before the Reaction");
+    expect(html).toContain("Capability Has a Supply Chain");
+    expect(html).toContain("Storyboard treatment · no playable media yet");
+    expect(html).toContain("no playable media or release is represented");
+    expect(tags(html, "video")).toHaveLength(volumeReels.length);
+  });
+
+  it("renders the inquiry route with disclosure and a no-storage boundary", () => {
+    const html = readOutput("contact/index.html");
+
+    expect(html).toContain("Questions about Independent Observer.");
+    expect(html).toContain('action="mailto:swardhan1@icloud.com"');
+    expect(html).toContain('id="contact-disclosure"');
+    expect(html).toContain("threats, harassment, profanity");
+    expect(html).toContain("Nothing is stored by this site");
+    expect(html).toContain("An inquiry does not guarantee a response");
+    expect(html).toContain("A small public Q&amp;A.");
+    expect(html).not.toContain("Contact is not open yet.");
+  });
+
+  it("renders the series and start visual entry points", () => {
+    const seriesHtml = readOutput("series/index.html");
+    const startHtml = readOutput("start/index.html");
+
+    expect(seriesHtml).toContain("Four questions. One connected program.");
+    expect(seriesHtml).toContain("volume-visual-strip");
+    expect(startHtml).toContain("See how the four volumes connect.");
+    expect(startHtml).toContain("topic-volume-concept-map");
+    expect(startHtml).toContain("observe · connect · correct");
   });
 
   it("renders Volume II's four research families and four principles in Public Preview", () => {

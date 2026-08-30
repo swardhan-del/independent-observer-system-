@@ -115,6 +115,9 @@ describe("topic discovery plugin", () => {
       'import TopicVolumeMap from "../../components/TopicVolumeMap.astro";',
     );
     expect(topicDetail).toContain("<TopicVolumeMap />");
+    expect(topicDetail).toContain("publicOutputItems");
+    expect(topicDetail).toContain("Public outputs in this map");
+    expect(topicDetail).toContain("standalone Independent Observer article has been released");
     expect(topicDetail.indexOf("<TopicVolumeMap />")).toBeLessThan(
       topicDetail.indexOf("<TopicReviewQueue"),
     );
@@ -179,6 +182,8 @@ describe("topic discovery plugin", () => {
     expect(topicVolumeMap).toContain("connection.coreIdeas");
     expect(topicVolumeMap).toContain("connection.contentLinks");
     expect(topicVolumeMap).toContain("topic-volume-${slugify(item.volume)}");
+    expect(topicVolumeMap).toContain("topic-volume-concept-map");
+    expect(topicVolumeMap).toContain("observe · connect · correct");
   });
 
   it("connects all four roadmap volumes to at least two topic hubs", () => {
@@ -199,5 +204,29 @@ describe("topic discovery plugin", () => {
           connection.coreIdeas.length >= 3 && connection.contentLinks.length >= 2,
       ),
     ).toBe(true);
+  });
+
+  it("connects History in Volume III and Politics in Volume IV to public-safe research", () => {
+    expect(volumeTopicConnections["Volume III"].topicSlugs).toContain("history");
+    expect(volumeTopicConnections["Volume III"].contentLinks).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: "Children Left Behind After a War",
+          path: "/library/documents/children-left-behind-after-a-war-ssrn/",
+        }),
+      ]),
+    );
+    expect(volumeTopicConnections["Volume IV"].topicSlugs).toContain("politics");
+    expect(volumeTopicConnections["Volume IV"].coreIdeas).toContain(
+      "Technical capability becomes political through procurement, standards, lobbying, and public investment.",
+    );
+    expect(volumeTopicConnections["Volume IV"].contentLinks).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: "The Empire of Distraction",
+          path: "/library/documents/empire-of-distraction-ssrn/",
+        }),
+      ]),
+    );
   });
 });

@@ -116,9 +116,12 @@ describe("library content blocks", () => {
   it("describes the public archive and its four scholarly volume boundaries", () => {
     expect(libraryPage).not.toContain("drawn from a reviewed Dropbox export");
     expect(libraryPage).toContain("source-led social-science papers");
-    expect(libraryPage).toContain("Volume I develops the philosophy and method");
-    expect(libraryPage).toContain("Volume IV examines science, technology, AI");
-    expect(libraryPage).toContain("academic discussion grounded in references");
+    expect(libraryPage).toContain("Volume II: make power legible.");
+    expect(libraryPage).toContain("Volume II research method");
+    expect(libraryPage).toContain("Define the population, legal category, period, and outcome");
+    expect(libraryPage).toContain("Volume II shelf");
+    expect(libraryPage).toContain("Volume IV examines science,");
+    expect(libraryPage).toContain("This site is for academic discussion grounded in");
     expect(publicLibrarySnapshot.note).toContain("SSRN records");
     expect(publicLibrarySnapshot.note).toContain("ResearchGate records");
   });
@@ -144,6 +147,9 @@ describe("library content blocks", () => {
     expect(researchShelf).toContain("Core principles");
     expect(researchShelf).toContain("Highest current download signal");
     expect(researchShelf).toContain("not a quality score");
+    expect(researchShelf).toContain("How the power inquiry is assembled.");
+    expect(researchShelf).toContain("Contribution to {guide.volume}.");
+    expect(researchShelf).toContain("Why it contributes.");
     expect(researchShelf).toContain("Public paper index");
     expect(researchShelf).toContain("data-library-paper-filter");
     expect(researchShelf).toContain("data-library-paper-query");

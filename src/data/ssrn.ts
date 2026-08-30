@@ -68,6 +68,8 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
     category: "Demography & Migration",
     description:
       "A data-defined working paper that separates removals, returns, and expulsions before comparing enforcement priorities across administrations.",
+    volumeRelevance:
+      "This paper gives Volume II an empirical entry point into sovereignty and administrative power. Its definitions-first approach shows how legal categories, agency routines, and enforcement resources shape the public numbers through which political authority is judged.",
     sourceModified: "Author preprint matched to SSRN abstract 5495878",
     publicationDate: "13 October 2025",
     dateLabel: "Posted",
@@ -112,6 +114,8 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
     category: "Politics & Demography",
     description:
       "A working paper that treats Latino voting behavior as internally heterogeneous rather than as a single identity-based bloc.",
+    volumeRelevance:
+      "It contributes a democratic-membership case to Volume II by asking how identity, policy experience, local institutions, and immigration enforcement interact in political choice. The paper’s value is its refusal to treat a large population as one political actor or one explanation.",
     sourceModified: "Author preprint matched to SSRN abstract 5447654",
     publicationDate: "23 September 2025",
     dateLabel: "Posted",
@@ -279,6 +283,8 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
     category: "History & Geopolitics",
     description:
       "A historical working paper connecting colonization, industrialization, economic design, and contemporary competition among major powers.",
+    volumeRelevance:
+      "This paper extends Volume II’s sovereignty inquiry across time: it connects historical extraction, industrial capacity, capital, and geopolitical competition to the institutions that make power durable. It gives the volume a long-range frame for reading present rivalry without collapsing different periods into one story.",
     sourceModified: "Author submission package matched to SSRN abstract 5540740",
     publicationDate: "23 October 2025",
     dateLabel: "Posted",

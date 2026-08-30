@@ -13,6 +13,25 @@ const papersByVolume = new Map(
       .sort((left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1)),
   ]),
 );
+
+const volumeVisuals = {
+  "Volume I": {
+    src: "/volume-illustrations/volume-i-observation.jpg",
+    alt: "Editorial collage of an observation lens, layered records, and linked public nodes.",
+  },
+  "Volume II": {
+    src: "/volume-illustrations/volume-ii-sovereignty.jpg",
+    alt: "Editorial collage of civic buildings, map layers, legal pathways, and connected institutions.",
+  },
+  "Volume III": {
+    src: "/volume-illustrations/volume-iii-distribution.jpg",
+    alt: "Editorial collage of industrial and service work, a time grid, public infrastructure, and balanced pathways.",
+  },
+  "Volume IV": {
+    src: "/volume-illustrations/volume-iv-capability.jpg",
+    alt: "Editorial collage of a human figure connected to laboratory instruments, energy, compute, and care systems.",
+  },
+} as const;
 ---
 
 <div class="homepage-volume-guide" aria-labelledby="homepage-volume-guide-title">
@@ -21,7 +40,7 @@ const papersByVolume = new Map(
       <p class="eyebrow">The four-volume spine</p>
       <h3 id="homepage-volume-guide-title">One philosophy, four fields of action.</h3>
     </div>
-    <p>
+    <p class="homepage-volume-guide-intro">
       Volume I establishes the method of observation. Volume II follows sovereignty and public
       power. Volume III examines work and social citizenship. Volume IV follows AI, science,
       infrastructure, intimacy, and human capability. The linked public papers show where the
@@ -29,17 +48,42 @@ const papersByVolume = new Map(
       gate is complete.
     </p>
   </div>
+  <ol class="homepage-volume-sequence" aria-label="How the four volumes connect">
+    <li><span>01</span><strong>Observe</strong><small>make the record visible</small></li>
+    <li>
+      <span>02</span><strong>Locate power</strong><small>trace institutions and sovereignty</small>
+    </li>
+    <li>
+      <span>03</span><strong>Follow the cost</strong><small>measure work and distribution</small>
+    </li>
+    <li>
+      <span>04</span><strong>Govern capability</strong><small
+        >test technology against human needs</small
+      >
+    </li>
+  </ol>
   <ol class="homepage-volume-grid" aria-label="Topics connected to each volume">
     {
       seriesItems.map((item, index) => {
         const connection = volumeTopicConnections[item.volume];
         const papers = papersByVolume.get(item.volume) ?? [];
+        const visual = volumeVisuals[item.volume as keyof typeof volumeVisuals];
         return (
           <li class="homepage-volume-card" id={`homepage-${slugify(item.volume)}`}>
             <div class="homepage-volume-topline">
               <span>{String(index + 1).padStart(2, "0")}</span>
               <span>{item.volume}</span>
             </div>
+            <figure class="homepage-volume-illustration">
+              <img
+                src={sitePath(visual.src)}
+                alt={visual.alt}
+                width="1100"
+                height="1100"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
             <h4>
               <a href={sitePath(`/series/${slugify(item.title)}/`)}>{item.title}</a>
             </h4>

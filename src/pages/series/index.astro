@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import EditorialCard from "../../components/EditorialCard.astro";
 import PublicationCatalogue from "../../components/PublicationCatalogue.astro";
+import VolumeVisualStrip from "../../components/VolumeVisualStrip.astro";
 import { dropboxFeedItems } from "../../data/dropbox-content.generated";
 import { sitePath } from "../../lib/paths";
 
@@ -19,6 +20,22 @@ const automatedSeriesItems = dropboxFeedItems.filter((item) => item.kind === "se
     title="One series. Four volumes."
     description="Four lines of inquiry, one for each Independent Observer volume. Volume I is the method foundation: it represents observation, evidence, public memory, and democratic capacity, and is meant to show how a conclusion is formed before it is accepted. Volume II is the power inquiry: it represents sovereignty, institutions, history, migration, markets, and enforcement, and is meant to trace how authority is distributed and exercised. Volume III is the social-citizenship inquiry: it represents work, time, taxation, welfare, licensing, health, and economic security, and is meant to ask who carries the cost of change and who can access public capacity. Volume IV is the capability inquiry: it represents AI, infrastructure, science, labor, intimacy, and adaptation, and is meant to test how technological change can become human capability. Together, they form the official public-safe catalogue, with linked reading copies, research maps, and visible release boundaries."
   />
+  <section class="section section-rule volume-visual-section" aria-labelledby="volume-visual-title">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Visual map</p>
+          <h2 id="volume-visual-title">Four questions. One connected program.</h2>
+        </div>
+        <p>
+          These visual companions make the movement through the catalogue visible: observation
+          becomes a way to locate power, follow distribution, and ask whether capability can be
+          governed.
+        </p>
+      </div>
+      <VolumeVisualStrip />
+    </div>
+  </section>
   <PublicationCatalogue />
   {
     automatedSeriesItems.length > 0 && (

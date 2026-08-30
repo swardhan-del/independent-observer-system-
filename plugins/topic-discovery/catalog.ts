@@ -29,6 +29,7 @@ export type PathwayContentLink = {
   kind:
     | "Series roadmap"
     | "SSRN preprint"
+    | "Cross-volume SSRN preprint"
     | "Research preview"
     | "Documentary preview"
     | "Video preview";
@@ -365,17 +366,23 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
   },
   "Volume III": {
     lens: "Work, social citizenship, and economic insecurity",
-    topicSlugs: ["economics", "law", "politics"],
+    topicSlugs: ["history", "economics", "law", "politics"],
     coreIdeas: [
       "Work is shaped by licensing, welfare, taxation, health systems, and public visibility.",
       "Economic insecurity is institutional, not only individual.",
       "Policy proposals need administrative design as well as moral argument.",
+      "Industrial history connects deindustrialization to the institutions that distribute risk.",
     ],
     contentLinks: [
       {
         kind: "SSRN preprint",
         label: "The Wardhan Tax Doctrine",
         path: "/library/documents/wardhan-tax-doctrine-ssrn/",
+      },
+      {
+        kind: "SSRN preprint",
+        label: "Children Left Behind After a War",
+        path: "/library/documents/children-left-behind-after-a-war-ssrn/",
       },
       {
         kind: "Research preview",
@@ -391,11 +398,12 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
   },
   "Volume IV": {
     lens: "AI, science, infrastructure, and human capability",
-    topicSlugs: ["technology", "science", "economics"],
+    topicSlugs: ["technology", "science", "economics", "politics"],
     coreIdeas: [
       "Automation is a system of compute, energy, data, maintenance, and human judgment.",
       "Scientific capability must be read with uncertainty and release boundaries visible.",
       "Human work, intimacy, health, and adaptation remain part of the technology story.",
+      "Technical capability becomes political through procurement, standards, lobbying, and public investment.",
     ],
     contentLinks: [
       {
@@ -412,6 +420,11 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
         kind: "SSRN preprint",
         label: "The Double Tax on Time",
         path: "/library/documents/double-tax-on-time-ssrn/",
+      },
+      {
+        kind: "Cross-volume SSRN preprint",
+        label: "The Empire of Distraction",
+        path: "/library/documents/empire-of-distraction-ssrn/",
       },
       {
         kind: "Documentary preview",
