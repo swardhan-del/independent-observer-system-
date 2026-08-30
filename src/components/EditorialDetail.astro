@@ -150,6 +150,11 @@ const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
                     <div>
                       <h5>{family.title}</h5>
                       <p>{family.description}</p>
+                      <ul class="detail-volume-family-papers">
+                        {family.relatedTitles.map((title) => (
+                          <li>{title}</li>
+                        ))}
+                      </ul>
                     </div>
                   </li>
                 ))}

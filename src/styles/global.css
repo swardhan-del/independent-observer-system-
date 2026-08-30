@@ -2144,6 +2144,37 @@ textarea {
   }
 }
 
+.release-candidate-list {
+  display: grid;
+  gap: 0;
+  margin: 2rem 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.release-candidate-list li {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.release-candidate-list span,
+.release-candidate-list small {
+  color: var(--gold-ink);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.release-candidate-list strong {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
 @media (max-width: 900px) {
   .about-volume-atlas-shell {
     grid-template-columns: 1fr;

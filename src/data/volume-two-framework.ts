@@ -6,6 +6,7 @@
 export type VolumeTwoResearchFamily = {
   title: string;
   description: string;
+  relatedTitles: readonly string[];
 };
 
 export type VolumeTwoPrinciple = {
@@ -27,21 +28,41 @@ export const volumeTwoFramework: VolumeTwoFramework = {
       title: "Democracy, institutions, and party power",
       description:
         "Examines constitutional arrangements, elections, party continuity, agenda-setting, donor and elite power, and political crises to ask how formal participation can coexist with a narrow range of outcomes.",
+      relatedTitles: [
+        "Democracy’s Achilles’ Heel: Institutional Incentives and Political Outcomes",
+        "The Myth of the Party Switch",
+        "The Fear Circuit",
+      ],
     },
     {
       title: "Immigration, citizenship, and border",
       description:
         "Uses careful definitions and administrative records to distinguish citizenship, border inspection, detention, removal, return, expulsion, migration, and political identity, showing how membership and enforcement become operational.",
+      relatedTitles: [
+        "Who Deported More? Measuring Removals, Returns, and Enforcement Priorities Across Presidential Administrations 2000–2025",
+        "The Latino Irony: Why Many Hispanic Americans Support Donald Trump",
+        "Borrowed Labor: The Demographic Limit of Nationalist Sovereignty",
+      ],
     },
     {
       title: "Civil rights, carceral state, and legal power",
       description:
         "Follows the relationship among constitutional exceptions, policing, punishment, pardons, non-prosecution, and prosecutorial independence while keeping legal doctrine separate from claims about motive or outcome.",
+      relatedTitles: [
+        "Human Rights Policing Doctrine and Hidden Taxation",
+        "Protected Criminals: Epstein as a Stress Test of Non-Prosecution",
+        "The Architecture of the Open-Air Prison",
+      ],
     },
     {
       title: "Empire, geopolitics, and sovereignty",
       description:
         "Traces how external capital, technology, security, labor, markets, resource power, and geopolitical competition can produce authority that looks sovereign while remaining materially interdependent.",
+      relatedTitles: [
+        "From Colonization to China’s Rise: How Historical Power Shifts Still Shape Global Politics and Democracy",
+        "From Mao to Manufacturing Sovereignty",
+        "Could America Leave NATO?",
+      ],
     },
   ],
   principles: [

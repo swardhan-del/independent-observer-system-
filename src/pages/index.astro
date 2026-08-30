@@ -147,24 +147,37 @@ const heroVolumeLinks = seriesItems.map((item, index) => ({
     <div class="shell mission-grid">
       <div class="index" aria-hidden="true">01</div>
       <div class="mission-copy">
+        <p class="eyebrow">The four-volume research spine</p>
+        <h2>One method, four connected questions.</h2>
         <p>
-          Volume I begins with a practical philosophy: observation comes before reaction. Before a
-          public event becomes a claim, the record must be named—what happened, who recorded it,
-          which terms define it, what the source cannot establish, and what remains unknown.
+          Volume I begins with a practical philosophy: observation comes before reaction.
+          Independent Observer begins with a practical discipline: observe before reacting. Volume I
+          names the record, its source, its limits, and the conditions that determine what becomes
+          visible. Its public anchor is <a href={volumeOneMethodHref}
+            >{volumeOneMethod?.title ?? "the Volume I public record"}</a
+          >, a method paper about evidence, institutions, memory, and democratic capacity.
         </p>
         <p>
-          Observation is not passive distance. The capacity to watch is shaped by time, money,
-          safety, institutional access, and economic room. Independent Observer treats those
-          conditions as part of the evidence: the observer, the record, the institution, and the
-          limits of the account all remain visible.
+          Volume II follows power through sovereignty and institutions. It carries that method into
+          sovereignty and power through <em>The Empire Beneath Democracy</em>—including <a
+            href={sitePath("/library/documents/who-deported-more-ssrn/")}>Who Deported More?</a
+          > and <em>From Colonization to China’s Rise</em>. Volume III follows the distribution of
+          work, time, taxation, and social citizenship through <em>Managed Decline</em>
+          and <a href={sitePath("/library/documents/wardhan-tax-doctrine-ssrn/")}
+            >The Wardhan Tax Doctrine</a
+          >.
         </p>
         <p>
-          That discipline becomes the foundation for the rest of the series. Volume II follows power
-          through sovereignty and institutions; Volume III follows work, welfare, taxation, and
-          social citizenship; Volume IV follows automation, science, infrastructure, and human
-          capability. The site is their public home, while the private working archive remains
-          outside the website.
+          Volume IV asks how AI, infrastructure, science, intimacy, and human capability become
+          usable public capacity, with research threads such as <em
+            >Disconnected Hearts — The Tech Revolution of Intimacy</em
+          >. The volumes roll forward as one inquiry: method makes power legible, power explains
+          distribution, distribution shapes capability, and capability returns us to the question of
+          who can observe, participate, and correct the system.
         </p>
+        <a class="button button-secondary" href={sitePath("/about/#about-volume-atlas")}
+          >Explore all four volumes →</a
+        >
       </div>
     </div>
   </section>

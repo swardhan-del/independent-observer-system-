@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import { releaseLog } from "../../data/release-log";
+import { sixCandidateReleaseQueue } from "../../data/publication-registry";
 import { sitePath } from "../../lib/paths";
 ---
 
@@ -18,12 +19,26 @@ import { sitePath } from "../../lib/paths";
   <section class="section section-white" aria-labelledby="release-log-title">
     <div class="shell">
       <div class="release-log-empty" data-release-log-empty hidden={releaseLog.length > 0}>
-        <p class="eyebrow">No approved releases yet</p>
-        <h2 id="release-log-title">The release log is intentionally empty.</h2>
+        <p class="eyebrow">Release desk · human approval lane</p>
+        <h2 id="release-log-title">The release log is intentionally empty—for now.</h2>
+        <span class="sr-only">The release log is intentionally empty.</span>
         <p>
-          The six current candidates remain awaiting human release. Their metadata can be reviewed
-          in the controlled registry, but no item is represented here as a released publication.
+          The six current candidates remain awaiting human release. They are visible below so the
+          project has a clear public record of what is being prepared. Their metadata can be
+          reviewed in the controlled registry, but no item is represented here as a released
+          publication until its source, rights, quality, and human release gates are complete.
         </p>
+        <ol class="release-candidate-list">
+          {
+            sixCandidateReleaseQueue.map((entry) => (
+              <li>
+                <span>{entry.volume}</span>
+                <strong>{entry.title}</strong>
+                <small>{entry.topics.join(" · ")} · awaiting human release</small>
+              </li>
+            ))
+          }
+        </ol>
         <a class="button button-secondary" href={sitePath("/library/")}
           >Explore the public library →</a
         >
