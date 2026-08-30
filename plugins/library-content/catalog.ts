@@ -204,15 +204,95 @@ export const libraryVolumeGuides: LibraryVolumeGuide[] = [
     volume: "Volume IV",
     focus: "AI, infrastructure, science, and human capability",
     importance:
-      "This volume tests whether technological promise becomes human capability by following infrastructure, science, labor, intimacy, and institutional adaptation.",
+      "Volume IV asks when science and technology become usable human capability. It spans AI and automation; energy, compute, semiconductors, and quantum systems; biophysics and medical technology; neuroprosthetics, cognition, intimacy, and human evolution; and the geopolitical institutions that sustain or constrain them. It represents the full stack behind technical promise—measurement, education, labor, infrastructure, maintenance, safety, ownership, and governance—and tests whether progress expands human agency or creates a new black box.",
     summary:
-      "A future-facing volume about automation, compute, energy, human work, intimacy, demographic life, scientific capability, and institutional adaptation.",
+      "A capability inquiry into how advanced technology is measured, built, maintained, and distributed—from AI and quantum systems to medical devices, neural interfaces, education, scientific rivalry, and human adaptation.",
     coreIdeas: [
-      "Automation is a system involving infrastructure, energy, data, maintenance, and human labor.",
-      "Technical change can reshape intimacy, identity, and demographic life without providing one complete causal explanation.",
-      "Scientific possibility becomes public capability only through institutions, education, and sustained human work.",
+      "Technology is a system involving infrastructure, energy, data, maintenance, skills, and human labor.",
+      "Scientific claims must be separated into theory, experiment, engineering, economic practicality, governance, and speculation.",
+      "Human capability includes learning, cognition, health, embodiment, and participation—not only automation or output.",
     ],
     topicSlugs: ["technology", "science", "economics"],
-    researchPapers: [],
+    researchPapers: [
+      {
+        title:
+          "When Real Science Becomes Science Fiction: Biophysics, Medical Technology, and the Decline of Mechanistic Training",
+        lens: "Biophysics and medical education",
+        description:
+          "Distinguishes operating a medical tool from understanding the physical, computational, and molecular chain that produces its output. Through imaging, radiation, electrophysiology, hematology, molecular methods, and clinical training, it develops mechanistic technological literacy and asks how education can preserve troubleshooting, artifact recognition, and interdisciplinary design.",
+        relevance:
+          "Makes Volume IV’s human-capability question concrete in medicine: advanced devices improve care only when institutions preserve the scientific literacy needed to interpret, audit, repair, and safely extend them.",
+      },
+      {
+        title:
+          "Quantum Computing, Antimatter, and the Next Energy Revolution: Preparing Civilization for the Post-Silicon Age",
+        lens: "Quantum computing, energy, and scientific sovereignty",
+        description:
+          "Separates quantum computing’s specialized computational promise from antimatter’s established physics and extreme engineering limits. Its six-part framework distinguishes theory, laboratory demonstration, engineering feasibility, economic practicality, geopolitical importance, and speculation, while connecting quantum science to post-quantum security, fusion, materials, laboratories, education, and resilient infrastructure.",
+        relevance:
+          "Gives Volume IV a disciplined way to evaluate frontier technology without confusing a physical possibility, a laboratory milestone, a deployable system, and a public capability.",
+      },
+      {
+        title:
+          "Entanglement, No-Signalling, and the Real Path to Quantum Advantage: Foundations, Architectures, and Societal Implications",
+        lens: "Quantum foundations and post-quantum security",
+        description:
+          "Explains superposition, entanglement, measurement, interference, teleportation, superdense coding, selected algorithms, fault-tolerant error correction, and quantum networks. It also clarifies the no-communication theorem and connects the technical foundations to cryptographic migration, materials and chemistry simulation, and the limits of optimization and machine learning claims.",
+        relevance:
+          "Connects Volume IV’s scientific-capability theme to the difference between a valid mechanism, an engineering architecture, and a social consequence that institutions must prepare for.",
+      },
+      {
+        title:
+          "The Rival the West Built: China’s Scientific Rise, American Deindustrialization, and the Transition from Political Empire to Planetary Civilization",
+        lens: "Scientific rivalry and industrial transition",
+        description:
+          "Traces how the Sino-Soviet split, triangular diplomacy, post-1978 reform, investment, supply-chain integration, technology diffusion, and domestic state capacity contributed to China’s industrial and scientific scale, while distinguishing different measures of research and technological leadership. It pairs that history with U.S. deindustrialization, persistent American institutional strengths, and a verification-centered reform agenda.",
+        relevance:
+          "Provides Volume IV’s geopolitical bridge: scientific capability depends on industrial foundations, education, infrastructure, institutions, and verifiable cooperation rather than headline rankings alone.",
+      },
+      {
+        title:
+          "Regrowing Humanity: How Robotic Limbs Are Becoming Integrated Extensions of the Human Body",
+        lens: "Neuroprosthetics and embodied capability",
+        description:
+          "Reviews the shift from passive and body-powered limbs toward myoelectric, peripheral-nerve, cortical, and bone-anchored systems that interpret intention, produce movement, and sometimes return limited sensation. It keeps motor control, sensation, usability, embodiment, rehabilitation, maintenance, cybersecurity, consent, financing, and employment infrastructure analytically distinct.",
+        relevance:
+          "Shows that Volume IV’s idea of capability is embodied and institutional: a device is not meaningful progress unless people can safely use, maintain, afford, and live with it over time.",
+      },
+      {
+        title:
+          "Environmental Instability, Developmental Timing, and the Cognitive Divergence of Early Homo",
+        lens: "Human evolution and cognitive adaptation",
+        description:
+          "Uses a conservative synthesis of palaeoanthropology, palaeoclimate, developmental timing, archaeology, comparative cognition, cultural evolution, and ancient genomics to question simple climate-to-intelligence stories. It treats flexibility, social learning, development, connectivity, disease, technology, and demographic resilience as interacting possibilities while keeping fossil and archaeological inference bounded.",
+        relevance:
+          "Expands Volume IV beyond machines: human capability has biological, developmental, social, and ecological conditions that cannot be reduced to brain size, automation, or a single evolutionary ladder.",
+      },
+      {
+        title:
+          "Mind Hive Horizons: Energy, Error-Correction, and the Real Timeline to Type-I Emulation",
+        lens: "Whole-brain emulation and digital infrastructure",
+        description:
+          "Rebuilds the whole-brain-emulation question as a conditional infrastructure problem. It separates acquisition data, reconstructed storage, dynamic state, computation, memory traffic, communication, redundancy, cooling, and governance, and treats low-, central-, and high-demand scenarios as sensitivities rather than forecasts.",
+        relevance:
+          "Tests Volume IV’s central claim that digital capability remains physical: computation, identity, maintenance, energy, cybersecurity, and legal authority all matter when software is treated as a possible human substrate.",
+      },
+      {
+        title: "ADHD in a Cage: Why the System Criminalizes the Mind",
+        lens: "Neurodiversity, health, and justice",
+        description:
+          "Frames ADHD diagnosis, educational exclusion, racialized access to care, and medication restrictions in correctional settings as a connected research problem. The preprint argues that institutions can convert untreated neurodivergence into disciplinary and criminal-justice exposure, and proposes screening, treatment parity, and training as questions for evidence and policy review.",
+        relevance:
+          "Brings cognition and public capacity into Volume IV’s account of human capability by asking whether institutions accommodate different minds or turn difference into lost education, health, and civic participation.",
+      },
+      {
+        title: "The Last Human Workforce: Automation, AI, and the Death of the Old Middle Class",
+        lens: "AI, labor, and social adaptation",
+        description:
+          "The Volume IV book-length draft follows automation, AI as cognitive amplifier, education, originality, time, political volatility, and the rebuilding of an intellectual middle class. It asks how institutions can preserve meaningful human work and shared capability when tasks, credentials, and economic security are reorganized by machines.",
+        relevance:
+          "Acts as the volume’s labor anchor, connecting technical systems to education, class structure, social adaptation, and the human functions that should remain visible inside an automated economy.",
+      },
+    ],
   },
 ];

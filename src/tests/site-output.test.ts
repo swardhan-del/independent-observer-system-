@@ -199,6 +199,23 @@ describe("built website", () => {
     expect(html).toContain("not public SSRN reading copies or publication approvals");
   });
 
+  it("renders Volume IV's interdisciplinary research map in the public library", () => {
+    const html = readOutput("library/index.html");
+
+    expect(html).toContain("usable human capability");
+    expect(html).toContain("When Real Science Becomes Science Fiction");
+    expect(html).toContain("Quantum Computing, Antimatter, and the Next Energy Revolution");
+    expect(html).toContain("Entanglement, No-Signalling, and the Real Path to Quantum Advantage");
+    expect(html).toContain("The Rival the West Built");
+    expect(html).toContain("Regrowing Humanity: How Robotic Limbs");
+    expect(html).toContain("Environmental Instability, Developmental Timing");
+    expect(html).toContain("Mind Hive Horizons");
+    expect(html).toContain("ADHD in a Cage");
+    expect(html).toContain("The Last Human Workforce: Automation, AI");
+    expect(html).toContain("Neuroprosthetics and embodied capability");
+    expect(html).toContain("not public SSRN reading copies or publication approvals");
+  });
+
   it("keeps internal archive-provider and chatbot language out of public pages", () => {
     for (const { file } of routes) {
       const html = readOutput(file);

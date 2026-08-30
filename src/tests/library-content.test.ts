@@ -70,9 +70,20 @@ describe("library content blocks", () => {
     ]);
     expect(volumeThree?.importance).toContain("fragmented service, platform, and data work");
     expect(volumeThree?.summary).toContain("Managed Decline is a political-economy inquiry");
-    expect(
-      libraryVolumeGuides.find((guide) => guide.volume === "Volume IV")?.researchPapers,
-    ).toEqual([]);
+    const volumeFour = libraryVolumeGuides.find((guide) => guide.volume === "Volume IV");
+    expect(volumeFour?.researchPapers.map((paper) => paper.title)).toEqual([
+      "When Real Science Becomes Science Fiction: Biophysics, Medical Technology, and the Decline of Mechanistic Training",
+      "Quantum Computing, Antimatter, and the Next Energy Revolution: Preparing Civilization for the Post-Silicon Age",
+      "Entanglement, No-Signalling, and the Real Path to Quantum Advantage: Foundations, Architectures, and Societal Implications",
+      "The Rival the West Built: China’s Scientific Rise, American Deindustrialization, and the Transition from Political Empire to Planetary Civilization",
+      "Regrowing Humanity: How Robotic Limbs Are Becoming Integrated Extensions of the Human Body",
+      "Environmental Instability, Developmental Timing, and the Cognitive Divergence of Early Homo",
+      "Mind Hive Horizons: Energy, Error-Correction, and the Real Timeline to Type-I Emulation",
+      "ADHD in a Cage: Why the System Criminalizes the Mind",
+      "The Last Human Workforce: Automation, AI, and the Death of the Old Middle Class",
+    ]);
+    expect(volumeFour?.importance).toContain("usable human capability");
+    expect(volumeFour?.summary).toContain("advanced technology is measured");
     expect(researchShelf).toContain("Source-taxonomy research map");
     expect(researchShelf).toContain("not public SSRN reading copies or publication approvals");
   });

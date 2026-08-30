@@ -42,7 +42,7 @@ export const seriesItems: SeriesItem[] = [
     title: "The Last Human Workforce",
     category: "AI and human capability",
     description:
-      "A review-stage framework for task exposure, augmentation, education, scientific capacity, and institutional adaptation in the age of AI.",
+      "A concept-stage capability inquiry into how technological change becomes usable human capacity. Volume IV follows AI, automation, scientific infrastructure, energy, quantum computing, medical technology, neuroprosthetics, education, intimacy, and human evolution. It asks what must be understood, maintained, financed, and governed before a new tool can be called progress: who owns the compute and data, who can repair the systems, who receives training and care, which claims survive evidence review, and how institutions protect human agency when technology becomes opaque. The volume represents the material and social conditions of adaptation—from the energy and semiconductor base of advanced computation to the embodied, cognitive, and civic capabilities that let people use it. It remains an editorial-development catalogue entry, not a finished publication.",
     status: "In editorial development",
   },
 ];

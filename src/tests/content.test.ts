@@ -83,6 +83,16 @@ describe("editorial preview data", () => {
     ]);
   });
 
+  it("gives Volume IV a descriptive capability and technology brief", () => {
+    const volumeFour = seriesItems.find((item) => item.volume === "Volume IV");
+
+    expect(volumeFour?.description).toContain("usable human capacity");
+    expect(volumeFour?.description).toContain(
+      "quantum computing, medical technology, neuroprosthetics",
+    );
+    expect(volumeFour?.description).toContain("human agency");
+  });
+
   it("maps public usage signals to every volume without calling them ratings", () => {
     expect(volumeResearchMap.map((item) => item.volume)).toEqual([
       "Volume I",
