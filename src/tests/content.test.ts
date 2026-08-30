@@ -255,18 +255,19 @@ describe("public library data", () => {
     const entry = ssrnPreprintDocuments.find((item) => item.id === "who-deported-more-ssrn");
     const abstract = entry?.sections.find((section) => section.id === "abstract")?.paragraphs?.[0];
 
-    expect(abstract).toContain("mass-media headlines");
-    expect(abstract).toContain("official immigration-statistics series");
-    expect(abstract).toContain("Its significance to Independent Observer");
-    expect(abstract).toContain("traceable reporting framework");
+    expect(abstract).toContain("This working paper clarifies commonly conflated measures");
+    expect(abstract).toContain("prosecutorial discretion, detainer policies, expedited removal");
+    expect(abstract).toContain("enhancing data transparency and comparability");
     expect(entry?.sections.find((section) => section.id === "reading-points")?.heading).toBe(
       "What the paper examines",
     );
     expect(entry?.sections.find((section) => section.id === "reading-points")?.items).toEqual(
       expect.arrayContaining([
-        expect.stringContaining("Title 42 expulsions"),
-        expect.stringContaining("2000 through 2025"),
-        expect.stringContaining("journalists and the public"),
+        expect.stringContaining("DHS Yearbook of Immigration Statistics"),
+        expect.stringContaining("FY2023–FY2024"),
+        expect.stringContaining("Title 42 public-health expulsions"),
+        expect.stringContaining("tidy CSV, codebook"),
+        expect.stringContaining("prosecutorial discretion"),
       ]),
     );
   });
