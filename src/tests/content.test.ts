@@ -259,5 +259,15 @@ describe("public library data", () => {
     expect(abstract).toContain("official immigration-statistics series");
     expect(abstract).toContain("Its significance to Independent Observer");
     expect(abstract).toContain("traceable reporting framework");
+    expect(entry?.sections.find((section) => section.id === "reading-points")?.heading).toBe(
+      "What the paper examines",
+    );
+    expect(entry?.sections.find((section) => section.id === "reading-points")?.items).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining("Title 42 expulsions"),
+        expect.stringContaining("2000 through 2025"),
+        expect.stringContaining("journalists and the public"),
+      ]),
+    );
   });
 });

@@ -23,7 +23,7 @@ function sections(
     },
     {
       id: "reading-points",
-      heading: "What the paper contributes",
+      heading: "What the paper examines",
       items: readingPoints,
     },
     {
@@ -78,9 +78,9 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
     sections: sections(
       "The paper argues that public debate—and the mass-media headlines that organize it—often collapses distinct immigration pathways into one deportation score. That shorthand can make presidential administrations appear directly comparable even when the underlying events, agencies, time periods, and reporting rules differ. The paper separates removals, returns, Title 42 expulsions, interior enforcement, and border enforcement, then uses official immigration-statistics series to build a more consistent account of what happened. Its significance to Independent Observer is methodological as well as substantive: it shows how public reasoning depends on definitions, data provenance, and the design of the comparison. The paper means to replace partisan scorekeeping with a traceable reporting framework, so readers and journalists can ask which event was counted, how it was counted, and what the resulting number can—and cannot—establish about enforcement priorities.",
       [
-        "Definitions are treated as part of the evidence rather than as background terminology.",
-        "Administrative choices and enforcement venues can change headline totals without representing the same underlying event.",
-        "The proposed reporting template favors comparable year-by-year series over partisan scorekeeping.",
+        "It separates removals, returns, and Title 42 expulsions so that a headline deportation total does not combine different government actions into one apparently simple measure.",
+        "It compares interior and border enforcement across presidential administrations from 2000 through 2025, using official immigration-statistics series while accounting for differences in agencies, venues, time periods, and reporting practices.",
+        "It explains how definitions and administrative choices shape the story available to journalists and the public, then proposes a year-by-year reporting template for evidence-based comparison rather than partisan scorekeeping.",
       ],
       "The last directly verified public SSRN result (25 August 2026) reported 126 downloads and 6,397 abstract views. A 28 August 2026 recheck was access-blocked, so current availability is not confirmed. Metrics change over time; SSRN does not provide a star-rating field for this paper. The matching author working version requires removal of an older appendix before any longer-form release.",
     ),
