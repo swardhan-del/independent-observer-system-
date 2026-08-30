@@ -39,9 +39,23 @@ import { slugify } from "../../lib/slugs";
         gates.
       </div>
       <VolumeReelShelf items={volumeReels} />
-      <h2 class="sr-only">Video concepts</h2>
+      <div class="section-heading video-preview-heading">
+        <div>
+          <p class="eyebrow">Additional concept previews</p>
+          <h2 id="video-concepts-title">Follow the questions between volumes.</h2>
+        </div>
+        <p>
+          The reel desk above gives Volumes I–IV a direct visual entry point. These additional
+          concepts follow questions that travel between the volumes and remain clearly marked as
+          previews.
+        </p>
+      </div>
       <ContentFilter targetId="video-preview-grid" itemCount={videoItems.length} />
-      <div class="card-grid" id="video-preview-grid">
+      <div
+        class="card-grid video-preview-grid"
+        id="video-preview-grid"
+        aria-labelledby="video-concepts-title"
+      >
         {
           videoItems.map((item, index) => (
             <EditorialCard

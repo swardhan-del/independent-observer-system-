@@ -55,6 +55,7 @@ const homepageVolumeGuide = readFileSync(
   "utf8",
 );
 const videos = readFileSync(join(sourceRoot, "pages/videos/index.astro"), "utf8");
+const stylesheet = readFileSync(join(sourceRoot, "styles/global.css"), "utf8");
 const videoDetail = readFileSync(join(sourceRoot, "pages/videos/[slug].astro"), "utf8");
 const documentaries = readFileSync(join(sourceRoot, "pages/documentaries/index.astro"), "utf8");
 const contact = readFileSync(join(sourceRoot, "pages/contact/index.astro"), "utf8");
@@ -606,8 +607,12 @@ describe("interactive preview tools", () => {
     expect(videos).toContain('id="independent-observer-survey"');
     expect(videos).toContain("Concept preview");
     expect(videos).toContain("One reel for each volume.");
+    expect(videos).toContain("Follow the questions between volumes.");
+    expect(videos).toContain("video-preview-grid");
     expect(videos).toContain("transcripts, rights checks, citations, and final release dates");
     expect(videos).toContain("<VolumeReelShelf items={volumeReels} />");
+    expect(stylesheet).toContain(".video-preview-grid");
+    expect(stylesheet).toContain("grid-template-columns: repeat(2, minmax(0, 1fr));");
   });
 
   it("gives the flagship video preview a source-labeled evidence case study", () => {
