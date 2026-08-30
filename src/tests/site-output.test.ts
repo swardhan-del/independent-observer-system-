@@ -438,6 +438,11 @@ describe("built website", () => {
   it("renders the forthcoming four-book roadmap without release or sales claims", () => {
     const html = readOutput("documentaries/index.html");
 
+    expect(html).toContain("The Work Behind the Machine");
+    expect(html).toContain("AI &amp; Human Capability · Volume IV");
+    expect(existsSync(join(distRoot, "documentaries/the-work-behind-the-machine/index.html"))).toBe(
+      true,
+    );
     expect(html).toContain("Four books, one connected inquiry.");
     expect(html).toContain("Independent Observer");
     expect(html).toContain("The Empire Beneath Democracy");

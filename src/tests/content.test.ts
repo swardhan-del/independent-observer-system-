@@ -233,6 +233,21 @@ describe("editorial preview data", () => {
     expect(entry?.status).toBe("Concept preview");
   });
 
+  it("fills the documentary desk with a Volume IV capability concept", () => {
+    const entry = documentaryItems.find((item) => item.title === "The Work Behind the Machine");
+
+    expect(entry?.volume).toBe("Volume IV");
+    expect(entry?.category).toContain("AI & Human Capability");
+    expect(entry?.description).toContain("compute, energy, education, care, maintenance");
+    expect(entry?.detailLead).toContain("usable human capability");
+    expect(entry?.detailSections).toHaveLength(3);
+    expect(entry?.detailSections?.[1]?.items).toEqual(
+      expect.arrayContaining([expect.stringContaining("replaced, reorganized, augmented")]),
+    );
+    expect(entry?.sourceNote).toContain("Public SSRN reading copies");
+    expect(entry?.status).toBe("Concept preview");
+  });
+
   it("gives the evidence video a descriptive, method-connected brief", () => {
     const entry = videoItems.find((item) => item.title === "Why Evidence Alone Is Not Enough");
 

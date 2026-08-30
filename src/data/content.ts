@@ -143,6 +143,43 @@ export const documentaryItems: EditorialItem[] = [
       "A proposed documentary asking whether civilization should prioritize Earth systems, energy, and nearer-space infrastructure.",
     status: "Concept preview",
   },
+  {
+    title: "The Work Behind the Machine",
+    category: "AI & Human Capability · Volume IV",
+    description:
+      "A Volume IV documentary concept about the human systems behind automation—compute, energy, education, care, maintenance, and the judgment required to turn technical possibility into usable capability.",
+    status: "Concept preview",
+    volume: "Volume IV",
+    readingTime: "Documentary concept · Volume IV",
+    detailHeading: "A documentary about the work behind automation.",
+    detailLead:
+      "Volume IV asks what it takes for a new tool to become usable human capability. This treatment would follow the overlooked systems around automation—compute, energy, maintenance, training, care, and institutional accountability—rather than treating replacement as the whole story.",
+    detailSections: [
+      {
+        heading: "The Volume IV question",
+        paragraphs: [
+          "A machine can appear autonomous while depending on a large human and material support system. The documentary would make that system visible: the scientific infrastructure, energy, data, repair, education, and care required before technical possibility becomes durable public capacity.",
+        ],
+      },
+      {
+        heading: "What the treatment would make visible",
+        items: [
+          "The difference between a task being replaced, reorganized, augmented, or moved out of sight.",
+          "The people who maintain, explain, repair, supervise, and challenge automated systems.",
+          "How education, health, time, and institutional rules shape who can benefit from technical change.",
+          "The evidence needed to distinguish expanded human capability from a simple transfer of work and risk.",
+        ],
+      },
+      {
+        heading: "Publication status",
+        paragraphs: [
+          "This is a concept preview connected to The Last Human Workforce, not a released film. Research, source verification, rights review, a finished treatment, production, and human release approval remain separate requirements.",
+        ],
+      },
+    ],
+    sourceNote:
+      "This concept uses the public Volume IV research frame as a map for a future documentary treatment. Public SSRN reading copies and research previews remain distinct from a finished or released film; private source files and unpublished production material stay outside the website.",
+  },
 ];
 
 export const videoItems: EditorialItem[] = [
