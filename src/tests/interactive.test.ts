@@ -120,6 +120,9 @@ describe("interactive preview tools", () => {
     expect(detail).toContain("Papers already posted on SSRN.");
     expect(detail).toContain("Why it matters to Volume I.");
     expect(detail).toContain("Other files marked");
+    expect(detail).toContain("volumeReels");
+    expect(detail).toContain("detail-volume-paper-media");
+    expect(detail).toContain("Related preview reel");
   });
 
   it("gives Volume III one source-labeled paper a complete evidence reading", () => {

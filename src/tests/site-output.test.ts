@@ -218,6 +218,10 @@ describe("built website", () => {
     expect(html).toContain("Why it matters to Volume I.");
     expect(html).toContain("Other files marked");
     expect(html).not.toContain('id="featured-preprints-title"');
+    expect(html).toContain("detail-volume-paper-media");
+    expect(html).toContain("volume-i-evidence-and-institutional-denial.mp4");
+    expect(html).toContain("Related preview reel · When Evidence Meets Institutional Denial");
+    expect(html).toContain("Explore the Volume I reel →");
   });
 
   it("renders Volume I's expanded source-taxonomy research map", () => {

@@ -10,6 +10,7 @@ import ClaimMap from "./ClaimMap.astro";
 import VolumeResearchMap from "./VolumeResearchMap.astro";
 import VolumeResearchDossier from "./VolumeResearchDossier.astro";
 import type { VolumeTwoFramework } from "../data/volume-two-framework";
+import { volumeReels } from "../data/video-reels";
 
 type DetailItem = EditorialItem & {
   volume?: string;
@@ -110,6 +111,7 @@ const defaultClaimMap = {
   limitation: "This preview does not yet support a publishable conclusion.",
 };
 const selectedClaimMap = claimMap ?? defaultClaimMap;
+const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
 ---
 
 <PageHero
@@ -193,6 +195,27 @@ const selectedClaimMap = claimMap ?? defaultClaimMap;
                   <h4>
                     <a href={sitePath(`/library/documents/${entry.id}/`)}>{entry.title}</a>
                   </h4>
+                  {entry.id === "independent-observer-volume-one-ssrn" && volumeOneReel && (
+                    <figure class="detail-volume-paper-media">
+                      <video
+                        controls
+                        preload="metadata"
+                        playsinline
+                        aria-label={`${volumeOneReel.title} · ${volumeOneReel.volume}`}
+                      >
+                        <source
+                          src={sitePath(volumeOneReel.mediaUrl)}
+                          type={volumeOneReel.mediaType}
+                        />
+                        Your browser does not support the embedded video player.
+                      </video>
+                      <figcaption>
+                        <strong>Related preview reel · {volumeOneReel.title}</strong>
+                        <span>{volumeOneReel.description}</span>
+                        <a href={sitePath(volumeOneReel.volumeHref)}>Explore the Volume I reel →</a>
+                      </figcaption>
+                    </figure>
+                  )}
                   <p>{entry.description}</p>
                   {entry.volumeRelevance && (
                     <p>
