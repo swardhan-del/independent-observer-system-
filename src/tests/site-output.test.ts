@@ -382,6 +382,18 @@ describe("built website", () => {
     expect(html).toContain("public editorial synthesis");
   });
 
+  it("renders Volume IV's capability-specific evidence layer and claim map", () => {
+    const html = readOutput("series/the-last-human-workforce/index.html");
+
+    expect(html).toContain("Volume IV: from technology to human capability");
+    expect(html).toContain("Volume IV public catalogue entry");
+    expect(html).toContain("The public catalogue identifies The Last Human Workforce");
+    expect(html).toContain("Technological progress becomes human capability");
+    expect(html).toContain("not an established causal finding");
+    expect(html).toContain("What evidence would show that a new system expands capability");
+    expect(html).not.toContain("Reserved for the eventual, reviewed thesis");
+  });
+
   it("renders Volume III's descriptive research map in the public library", () => {
     const html = readOutput("library/index.html");
 

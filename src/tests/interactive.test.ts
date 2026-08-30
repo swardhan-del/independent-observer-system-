@@ -31,6 +31,7 @@ const readerVolumeContext = readFileSync(
 const evidence = readFileSync(join(sourceRoot, "components/EvidenceLayer.astro"), "utf8");
 const volumeOneEvidence = readFileSync(join(sourceRoot, "data/volume-one-evidence.ts"), "utf8");
 const volumeThreeEvidence = readFileSync(join(sourceRoot, "data/volume-three-evidence.ts"), "utf8");
+const volumeFourEvidence = readFileSync(join(sourceRoot, "data/volume-four-evidence.ts"), "utf8");
 const detail = readFileSync(join(sourceRoot, "components/EditorialDetail.astro"), "utf8");
 const volumeResearchMapSource = readFileSync(
   join(sourceRoot, "components/VolumeResearchMap.astro"),
@@ -167,6 +168,18 @@ describe("interactive preview tools", () => {
     expect(volumeOneEvidence).toContain("correctable");
     expect(volumeOneEvidence).toContain("not a peer-reviewed thesis");
     expect(volumeOneEvidence).not.toContain("Reserved for the eventual, reviewed thesis");
+  });
+
+  it("gives Volume IV a populated capability-specific evidence layer and claim map", () => {
+    expect(seriesDetail).toContain("volumeFourEvidence");
+    expect(seriesDetail).toContain("volumeFourClaimMap");
+    expect(seriesDetail).toContain("Volume IV: from technology to human capability");
+    expect(volumeFourEvidence).toContain("The Last Human Workforce");
+    expect(volumeFourEvidence).toContain("understandable, maintainable, teachable");
+    expect(volumeFourEvidence).toContain("not an established causal finding");
+    expect(volumeFourEvidence).toContain("not a finished publication");
+    expect(volumeFourEvidence).toContain("What evidence would show");
+    expect(volumeFourEvidence).not.toContain("Reserved for the eventual, reviewed thesis");
   });
 
   it("connects public document readers to their actual volume and same-volume copies", () => {

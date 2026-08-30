@@ -8,6 +8,7 @@ import { publicLibrarySnapshot } from "../data/public-library";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
 import { volumeResearchMap } from "../data/volume-research";
 import { volumeTwoFramework } from "../data/volume-two-framework";
+import { volumeFourClaimMap, volumeFourEvidence } from "../data/volume-four-evidence";
 import { volumeReels } from "../data/video-reels";
 
 describe("editorial preview data", () => {
@@ -116,6 +117,18 @@ describe("editorial preview data", () => {
       "quantum computing, medical technology, neuroprosthetics",
     );
     expect(volumeFour?.description).toContain("human agency");
+    expect(volumeFourEvidence).toHaveLength(7);
+    expect(volumeFourEvidence.map((block) => block.category)).toEqual([
+      "Documented fact",
+      "Interpretation",
+      "Hypothesis",
+      "Policy proposal",
+      "Limitation",
+      "Counterargument",
+      "Unresolved question",
+    ]);
+    expect(volumeFourClaimMap.claim).toContain("human capability");
+    expect(volumeFourClaimMap.mechanism).toContain("Compute, energy, data");
   });
 
   it("maps public usage signals to every volume without calling them ratings", () => {
