@@ -357,10 +357,15 @@ describe("built website", () => {
 
     expect(html).toContain("<h1>Independent Observer</h1>");
     expect(html).toContain("One project. Four volumes.");
+    expect(html).toContain('class="section section-navy about-program"');
+    expect(html).toContain("Read the program as a sequence");
     expect(html).toContain("Observation and evidence");
     expect(html).toContain("Institutions and sovereignty");
     expect(html).toContain("Work and social citizenship");
     expect(html).toContain("Science and capability");
+    expect(html).toContain("who can set the agenda");
+    expect(html).toContain("who absorbs the cost of economic change");
+    expect(html).toContain("human agency");
     expect(html).not.toContain("Independence is a method, not a pose.");
   });
 

@@ -1846,6 +1846,37 @@ textarea {
   line-height: 1.45;
 }
 
+.about-program-sequence {
+  display: grid;
+  gap: 7px;
+  margin-top: 32px;
+  padding: 16px 18px;
+  border: 1px solid rgb(255 255 255 / 28%);
+  border-left: 5px solid var(--gold);
+  background: var(--navy-800);
+}
+
+.about-program-sequence > span {
+  color: var(--gold-light);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.about-program-sequence strong {
+  color: var(--white);
+  font-size: 0.98rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.about-program-sequence strong span {
+  padding-inline: 4px;
+  color: var(--gold-light);
+}
+
 .mission-volume-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1908,6 +1939,75 @@ textarea {
   letter-spacing: 0.06em;
   text-decoration: none;
   text-transform: uppercase;
+}
+
+.about-volume-overview {
+  gap: 0;
+  border-color: var(--line-strong);
+  background: var(--line-strong);
+  box-shadow: 0 22px 48px rgb(4 17 31 / 22%);
+}
+
+.about-volume-overview .mission-volume {
+  min-height: 315px;
+  padding: 28px;
+  border-top: 6px solid var(--gold);
+  background: var(--white);
+  color: var(--navy-950);
+}
+
+.about-volume-overview .mission-volume-about-ii {
+  border-top-color: var(--navy-700);
+  background: var(--paper);
+}
+
+.about-volume-overview .mission-volume-about-iii {
+  border-top-color: var(--gold-ink);
+  background: var(--paper-warm);
+}
+
+.about-volume-overview .mission-volume-about-iv {
+  border-top-color: var(--navy-950);
+}
+
+.about-volume-overview .mission-volume-number {
+  align-self: flex-start;
+  margin-bottom: 18px;
+  padding: 4px 8px;
+  border: 1px solid var(--gold-ink);
+  background: var(--paper-warm);
+  color: var(--gold-ink);
+}
+
+.about-volume-overview .mission-volume-role {
+  margin: 0 0 12px;
+  color: var(--slate-700);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.about-volume-overview .mission-volume h3 {
+  color: var(--navy-950);
+}
+
+.about-volume-overview .mission-volume h3 a {
+  color: var(--navy-950);
+}
+
+.about-volume-overview .mission-volume h3 a:hover,
+.about-volume-overview .mission-volume-link:hover {
+  color: var(--gold-ink);
+}
+
+.about-volume-overview .mission-volume > p:not(.mission-volume-role) {
+  color: var(--slate-700);
+}
+
+.about-volume-overview .mission-volume-link {
+  color: var(--navy-900);
 }
 
 .about-volume-atlas .section-heading {
@@ -2232,6 +2332,15 @@ textarea {
 
   .mission-volume {
     min-height: auto;
+  }
+
+  .about-volume-overview .mission-volume {
+    min-height: auto;
+    padding: 24px;
+  }
+
+  .about-program-sequence strong {
+    display: block;
   }
 }
 

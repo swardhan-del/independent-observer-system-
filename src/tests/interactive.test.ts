@@ -521,6 +521,12 @@ describe("interactive preview tools", () => {
     expect(about).toContain("A public research project about how evidence");
     expect(about).toContain("One project. Four volumes.");
     expect(about).toContain("The four Independent Observer volumes");
+    expect(about).toContain('class="section section-navy about-program"');
+    expect(about).toContain("about-program-sequence");
+    expect(about).toContain("Observe and document");
+    expect(about).toContain("Locate power and sovereignty");
+    expect(about).toContain("Examine work and distribution");
+    expect(about).toContain("Test capability and the future");
     expect(about).toContain("Observation and evidence");
     expect(about).toContain("Institutions and sovereignty");
     expect(about).toContain("Work and social citizenship");

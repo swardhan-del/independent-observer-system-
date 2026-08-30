@@ -16,7 +16,7 @@ import { sitePath } from "../../lib/paths";
     description="A public research project about how evidence, institutions, history, work, science, and technology shape what people can know, contest, and change."
     className="about-hero"
   />
-  <section class="section section-navy" aria-labelledby="about-program-title">
+  <section class="section section-navy about-program" aria-labelledby="about-program-title">
     <div class="shell page-grid">
       <aside class="page-aside">
         <span>Four volumes</span>
@@ -31,52 +31,67 @@ import { sitePath } from "../../lib/paths";
           The project is grounded in identifiable sources and visible uncertainty; it is not a
           conspiracy catalogue or a single conclusion.
         </p>
-        <div class="mission-volume-list" aria-label="The four Independent Observer volumes">
-          <article class="mission-volume">
+        <div class="about-program-sequence" aria-label="The four-volume sequence">
+          <span>Read the program as a sequence</span>
+          <strong>
+            Observation <span aria-hidden="true">→</span> Power <span aria-hidden="true">→</span>
+            Distribution <span aria-hidden="true">→</span> Capability
+          </strong>
+        </div>
+        <div
+          class="mission-volume-list about-volume-overview"
+          aria-label="The four Independent Observer volumes"
+        >
+          <article class="mission-volume mission-volume-about mission-volume-about-i">
             <span class="mission-volume-number">Volume I</span>
+            <p class="mission-volume-role">Observe and document</p>
             <h3><a href={sitePath("/series/independent-observer/")}>Independent Observer</a></h3>
             <p>
-              Observation and evidence: how a public claim is documented, tested, and kept
-              correctable.
+              Observation and evidence: build the record before the reaction, test sources, separate
+              fact from interpretation, and keep the claim open to correction.
             </p>
             <a class="mission-volume-link" href={sitePath("/series/independent-observer/")}
               >Open Volume I →</a
             >
           </article>
-          <article class="mission-volume">
+          <article class="mission-volume mission-volume-about mission-volume-about-ii">
             <span class="mission-volume-number">Volume II</span>
+            <p class="mission-volume-role">Locate power and sovereignty</p>
             <h3>
               <a href={sitePath("/series/the-empire-beneath-democracy/")}
                 >The Empire Beneath Democracy</a
               >
             </h3>
             <p>
-              Institutions and sovereignty: how formal democracy meets practical power, membership,
-              and enforcement.
+              Institutions and sovereignty: follow how borders, membership, parties, and enforcement
+              turn formal democracy into practical arrangements—and ask who can set the agenda.
             </p>
             <a class="mission-volume-link" href={sitePath("/series/the-empire-beneath-democracy/")}
               >Open Volume II →</a
             >
           </article>
-          <article class="mission-volume">
+          <article class="mission-volume mission-volume-about mission-volume-about-iii">
             <span class="mission-volume-number">Volume III</span>
+            <p class="mission-volume-role">Examine work and distribution</p>
             <h3><a href={sitePath("/series/managed-decline/")}>Managed Decline</a></h3>
             <p>
-              Work and social citizenship: who absorbs economic change and who can access public
-              capacity.
+              Work and social citizenship: trace how taxation, welfare, licensing, and health
+              distribute time, security, and public capacity—and who absorbs the cost of economic
+              change.
             </p>
             <a class="mission-volume-link" href={sitePath("/series/managed-decline/")}
               >Open Volume III →</a
             >
           </article>
-          <article class="mission-volume">
+          <article class="mission-volume mission-volume-about mission-volume-about-iv">
             <span class="mission-volume-number">Volume IV</span>
+            <p class="mission-volume-role">Test capability and the future</p>
             <h3>
               <a href={sitePath("/series/the-last-human-workforce/")}>The Last Human Workforce</a>
             </h3>
             <p>
-              Science and capability: how AI, infrastructure, and human adaptation become governable
-              capacity.
+              Science and capability: study AI, infrastructure, energy, education, care, and
+              adaptation—and what must be governed before technology expands human agency.
             </p>
             <a class="mission-volume-link" href={sitePath("/series/the-last-human-workforce/")}
               >Open Volume IV →</a
