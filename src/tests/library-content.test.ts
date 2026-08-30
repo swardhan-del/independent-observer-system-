@@ -51,6 +51,12 @@ describe("library content blocks", () => {
       "Capital Amplification and the Myth of Equal Opportunity",
       "Quiet Wealth as Risk Management",
       "The Attention Infrastructure Gap: Why Some Police Shootings Become National Symbols While Others Disappear",
+      "From Plato to Chomsky: Democracy, Mass Manipulation, and the Problem of Civic Capacity",
+      "Study the Wall: Social Injustice, Institutional Power, Democratic Legitimacy, and the Politics of Structural Literacy",
+      "The Death of Evidentiary Patience: Race, Social Media, and Judgment Before Investigation",
+      "Reputation Debt: How Public Contempt Creates Future Cooperation Costs in Politics and Markets",
+      "The Security of Memory: State Funerals, Political Legacies, and the Global Architecture of Mourning",
+      "The Silent Archivist: Lawful Documentation and Deferred Disclosure in Loyalty-Based Institutions",
     ]);
     expect(volumeTwo?.researchPapers.map((paper) => paper.title)).toEqual([
       "Democracy’s Achilles’ Heel: Institutional Incentives and Political Outcomes",

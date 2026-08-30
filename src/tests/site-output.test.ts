@@ -168,6 +168,19 @@ describe("built website", () => {
     expect(html).not.toContain('id="featured-preprints-title"');
   });
 
+  it("renders Volume I's expanded source-taxonomy research map", () => {
+    const html = readOutput("library/index.html");
+
+    expect(html).toContain("From Plato to Chomsky: Democracy, Mass Manipulation");
+    expect(html).toContain("Study the Wall: Social Injustice, Institutional Power");
+    expect(html).toContain("The Death of Evidentiary Patience: Race, Social Media");
+    expect(html).toContain("Reputation Debt: How Public Contempt Creates Future Cooperation Costs");
+    expect(html).toContain("The Security of Memory: State Funerals, Political Legacies");
+    expect(html).toContain("The Silent Archivist: Lawful Documentation and Deferred Disclosure");
+    expect(html).toContain("V-Dem, Worldwide Governance Indicators, aid, and administrative data");
+    expect(html).toContain("not public SSRN reading copies or publication approvals");
+  });
+
   it("renders Volume II's four research families and four principles in Public Preview", () => {
     const html = readOutput("series/the-empire-beneath-democracy/index.html");
 

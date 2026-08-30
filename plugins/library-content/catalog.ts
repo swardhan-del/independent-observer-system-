@@ -69,6 +69,60 @@ export const libraryVolumeGuides: LibraryVolumeGuide[] = [
         relevance:
           "Brings Volume I’s media, evidence, public memory, and democratic-capacity method into a concrete case about which harms become visible and politically actionable.",
       },
+      {
+        title:
+          "From Plato to Chomsky: Democracy, Mass Manipulation, and the Problem of Civic Capacity",
+        lens: "Civic capacity and state capacity",
+        description:
+          "Develops a two-dimensional framework separating civic capacity—policy comprehension, time and economic security, media literacy, associational resources, and historical knowledge—from institutional capacity—fiscal reach, professional administration, information collection, legal predictability, and policy continuity. It uses structured comparisons of India, China, the United Kingdom, Germany, Japan, the United States, Mauritius, Botswana, and wartime Ukraine, while treating V-Dem, Worldwide Governance Indicators, aid, and administrative data as bounded research inputs rather than a deterministic ranking.",
+        relevance:
+          "Turns Volume I’s method into a comparative research design: elections, literacy, media systems, public administration, and correction mechanisms must be studied together before democratic performance can be described.",
+      },
+      {
+        title:
+          "Study the Wall: Social Injustice, Institutional Power, Democratic Legitimacy, and the Politics of Structural Literacy",
+        lens: "Structural literacy and documentation",
+        description:
+          "Defines structural literacy as the capacity to read how authority classifies claims, preserves records, allocates credibility, and decides what becomes visible. The paper follows a seven-stage framework—coercive asymmetry, criminalisation and recoding, structural literacy, documentation, visibility, legitimacy, and institutional reform—and introduces curated dissent as selective recognition that can emerge from ordinary routines and fragmented authority rather than a single conspiracy.",
+        relevance:
+          "Gives Volume I a direct evidence practice: move from injury to grievance, from grievance to documentation, and from documentation to a contestable public account while keeping the limits of records and visibility explicit.",
+      },
+      {
+        title:
+          "The Death of Evidentiary Patience: Race, Social Media, and Judgment Before Investigation",
+        lens: "Evidence, judgment, and social media",
+        description:
+          "Develops evidentiary patience as the civic discipline of withholding a final moral judgment while facts remain incomplete, contested, or unavailable. Its provisional public-records case study examines how demographic imagery, historical memory, institutional distrust, emotionally compressed language, and platform incentives can move a narrative from suspicion to verdict before the cause of an event is established.",
+        relevance:
+          "Extends Volume I’s attention and documentation frameworks into the timing of public judgment, with a clear boundary between a testable mechanism and an unresolved case-specific factual conclusion.",
+      },
+      {
+        title:
+          "Reputation Debt: How Public Contempt Creates Future Cooperation Costs in Politics and Markets",
+        lens: "Trust, coalitions, and markets",
+        description:
+          "Introduces reputation debt as an intertemporal political-economy liability: scapegoating and dehumanizing rhetoric may generate short-term mobilization while increasing later monitoring costs, coalition shrinkage, partnership refusal, regulatory friction, talent avoidance, and reputational quarantine. The paper proposes accessible proxies and testable predictions for the quiet institutional penalties that follow public contempt.",
+        relevance:
+          "Connects Volume I’s media and legitimacy inquiry to measurable downstream effects: attention can be converted into short-run cohesion while credibility and future cooperation are spent as if they were unlimited.",
+      },
+      {
+        title:
+          "The Security of Memory: State Funerals, Political Legacies, and the Global Architecture of Mourning",
+        lens: "Political ritual and symbolic legitimacy",
+        description:
+          "Examines state funerals and contested burials as sites where security operations, political symbolism, media attention, and institutional continuity meet. Through cases involving U.S. presidential funerals, Queen Elizabeth II’s state funeral, preserved or threatened remains, and the Department of Homeland Security’s SEAR framework, it treats mourning as both a public ritual and a test of how states manage legitimacy after a leader’s death.",
+        relevance:
+          "Extends Volume I from individual reputation and public memory to collective ritual, showing how bodies, ceremonies, security coordination, and historical symbols can sustain or challenge political legitimacy.",
+      },
+      {
+        title:
+          "The Silent Archivist: Lawful Documentation and Deferred Disclosure in Loyalty-Based Institutions",
+        lens: "Law, documentation, and institutional correction",
+        description:
+          "Develops a documentation-and-disclosure model for institutions where loyalty to leadership narratives can outweigh professional competence or verifiable evidence. It emphasizes lawful collection, preservation of originals, chronology, data minimization, neutral framing, and timed use of ombuds, regulatory, academic, or other authorized channels, drawing on EU Charter rights, the EU Whistleblower Protection Directive, and Guja v. Moldova while presenting its university example as illustrative rather than adjudicated fact.",
+        relevance:
+          "Operationalizes Volume I’s correction discipline by showing how evidence can be preserved and made legible without confusing documentation with retaliation, public accusation, or jurisdiction-specific legal advice.",
+      },
     ],
   },
   {
