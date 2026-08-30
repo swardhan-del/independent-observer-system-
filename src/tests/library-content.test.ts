@@ -135,6 +135,8 @@ describe("library content blocks", () => {
   it("puts all four volumes and their matched papers into a first-class public shelf", () => {
     expect(researchShelf).toContain("Four-volume research shelf");
     expect(researchShelf).toContain("Follow the work by volume");
+    expect(researchShelf).toContain("library-research-shelf-heading");
+    expect(researchShelf).toContain("library-research-shelf-heading-copy");
     expect(researchShelf).toContain("Core principles");
     expect(researchShelf).toContain("Highest current download signal");
     expect(researchShelf).toContain("not a quality score");
