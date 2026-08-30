@@ -10,6 +10,7 @@ import { volumeResearchMap } from "../data/volume-research";
 import { volumeTwoFramework } from "../data/volume-two-framework";
 import { volumeFourClaimMap, volumeFourEvidence } from "../data/volume-four-evidence";
 import { volumeReels } from "../data/video-reels";
+import { volumeOneSourceMap, volumeOneSourceMapSummary } from "../data/volume-one-source-map";
 
 describe("editorial preview data", () => {
   it("keeps all sample work clearly labeled as unfinished", () => {
@@ -74,6 +75,27 @@ describe("editorial preview data", () => {
         ?.flatMap((section) => [...(section.paragraphs ?? []), ...(section.items ?? [])])
         .join(" "),
     ).toContain("Three Volume I papers currently have matched public SSRN records");
+  });
+
+  it("maps the reviewed Volume I source package without exposing raw files", () => {
+    expect(volumeOneSourceMap).toHaveLength(9);
+    expect(volumeOneSourceMapSummary.total).toBe(9);
+    expect(volumeOneSourceMapSummary.publicRecordCount).toBe(3);
+    expect(volumeOneSourceMap.filter((source) => source.href)).toHaveLength(3);
+    expect(
+      volumeOneSourceMap.find((source) => source.id === "from-plato-to-chomsky")?.summary,
+    ).toContain("civic capacity");
+    expect(
+      volumeOneSourceMap.find((source) => source.id === "study-the-wall-audit")?.status,
+    ).toContain("not verified");
+    expect(
+      volumeOneSourceMap.every(
+        (source) =>
+          `${source.title} ${source.summary} ${source.contribution}`.match(
+            /dropbox|library\/cloudstorage|\/users\//i,
+          ) === null,
+      ),
+    ).toBe(true);
   });
 
   it("gives Volume II a taxonomy-backed four-family and four-principle frame", () => {

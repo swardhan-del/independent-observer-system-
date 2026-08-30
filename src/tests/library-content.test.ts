@@ -17,6 +17,7 @@ const researchShelf = readFileSync(
   join(sourceRoot, "components/LibraryResearchShelf.astro"),
   "utf8",
 );
+const sourceMap = readFileSync(join(sourceRoot, "components/VolumeOneSourceMap.astro"), "utf8");
 const siteSearch = readFileSync(join(sourceRoot, "components/SiteSearch.astro"), "utf8");
 
 describe("library content blocks", () => {
@@ -160,6 +161,14 @@ describe("library content blocks", () => {
     expect(researchShelf).toContain("Open ResearchGate record");
     expect(researchShelf).toContain("ResearchGate record");
     expect(researchShelf).not.toContain("releaseApproved = true");
+  });
+
+  it("wires the reviewed Volume I source map into public reading surfaces", () => {
+    expect(researchShelf).toContain("<VolumeOneSourceMap compact />");
+    expect(sourceMap).toContain("Volume I source map");
+    expect(sourceMap).toContain("data-volume-one-source-filter");
+    expect(sourceMap).toContain("without publishing the source files");
+    expect(sourceMap).not.toContain("dropbox.com");
   });
 
   it("gives each volume an accessible visual companion and interactive visual key", () => {

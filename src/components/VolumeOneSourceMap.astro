@@ -1,0 +1,143 @@
+---
+import { volumeOneSourceMap, volumeOneSourceMapSummary } from "../data/volume-one-source-map";
+import { sitePath } from "../lib/paths";
+
+type Props = {
+  compact?: boolean;
+};
+
+const { compact = false } = Astro.props as Props;
+const visibleSources = compact ? volumeOneSourceMap.slice(0, 4) : volumeOneSourceMap;
+const families = [...new Set(visibleSources.map((source) => source.family))];
+const sourceMapHref = sitePath("/series/independent-observer/#volume-one-source-map");
+---
+
+<section
+  class={`section volume-one-source-map ${compact ? "volume-one-source-map-compact" : ""}`}
+  id={compact ? undefined : "volume-one-source-map"}
+  data-volume-one-source-map
+  aria-labelledby={compact ? undefined : "volume-one-source-map-title"}
+>
+  <div class="shell">
+    <div class="volume-one-source-map-heading">
+      <div>
+        <p class="eyebrow">Volume I source map</p>
+        <h2 id={compact ? undefined : "volume-one-source-map-title"}>
+          {
+            compact
+              ? "The source package behind Volume I."
+              : "What the Volume I source package adds."
+          }
+        </h2>
+      </div>
+      <p>
+        {
+          compact
+            ? "Four anchor materials are shown here as public-safe summaries. The full catalogue map includes nine reviewed source entries, with public-record links only where the record is confirmed."
+            : "The supplied Volume I materials deepen the method with civic capacity, human development, capability preservation, emergency power, public memory, and institutional case studies. This map makes each contribution legible without publishing the source files."
+        }
+      </p>
+    </div>
+
+    <div class="volume-one-source-flow" aria-label="How source material reaches the public site">
+      <span>Source material</span>
+      <i aria-hidden="true">→</i>
+      <span>Editorial summary</span>
+      <i aria-hidden="true">→</i>
+      <span>Public reading path</span>
+    </div>
+
+    {
+      !compact && (
+        <div
+          class="volume-one-source-controls"
+          role="group"
+          aria-label="Filter Volume I source map"
+        >
+          <button type="button" data-volume-one-source-filter="all" aria-pressed="true">
+            All {volumeOneSourceMapSummary.total}
+          </button>
+          {families.map((family) => (
+            <button type="button" data-volume-one-source-filter={family} aria-pressed="false">
+              {family}
+            </button>
+          ))}
+          <span data-volume-one-source-status role="status" aria-live="polite">
+            Showing {visibleSources.length} of {volumeOneSourceMapSummary.total} source entries
+          </span>
+        </div>
+      )
+    }
+
+    <div class="volume-one-source-grid">
+      {
+        visibleSources.map((source, index) => (
+          <article
+            class="volume-one-source-card"
+            data-volume-one-source-card
+            data-volume-one-source-family={source.family}
+          >
+            <div class="volume-one-source-card-topline">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{source.family}</span>
+            </div>
+            <span class="volume-one-source-status">{source.status}</span>
+            <h3>{source.title}</h3>
+            <p>{source.summary}</p>
+            <div class="volume-one-source-contribution">
+              <p class="library-block-label">Contribution to Volume I</p>
+              <p>{source.contribution}</p>
+            </div>
+            {source.href && (
+              <a class="volume-one-source-link" href={source.href}>
+                Read the public copy →
+              </a>
+            )}
+          </article>
+        ))
+      }
+    </div>
+
+    {
+      compact && (
+        <div class="volume-one-source-compact-footer">
+          <span>
+            {volumeOneSourceMapSummary.publicRecordCount} public-record links · source summaries
+            only
+          </span>
+          <a href={sourceMapHref}>See the complete Volume I source map →</a>
+        </div>
+      )
+    }
+
+    <p class="volume-one-source-boundary">
+      {volumeOneSourceMapSummary.note}
+    </p>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-volume-one-source-map]").forEach((root) => {
+    const filters = [
+      ...root.querySelectorAll<HTMLButtonElement>("[data-volume-one-source-filter]"),
+    ];
+    const cards = [...root.querySelectorAll<HTMLElement>("[data-volume-one-source-card]")];
+    const status = root.querySelector<HTMLElement>("[data-volume-one-source-status]");
+    if (!filters.length || !cards.length || !status) return;
+    filters.forEach((filter) =>
+      filter.addEventListener("click", () => {
+        const selected = filter.dataset.volumeOneSourceFilter ?? "all";
+        let visible = 0;
+        filters.forEach((candidate) =>
+          candidate.setAttribute("aria-pressed", String(candidate === filter)),
+        );
+        cards.forEach((card) => {
+          const show = selected === "all" || card.dataset.volumeOneSourceFamily === selected;
+          card.hidden = !show;
+          if (show) visible += 1;
+        });
+        status.textContent = `Showing ${visible} of ${cards.length} source entries`;
+      }),
+    );
+  });
+</script>

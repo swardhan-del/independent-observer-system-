@@ -12,6 +12,7 @@ import {
 import { volumeOneClaimMap, volumeOneEvidence } from "../../data/volume-one-evidence";
 import { volumeTwoFramework } from "../../data/volume-two-framework";
 import { volumeFourClaimMap, volumeFourEvidence } from "../../data/volume-four-evidence";
+import VolumeOneSourceMap from "../../components/VolumeOneSourceMap.astro";
 
 export function getStaticPaths() {
   return seriesItems.map((item) => ({
@@ -92,4 +93,5 @@ const isVolumeFour = item.volume === "Volume IV";
           ? { ...volumeFourClaimMap }
           : undefined}
   />
+  {isVolumeOne && <VolumeOneSourceMap />}
 </BaseLayout>

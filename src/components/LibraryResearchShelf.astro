@@ -4,6 +4,7 @@ import { seriesItems } from "../data/series";
 import { ssrnPreprintDocuments } from "../data/ssrn";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
+import VolumeOneSourceMap from "./VolumeOneSourceMap.astro";
 
 const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
 const papers = [...ssrnPreprintDocuments].sort(
@@ -274,6 +275,7 @@ const volumeIllustrations = {
                   </div>
                 </div>
               )}
+              {guide.volume === "Volume I" && <VolumeOneSourceMap compact />}
             </article>
           );
         })
