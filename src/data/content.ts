@@ -149,8 +149,27 @@ export const videoItems: EditorialItem[] = [
     title: "Why Evidence Alone Is Not Enough",
     category: "Institutional Accountability",
     description:
-      "A short-form editorial concept about the difference between possessing evidence and securing meaningful institutional review.",
+      "A short-form visual essay tracing the gap between having evidence and making it matter. It follows how a record is noticed, authenticated, interpreted, and carried into institutional review—and why access, procedure, competing narratives, and public attention can determine whether a documented fact leads to accountability or disappears.",
     status: "Concept preview",
+    readingTime: "Short-form video concept · 3–5 min",
+    detailLead:
+      "This video is an entry point into the Independent Observer method. It treats evidence as a route from observation to public response, not as a trophy: the record must be preserved, made legible, carried into a forum, and tested before a conclusion can responsibly travel.",
+    detailSections: [
+      {
+        heading: "What the video follows",
+        items: [
+          "The record: what was observed, preserved, and authenticated before interpretation begins.",
+          "The passage into public attention: how framing, competing narratives, and media incentives can make the same evidence visible or easy to ignore.",
+          "The institutional test: whether a person can reach review, receive a reasoned response, challenge an error, and obtain correction.",
+        ],
+      },
+      {
+        heading: "Why it matters to the project",
+        paragraphs: [
+          "Independent Observer asks readers to separate a documented fact from the explanation built around it. This concept makes that discipline visual by showing the missing steps between possessing evidence and securing meaningful institutional review.",
+        ],
+      },
+    ],
   },
   {
     title: "The Cost of Looking Away",

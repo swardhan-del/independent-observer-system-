@@ -186,6 +186,18 @@ describe("editorial preview data", () => {
     expect(entry?.status).toBe("Concept preview");
   });
 
+  it("gives the evidence video a descriptive, method-connected brief", () => {
+    const entry = videoItems.find((item) => item.title === "Why Evidence Alone Is Not Enough");
+
+    expect(entry?.description).toContain("authenticated, interpreted");
+    expect(entry?.description).toContain("institutional review");
+    expect(entry?.detailLead).toContain("route from observation to public response");
+    expect(entry?.detailSections?.[0]?.heading).toBe("What the video follows");
+    expect(entry?.detailSections?.[0]?.items).toEqual(
+      expect.arrayContaining([expect.stringContaining("The institutional test")]),
+    );
+  });
+
   it("provides one public-safe preview reel for every volume", () => {
     expect(volumeReels).toHaveLength(4);
     expect(volumeReels.map((reel) => reel.volume)).toEqual([

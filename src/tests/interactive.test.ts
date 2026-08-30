@@ -484,4 +484,9 @@ describe("interactive preview tools", () => {
     expect(videoDetail).toContain("awaiting human release");
     expect(videoDetail).not.toContain("releaseApproved = true");
   });
+
+  it("uses a compact, descriptive hero for video detail pages", () => {
+    expect(videoDetail).toContain('heroClassName="video-detail-hero"');
+    expect(videoDetail).toContain("EditorialDetail");
+  });
 });

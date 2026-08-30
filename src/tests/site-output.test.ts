@@ -147,6 +147,15 @@ describe("built website", () => {
     }
   });
 
+  it("renders the evidence video with its compact hero and fuller description", () => {
+    const html = readOutput("videos/why-evidence-alone-is-not-enough/index.html");
+
+    expect(html).toContain("video-detail-hero");
+    expect(html).toContain("authenticated, interpreted, and carried into institutional review");
+    expect(html).toContain("What the video follows");
+    expect(html).toContain("The institutional test");
+  });
+
   it("explains what each catalogue volume represents", () => {
     const html = readOutput("series/index.html");
     expect(html).toContain("Volume I is the method foundation");
