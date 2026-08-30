@@ -81,6 +81,9 @@ describe("interactive preview tools", () => {
     expect(ambientSound).toContain("data-ambient-sound-toggle");
     expect(ambientSound).toContain('aria-pressed="false"');
     expect(ambientSound).toContain("AudioContext");
+    expect(ambientSound).toContain("historical archive theme");
+    expect(ambientSound).toContain("Dorian chamber phrase");
+    expect(ambientSound).toContain("chordProgression");
     expect(ambientSound).not.toContain("autoplay");
     expect(ambientSound).not.toContain("fetch(");
   });

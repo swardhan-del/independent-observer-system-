@@ -3,14 +3,14 @@
   type="button"
   data-ambient-sound-toggle
   aria-pressed="false"
-  aria-label="Play ambient sound"
-  title="Play optional ambient sound"
+  aria-label="Play archive theme"
+  title="Play optional historical archive theme"
 >
   <span class="ambient-sound-icon" aria-hidden="true">♫</span>
-  <span data-ambient-sound-label>Sound off</span>
+  <span data-ambient-sound-label>Archive theme off</span>
 </button>
 <span class="sr-only" data-ambient-sound-status role="status" aria-live="polite">
-  Optional ambient sound. Starts only when selected.
+  Optional historical archive theme. Starts only when selected.
 </span>
 
 <script is:inline>
@@ -24,54 +24,114 @@
     let context;
     let masterGain;
     let voices = [];
-    let chordTimer;
+    let noteVoices = [];
+    let phraseTimer;
     let stopTimer;
     let isPlaying = false;
-    let chordIndex = 0;
+    let phraseIndex = 0;
 
-    const chords = [
-      [174.61, 261.63, 329.63],
-      [146.83, 220, 293.66],
-      [164.81, 246.94, 329.63],
-      [196, 293.66, 392],
+    // An original, browser-local Dorian chamber phrase: archival in color,
+    // but with a rising line so it feels curious and alive rather than sombre.
+    const beatMilliseconds = 60_000 / 72;
+    const phrase = [
+      [293.66, 0.82],
+      [349.23, 0.42],
+      [392, 0.42],
+      [440, 0.82],
+      [493.88, 0.42],
+      [440, 0.42],
+      [392, 0.82],
+      [349.23, 0.42],
+      [293.66, 0.82],
+      [329.63, 0.42],
+      [392, 0.42],
+      [440, 0.82],
+      [392, 0.42],
+      [349.23, 0.42],
+      [329.63, 0.82],
+      [293.66, 0.42],
+    ];
+    const chordProgression = [
+      [293.66, 349.23, 440],
+      [261.63, 329.63, 440],
+      [293.66, 392, 493.88],
+      [261.63, 349.23, 440],
     ];
 
     const setControlState = (playing, message) => {
       isPlaying = playing;
       toggle.setAttribute("aria-pressed", String(playing));
-      toggle.setAttribute("aria-label", playing ? "Pause ambient sound" : "Play ambient sound");
+      toggle.setAttribute("aria-label", playing ? "Pause archive theme" : "Play archive theme");
       toggle.setAttribute(
         "title",
-        playing ? "Pause optional ambient sound" : "Play optional ambient sound",
+        playing
+          ? "Pause optional historical archive theme"
+          : "Play optional historical archive theme",
       );
-      label.textContent = playing ? "Sound on" : "Sound off";
+      label.textContent = playing ? "Archive theme on" : "Archive theme off";
       status.textContent = message;
       toggle.classList.toggle("is-playing", playing);
     };
 
-    const shiftChord = () => {
-      if (!context || !isPlaying) return;
-      chordIndex = (chordIndex + 1) % chords.length;
+    const playNote = (frequency, duration, type, volume, filterFrequency, detune = 0) => {
+      if (!context || !masterGain || !isPlaying) return;
+
       const now = context.currentTime;
-      chords[chordIndex].forEach((frequency, index) => {
-        const voice = voices[index];
-        if (voice) voice.oscillator.frequency.exponentialRampToValueAtTime(frequency, now + 4);
-      });
+      const oscillator = context.createOscillator();
+      const filter = context.createBiquadFilter();
+      const gain = context.createGain();
+      oscillator.type = type;
+      oscillator.frequency.setValueAtTime(frequency, now);
+      oscillator.detune.setValueAtTime(detune, now);
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(filterFrequency, now);
+      filter.Q.setValueAtTime(0.65, now);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(volume, now + 0.045);
+      gain.gain.exponentialRampToValueAtTime(
+        Math.max(volume * 0.35, 0.0001),
+        now + duration * 0.55,
+      );
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+      oscillator.connect(filter);
+      filter.connect(gain);
+      gain.connect(masterGain);
+      oscillator.start(now);
+      oscillator.stop(now + duration + 0.08);
+      noteVoices.push({ oscillator, gain });
+    };
+
+    const playPhraseStep = () => {
+      if (!context || !isPlaying) return;
+
+      const [frequency, duration] = phrase[phraseIndex];
+      playNote(frequency, duration * (beatMilliseconds / 1000), "triangle", 0.12, 2_400);
+      playNote(frequency * 2, duration * (beatMilliseconds / 1000) * 0.72, "sine", 0.022, 3_800, 4);
+
+      if (phraseIndex % 4 === 0) {
+        const chord = chordProgression[Math.floor(phraseIndex / 4) % chordProgression.length];
+        chord.forEach((chordFrequency, index) => {
+          playNote(chordFrequency, 2.75, "sine", index === 0 ? 0.032 : 0.022, 1_600, index * 3 - 3);
+        });
+        playNote(chord[0] / 2, 3.2, "sawtooth", 0.06, 520, -5);
+      }
+
+      phraseIndex = (phraseIndex + 1) % phrase.length;
     };
 
     const stopSound = () => {
       if (!context) {
-        setControlState(false, "Ambient sound is off.");
+        setControlState(false, "The historical archive theme is off.");
         return;
       }
 
       const fadingContext = context;
       const fadingGain = masterGain;
-      const fadingVoices = voices;
+      const fadingVoices = [...voices, ...noteVoices];
       const now = fadingContext.currentTime;
       isPlaying = false;
-      if (chordTimer) window.clearInterval(chordTimer);
-      chordTimer = undefined;
+      if (phraseTimer) window.clearInterval(phraseTimer);
+      phraseTimer = undefined;
       if (fadingGain) fadingGain.gain.linearRampToValueAtTime(0, now + 0.28);
 
       if (stopTimer) window.clearTimeout(stopTimer);
@@ -88,18 +148,20 @@
           context = undefined;
           masterGain = undefined;
           voices = [];
+          noteVoices = [];
         }
       }, 360);
 
-      setControlState(false, "Ambient sound is off.");
+      setControlState(false, "The historical archive theme is off.");
     };
 
     const startSound = async () => {
       if (isPlaying) return;
 
-      const AudioContextConstructor = window.AudioContext;
+      const legacyAudioContext = Reflect.get(window, "webkitAudioContext");
+      const AudioContextConstructor = window.AudioContext || legacyAudioContext;
       if (!AudioContextConstructor) {
-        setControlState(false, "Ambient sound is not supported in this browser.");
+        setControlState(false, "The archive theme is not supported in this browser.");
         return;
       }
 
@@ -109,33 +171,50 @@
         const compressor = nextContext.createDynamicsCompressor();
         const nextMasterGain = nextContext.createGain();
         nextMasterGain.gain.setValueAtTime(0, nextContext.currentTime);
-        nextMasterGain.gain.linearRampToValueAtTime(0.035, nextContext.currentTime + 1.4);
+        nextMasterGain.gain.linearRampToValueAtTime(0.055, nextContext.currentTime + 1.1);
         nextMasterGain.connect(compressor);
         compressor.connect(nextContext.destination);
 
-        const nextVoices = chords[0].map((frequency, index) => {
+        const nextVoices = [146.83, 220].map((frequency, index) => {
           const oscillator = nextContext.createOscillator();
+          const filter = nextContext.createBiquadFilter();
           const gain = nextContext.createGain();
-          oscillator.type = index === 1 ? "triangle" : "sine";
+          const vibrato = nextContext.createOscillator();
+          const vibratoGain = nextContext.createGain();
+          oscillator.type = index === 1 ? "triangle" : "sawtooth";
           oscillator.frequency.value = frequency;
-          oscillator.detune.value = index === 0 ? -5 : index === 2 ? 5 : 0;
-          gain.gain.value = index === 1 ? 0.15 : 0.11;
-          oscillator.connect(gain);
+          oscillator.detune.value = index === 0 ? -4 : 3;
+          filter.type = "lowpass";
+          filter.frequency.value = index === 0 ? 680 : 1_050;
+          filter.Q.value = 0.55;
+          gain.gain.value = index === 0 ? 0.085 : 0.045;
+          vibrato.frequency.value = 0.18 + index * 0.04;
+          vibratoGain.gain.value = index === 0 ? 2.2 : 1.4;
+          vibrato.connect(vibratoGain);
+          vibratoGain.connect(oscillator.detune);
+          oscillator.connect(filter);
+          filter.connect(gain);
           gain.connect(nextMasterGain);
           oscillator.start();
-          return { oscillator, gain };
+          vibrato.start();
+          return { oscillator, vibrato, gain };
         });
 
         await nextContext.resume();
         context = nextContext;
         masterGain = nextMasterGain;
         voices = nextVoices;
-        chordIndex = 0;
+        noteVoices = [];
+        phraseIndex = 0;
         isPlaying = true;
-        chordTimer = window.setInterval(shiftChord, 12000);
-        setControlState(true, "Ambient sound is playing. Select the control again to pause it.");
+        playPhraseStep();
+        phraseTimer = window.setInterval(playPhraseStep, beatMilliseconds);
+        setControlState(
+          true,
+          "The historical archive theme is playing. Select the control again to pause it.",
+        );
       } catch {
-        setControlState(false, "Ambient sound could not start. Try the control again.");
+        setControlState(false, "The archive theme could not start. Try the control again.");
       } finally {
         toggle.removeAttribute("aria-busy");
       }
