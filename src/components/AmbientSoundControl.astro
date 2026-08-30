@@ -1,0 +1,149 @@
+<button
+  class="ambient-sound-toggle"
+  type="button"
+  data-ambient-sound-toggle
+  aria-pressed="false"
+  aria-label="Play ambient sound"
+  title="Play optional ambient sound"
+>
+  <span class="ambient-sound-icon" aria-hidden="true">♫</span>
+  <span data-ambient-sound-label>Sound off</span>
+</button>
+<span class="sr-only" data-ambient-sound-status role="status" aria-live="polite">
+  Optional ambient sound. Starts only when selected.
+</span>
+
+<script is:inline>
+  (() => {
+    const toggle = document.querySelector("[data-ambient-sound-toggle]");
+    const label = document.querySelector("[data-ambient-sound-label]");
+    const status = document.querySelector("[data-ambient-sound-status]");
+
+    if (!toggle || !label || !status) return;
+
+    let context;
+    let masterGain;
+    let voices = [];
+    let chordTimer;
+    let stopTimer;
+    let isPlaying = false;
+    let chordIndex = 0;
+
+    const chords = [
+      [174.61, 261.63, 329.63],
+      [146.83, 220, 293.66],
+      [164.81, 246.94, 329.63],
+      [196, 293.66, 392],
+    ];
+
+    const setControlState = (playing, message) => {
+      isPlaying = playing;
+      toggle.setAttribute("aria-pressed", String(playing));
+      toggle.setAttribute("aria-label", playing ? "Pause ambient sound" : "Play ambient sound");
+      toggle.setAttribute(
+        "title",
+        playing ? "Pause optional ambient sound" : "Play optional ambient sound",
+      );
+      label.textContent = playing ? "Sound on" : "Sound off";
+      status.textContent = message;
+      toggle.classList.toggle("is-playing", playing);
+    };
+
+    const shiftChord = () => {
+      if (!context || !isPlaying) return;
+      chordIndex = (chordIndex + 1) % chords.length;
+      const now = context.currentTime;
+      chords[chordIndex].forEach((frequency, index) => {
+        const voice = voices[index];
+        if (voice) voice.oscillator.frequency.exponentialRampToValueAtTime(frequency, now + 4);
+      });
+    };
+
+    const stopSound = () => {
+      if (!context) {
+        setControlState(false, "Ambient sound is off.");
+        return;
+      }
+
+      const fadingContext = context;
+      const fadingGain = masterGain;
+      const fadingVoices = voices;
+      const now = fadingContext.currentTime;
+      isPlaying = false;
+      if (chordTimer) window.clearInterval(chordTimer);
+      chordTimer = undefined;
+      if (fadingGain) fadingGain.gain.linearRampToValueAtTime(0, now + 0.28);
+
+      if (stopTimer) window.clearTimeout(stopTimer);
+      stopTimer = window.setTimeout(() => {
+        fadingVoices.forEach(({ oscillator }) => {
+          try {
+            oscillator.stop();
+          } catch {
+            // The voice may already have stopped during a rapid toggle.
+          }
+        });
+        fadingContext.close();
+        if (context === fadingContext) {
+          context = undefined;
+          masterGain = undefined;
+          voices = [];
+        }
+      }, 360);
+
+      setControlState(false, "Ambient sound is off.");
+    };
+
+    const startSound = async () => {
+      if (isPlaying) return;
+
+      const AudioContextConstructor = window.AudioContext;
+      if (!AudioContextConstructor) {
+        setControlState(false, "Ambient sound is not supported in this browser.");
+        return;
+      }
+
+      toggle.setAttribute("aria-busy", "true");
+      try {
+        const nextContext = new AudioContextConstructor();
+        const compressor = nextContext.createDynamicsCompressor();
+        const nextMasterGain = nextContext.createGain();
+        nextMasterGain.gain.setValueAtTime(0, nextContext.currentTime);
+        nextMasterGain.gain.linearRampToValueAtTime(0.035, nextContext.currentTime + 1.4);
+        nextMasterGain.connect(compressor);
+        compressor.connect(nextContext.destination);
+
+        const nextVoices = chords[0].map((frequency, index) => {
+          const oscillator = nextContext.createOscillator();
+          const gain = nextContext.createGain();
+          oscillator.type = index === 1 ? "triangle" : "sine";
+          oscillator.frequency.value = frequency;
+          oscillator.detune.value = index === 0 ? -5 : index === 2 ? 5 : 0;
+          gain.gain.value = index === 1 ? 0.15 : 0.11;
+          oscillator.connect(gain);
+          gain.connect(nextMasterGain);
+          oscillator.start();
+          return { oscillator, gain };
+        });
+
+        await nextContext.resume();
+        context = nextContext;
+        masterGain = nextMasterGain;
+        voices = nextVoices;
+        chordIndex = 0;
+        isPlaying = true;
+        chordTimer = window.setInterval(shiftChord, 12000);
+        setControlState(true, "Ambient sound is playing. Select the control again to pause it.");
+      } catch {
+        setControlState(false, "Ambient sound could not start. Try the control again.");
+      } finally {
+        toggle.removeAttribute("aria-busy");
+      }
+    };
+
+    toggle.addEventListener("click", () => {
+      if (isPlaying) stopSound();
+      else startSound();
+    });
+  })();
+</script>

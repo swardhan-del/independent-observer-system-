@@ -45,15 +45,17 @@ export const volumeThreeResearchRecords: VolumeThreeResearchRecord[] = [
   {
     id: "vietnam-terry-ohio",
     title: "From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential",
-    status: "Working-paper direction",
+    status: "Public reading copy",
+    publicDocumentId: "from-vietnam-to-terry-ohio-ssrn",
     lenses: ["Welfare and social control", "Public visibility", "Labor markets"],
     summary:
-      "A Volume III source direction connecting Vietnam veterans’ reintegration needs, Terry v. Ohio, discretionary policing, and the institutional choices that can make hardship visible as enforcement rather than as a capacity problem.",
+      "A public SSRN working paper connecting Vietnam veterans’ reintegration needs, Terry v. Ohio, discretionary policing, and the institutional choices that can make hardship visible as enforcement rather than as a capacity problem.",
     whyItMatters:
       "The line of inquiry asks how employment, reintegration, welfare, public records, and policing interact when institutions respond to unmet human potential. It gives the volume a historical mechanism to test rather than a single-cause explanation of mass incarceration.",
     boundary:
-      "The source remains private working material. The public page uses a bounded research description and does not reproduce the manuscript, private notes, or personal records.",
-    sourceDescription: "Matched Volume III source record · public reading copy not yet cleared",
+      "The public SSRN record is available as a reading entry, while the matching source material remains outside the website. The public page does not reproduce the manuscript, private notes, or personal records.",
+    sourceDescription:
+      "Matched public SSRN record · 13 downloads and 56 abstract views when last checked on 31 August 2026",
   },
   {
     id: "welfare-wealthfare-social-control",

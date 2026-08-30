@@ -629,6 +629,184 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
     ],
   }),
   makeDocument({
+    id: "the-american-empire-was-never-a-democracy-ssrn",
+    volume: "Volume II",
+    title: "The American Empire was Never a Democracy",
+    category: "Democracy, Empire & Representation",
+    description:
+      "A political-history working paper examining how constitutional design, representation, money in politics, media concentration, and militarized foreign policy can limit popular sovereignty beneath democratic language.",
+    volumeRelevance:
+      "This paper gives Volume II a direct institutions-and-legitimacy case: it asks how formal representation can coexist with concentrated influence, and which reforms might make public power more accountable. Its contribution is a connected historical frame, not a claim that one mechanism explains every democratic failure.",
+    sourceModified: "Author preprint matched to SSRN abstract 5437015",
+    publicationDate: "20 September 2025",
+    dateLabel: "Posted",
+    sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5437015",
+    metricsCheckedAt: "31 August 2026",
+    metrics: { downloads: 19, abstractViews: 85, citations: 0 },
+    sections: sections(
+      "This working paper argues that the United States has often operated less as a participatory democracy than as a managed republic in which elite interests exert outsized influence over political, economic, and informational institutions. It traces continuities from constitutional design and slavery through industrial capitalism, mass incarceration, money in politics, militarized foreign policy, and concentrated media ownership, then outlines reforms intended to widen social rights, representation, workplace voice, anti-monopoly enforcement, campaign-finance accountability, and diplomacy.",
+      [
+        "The paper links formal constitutional arrangements to later institutional practices instead of treating democratic language as proof of equal political power.",
+        "Its historical sequence connects the Three-Fifths Compromise, felony disenfranchisement, wealth concentration, CEO-to-worker pay gaps, covert action, and overseas military infrastructure as separate cases in a wider power analysis.",
+        "The proposed reforms—universal social rights, voting and representation reform, workplace democracy, anti-monopoly enforcement, campaign-finance reform, and diplomacy-first strategy—are policy options for discussion, not enacted outcomes.",
+      ],
+      "The public SSRN record listed 19 downloads and 85 abstract views in the indexed snapshot checked on 31 August 2026. The paper is a historical and political-economic working paper; its continuities are interpretive claims that require period-specific evidence, and its reform agenda is not a legislative score or guarantee.",
+      "The Volume II map places this paper at the intersection of sovereignty, representation, political economy, and foreign influence. The site publishes the public synopsis and SSRN link while keeping any matching source material outside the website.",
+    ),
+    citations: [
+      {
+        id: "ssrn-5437015",
+        label: "SSRN",
+        citation:
+          "Harsh Wardhan, Siddhartha, The American Empire was Never a Democracy (2025), SSRN abstract 5437015.",
+        url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5437015",
+      },
+    ],
+    notes: [
+      "Matched to a Volume II democracy-and-empire preprint controller and its public SSRN record.",
+      "The public entry preserves the paper's institutional thesis without exposing a private source path or presenting the thesis as settled history.",
+    ],
+    limitations: [
+      "The paper is a working argument, not a complete history of U.S. political development or a causal estimate of institutional influence.",
+      "Historical comparisons require attention to period, legal change, measurement, and competing explanations.",
+      "Usage metrics are descriptive discovery signals, not peer review, endorsement, or a quality rating.",
+    ],
+  }),
+  makeDocument({
+    id: "when-the-storm-decides-ssrn",
+    volume: "Volume II",
+    title:
+      "When the Storm Decides: Crises, Perception, and Electoral Outcomes in the United States",
+    category: "Politics & Legitimacy",
+    description:
+      "A political working paper examining how terrorist attacks, natural disasters, pandemics, revolutions, and financial collapses become competence tests that reshape electoral perception and institutional legitimacy.",
+    volumeRelevance:
+      "It adds a crisis-and-legitimacy case to Volume II: the paper asks how public judgments of competence are formed when institutions are under stress, and how a crisis narrative can change the perceived authority of an administration. The contribution is a testable frame for connecting event response, federalism, media attention, and electoral outcomes.",
+    sourceModified: "Author preprint matched to SSRN abstract 5530960",
+    publicationDate: "27 September 2025",
+    dateLabel: "Posted",
+    sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5530960",
+    metricsCheckedAt: "31 August 2026",
+    metrics: { downloads: 34, abstractViews: 127, citations: 0 },
+    sections: sections(
+      "This working paper treats crises as inflection points in American politics. It argues that terrorist attacks, hurricanes, pandemics, revolutions, and financial collapses interrupt normal campaign calculations and force voters to judge leaders through perceived competence under stress. The paper uses episodes including the Iranian Hostage Crisis, 9/11, Hurricane Katrina, the 2008 financial crash, the COVID-19 pandemic, and later disaster politics to develop the claim that crisis effects are recurring tests of legitimacy rather than isolated flukes.",
+      [
+        "The paper shifts the unit of analysis from ideology alone to the relationship among disruption, executive response, public perception, and retrospective voting.",
+        "Federalism, natural-disaster response, public health, financial management, and media narrative are treated as institutional conditions that can alter the meaning of a crisis.",
+        "Its central claim—that crises can decide electoral trajectories—is a research argument open to comparative testing, not a universal rule that predicts every election.",
+      ],
+      "The public SSRN record listed 34 downloads and 127 abstract views in the indexed snapshot checked on 31 August 2026. This is a short working paper using historical examples; the examples do not by themselves establish a causal estimate, and the paper should be read alongside event-level data and competing explanations.",
+      "The Volume II connection is the practical legitimacy question: when authority is tested in public, which institutions can respond, document the response, and preserve trust? The website presents a bounded public summary and SSRN record, not private working notes or an assertion of electoral certainty.",
+    ),
+    citations: [
+      {
+        id: "ssrn-5530960",
+        label: "SSRN",
+        citation:
+          "Harsh Wardhan, Siddhartha, When the Storm Decides: Crises, Perception, and Electoral Outcomes in the United States (2025), SSRN abstract 5530960.",
+        url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5530960",
+      },
+    ],
+    notes: [
+      "Matched to a Volume II crisis-and-electoral-legitimacy preprint controller and its public SSRN record.",
+      "The page describes the paper's mechanism as a hypothesis to examine and does not turn historical examples into a deterministic forecast.",
+    ],
+    limitations: [
+      "The paper is a working paper and does not provide a complete dataset for every crisis or election.",
+      "Perception is shaped by timing, institutions, media, partisanship, economic conditions, and the quality of the response record.",
+      "Usage metrics are descriptive signals, not peer review or evidence that the causal interpretation is settled.",
+    ],
+  }),
+  makeDocument({
+    id: "managed-interdependence-ssrn",
+    volume: "Volume II",
+    title:
+      "Managed Interdependence: Industrial Policy and Governance Sequencing in Post-Autocratic Russia",
+    category: "Geopolitics & Sovereignty",
+    description:
+      "A geopolitical working paper modelling a twenty-year path for post-authoritarian reconstruction through administrative transparency, industrial diversification, civic reintegration, and carefully sequenced governance reform.",
+    volumeRelevance:
+      "This paper extends Volume II's sovereignty inquiry into industrial policy and post-autocratic reconstruction. It asks how a state can rebuild administrative capacity, diversify its economy, and reintegrate citizens without treating sovereignty as isolation or political liberalization as a substitute for functioning institutions.",
+    sourceModified: "Author preprint matched to SSRN abstract 5671691",
+    publicationDate: "3 December 2025",
+    dateLabel: "Posted",
+    sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5671691",
+    metricsCheckedAt: "31 August 2026",
+    metrics: { downloads: 40, abstractViews: 173, citations: 0 },
+    sections: sections(
+      "This working paper models a twenty-year roadmap for Russia's post-authoritarian reconstruction through administrative, industrial, and civic reform. Drawing on historical transitions and comparative data from international institutions, it identifies three linked vectors: rule-of-law consolidation and bureaucratic transparency; diversification from raw-material dependence toward higher-value manufacturing and renewable energy; and civic reintegration through decentralized equity ownership. It places the proposed transformation within Eurasian balance, BRICS realignment, and G7 sanctions, and argues that sustainable sovereignty comes from informational openness and managed interdependence rather than isolation.",
+      [
+        "The paper treats reconstruction as a sequencing problem: administrative normalization, industrial diversification, and civic reintegration have to support one another over time.",
+        "It connects industrial policy to sovereignty by asking whether raw-material dependence, sanctions, energy systems, and ownership structures expand or narrow practical state capacity.",
+        "The twenty-year roadmap is a policy model and scenario frame, not an enacted programme or a prediction that a single sequence will fit every post-autocratic transition.",
+      ],
+      "The public SSRN record listed 40 downloads and 173 abstract views in the indexed snapshot checked on 31 August 2026. The roadmap is a working model based on comparative synthesis; sanctions, industrial capacity, civic ownership, and political sequencing are context-dependent and require ongoing evidence review.",
+      "Within Volume II, this record links sovereignty to the institutions that make production, information, ownership, and civic participation durable. The public page uses a synopsis and SSRN link only; the source manuscript remains outside the website.",
+    ),
+    citations: [
+      {
+        id: "ssrn-5671691",
+        label: "SSRN",
+        citation:
+          "Harsh Wardhan, Siddhartha, Managed Interdependence: Industrial Policy and Governance Sequencing in Post-Autocratic Russia (2025), SSRN abstract 5671691.",
+        url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5671691",
+      },
+    ],
+    notes: [
+      "Matched to a Volume II geopolitics-and-industrial-policy preprint controller and its public SSRN record.",
+      "The summary keeps the roadmap's policy ambition visible while labeling it as a model open to revision.",
+    ],
+    limitations: [
+      "The paper is a scenario and policy model, not an official reconstruction plan or a forecast with guaranteed outcomes.",
+      "Comparisons across post-authoritarian states require attention to political history, sanctions, energy systems, and administrative capacity.",
+      "Usage metrics are descriptive discovery signals, not peer review or a measure of policy validity.",
+    ],
+  }),
+  makeDocument({
+    id: "from-vietnam-to-terry-ohio-ssrn",
+    volume: "Volume III",
+    title: "From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential",
+    category: "Welfare, Social Control & Human Capital",
+    description:
+      "A Volume III working paper examining how veterans' reintegration, discretionary policing, welfare administration, and mass incarceration can redirect public investment toward punishment or human restoration.",
+    volumeRelevance:
+      "This paper gives Managed Decline a historical human-capital case: it asks how institutions respond when unmet needs are recorded as enforcement problems rather than as capacity problems. It connects welfare, policing, employment, public visibility, and the cost of social failure to the volume's question of who carries the burden of change.",
+    sourceModified: "Author preprint matched to SSRN abstract 5563298",
+    publicationDate: "31 October 2025",
+    dateLabel: "Posted",
+    sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5563298",
+    metricsCheckedAt: "31 August 2026",
+    metrics: { downloads: 13, abstractViews: 56, citations: 0 },
+    sections: sections(
+      "This paper examines how the United States has repeatedly monetized failure, from the neglect of Vietnam veterans to the expansion of mass incarceration after Terry v. Ohio in 1968. It argues that justice systems and welfare bureaucracies can generate institutional returns through punishment, auditing, and exclusion, while comparative examples from Finland and Canada suggest ways investment might be redirected toward human restoration. The proposed framework treats human productivity as a stock-backed asset and asks whether veterans, disabled people, and structurally displaced workers can be supported as beneficiaries rather than treated as burdens.",
+      [
+        "The paper links reintegration, policing, welfare, and labor-market participation as connected institutional choices rather than separate policy silos.",
+        "It contrasts punishment and exclusion with restoration-focused investment, using reduced homelessness, lower incarceration costs, and higher productivity as proposed outcomes to measure.",
+        "Its human-capital framework is a policy proposal open to fiscal, legal, and empirical testing; it is not proof that every welfare or justice institution acts from the same motive.",
+      ],
+      "The public SSRN record listed 13 downloads and 56 abstract views in the indexed snapshot checked on 31 August 2026. This is a short working paper and its proposed returns are not an independent fiscal score, clinical finding, or enacted policy. Historical and comparative claims require primary-source review and attention to institutional differences.",
+      "The record is now a public Volume III reading entry, while the matching source material remains outside the website. It belongs alongside the volume's work on taxation, welfare, health systems, licensing, and public visibility because it asks how administrative choices distribute the cost of unmet human potential.",
+    ),
+    citations: [
+      {
+        id: "ssrn-5563298",
+        label: "SSRN",
+        citation:
+          "Harsh Wardhan, Siddhartha, From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential (2025), SSRN abstract 5563298.",
+        url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5563298",
+      },
+    ],
+    notes: [
+      "Matched to a Volume III welfare-and-human-capital source record and its public SSRN record.",
+      "The public synopsis identifies the proposal and its boundaries without reproducing the source manuscript or private notes.",
+    ],
+    limitations: [
+      "The paper is a policy proposal, not an independent estimate of the fiscal returns of welfare or justice reform.",
+      "Vietnam, Terry v. Ohio, Finland, and Canada represent different histories and institutions; the comparison requires mechanism-level analysis.",
+      "Usage metrics are descriptive signals, not peer review, endorsement, or evidence of policy effectiveness.",
+    ],
+  }),
+  makeDocument({
     id: "children-left-behind-after-a-war-ssrn",
     volume: "Volume III",
     title:

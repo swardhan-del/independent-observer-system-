@@ -142,11 +142,14 @@ describe("built website", () => {
 
     expect(html).toContain("One research project about what public systems make visible");
     expect(html).toContain("The general message of each volume");
+    expect(html).toContain("independent-observer-four-volume-map-v2.png");
+    expect(html).toContain("One observing lens, four connected questions");
     expect(html).toContain("volume-visual-strip-compact");
     expect(html).toContain("Observe and document");
     expect(html).toContain("Locate power and sovereignty");
     expect(html).toContain("Follow the cost of change");
     expect(html).toContain("Govern human capability");
+    expect(existsSync(join(distRoot, "independent-observer-four-volume-map-v2.png"))).toBe(true);
   });
 
   it("builds robots, sitemap, and 404 output", () => {
@@ -212,7 +215,7 @@ describe("built website", () => {
     expect(homeHtml).toContain(
       "The literature behind critical thinking, reasoning, and documentation.",
     );
-    expect(homeHtml).toContain("17 public SSRN reading copies");
+    expect(homeHtml).toContain("21 public SSRN reading copies");
     expect(homeHtml).toContain("Who Deported More?");
     expect(homeHtml).toContain("The Double Tax on Time");
     expect(homeHtml).toContain("SSRN preprint");
@@ -222,7 +225,7 @@ describe("built website", () => {
   it("makes the expanded public research index discoverable without exposing source files", () => {
     const html = readOutput("research/index.html");
 
-    expect(html).toContain("<strong>17</strong>");
+    expect(html).toContain("<strong>21</strong>");
     expect(html).toContain("matched SSRN records");
     expect(html).toContain("Newer public records, ready to follow.");
     expect(html).toContain("Citizens Without a Country");

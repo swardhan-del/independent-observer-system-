@@ -16,6 +16,7 @@ import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
 
 const sourceRoot = join(process.cwd(), "src");
 const header = readFileSync(join(sourceRoot, "components/Header.astro"), "utf8");
+const ambientSound = readFileSync(join(sourceRoot, "components/AmbientSoundControl.astro"), "utf8");
 const search = readFileSync(join(sourceRoot, "components/SiteSearch.astro"), "utf8");
 const filter = readFileSync(join(sourceRoot, "components/ContentFilter.astro"), "utf8");
 const card = readFileSync(join(sourceRoot, "components/EditorialCard.astro"), "utf8");
@@ -75,6 +76,15 @@ const researchCatalogue = readFileSync(
 );
 
 describe("interactive preview tools", () => {
+  it("keeps ambient sound opt-in and browser-local", () => {
+    expect(header).toContain("<AmbientSoundControl />");
+    expect(ambientSound).toContain("data-ambient-sound-toggle");
+    expect(ambientSound).toContain('aria-pressed="false"');
+    expect(ambientSound).toContain("AudioContext");
+    expect(ambientSound).not.toContain("autoplay");
+    expect(ambientSound).not.toContain("fetch(");
+  });
+
   it("ships browser-local site search without a collection endpoint", () => {
     expect(header).toContain("<SiteSearch />");
     expect(search).toContain("data-search-open");
@@ -261,7 +271,7 @@ describe("interactive preview tools", () => {
     });
     expect(
       volumeThreeResearchRecords.filter((record) => record.status === "Working-paper direction"),
-    ).toHaveLength(6);
+    ).toHaveLength(5);
     expect(volumeThreeResearchRecords).toContainEqual(
       expect.objectContaining({
         id: "social-class-and-welfare",
@@ -445,14 +455,14 @@ describe("interactive preview tools", () => {
     expect(researchCatalogue).toContain("rankSearchEntries");
     expect(researchCatalogue).toContain("Recently matched");
     expect(researchCatalogue).toContain("Private source paths");
-    expect(researchCatalogueRecords).toHaveLength(24);
+    expect(researchCatalogueRecords).toHaveLength(28);
     expect(researchCatalogueVolumes).toEqual(["Volume I", "Volume II", "Volume III", "Volume IV"]);
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "Volume record"),
     ).toHaveLength(4);
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "SSRN preprint"),
-    ).toHaveLength(17);
+    ).toHaveLength(21);
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "Research concept"),
     ).toHaveLength(3);
@@ -591,6 +601,9 @@ describe("interactive preview tools", () => {
     );
     expect(homepage).toContain("The general message of each volume");
     expect(homepage).toContain("grounded in references, identifiable sources, and visible limits");
+    expect(homepage).toContain("mission-illustration");
+    expect(homepage).toContain("independent-observer-four-volume-map-v2.png");
+    expect(homepage).toContain("central observing lens connecting four research fields");
     expect(homepage).toContain("<VolumeVisualStrip compact />");
     expect(volumeVisualStrip).toContain("volume-visual-strip");
     expect(homepage).toContain("<HomepageVolumeGuide />");
