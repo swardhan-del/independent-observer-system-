@@ -60,6 +60,18 @@ describe("editorial preview data", () => {
     expect(volumeOne?.description).toContain("law, labor, media, history, public memory");
     expect(volumeOne?.description).toContain("disciplined observation before judgment");
     expect(volumeOne?.description).toContain("not a finished publication");
+    expect(volumeOne?.detailLead).toContain("working papers about opportunity, wealth, attention");
+    expect(volumeOne?.detailSections).toHaveLength(3);
+    expect(
+      volumeOne?.detailSections
+        ?.flatMap((section) => [...(section.paragraphs ?? []), ...(section.items ?? [])])
+        .join(" "),
+    ).toContain("From Plato to Chomsky");
+    expect(
+      volumeOne?.detailSections
+        ?.flatMap((section) => [...(section.paragraphs ?? []), ...(section.items ?? [])])
+        .join(" "),
+    ).toContain("Three Volume I papers currently have matched public SSRN records");
   });
 
   it("gives Volume II a taxonomy-backed four-family and four-principle frame", () => {

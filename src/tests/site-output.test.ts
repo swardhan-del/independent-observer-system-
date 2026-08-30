@@ -160,6 +160,12 @@ describe("built website", () => {
   it("places the verified Volume I SSRN papers in the public preview", () => {
     const html = readOutput("series/independent-observer/index.html");
 
+    expect(html).toContain("How to read Volume I");
+    expect(html).toContain("Capital Amplification and the Myth of Equal Opportunity");
+    expect(html).toContain("From Plato to Chomsky: Democracy, Mass Manipulation");
+    expect(html).toContain("Three Volume I papers currently have matched public SSRN records");
+    expect(html).toContain("36 downloads and 137 abstract views");
+    expect(html).toContain("not quality scores, citations, endorsements, or peer review");
     expect(html).toContain("Papers already posted on SSRN.");
     expect(html).toContain("A Systems-Centered Manifesto on Automation");
     expect(html).toContain("The Illusion of Equality");
