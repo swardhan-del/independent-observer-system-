@@ -127,6 +127,14 @@ describe("built website", () => {
     for (const { file } of routes) expect(existsSync(join(distRoot, file))).toBe(true);
   });
 
+  it("renders the homepage hero with an actionable four-volume index", () => {
+    const html = readOutput("index.html");
+
+    expect(html).toContain("Choose a volume to enter the research");
+    expect(html).toContain('aria-label="Explore the four volumes"');
+    expect(html).toContain("hero-volume-link");
+  });
+
   it("builds robots, sitemap, and 404 output", () => {
     expect(existsSync(join(distRoot, "robots.txt"))).toBe(true);
     expect(existsSync(join(distRoot, "sitemap.xml"))).toBe(true);

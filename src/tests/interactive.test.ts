@@ -172,6 +172,11 @@ describe("interactive preview tools", () => {
     expect(homepageVolumeGuide).toContain("/library/documents/${paper.id}/");
   });
 
+  it("keeps the homepage hero high and makes its volume index visibly actionable", () => {
+    expect(homepage).toContain("Choose a volume to enter the research");
+    expect(homepage).toContain('aria-label="Explore the four volumes"');
+  });
+
   it("connects Volume III catalogue work to public-safe research directions", () => {
     expect(seriesDetail).toContain("showVolumeResearchDossier");
     expect(seriesDetail).toContain('item.volume === "Volume III"');
