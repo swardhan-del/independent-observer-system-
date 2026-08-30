@@ -222,6 +222,11 @@ describe("built website", () => {
     expect(html).toContain("volume-i-evidence-and-institutional-denial.mp4");
     expect(html).toContain("Related preview reel · When Evidence Meets Institutional Denial");
     expect(html).toContain("Explore the Volume I reel →");
+    expect(html).toContain("Volume I: from evidence to democratic capacity");
+    expect(html).toContain("Read the Foundational Manifesto through the Volume I method");
+    expect(html).toContain("A public claim becomes more correctable");
+    expect(html).toContain("Can this method increase usable democratic capacity");
+    expect(html).not.toContain("Reserved for the eventual, reviewed thesis.");
   });
 
   it("renders Volume I's expanded source-taxonomy research map", () => {

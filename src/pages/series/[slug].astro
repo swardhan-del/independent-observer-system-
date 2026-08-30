@@ -9,6 +9,7 @@ import {
   volumeThreeTaxDoctrineClaimMap,
   volumeThreeTaxDoctrineEvidence,
 } from "../../data/volume-three-evidence";
+import { volumeOneClaimMap, volumeOneEvidence } from "../../data/volume-one-evidence";
 import { volumeTwoFramework } from "../../data/volume-two-framework";
 
 export function getStaticPaths() {
@@ -21,6 +22,8 @@ export function getStaticPaths() {
 const { item } = Astro.props;
 const currentPath = `/series/${slugify(item.title)}/`;
 const featuredDocuments = ssrnPreprintDocuments.filter((entry) => entry.volume === item.volume);
+const isVolumeOne = item.volume === "Volume I";
+const isVolumeThree = item.volume === "Volume III";
 ---
 
 <BaseLayout title={item.title} description={item.description} currentPath={currentPath}>
@@ -35,22 +38,41 @@ const featuredDocuments = ssrnPreprintDocuments.filter((entry) => entry.volume =
     volumeFramework={item.volume === "Volume II" ? volumeTwoFramework : undefined}
     volumeDossierDocuments={featuredDocuments}
     showVolumeResearchDossier={item.volume === "Volume III"}
-    evidenceBlocks={item.volume === "Volume III" ? [...volumeThreeTaxDoctrineEvidence] : undefined}
-    evidenceTitle={item.volume === "Volume III"
-      ? "Case study: The Wardhan Tax Doctrine"
-      : undefined}
-    evidenceIntro={item.volume === "Volume III"
-      ? "Read one Volume III paper through distinct evidence categories. Selecting a layer isolates the type of statement; it never ranks credibility."
-      : undefined}
-    evidenceStatusNote={item.volume === "Volume III"
-      ? "Volume III public reading copy · SSRN preprint · policy proposal under review"
-      : undefined}
-    evidenceSource={item.volume === "Volume III"
+    evidenceBlocks={isVolumeOne
+      ? [...volumeOneEvidence]
+      : isVolumeThree
+        ? [...volumeThreeTaxDoctrineEvidence]
+        : undefined}
+    evidenceTitle={isVolumeOne
+      ? "Volume I: from evidence to democratic capacity"
+      : isVolumeThree
+        ? "Case study: The Wardhan Tax Doctrine"
+        : undefined}
+    evidenceIntro={isVolumeOne
+      ? "Read the Foundational Manifesto through the Volume I method: separate the record, interpretation, hypothesis, proposal, limits, and open questions before drawing a conclusion."
+      : isVolumeThree
+        ? "Read one Volume III paper through distinct evidence categories. Selecting a layer isolates the type of statement; it never ranks credibility."
+        : undefined}
+    evidenceStatusNote={isVolumeOne
+      ? "Volume I public reading copy · Foundational Manifesto · review-stage method anchor"
+      : isVolumeThree
+        ? "Volume III public reading copy · SSRN preprint · policy proposal under review"
+        : undefined}
+    evidenceSource={isVolumeOne
       ? {
-          label: "The Wardhan Tax Doctrine on SSRN",
-          href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5477606",
+          label: "Volume I Foundational Manifesto on SSRN",
+          href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5431958",
         }
-      : undefined}
-    claimMap={item.volume === "Volume III" ? { ...volumeThreeTaxDoctrineClaimMap } : undefined}
+      : isVolumeThree
+        ? {
+            label: "The Wardhan Tax Doctrine on SSRN",
+            href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5477606",
+          }
+        : undefined}
+    claimMap={isVolumeOne
+      ? { ...volumeOneClaimMap }
+      : isVolumeThree
+        ? { ...volumeThreeTaxDoctrineClaimMap }
+        : undefined}
   />
 </BaseLayout>

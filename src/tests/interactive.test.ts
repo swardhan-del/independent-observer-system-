@@ -26,6 +26,7 @@ const readerVolumeContext = readFileSync(
   "utf8",
 );
 const evidence = readFileSync(join(sourceRoot, "components/EvidenceLayer.astro"), "utf8");
+const volumeOneEvidence = readFileSync(join(sourceRoot, "data/volume-one-evidence.ts"), "utf8");
 const volumeThreeEvidence = readFileSync(join(sourceRoot, "data/volume-three-evidence.ts"), "utf8");
 const detail = readFileSync(join(sourceRoot, "components/EditorialDetail.astro"), "utf8");
 const volumeResearchMapSource = readFileSync(
@@ -138,6 +139,18 @@ describe("interactive preview tools", () => {
     expect(volumeThreeEvidence).toContain("Unresolved question");
     expect(volumeThreeEvidence).toContain("No official fiscal score");
     expect(volumeThreeEvidence).not.toContain("confidence score");
+  });
+
+  it("gives Volume I a populated method-specific evidence layer and claim map", () => {
+    expect(seriesDetail).toContain("volumeOneEvidence");
+    expect(seriesDetail).toContain("volumeOneClaimMap");
+    expect(seriesDetail).toContain("Volume I: from evidence to democratic capacity");
+    expect(volumeOneEvidence).toContain("Foundational Manifesto");
+    expect(volumeOneEvidence).toContain("information asymmetry");
+    expect(volumeOneEvidence).toContain("usable democratic capacity");
+    expect(volumeOneEvidence).toContain("correctable");
+    expect(volumeOneEvidence).toContain("not a peer-reviewed thesis");
+    expect(volumeOneEvidence).not.toContain("Reserved for the eventual, reviewed thesis");
   });
 
   it("connects public document readers to their actual volume and same-volume copies", () => {
