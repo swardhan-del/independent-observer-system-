@@ -142,6 +142,19 @@ describe("built website", () => {
     expect(html).toContain("visible release boundaries");
   });
 
+  it("explains the connected four-volume arc in the site footer", () => {
+    const html = readOutput("index.html");
+
+    expect(html).toContain("connected four-volume inquiry into how public life is made");
+    expect(html).toContain("Volume I establishes the method");
+    expect(html).toContain("Volume II follows that method into sovereignty");
+    expect(html).toContain("Volume III asks who carries the cost of work");
+    expect(html).toContain(
+      "Volume IV tests whether science, infrastructure, and artificial intelligence",
+    );
+    expect(html).toContain("what futures people can actually govern");
+  });
+
   it("publishes an honest empty release log until an owner-approved release exists", () => {
     const html = readOutput("whats-new/index.html");
     expect(html).toContain("The release log is intentionally empty.");
