@@ -64,6 +64,7 @@ describe("library content blocks", () => {
       "Human Rights, Policing Doctrine, and Hidden Taxation in Modern U.S. Governance",
       "The Welfare Queen and the Tax Cut: Racialized Dependency Politics and the Fragmentation of the American Working Class",
       "Empire’s Mirror: Foreign Lobbying, Concentrated Wealth, and Imperial Self-Understanding in the United States",
+      "The Paradox of Borrowed Sovereignty: How Conservative Economies Live on Liberal Capital",
     ]);
     const volumeThree = libraryVolumeGuides.find((guide) => guide.volume === "Volume III");
     expect(volumeThree?.researchPapers.map((paper) => paper.title)).toEqual([

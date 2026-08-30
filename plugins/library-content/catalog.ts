@@ -183,6 +183,15 @@ export const libraryVolumeGuides: LibraryVolumeGuide[] = [
         relevance:
           "Extends Volume II’s sovereignty inquiry into the material channels through which money, information, organizational capacity, and veto power shape what democratic institutions can decide.",
       },
+      {
+        title:
+          "The Paradox of Borrowed Sovereignty: How Conservative Economies Live on Liberal Capital",
+        lens: "Sovereignty, capital, and institutional dependence",
+        description:
+          "Examines how governments in Central and Eastern Europe can proclaim national self-reliance and moral conservatism while relying on liberal institutions, regional funding, and foreign investment. It frames this as a sovereignty paradox: political independence can coexist with fiscal and capital dependence, shaped by integration rents, capital leakage, and domestic bargaining power.",
+        relevance:
+          "Adds Volume II’s international political-economy dimension by testing sovereignty against the capital, trade, and institutional arrangements that make domestic political choices materially possible.",
+      },
     ],
   },
   {
