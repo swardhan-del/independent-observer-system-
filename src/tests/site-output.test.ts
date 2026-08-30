@@ -183,6 +183,22 @@ describe("built website", () => {
     expect(html).toContain("public editorial synthesis");
   });
 
+  it("renders Volume III's descriptive research map in the public library", () => {
+    const html = readOutput("library/index.html");
+
+    expect(html).toContain("fragmented service, platform, and data work");
+    expect(html).toContain("From Pockets to Portfolios: Terry v. Ohio");
+    expect(html).toContain("The Economics of Color: How De-industrialization");
+    expect(html).toContain("Welfare, Wealthfare, and Social Control in Advanced Democracies");
+    expect(html).toContain("The Administrative University: Bureaucratic Expansion");
+    expect(html).toContain(
+      "Hours to Ownership: Why the AI Industrial Revolution Rewires Inequality",
+    );
+    expect(html).toContain("The Perception Proxy: From Factory Collapse to Podcast Rage");
+    expect(html).toContain("Provides a central Volume III bridge");
+    expect(html).toContain("not public SSRN reading copies or publication approvals");
+  });
+
   it("keeps internal archive-provider and chatbot language out of public pages", () => {
     for (const { file } of routes) {
       const html = readOutput(file);

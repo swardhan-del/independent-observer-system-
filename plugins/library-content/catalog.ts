@@ -135,16 +135,70 @@ export const libraryVolumeGuides: LibraryVolumeGuide[] = [
     volume: "Volume III",
     focus: "Work, taxation, and social citizenship",
     importance:
-      "This volume makes distribution concrete by asking how time, taxation, work, and social citizenship decide who carries the cost of change.",
+      "This volume makes distribution concrete by following the move from industrial wage work toward fragmented service, platform, and data work. It asks how time, taxation, welfare, health, education, housing, policing, and ownership decide who carries the cost of change and who can build a future.",
     summary:
-      "A political-economy volume about labor markets, time, taxation, welfare, licensing, health systems, and the public arrangements that distribute insecurity.",
+      "Managed Decline is a political-economy inquiry into how economic displacement becomes lived insecurity: wage taxation and asset ownership, welfare and health systems, administrative friction, deindustrialization, algorithmic attention, and the pathways that may turn hours of work into durable capacity.",
     coreIdeas: [
       "Work and time are social and policy questions, not only private economic inputs.",
       "A policy proposal must remain distinct from enacted law, official scoring, or legal advice.",
       "Social citizenship asks who carries the cost of change and who can access public capacity.",
     ],
     topicSlugs: ["economics", "law", "politics"],
-    researchPapers: [],
+    researchPapers: [
+      {
+        title:
+          "From Pockets to Portfolios: Terry v. Ohio, Working-Class Life, and the Labor-First Tax State",
+        lens: "Law, time, and labor taxation",
+        description:
+          "Connects discretionary police encounters to a working-class time tax: missed work, late fees, court dates, and compounding legal exposure. It then compares that street-level burden with a tax system that treats wage labor more predictably than appreciating assets, and proposes reforms linking legal safeguards to labor-first tax reform.",
+        relevance:
+          "Provides a central Volume III bridge between legal exposure, lost time, wage taxation, asset ownership, and the practical conditions of social citizenship.",
+      },
+      {
+        title:
+          "The Economics of Color: How De-industrialization and Wealth Stratification Reshaped Race, Crime, and Identity in America",
+        lens: "Deindustrialization, race, and policing",
+        description:
+          "Examines how the decline of stable industrial labor and the concentration of wealth reshaped crime, legitimacy, and cultural identity. Its argument treats preventive policing, mass incarceration, and media markets as parts of a post-industrial system in which race can become a visible proxy for class position.",
+        relevance:
+          "Shows how Volume III moves from economic displacement to its institutional and cultural consequences, including policing, concentrated poverty, wealth stratification, and public narratives.",
+      },
+      {
+        title:
+          "Welfare, Wealthfare, and Social Control in Advanced Democracies: Open-Air Prisons, Crime, and the Surplus Population",
+        lens: "Welfare and social control",
+        description:
+          "Uses the open-air-prison concept to examine how deindustrialization, cognitive deprivation, punitive conditionalities, public housing, and carceral policy can confine people without creating routes to mobility. It contrasts those burdens with tax expenditures, asset subsidies, and regulatory privileges that shield wealth from risk.",
+        relevance:
+          "Develops Volume III’s core question about who receives genuine exits into education, employment, and ownership—and who is instead managed through welfare, surveillance, or punishment.",
+      },
+      {
+        title:
+          "The Administrative University: Bureaucratic Expansion, Tuition Growth, Student Debt, and the Managed Decline of Academic Mobility",
+        lens: "Education and administrative mobility",
+        description:
+          "Studies the shift from teaching-centered institutions toward layered administrative systems for compliance, assessment, retention, risk, and student services. It argues that administrative expansion can transmit rising fixed costs into tuition, debt, time loss, and bureaucratic confusion, with working-class students absorbing more of the mobility risk.",
+        relevance:
+          "Adds education and administrative friction to Volume III’s account of social citizenship: public capacity is measured by whether institutions expand mobility or convert access into debt and delay.",
+      },
+      {
+        title: "Hours to Ownership: Why the AI Industrial Revolution Rewires Inequality",
+        lens: "AI, ownership, and inequality",
+        description:
+          "Compares earlier industrial revolutions with general-purpose AI, emphasizing cognitive automation, platform gatekeepers, and scarce compute, energy, and data. It proposes shifting the distributional question from hours alone toward ownership of equity, intellectual property, datasets, and distribution channels, alongside portable benefits and adult learning.",
+        relevance:
+          "Extends Volume III into the next labor transition by asking whether technological change produces broad-based ownership and capability or intensifies winner-take-most inequality.",
+      },
+      {
+        title:
+          "The Perception Proxy: From Factory Collapse to Podcast Rage, and How Culture-War Influencers Convert Class Displacement into Identity Conflict",
+        lens: "Media, class displacement, and identity",
+        description:
+          "Describes a displacement-to-distraction pipeline in which deindustrialization, automation, offshoring, wage stagnation, housing stress, debt, and ownership concentration are converted by platform media into high-arousal identity conflict. It follows how attention markets can redirect economic injury toward symbolic enemies.",
+        relevance:
+          "Brings Volume III’s economic, media, and social-control strands together by showing how material insecurity can be narrated, monetized, and politically displaced rather than materially repaired.",
+      },
+    ],
   },
   {
     volume: "Volume IV",

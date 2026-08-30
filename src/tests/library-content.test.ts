@@ -59,9 +59,17 @@ describe("library content blocks", () => {
       "The Welfare Queen and the Tax Cut: Racialized Dependency Politics and the Fragmentation of the American Working Class",
       "Empire’s Mirror: Foreign Lobbying, Concentrated Wealth, and Imperial Self-Understanding in the United States",
     ]);
-    expect(
-      libraryVolumeGuides.find((guide) => guide.volume === "Volume III")?.researchPapers,
-    ).toEqual([]);
+    const volumeThree = libraryVolumeGuides.find((guide) => guide.volume === "Volume III");
+    expect(volumeThree?.researchPapers.map((paper) => paper.title)).toEqual([
+      "From Pockets to Portfolios: Terry v. Ohio, Working-Class Life, and the Labor-First Tax State",
+      "The Economics of Color: How De-industrialization and Wealth Stratification Reshaped Race, Crime, and Identity in America",
+      "Welfare, Wealthfare, and Social Control in Advanced Democracies: Open-Air Prisons, Crime, and the Surplus Population",
+      "The Administrative University: Bureaucratic Expansion, Tuition Growth, Student Debt, and the Managed Decline of Academic Mobility",
+      "Hours to Ownership: Why the AI Industrial Revolution Rewires Inequality",
+      "The Perception Proxy: From Factory Collapse to Podcast Rage, and How Culture-War Influencers Convert Class Displacement into Identity Conflict",
+    ]);
+    expect(volumeThree?.importance).toContain("fragmented service, platform, and data work");
+    expect(volumeThree?.summary).toContain("Managed Decline is a political-economy inquiry");
     expect(
       libraryVolumeGuides.find((guide) => guide.volume === "Volume IV")?.researchPapers,
     ).toEqual([]);
