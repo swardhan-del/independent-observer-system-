@@ -252,6 +252,22 @@ describe("built website", () => {
     expect(html).toContain("underlying drafts remain unlinked and unpublished");
   });
 
+  it("renders the About page's interactive four-volume research atlas", () => {
+    const html = readOutput("about/index.html");
+
+    expect(html).toContain("The project in four movements");
+    expect(html).toContain("Observe. Locate power. Follow the cost. Govern the future.");
+    expect(html).toContain('role="tablist"');
+    expect(html).toContain("Manifesto of a Destiny: The Independent Observer Method");
+    expect(html).toContain("Democracy’s Achilles’ Heel");
+    expect(html).toContain("From Pockets to Portfolios: Terry v. Ohio");
+    expect(html).toContain("When Real Science Becomes Science Fiction");
+    expect(html).toContain("about-volume-panel-volume-i");
+    expect(html).toContain("about-volume-panel-volume-iv");
+    expect(html).toContain("public-safe research signals");
+    expect(html).not.toMatch(/dropbox/i);
+  });
+
   it("renders the linked four-volume spine on the History hub", () => {
     const html = readOutput("topics/history/index.html");
 

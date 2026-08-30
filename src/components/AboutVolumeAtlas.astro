@@ -1,0 +1,210 @@
+---
+import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
+import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
+import { seriesItems } from "../data/series";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+
+const volumeRoles: Record<string, string> = {
+  "Volume I": "Observe and document",
+  "Volume II": "Locate power and sovereignty",
+  "Volume III": "Follow the cost of change",
+  "Volume IV": "Test what technology makes possible",
+};
+---
+
+<section
+  class="section section-white about-volume-atlas"
+  id="about-volume-atlas"
+  data-about-volume-atlas
+  aria-labelledby="about-volume-atlas-title"
+>
+  <div class="shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">The project in four movements</p>
+        <h2 id="about-volume-atlas-title">
+          Observe. Locate power. Follow the cost. Govern the future.
+        </h2>
+      </div>
+      <p>
+        Each volume carries the same independent-observation method into a different layer of public
+        life. Select a volume to see what it studies, which research threads belong to it, and where
+        the public reading trail continues.
+      </p>
+    </div>
+
+    <div class="about-volume-atlas-shell">
+      <div class="about-volume-tabs" role="tablist" aria-label="Explore the four volumes">
+        {
+          seriesItems.map((item, index) => {
+            const key = slugify(item.volume);
+            const guide = libraryVolumeGuides.find((entry) => entry.volume === item.volume);
+            return (
+              <button
+                type="button"
+                role="tab"
+                class="about-volume-tab"
+                id={`about-volume-tab-${key}`}
+                data-about-volume-tab={key}
+                aria-controls={`about-volume-panel-${key}`}
+                aria-selected={index === 0 ? "true" : "false"}
+                tabindex={index === 0 ? 0 : -1}
+              >
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{item.title}</strong>
+                <small>{guide?.focus ?? item.category}</small>
+              </button>
+            );
+          })
+        }
+      </div>
+
+      <div class="about-volume-panels">
+        {
+          seriesItems.map((item, index) => {
+            const key = slugify(item.volume);
+            const guide = libraryVolumeGuides.find((entry) => entry.volume === item.volume);
+            const connection = volumeTopicConnections[item.volume];
+            return (
+              <article
+                class="about-volume-panel"
+                id={`about-volume-panel-${key}`}
+                role="tabpanel"
+                aria-labelledby={`about-volume-tab-${key}`}
+                data-about-volume-panel={key}
+                hidden={index !== 0}
+              >
+                <div class="about-volume-panel-heading">
+                  <div>
+                    <p class="eyebrow">
+                      {item.volume} · {volumeRoles[item.volume]}
+                    </p>
+                    <h3 id={`about-volume-title-${key}`}>
+                      <a href={sitePath(`/series/${slugify(item.title)}/`)}>{item.title}</a>
+                    </h3>
+                  </div>
+                  <span class="status-pill">{item.status}</span>
+                </div>
+
+                <div class="about-volume-panel-intro">
+                  <p class="about-volume-importance">{guide?.importance}</p>
+                  <p>{guide?.summary ?? item.description}</p>
+                </div>
+
+                <div class="about-volume-panel-grid">
+                  <div>
+                    <p class="about-volume-label">Core questions</p>
+                    <ul class="about-volume-ideas">
+                      {guide?.coreIdeas.slice(0, 3).map((idea) => (
+                        <li>{idea}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="about-volume-label">Representative research threads</p>
+                    <ol class="about-volume-papers">
+                      {guide?.researchPapers.slice(0, 3).map((paper, paperIndex) => (
+                        <li>
+                          <span>
+                            {String(paperIndex + 1).padStart(2, "0")} · {paper.lens}
+                          </span>
+                          <h4>{paper.title}</h4>
+                          <p>{paper.description}</p>
+                          <p class="about-volume-paper-relevance">
+                            <strong>Why it belongs:</strong> {paper.relevance}
+                          </p>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                </div>
+
+                <div class="about-volume-panel-footer">
+                  <div>
+                    <p class="about-volume-label">Continue the thread</p>
+                    <div class="about-volume-links">
+                      {connection.contentLinks.slice(0, 3).map((content) => (
+                        <a href={sitePath(content.path)}>
+                          <span>{content.kind}</span>
+                          {content.label} →
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                  <div class="about-volume-topic-links" aria-label={`${item.volume} topic fields`}>
+                    {connection.topicSlugs.map((slug) => (
+                      <a href={sitePath(`/topics/${slug}/`)}>{slug}</a>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            );
+          })
+        }
+      </div>
+    </div>
+
+    <p class="about-volume-atlas-boundary">
+      The paper threads above are public-safe research signals. A linked reading copy or preprint is
+      identified as such; a mapped research direction is not presented as a released publication.
+    </p>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-about-volume-atlas]").forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-about-volume-tab]")];
+    const panels = [...root.querySelectorAll<HTMLElement>("[data-about-volume-panel]")];
+    if (!tabs.length || !panels.length) return;
+
+    const activate = (key: string, updateHash = true) => {
+      tabs.forEach((tab) => {
+        const active = tab.dataset.aboutVolumeTab === key;
+        tab.setAttribute("aria-selected", String(active));
+        tab.tabIndex = active ? 0 : -1;
+        tab.classList.toggle("is-selected", active);
+      });
+      panels.forEach((panel) => {
+        panel.hidden = panel.dataset.aboutVolumePanel !== key;
+      });
+      if (updateHash)
+        history.replaceState(
+          null,
+          "",
+          `${window.location.pathname}${window.location.search}#about-volume-${key}`,
+        );
+    };
+
+    const requestedKey = window.location.hash.replace("#about-volume-", "");
+    const initialKey = tabs.some((tab) => tab.dataset.aboutVolumeTab === requestedKey)
+      ? requestedKey
+      : (tabs[0].dataset.aboutVolumeTab ?? "volume-i");
+    activate(initialKey, false);
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => activate(tab.dataset.aboutVolumeTab ?? "volume-i"));
+      tab.addEventListener("keydown", (event) => {
+        const key = event.key;
+        if (!["ArrowRight", "ArrowLeft", "Home", "End"].includes(key)) return;
+        event.preventDefault();
+        const nextIndex =
+          key === "Home"
+            ? 0
+            : key === "End"
+              ? tabs.length - 1
+              : key === "ArrowRight"
+                ? (index + 1) % tabs.length
+                : (index - 1 + tabs.length) % tabs.length;
+        const next = tabs[nextIndex];
+        next.focus();
+        activate(next.dataset.aboutVolumeTab ?? "volume-i");
+      });
+    });
+
+    window.addEventListener("hashchange", () => {
+      const key = window.location.hash.replace("#about-volume-", "");
+      if (tabs.some((tab) => tab.dataset.aboutVolumeTab === key)) activate(key, false);
+    });
+  });
+</script>

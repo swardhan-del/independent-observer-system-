@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import TopicVolumeMap from "../../components/TopicVolumeMap.astro";
+import AboutVolumeAtlas from "../../components/AboutVolumeAtlas.astro";
 import { sitePath } from "../../lib/paths";
 ---
 
@@ -13,7 +14,7 @@ import { sitePath } from "../../lib/paths";
   <PageHero
     eyebrow="About the project"
     title="Independence is a method, not a pose."
-    description="Volume I begins with a discipline of observation: document the record before joining the reaction. It asks how time, resources, institutional access, and economic room shape what becomes visible. Independent Observer makes its sources, definitions, inferences, limits, and corrections visible so readers can test how a conclusion was made."
+    description="When public life rewards reflex, spectacle, and retaliation, independent observation creates a disciplined pause: document the record before joining the reaction. Volume I asks how time, resources, institutional access, and economic room shape what becomes visible, then carries that method through power, work, technology, and human capability."
     className="about-hero"
   />
   <section class="section section-navy" aria-labelledby="volume-one-method-title">
@@ -84,69 +85,11 @@ import { sitePath } from "../../lib/paths";
           method into a different part of public life, so the project can examine not only what
           happened, but the conditions that made it visible, durable, or difficult to change.
         </p>
-        <div class="mission-volume-list" aria-label="Independent Observer volumes">
-          <article class="mission-volume">
-            <span class="mission-volume-number">Volume I</span>
-            <h3><a href={sitePath("/series/independent-observer/")}>Independent Observer</a></h3>
-            <p>
-              The method volume. It establishes observation as active work: document the record,
-              define the terms, separate evidence from interpretation, and make correction possible
-              before a public controversy hardens into a conclusion.
-            </p>
-            <a
-              class="mission-volume-link"
-              href={sitePath("/library/documents/independent-observer-volume-one-ssrn/")}
-              >Read the public copy →</a
-            >
-          </article>
-          <article class="mission-volume">
-            <span class="mission-volume-number">Volume II</span>
-            <h3>
-              <a href={sitePath("/series/the-empire-beneath-democracy/")}
-                >The Empire Beneath Democracy</a
-              >
-            </h3>
-            <p>
-              The power-and-sovereignty volume. It follows the institutions, alliances, markets,
-              migration systems, and enforcement arrangements that distribute power beneath the
-              formal promise of democratic equality.
-            </p>
-            <a class="mission-volume-link" href={sitePath("/series/the-empire-beneath-democracy/")}
-              >Open the Volume II catalogue entry →</a
-            >
-          </article>
-          <article class="mission-volume">
-            <span class="mission-volume-number">Volume III</span>
-            <h3><a href={sitePath("/series/managed-decline/")}>Managed Decline</a></h3>
-            <p>
-              The work-and-social-citizenship volume. It asks how labor markets, taxation, welfare,
-              licensing, health systems, and time distribute security, dependence, and the
-              experience of economic decline.
-            </p>
-            <a class="mission-volume-link" href={sitePath("/series/managed-decline/")}
-              >Open the Volume III catalogue entry →</a
-            >
-          </article>
-          <article class="mission-volume">
-            <span class="mission-volume-number">Volume IV</span>
-            <h3>
-              <a href={sitePath("/series/the-last-human-workforce/")}>The Last Human Workforce</a>
-            </h3>
-            <p>
-              The technology-and-human-capability volume. It examines automation as a whole system—
-              compute, energy, data, maintenance, science, intimacy, and hidden labor—and asks how
-              institutions adapt when human capability is augmented rather than simply replaced.
-            </p>
-            <a class="mission-volume-link" href={sitePath("/series/the-last-human-workforce/")}
-              >Open the Volume IV catalogue entry →</a
-            >
-          </article>
-        </div>
         <p>
-          Together, the volumes ask how institutions turn evidence, resources, and human capacity
-          into real choices. Public reading copies and SSRN-linked preprints make parts of that
-          research inspectable while the underlying work remains in revision, source review, and
-          human approval.
+          Read the four volumes as a sequence: Volume I establishes how to observe; Volume II asks
+          where authority and sovereignty are organized; Volume III follows who carries the cost of
+          work and social change; Volume IV asks what kind of human capability technology can
+          support and who gets to govern it.
         </p>
         <p>
           “Independent” does not mean free from values, error, or perspective. It means the work
@@ -156,5 +99,6 @@ import { sitePath } from "../../lib/paths";
       </div>
     </div>
   </section>
+  <AboutVolumeAtlas />
   <TopicVolumeMap />
 </BaseLayout>

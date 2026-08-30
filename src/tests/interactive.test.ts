@@ -40,6 +40,10 @@ const volumeResearchDossier = readFileSync(
 const seriesDetail = readFileSync(join(sourceRoot, "pages/series/[slug].astro"), "utf8");
 const researchPage = readFileSync(join(sourceRoot, "pages/research/[slug].astro"), "utf8");
 const about = readFileSync(join(sourceRoot, "pages/about/index.astro"), "utf8");
+const aboutVolumeAtlas = readFileSync(
+  join(sourceRoot, "components/AboutVolumeAtlas.astro"),
+  "utf8",
+);
 const homepage = readFileSync(join(sourceRoot, "pages/index.astro"), "utf8");
 const ssrn = readFileSync(join(sourceRoot, "data/ssrn.ts"), "utf8");
 const homepageVolumeGuide = readFileSync(
@@ -447,14 +451,17 @@ describe("interactive preview tools", () => {
     expect(about).toContain("independent-observer-volume-one-ssrn");
     expect(about).toContain("series/independent-observer");
     expect(about).toContain("Independent Observer is a connected four-volume inquiry.");
-    expect(about).toContain('aria-label="Independent Observer volumes"');
-    expect(about).toContain("The Empire Beneath Democracy");
-    expect(about).toContain("Managed Decline");
-    expect(about).toContain("The Last Human Workforce");
-    expect(about).toContain("The method volume.");
-    expect(about).toContain("The power-and-sovereignty volume.");
-    expect(about).toContain("The work-and-social-citizenship volume.");
-    expect(about).toContain("The technology-and-human-capability volume.");
+    expect(aboutVolumeAtlas).toContain('aria-label="Explore the four volumes"');
+    expect(aboutVolumeAtlas).toContain("seriesItems.map");
+    expect(aboutVolumeAtlas).toContain("volumeRoles");
+    expect(about).toContain("<AboutVolumeAtlas />");
+    expect(aboutVolumeAtlas).toContain("data-about-volume-atlas");
+    expect(aboutVolumeAtlas).toContain('role="tablist"');
+    expect(aboutVolumeAtlas).toContain("Representative research threads");
+    expect(aboutVolumeAtlas).toContain("guide?.researchPapers.slice(0, 3)");
+    expect(aboutVolumeAtlas).toContain("paper.description");
+    expect(aboutVolumeAtlas).toContain("paper.relevance");
+    expect(aboutVolumeAtlas).toContain("hashchange");
     expect(about).toContain("<TopicVolumeMap />");
   });
 
