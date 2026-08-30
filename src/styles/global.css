@@ -7963,6 +7963,12 @@ kbd {
   line-height: 1.1;
 }
 
+.library-volume-shelf-research-label {
+  color: var(--gold-ink);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
 .library-volume-shelf-research-heading > p {
   max-width: 400px;
   margin: 0;

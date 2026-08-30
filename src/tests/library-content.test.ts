@@ -91,6 +91,7 @@ describe("library content blocks", () => {
     expect(volumeFour?.importance).toContain("usable human capability");
     expect(volumeFour?.summary).toContain("advanced technology is measured");
     expect(researchShelf).toContain("Source-taxonomy research map");
+    expect(researchShelf).toContain("library-volume-shelf-research-label");
     expect(researchShelf).toContain("not public SSRN reading copies or publication approvals");
   });
 
