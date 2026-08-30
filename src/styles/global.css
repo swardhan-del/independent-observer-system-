@@ -1849,6 +1849,7 @@ textarea {
   color: var(--slate-300);
   cursor: pointer;
   text-align: left;
+  text-decoration: none;
 }
 
 .about-volume-tab:last-child {
@@ -1897,10 +1898,17 @@ textarea {
 
 .about-volume-panel {
   padding: 38px 34px 32px;
+  scroll-margin-top: 13rem;
 }
 
 .about-volume-panel[hidden] {
   display: none;
+}
+
+.about-volume-atlas:not([data-about-volume-enhanced="true"])
+  .about-volume-panel
+  + .about-volume-panel {
+  border-top: 1px solid var(--slate-300);
 }
 
 .about-volume-panel-heading,
@@ -1956,13 +1964,44 @@ textarea {
   line-height: 1.55;
 }
 
-.about-volume-panel-intro .about-volume-importance {
-  margin-bottom: 12px;
+.about-volume-panel-intro .about-volume-throughline {
+  margin-bottom: 18px;
   color: var(--navy-700);
   font-family: var(--serif);
   font-size: clamp(1.25rem, 2.2vw, 1.7rem);
   letter-spacing: -0.025em;
   line-height: 1.2;
+}
+
+.about-volume-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0 0 20px;
+  border: 1px solid var(--slate-300);
+  background: var(--slate-300);
+}
+
+.about-volume-facts div {
+  padding: 14px 16px;
+  background: var(--white);
+}
+
+.about-volume-facts dt {
+  margin-bottom: 5px;
+  color: var(--gold-ink);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.about-volume-facts dd {
+  margin: 0;
+  color: var(--navy-700);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.4;
 }
 
 .about-volume-panel-grid {
@@ -2146,6 +2185,7 @@ textarea {
 
   .about-volume-panel {
     padding: 28px 20px 24px;
+    scroll-margin-top: 11rem;
   }
 
   .about-volume-panel-heading,
@@ -2161,6 +2201,10 @@ textarea {
   .about-volume-panel-grid {
     grid-template-columns: 1fr;
     gap: 28px;
+  }
+
+  .about-volume-facts {
+    grid-template-columns: 1fr;
   }
 
   .about-volume-topic-links {

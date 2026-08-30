@@ -1,6 +1,6 @@
 ---
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
-import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
+import { topicPluginFor, volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
 import { seriesItems } from "../data/series";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
@@ -8,8 +8,8 @@ import { slugify } from "../lib/slugs";
 const volumeRoles: Record<string, string> = {
   "Volume I": "Observe and document",
   "Volume II": "Locate power and sovereignty",
-  "Volume III": "Follow the cost of change",
-  "Volume IV": "Test what technology makes possible",
+  "Volume III": "Examine work, taxation, and social citizenship",
+  "Volume IV": "Test technological change against human capability",
 };
 ---
 
@@ -35,26 +35,26 @@ const volumeRoles: Record<string, string> = {
     </div>
 
     <div class="about-volume-atlas-shell">
-      <div class="about-volume-tabs" role="tablist" aria-label="Explore the four volumes">
+      <div
+        class="about-volume-tabs"
+        data-about-volume-tablist
+        aria-label="Explore the four volumes"
+      >
         {
           seriesItems.map((item, index) => {
             const key = slugify(item.volume);
             const guide = libraryVolumeGuides.find((entry) => entry.volume === item.volume);
             return (
-              <button
-                type="button"
-                role="tab"
+              <a
                 class="about-volume-tab"
                 id={`about-volume-tab-${key}`}
+                href={`#about-volume-panel-${key}`}
                 data-about-volume-tab={key}
-                aria-controls={`about-volume-panel-${key}`}
-                aria-selected={index === 0 ? "true" : "false"}
-                tabindex={index === 0 ? 0 : -1}
               >
                 <span>{String(index + 1).padStart(2, "0")}</span>
                 <strong>{item.title}</strong>
                 <small>{guide?.focus ?? item.category}</small>
-              </button>
+              </a>
             );
           })
         }
@@ -70,15 +70,13 @@ const volumeRoles: Record<string, string> = {
               <article
                 class="about-volume-panel"
                 id={`about-volume-panel-${key}`}
-                role="tabpanel"
-                aria-labelledby={`about-volume-tab-${key}`}
+                aria-labelledby={`about-volume-title-${key}`}
                 data-about-volume-panel={key}
-                hidden={index !== 0}
               >
                 <div class="about-volume-panel-heading">
                   <div>
                     <p class="eyebrow">
-                      {item.volume} · {volumeRoles[item.volume]}
+                      {item.volume} · Step {index + 1} of 4
                     </p>
                     <h3 id={`about-volume-title-${key}`}>
                       <a href={sitePath(`/series/${slugify(item.title)}/`)}>{item.title}</a>
@@ -88,13 +86,27 @@ const volumeRoles: Record<string, string> = {
                 </div>
 
                 <div class="about-volume-panel-intro">
-                  <p class="about-volume-importance">{guide?.importance}</p>
+                  <p class="about-volume-throughline">{volumeRoles[item.volume]}.</p>
+                  <dl class="about-volume-facts">
+                    <div>
+                      <dt>Research focus</dt>
+                      <dd>{guide?.focus ?? item.category}</dd>
+                    </div>
+                    <div>
+                      <dt>Why it matters</dt>
+                      <dd>{guide?.importance}</dd>
+                    </div>
+                    <div>
+                      <dt>Connected lens</dt>
+                      <dd>{connection.lens}</dd>
+                    </div>
+                  </dl>
                   <p>{guide?.summary ?? item.description}</p>
                 </div>
 
                 <div class="about-volume-panel-grid">
                   <div>
-                    <p class="about-volume-label">Core questions</p>
+                    <p class="about-volume-label">Core research ideas</p>
                     <ul class="about-volume-ideas">
                       {guide?.coreIdeas.slice(0, 3).map((idea) => (
                         <li>{idea}</li>
@@ -102,12 +114,13 @@ const volumeRoles: Record<string, string> = {
                     </ul>
                   </div>
                   <div>
-                    <p class="about-volume-label">Representative research threads</p>
+                    <p class="about-volume-label">Representative research directions</p>
                     <ol class="about-volume-papers">
                       {guide?.researchPapers.slice(0, 3).map((paper, paperIndex) => (
                         <li>
                           <span>
-                            {String(paperIndex + 1).padStart(2, "0")} · {paper.lens}
+                            Research direction {String(paperIndex + 1).padStart(2, "0")} ·{" "}
+                            {paper.lens}
                           </span>
                           <h4>{paper.title}</h4>
                           <p>{paper.description}</p>
@@ -122,9 +135,13 @@ const volumeRoles: Record<string, string> = {
 
                 <div class="about-volume-panel-footer">
                   <div>
-                    <p class="about-volume-label">Continue the thread</p>
+                    <p class="about-volume-label">Public entry points</p>
                     <div class="about-volume-links">
-                      {connection.contentLinks.slice(0, 3).map((content) => (
+                      <a href={sitePath(`/series/${slugify(item.title)}/`)}>
+                        <span>Series roadmap</span>
+                        Open the {item.volume} catalogue file →
+                      </a>
+                      {connection.contentLinks.map((content) => (
                         <a href={sitePath(content.path)}>
                           <span>{content.kind}</span>
                           {content.label} →
@@ -133,9 +150,10 @@ const volumeRoles: Record<string, string> = {
                     </div>
                   </div>
                   <div class="about-volume-topic-links" aria-label={`${item.volume} topic fields`}>
-                    {connection.topicSlugs.map((slug) => (
-                      <a href={sitePath(`/topics/${slug}/`)}>{slug}</a>
-                    ))}
+                    {connection.topicSlugs.map((slug) => {
+                      const topic = topicPluginFor(slug);
+                      return <a href={sitePath(`/topics/${slug}/`)}>{topic.name}</a>;
+                    })}
                   </div>
                 </div>
               </article>
@@ -146,19 +164,36 @@ const volumeRoles: Record<string, string> = {
     </div>
 
     <p class="about-volume-atlas-boundary">
-      The paper threads above are public-safe research signals. A linked reading copy or preprint is
-      identified as such; a mapped research direction is not presented as a released publication.
+      Representative titles and summaries above identify research directions in development. A
+      linked public reading copy, preprint, roadmap, research preview, documentary preview, or video
+      preview is labeled by type. Nothing here announces publication approval, peer review, or a
+      finished manuscript.
     </p>
   </div>
 </section>
 
 <script>
   document.querySelectorAll<HTMLElement>("[data-about-volume-atlas]").forEach((root) => {
-    const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-about-volume-tab]")];
+    const tablist = root.querySelector<HTMLElement>("[data-about-volume-tablist]");
+    const tabs = [...root.querySelectorAll<HTMLAnchorElement>("[data-about-volume-tab]")];
     const panels = [...root.querySelectorAll<HTMLElement>("[data-about-volume-panel]")];
-    if (!tabs.length || !panels.length) return;
+    if (!tablist || !tabs.length || tabs.length !== panels.length) return;
 
-    const activate = (key: string, updateHash = true) => {
+    const hashPrefix = "#about-volume-panel-";
+    const keyFromHash = () =>
+      window.location.hash.startsWith(hashPrefix)
+        ? window.location.hash.slice(hashPrefix.length)
+        : "";
+    const layoutQuery = window.matchMedia("(min-width: 901px)");
+    const syncOrientation = () => {
+      tablist.setAttribute("aria-orientation", layoutQuery.matches ? "vertical" : "horizontal");
+    };
+
+    const activate = (
+      key: string,
+      options: { updateHash?: boolean; historyMode?: "push" | "replace" } = {},
+    ) => {
+      const { updateHash = true, historyMode = "replace" } = options;
       tabs.forEach((tab) => {
         const active = tab.dataset.aboutVolumeTab === key;
         tab.setAttribute("aria-selected", String(active));
@@ -168,32 +203,64 @@ const volumeRoles: Record<string, string> = {
       panels.forEach((panel) => {
         panel.hidden = panel.dataset.aboutVolumePanel !== key;
       });
-      if (updateHash)
-        history.replaceState(
-          null,
-          "",
-          `${window.location.pathname}${window.location.search}#about-volume-${key}`,
-        );
+      if (updateHash) {
+        const url = new URL(window.location.href);
+        url.hash = `about-volume-panel-${key}`;
+        if (window.location.hash !== url.hash) {
+          const method = historyMode === "push" ? "pushState" : "replaceState";
+          history[method](null, "", url);
+        }
+      }
     };
 
-    const requestedKey = window.location.hash.replace("#about-volume-", "");
+    tablist.setAttribute("role", "tablist");
+    syncOrientation();
+    layoutQuery.addEventListener("change", syncOrientation);
+    tabs.forEach((tab, index) => {
+      const panel = panels[index];
+      tab.setAttribute("role", "tab");
+      tab.setAttribute("aria-controls", panel.id);
+      panel.setAttribute("role", "tabpanel");
+      panel.setAttribute("aria-labelledby", tab.id);
+    });
+    root.dataset.aboutVolumeEnhanced = "true";
+    const requestedKey = keyFromHash();
     const initialKey = tabs.some((tab) => tab.dataset.aboutVolumeTab === requestedKey)
       ? requestedKey
       : (tabs[0].dataset.aboutVolumeTab ?? "volume-i");
-    activate(initialKey, false);
+    activate(initialKey, { updateHash: false });
 
     tabs.forEach((tab, index) => {
-      tab.addEventListener("click", () => activate(tab.dataset.aboutVolumeTab ?? "volume-i"));
+      tab.addEventListener("click", (event) => {
+        if (
+          event.button !== 0 ||
+          event.metaKey ||
+          event.ctrlKey ||
+          event.shiftKey ||
+          event.altKey
+        ) {
+          return;
+        }
+        event.preventDefault();
+        activate(tab.dataset.aboutVolumeTab ?? "volume-i", { historyMode: "push" });
+      });
       tab.addEventListener("keydown", (event) => {
         const key = event.key;
-        if (!["ArrowRight", "ArrowLeft", "Home", "End"].includes(key)) return;
+        if (key === " ") {
+          event.preventDefault();
+          activate(tab.dataset.aboutVolumeTab ?? "volume-i", { historyMode: "push" });
+          return;
+        }
+        if (!["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp", "Home", "End"].includes(key)) {
+          return;
+        }
         event.preventDefault();
         const nextIndex =
           key === "Home"
             ? 0
             : key === "End"
               ? tabs.length - 1
-              : key === "ArrowRight"
+              : key === "ArrowRight" || key === "ArrowDown"
                 ? (index + 1) % tabs.length
                 : (index - 1 + tabs.length) % tabs.length;
         const next = tabs[nextIndex];
@@ -202,9 +269,15 @@ const volumeRoles: Record<string, string> = {
       });
     });
 
-    window.addEventListener("hashchange", () => {
-      const key = window.location.hash.replace("#about-volume-", "");
-      if (tabs.some((tab) => tab.dataset.aboutVolumeTab === key)) activate(key, false);
-    });
+    const activateFromLocation = () => {
+      const key = keyFromHash();
+      if (tabs.some((tab) => tab.dataset.aboutVolumeTab === key)) {
+        activate(key, { updateHash: false });
+      } else {
+        activate(tabs[0].dataset.aboutVolumeTab ?? "volume-i", { updateHash: false });
+      }
+    };
+    window.addEventListener("hashchange", activateFromLocation);
+    window.addEventListener("popstate", activateFromLocation);
   });
 </script>

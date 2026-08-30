@@ -5,11 +5,14 @@ import { rankSearchEntries, normalizeSearchText } from "../lib/search";
 import { migrateReadingList, sortReadingList } from "../lib/reading-list";
 import { relatedRecords } from "../lib/related";
 import { volumeResearchMap } from "../data/volume-research";
+import { seriesItems } from "../data/series";
 import {
   volumeThreeResearchLenses,
   volumeThreeResearchRecords,
 } from "../data/volume-three-research";
 import { researchCatalogueRecords, researchCatalogueVolumes } from "../lib/research-catalogue";
+import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
+import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
 
 const sourceRoot = join(process.cwd(), "src");
 const header = readFileSync(join(sourceRoot, "components/Header.astro"), "utf8");
@@ -451,18 +454,76 @@ describe("interactive preview tools", () => {
     expect(about).toContain("independent-observer-volume-one-ssrn");
     expect(about).toContain("series/independent-observer");
     expect(about).toContain("Independent Observer is a connected four-volume inquiry.");
+    expect(about).toContain("Volume III examines work, taxation, and");
+    expect(about).toContain("Volume IV tests technological change against human capability");
     expect(aboutVolumeAtlas).toContain('aria-label="Explore the four volumes"');
     expect(aboutVolumeAtlas).toContain("seriesItems.map");
+    expect(aboutVolumeAtlas).toContain("libraryVolumeGuides.find");
+    expect(aboutVolumeAtlas).toContain("volumeTopicConnections[item.volume]");
+    expect(aboutVolumeAtlas).toContain("topicPluginFor(slug)");
     expect(aboutVolumeAtlas).toContain("volumeRoles");
+    expect(aboutVolumeAtlas).toContain('"Volume I": "Observe and document"');
+    expect(aboutVolumeAtlas).toContain('"Volume II": "Locate power and sovereignty"');
+    expect(aboutVolumeAtlas).toContain(
+      '"Volume III": "Examine work, taxation, and social citizenship"',
+    );
+    expect(aboutVolumeAtlas).toContain(
+      '"Volume IV": "Test technological change against human capability"',
+    );
     expect(about).toContain("<AboutVolumeAtlas />");
     expect(aboutVolumeAtlas).toContain("data-about-volume-atlas");
-    expect(aboutVolumeAtlas).toContain('role="tablist"');
-    expect(aboutVolumeAtlas).toContain("Representative research threads");
+    expect(aboutVolumeAtlas).toContain("data-about-volume-tablist");
+    expect(aboutVolumeAtlas).toContain("href={`#about-volume-panel-${key}`}");
+    expect(aboutVolumeAtlas).not.toContain("hidden={");
+    expect(aboutVolumeAtlas).toContain('tablist.setAttribute("role", "tablist")');
+    expect(aboutVolumeAtlas).toContain('tab.setAttribute("role", "tab")');
+    expect(aboutVolumeAtlas).toContain('tab.setAttribute("aria-controls", panel.id)');
+    expect(aboutVolumeAtlas).toContain('panel.setAttribute("role", "tabpanel")');
+    expect(aboutVolumeAtlas).toContain('panel.setAttribute("aria-labelledby", tab.id)');
+    expect(aboutVolumeAtlas).toContain('tab.setAttribute("aria-selected", String(active))');
+    expect(aboutVolumeAtlas).toContain("tab.tabIndex = active ? 0 : -1");
+    expect(aboutVolumeAtlas).toContain("Representative research directions");
     expect(aboutVolumeAtlas).toContain("guide?.researchPapers.slice(0, 3)");
     expect(aboutVolumeAtlas).toContain("paper.description");
     expect(aboutVolumeAtlas).toContain("paper.relevance");
+    expect(aboutVolumeAtlas).toContain("Research direction");
+    expect(aboutVolumeAtlas).toContain("connection.contentLinks.map");
+    expect(aboutVolumeAtlas).not.toContain("connection.contentLinks.slice");
+    expect(aboutVolumeAtlas).toContain("ArrowRight");
+    expect(aboutVolumeAtlas).toContain("ArrowLeft");
+    expect(aboutVolumeAtlas).toContain("ArrowDown");
+    expect(aboutVolumeAtlas).toContain("ArrowUp");
+    expect(aboutVolumeAtlas).toContain('key === "Home"');
+    expect(aboutVolumeAtlas).toContain('key === "End"');
+    expect(aboutVolumeAtlas).toContain('key === " "');
+    expect(aboutVolumeAtlas).toContain("next.focus()");
+    expect(aboutVolumeAtlas).toContain('tablist.setAttribute("aria-orientation"');
+    expect(aboutVolumeAtlas).toContain('window.matchMedia("(min-width: 901px)")');
+    expect(aboutVolumeAtlas).toContain("event.metaKey");
+    expect(aboutVolumeAtlas).toContain("event.ctrlKey");
+    expect(aboutVolumeAtlas).toContain('hashPrefix = "#about-volume-panel-"');
+    expect(aboutVolumeAtlas).toContain("pushState");
+    expect(aboutVolumeAtlas).toContain("replaceState");
     expect(aboutVolumeAtlas).toContain("hashchange");
-    expect(about).toContain("<TopicVolumeMap />");
+    expect(aboutVolumeAtlas).toContain("popstate");
+    expect(aboutVolumeAtlas).toContain("Nothing here announces publication approval");
+    expect(seriesItems.map((item) => item.volume)).toEqual(
+      libraryVolumeGuides.map((guide) => guide.volume),
+    );
+    expect(seriesItems.map((item) => item.status)).toEqual([
+      "In editorial development",
+      "Concept preview",
+      "Concept preview",
+      "In editorial development",
+    ]);
+    for (const item of seriesItems) {
+      expect(
+        libraryVolumeGuides.find((guide) => guide.volume === item.volume)!.researchPapers.length,
+      ).toBeGreaterThanOrEqual(3);
+      expect(volumeTopicConnections[item.volume].contentLinks.length).toBeGreaterThan(0);
+      expect(volumeTopicConnections[item.volume].topicSlugs.length).toBeGreaterThan(0);
+    }
+    expect(about).not.toContain("<TopicVolumeMap />");
   });
 
   it("explains Volume I observation and connects all four volumes to topic hubs", () => {

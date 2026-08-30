@@ -5,6 +5,8 @@ import { publicDocumentItems } from "../data/documents";
 import { seriesItems } from "../data/series";
 import { volumeReels } from "../data/video-reels";
 import { slugify } from "../lib/slugs";
+import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
+import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
 
 const distRoot = join(process.cwd(), "dist");
 const routes = [
@@ -254,18 +256,71 @@ describe("built website", () => {
 
   it("renders the About page's interactive four-volume research atlas", () => {
     const html = readOutput("about/index.html");
+    const tabs = tags(html, "a").filter((tag) => attribute(tag, "data-about-volume-tab"));
+    const panels = tags(html, "article").filter((tag) => attribute(tag, "data-about-volume-panel"));
+    const hrefs = tags(html, "a")
+      .map((tag) => attribute(tag, "href"))
+      .filter((href): href is string => Boolean(href));
 
     expect(html).toContain("The project in four movements");
     expect(html).toContain("Observe. Locate power. Follow the cost. Govern the future.");
-    expect(html).toContain('role="tablist"');
-    expect(html).toContain("Manifesto of a Destiny: The Independent Observer Method");
-    expect(html).toContain("Democracy’s Achilles’ Heel");
-    expect(html).toContain("From Pockets to Portfolios: Terry v. Ohio");
-    expect(html).toContain("When Real Science Becomes Science Fiction");
-    expect(html).toContain("about-volume-panel-volume-i");
-    expect(html).toContain("about-volume-panel-volume-iv");
-    expect(html).toContain("public-safe research signals");
+    expect(html).toContain("Observe and document.");
+    expect(html).toContain("Locate power and sovereignty.");
+    expect(html).toContain("Examine work, taxation, and social citizenship.");
+    expect(html).toContain("Test technological change against human capability.");
+    expect(html).toContain("Representative research directions");
+    expect(html).toContain("research directions in development");
+    expect(html).toContain("Nothing here announces publication approval, peer review");
+    expect(tabs).toHaveLength(4);
+    expect(panels).toHaveLength(4);
+
+    for (const [index, item] of seriesItems.entries()) {
+      const key = slugify(item.volume);
+      const tabId = `about-volume-tab-${key}`;
+      const panelId = `about-volume-panel-${key}`;
+      const titleId = `about-volume-title-${key}`;
+      const tab = tabs.find((candidate) => attribute(candidate, "data-about-volume-tab") === key);
+      const panel = panels.find(
+        (candidate) => attribute(candidate, "data-about-volume-panel") === key,
+      );
+      const guide = libraryVolumeGuides.find((candidate) => candidate.volume === item.volume);
+      const connection = volumeTopicConnections[item.volume];
+
+      expect(tab).toBeDefined();
+      expect(attribute(tab!, "id")).toBe(tabId);
+      expect(attribute(tab!, "href")).toBe(`#${panelId}`);
+      expect(panel).toBeDefined();
+      expect(attribute(panel!, "id")).toBe(panelId);
+      expect(attribute(panel!, "aria-labelledby")).toBe(titleId);
+      expect(panel).not.toMatch(/\shidden(?:\s|>|=)/i);
+      expect(html).toContain(`Step ${index + 1} of 4`);
+      expect(html).toContain(item.title);
+      expect(html).toContain(item.status);
+      expect(html).toContain(guide?.focus);
+      expect(html).toContain(guide?.importance);
+      expect(html).toContain(connection.lens);
+
+      for (const paper of guide?.researchPapers.slice(0, 3) ?? []) {
+        expect(html).toContain(paper.title);
+        expect(html).toContain(paper.description);
+      }
+
+      const seriesPath = `/series/${slugify(item.title)}/`;
+      expect(hrefs).toContain(new URL(sitePathForTest(seriesPath), homeCanonical).pathname);
+      for (const entry of connection.contentLinks) {
+        expect(html).toContain(entry.kind);
+        expect(html).toContain(entry.label);
+        expect(hrefs).toContain(new URL(sitePathForTest(entry.path), homeCanonical).pathname);
+      }
+      for (const slug of connection.topicSlugs) {
+        const topicPath = `/topics/${slug}/`;
+        expect(hrefs).toContain(new URL(sitePathForTest(topicPath), homeCanonical).pathname);
+      }
+    }
+
     expect(html).not.toMatch(/dropbox/i);
+    expect(html).not.toMatch(/publication approved|peer-reviewed volume/i);
+    expect(html).not.toContain("topic-volume-map");
   });
 
   it("renders the linked four-volume spine on the History hub", () => {
