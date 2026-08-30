@@ -250,4 +250,14 @@ describe("public library data", () => {
       publicLibrarySnapshot.areas.every((area) => area.privateCount.includes("private archive")),
     ).toBe(true);
   });
+
+  it("explains the Who Deported More paper's data and media significance", () => {
+    const entry = ssrnPreprintDocuments.find((item) => item.id === "who-deported-more-ssrn");
+    const abstract = entry?.sections.find((section) => section.id === "abstract")?.paragraphs?.[0];
+
+    expect(abstract).toContain("mass-media headlines");
+    expect(abstract).toContain("official immigration-statistics series");
+    expect(abstract).toContain("Its significance to Independent Observer");
+    expect(abstract).toContain("traceable reporting framework");
+  });
 });
