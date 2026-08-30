@@ -197,6 +197,19 @@ describe("built website", () => {
     expect(html).toContain("underlying drafts remain unlinked and unpublished");
   });
 
+  it("renders the linked four-volume spine on the History hub", () => {
+    const html = readOutput("topics/history/index.html");
+
+    expect(html).toContain("One project, four connected volumes.");
+    expect(html).toContain("Independent Observer");
+    expect(html).toContain("The Empire Beneath Democracy");
+    expect(html).toContain("Managed Decline");
+    expect(html).toContain("The Last Human Workforce");
+    expect(html).toContain("Public entry points");
+    expect(html).toContain("The Wardhan Tax Doctrine");
+    expect(html).toContain("The Autonomous Illusion");
+  });
+
   it("renders Volume II's four research families and four principles in Public Preview", () => {
     const html = readOutput("series/the-empire-beneath-democracy/index.html");
 

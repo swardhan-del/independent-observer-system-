@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
+import TopicVolumeMap from "../../components/TopicVolumeMap.astro";
 import TopicReviewQueue from "../../components/TopicReviewQueue.astro";
 import { reviewQueueForTopic, topicPluginFor } from "../../../plugins/topic-discovery/catalog";
 import { topicHubs } from "../../data/topics";
@@ -75,6 +76,7 @@ const roadmapCount = topic.related.filter((item) => item.type.startsWith("Volume
       </div>
     </div>
   </section>
+  <TopicVolumeMap />
   <TopicReviewQueue
     signals={reviewSignals}
     title={"Held for release in " + topic.name}

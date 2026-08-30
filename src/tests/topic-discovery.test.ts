@@ -12,6 +12,7 @@ import { topicHubs } from "../data/topics";
 
 const sourceRoot = join(process.cwd(), "src");
 const topicIndex = readFileSync(join(sourceRoot, "pages/topics/index.astro"), "utf8");
+const topicDetail = readFileSync(join(sourceRoot, "pages/topics/[slug].astro"), "utf8");
 const startIndex = readFileSync(join(sourceRoot, "pages/start/index.astro"), "utf8");
 const topicSpineNavigator = readFileSync(
   join(sourceRoot, "components/TopicSpineNavigator.astro"),
@@ -110,6 +111,13 @@ describe("topic discovery plugin", () => {
     expect(topicIndex).toContain("<TopicVolumeMatrix />");
     expect(topicIndex).toContain("<TopicAtlas topics={topicHubs} />");
     expect(topicIndex).toContain("<TopicReviewQueue signals={reviewQueueSignals} />");
+    expect(topicDetail).toContain(
+      'import TopicVolumeMap from "../../components/TopicVolumeMap.astro";',
+    );
+    expect(topicDetail).toContain("<TopicVolumeMap />");
+    expect(topicDetail.indexOf("<TopicVolumeMap />")).toBeLessThan(
+      topicDetail.indexOf("<TopicReviewQueue"),
+    );
     expect(topicAtlas).toContain("data-topic-view");
     expect(topicAtlas).toContain("URLSearchParams");
     expect(topicAtlas).toContain('aria-live="polite"');
