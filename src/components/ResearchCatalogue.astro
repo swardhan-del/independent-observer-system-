@@ -22,6 +22,22 @@ const statusLabels: Record<string, string> = {
 const topics = researchCatalogueTopics;
 const volumes = researchCatalogueVolumes;
 const statuses = researchCatalogueStatuses;
+const volumeRecordCount = researchCatalogueRecords.filter(
+  (record) => record.kind === "Volume record",
+).length;
+const preprintRecordCount = researchCatalogueRecords.filter(
+  (record) => record.kind === "SSRN preprint",
+).length;
+const conceptRecordCount = researchCatalogueRecords.filter(
+  (record) => record.kind === "Research concept",
+).length;
+const latestRecords = researchCatalogueRecords
+  .filter((record) => record.kind === "SSRN preprint" && record.publicationDate)
+  .sort(
+    (left, right) =>
+      Date.parse(right.publicationDate ?? "") - Date.parse(left.publicationDate ?? ""),
+  )
+  .slice(0, 4);
 ---
 
 <section
@@ -36,9 +52,56 @@ const statuses = researchCatalogueStatuses;
         <h2 id="research-catalogue-title">Four volumes, one searchable research spine.</h2>
       </div>
       <p>
-        Find the four volume records, their public SSRN reading copies, and the research concepts
-        connected to the programme. Search runs locally; every editorial status remains visible.
+        Find four volume records, matched public SSRN reading copies, and research concepts
+        connected to the programme. Search runs locally; every editorial status and publication
+        boundary remains visible.
       </p>
+    </div>
+
+    <div class="research-catalogue-overview" aria-label="Research catalogue overview">
+      <article>
+        <p class="eyebrow">The public index</p>
+        <strong>{preprintRecordCount}</strong>
+        <span>matched SSRN records</span>
+        <p>Public titles, short synopses, dates, and external record links for discovery.</p>
+      </article>
+      <article>
+        <p class="eyebrow">The four-volume spine</p>
+        <strong>{volumeRecordCount}</strong>
+        <span>volume records</span>
+        <p>Start with a volume, then follow its papers, concepts, and connected fields.</p>
+      </article>
+      <article>
+        <p class="eyebrow">Working directions</p>
+        <strong>{conceptRecordCount}</strong>
+        <span>research concepts</span>
+        <p>Ideas still in development remain labeled as concepts, not published findings.</p>
+      </article>
+    </div>
+
+    <div class="research-catalogue-recent" aria-labelledby="research-catalogue-recent-title">
+      <div>
+        <p class="eyebrow">Recently matched</p>
+        <h3 id="research-catalogue-recent-title">Newer public records, ready to follow.</h3>
+        <p>
+          These are the latest posted SSRN records currently matched to the local volume taxonomy.
+        </p>
+      </div>
+      <ol>
+        {
+          latestRecords.map((record) => (
+            <li>
+              <a href={record.href}>
+                <span>{record.publicationDate}</span>
+                <strong>{record.title}</strong>
+                <small>
+                  {record.volume} · {record.category}
+                </small>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
     </div>
 
     <div class="research-catalogue-controls" aria-labelledby="research-catalogue-title">
@@ -48,8 +111,9 @@ const statuses = researchCatalogueStatuses;
           <h3>Search by volume, topic, or paper.</h3>
         </div>
         <p>
-          This catalogue connects public-safe records across Volumes I–IV. It does not turn a
-          preprint, concept, or volume record into a released publication.
+          This catalogue connects public-safe metadata across Volumes I–IV. It does not turn a
+          preprint, concept, or volume record into a released publication, and it never imports a
+          private source manuscript into the public index.
         </p>
       </div>
       <div class="research-catalogue-search">
@@ -107,8 +171,10 @@ const statuses = researchCatalogueStatuses;
     </div>
 
     <p class="research-catalogue-boundary">
-      Public-safe catalogue: SSRN usage figures are descriptive discovery signals, not ratings or
-      endorsements. Publication still requires source, rights, quality, and human approval gates.
+      Public-safe catalogue: titles, dates, short summaries, and public record links are indexed for
+      discovery. Private source paths and raw DOCX/PDF manuscripts stay outside the site. SSRN usage
+      figures are descriptive discovery signals, not ratings or endorsements; publication still
+      requires source, rights, quality, and human approval gates.
     </p>
 
     <ol

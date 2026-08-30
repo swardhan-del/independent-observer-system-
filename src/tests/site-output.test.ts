@@ -198,11 +198,23 @@ describe("built website", () => {
 
   it("makes the reviewed public literature visible on the homepage", () => {
     expect(homeHtml).toContain("The literature behind the inquiry.");
-    expect(homeHtml).toContain("9 public SSRN reading copies");
+    expect(homeHtml).toContain("17 public SSRN reading copies");
     expect(homeHtml).toContain("Who Deported More?");
     expect(homeHtml).toContain("The Double Tax on Time");
     expect(homeHtml).toContain("SSRN preprint");
     expect(homeHtml).not.toContain("/Independent Observer desktop/");
+  });
+
+  it("makes the expanded public research index discoverable without exposing source files", () => {
+    const html = readOutput("research/index.html");
+
+    expect(html).toContain("<strong>17</strong>");
+    expect(html).toContain("matched SSRN records");
+    expect(html).toContain("Newer public records, ready to follow.");
+    expect(html).toContain("Citizens Without a Country");
+    expect(html).toContain("Entanglement, No-Signalling");
+    expect(html).not.toMatch(/dropbox/i);
+    expect(html).not.toMatch(/\.docx|\.pdf/i);
   });
 
   it("places the verified Volume I SSRN papers in the public preview", () => {

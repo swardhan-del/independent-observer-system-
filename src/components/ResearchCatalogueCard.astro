@@ -34,6 +34,13 @@ const externalLinks = record.sourceUrl || record.researchGateUrl;
     </div>
     <h3 id={`research-record-${index}`}><a href={record.href}>{record.title}</a></h3>
     <p class="research-catalogue-card-topic">{topicLabel}</p>
+    {
+      record.publicationDate && (
+        <p class="research-catalogue-card-date">
+          <span>{record.dateLabel ?? "Posted"}</span> {record.publicationDate}
+        </p>
+      )
+    }
     <p>{record.description}</p>
     {
       record.kind === "Volume record" && (

@@ -443,4 +443,363 @@ export const ssrnPreprintDocuments: PublicDocument[] = [
       "Downloads and abstract views are usage signals, not scholarly quality ratings.",
     ],
   }),
+  makeDocument({
+    id: "citizens-without-a-country-ssrn",
+    volume: "Volume II",
+    title:
+      "Citizens Without a Country: The Democratic Legitimacy Crisis of Non-Resident Birthright Voting in U.S. Federal Elections",
+    category: "Democracy, Citizenship & Voting",
+    description:
+      "A Volume II working paper examining how non-resident birthright voting tests the relationship between political voice, residency, civic integration, and exposure to the consequences of federal policy.",
+    volumeRelevance:
+      "This paper gives Volume II a concrete case for studying sovereignty and democratic membership. It asks how the state defines the people who may decide its rules, and whether political authority remains reciprocal when voters have little or no lived connection to the institutions they help govern.",
+    sourceModified: "Volume II author preprint matched to SSRN abstract 5992076",
+    publicationDate: "22 January 2026",
+    dateLabel: "Posted",
+    sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5992076",
+    metricsCheckedAt: "30 August 2026",
+    metrics: { downloads: 17, abstractViews: 108, citations: 0 },
+    sections: sections(
+      "This working paper examines the democratic legitimacy of federal voting rights held by citizens who live permanently outside the United States, including people who have never lived there. It connects external voting to residency, taxation, civic integration, military service, comparative electoral design, and the question of whether political voice should track exposure to domestic policy consequences.",
+      [
+        "It treats citizenship and voting as institutional relationships that carry both rights and responsibilities, rather than as labels that answer every legitimacy question by themselves.",
+        "The analysis compares the U.S. external-voting model with broader democratic design questions about residency, accountability, and political membership.",
+        "Its proposed criteria are presented as a framework for debate and testing, not as enacted election law or a settled constitutional conclusion.",
+      ],
+      "The public SSRN record lists 17 downloads and 108 abstract views in the indexed snapshot checked on 30 August 2026. Usage counts change over time and are not peer review or evidence that the paper's legitimacy framework is correct. The paper is a working argument about electoral design, not individualized legal advice.",
+      "The Volume II resource map places this paper in the sovereignty, institutions, and democratic-membership line of inquiry. The website publishes a short synopsis and the public SSRN link; it does not expose the matching source manuscript.",
+    ),
+    citations: [
+      {
+        id: "ssrn-5992076",
+        label: "SSRN",
+        citation:
+          "Harsh Wardhan, Siddhartha, Citizens Without a Country: The Democratic Legitimacy Crisis of Non-Resident Birthright Voting in U.S. Federal Elections (2025), SSRN abstract 5992076.",
+        url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5992076",
+      },
+    ],
+    notes: [
+      "Selected from the Volume II taxonomy after matching the public SSRN title and author record.",
+      "The public entry summarizes the argument without publishing the source manuscript or a private source path.",
+    ],
+    limitations: [
+      "This is a working paper, not a ruling, statute, election-administration policy, or peer-reviewed finding.",
+      "Comparative voting systems differ in history, law, population, and enforcement; no single criterion resolves every legitimacy question.",
+      "Usage metrics are descriptive signals, not scholarly quality ratings.",
+    ],
+  }),
+  makeDocument({
+    id: "empire-of-distraction-ssrn",
+    volume: "Volume II",
+    title:
+      "The Empire of Distraction: Foreign Agenda-Setting, Malapportionment, and the Managed Myth of Popular Rule in the United States",
+    category: "Institutions, Representation & Foreign Influence",
+    description:
+      "A Volume II working paper linking foreign-policy agenda shocks to unequal representation, attention allocation, lobbying, and the distance between population-weighted preferences and enacted policy.",
+    volumeRelevance:
+      "This is a central Volume II case study because it follows power from formal constitutional rules into the practical allocation of attention, hearings, contracts, and influence. It connects sovereignty abroad with representation at home without treating either as a single-cause explanation.",
+    sourceModified: "Volume II taxonomy match to SSRN abstract 5992215",
+    publicationDate: "22 January 2026",
+    dateLabel: "Posted",
+    sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5992215",
+    metricsCheckedAt: "30 August 2026",
+    metrics: { downloads: 20, abstractViews: 118, citations: 0 },
+    sections: sections(
+      "The paper argues that public policy can be pulled away from population-weighted preferences by two linked mechanisms: external conflicts that redirect attention and domestic rules that dilute representation. It proposes a measurement frame covering residents per senator, vote-seat bias, committee and floor time, appropriations, contract geography, lobbying, and donations, then connects those indicators to a reform menu.",
+      [
+        "Agenda shocks are treated as observable changes in policy attention, not proof that every foreign-policy event is manufactured or coordinated.",
+        "The paper places Senate malapportionment, Electoral College amplification, district design, lobbying, and contract distribution in one institutional map.",
+        "Its reform proposals—such as independent districting, public-finance tools, lobbying ledgers, and contract dashboards—are testable policy options rather than claims of enacted reform.",
+      ],
+      "The public SSRN record lists 20 downloads and 118 abstract views in the indexed snapshot checked on 30 August 2026. The paper is a working analysis with no references listed on the public record; its indicators and causal interpretation require independent source review before being treated as established findings.",
+      "The Volume II resource map assigns this record to the institutions-and-sovereignty family. The public catalogue keeps that taxonomy visible while separating the paper's argument from a claim that U.S. policy is controlled by one foreign actor or one hidden system.",
+    ),
+    citations: [
+      {
+        id: "ssrn-5992215",
+        label: "SSRN",
+        citation:
+          "Harsh Wardhan, Siddhartha, The Empire of Distraction: Foreign Agenda-Setting, Malapportionment, and the Managed Myth of Popular Rule in the United States (2025), SSRN abstract 5992215.",
+        url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5992215",
+      },
+    ],
+    notes: [
+      "Matched to the Volume II resource taxonomy and a public SSRN author record.",
+      "The site presents the measurement frame and reform questions, not the private working file.",
+    ],
+    limitations: [
+      "The paper is a working paper and does not establish a complete causal model of agenda-setting or representation.",
+      "Foreign influence, lobbying, and policy attention require claim-specific primary records and time-bounded comparisons.",
+      "Usage metrics are not peer review, endorsement, or a quality rating.",
+    ],
+  }),
+  makeDocument({
+    id: "geography-of-enslaved-wealth-ssrn",
+    volume: "Volume II",
+    title: "The Geography of Enslaved Wealth: How Resource-Rich Lands Produce Poor Societies",
+    category: "Resource Wealth & Political Economy",
+    description:
+      "A comparative political-economy working paper asking why resource-rich regions can remain poor when capital, information, trade, and institutional access are tightly controlled.",
+    volumeRelevance:
+      "The paper extends Volume II's sovereignty inquiry beyond constitutions and elections into the control of capital, logistics, investment, and knowledge. Its significance is the link between resource endowments and the institutions that decide whether those resources become broad capability or concentrated patronage.",
+    sourceModified: "Volume II author paper matched to SSRN abstract 5624610",
+    publicationDate: "17 November 2025",
+    dateLabel: "Posted",
+    sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5624610",
+    metricsCheckedAt: "30 August 2026",
+    metrics: { downloads: 41, abstractViews: 172, citations: 0 },
+    sections: sections(
+      "This working paper compares resource-rich regions including Siberia, Central Asia, and Saudi Arabia to ask why natural wealth does not automatically produce innovation, social mobility, or high living standards. It argues that political control over capital, foreign investment, trade, and information can turn resources into patronage and dependence rather than diversified development.",
+      [
+        "The analysis connects resource rents, public employment, foreign investment restrictions, logistics, and governance instead of treating geology as a complete explanation.",
+        "Historical comparison and secondary data are used to examine how capital openness and institutional access affect development pathways.",
+        "The paper places currency systems and de-dollarization inside a wider account of market access, while leaving those relationships open to further testing.",
+      ],
+      "The public SSRN record lists 41 downloads and 172 abstract views in the indexed snapshot checked on 30 August 2026. The comparative argument draws on secondary data and historical synthesis; it does not prove that every resource-rich society follows the same path or that one reform would resolve the problem.",
+      "Within Volume II, this paper supplies the resource-and-sovereignty case: who controls investment, information, and the terms under which wealth becomes public capability. The catalogue exposes only the public synopsis and SSRN record.",
+    ),
+    citations: [
+      {
+        id: "ssrn-5624610",
+        label: "SSRN",
+        citation:
+          "Harsh Wardhan, Siddhartha, The Geography of Enslaved Wealth: How Resource-Rich Lands Produce Poor Societies (2025), SSRN abstract 5624610.",
+        url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5624610",
+      },
+    ],
+    notes: [
+      "Matched to a Volume II resource-wealth paper and its public SSRN record.",
+      "Historical interpretation and documented economic indicators remain visibly separate on the public reading page.",
+    ],
+    limitations: [
+      "The paper is a comparative working paper, not a universal development law or predictive model.",
+      "Country and region comparisons require attention to period, measurement, institutions, and source selection.",
+      "Usage metrics are descriptive discovery signals, not scholarly validation.",
+    ],
+  }),
+  makeDocument({
+    id: "two-masks-one-face-ssrn",
+    volume: "Volume II",
+    title:
+      "Two Masks, One Face: State Capitalism and Private Feudalism as Mirrors of the Same System",
+    category: "Political Economy & Institutions",
+    description:
+      "A comparative working paper testing whether state and private forms of concentrated power can reproduce similar hierarchies despite different ideological language and ownership structures.",
+    volumeRelevance:
+      "This paper makes Volume II's institutional question comparative: how do different political-economic systems distribute authority, protect hierarchy, and define worker independence? Its value is as a provocation to compare mechanisms rather than accept a system's self-description as evidence of its effects.",
+    sourceModified: "Volume II author paper matched to SSRN abstract 5683068",
+    publicationDate: "5 December 2025",
+    dateLabel: "Posted",
+    sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5683068",
+    metricsCheckedAt: "30 August 2026",
+    metrics: { downloads: 30, abstractViews: 186, citations: 0 },
+    sections: sections(
+      "The paper compares state capitalism and private feudalism as two institutional forms that can concentrate decision-making power while presenting different accounts of freedom, equality, or merit. Through cases involving the Soviet Union, China, North Korea, post-Soviet Russia, and the United States, it asks whether hierarchy, worker dependence, and obedience can persist beneath opposing ideological masks.",
+      [
+        "The paper distinguishes formal ownership from practical control over work, investment, information, and political decision-making.",
+        "Its comparative cases are used to generate an institutional question: when does an ideology's promise diverge from the distribution of power it enables?",
+        "The title's claim that systems share one underlying face is the paper's interpretive thesis, not a verified finding that all states or economies are identical.",
+      ],
+      "The public SSRN record lists 30 downloads and 186 abstract views in the indexed snapshot checked on 30 August 2026. This is a comparative and interpretive working paper; the cases are not interchangeable, and the argument requires period-specific evidence rather than ideological equivalence by assertion.",
+      "The Volume II taxonomy places this paper alongside the programme's inquiry into sovereignty, institutions, and political economy. The public page keeps its strongest comparative language labeled as an argument and does not reproduce the source file.",
+    ),
+    citations: [
+      {
+        id: "ssrn-5683068",
+        label: "SSRN",
+        citation:
+          "Harsh Wardhan, Siddhartha, Two Masks, One Face: State Capitalism and Private Feudalism as Mirrors of the Same System (2025), SSRN abstract 5683068.",
+        url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5683068",
+      },
+    ],
+    notes: [
+      "Matched to a Volume II political-economy paper and its public SSRN record.",
+      "The synopsis preserves the paper's comparative ambition without turning analogy into proof.",
+    ],
+    limitations: [
+      "The paper is an interpretive working paper, not a complete comparative political-economy dataset.",
+      "Historical systems differ in law, period, institutions, and social conditions; comparisons must be made mechanism by mechanism.",
+      "Usage metrics are not quality ratings or peer-review outcomes.",
+    ],
+  }),
+  makeDocument({
+    id: "children-left-behind-after-a-war-ssrn",
+    volume: "Volume III",
+    title:
+      'Children Left Behind After a War: Why Vietnam Produced a Visible "War-Child" Generation—and Iraq Did Not',
+    category: "Conflict, Demography & Social Visibility",
+    description:
+      "A comparative demographic working paper examining how war, stigma, law, migration, social contact, and changing communication technologies shape whether war-born children become visible public categories.",
+    volumeRelevance:
+      "This paper belongs in Volume III because it studies how institutions make social harm visible, countable, and eligible for support. It connects conflict to migration, stigma, family formation, administrative recognition, and the unequal distribution of public attention.",
+    sourceModified: "Volume III author preprint matched to SSRN abstract 5994534",
+    publicationDate: "22 January 2026",
+    dateLabel: "Posted",
+    sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5994534",
+    metricsCheckedAt: "30 August 2026",
+    metrics: { downloads: 14, abstractViews: 113, citations: 0 },
+    sections: sections(
+      "This working paper compares the public and institutional visibility of children born to foreign soldiers and local women during the Vietnam and Iraq wars. It asks how social contact, stigma, migration pathways, legal recognition, occupation structure, and persistent internet connectivity affect whether a war-born cohort becomes countable, publicly legible, and connected to policy.",
+      [
+        "The paper treats visibility as an institutional outcome: categories become socially consequential when families can be documented, recognized, counted, and connected to a policy pathway.",
+        "It connects demographic evidence to social stigma, migration, law, and the changing conditions of wartime intimacy.",
+        "Its comparison asks what a difference in public record can reveal about social structure without assuming that absence of documentation means absence of people or harm.",
+      ],
+      "The public SSRN record lists 14 downloads and 113 abstract views in the indexed snapshot checked on 30 August 2026. The comparison is a working hypothesis, not proof that Iraq produced no comparable cases; undercounting, stigma, displacement, and uneven records may all affect visibility.",
+      "This is a Volume III bridge between social citizenship and public visibility. It shows how a population can remain outside policy attention when institutions do not recognize or count its experience, while keeping the underlying preprint private beyond the public record.",
+    ),
+    citations: [
+      {
+        id: "ssrn-5994534",
+        label: "SSRN",
+        citation:
+          'Harsh Wardhan, Siddhartha, Children Left Behind After a War: Why Vietnam Produced a Visible "War-Child" Generation—and Iraq Did Not (2025), SSRN abstract 5994534.',
+        url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5994534",
+      },
+    ],
+    notes: [
+      "Matched to a Volume III source file and the public SSRN record.",
+      "The public summary foregrounds visibility and uncertainty rather than treating a documentary gap as proof of nonexistence.",
+    ],
+    limitations: [
+      "The paper is a comparative working paper and does not provide a complete population count for either conflict.",
+      "Records of war-born children are shaped by stigma, migration, legal status, family privacy, and state capacity.",
+      "Usage metrics are descriptive signals, not scholarly quality ratings.",
+    ],
+  }),
+  makeDocument({
+    id: "lottery-of-luck-ssrn",
+    volume: "Volume IV",
+    title:
+      "The Lottery of Luck: Why Education Remains the Only Scalable Path to Middle-Class Stability in the AI Economy",
+    category: "Education, AI & Human Capability",
+    description:
+      "A Volume IV working paper examining education as economic infrastructure and asking how AI amplifies existing human capital, income concentration, and unequal routes to stable middle-class life.",
+    volumeRelevance:
+      "The paper gives Volume IV a human-capability test: when automation changes the value of skills, which institutions help people build durable capacity rather than depend on rare outlier success? It links education, re-skilling, AI literacy, and economic stability to the volume's wider question of who can govern technological change.",
+    sourceModified: "Volume IV author preprint matched to SSRN abstract 5663111",
+    publicationDate: "1 December 2025",
+    dateLabel: "Posted",
+    sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5663111",
+    metricsCheckedAt: "30 August 2026",
+    metrics: { downloads: 40, abstractViews: 202, citations: 0 },
+    sections: sections(
+      "This working paper argues that education remains a scalable route to middle-class stability as AI changes the labor market. It contrasts broad human-capital pathways with highly concentrated platform success, and proposes foundational skills, AI and data literacy, and lifelong re-skilling as forms of economic infrastructure.",
+      [
+        "The paper distinguishes repeatable education and capability pathways from exceptional creator or platform outcomes that are difficult for most people to reproduce.",
+        "AI is framed as an amplifier of existing human capability rather than a substitute for the institutions that build judgment, competence, and opportunity.",
+        "Its policy proposals connect schooling, adult learning, employment, and tax design to the question of whether technological change expands practical agency.",
+      ],
+      "The public SSRN record lists 40 downloads and 202 abstract views in the indexed snapshot checked on 30 August 2026. The title's claim that education is the only scalable path is the paper's thesis, not an established universal law; education quality, labor markets, disability, geography, family resources, and other pathways also require analysis.",
+      "This Volume IV entry connects AI to the social infrastructure needed to use it. The site publishes the public synopsis and SSRN link, not the matching source PDF or manuscript text.",
+    ),
+    citations: [
+      {
+        id: "ssrn-5663111",
+        label: "SSRN",
+        citation:
+          "Harsh Wardhan, Siddhartha, The Lottery of Luck: Why Education Remains the Only Scalable Path to Middle-Class Stability in the AI Economy (2025), SSRN abstract 5663111.",
+        url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5663111",
+      },
+    ],
+    notes: [
+      "Matched to a Volume IV working paper and its public SSRN record.",
+      "The catalogue keeps the paper's strong thesis visible while labeling it as an argument open to testing.",
+    ],
+    limitations: [
+      "The paper is a working paper, not a forecast of every worker's outcome in an AI economy.",
+      "Education effects vary with field, quality, cost, labor demand, geography, and access to complementary support.",
+      "Usage metrics are not peer review or a measure of social impact.",
+    ],
+  }),
+  makeDocument({
+    id: "entanglement-primer-ssrn",
+    volume: "Volume IV",
+    title:
+      "Entanglement, No-Signalling, and the Real Path to Quantum Advantage: A Systems-Level Primer for Practitioners and Policymakers",
+    category: "Quantum Computing & Scientific Capacity",
+    description:
+      "A concise Volume IV primer translating quantum-information concepts, engineering constraints, and policy implications into a practical map of what quantum systems can and cannot do.",
+    volumeRelevance:
+      "This is a capability paper for Volume IV: it connects scientific principles to hardware limits, error correction, cryptography, networking, and the institutional choices needed to turn technical possibility into public capacity.",
+    sourceModified: "Volume IV PDF matched to SSRN abstract 5434314",
+    publicationDate: "19 September 2025",
+    dateLabel: "Posted",
+    sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5434314",
+    metricsCheckedAt: "30 August 2026",
+    metrics: { downloads: 69, abstractViews: 549, citations: 0 },
+    sections: sections(
+      "This primer explains the physical ideas behind quantum information—superposition, measurement, interference, and entanglement—while correcting the misconception that entanglement enables faster-than-light communication. It maps the path from noisy devices to error-corrected systems and connects algorithms, quantum simulation, post-quantum cryptography, and networking to practical engineering and policy questions.",
+      [
+        "It separates quantum advantage in specific problem classes from the broader and unsupported idea that quantum computers make every computation faster.",
+        "No-signalling, error correction, surface codes, teleportation, superdense coding, Shor's algorithm, and Grover's algorithm are placed inside one systems-level explanation.",
+        "The policy layer asks how technical timelines, cryptography transitions, scientific infrastructure, and public investment should be discussed without hype.",
+      ],
+      "The public SSRN record lists 69 downloads and 549 abstract views in the indexed snapshot checked on 30 August 2026. The primer is an educational working paper; technical claims and projected timelines should be checked against current primary research and standards before informing procurement or policy.",
+      "This Volume IV record is the accessible on-ramp to the quantum line of inquiry. It publishes a public-safe explanation and the SSRN record while keeping any local source files outside the website.",
+    ),
+    citations: [
+      {
+        id: "ssrn-5434314",
+        label: "SSRN",
+        citation:
+          "Harsh Wardhan, Siddhartha, Entanglement, No-Signalling, and the Real Path to Quantum Advantage: A Systems-Level Primer for Practitioners and Policymakers (2025), SSRN abstract 5434314.",
+        url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5434314",
+      },
+    ],
+    notes: [
+      "Matched to a Volume IV PDF and the public SSRN record.",
+      "The synopsis is designed for public discovery and does not reproduce the local source document.",
+    ],
+    limitations: [
+      "Quantum advantage is problem-specific and depends on hardware, algorithms, error rates, and available data.",
+      "Projected dates and application claims can change as research and engineering progress.",
+      "Usage metrics are descriptive discovery signals, not technical validation.",
+    ],
+  }),
+  makeDocument({
+    id: "entanglement-foundations-ssrn",
+    volume: "Volume IV",
+    title:
+      "Entanglement, No-Signalling, and the Real Path to Quantum Advantage: Foundations, Architectures, and Societal Implications",
+    category: "Quantum Computing & Scientific Capacity",
+    description:
+      "A foundational Volume IV paper connecting quantum mechanics, fault-tolerant architectures, quantum networks, cryptography transition, and the social consequences of scientific infrastructure.",
+    volumeRelevance:
+      "Read alongside the primer, this paper moves from explanation to architecture and societal consequence. It asks what scientific capacity means when the decisive constraints are not only equations but error correction, networks, standards, security, and institutional readiness.",
+    sourceModified: "Volume IV PDF matched to SSRN abstract 5432061",
+    publicationDate: "19 September 2025",
+    dateLabel: "Posted",
+    sourceUrl: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5432061",
+    metricsCheckedAt: "30 August 2026",
+    metrics: { downloads: 32, abstractViews: 887, citations: 0 },
+    sections: sections(
+      "This paper introduces the foundations of quantum computing, explains why entanglement cannot transmit information on its own, and follows the engineering path toward fault-tolerant systems. It then connects quantum networks, post-quantum cryptography, simulation, optimization, and machine learning to the institutions and standards that determine whether scientific capability becomes socially useful.",
+      [
+        "The paper moves from first principles to architectures, making the distinction between a physical resource, an algorithmic speedup, and a deployable system explicit.",
+        "Fault tolerance and surface-code error correction are treated as central engineering constraints rather than footnotes to a promise of quantum advantage.",
+        "The societal section connects cryptography migration, scientific infrastructure, and public capability to the technical limits described earlier.",
+      ],
+      "The public SSRN record lists 32 downloads and 887 abstract views in the indexed snapshot checked on 30 August 2026. This is a foundational working paper, not a current technology forecast or deployment recommendation; technical milestones and standards require up-to-date primary-source review.",
+      "This record complements the shorter Volume IV primer: the primer is the public on-ramp, while this paper expands the architecture and societal implications. Neither public entry exposes the matching source file.",
+    ),
+    citations: [
+      {
+        id: "ssrn-5432061",
+        label: "SSRN",
+        citation:
+          "Harsh Wardhan, Siddhartha, Entanglement, No-Signalling, and the Real Path to Quantum Advantage: Foundations, Architectures, and Societal Implications (2025), SSRN abstract 5432061.",
+        url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5432061",
+      },
+    ],
+    notes: [
+      "Matched to a Volume IV PDF and a public SSRN record.",
+      "The catalogue uses a concise public synopsis and preserves the distinction between research direction and deployment claim.",
+    ],
+    limitations: [
+      "The paper is a conceptual and technical overview, not a complete survey of current quantum research.",
+      "Hardware, error-correction, cryptography, and application timelines are fast-moving and require current verification.",
+      "Usage metrics are not peer review, endorsement, or a measure of technical readiness.",
+    ],
+  }),
 ];

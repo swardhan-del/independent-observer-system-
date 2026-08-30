@@ -407,17 +407,40 @@ describe("interactive preview tools", () => {
     expect(researchCatalogue).toContain('data-research-filter="volume"');
     expect(researchCatalogue).toContain("URLSearchParams");
     expect(researchCatalogue).toContain("rankSearchEntries");
-    expect(researchCatalogueRecords).toHaveLength(16);
+    expect(researchCatalogue).toContain("Recently matched");
+    expect(researchCatalogue).toContain("Private source paths");
+    expect(researchCatalogueRecords).toHaveLength(24);
     expect(researchCatalogueVolumes).toEqual(["Volume I", "Volume II", "Volume III", "Volume IV"]);
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "Volume record"),
     ).toHaveLength(4);
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "SSRN preprint"),
-    ).toHaveLength(9);
+    ).toHaveLength(17);
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "Research concept"),
     ).toHaveLength(3);
+    expect(
+      researchCatalogueRecords
+        .filter((record) => record.kind === "SSRN preprint")
+        .map((record) => record.title),
+    ).toEqual(
+      expect.arrayContaining([
+        "Citizens Without a Country: The Democratic Legitimacy Crisis of Non-Resident Birthright Voting in U.S. Federal Elections",
+        "The Empire of Distraction: Foreign Agenda-Setting, Malapportionment, and the Managed Myth of Popular Rule in the United States",
+        "The Geography of Enslaved Wealth: How Resource-Rich Lands Produce Poor Societies",
+        "Two Masks, One Face: State Capitalism and Private Feudalism as Mirrors of the Same System",
+        'Children Left Behind After a War: Why Vietnam Produced a Visible "War-Child" Generation—and Iraq Did Not',
+        "The Lottery of Luck: Why Education Remains the Only Scalable Path to Middle-Class Stability in the AI Economy",
+        "Entanglement, No-Signalling, and the Real Path to Quantum Advantage: A Systems-Level Primer for Practitioners and Policymakers",
+        "Entanglement, No-Signalling, and the Real Path to Quantum Advantage: Foundations, Architectures, and Societal Implications",
+      ]),
+    );
+    expect(
+      researchCatalogueRecords
+        .filter((record) => record.kind === "SSRN preprint")
+        .every((record) => record.publicationDate),
+    ).toBe(true);
     expect(
       researchCatalogueRecords.find(
         (record) =>

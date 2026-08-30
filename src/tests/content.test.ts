@@ -123,7 +123,7 @@ describe("editorial preview data", () => {
       "who-deported-more-ssrn",
     );
     expect(volumeResearchMap.find((item) => item.volume === "Volume IV")?.papers[0]?.id).toBe(
-      "disconnected-hearts-ssrn",
+      "entanglement-primer-ssrn",
     );
   });
 
@@ -264,6 +264,18 @@ describe("editorial preview data", () => {
       ssrnPreprintDocuments.find((entry) => entry.id === "disconnected-hearts-ssrn")
         ?.researchGateUrl,
     ).toContain("researchgate.net/publication/397333270");
+    expect(ssrnPreprintDocuments.map((entry) => entry.id)).toEqual(
+      expect.arrayContaining([
+        "citizens-without-a-country-ssrn",
+        "empire-of-distraction-ssrn",
+        "geography-of-enslaved-wealth-ssrn",
+        "two-masks-one-face-ssrn",
+        "children-left-behind-after-a-war-ssrn",
+        "lottery-of-luck-ssrn",
+        "entanglement-primer-ssrn",
+        "entanglement-foundations-ssrn",
+      ]),
+    );
   });
 
   it("includes the three verified public Volume I SSRN papers", () => {

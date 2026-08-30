@@ -154,7 +154,7 @@ describe("library content blocks", () => {
     const firstThreeVolumes = ssrnPreprintDocuments.filter((entry) =>
       ["Volume I", "Volume II", "Volume III"].includes(entry.volume ?? ""),
     );
-    expect(firstThreeVolumes).toHaveLength(7);
+    expect(firstThreeVolumes).toHaveLength(12);
     expect(firstThreeVolumes.every((entry) => entry.sourceUrl)).toBe(true);
     expect(siteSearch).toContain("...publicDocumentItems.map");
     expect(siteSearch).toContain("SSRN preprint");
@@ -194,7 +194,7 @@ describe("library content blocks", () => {
       "the-illusion-of-equality-ssrn",
       "who-deported-more-ssrn",
       "wardhan-tax-doctrine-ssrn",
-      "disconnected-hearts-ssrn",
+      "entanglement-primer-ssrn",
     ]);
     expect(contentBlocks).not.toContain("highest-rated");
     expect(contentBlocks).toContain("not quality ratings");

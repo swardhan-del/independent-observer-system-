@@ -10,6 +10,8 @@ export type ResearchCatalogueKind = "Volume record" | "SSRN preprint" | "Researc
 
 export type ResearchCatalogueRecord = SearchEntry & {
   kind: ResearchCatalogueKind;
+  publicationDate?: string;
+  dateLabel?: string;
   metrics?: {
     downloads?: number;
     abstractViews?: number;
@@ -74,6 +76,8 @@ const paperRecords: ResearchCatalogueRecord[] = [...ssrnPreprintDocuments]
     topics: topicsForRecord(paper.category, paper.volume),
     volume: paper.volume,
     kind: "SSRN preprint",
+    publicationDate: paper.publicationDate,
+    dateLabel: paper.dateLabel,
     metrics: {
       downloads: paper.metrics?.downloads,
       abstractViews: paper.metrics?.abstractViews,
