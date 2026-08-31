@@ -148,7 +148,7 @@ if (!buildInfo.response || buildInfo.response.status !== 200) {
   }
 }
 
-const missingProbe = await fetchText(new URL("/__codex-production-contract-missing__", siteUrl));
+const missingProbe = await fetchText(new URL("/__codex-production-contract-missing__/", siteUrl));
 if (!missingProbe.response || missingProbe.response.status !== 404) {
   failures.push(
     `404 route: expected 404, received ${missingProbe.response?.status ?? "no response"}`,
