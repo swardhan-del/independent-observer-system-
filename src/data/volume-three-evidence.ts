@@ -1,17 +1,17 @@
 /**
  * Public-safe, source-labeled evidence layers for the Volume III case study.
  *
- * The record is a public SSRN reading copy. The layers distinguish what the
+ * The record is an author-controlled public synopsis. The layers distinguish what the
  * record says from editorial interpretation, hypotheses, and review questions;
  * they do not turn a working paper into an approved publication.
  */
 export const volumeThreeTaxDoctrineEvidence = [
   {
     category: "Documented fact",
-    text: "The public SSRN record identifies The Wardhan Tax Doctrine as abstract 5477606, posted 3 October 2025. The site's last checked signal records 42 downloads and 202 abstract views; those are usage counts, not quality ratings.",
+    text: "The author-controlled paper record identifies The Wardhan Tax Doctrine as posted 3 October 2025. An archived distribution snapshot records 42 downloads and 202 abstract views; those are usage counts, not quality ratings.",
     source: {
-      label: "Open the SSRN public record",
-      href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5477606",
+      label: "Open the verified ResearchGate record",
+      href: "https://www.researchgate.net/publication/396189529_The_Wardhan_Tax_Doctrine_Time-as-Deduction_W-2_Relief_and_an_Eisenhower-Era_Return_to_Progressivity_with_IRC_Amendments",
     },
   },
   {
@@ -27,7 +27,7 @@ export const volumeThreeTaxDoctrineEvidence = [
     text: "The paper proposes a refundable time-investment credit, targeted W-2 relief, and narrower treatment of selected capital preferences, alongside eligibility, reporting, documentation, and audit rules.",
     source: {
       label: "Read the public Volume III copy",
-      href: "/library/documents/wardhan-tax-doctrine-ssrn/",
+      href: "/library/documents/wardhan-tax-doctrine/",
       internal: true,
     },
   },

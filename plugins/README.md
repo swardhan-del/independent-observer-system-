@@ -17,7 +17,7 @@ This folder contains small, reviewable integrations for the public site.
 - `dropbox/` — the approved Dropbox-to-site boundary and review gate.
 - `social/` — public social links that have been explicitly verified.
 - `topic-discovery/` — question-led topic pathways, public-preprint signals, and the human-release boundary.
-- `library-content/` — four-volume public content blocks, core ideas, topic lenses, and SSRN preprint links.
+- `library-content/` — four-volume public content blocks, core ideas, topic lenses, and Author paper links.
 
 ## Running the SEO audit
 

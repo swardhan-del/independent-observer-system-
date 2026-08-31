@@ -6,7 +6,7 @@
 export type VolumeTwoResearchPaper = {
   title: string;
   description: string;
-  status: "Public SSRN record" | "Mapped research direction";
+  status: "Public paper record" | "Mapped research direction";
   href?: string;
 };
 
@@ -32,7 +32,7 @@ export type VolumeTwoFramework = {
 
 export const volumeTwoFramework: VolumeTwoFramework = {
   intro:
-    "Volume II, The Empire Beneath Democracy, is organized as four connected paper families—not four isolated papers and not a claim that the project ends with four manuscripts. Each family takes a different route into the same question: how does authority become usable, limited, or materially dependent beneath the language of democratic sovereignty? The sequence begins with institutions and party power, moves through membership and enforcement, tests law and civil rights, and then follows capital, resources, alliances, and geopolitical dependence beyond the state. The family briefs below are a public editorial synthesis of that research map. Representative titles are labeled as public SSRN records or mapped research directions; no private draft is reproduced and no working paper is represented as a released publication.",
+    "Volume II, The Empire Beneath Democracy, is organized as four connected paper families—not four isolated papers and not a claim that the project ends with four manuscripts. Each family takes a different route into the same question: how does authority become usable, limited, or materially dependent beneath the language of democratic sovereignty? The sequence begins with institutions and party power, moves through membership and enforcement, tests law and civil rights, and then follows capital, resources, alliances, and geopolitical dependence beyond the state. The family briefs below are a public editorial synthesis of that research map. Representative titles are labeled as public paper records or mapped research directions; no private draft is reproduced and no working paper is represented as a released publication.",
   families: [
     {
       title: "Democracy, institutions, and party power",
@@ -62,8 +62,8 @@ export const volumeTwoFramework: VolumeTwoFramework = {
             "The Empire of Distraction: Foreign Agenda-Setting, Malapportionment, and the Managed Myth of Popular Rule in the United States",
           description:
             "Links foreign-policy agenda shocks to unequal representation, attention allocation, lobbying, and the distance between population-weighted preferences and enacted policy. Its measurement frame follows committee and floor time, appropriations, contract geography, and representation without treating any foreign-policy event as automatically manufactured or coordinated.",
-          status: "Public SSRN record",
-          href: "/library/documents/empire-of-distraction-ssrn/",
+          status: "Public paper record",
+          href: "/library/documents/empire-of-distraction/",
         },
         {
           title:
@@ -89,23 +89,23 @@ export const volumeTwoFramework: VolumeTwoFramework = {
             "Citizens Without a Country: The Democratic Legitimacy Crisis of Non-Resident Birthright Voting in U.S. Federal Elections",
           description:
             "Examines how federal voting rights held by citizens who live permanently outside the United States—including people who have never lived there—test the relationship among political voice, residency, civic integration, taxation, and exposure to domestic policy consequences. It treats citizenship and voting as institutional relationships rather than labels that resolve every legitimacy question by themselves.",
-          status: "Public SSRN record",
-          href: "/library/documents/citizens-without-a-country-ssrn/",
+          status: "Public paper record",
+          href: "/library/documents/citizens-without-a-country/",
         },
         {
           title:
             "Who Deported More? Measuring Removals, Returns, and Enforcement Priorities Across Presidential Administrations 2000–2025",
           description:
             "Separates removals, returns, expulsions, interior enforcement, border enforcement, and expedited removal before comparing administrative priorities. The definitions-first approach shows how prosecutorial discretion, detainer policy, reporting periods, and resource allocation can change headline counts without proving a simple increase or decrease in total enforcement.",
-          status: "Public SSRN record",
-          href: "/library/documents/who-deported-more-ssrn/",
+          status: "Public paper record",
+          href: "/library/documents/who-deported-more/",
         },
         {
           title: "The Latino Irony: Why Many Hispanic Americans Support Donald Trump",
           description:
             "Treats Latino voting behavior as internally heterogeneous rather than as a single identity-based bloc. It combines identity, cultural conservatism, economic evaluation, political memory, immigration-enforcement salience, and local information environments while framing its purpose as explanation and measurement, not candidate advocacy.",
-          status: "Public SSRN record",
-          href: "/library/documents/latino-irony-ssrn/",
+          status: "Public paper record",
+          href: "/library/documents/latino-irony/",
         },
         {
           title:
@@ -169,23 +169,23 @@ export const volumeTwoFramework: VolumeTwoFramework = {
             "From Colonization to China’s Rise: How Historical Power Shifts Still Shape Global Politics and Democracy",
           description:
             "Traces how colonization, industrialization, and strategic economic design shaped modern power. It reads contemporary competition among the United States, China, and Russia alongside older systems of knowledge extraction, inequality, and institutional control rather than treating the present contest as wholly new.",
-          status: "Public SSRN record",
-          href: "/library/documents/from-colonization-to-chinas-rise-ssrn/",
+          status: "Public paper record",
+          href: "/library/documents/from-colonization-to-chinas-rise/",
         },
         {
           title: "The Geography of Enslaved Wealth: How Resource-Rich Lands Produce Poor Societies",
           description:
             "Compares resource-rich regions to ask why natural wealth does not automatically produce innovation, social mobility, or high living standards. It connects resource rents, public employment, foreign-investment restrictions, logistics, currency systems, and governance to the question of whether resources become broad capability or concentrated patronage.",
-          status: "Public SSRN record",
-          href: "/library/documents/geography-of-enslaved-wealth-ssrn/",
+          status: "Public paper record",
+          href: "/library/documents/geography-of-enslaved-wealth/",
         },
         {
           title:
             "Two Masks, One Face: State Capitalism and Private Feudalism as Mirrors of the Same System",
           description:
             "Compares state capitalism and private feudalism as institutional forms that may concentrate decision-making power while using different languages of freedom, equality, or merit. Its cases ask whether hierarchy, worker dependence, and obedience can persist beneath opposing ideological masks; the shared-face thesis remains an interpretation to test, not a claim that all systems are identical.",
-          status: "Public SSRN record",
-          href: "/library/documents/two-masks-one-face-ssrn/",
+          status: "Public paper record",
+          href: "/library/documents/two-masks-one-face/",
         },
         {
           title:

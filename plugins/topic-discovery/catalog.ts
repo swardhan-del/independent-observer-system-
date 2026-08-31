@@ -28,8 +28,8 @@ export type TopicPathway = {
 export type PathwayContentLink = {
   kind:
     | "Series roadmap"
-    | "SSRN preprint"
-    | "Cross-volume SSRN preprint"
+    | "Author paper"
+    | "Cross-volume author paper"
     | "Research preview"
     | "Documentary preview"
     | "Video preview";
@@ -119,9 +119,9 @@ export const topicPathways: TopicPathway[] = [
         path: "/series/independent-observer/",
       },
       {
-        kind: "SSRN preprint",
+        kind: "Author paper",
         label: "Independent Observer: Volume I foundational manifesto",
-        path: "/library/documents/independent-observer-volume-one-ssrn/",
+        path: "/library/documents/independent-observer-volume-one/",
       },
       {
         kind: "Research preview",
@@ -162,14 +162,14 @@ export const topicPathways: TopicPathway[] = [
         path: "/research/the-autonomous-illusion/",
       },
       {
-        kind: "SSRN preprint",
+        kind: "Author paper",
         label: "Disconnected Hearts — The Tech Revolution of Intimacy",
-        path: "/library/documents/disconnected-hearts-ssrn/",
+        path: "/library/documents/disconnected-hearts/",
       },
       {
-        kind: "SSRN preprint",
+        kind: "Author paper",
         label: "The Double Tax on Time",
-        path: "/library/documents/double-tax-on-time-ssrn/",
+        path: "/library/documents/double-tax-on-time/",
       },
     ],
   },
@@ -200,9 +200,9 @@ export const topicPathways: TopicPathway[] = [
         path: "/series/the-empire-beneath-democracy/",
       },
       {
-        kind: "SSRN preprint",
+        kind: "Author paper",
         label: "From Colonization to China’s Rise",
-        path: "/library/documents/from-colonization-to-chinas-rise-ssrn/",
+        path: "/library/documents/from-colonization-to-chinas-rise/",
       },
       {
         kind: "Documentary preview",
@@ -247,9 +247,9 @@ export const topicPathways: TopicPathway[] = [
         path: "/research/the-autonomous-illusion/",
       },
       {
-        kind: "SSRN preprint",
+        kind: "Author paper",
         label: "Disconnected Hearts — The Tech Revolution of Intimacy",
-        path: "/library/documents/disconnected-hearts-ssrn/",
+        path: "/library/documents/disconnected-hearts/",
       },
       {
         kind: "Documentary preview",
@@ -279,19 +279,19 @@ export const topicPathways: TopicPathway[] = [
         path: "/series/the-empire-beneath-democracy/",
       },
       {
-        kind: "SSRN preprint",
+        kind: "Author paper",
         label: "Who Deported More?",
-        path: "/library/documents/who-deported-more-ssrn/",
+        path: "/library/documents/who-deported-more/",
       },
       {
-        kind: "SSRN preprint",
+        kind: "Author paper",
         label: "The Latino Irony",
-        path: "/library/documents/latino-irony-ssrn/",
+        path: "/library/documents/latino-irony/",
       },
       {
-        kind: "SSRN preprint",
+        kind: "Author paper",
         label: "From Colonization to China’s Rise",
-        path: "/library/documents/from-colonization-to-chinas-rise-ssrn/",
+        path: "/library/documents/from-colonization-to-chinas-rise/",
       },
       {
         kind: "Series roadmap",
@@ -317,9 +317,9 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
     ],
     contentLinks: [
       {
-        kind: "SSRN preprint",
+        kind: "Author paper",
         label: "Independent Observer: Volume I foundational manifesto",
-        path: "/library/documents/independent-observer-volume-one-ssrn/",
+        path: "/library/documents/independent-observer-volume-one/",
       },
       {
         kind: "Research preview",
@@ -343,19 +343,19 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
     ],
     contentLinks: [
       {
-        kind: "SSRN preprint",
+        kind: "Author paper",
         label: "Who Deported More?",
-        path: "/library/documents/who-deported-more-ssrn/",
+        path: "/library/documents/who-deported-more/",
       },
       {
-        kind: "SSRN preprint",
+        kind: "Author paper",
         label: "The Latino Irony",
-        path: "/library/documents/latino-irony-ssrn/",
+        path: "/library/documents/latino-irony/",
       },
       {
-        kind: "SSRN preprint",
+        kind: "Author paper",
         label: "From Colonization to China’s Rise",
-        path: "/library/documents/from-colonization-to-chinas-rise-ssrn/",
+        path: "/library/documents/from-colonization-to-chinas-rise/",
       },
       {
         kind: "Documentary preview",
@@ -375,14 +375,14 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
     ],
     contentLinks: [
       {
-        kind: "SSRN preprint",
+        kind: "Author paper",
         label: "The Wardhan Tax Doctrine",
-        path: "/library/documents/wardhan-tax-doctrine-ssrn/",
+        path: "/library/documents/wardhan-tax-doctrine/",
       },
       {
-        kind: "SSRN preprint",
+        kind: "Author paper",
         label: "Children Left Behind After a War",
-        path: "/library/documents/children-left-behind-after-a-war-ssrn/",
+        path: "/library/documents/children-left-behind-after-a-war/",
       },
       {
         kind: "Research preview",
@@ -412,19 +412,19 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
         path: "/research/the-autonomous-illusion/",
       },
       {
-        kind: "SSRN preprint",
+        kind: "Author paper",
         label: "Disconnected Hearts — The Tech Revolution of Intimacy",
-        path: "/library/documents/disconnected-hearts-ssrn/",
+        path: "/library/documents/disconnected-hearts/",
       },
       {
-        kind: "SSRN preprint",
+        kind: "Author paper",
         label: "The Double Tax on Time",
-        path: "/library/documents/double-tax-on-time-ssrn/",
+        path: "/library/documents/double-tax-on-time/",
       },
       {
-        kind: "Cross-volume SSRN preprint",
+        kind: "Cross-volume author paper",
         label: "The Empire of Distraction",
-        path: "/library/documents/empire-of-distraction-ssrn/",
+        path: "/library/documents/empire-of-distraction/",
       },
       {
         kind: "Documentary preview",

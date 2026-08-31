@@ -62,11 +62,11 @@ describe("topic discovery plugin", () => {
     ).toBe(true);
   });
 
-  it("maps public SSRN signals into topic hubs without treating them as releases", () => {
+  it("maps author paper signals into topic hubs without treating them as releases", () => {
     expect(topicHubs.find((topic) => topic.slug === "technology")?.related).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          type: "SSRN preprint",
+          type: "Author paper",
           title: "Disconnected Hearts — The Tech Revolution of Intimacy",
         }),
       ]),
@@ -212,7 +212,7 @@ describe("topic discovery plugin", () => {
       expect.arrayContaining([
         expect.objectContaining({
           label: "Children Left Behind After a War",
-          path: "/library/documents/children-left-behind-after-a-war-ssrn/",
+          path: "/library/documents/children-left-behind-after-a-war/",
         }),
       ]),
     );
@@ -224,7 +224,7 @@ describe("topic discovery plugin", () => {
       expect.arrayContaining([
         expect.objectContaining({
           label: "The Empire of Distraction",
-          path: "/library/documents/empire-of-distraction-ssrn/",
+          path: "/library/documents/empire-of-distraction/",
         }),
       ]),
     );

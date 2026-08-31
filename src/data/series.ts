@@ -53,7 +53,7 @@ export const seriesItems: SeriesItem[] = [
       {
         heading: "Public record and research boundaries",
         paragraphs: [
-          "Three Volume I papers currently have matched public SSRN records: the Foundational Manifesto, A Systems-Centered Manifesto on Automation, Education, and the Carceral State, and The Illusion of Equality. The other titles above are mapped research directions; naming them here does not claim that they are public SSRN records or released publications.",
+          "Three Volume I papers currently have matched public paper records: the Foundational Manifesto, A Systems-Centered Manifesto on Automation, Education, and the Carceral State, and The Illusion of Equality. The other titles above are mapped research directions; naming them here does not claim that they are public paper records or released publications.",
           "The Foundational Manifesto’s public record was last directly verified at 23 downloads and 113 abstract views on 25 August 2026. The Systems-Centered Manifesto record was verified at 22 downloads and 120 abstract views, and The Illusion of Equality at 36 downloads and 137 abstract views, on 30 August 2026. These figures are time-varying usage signals—not quality scores, citations, endorsements, or peer review.",
         ],
       },
@@ -72,7 +72,7 @@ export const seriesItems: SeriesItem[] = [
     title: "Managed Decline",
     category: "Work and social citizenship",
     description:
-      "A concept-stage account of Managed Decline: how the Western industrial order moved from steel mills, mass production, and stable wage institutions toward screen-based, service, platform, and data work—and how that transition redistributes time, security, and economic opportunity. Volume III studies labor markets, licensing, welfare, taxation, health systems, and public visibility, asking whether administrative systems restore social citizenship or manage constrained choices. Its research map connects public SSRN reading copies including The Wardhan Tax Doctrine and From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential with bounded working-paper directions such as From Steel to Screens and Welfare, Wealthfare, and Social Control in Advanced Democracies. These are research directions and reading links, not a claim that every manuscript is a released publication.",
+      "A concept-stage account of Managed Decline: how the Western industrial order moved from steel mills, mass production, and stable wage institutions toward screen-based, service, platform, and data work—and how that transition redistributes time, security, and economic opportunity. Volume III studies labor markets, licensing, welfare, taxation, health systems, and public visibility, asking whether administrative systems restore social citizenship or manage constrained choices. Its research map connects public author paper pages including The Wardhan Tax Doctrine and From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential with bounded working-paper directions such as From Steel to Screens and Welfare, Wealthfare, and Social Control in Advanced Democracies. These are research directions and reading links, not a claim that every manuscript is a released publication.",
     status: "Concept preview",
   },
   {

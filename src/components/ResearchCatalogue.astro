@@ -11,13 +11,13 @@ import ResearchCatalogueCard from "./ResearchCatalogueCard.astro";
 const serializedIndex = JSON.stringify(researchCatalogueRecords).replace(/</g, "\\u003c");
 const kindLabels: Record<string, string> = {
   "Volume record": "Volume records",
-  "SSRN preprint": "SSRN reading copies",
+  "Author paper": "author paper pages",
   "Research concept": "Research concepts",
 };
 const statusLabels: Record<string, string> = {
   "In editorial development": "In development",
   "Concept preview": "Concept preview",
-  "SSRN preprint": "SSRN preprint",
+  "Author working paper": "Author working paper",
 };
 const topics = researchCatalogueTopics;
 const volumes = researchCatalogueVolumes;
@@ -26,13 +26,13 @@ const volumeRecordCount = researchCatalogueRecords.filter(
   (record) => record.kind === "Volume record",
 ).length;
 const preprintRecordCount = researchCatalogueRecords.filter(
-  (record) => record.kind === "SSRN preprint",
+  (record) => record.kind === "Author paper",
 ).length;
 const conceptRecordCount = researchCatalogueRecords.filter(
   (record) => record.kind === "Research concept",
 ).length;
 const latestRecords = researchCatalogueRecords
-  .filter((record) => record.kind === "SSRN preprint" && record.publicationDate)
+  .filter((record) => record.kind === "Author paper" && record.publicationDate)
   .sort(
     (left, right) =>
       Date.parse(right.publicationDate ?? "") - Date.parse(left.publicationDate ?? ""),
@@ -52,9 +52,9 @@ const latestRecords = researchCatalogueRecords
         <h2 id="research-catalogue-title">Four volumes, one searchable research spine.</h2>
       </div>
       <p>
-        Find four volume records, matched public SSRN reading copies, and research concepts
-        connected to the programme. Search runs locally; every editorial status and publication
-        boundary remains visible.
+        Find four volume records, matched public author paper pages, and research concepts connected
+        to the programme. Search runs locally; every editorial status and publication boundary
+        remains visible.
       </p>
     </div>
 
@@ -62,7 +62,7 @@ const latestRecords = researchCatalogueRecords
       <article>
         <p class="eyebrow">The public index</p>
         <strong>{preprintRecordCount}</strong>
-        <span>matched SSRN records</span>
+        <span>matched paper records</span>
         <p>Public titles, short synopses, dates, and external record links for discovery.</p>
       </article>
       <article>
@@ -84,7 +84,7 @@ const latestRecords = researchCatalogueRecords
         <p class="eyebrow">Recently matched</p>
         <h3 id="research-catalogue-recent-title">Newer public records, ready to follow.</h3>
         <p>
-          These are the latest posted SSRN records currently matched to the local volume taxonomy.
+          These are the latest posted paper records currently matched to the local volume taxonomy.
         </p>
       </div>
       <ol>
@@ -172,9 +172,9 @@ const latestRecords = researchCatalogueRecords
 
     <p class="research-catalogue-boundary">
       Public-safe catalogue: titles, dates, short summaries, and public record links are indexed for
-      discovery. Private source paths and raw DOCX/PDF manuscripts stay outside the site. SSRN usage
-      figures are descriptive discovery signals, not ratings or endorsements; publication still
-      requires source, rights, quality, and human approval gates.
+      discovery. Private source paths and raw DOCX/PDF manuscripts stay outside the site. Archived
+      distribution figures are descriptive discovery signals, not ratings or endorsements;
+      publication still requires source, rights, quality, and human approval gates.
     </p>
 
     <ol

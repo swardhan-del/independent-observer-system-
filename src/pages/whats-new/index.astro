@@ -6,7 +6,7 @@ import {
   releaseCandidatePresentations,
   sixCandidateReleaseQueue,
 } from "../../data/publication-registry";
-import { ssrnPreprintDocuments } from "../../data/ssrn";
+import { paperDocuments } from "../../data/papers";
 import { seriesItems } from "../../data/series";
 import { sitePath } from "../../lib/paths";
 import { slugify } from "../../lib/slugs";
@@ -31,13 +31,13 @@ const orderedVolumes = [...seriesItems].sort(
 const publicPapersByVolume = new Map(
   orderedVolumes.map((volume) => [
     volume.volume,
-    [...ssrnPreprintDocuments]
+    [...paperDocuments]
       .filter((paper) => paper.volume === volume.volume)
       .sort((left, right) => (right.metrics?.downloads ?? 0) - (left.metrics?.downloads ?? 0)),
   ]),
 );
 
-const totalPublicPapers = ssrnPreprintDocuments.length;
+const totalPublicPapers = paperDocuments.length;
 ---
 
 <BaseLayout
@@ -48,7 +48,7 @@ const totalPublicPapers = ssrnPreprintDocuments.length;
   <PageHero
     eyebrow="Release log"
     title="What’s new, when it is real."
-    description="This log records owner-approved releases that have passed the publication path. Use the research index below to understand each volume and its public paper trail; staged candidates and external preprints stay in their own status lanes."
+    description="This log records owner-approved releases that have passed the publication path. Use the research index below to understand each volume and its public paper trail; staged candidates and author working papers stay in their own status lanes."
   />
   <section class="section section-white" aria-labelledby="release-log-title">
     <div class="shell">
@@ -130,8 +130,9 @@ const totalPublicPapers = ssrnPreprintDocuments.length;
         </div>
         <p>
           The four volumes ask different questions about public life. This index pairs each volume’s
-          purpose with {totalPublicPapers} public SSRN reading copies, so readers can see what each paper
-          examines and what it contributes without mistaking a preprint for an approved release.
+          purpose with {totalPublicPapers} public author-paper synopses, so readers can see what each
+          paper examines and what it contributes without mistaking a working paper for an approved
+          release.
         </p>
       </div>
 
@@ -152,8 +153,7 @@ const totalPublicPapers = ssrnPreprintDocuments.length;
                   <p class="release-volume-description">{volume.description}</p>
                   <div class="release-volume-overview-footer">
                     <span>
-                      {papers.length} public SSRN{" "}
-                      {papers.length === 1 ? "reading copy" : "reading copies"}
+                      {papers.length} public paper {papers.length === 1 ? "synopsis" : "synopses"}
                     </span>
                     <a
                       href={sitePath(
@@ -169,16 +169,17 @@ const totalPublicPapers = ssrnPreprintDocuments.length;
                   <div class="release-volume-papers-heading">
                     <p class="eyebrow">Public paper trail</p>
                     <p>
-                      Each entry is a public SSRN preprint record. Its description identifies the
+                      Each entry is a public author-paper synopsis. Its description identifies the
                       paper’s question and its contribution to {volume.volume}; it does not imply
-                      peer review, publication approval, or a quality rating.
+                      full-manuscript publication, peer review, publication approval, or a quality
+                      rating.
                     </p>
                   </div>
                   {papers.map((paper, paperIndex) => (
                     <article class="release-volume-paper" id={`release-paper-${paper.id}`}>
                       <div class="release-volume-paper-meta">
                         <span>{String(paperIndex + 1).padStart(2, "0")}</span>
-                        <span>SSRN preprint</span>
+                        <span>Author working paper</span>
                       </div>
                       <h4>
                         <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
@@ -191,7 +192,7 @@ const totalPublicPapers = ssrnPreprintDocuments.length;
                       )}
                       <div class="release-volume-paper-footer">
                         <span>{paper.category}</span>
-                        <span>{paper.status ?? "External preprint record"}</span>
+                        <span>{paper.status ?? "Author working paper"}</span>
                         {paper.metrics?.downloads !== undefined && (
                           <span>{paper.metrics.downloads} downloads · usage signal only</span>
                         )}
@@ -200,9 +201,9 @@ const totalPublicPapers = ssrnPreprintDocuments.length;
                         <a href={sitePath(`/library/documents/${paper.id}/`)}>
                           Open public reader →
                         </a>
-                        {paper.sourceUrl && (
-                          <a href={paper.sourceUrl} target="_blank" rel="noreferrer">
-                            View public record ↗
+                        {paper.researchGateUrl && (
+                          <a href={paper.researchGateUrl} target="_blank" rel="noreferrer">
+                            View verified ResearchGate record ↗
                           </a>
                         )}
                       </div>

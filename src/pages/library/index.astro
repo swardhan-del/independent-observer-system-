@@ -51,10 +51,11 @@ const { areas, note, stats } = publicLibrarySnapshot;
           </ol>
         </div>
         <p>
-          The public archive links matched SSRN reading copies and, where a matching public record
-          exists, ResearchGate. These are external preprint records and public reading copies; they
-          are not a claim of peer review or a mirror of private working files. The Volume II shelf
-          below describes what each paper contributes and why it belongs in the power inquiry.
+          The public archive links matched author paper pages and, where a matching public record
+          exists, ResearchGate. These are author-paper catalogue entries with selected synopses;
+          they are not a claim of peer review, a complete manuscript, or a mirror of private working
+          files. The Volume II shelf below describes what each paper contributes and why it belongs
+          in the power inquiry.
         </p>
         <p>
           The other volumes remain connected: Volume I develops observation and method; Volume III
@@ -137,9 +138,8 @@ const { areas, note, stats } = publicLibrarySnapshot;
                 <span class="status-pill">{entry.status ?? "Reviewed public copy"}</span>
                 {entry.metrics && (
                   <span>
-                    SSRN: {entry.metrics.downloads ?? "—"} downloads ·{" "}
-                    {entry.metrics.abstractViews ?? "—"} views · last directly verified{" "}
-                    {entry.metrics.checkedAt}; availability review pending
+                    Archived snapshot: {entry.metrics.downloads ?? "—"} downloads ·{" "}
+                    {entry.metrics.abstractViews ?? "—"} views · checked {entry.metrics.checkedAt}
                   </span>
                 )}
                 <a class="card-open-link" href={sitePath(`/library/documents/${entry.id}/`)}>

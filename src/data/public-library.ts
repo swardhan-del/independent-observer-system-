@@ -18,7 +18,7 @@ export type PublicLibraryArea = {
  */
 export const publicLibrarySnapshot = {
   label: "Public archive snapshot",
-  note: "A public archive of Independent Observer research papers and public reading copies. It links SSRN records and selected ResearchGate records across four volumes while keeping source, status, and limitation boundaries visible.",
+  note: "A public archive of Independent Observer research papers and public reading copies. It links paper records and selected ResearchGate records across four volumes while keeping source, status, and limitation boundaries visible.",
   stats: [
     {
       label: "Source folders reviewed",
@@ -30,7 +30,7 @@ export const publicLibrarySnapshot = {
       label: "Source files inventoried",
       value: "341",
       detail:
-        "341 files were inventoried for context. Only matched public-safe summaries and SSRN records are linked below; raw files remain private.",
+        "341 files were inventoried for context. Only matched public-safe summaries and paper records are linked below; raw files remain private.",
     },
     {
       label: "Public volume summaries",

@@ -16,7 +16,19 @@ const currentPath = `/library/documents/${entry.id}/`;
 const documentIndex = publicDocumentItems.findIndex((candidate) => candidate.id === entry.id);
 ---
 
-<BaseLayout title={entry.title} description={entry.description} currentPath={currentPath}>
+<BaseLayout
+  title={entry.title}
+  description={entry.description}
+  currentPath={currentPath}
+  articleMetadata={{
+    author: entry.author ?? "Independent Observer",
+    publicationDate: entry.publicationDate,
+    status: entry.status,
+    sameAs: entry.researchGateUrl,
+    fingerprintSha256: entry.sourceFingerprintSha256,
+    rightsNotice: entry.rightsNotice,
+  }}
+>
   <DocumentReader
     entry={entry}
     relatedEntries={publicDocumentItems}
@@ -25,5 +37,5 @@ const documentIndex = publicDocumentItems.findIndex((candidate) => candidate.id 
       ? publicDocumentItems[documentIndex + 1]
       : undefined}
   />
-  {entry.id === "independent-observer-volume-one-ssrn" && <VolumeOneSourceMap compact />}
+  {entry.id === "independent-observer-volume-one" && <VolumeOneSourceMap compact />}
 </BaseLayout>

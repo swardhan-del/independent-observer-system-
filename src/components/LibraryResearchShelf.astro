@@ -1,13 +1,13 @@
 ---
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
 import { seriesItems } from "../data/series";
-import { ssrnPreprintDocuments } from "../data/ssrn";
+import { paperDocuments } from "../data/papers";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 import VolumeOneSourceMap from "./VolumeOneSourceMap.astro";
 
 const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
-const papers = [...ssrnPreprintDocuments].sort(
+const papers = [...paperDocuments].sort(
   (left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1),
 );
 
@@ -72,10 +72,10 @@ const volumeTaglines = {
           </p>
           <p>
             Use the Roman-numeral index to move from method (I), to power (II), to social
-            citizenship (III), and capability (IV). The linked records are public SSRN reading
-            copies selected from matched, public-safe records; usage counts are discovery signals,
-            not ratings or publication approval. Verified ResearchGate links and source-taxonomy
-            directions appear only where their public status is clear.
+            citizenship (III), and capability (IV). The linked records are public author-paper
+            synopses selected from matched, public-safe records; usage counts are discovery
+            signals, not ratings or publication approval. Verified ResearchGate links and
+            source-taxonomy directions appear only where their public status is clear.
           </p>
         </div>
       </div>
@@ -101,8 +101,7 @@ const volumeTaglines = {
                   <strong>{guide.focus}</strong>
                   <span class="library-volume-rail-summary">{volumeTaglines[guide.volume]}</span>
                   <span class="library-volume-rail-signal">
-                    {volumePapers.length} public reading{" "}
-                    {volumePapers.length === 1 ? "copy" : "copies"}
+                    {volumePapers.length} paper {volumePapers.length === 1 ? "synopsis" : "synopses"}
                     {paper && <> · {paper.metrics?.downloads ?? "—"} downloads · not a rating</>}
                   </span>
                   {series && <span class="library-volume-rail-link">View volume brief →</span>}
@@ -223,7 +222,7 @@ const volumeTaglines = {
               {representativePaper && (
                 <div class="library-volume-shelf-paper">
                   <div>
-                    <p class="library-block-label">Highest current download signal</p>
+                    <p class="library-block-label">Highest archived download signal</p>
                     <h4>
                       <a href={sitePath(`/library/documents/${representativePaper.id}/`)}>
                         {representativePaper.title}
@@ -239,17 +238,8 @@ const volumeTaglines = {
                   </div>
                   <div>
                     <strong>{representativePaper.metrics?.downloads ?? "—"} downloads</strong>
-                    <span>SSRN usage signal · not a quality score</span>
+                    <span>Archived distribution signal · not a quality score</span>
                     <div class="library-external-links">
-                      {representativePaper.sourceUrl && (
-                        <a
-                          href={representativePaper.sourceUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Open SSRN record ↗
-                        </a>
-                      )}
                       {representativePaper.researchGateUrl && (
                         <a
                           href={representativePaper.researchGateUrl}
@@ -274,7 +264,7 @@ const volumeTaglines = {
                     </div>
                     <p>
                       These working research records show the volume’s wider field of inquiry. They
-                      are not public SSRN reading copies or publication approvals.
+                      are not author paper pages or publication approvals.
                     </p>
                   </div>
                   <div class="library-volume-shelf-research-grid">
@@ -307,7 +297,7 @@ const volumeTaglines = {
           <h3>Search the linked records.</h3>
         </div>
         <p data-library-paper-status role="status" aria-live="polite">
-          Showing all {papers.length} public SSRN reading copies
+          Showing all {papers.length} author paper pages
         </p>
       </div>
       <div class="library-paper-browser-controls">
@@ -339,7 +329,7 @@ const volumeTaglines = {
               class="library-paper-card"
               data-library-paper-card
               data-paper-volume={paper.volume ?? "Unassigned"}
-              data-paper-search={`${paper.title} ${paper.category} ${paper.description} ${paper.volume ?? ""} SSRN ${paper.researchGateUrl ? "ResearchGate" : ""}`}
+              data-paper-search={`${paper.title} ${paper.category} ${paper.description} ${paper.volume ?? ""} author paper ${paper.researchGateUrl ? "ResearchGate" : ""}`}
             >
               <div class="card-meta">
                 <span>{paper.volume ?? "Independent Observer"}</span>
@@ -361,11 +351,6 @@ const volumeTaglines = {
                   {paper.metrics?.abstractViews ?? "—"} views
                 </span>
                 <div class="library-external-links">
-                  {paper.sourceUrl && (
-                    <a href={paper.sourceUrl} target="_blank" rel="noopener noreferrer">
-                      SSRN record ↗
-                    </a>
-                  )}
                   {paper.researchGateUrl && (
                     <a href={paper.researchGateUrl} target="_blank" rel="noopener noreferrer">
                       ResearchGate record ↗
@@ -433,8 +418,7 @@ const volumeTaglines = {
           String(filter.dataset.libraryPaperFilter === selectedVolume),
         ),
       );
-      if (status)
-        status.textContent = `Showing ${visible} of ${cards.length} public SSRN reading copies`;
+      if (status) status.textContent = `Showing ${visible} of ${cards.length} author paper pages`;
       if (empty) empty.hidden = visible !== 0;
       if (persist) updateUrl();
     };

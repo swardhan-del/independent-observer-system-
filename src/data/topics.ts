@@ -1,6 +1,6 @@
 import { documentaryItems, researchItems, videoItems } from "./content";
 import { seriesItems } from "./series";
-import { ssrnPreprintDocuments } from "./ssrn";
+import { paperDocuments } from "./papers";
 import { slugify } from "../lib/slugs";
 import { sitePath } from "../lib/paths";
 
@@ -48,14 +48,14 @@ const allItems = [
     href: sitePath(`/series/${slugify(item.title)}/`),
     type: item.volume,
   })),
-  ...ssrnPreprintDocuments.map((item) => ({
+  ...paperDocuments.map((item) => ({
     id: item.id,
     title: item.title,
     category: item.category,
     description: item.description,
-    status: item.status ?? "SSRN preprint",
+    status: item.status ?? "Author paper",
     href: sitePath(`/library/documents/${item.id}/`),
-    type: "SSRN preprint",
+    type: "Author paper",
     volume: item.volume,
   })),
 ];

@@ -53,15 +53,15 @@ import { slugify } from "../../lib/slugs";
           <h2 id="documentary-volume-research-title">What each volume is building.</h2>
         </div>
         <p>
-          Documentary treatment follows the research spine. The papers below are public SSRN
+          Documentary treatment follows the research spine. The papers below have author-controlled
           preprints matched to the reviewed project map; they remain working material while each
           volume undergoes continuing source, overlap, rights, and author review.
         </p>
       </div>
       <div class="placeholder-notice documentary-metrics-note">
-        SSRN does not provide a reliable star-rating field for these records. “Leading public
-        signals” means retrieved downloads and abstract views used for discovery—not scholarly
-        quality, peer review, or release approval.
+        The archived distribution snapshots do not provide a reliable star-rating field. “Leading
+        public signals” means retrieved downloads and abstract views used for discovery—not
+        scholarly quality, peer review, or release approval.
       </div>
       <ol
         class="documentary-volume-grid"
@@ -101,9 +101,9 @@ import { slugify } from "../../lib/slugs";
                       <p>{paper.category}</p>
                       <div class="documentary-paper-links">
                         <a href={sitePath(`/library/documents/${paper.id}/`)}>Reading copy →</a>
-                        {paper.sourceUrl && (
-                          <a href={paper.sourceUrl} target="_blank" rel="noreferrer">
-                            SSRN ↗
+                        {paper.researchGateUrl && (
+                          <a href={paper.researchGateUrl} target="_blank" rel="noreferrer">
+                            ResearchGate ↗
                           </a>
                         )}
                       </div>
@@ -111,7 +111,7 @@ import { slugify } from "../../lib/slugs";
                   ))
                 ) : (
                   <p class="documentary-volume-empty">
-                    No matched SSRN record is listed for this volume yet. The research roadmap
+                    No matched paper record is listed for this volume yet. The research roadmap
                     remains visible without manufacturing a paper or a documentary release.
                   </p>
                 )}

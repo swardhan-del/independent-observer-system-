@@ -2,13 +2,13 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import { seriesItems } from "../../data/series";
-import { ssrnPreprintDocuments } from "../../data/ssrn";
+import { paperDocuments } from "../../data/papers";
 import { sitePath } from "../../lib/paths";
 import { slugify } from "../../lib/slugs";
 
 const volumeQuestions = seriesItems.map((volume) => ({
   ...volume,
-  paperCount: ssrnPreprintDocuments.filter((paper) => paper.volume === volume.volume).length,
+  paperCount: paperDocuments.filter((paper) => paper.volume === volume.volume).length,
 }));
 ---
 
@@ -60,18 +60,19 @@ const volumeQuestions = seriesItems.map((volume) => ({
           <details>
             <summary>How should I read a public paper?</summary>
             <p>
-              Treat each public reading copy as a working preprint unless the page explicitly says
-              otherwise. Read its abstract, contribution, sources, limits, and status together.
-              Usage counts are discovery signals, not quality ratings, peer review, endorsements, or
-              publication approval.
+              Treat each public paper page as a selected synopsis unless the page explicitly says
+              otherwise. Read its contribution, sources, limits, and status together. Usage counts
+              are discovery signals, not quality ratings, peer review, endorsements, or publication
+              approval.
             </p>
           </details>
           <details>
             <summary>Where are the public papers listed?</summary>
             <p>
-              The <a href={sitePath("/whats-new/")}>public paper index</a> groups the matched SSRN reading
-              copies by volume and links to an internal reading route plus the verified public record.
-              It does not reproduce private drafts or raw source files.
+              The <a href={sitePath("/whats-new/")}>public paper index</a> groups the matched
+              author-paper synopses by volume and links to an internal catalogue route plus an exact
+              ResearchGate record when one is verified. It does not reproduce private drafts or raw
+              source files.
             </p>
           </details>
         </div>
@@ -87,8 +88,8 @@ const volumeQuestions = seriesItems.map((volume) => ({
                 <p>{volume.description}</p>
                 <p>
                   <strong>
-                    {volume.paperCount} public SSRN reading{" "}
-                    {volume.paperCount === 1 ? "copy" : "copies"}
+                    {volume.paperCount} public paper{" "}
+                    {volume.paperCount === 1 ? "synopsis" : "synopses"}
                   </strong>
                   are currently matched to this volume. The count describes the public index, not
                   the full working archive.

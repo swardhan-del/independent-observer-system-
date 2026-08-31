@@ -50,7 +50,7 @@ const aboutVolumeAtlas = readFileSync(
   "utf8",
 );
 const homepage = readFileSync(join(sourceRoot, "pages/index.astro"), "utf8");
-const ssrn = readFileSync(join(sourceRoot, "data/ssrn.ts"), "utf8");
+const papersSource = readFileSync(join(sourceRoot, "data/papers.ts"), "utf8");
 const homepageVolumeGuide = readFileSync(
   join(sourceRoot, "components/HomepageVolumeGuide.astro"),
   "utf8",
@@ -117,7 +117,7 @@ describe("interactive preview tools", () => {
     expect(catalogue).toContain("data-catalogue-status");
     expect(catalogue).toContain("data-catalogue-paper-count");
     expect(catalogue).toContain("Matched public reading copies");
-    expect(catalogue).toContain("paper.sourceUrl");
+    expect(catalogue).toContain("paper.researchGateUrl");
     expect(catalogue).toContain("paper.category");
     expect(catalogue).toContain("replaceState");
   });
@@ -164,9 +164,9 @@ describe("interactive preview tools", () => {
     expect(volumeThreeEvidence).toContain("internal: true");
   });
 
-  it("places Volume I's verified SSRN papers inside its public preview", () => {
+  it("places Volume I's verified author papers inside its public preview", () => {
     expect(seriesDetail).toContain("showVolumePapersInPreview");
-    expect(detail).toContain("Papers already posted on SSRN.");
+    expect(detail).toContain("Author papers with reviewed public records.");
     expect(detail).toContain("Why it matters to Volume I.");
     expect(detail).toContain("Other files marked");
     expect(detail).toContain("volumeReels");
@@ -186,7 +186,7 @@ describe("interactive preview tools", () => {
   it("gives Volume III one source-labeled paper a complete evidence reading", () => {
     expect(seriesDetail).toContain("volumeThreeTaxDoctrineEvidence");
     expect(seriesDetail).toContain("Case study: The Wardhan Tax Doctrine");
-    expect(volumeThreeEvidence).toContain("abstract 5477606");
+    expect(volumeThreeEvidence).toContain("author-controlled paper record");
     expect(volumeThreeEvidence).toContain("Documented fact");
     expect(volumeThreeEvidence).toContain("Interpretation");
     expect(volumeThreeEvidence).toContain("Hypothesis");
@@ -223,15 +223,19 @@ describe("interactive preview tools", () => {
   });
 
   it("connects public document readers to their actual volume and same-volume copies", () => {
-    expect(reader).toContain("ssrnPreprintDocuments");
+    expect(reader).toContain("paperDocuments");
     expect(reader).toContain('section.id === "publication-boundary"');
     expect(reader).toContain("<ReaderVolumeContext");
-    expect(readerVolumeContext).toContain("Public reading copies in this volume");
-    expect(readerVolumeContext).toContain("a preprint is not the same as a released book");
+    expect(readerVolumeContext).toContain("Author paper synopses in this volume");
+    expect(readerVolumeContext).toContain("a selected synopsis is not the complete manuscript");
     expect(readerVolumeContext).toContain("Current document");
     expect(readerVolumeContext).toContain("human approval gates");
-    expect(ssrn).toContain("public reading copy connected to the Independent Observer program");
-    expect(ssrn).not.toContain("curated public reading copy assembled from the matching Dropbox");
+    expect(papersSource).toContain(
+      "author-paper catalogue entry connected to the Independent Observer program",
+    );
+    expect(papersSource).not.toContain(
+      "curated public reading copy assembled from the matching Dropbox",
+    );
   });
 
   it("keeps the research desk distinct while mapping essays across all four volumes", () => {
@@ -247,11 +251,11 @@ describe("interactive preview tools", () => {
   });
 
   it("connects the homepage volume guide to every public paper without implying release", () => {
-    expect(homepageVolumeGuide).toContain("ssrnPreprintDocuments");
+    expect(homepageVolumeGuide).toContain("paperDocuments");
     expect(homepageVolumeGuide).toContain("papersByVolume");
     expect(homepageVolumeGuide).toContain("public ");
     expect(homepageVolumeGuide).toContain("in this volume");
-    expect(homepageVolumeGuide).toContain("SSRN usage signal only");
+    expect(homepageVolumeGuide).toMatch(/Archived distribution signal\s+only/);
     expect(homepageVolumeGuide).toContain("until its own release");
     expect(homepageVolumeGuide).toContain("gate is complete");
     expect(homepageVolumeGuide).toContain("/library/documents/${paper.id}/");
@@ -285,7 +289,7 @@ describe("interactive preview tools", () => {
     ]);
     expect(volumeThreeResearchRecords[0]).toMatchObject({
       status: "Public reading copy",
-      publicDocumentId: "wardhan-tax-doctrine-ssrn",
+      publicDocumentId: "wardhan-tax-doctrine",
     });
     expect(
       volumeThreeResearchRecords.filter((record) => record.status === "Working-paper direction"),
@@ -312,10 +316,12 @@ describe("interactive preview tools", () => {
     expect(bookRoadmap).toContain("The social-citizenship book");
     expect(bookRoadmap).toContain("There are no Amazon listings");
     expect(documentaries).toContain("Leading public signals in this volume");
-    expect(documentaries).toContain("SSRN does not provide a reliable star-rating field");
+    expect(documentaries).toContain(
+      "archived distribution snapshots do not provide a reliable star-rating field",
+    );
     expect(documentaries).toContain("Research state:");
     expect(documentaries).toContain("Reading copy →");
-    expect(documentaries).toContain("SSRN ↗");
+    expect(documentaries).toContain("ResearchGate ↗");
   });
 
   it("presents the series as an official catalogue without collapsing editorial status", () => {
@@ -338,8 +344,8 @@ describe("interactive preview tools", () => {
     expect(catalogue).toContain("Connected public work");
     expect(catalogue.replace(/\s+/g, " ")).toContain("usage signal only");
     expect(catalogue).toContain("human approval gates");
-    expect(catalogue).toContain("Public-safe SSRN records connected to");
-    expect(catalogue).toContain("SSRN record ↗");
+    expect(catalogue).toContain("Author-controlled paper pages connected to");
+    expect(catalogue).toContain("ResearchGate record ↗");
     expect(catalogue).toContain("Find a volume and its line of inquiry.");
     expect(catalogue).not.toContain("Published papers");
   });
@@ -353,7 +359,7 @@ describe("interactive preview tools", () => {
     expect(readingList).toContain("data-reading-export");
     expect(readingList).toContain("io:reading-list-updated");
     expect(readingList).toContain("Recommended public previews");
-    expect(readingList).toContain("Highest-download matched SSRN preprints");
+    expect(readingList).toContain("Highest-download author paper pages");
     expect(readingList).toContain("Books and volumes in development");
     expect(readingList).toContain("data-reading-save-all");
     expect(readingList).toContain("researchGateUrl");
@@ -438,12 +444,12 @@ describe("interactive preview tools", () => {
     expect(reader).toContain("data-reader-progress");
     expect(reader).toContain("data-copy-section-link");
     expect(reader).toContain('className="document-reader-hero"');
-    expect(ssrn).toContain("Volume I is the method anchor for the Independent Observer");
-    expect(ssrn).toContain(
-      "one of three Volume I papers currently represented by matched public SSRN records",
+    expect(papersSource).toContain("Volume I is the method anchor for the Independent Observer");
+    expect(papersSource).toContain(
+      "one of three Volume I papers currently represented by matched archived distribution snapshots",
     );
-    expect(ssrn).toContain("began within the past year");
-    expect(ssrn).toContain("open to discussion, empirical testing, and revision");
+    expect(papersSource).toContain("began within the past year");
+    expect(papersSource).toContain("open to discussion, empirical testing, and revision");
     expect(reader).not.toContain('class="reader-notice"');
     expect(reader).toContain("reader-limitations");
     expect(reader).toContain("data-reader-download-citation");
@@ -453,10 +459,11 @@ describe("interactive preview tools", () => {
     expect(evidence).toContain("data-evidence-source");
   });
 
-  it("exposes SSRN provenance and usage signals without inventing ratings", () => {
-    expect(reader).toContain("Open SSRN record");
-    expect(reader).toContain("SSRN signal");
-    expect(researchCatalogue).toContain("SSRN reading copies");
+  it("exposes author-source provenance and archived usage signals without inventing ratings", () => {
+    expect(reader).toContain("Open verified ResearchGate record");
+    expect(reader).toContain("Archived distribution");
+    expect(reader).toContain("Source fingerprint (SHA-256)");
+    expect(researchCatalogue).toContain("author paper pages");
     expect(researchCatalogue).toContain("descriptive discovery signals, not ratings");
     expect(readFileSync(join(sourceRoot, "pages/series/[slug].astro"), "utf8")).toContain(
       "featuredDocuments",
@@ -468,7 +475,7 @@ describe("interactive preview tools", () => {
     expect(detail).toContain("volumeRecord");
   });
 
-  it("indexes all four volumes, their public SSRN copies, and research concepts together", () => {
+  it("indexes all four volumes, their author paper pages, and research concepts together", () => {
     expect(researchCatalogue).toContain("data-research-catalogue");
     expect(researchCatalogue).toContain('data-research-filter="volume"');
     expect(researchCatalogue).toContain("URLSearchParams");
@@ -481,14 +488,14 @@ describe("interactive preview tools", () => {
       researchCatalogueRecords.filter((record) => record.kind === "Volume record"),
     ).toHaveLength(4);
     expect(
-      researchCatalogueRecords.filter((record) => record.kind === "SSRN preprint"),
+      researchCatalogueRecords.filter((record) => record.kind === "Author paper"),
     ).toHaveLength(21);
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "Research concept"),
     ).toHaveLength(3);
     expect(
       researchCatalogueRecords
-        .filter((record) => record.kind === "SSRN preprint")
+        .filter((record) => record.kind === "Author paper")
         .map((record) => record.title),
     ).toEqual(
       expect.arrayContaining([
@@ -504,7 +511,7 @@ describe("interactive preview tools", () => {
     );
     expect(
       researchCatalogueRecords
-        .filter((record) => record.kind === "SSRN preprint")
+        .filter((record) => record.kind === "Author paper")
         .every((record) => record.publicationDate),
     ).toBe(true);
     expect(
@@ -516,12 +523,12 @@ describe("interactive preview tools", () => {
     expect(
       new Set(
         researchCatalogueRecords
-          .filter((record) => record.kind === "SSRN preprint")
+          .filter((record) => record.kind === "Author paper")
           .map((record) => record.volume),
       ),
     ).toEqual(new Set(["Volume I", "Volume II", "Volume III", "Volume IV"]));
     expect(
-      researchCatalogueRecords.filter((record) => record.kind === "SSRN preprint")[0]?.title,
+      researchCatalogueRecords.filter((record) => record.kind === "Author paper")[0]?.title,
     ).toContain("Who Deported More");
   });
 
@@ -633,11 +640,11 @@ describe("interactive preview tools", () => {
     expect(homepage).toContain("<VolumeVisualStrip compact />");
     expect(volumeVisualStrip).toContain("volume-visual-strip");
     expect(homepage).toContain("<HomepageVolumeGuide />");
-    expect(homepage).toContain("ssrnPreprintDocuments");
-    expect(homepage).toContain("The public Volume I SSRN record reports");
+    expect(homepage).toContain("paperDocuments");
+    expect(homepage).toContain("The public Volume I paper record reports");
     expect(homepage).toContain("source: volumeOneSource");
     expect(homepage.replace(/\s+/g, " ")).toMatch(
-      /research published through SSRN, ResearchGate, and Zenodo/i,
+      /research published through ResearchGate, Zenodo, or another verified public record/i,
     );
     expect(homepage.replace(/\s+/g, " ")).toMatch(
       /new research, revisions, and evidence continue to develop here/i,
@@ -646,7 +653,7 @@ describe("interactive preview tools", () => {
     expect(homepage).toContain("Four volumes. One observing method.");
     expect(homepage).toContain("hero-volume-nav");
     expect(homepage).toContain("heroVolumeLinks.map");
-    expect(homepage).toContain("Highest retrieved SSRN usage signal");
+    expect(homepage).toContain("Highest retrieved Archived distribution signal");
     expect(homepage.replace(/\s+/g, " ")).toContain("usage signal—not a quality rating");
     expect(homepageVolumeGuide).toContain("Volume I establishes the method of observation");
     expect(homepageVolumeGuide).toContain("homepage-volume-sequence");

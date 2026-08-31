@@ -1,4 +1,124 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": true,
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    {
+      "source": "/security.txt",
+      "destination": "/.well-known/security.txt",
+      "permanent": true
+    },
+    {
+      "source": "/start-here/",
+      "destination": "/start/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/who-deported-more-ssrn/",
+      "destination": "/library/documents/who-deported-more/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/latino-irony-ssrn/",
+      "destination": "/library/documents/latino-irony/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/disconnected-hearts-ssrn/",
+      "destination": "/library/documents/disconnected-hearts/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/wardhan-tax-doctrine-ssrn/",
+      "destination": "/library/documents/wardhan-tax-doctrine/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/double-tax-on-time-ssrn/",
+      "destination": "/library/documents/double-tax-on-time/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/from-colonization-to-chinas-rise-ssrn/",
+      "destination": "/library/documents/from-colonization-to-chinas-rise/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/independent-observer-volume-one-ssrn/",
+      "destination": "/library/documents/independent-observer-volume-one/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/a-systems-centered-manifesto-ssrn/",
+      "destination": "/library/documents/a-systems-centered-manifesto/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/the-illusion-of-equality-ssrn/",
+      "destination": "/library/documents/the-illusion-of-equality/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/citizens-without-a-country-ssrn/",
+      "destination": "/library/documents/citizens-without-a-country/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/empire-of-distraction-ssrn/",
+      "destination": "/library/documents/empire-of-distraction/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/geography-of-enslaved-wealth-ssrn/",
+      "destination": "/library/documents/geography-of-enslaved-wealth/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/two-masks-one-face-ssrn/",
+      "destination": "/library/documents/two-masks-one-face/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/the-american-empire-was-never-a-democracy-ssrn/",
+      "destination": "/library/documents/the-american-empire-was-never-a-democracy/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/when-the-storm-decides-ssrn/",
+      "destination": "/library/documents/when-the-storm-decides/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/managed-interdependence-ssrn/",
+      "destination": "/library/documents/managed-interdependence/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/from-vietnam-to-terry-ohio-ssrn/",
+      "destination": "/library/documents/from-vietnam-to-terry-ohio/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/children-left-behind-after-a-war-ssrn/",
+      "destination": "/library/documents/children-left-behind-after-a-war/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/lottery-of-luck-ssrn/",
+      "destination": "/library/documents/lottery-of-luck/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/entanglement-primer-ssrn/",
+      "destination": "/library/documents/entanglement-primer/",
+      "permanent": true
+    },
+    {
+      "source": "/library/documents/entanglement-foundations-ssrn/",
+      "destination": "/library/documents/entanglement-foundations/",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

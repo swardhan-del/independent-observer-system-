@@ -8,7 +8,7 @@
 export const volumeOneEvidence = [
   {
     category: "Documented fact",
-    text: "The public Volume I reading copy describes the Foundational Manifesto as a systems-level method paper joining law, labor, media, evidence, institutional constraints, and democratic capacity. It separates factual records, interpretation, policy design, and unresolved questions. Its last directly verified SSRN usage signal was 23 downloads and 113 abstract views on 25 August 2026; these are usage counts, not quality ratings.",
+    text: "The public Volume I reading copy describes the Foundational Manifesto as a systems-level method paper joining law, labor, media, evidence, institutional constraints, and democratic capacity. It separates factual records, interpretation, policy design, and unresolved questions. Its last directly verified Archived distribution signal was 23 downloads and 113 abstract views on 25 August 2026; these are usage counts, not quality ratings.",
   },
   {
     category: "Interpretation",
@@ -40,7 +40,7 @@ export const volumeOneClaimMap = {
   claim:
     "A public claim becomes more correctable when its evidence, definitions, interpretation, and limits remain visible.",
   evidence:
-    "The Foundational Manifesto makes evidence, information asymmetry, institutional design, public reasoning, and democratic capacity its method vocabulary. The public record links to the SSRN entry; the last direct usage check recorded 23 downloads and 113 abstract views on 25 August 2026, which are usage counts rather than proof.",
+    "The Foundational Manifesto makes evidence, information asymmetry, institutional design, public reasoning, and democratic capacity its method vocabulary. The author paper page links to the verified ResearchGate record; an archived snapshot recorded 23 downloads and 113 abstract views on 25 August 2026, which are usage counts rather than proof.",
   mechanism:
     "Separating record from interpretation lets readers inspect what was observed, what was inferred, and what is missing; preserving contradiction and uncertainty creates a route for challenge before a conclusion hardens into institutional or media shorthand.",
   counterargument:

@@ -12,6 +12,14 @@ type Props = {
   currentPath?: string;
   noindex?: boolean;
   canonicalPath?: string;
+  articleMetadata?: {
+    author: string;
+    publicationDate?: string;
+    status?: string;
+    sameAs?: string;
+    fingerprintSha256?: string;
+    rightsNotice?: string;
+  };
 };
 
 const {
@@ -20,6 +28,7 @@ const {
   currentPath = "/",
   noindex = false,
   canonicalPath = currentPath,
+  articleMetadata,
 } = Astro.props;
 const fallbackBuild = import.meta.env.PUBLIC_FALLBACK_BUILD === "true";
 const previewBuild = import.meta.env.VERCEL_ENV === "preview";
@@ -47,6 +56,13 @@ const breadcrumbItems =
           item: canonicalUrl,
         },
       ];
+const parsedPublicationDate = articleMetadata?.publicationDate
+  ? new Date(articleMetadata.publicationDate)
+  : undefined;
+const publicationDateIso =
+  parsedPublicationDate && !Number.isNaN(parsedPublicationDate.getTime())
+    ? parsedPublicationDate.toISOString().slice(0, 10)
+    : undefined;
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
@@ -89,6 +105,33 @@ const structuredData = JSON.stringify({
           },
         ]
       : []),
+    ...(articleMetadata
+      ? [
+          {
+            "@type": "ScholarlyArticle",
+            "@id": `${canonicalUrl}#article`,
+            url: canonicalUrl,
+            headline: title,
+            description,
+            author: {
+              "@type": "Person",
+              name: articleMetadata.author,
+            },
+            publisher: { "@id": `${websiteUrl}#organization` },
+            inLanguage: "en",
+            isAccessibleForFree: true,
+            ...(publicationDateIso ? { datePublished: publicationDateIso } : {}),
+            ...(articleMetadata.status ? { creativeWorkStatus: articleMetadata.status } : {}),
+            ...(articleMetadata.sameAs ? { sameAs: articleMetadata.sameAs } : {}),
+            ...(articleMetadata.fingerprintSha256
+              ? { identifier: `urn:sha256:${articleMetadata.fingerprintSha256}` }
+              : {}),
+            ...(articleMetadata.rightsNotice
+              ? { copyrightNotice: articleMetadata.rightsNotice }
+              : {}),
+          },
+        ]
+      : []),
   ],
 }).replace(/</g, "\\u003c");
 ---
@@ -105,6 +148,9 @@ const structuredData = JSON.stringify({
       content="independent media, political economy, institutional power, documentary research, long-form journalism, history, science, technology, law, accountability, public reason"
     />
     <meta name="author" content="Independent Observer" />
+    {articleMetadata && <meta name="citation_title" content={title} />}
+    {articleMetadata && <meta name="citation_author" content={articleMetadata.author} />}
+    {publicationDateIso && <meta name="citation_publication_date" content={publicationDateIso} />}
     <meta name="theme-color" content="#07182d" />
     {shouldNoindex && <meta name="robots" content="noindex,follow" />}
     <link rel="canonical" href={canonicalUrl} />

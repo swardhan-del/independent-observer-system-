@@ -1,12 +1,12 @@
 import { researchItems, topics } from "../data/content";
 import { seriesItems } from "../data/series";
-import { ssrnPreprintDocuments } from "../data/ssrn";
+import { paperDocuments } from "../data/papers";
 import { volumeResearchMap } from "../data/volume-research";
 import { sitePath } from "./paths";
 import { slugify } from "./slugs";
 import type { SearchEntry } from "./search";
 
-export type ResearchCatalogueKind = "Volume record" | "SSRN preprint" | "Research concept";
+export type ResearchCatalogueKind = "Volume record" | "Author paper" | "Research concept";
 
 export type ResearchCatalogueRecord = SearchEntry & {
   kind: ResearchCatalogueKind;
@@ -17,7 +17,6 @@ export type ResearchCatalogueRecord = SearchEntry & {
     abstractViews?: number;
     checkedAt: string;
   };
-  sourceUrl?: string;
   researchGateUrl?: string;
   paperCount?: number;
 };
@@ -62,20 +61,20 @@ const volumeRecords: ResearchCatalogueRecord[] = volumeResearchMap.map((volume) 
   paperCount: volume.papers.length,
 }));
 
-const paperRecords: ResearchCatalogueRecord[] = [...ssrnPreprintDocuments]
+const paperRecords: ResearchCatalogueRecord[] = [...paperDocuments]
   .sort((left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1))
   .map((paper) => ({
     id: `paper:${paper.id}`,
     title: paper.title,
     category: paper.category,
     description: paper.description,
-    status: paper.status ?? "SSRN preprint",
+    status: paper.status ?? "Author paper",
     type: "Research",
-    format: "Public SSRN reading copy",
+    format: "Author-controlled paper synopsis",
     href: sitePath(`/library/documents/${paper.id}/`),
     topics: topicsForRecord(paper.category, paper.volume),
     volume: paper.volume,
-    kind: "SSRN preprint",
+    kind: "Author paper",
     publicationDate: paper.publicationDate,
     dateLabel: paper.dateLabel,
     metrics: {
@@ -83,7 +82,6 @@ const paperRecords: ResearchCatalogueRecord[] = [...ssrnPreprintDocuments]
       abstractViews: paper.metrics?.abstractViews,
       checkedAt: paper.metrics?.checkedAt ?? "not recorded",
     },
-    sourceUrl: paper.sourceUrl,
     researchGateUrl: paper.researchGateUrl,
   }));
 
@@ -103,7 +101,7 @@ const conceptRecords: ResearchCatalogueRecord[] = researchItems.map((item) => ({
 
 /**
  * One public-safe research index. Volume records lead the default view, while
- * SSRN reading copies are sorted by retrieved usage signal for discovery only.
+ * author paper pages are sorted by retrieved usage signal for discovery only.
  */
 export const researchCatalogueRecords: ResearchCatalogueRecord[] = [
   ...volumeRecords,
@@ -113,7 +111,7 @@ export const researchCatalogueRecords: ResearchCatalogueRecord[] = [
 
 export const researchCatalogueKinds: ResearchCatalogueKind[] = [
   "Volume record",
-  "SSRN preprint",
+  "Author paper",
   "Research concept",
 ];
 

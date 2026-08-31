@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { publicDocumentItems } from "../data/documents";
 import { seriesItems } from "../data/series";
-import { ssrnPreprintDocuments } from "../data/ssrn";
+import { paperDocuments } from "../data/papers";
 import { volumeReels } from "../data/video-reels";
 import { slugify } from "../lib/slugs";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
@@ -221,39 +221,39 @@ describe("built website", () => {
     expect(html).not.toContain("Independent Observer desktop");
   });
 
-  it("renders every public SSRN paper in its volume research index", () => {
+  it("renders every author paper synopsis in its volume research index", () => {
     const html = readOutput("whats-new/index.html");
 
     expect(html).toContain("Understand each volume through its public paper trail.");
-    expect(html).toContain(`${ssrnPreprintDocuments.length} public SSRN reading copies`);
-    expect(html.match(/class="release-volume-paper"/g)).toHaveLength(ssrnPreprintDocuments.length);
+    expect(html).toContain(`${paperDocuments.length} public author-paper synopses`);
+    expect(html.match(/class="release-volume-paper"/g)).toHaveLength(paperDocuments.length);
 
     for (const volume of seriesItems) {
-      const papers = ssrnPreprintDocuments.filter((paper) => paper.volume === volume.volume);
+      const papers = paperDocuments.filter((paper) => paper.volume === volume.volume);
 
       expect(html).toContain(`id="release-${slugify(volume.volume)}"`);
-      expect(html).toContain(`${papers.length} public SSRN reading cop`);
+      expect(html).toContain(`${papers.length} public paper synop`);
       expect(html).toContain(volume.title);
 
       for (const paper of papers) {
         expect(html).toContain(`id="release-paper-${paper.id}"`);
         expect(html).toContain(`href="/library/documents/${paper.id}/"`);
-        expect(html).toContain(paper.sourceUrl ?? "");
+        if (paper.researchGateUrl) expect(html).toContain(paper.researchGateUrl);
       }
     }
 
     expect(html).not.toMatch(/dropbox|CloudStorage|Library\/CloudStorage|Users\//i);
-    expect(html).toContain("preprint for an approved release");
+    expect(html).toContain("working paper for an approved release");
   });
 
   it("makes the reviewed public literature visible on the homepage", () => {
     expect(homeHtml).toContain(
       "The literature behind critical thinking, reasoning, and documentation.",
     );
-    expect(homeHtml).toContain("21 public SSRN reading copies");
+    expect(homeHtml).toContain("21 public author paper pages");
     expect(homeHtml).toContain("Who Deported More?");
     expect(homeHtml).toContain("The Double Tax on Time");
-    expect(homeHtml).toContain("SSRN preprint");
+    expect(homeHtml).toContain("Author paper");
     expect(homeHtml).not.toContain("/Independent Observer desktop/");
   });
 
@@ -261,7 +261,7 @@ describe("built website", () => {
     const html = readOutput("research/index.html");
 
     expect(html).toContain("<strong>21</strong>");
-    expect(html).toContain("matched SSRN records");
+    expect(html).toContain("matched paper records");
     expect(html).toContain("Newer public records, ready to follow.");
     expect(html).toContain("Citizens Without a Country");
     expect(html).toContain("Entanglement, No-Signalling");
@@ -269,16 +269,16 @@ describe("built website", () => {
     expect(html).not.toMatch(/\.docx|\.pdf/i);
   });
 
-  it("places the verified Volume I SSRN papers in the public preview", () => {
+  it("places the verified Volume I author papers in the public preview", () => {
     const html = readOutput("series/independent-observer/index.html");
 
     expect(html).toContain("How to read Volume I");
     expect(html).toContain("Capital Amplification and the Myth of Equal Opportunity");
     expect(html).toContain("From Plato to Chomsky: Democracy, Mass Manipulation");
-    expect(html).toContain("Three Volume I papers currently have matched public SSRN records");
+    expect(html).toContain("Three Volume I papers currently have matched public paper records");
     expect(html).toContain("36 downloads and 137 abstract views");
     expect(html).toContain("not quality scores, citations, endorsements, or peer review");
-    expect(html).toContain("Papers already posted on SSRN.");
+    expect(html).toContain("Author papers with reviewed public records.");
     expect(html).toContain("A Systems-Centered Manifesto on Automation");
     expect(html).toContain("The Illusion of Equality");
     expect(html).toContain("Why it matters to Volume I.");
@@ -305,7 +305,7 @@ describe("built website", () => {
     expect(html).toContain("The Security of Memory: State Funerals, Political Legacies");
     expect(html).toContain("The Silent Archivist: Lawful Documentation and Deferred Disclosure");
     expect(html).toContain("V-Dem, Worldwide Governance Indicators, aid, and administrative data");
-    expect(html).toContain("not public SSRN reading copies or publication approvals");
+    expect(html).toContain("not public author paper pages or publication approvals");
   });
 
   it("renders the History hub's research-grounded overview", () => {
@@ -596,7 +596,7 @@ describe("built website", () => {
     expect(html).toContain(
       "Citizens Without a Country: The Democratic Legitimacy Crisis of Non-Resident Birthright Voting in U.S. Federal Elections",
     );
-    expect(html).toContain("Public SSRN record");
+    expect(html).toContain("Public paper record");
     expect(html).toContain("Mapped research direction");
     expect(html).toContain("public editorial synthesis");
   });
@@ -626,7 +626,7 @@ describe("built website", () => {
     );
     expect(html).toContain("The Perception Proxy: From Factory Collapse to Podcast Rage");
     expect(html).toContain("Provides a central Volume III bridge");
-    expect(html).toContain("not public SSRN reading copies or publication approvals");
+    expect(html).toContain("not public author paper pages or publication approvals");
   });
 
   it("renders Volume IV's interdisciplinary research map in the public library", () => {
@@ -643,7 +643,7 @@ describe("built website", () => {
     expect(html).toContain("ADHD in a Cage");
     expect(html).toContain("The Last Human Workforce: Automation, AI");
     expect(html).toContain("Neuroprosthetics and embodied capability");
-    expect(html).toContain("not public SSRN reading copies or publication approvals");
+    expect(html).toContain("not public author paper pages or publication approvals");
   });
 
   it("keeps internal archive-provider and chatbot language out of public pages", () => {
@@ -697,8 +697,8 @@ describe("built website", () => {
     expect(security).not.toMatch(/@/);
   });
 
-  it("shows a document's actual volume and public reading-copy stack", () => {
-    const html = readOutput("library/documents/wardhan-tax-doctrine-ssrn/index.html");
+  it("shows a document's actual volume and author-paper synopsis stack", () => {
+    const html = readOutput("library/documents/wardhan-tax-doctrine/index.html");
 
     expect(html).toContain("Volume III publication context");
     expect(html).toContain("Volume III · Managed Decline");
@@ -706,7 +706,7 @@ describe("built website", () => {
     expect(html).toContain(
       "Volume III’s inquiry into labor markets, welfare, taxation, and administrative access",
     );
-    expect(html).toContain("Public reading copies in this volume");
+    expect(html).toContain("Author paper synopses in this volume");
     expect(html).toContain("The Wardhan Tax Doctrine");
     expect(html).toContain(
       "The Wardhan Tax Doctrine asks whether the tax system can recognize time spent acquiring skills",
