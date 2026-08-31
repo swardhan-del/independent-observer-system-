@@ -537,6 +537,21 @@ describe("built website", () => {
     expect(startHtml).toContain("observe · connect · correct");
   });
 
+  it("gives the Volume IV catalogue file an accessible capability illustration", () => {
+    const html = readOutput("series/the-last-human-workforce/index.html");
+
+    expect(
+      existsSync(join(distRoot, "volume-illustrations/volume-iv-human-capability-workforce.jpg")),
+    ).toBe(true);
+    expect(html).toContain("detail-volume-visual");
+    expect(html).toContain("volume-iv-human-capability-workforce.jpg");
+    expect(html).toContain(
+      "Editorial illustration of a human worker connected to computing, energy, scientific research, care, learning, and civic infrastructure.",
+    );
+    expect(html).toContain("capability is a stack, not a substitution");
+    expect(html).toContain("technology becomes usable human capability");
+  });
+
   it("renders Volume II's four research families and four principles in Public Preview", () => {
     const html = readOutput("series/the-empire-beneath-democracy/index.html");
 

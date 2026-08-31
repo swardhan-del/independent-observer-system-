@@ -134,6 +134,28 @@ const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
       {item.detailLead && <p class="detail-lead">{item.detailLead}</p>}
       <p>{statusNote}</p>
       {
+        item.volume === "Volume IV" && (
+          <figure class="detail-volume-visual">
+            <img
+              src={sitePath("/volume-illustrations/volume-iv-human-capability-workforce.jpg")}
+              alt="Editorial illustration of a human worker connected to computing, energy, scientific research, care, learning, and civic infrastructure."
+              width="1536"
+              height="1024"
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption>
+              <strong>Visual companion · capability is a stack, not a substitution.</strong>
+              <span>
+                A conceptual map of Volume IV’s question: technology becomes usable human capability
+                only when compute, energy, laboratories, care, education, and civic institutions
+                connect around people rather than replacing their agency.
+              </span>
+            </figcaption>
+          </figure>
+        )
+      }
+      {
         volumeFramework && (
           <section class="detail-volume-framework" aria-labelledby="detail-volume-framework-title">
             <p class="eyebrow">Volume II public reading frame</p>

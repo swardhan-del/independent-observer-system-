@@ -6325,6 +6325,37 @@ kbd {
   line-height: 1.28;
 }
 
+.detail-volume-visual {
+  margin: 34px 0 36px;
+  border: 1px solid var(--slate-300);
+  background: var(--paper-warm);
+}
+
+.detail-volume-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.detail-volume-visual figcaption {
+  display: grid;
+  gap: 8px;
+  padding: 15px 18px 17px;
+  border-top: 1px solid var(--slate-300);
+  color: var(--slate-700);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.detail-volume-visual figcaption strong {
+  color: var(--navy-900);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .detail-volume-connection {
   margin: 34px 0 0;
   padding: 24px;
