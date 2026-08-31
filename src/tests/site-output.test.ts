@@ -23,6 +23,7 @@ const routes = [
   { route: "/videos/", file: "videos/index.html" },
   { route: "/about/", file: "about/index.html" },
   { route: "/contact/", file: "contact/index.html" },
+  { route: "/questions/", file: "questions/index.html" },
   { route: "/start/", file: "start/index.html" },
   { route: "/start-here/", file: "start-here/index.html" },
   { route: "/publication-operating-system/", file: "publication-operating-system/index.html" },
@@ -524,6 +525,20 @@ describe("built website", () => {
     expect(html).not.toContain("Prepare email draft");
     expect(html).not.toContain("opens a draft in your mail application");
     expect(html).not.toContain("Contact is not open yet.");
+  });
+
+  it("renders a first-class public Questions & Answers guide", () => {
+    const html = readOutput("questions/index.html");
+
+    expect(html).toContain("Understand the inquiry.");
+    expect(html).toContain("The project in plain language.");
+    expect(html).toContain("What each volume contributes.");
+    expect(html).toContain("What remains separate.");
+    expect(html).toContain("public paper index");
+    expect(html).toContain("upcoming book projects");
+    expect(html).toContain("no public comment board at this time");
+    expect(html).toContain("Ask the research desk");
+    expect(html).not.toMatch(/dropbox|CloudStorage|Library\/CloudStorage|Users\//i);
   });
 
   it("renders the series and start visual entry points", () => {

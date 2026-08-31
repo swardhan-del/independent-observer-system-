@@ -19,6 +19,7 @@ const publicRoutes = [
   "/videos/",
   "/about/",
   "/contact/",
+  "/questions/",
   "/start/",
   "/publication-operating-system/",
   "/topics/",
