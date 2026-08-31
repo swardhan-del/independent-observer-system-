@@ -97,6 +97,8 @@ describe("interactive preview tools", () => {
     expect(search).toContain("ArrowDown");
     expect(search).toContain("data-search-filter");
     expect(search).toContain("highlightTokens");
+    expect(search).toContain("volumeReels.map");
+    expect(search).toContain("playable preview reel");
   });
 
   it("ships accessible client-side filters for editorial previews", () => {
@@ -648,7 +650,7 @@ describe("interactive preview tools", () => {
     expect(videos).toContain("no responses, findings, or audience data are published here");
     expect(videos).toContain('id="independent-observer-survey"');
     expect(videos).toContain("Concept preview");
-    expect(videos).toContain("One reel for each volume.");
+    expect(videos).toContain("A reel library for every volume.");
     expect(videos).toContain("Follow the questions between volumes.");
     expect(videos).toContain("video-preview-grid");
     expect(videos).toContain("transcripts, rights checks, citations, and final release dates");

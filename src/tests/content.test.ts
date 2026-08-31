@@ -261,14 +261,16 @@ describe("editorial preview data", () => {
     );
   });
 
-  it("provides one public-safe preview reel for every volume", () => {
-    expect(volumeReels).toHaveLength(4);
-    expect(volumeReels.map((reel) => reel.volume)).toEqual([
-      "Volume I",
-      "Volume II",
-      "Volume III",
-      "Volume IV",
-    ]);
+  it("provides a public-safe preview reel library for every volume", () => {
+    expect(volumeReels).toHaveLength(12);
+    expect(new Set(volumeReels.map((reel) => reel.mediaUrl)).size).toBe(volumeReels.length);
+    expect(new Set(volumeReels.map((reel) => reel.volume))).toEqual(
+      new Set(["Volume I", "Volume II", "Volume III", "Volume IV"]),
+    );
+    expect(volumeReels.filter((reel) => reel.volume === "Volume I")).toHaveLength(3);
+    expect(volumeReels.filter((reel) => reel.volume === "Volume II")).toHaveLength(4);
+    expect(volumeReels.filter((reel) => reel.volume === "Volume III")).toHaveLength(3);
+    expect(volumeReels.filter((reel) => reel.volume === "Volume IV")).toHaveLength(2);
     expect(volumeReels.every((reel) => reel.mediaType === "video/mp4")).toBe(true);
     expect(volumeReels.every((reel) => reel.sourceNote.includes("Preview asset"))).toBe(true);
     expect(volumeReels.every((reel) => reel.description.length > 100)).toBe(true);

@@ -8,12 +8,13 @@ type Props = {
 };
 
 const { items } = Astro.props as Props;
+const reelAnchor = (item: VolumeReel) => `volume-reel-${slugify(`${item.volume}-${item.title}`)}`;
 ---
 
 <div class="volume-reel-grid">
   {
     items.map((item, index) => (
-      <article class="volume-reel-card" id={`volume-reel-${slugify(item.volume)}`}>
+      <article class="volume-reel-card" id={reelAnchor(item)}>
         <div class="volume-reel-card__meta">
           <div class="card-meta">
             <span>

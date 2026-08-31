@@ -3,6 +3,7 @@ import { documentaryItems, researchItems, topics, videoItems } from "../data/con
 import { dropboxFeedItems } from "../data/dropbox-content.generated";
 import { publicDocumentItems } from "../data/documents";
 import { seriesItems } from "../data/series";
+import { volumeReels } from "../data/video-reels";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
 import { topicPluginFor } from "../../plugins/topic-discovery/catalog";
 import { sitePath } from "../lib/paths";
@@ -72,6 +73,18 @@ const searchItems: SearchEntry[] = [
     topics: topicsForCategory(item.category),
     format: "video",
     href: sitePath(`/videos/${slugify(item.title)}/`),
+  })),
+  ...volumeReels.map((item) => ({
+    id: `video-reel:${item.title}`,
+    title: item.title,
+    category: item.category,
+    description: item.description,
+    status: item.sourceNote,
+    type: "Video" as const,
+    topics: topicsForCategory(item.category),
+    volume: item.volume,
+    format: "playable preview reel",
+    href: sitePath(`/videos/#volume-reel-${slugify(`${item.volume}-${item.title}`)}`),
   })),
   ...seriesItems.map((item) => ({
     id: `series:${item.title}`,
