@@ -1,0 +1,75 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import TopicVolumeMap from "../../components/TopicVolumeMap.astro";
+import VolumeVisualStrip from "../../components/VolumeVisualStrip.astro";
+import { sitePath } from "../../lib/paths";
+---
+
+<BaseLayout
+  title="Start here"
+  description="A guided path through the Independent Observer public archive, method, previews, and topic hubs."
+  currentPath="/start/"
+>
+  <PageHero
+    eyebrow="Independent Observer volumes"
+    title="Explore the four volumes in development."
+    description="Independent Observer is a four-volume research project by Siddhartha Harsh Wardhan. Start with the method, then follow each volume's core question, public SSRN reading copies, topic lenses, and current development status. The site indexes public-safe work; it does not mirror the private working archive."
+  />
+  <section class="section section-white start-visual-section" aria-labelledby="start-visual-title">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">A visual way in</p>
+          <h2 id="start-visual-title">See how the four volumes connect.</h2>
+        </div>
+        <p>
+          Begin with the same question at four scales: how a record becomes visible, how power
+          organizes it, who carries the cost, and what human capability can govern next.
+        </p>
+      </div>
+      <VolumeVisualStrip compact />
+    </div>
+  </section>
+  <TopicVolumeMap />
+  <section class="section section-white">
+    <div class="shell start-grid">
+      <a class="start-card" href={sitePath("/topics/#topic-pathway-method")}
+        ><span>01</span><h2>Understand Volume I’s method</h2><p>
+          Study observation as a practice: how time, resources, distance, and economic position can
+          create room to watch before reacting—and how those advantages shape what gets seen.
+        </p><strong>Open the Volume I method plugin →</strong></a
+      >
+      <a class="start-card" href={sitePath("/topics/#topic-pathway-ai-labor")}
+        ><span>02</span><h2>Explore Volume IV: AI and labor</h2><p>
+          Follow The Autonomous Illusion, Disconnected Hearts, and public preprints on automation,
+          labor, intimacy, infrastructure, and human capability.
+        </p><strong>Open the Volume IV plugin →</strong></a
+      >
+      <a class="start-card" href={sitePath("/topics/#topic-pathway-democracy")}
+        ><span>03</span><h2>Connect democracy to Volume IV capacity</h2><p>
+          Read institutions through Volumes I–II, then ask how scientific, technical, and AI
+          capacity changes what democratic institutions can do.
+        </p><strong>Open the institution map →</strong></a
+      >
+      <a class="start-card" href={sitePath("/topics/#topic-pathway-human-capability")}
+        ><span>04</span><h2>Explore Volume IV: science and capability</h2><p>
+          Connect The Autonomous Illusion, Disconnected Hearts, The Double Tax on Time, and The
+          Martian Illusion across science, technology, energy, medicine, and human limits.
+        </p><strong>Open the Volume IV science plugin →</strong></a
+      >
+      <a class="start-card" href={sitePath("/topics/#topic-pathway-migration")}
+        ><span>05</span><h2>Explore Volumes II–III: migration and political economy</h2><p>
+          Begin with Volume II papers on removals, voting, historical power, and sovereignty, then
+          connect them to Volume III work on labor, taxation, welfare, and distribution.
+        </p><strong>Open the Volumes II–III plugin →</strong></a
+      >
+      <a class="start-card start-card-dark" href={sitePath("/library/")}
+        ><span>06</span><h2>See the reviewed library</h2><p>
+          Read the public-safe archive map and structured document reader. Raw private files remain
+          private.
+        </p><strong>Open the library →</strong></a
+      >
+    </div>
+  </section>
+</BaseLayout>

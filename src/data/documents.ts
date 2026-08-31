@@ -1,4 +1,5 @@
 import { dropboxDocumentItems } from "./dropbox-content.generated";
+import { ssrnPreprintDocuments } from "./ssrn";
 
 export type PublicDocumentSection = {
   id: string;
@@ -7,13 +8,45 @@ export type PublicDocumentSection = {
   items?: string[];
 };
 
+export type PublicCitation = {
+  id: string;
+  label: string;
+  citation: string;
+  url?: string;
+};
+
+export type PublicDocumentMetrics = {
+  downloads?: number;
+  abstractViews?: number;
+  citations?: number;
+  rank?: number;
+  checkedAt: string;
+};
+
+export type ExternalVerificationStatus = "verified" | "needs_review";
+
 export type PublicDocument = {
   id: string;
   title: string;
+  volume?: string;
   category: string;
   description: string;
+  volumeRelevance?: string;
   sourceLabel: string;
   sourceModified?: string;
+  author?: string;
+  publicationDate?: string;
+  dateLabel?: string;
+  updatedDate?: string;
+  status?: string;
+  sourceUrl?: string;
+  researchGateUrl?: string;
+  metrics?: PublicDocumentMetrics;
+  externalVerification?: ExternalVerificationStatus;
+  notes?: string[];
+  limitations?: string[];
+  citations?: PublicCitation[];
+  relatedIds?: string[];
   sections: PublicDocumentSection[];
 };
 
@@ -23,8 +56,8 @@ const reviewedDocuments: PublicDocument[] = [
     title: "Documentary Projects — Independent Observer",
     category: "Documentary desk",
     description:
-      "A reviewed public-safe reading copy of the Documentary Projects print capture added to the Independent Observer Dropbox workspace.",
-    sourceLabel: "Reviewed Dropbox print capture",
+      "A reviewed public-safe reading copy of the Documentary Projects print capture added to the Independent Observer working archive.",
+    sourceLabel: "Reviewed print capture",
     sourceModified: "August 18, 2026",
     sections: [
       {
@@ -62,7 +95,7 @@ const reviewedDocuments: PublicDocument[] = [
         heading: "Publication boundary",
         paragraphs: [
           "The site is the home base; social channels help people find the work.",
-          "This reading copy preserves the public-facing text from the print capture. It does not expose the original Dropbox file, private research, personal records, or unpublished evidence.",
+          "This reading copy preserves the public-facing text from the print capture. It does not expose the original source file, private research, personal records, or unpublished evidence.",
         ],
       },
     ],
@@ -71,5 +104,6 @@ const reviewedDocuments: PublicDocument[] = [
 
 export const publicDocumentItems: PublicDocument[] = [
   ...reviewedDocuments,
+  ...ssrnPreprintDocuments,
   ...dropboxDocumentItems,
 ];

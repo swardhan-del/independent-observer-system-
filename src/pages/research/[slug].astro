@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import EditorialDetail from "../../components/EditorialDetail.astro";
 import { researchItems } from "../../data/content";
+import { ssrnPreprintDocuments } from "../../data/ssrn";
 import { slugify } from "../../lib/slugs";
 import { sitePath } from "../../lib/paths";
 
@@ -14,6 +15,13 @@ export function getStaticPaths() {
 
 const { item } = Astro.props;
 const currentPath = `/research/${slugify(item.title)}/`;
+const featuredDocuments = item.volume
+  ? ssrnPreprintDocuments.filter((entry) => entry.volume === item.volume)
+  : [];
+const statusNote =
+  item.title === "The Autonomous Illusion"
+    ? "This is a concept-stage research preview. It defines the question, scope, and evidentiary standard for a future article; it is not a completed finding or publication."
+    : "This is a public editorial preview. Full articles, citations, dates, and publication links will appear only after verification and review.";
 ---
 
 <BaseLayout title={item.title} description={item.description} currentPath={currentPath}>
@@ -22,6 +30,10 @@ const currentPath = `/research/${slugify(item.title)}/`;
     eyebrow="Research preview"
     backLabel="Back to research"
     backHref={sitePath("/research/")}
-    statusNote="This is a public editorial preview. Full articles, citations, dates, and publication links will appear only after verification and review."
+    statusNote={statusNote}
+    featuredDocuments={featuredDocuments}
+    heroClassName="research-detail-hero"
+    showVolumeConnection={true}
+    showVolumeResearchMap={true}
   />
 </BaseLayout>

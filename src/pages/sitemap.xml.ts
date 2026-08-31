@@ -1,15 +1,30 @@
 import type { APIRoute } from "astro";
 import { sitePath } from "../lib/paths";
+import { topicHubs } from "../data/topics";
+import { publicDocumentItems } from "../data/documents";
+import { seriesItems } from "../data/series";
+import { slugify } from "../lib/slugs";
 
+// Sitemap policy: index genuine public section pages and the public library.
+// Detail routes remain out until they contain finished, review-cleared publications.
+// The 404 page and private/automated Dropbox material are never included.
 const publicRoutes = [
   "/",
   "/series/",
+  ...seriesItems.map((entry) => `/series/${slugify(entry.title)}/`),
   "/library/",
+  "/whats-new/",
   "/research/",
   "/documentaries/",
   "/videos/",
   "/about/",
   "/contact/",
+  "/questions/",
+  "/start/",
+  "/publication-operating-system/",
+  "/topics/",
+  ...topicHubs.map((topic) => `/topics/${topic.slug}/`),
+  ...publicDocumentItems.map((entry) => `/library/documents/${entry.id}/`),
 ];
 
 function escapeXml(value: string) {

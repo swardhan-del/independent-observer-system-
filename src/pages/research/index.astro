@@ -1,44 +1,20 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ContentFilter from "../../components/ContentFilter.astro";
 import PageHero from "../../components/PageHero.astro";
-import EditorialCard from "../../components/EditorialCard.astro";
-import { researchItems } from "../../data/content";
-import { sitePath } from "../../lib/paths";
-import { slugify } from "../../lib/slugs";
+import ResearchCatalogue from "../../components/ResearchCatalogue.astro";
 ---
 
 <BaseLayout
   title="Research & Essays"
-  description="Developing research and long-form essays from Independent Observer."
+  description="A public-safe, local research catalogue connecting the four Independent Observer volumes, public SSRN reading copies, and concepts in development."
   currentPath="/research/"
 >
   <PageHero
     eyebrow="Research desk"
     title="Research & Essays"
-    description="Long-form analysis designed to show its evidence, distinguish argument from fact, and identify what remains uncertain."
+    description="A searchable, public-safe research catalogue connecting the four Independent Observer volumes, their public SSRN reading copies, and concepts still in development."
   />
-  <section class="section section-white">
-    <div class="shell">
-      <h2 class="sr-only">Research and essay previews</h2>
-      <div class="placeholder-notice">
-        These entries are editorial previews. Full articles, citations, dates, and publication links
-        will be added only after verification and review.
-      </div>
-      <ContentFilter targetId="research-preview-grid" itemCount={researchItems.length} />
-      <div class="card-grid" id="research-preview-grid">
-        {
-          researchItems.map((item, index) => (
-            <EditorialCard
-              item={item}
-              index={index + 1}
-              href={sitePath(`/research/${slugify(item.title)}/`)}
-            />
-          ))
-        }
-      </div>
-    </div>
-  </section>
+  <ResearchCatalogue />
   <section class="section section-rule">
     <div class="shell page-grid">
       <aside class="page-aside">Editorial method</aside>

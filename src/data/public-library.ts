@@ -4,12 +4,6 @@ export type PublicLibraryStat = {
   detail: string;
 };
 
-export type PublicLibraryVolume = {
-  title: string;
-  summary: string;
-  focus: string;
-};
-
 export type PublicLibraryArea = {
   title: string;
   summary: string;
@@ -24,49 +18,39 @@ export type PublicLibraryArea = {
  */
 export const publicLibrarySnapshot = {
   label: "Public archive snapshot",
-  note: "A reviewed public-safe map of the Independent Observer working archive. It gives readers visibility into the project without publishing raw files, private names, local paths, or unpublished evidence.",
+  note: "A public archive of Independent Observer research papers and public reading copies. It links SSRN records and selected ResearchGate records across four volumes while keeping source, status, and limitation boundaries visible.",
   stats: [
     {
       label: "Source folders reviewed",
       value: "15",
-      detail: "Aggregate count from the reviewed public export.",
+      detail:
+        "Aggregate count from the reviewed public export; the four volume blocks below are the reader-facing index.",
     },
     {
       label: "Source files inventoried",
       value: "341",
-      detail: "Inventory context only; files remain in the private archive.",
+      detail:
+        "341 files were inventoried for context. Only matched public-safe summaries and SSRN records are linked below; raw files remain private.",
     },
     {
       label: "Public volume summaries",
-      value: "3",
-      detail: "High-level summaries available on this site.",
+      value: "4",
+      detail:
+        "Four volume summaries: method; sovereignty and institutions; work and social citizenship; AI, science, and human capability.",
     },
     {
-      label: "Raw files published",
+      label: "Raw archive files published",
       value: "0",
-      detail: "No DOCX, PDF, video, or working archive file is exposed here.",
+      detail:
+        "No raw research, manuscript, video, or working archive file is exposed; the operating standard is separately hosted as an owner-requested reference.",
+    },
+    {
+      label: "Hosted operating standards",
+      value: "1",
+      detail:
+        "One exact owner-provided publication operating standard is hosted outside the article feed.",
     },
   ] satisfies PublicLibraryStat[],
-  volumes: [
-    {
-      title: "Volume One",
-      focus: "Foundation and evidence archive",
-      summary:
-        "Fact gathering, source context, data, timelines, claims, and contradictions. The aim is to preserve what can be checked while marking uncertainty instead of flattening it.",
-    },
-    {
-      title: "Volume Two",
-      focus: "Institutional and public-issue analysis",
-      summary:
-        "Political, economic, historical, technological, institutional, and social developments examined by comparing explanations and separating evidence from interpretation, hypothesis, and opinion.",
-    },
-    {
-      title: "Volume Three",
-      focus: "Synthesis, implications, and proposals",
-      summary:
-        "Forward-looking judgments, emerging trends, and constructive ideas developed with sourcing, careful language, visible uncertainty, and peaceful, lawful civic engagement.",
-    },
-  ] satisfies PublicLibraryVolume[],
   areas: [
     {
       title: "Primary research body",

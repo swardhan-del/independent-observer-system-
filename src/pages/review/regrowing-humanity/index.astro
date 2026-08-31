@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import EvidenceLab from "../../../components/EvidenceLab.astro";
+import PageHero from "../../../components/PageHero.astro";
+
+const title = "Regrowing Humanity — Evidence Lab";
+---
+
+<BaseLayout
+  title={title}
+  description="A bounded, source-led Evidence Lab preview for Regrowing Humanity, awaiting human release."
+  currentPath="/review/regrowing-humanity/"
+  noindex
+>
+  <PageHero
+    eyebrow="Staged research adaptation"
+    title={title}
+    description="A public-safe evidence map for a reviewed research candidate. The controller manuscript and private audit materials remain outside the website build."
+    className="document-reader-hero"
+  />
+  <EvidenceLab />
+</BaseLayout>

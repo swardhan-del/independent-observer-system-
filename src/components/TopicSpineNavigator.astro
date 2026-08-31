@@ -1,0 +1,35 @@
+---
+import { topicPluginDefinitions } from "../../plugins/topic-discovery/catalog";
+import { seriesItems } from "../data/series";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+---
+
+<nav class="topic-spine-nav" aria-label="Explore the Independent Observer research spine">
+  <div class="topic-spine-nav-intro">
+    <p class="topic-spine-nav-label">Quick map</p>
+    <p>Jump from a volume to its connected fields, or begin with a question.</p>
+  </div>
+  <div class="topic-spine-nav-links">
+    <a class="topic-spine-nav-start" href="#topic-pathways">
+      <span>Start with a question</span>
+      Five routes →
+    </a>
+    {
+      seriesItems.map((item) => (
+        <a href={`#topic-volume-${slugify(item.volume)}`}>
+          <span>{item.volume}</span>
+          {item.title}
+        </a>
+      ))
+    }
+  </div>
+  <div class="topic-spine-nav-fields" aria-label="Open a topic field">
+    <span class="topic-spine-nav-label">Open a field</span>
+    {
+      topicPluginDefinitions.map((topic) => (
+        <a href={sitePath(`/topics/${topic.slug}/`)}>{topic.name}</a>
+      ))
+    }
+  </div>
+</nav>

@@ -1,3 +1,14 @@
+---
+import { seriesItems } from "../data/series";
+import { ssrnPreprintDocuments } from "../data/ssrn";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+
+const featuredPreprints = [...ssrnPreprintDocuments]
+  .sort((a, b) => (b.metrics?.downloads ?? -1) - (a.metrics?.downloads ?? -1))
+  .slice(0, 5);
+---
+
 <div class="reading-list-tools" data-reading-list>
   <button
     class="reading-list-trigger"
@@ -6,7 +17,7 @@
     aria-haspopup="dialog"
     aria-controls="reading-list-dialog"
   >
-    Reading list <span data-reading-count aria-label="saved previews">0</span>
+    Reading list <span data-reading-count aria-label="saved items">0</span>
   </button>
   <dialog id="reading-list-dialog" class="reading-list-dialog" aria-labelledby="reading-list-title">
     <div class="reading-list-inner">
@@ -17,66 +28,206 @@
         </div>
         <button class="reading-list-close" type="button" data-reading-close>Close</button>
       </div>
+      <div class="reading-list-toolbar">
+        <label for="reading-list-sort">Sort saved items</label>
+        <select id="reading-list-sort" data-reading-sort>
+          <option value="recent">Recently saved</option>
+          <option value="title">Title</option>
+          <option value="type">Content type</option>
+        </select>
+      </div>
+      <p class="reading-list-storage-note" data-reading-storage role="status"></p>
       <p class="reading-list-empty" data-reading-empty>
-        Save a preview from any research, documentary, video, or series desk to find it here.
+        Your private list is empty. Choose a public preview below, or save one from any research,
+        documentary, video, or series desk.
       </p>
       <ol class="reading-list-items" data-reading-items></ol>
+      <section
+        class="reading-list-recommendations"
+        aria-labelledby="reading-list-recommendations-title"
+      >
+        <div class="reading-list-recommendations-heading">
+          <div>
+            <p class="eyebrow">Curated starting shelf</p>
+            <h3 id="reading-list-recommendations-title">Recommended public previews</h3>
+          </div>
+          <button class="reading-list-save-all" type="button" data-reading-save-all>
+            Save all previews
+          </button>
+        </div>
+        <p class="reading-list-recommendations-intro">
+          Five matched SSRN preprints ordered by the latest retrieved download signal, followed by
+          the four Independent Observer book and volume roadmaps. These are public reading copies
+          and previews—not published books or peer-reviewed Independent Observer articles.
+        </p>
+        <div class="reading-list-recommendation-group">
+          <h4>Highest-download matched SSRN preprints</h4>
+          <div class="reading-list-recommendation-grid">
+            {
+              featuredPreprints.map((entry) => {
+                const href = sitePath(`/library/documents/${entry.id}/`);
+                return (
+                  <article class="reading-list-recommendation-card">
+                    <span class="reading-list-recommendation-status">{entry.status}</span>
+                    <h5>
+                      <a href={href}>{entry.title}</a>
+                    </h5>
+                    <p>
+                      {entry.volume} · {entry.metrics?.downloads ?? "—"} downloads · last directly
+                      verified {entry.metrics?.checkedAt}; public reading copy, availability review
+                      pending copy
+                    </p>
+                    <div class="reading-list-recommendation-actions">
+                      <button
+                        type="button"
+                        data-reading-toggle
+                        data-reading-id={`document:${entry.id}`}
+                        data-reading-title={entry.title}
+                        data-reading-href={href}
+                        data-reading-type="SSRN preprint"
+                        aria-pressed="false"
+                      >
+                        Save
+                      </button>
+                      <a href={href}>Open copy →</a>
+                      <a href={entry.sourceUrl} target="_blank" rel="noopener noreferrer">
+                        SSRN ↗
+                      </a>
+                      {entry.researchGateUrl && (
+                        <a href={entry.researchGateUrl} target="_blank" rel="noopener noreferrer">
+                          ResearchGate ↗
+                        </a>
+                      )}
+                    </div>
+                  </article>
+                );
+              })
+            }
+          </div>
+        </div>
+        <div class="reading-list-recommendation-group">
+          <h4>Books and volumes in development</h4>
+          <div class="reading-list-recommendation-grid">
+            {
+              seriesItems.map((item) => {
+                const href = sitePath(`/series/${slugify(item.title)}/`);
+                return (
+                  <article class="reading-list-recommendation-card">
+                    <span class="reading-list-recommendation-status">{item.status}</span>
+                    <h5>
+                      <a href={href}>
+                        {item.volume}: {item.title}
+                      </a>
+                    </h5>
+                    <p>{item.category} · roadmap preview</p>
+                    <div class="reading-list-recommendation-actions">
+                      <button
+                        type="button"
+                        data-reading-toggle
+                        data-reading-id={`series:${item.title}`}
+                        data-reading-title={`${item.volume}: ${item.title}`}
+                        data-reading-href={href}
+                        data-reading-type="Series roadmap"
+                        aria-pressed="false"
+                      >
+                        Save
+                      </button>
+                      <a href={href}>Open roadmap →</a>
+                    </div>
+                  </article>
+                );
+              })
+            }
+          </div>
+        </div>
+        <p class="form-note">
+          Saving is explicit and stays private on this device. Roadmap entries remain previews while
+          the books are in development; no release status changes when you save one.
+        </p>
+      </section>
       <div class="reading-list-actions">
         <button class="reading-list-clear" type="button" data-reading-clear hidden>
-          Clear saved previews
+          Clear saved items
         </button>
+        <button class="reading-list-export" type="button" data-reading-export>Export JSON</button>
+        <label class="reading-list-import">
+          Import JSON
+          <input type="file" accept="application/json,.json" data-reading-import />
+        </label>
       </div>
       <p class="form-note">
-        Your list stays in this browser. It is not transmitted, published, or connected to an
-        account.
+        Your list, tags, and reading status stay in this browser. They are not transmitted,
+        published, or connected to an account.
       </p>
     </div>
   </dialog>
 </div>
 
 <script>
-  type SavedItem = {
-    id: string;
-    title: string;
-    href: string;
-  };
+  import {
+    migrateReadingList,
+    readingListStorageKey,
+    sortReadingList,
+    type ReadingStatus,
+  } from "../lib/reading-list";
 
-  const storageKey = "independent-observer:reading-list:v1";
-  const root = document.querySelector<HTMLElement>("[data-reading-list]");
-  const dialog = root?.querySelector<HTMLDialogElement>("#reading-list-dialog");
-  const openButton = root?.querySelector<HTMLButtonElement>("[data-reading-open]");
-  const closeButton = root?.querySelector<HTMLButtonElement>("[data-reading-close]");
-  const count = root?.querySelector<HTMLElement>("[data-reading-count]");
-  const empty = root?.querySelector<HTMLElement>("[data-reading-empty]");
-  const items = root?.querySelector<HTMLOListElement>("[data-reading-items]");
-  const clearButton = root?.querySelector<HTMLButtonElement>("[data-reading-clear]");
+  document.querySelectorAll<HTMLElement>("[data-reading-list]").forEach((root) => {
+    const dialog = root.querySelector<HTMLDialogElement>("#reading-list-dialog");
+    const openButton = root.querySelector<HTMLButtonElement>("[data-reading-open]");
+    const closeButton = root.querySelector<HTMLButtonElement>("[data-reading-close]");
+    const count = root.querySelector<HTMLElement>("[data-reading-count]");
+    const empty = root.querySelector<HTMLElement>("[data-reading-empty]");
+    const items = root.querySelector<HTMLOListElement>("[data-reading-items]");
+    const clearButton = root.querySelector<HTMLButtonElement>("[data-reading-clear]");
+    const sortSelect = root.querySelector<HTMLSelectElement>("[data-reading-sort]");
+    const exportButton = root.querySelector<HTMLButtonElement>("[data-reading-export]");
+    const importInput = root.querySelector<HTMLInputElement>("[data-reading-import]");
+    const storageNote = root.querySelector<HTMLElement>("[data-reading-storage]");
+    const saveAllButton = root.querySelector<HTMLButtonElement>("[data-reading-save-all]");
 
-  if (dialog && openButton && closeButton && count && empty && items && clearButton) {
-    const load = (): SavedItem[] => {
+    if (
+      !dialog ||
+      !openButton ||
+      !closeButton ||
+      !count ||
+      !empty ||
+      !items ||
+      !clearButton ||
+      !sortSelect ||
+      !exportButton ||
+      !importInput ||
+      !storageNote ||
+      !saveAllButton
+    )
+      return;
+
+    const announceStorage = (message = "") => {
+      storageNote.textContent = message;
+      storageNote.hidden = !message;
+    };
+
+    const readStored = () => {
       try {
-        const stored = JSON.parse(localStorage.getItem(storageKey) ?? "[]");
-        return Array.isArray(stored)
-          ? stored.filter(
-              (item): item is SavedItem =>
-                item &&
-                typeof item.id === "string" &&
-                typeof item.title === "string" &&
-                typeof item.href === "string",
-            )
-          : [];
+        return localStorage.getItem(readingListStorageKey);
       } catch {
-        return [];
+        announceStorage("Browser storage is unavailable; your list is temporary.");
+        return null;
       }
     };
 
-    let saved = load();
+    let saved = migrateReadingList(readStored());
+    let sort = "recent" as "recent" | "title" | "type";
 
     const persist = () => {
       try {
-        localStorage.setItem(storageKey, JSON.stringify(saved));
+        localStorage.setItem(readingListStorageKey, JSON.stringify(saved));
+        announceStorage();
       } catch {
-        // Private browsing or a full storage area should not break the site.
+        announceStorage(
+          "Browser storage is unavailable; changes will last only until this page closes.",
+        );
       }
+      window.dispatchEvent(new CustomEvent("io:reading-list-updated", { detail: saved.length }));
     };
 
     const updateToggleButtons = () => {
@@ -89,76 +240,221 @@
 
     const render = () => {
       count.textContent = String(saved.length);
+      count.setAttribute(
+        "aria-label",
+        `${saved.length} saved ${saved.length === 1 ? "item" : "items"}`,
+      );
       empty.hidden = saved.length > 0;
       clearButton.hidden = saved.length === 0;
       items.replaceChildren();
 
-      for (const item of saved) {
+      for (const item of sortReadingList(saved, sort)) {
         const listItem = document.createElement("li");
         listItem.className = "reading-list-item";
-
+        const content = document.createElement("div");
+        content.className = "reading-list-item-content";
         const link = document.createElement("a");
         link.href = item.href;
         link.textContent = item.title;
+        const meta = document.createElement("span");
+        meta.className = "reading-list-item-meta";
+        meta.textContent = [item.type ?? "Preview", item.tag ? `Tag: ${item.tag}` : ""]
+          .filter(Boolean)
+          .join(" · ");
+        content.append(link, meta);
 
+        const controls = document.createElement("div");
+        controls.className = "reading-list-item-controls";
+        const status = document.createElement("select");
+        status.className = "reading-list-status";
+        status.dataset.readingStatus = item.id;
+        status.setAttribute("aria-label", `Reading status for ${item.title}`);
+        for (const value of ["unread", "reading", "finished"] as ReadingStatus[]) {
+          const option = document.createElement("option");
+          option.value = value;
+          option.textContent = value[0].toUpperCase() + value.slice(1);
+          option.selected = item.status === value;
+          status.append(option);
+        }
+        const tag = document.createElement("input");
+        tag.className = "reading-list-tag";
+        tag.type = "text";
+        tag.maxLength = 80;
+        tag.placeholder = "Local tag";
+        tag.value = item.tag ?? "";
+        tag.dataset.readingTag = item.id;
+        tag.setAttribute("aria-label", `Local tag for ${item.title}`);
         const remove = document.createElement("button");
         remove.type = "button";
         remove.className = "reading-list-remove";
         remove.dataset.readingRemove = item.id;
         remove.setAttribute("aria-label", `Remove ${item.title} from reading list`);
         remove.textContent = "Remove";
-
-        listItem.append(link, remove);
+        controls.append(status, tag, remove);
+        listItem.append(content, controls);
         items.append(listItem);
       }
+    };
+
+    const close = () => {
+      if (dialog.open) dialog.close();
+      openButton.focus();
     };
 
     openButton.addEventListener("click", () => {
       render();
       if (typeof dialog.showModal === "function") dialog.showModal();
       else dialog.setAttribute("open", "");
+      closeButton.focus();
     });
-
-    closeButton.addEventListener("click", () => dialog.close());
-
+    closeButton.addEventListener("click", close);
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) close();
+    });
+    dialog.addEventListener("close", () => openButton.focus());
+    dialog.addEventListener("keydown", (event) => {
+      if (event.key !== "Tab") return;
+      const focusable = [
+        ...dialog.querySelectorAll<HTMLElement>("button, input, select, a[href]"),
+      ].filter((element) => !element.hidden);
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    });
     clearButton.addEventListener("click", () => {
       saved = [];
       persist();
       render();
       updateToggleButtons();
     });
-
+    sortSelect.addEventListener("change", () => {
+      sort = sortSelect.value as typeof sort;
+      render();
+    });
     items.addEventListener("click", (event) => {
-      const target = event.target as HTMLElement;
-      const remove = target.closest<HTMLButtonElement>("[data-reading-remove]");
+      const remove = (event.target as HTMLElement).closest<HTMLButtonElement>(
+        "[data-reading-remove]",
+      );
       if (!remove) return;
-
       saved = saved.filter((item) => item.id !== remove.dataset.readingRemove);
       persist();
       render();
       updateToggleButtons();
     });
-
+    items.addEventListener("change", (event) => {
+      const target = event.target as HTMLInputElement | HTMLSelectElement;
+      const id = target.dataset.readingStatus ?? target.dataset.readingTag;
+      const item = saved.find((candidate) => candidate.id === id);
+      if (!item) return;
+      if (target.dataset.readingStatus) item.status = target.value as ReadingStatus;
+      if (target.dataset.readingTag) item.tag = target.value.trim() || undefined;
+      persist();
+      render();
+    });
+    saveAllButton.addEventListener("click", () => {
+      const recommendations = [...root.querySelectorAll<HTMLButtonElement>("[data-reading-toggle]")]
+        .map((button) => ({
+          id: button.dataset.readingId,
+          title: button.dataset.readingTitle,
+          href: button.dataset.readingHref,
+          type: button.dataset.readingType,
+        }))
+        .filter(
+          (item): item is { id: string; title: string; href: string; type: string | undefined } =>
+            Boolean(item.id && item.title && item.href),
+        );
+      const existing = new Set(saved.map((item) => item.id));
+      const additions = recommendations.filter((item) => !existing.has(item.id));
+      saved = [
+        ...saved,
+        ...additions.map((item) => ({
+          id: item.id,
+          title: item.title,
+          href: item.href,
+          type: item.type,
+          savedAt: Date.now(),
+          status: "unread" as const,
+        })),
+      ];
+      persist();
+      render();
+      updateToggleButtons();
+      announceStorage(
+        additions.length
+          ? `${additions.length} public preview${additions.length === 1 ? "" : "s"} saved.`
+          : "All public previews are already saved.",
+      );
+    });
     document.querySelectorAll<HTMLButtonElement>("[data-reading-toggle]").forEach((button) => {
       button.addEventListener("click", () => {
         const id = button.dataset.readingId;
         const title = button.dataset.readingTitle;
         const href = button.dataset.readingHref;
         if (!id || !title || !href) return;
-
-        if (saved.some((item) => item.id === id)) {
-          saved = saved.filter((item) => item.id !== id);
-        } else {
-          saved = [...saved, { id, title, href }];
-        }
-
+        saved = saved.some((item) => item.id === id)
+          ? saved.filter((item) => item.id !== id)
+          : [
+              ...saved,
+              {
+                id,
+                title,
+                href,
+                type: button.dataset.readingType,
+                savedAt: Date.now(),
+                status: "unread",
+              },
+            ];
         persist();
         render();
         updateToggleButtons();
       });
     });
-
+    exportButton.addEventListener("click", () => {
+      const blob = new Blob([JSON.stringify(saved, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "independent-observer-reading-list.json";
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+    importInput.addEventListener("change", async () => {
+      const file = importInput.files?.[0];
+      if (!file) return;
+      const imported = migrateReadingList(await file.text());
+      if (imported.length) {
+        saved = imported;
+        persist();
+        render();
+        updateToggleButtons();
+        announceStorage(
+          `${imported.length} saved ${imported.length === 1 ? "item" : "items"} imported.`,
+        );
+      } else announceStorage("That file did not contain a readable reading list.");
+      importInput.value = "";
+    });
+    window.addEventListener("storage", (event) => {
+      if (event.key !== readingListStorageKey) return;
+      saved = migrateReadingList(event.newValue);
+      render();
+      updateToggleButtons();
+    });
+    window.addEventListener("io:reading-list-updated", () => {
+      try {
+        saved = migrateReadingList(localStorage.getItem(readingListStorageKey));
+      } catch {
+        // Keep the in-memory state when local storage is unavailable.
+      }
+      render();
+      updateToggleButtons();
+    });
     render();
     updateToggleButtons();
-  }
+  });
 </script>

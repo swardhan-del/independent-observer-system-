@@ -2,6 +2,7 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import DocumentReader from "../../../components/DocumentReader.astro";
 import { publicDocumentItems } from "../../../data/documents";
+import VolumeOneSourceMap from "../../../components/VolumeOneSourceMap.astro";
 
 export function getStaticPaths() {
   return publicDocumentItems.map((entry) => ({
@@ -12,8 +13,17 @@ export function getStaticPaths() {
 
 const { entry } = Astro.props;
 const currentPath = `/library/documents/${entry.id}/`;
+const documentIndex = publicDocumentItems.findIndex((candidate) => candidate.id === entry.id);
 ---
 
 <BaseLayout title={entry.title} description={entry.description} currentPath={currentPath}>
-  <DocumentReader entry={entry} />
+  <DocumentReader
+    entry={entry}
+    relatedEntries={publicDocumentItems}
+    previous={documentIndex > 0 ? publicDocumentItems[documentIndex - 1] : undefined}
+    next={documentIndex < publicDocumentItems.length - 1
+      ? publicDocumentItems[documentIndex + 1]
+      : undefined}
+  />
+  {entry.id === "independent-observer-volume-one-ssrn" && <VolumeOneSourceMap compact />}
 </BaseLayout>

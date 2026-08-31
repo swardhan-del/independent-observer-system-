@@ -1,0 +1,142 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import { seriesItems } from "../../data/series";
+import { ssrnPreprintDocuments } from "../../data/ssrn";
+import { sitePath } from "../../lib/paths";
+import { slugify } from "../../lib/slugs";
+
+const volumeQuestions = seriesItems.map((volume) => ({
+  ...volume,
+  paperCount: ssrnPreprintDocuments.filter((paper) => paper.volume === volume.volume).length,
+}));
+---
+
+<BaseLayout
+  title="Questions & Answers"
+  description="A public guide to the Independent Observer project, its four volumes, public reading copies, and publication boundaries."
+  currentPath="/questions/"
+>
+  <PageHero
+    eyebrow="Questions & answers"
+    title="Understand the inquiry."
+    description="A concise public guide to what Independent Observer studies, how the four volumes connect, where to find the public paper trail, and what remains in development."
+  />
+
+  <section class="section section-white" aria-labelledby="questions-guide-title">
+    <div class="shell page-grid">
+      <aside class="page-aside">
+        Public guide<br />
+        Four volumes<br />
+        One evidence standard
+      </aside>
+      <div class="prose">
+        <h2 id="questions-guide-title">The project in plain language.</h2>
+        <p>
+          Independent Observer is a public research project about how evidence, institutions,
+          history, work, science, and technology shape what people can know, contest, and change. It
+          is grounded in identifiable references and visible limits. It is not a conspiracy
+          catalogue, a single conclusion, or a claim that unfinished work has been published.
+        </p>
+
+        <div class="contact-faq">
+          <details open>
+            <summary>What is the purpose of the project?</summary>
+            <p>
+              The purpose is to make the path from record to interpretation to institutional
+              consequence easier to inspect. The project asks what a source can establish, what it
+              cannot establish, who controls the relevant system, who carries the cost, and what
+              evidence would justify correction.
+            </p>
+          </details>
+          <details>
+            <summary>What does “independent” mean here?</summary>
+            <p>
+              It describes the project’s editorial position and responsibility to show sources,
+              uncertainty, and correction boundaries. It does not mean that every question has a
+              predetermined answer or that the work is free from the need for evidence and review.
+            </p>
+          </details>
+          <details>
+            <summary>How should I read a public paper?</summary>
+            <p>
+              Treat each public reading copy as a working preprint unless the page explicitly says
+              otherwise. Read its abstract, contribution, sources, limits, and status together.
+              Usage counts are discovery signals, not quality ratings, peer review, endorsements, or
+              publication approval.
+            </p>
+          </details>
+          <details>
+            <summary>Where are the public papers listed?</summary>
+            <p>
+              The <a href={sitePath("/whats-new/")}>public paper index</a> groups the matched SSRN reading
+              copies by volume and links to an internal reading route plus the verified public record.
+              It does not reproduce private drafts or raw source files.
+            </p>
+          </details>
+        </div>
+
+        <h2 id="questions-volumes-title">What each volume contributes.</h2>
+        <div class="contact-faq" aria-labelledby="questions-volumes-title">
+          {
+            volumeQuestions.map((volume, index) => (
+              <details open={index === 0}>
+                <summary>
+                  Volume {index + 1}: {volume.title}
+                </summary>
+                <p>{volume.description}</p>
+                <p>
+                  <strong>
+                    {volume.paperCount} public SSRN reading{" "}
+                    {volume.paperCount === 1 ? "copy" : "copies"}
+                  </strong>
+                  are currently matched to this volume. The count describes the public index, not
+                  the full working archive.
+                </p>
+                <p>
+                  <a href={sitePath(`/series/${slugify(volume.title)}/`)}>
+                    Open the volume catalogue entry →
+                  </a>
+                </p>
+              </details>
+            ))
+          }
+        </div>
+
+        <h2 id="questions-boundaries-title">What remains separate.</h2>
+        <div class="contact-faq" aria-labelledby="questions-boundaries-title">
+          <details open>
+            <summary>Are the four books released?</summary>
+            <p>
+              No. The four titles are upcoming book projects shown for orientation only. They are
+              not Amazon listings, sales links, release announcements, or publication approvals.
+            </p>
+          </details>
+          <details>
+            <summary>Are the documentary and video pages finished films?</summary>
+            <p>
+              No. They contain concept previews, playable media previews, and storyboard treatments.
+              A preview is not a completed film or a release decision.
+            </p>
+          </details>
+          <details>
+            <summary>Can I ask a question or suggest a correction?</summary>
+            <p>
+              Yes. Use the <a href={sitePath("/contact/")}>research desk inquiry form</a> for a relevant
+              and respectful question about a volume, public paper, source boundary, correction, rights
+              issue, or publication status. An inquiry does not guarantee a reply. There is no public
+              comment board at this time.
+            </p>
+          </details>
+        </div>
+
+        <p class="contact-legal-note">
+          The public site is a bounded research index. Private working files, unpublished
+          manuscripts, and unverified source material remain outside the public build until they
+          pass source, rights, quality, and human-release review.
+        </p>
+        <a class="button button-on-light" href={sitePath("/contact/")}>Ask the research desk →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

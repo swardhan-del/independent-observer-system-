@@ -1,47 +1,253 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
+import { contactAddress, contactTopics } from "../../data/contact";
+import { sitePath } from "../../lib/paths";
+
+const contactEndpoint = sitePath("/api/contact");
 ---
 
 <BaseLayout
   title="Contact"
-  description="Contact page preview for Independent Observer."
+  description="Send a respectful inquiry about Independent Observer volumes, research, and public publications."
   currentPath="/contact/"
 >
   <PageHero
     eyebrow="Contact"
-    title="Begin with the substance."
-    description="A future contact channel for corrections, research leads, documentary inquiries, and professional correspondence."
+    title="Questions about Independent Observer."
+    description="Use the inquiry form for relevant questions about the four volumes, research, public reading copies, or publications. It submits through the site's delivery channel; no mail-app draft is created, and an inquiry does not guarantee a reply."
   />
-  <section class="section section-white">
+  <section class="section section-white" aria-labelledby="contact-inquiry-title">
     <div class="shell page-grid">
       <div class="prose">
-        <h2>Contact system not yet activated</h2>
+        <h2 id="contact-inquiry-title">Send an inquiry</h2>
         <p>
-          No public email address or form-processing service has been configured. This prevents the
-          preview from inventing contact details or collecting information without a privacy policy.
+          Use this channel for relevant questions about Independent Observer volumes, research,
+          public records, corrections, rights, or publication. The delivery path is configured for
+          <strong>{contactAddress}</strong> and does not open a draft in your mail application.
         </p>
-        <h3>Planned inquiry categories</h3>
+        <p>
+          Direct delivery is available only when the production mail service is configured. The site
+          does not publish submissions or expose a public discussion feed.
+        </p>
+        <h3>What can be discussed</h3>
         <ul>
-          <li>Corrections and source challenges</li>
-          <li>Research leads and public records</li>
-          <li>Documentary and media inquiries</li>
-          <li>Rights, licensing, and professional correspondence</li>
+          <li>Questions about Volume I, II, III, or IV and their public research trails.</li>
+          <li>Questions about a public reading copy, source link, status label, or correction.</li>
+          <li>Publication, documentary, rights, and research-method questions.</li>
         </ul>
+        <p class="contact-legal-note">
+          The inquiry channel is for lawful, relevant correspondence; threats, harassment,
+          profanity, impersonation, defamatory, libelous, or slanderous content are prohibited.
+          Messages may be preserved and reported to the appropriate service provider or national
+          law-enforcement authority where required or permitted by applicable criminal, civil, and
+          communications laws. This notice is informational and is not legal advice.
+        </p>
+        <p>
+          Independent Observer has the right to conduct independent research. An inquiry does not
+          create access to unpublished material or guarantee a response.
+        </p>
+        <p>
+          For a concise overview before writing, read the
+          <a href={sitePath("/questions/")}>public Questions &amp; Answers guide →</a>
+        </p>
       </div>
-      <form class="contact-panel" aria-label="Contact form preview" onsubmit="return false">
-        <div class="placeholder-notice">
-          Preview only—this form does not transmit or store data.
+      <aside class="contact-panel contact-panel-open" aria-labelledby="contact-form-title">
+        <p class="contact-panel-kicker">Inquiry channel</p>
+        <h2 id="contact-form-title">Write to the research desk.</h2>
+        <p>
+          Recipient: <strong>{contactAddress}</strong>. Submit only a relevant, respectful inquiry;
+          the form sends it through the site's server-side delivery channel.
+        </p>
+        <form
+          class="contact-inquiry-form"
+          action={contactEndpoint}
+          method="post"
+          data-contact-inquiry-form
+        >
+          <label class="contact-honeypot" for="contact-website">
+            Website
+            <input
+              id="contact-website"
+              name="website"
+              type="text"
+              tabindex="-1"
+              autocomplete="off"
+              aria-hidden="true"
+            />
+          </label>
+          <label for="contact-name">
+            Name <span>(optional)</span>
+            <input id="contact-name" name="name" type="text" autocomplete="name" maxlength="120" />
+          </label>
+          <label for="contact-email">
+            Email
+            <input
+              id="contact-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              maxlength="254"
+              required
+            />
+          </label>
+          <label for="contact-topic">
+            Inquiry about
+            <select id="contact-topic" name="topic" required>
+              <option value="">Select a topic</option>
+              {contactTopics.map((topic) => <option value={topic}>{topic}</option>)}
+            </select>
+          </label>
+          <label for="contact-message">
+            Message
+            <textarea
+              id="contact-message"
+              name="message"
+              minlength="10"
+              maxlength="5000"
+              required
+              placeholder="What would you like to ask?"></textarea>
+          </label>
+          <label class="contact-disclosure" for="contact-disclosure">
+            <input id="contact-disclosure" name="disclosure" type="checkbox" required />
+            <span>
+              I confirm that this inquiry is relevant and respectful. I understand that threats,
+              harassment, impersonation, profanity, or defamatory, libelous, or slanderous content
+              is prohibited and may be reported under applicable law.
+            </span>
+          </label>
+          <button class="button button-on-light" type="submit">Send inquiry directly →</button>
+          <p class="contact-inquiry-status" data-contact-inquiry-status aria-live="polite"></p>
+          <p class="contact-privacy-note">
+            The site does not publish submissions. When delivery is available, the message is
+            transmitted to the configured mail service and then handled by the recipient mailbox. An
+            inquiry does not guarantee a response.
+          </p>
+        </form>
+      </aside>
+    </div>
+  </section>
+  <section class="section section-rule" aria-labelledby="contact-discussion-title">
+    <div class="shell page-grid">
+      <aside class="page-aside">Questions and discussion</aside>
+      <div class="prose">
+        <h2 id="contact-discussion-title">A small public Q&amp;A.</h2>
+        <p>
+          This page provides a private, user-initiated inquiry channel rather than a public comment
+          forum. A moderated question-and-answer or discussion space may be considered later after
+          its privacy, moderation, and response rules are ready.
+        </p>
+        <div class="contact-faq">
+          <details open>
+            <summary>What kinds of questions are useful?</summary>
+            <p>
+              Questions about a volume, research direction, public reading copy, source boundary,
+              correction, documentary concept, or publication status are the best fit.
+            </p>
+          </details>
+          <details>
+            <summary>Will every message receive a reply?</summary>
+            <p>
+              No. The form makes an inquiry possible, but it does not promise a response, timeline,
+              publication decision, or private research access.
+            </p>
+          </details>
+          <details>
+            <summary>How are abusive or defamatory messages handled?</summary>
+            <p>
+              Threats, harassment, profanity, and defamatory, libelous, or slanderous allegations
+              are outside the inquiry channel. Where required or permitted by applicable law, a
+              message may be preserved and reported to an appropriate service provider or national
+              law-enforcement authority.
+            </p>
+          </details>
+          <details>
+            <summary>Is this a public discussion board?</summary>
+            <p>
+              Not currently. The current route is one-to-one correspondence through the site's
+              server-side delivery channel. No public comments or community discussion are published
+              here.
+            </p>
+          </details>
         </div>
-        <h2>Send an inquiry</h2>
-        <label for="contact-name">Name</label>
-        <input id="contact-name" type="text" disabled />
-        <label for="contact-email">Email</label>
-        <input id="contact-email" type="email" disabled />
-        <label for="contact-message">Message</label>
-        <textarea id="contact-message" disabled></textarea>
-        <button class="button" type="button" disabled>Coming later</button>
-      </form>
+      </div>
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  const form = document.querySelector("[data-contact-inquiry-form]");
+  const status = document.querySelector("[data-contact-inquiry-status]");
+
+  if (form instanceof HTMLFormElement && status instanceof HTMLElement) {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const values = new FormData(form);
+      const submitButton = form.querySelector("button[type=submit]");
+      const originalLabel =
+        submitButton instanceof HTMLButtonElement
+          ? submitButton.textContent
+          : "Send inquiry directly →";
+      const endpoint = form.getAttribute("action") || "/api/contact";
+      const payload = {
+        name: String(values.get("name") ?? "").trim(),
+        email: String(values.get("email") ?? "").trim(),
+        topic: String(values.get("topic") ?? "").trim(),
+        message: String(values.get("message") ?? "").trim(),
+        disclosure: values.get("disclosure") === "on",
+        website: String(values.get("website") ?? "").trim(),
+      };
+
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = true;
+        submitButton.setAttribute("aria-busy", "true");
+        submitButton.textContent = "Sending…";
+      }
+      status.dataset.state = "busy";
+      status.textContent = "Sending your inquiry…";
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+        const result = (await response.json().catch(() => null)) as {
+          error?: unknown;
+          message?: unknown;
+        } | null;
+
+        if (!response.ok) {
+          throw new Error(
+            typeof result?.error === "string"
+              ? result.error
+              : "The inquiry could not be sent. Please try again later.",
+          );
+        }
+
+        status.dataset.state = "success";
+        status.textContent =
+          typeof result?.message === "string"
+            ? result.message
+            : "Your inquiry was sent to the research desk. An inquiry does not guarantee a response.";
+        form.reset();
+      } catch (error) {
+        status.dataset.state = "error";
+        status.textContent =
+          error instanceof Error
+            ? error.message
+            : "The inquiry could not be sent. Please try again later.";
+      } finally {
+        if (submitButton instanceof HTMLButtonElement) {
+          submitButton.disabled = false;
+          submitButton.removeAttribute("aria-busy");
+          submitButton.textContent = originalLabel;
+        }
+      }
+    });
+  }
+</script>

@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import TopicAtlas from "../../components/TopicAtlas.astro";
+import TopicPathways from "../../components/TopicPathways.astro";
+import TopicReviewQueue from "../../components/TopicReviewQueue.astro";
+import TopicVolumeMap from "../../components/TopicVolumeMap.astro";
+import TopicSpineNavigator from "../../components/TopicSpineNavigator.astro";
+import TopicQuestionBuilder from "../../components/TopicQuestionBuilder.astro";
+import TopicVolumeMatrix from "../../components/TopicVolumeMatrix.astro";
+import { reviewQueueSignals, topicPathways } from "../../../plugins/topic-discovery/catalog";
+import { topicHubs } from "../../data/topics";
+---
+
+<BaseLayout
+  title="Topic hubs"
+  description="Browse Independent Observer topic hubs with honest separation between released work, previews, and roadmap notes."
+  currentPath="/topics/"
+>
+  <PageHero
+    eyebrow="Browse by subject"
+    title="Six fields. Four volumes. One research spine."
+    description="The six topic fields—History, Politics, Economics, Law, Science, and Technology—are lenses on four connected volumes. Follow a question into its primary volume, then compare public SSRN preprints, research and documentary previews, and clearly marked roadmap material without treating unfinished work as published."
+    className="topics-hero"
+  >
+    <TopicSpineNavigator />
+  </PageHero>
+  <TopicQuestionBuilder />
+  <TopicPathways pathways={topicPathways} />
+  <TopicVolumeMap />
+  <TopicVolumeMatrix />
+  <section class="section section-white">
+    <div class="shell">
+      <div class="section-heading topic-atlas-heading">
+        <div>
+          <p class="eyebrow">Connected topic atlas</p>
+          <h2>Follow the subjects across each volume.</h2>
+        </div>
+        <p>
+          Filter the map by public SSRN preprints, editorial previews, four-volume roadmap notes, or
+          work still held behind the human release gate. A topic is an entry point; the volumes are
+          the spine.
+        </p>
+      </div>
+      <TopicAtlas topics={topicHubs} />
+    </div>
+  </section>
+  <TopicReviewQueue signals={reviewQueueSignals} />
+</BaseLayout>

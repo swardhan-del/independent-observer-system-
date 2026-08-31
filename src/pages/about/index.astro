@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
+import AboutVolumeAtlas from "../../components/AboutVolumeAtlas.astro";
+import { sitePath } from "../../lib/paths";
 ---
 
 <BaseLayout
@@ -10,9 +12,103 @@ import PageHero from "../../components/PageHero.astro";
 >
   <PageHero
     eyebrow="About the project"
-    title="Independence is a method, not a pose."
-    description="Independent Observer is being developed as a serious home for cross-disciplinary research, documentary work, and public explanation."
+    title="Independent Observer"
+    description="A public research project about how evidence, institutions, history, work, science, and technology shape what people can know, contest, and change."
+    className="about-hero"
   />
+  <section class="section section-navy about-program" aria-labelledby="about-program-title">
+    <div class="shell page-grid">
+      <aside class="page-aside">
+        <span>Four volumes</span>
+        <span>One research program</span>
+        <span>Independent Observer</span>
+      </aside>
+      <div class="prose">
+        <h2 id="about-program-title">One project. Four volumes.</h2>
+        <p>
+          Independent Observer studies how public life becomes legible: what the record shows, which
+          institutions shape it, who carries the cost, and what kinds of capability can be governed.
+          The project is grounded in identifiable sources and visible uncertainty; it is not a
+          conspiracy catalogue or a single conclusion.
+        </p>
+        <div class="about-program-sequence" aria-label="The four-volume sequence">
+          <span>Read the program as a sequence</span>
+          <strong>
+            Observation <span aria-hidden="true">→</span> Power <span aria-hidden="true">→</span>
+            Distribution <span aria-hidden="true">→</span> Capability
+          </strong>
+        </div>
+        <div
+          class="mission-volume-list about-volume-overview"
+          aria-label="The four Independent Observer volumes"
+        >
+          <article class="mission-volume mission-volume-about mission-volume-about-i">
+            <span class="mission-volume-number">Volume I</span>
+            <p class="mission-volume-role">Observe and document</p>
+            <h3><a href={sitePath("/series/independent-observer/")}>Independent Observer</a></h3>
+            <p>
+              Observation and evidence: build the record before the reaction, test sources, separate
+              fact from interpretation, and keep the claim open to correction.
+            </p>
+            <a class="mission-volume-link" href={sitePath("/series/independent-observer/")}
+              >Open Volume I →</a
+            >
+          </article>
+          <article class="mission-volume mission-volume-about mission-volume-about-ii">
+            <span class="mission-volume-number">Volume II</span>
+            <p class="mission-volume-role">Locate power and sovereignty</p>
+            <h3>
+              <a href={sitePath("/series/the-empire-beneath-democracy/")}
+                >The Empire Beneath Democracy</a
+              >
+            </h3>
+            <p>
+              Institutions and sovereignty: follow how borders, membership, parties, and enforcement
+              turn formal democracy into practical arrangements—and ask who can set the agenda.
+            </p>
+            <a class="mission-volume-link" href={sitePath("/series/the-empire-beneath-democracy/")}
+              >Open Volume II →</a
+            >
+          </article>
+          <article class="mission-volume mission-volume-about mission-volume-about-iii">
+            <span class="mission-volume-number">Volume III</span>
+            <p class="mission-volume-role">Examine work and distribution</p>
+            <h3><a href={sitePath("/series/managed-decline/")}>Managed Decline</a></h3>
+            <p>
+              Work and social citizenship: trace how taxation, welfare, licensing, and health
+              distribute time, security, and public capacity—and who absorbs the cost of economic
+              change.
+            </p>
+            <a class="mission-volume-link" href={sitePath("/series/managed-decline/")}
+              >Open Volume III →</a
+            >
+          </article>
+          <article class="mission-volume mission-volume-about mission-volume-about-iv">
+            <span class="mission-volume-number">Volume IV</span>
+            <p class="mission-volume-role">Test capability and the future</p>
+            <h3>
+              <a href={sitePath("/series/the-last-human-workforce/")}>The Last Human Workforce</a>
+            </h3>
+            <p>
+              Science and capability: study AI, infrastructure, energy, education, care, and
+              adaptation—and what must be governed before technology expands human agency.
+            </p>
+            <a class="mission-volume-link" href={sitePath("/series/the-last-human-workforce/")}
+              >Open Volume IV →</a
+            >
+          </article>
+        </div>
+        <p>
+          The sequence is deliberate: observation makes power legible, power explains distribution,
+          distribution shapes capability, and capability returns the project to the question of who
+          can observe, participate, and correct the system.
+        </p>
+        <p>
+          <a href="#about-volume-atlas">Browse the interactive volume atlas →</a>
+        </p>
+      </div>
+    </div>
+  </section>
   <section class="section section-white">
     <div class="shell page-grid">
       <aside class="page-aside">Mission</aside>
@@ -24,42 +120,23 @@ import PageHero from "../../components/PageHero.astro";
           and institutional structure shape the available choices.
         </p>
         <p>
+          Independent Observer is a connected four-volume inquiry. Each volume carries the same
+          method into a different part of public life, so the project can examine not only what
+          happened, but the conditions that made it visible, durable, or difficult to change.
+        </p>
+        <p>
+          Read the four volumes as a sequence: Volume I establishes how to observe; Volume II asks
+          where authority and sovereignty are organized; Volume III examines work, taxation, and
+          social citizenship; Volume IV tests technological change against human capability and asks
+          who gets to govern it.
+        </p>
+        <p>
           “Independent” does not mean free from values, error, or perspective. It means the work
           should not conceal its reasoning behind tribal loyalty. Claims should be sourced,
           interpretations should be identifiable, and uncertainty should remain visible.
         </p>
-        <div class="principles">
-          <div class="principle">
-            <span>01</span><div>
-              <h3>Evidence before certainty</h3><p>
-                Confidence should be proportional to the quality and completeness of the record.
-              </p>
-            </div>
-          </div>
-          <div class="principle">
-            <span>02</span><div>
-              <h3>Systems before personalities</h3><p>
-                Individual conduct matters, but durable incentives and procedures often matter more.
-              </p>
-            </div>
-          </div>
-          <div class="principle">
-            <span>03</span><div>
-              <h3>Context before outrage</h3><p>
-                Historical and institutional context should clarify an issue before rhetoric narrows
-                it.
-              </p>
-            </div>
-          </div>
-          <div class="principle">
-            <span>04</span><div>
-              <h3>Correction without ceremony</h3><p>
-                Material errors should be acknowledged and corrected clearly when identified.
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </section>
+  <AboutVolumeAtlas />
 </BaseLayout>

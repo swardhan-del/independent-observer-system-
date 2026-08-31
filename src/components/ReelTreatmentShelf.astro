@@ -1,0 +1,49 @@
+---
+import { reelTreatments } from "../data/video-reel-treatments";
+import { sitePath } from "../lib/paths";
+---
+
+<div class="reel-treatment-shelf" aria-labelledby="reel-treatment-title">
+  <div class="section-heading reel-treatment-heading">
+    <div>
+      <p class="eyebrow">Additional reel treatments</p>
+      <h2 id="reel-treatment-title">More questions are in storyboard.</h2>
+    </div>
+    <p>
+      These eight treatments extend the visual route to two questions per volume. They are public
+      storyboards using the volume illustrations; no playable media or release is represented until
+      a finished asset passes its own review.
+    </p>
+  </div>
+  <ol class="reel-treatment-grid" aria-label="Additional reel treatments by volume">
+    {
+      reelTreatments.map((treatment, index) => (
+        <li class="reel-treatment-card">
+          <a class="reel-treatment-image" href={sitePath(treatment.volumeHref)}>
+            <img
+              src={sitePath(treatment.imageSrc)}
+              alt={treatment.imageAlt}
+              width="1100"
+              height="1100"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+          <div class="reel-treatment-copy">
+            <div class="reel-treatment-topline">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{treatment.volume}</span>
+            </div>
+            <p class="reel-treatment-status">Storyboard treatment · no playable media yet</p>
+            <p class="reel-treatment-category">{treatment.category}</p>
+            <h3>{treatment.title}</h3>
+            <p>{treatment.description}</p>
+            <a class="reel-treatment-link" href={sitePath(treatment.volumeHref)}>
+              Open the {treatment.volume} brief →
+            </a>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</div>

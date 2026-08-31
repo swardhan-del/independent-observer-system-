@@ -3,7 +3,6 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, extname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const APPROVED_SOURCE_PATH = "/Independent Observer desktop/Website Feed/approved";
 const OUTPUT_PATH = resolve("src/data/dropbox-content.generated.ts");
 const MAX_ARTIFACT_BYTES = 95 * 1024 * 1024;
 const ALLOWED_STATUSES = new Set(["Concept preview", "In editorial development"]);
@@ -80,7 +79,7 @@ async function getAccessToken() {
   return (await response.json()).access_token;
 }
 
-async function listFolder(token) {
+async function listFolder(token, approvedSourcePath) {
   const entries = [];
   let response = await readJson(
     "https://api.dropboxapi.com/2/files/list_folder",
@@ -88,7 +87,7 @@ async function listFolder(token) {
       method: "POST",
       headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
       body: JSON.stringify({
-        path: APPROVED_SOURCE_PATH,
+        path: approvedSourcePath,
         recursive: false,
         include_deleted: false,
       }),
@@ -345,15 +344,16 @@ export const dropboxDocumentItems: DropboxDocumentItem[] = ${JSON.stringify(docu
 }
 
 async function run() {
-  if (process.env.DROPBOX_SOURCE_PATH && process.env.DROPBOX_SOURCE_PATH !== APPROVED_SOURCE_PATH) {
-    throw new Error(`DROPBOX_SOURCE_PATH must equal ${APPROVED_SOURCE_PATH}.`);
+  const approvedSourcePath = required("DROPBOX_SOURCE_PATH");
+  if (!approvedSourcePath.startsWith("/") || approvedSourcePath.endsWith("/")) {
+    throw new Error("DROPBOX_SOURCE_PATH must be an absolute Dropbox API path.");
   }
   const token = await getAccessToken();
-  const entries = await listFolder(token);
+  const entries = await listFolder(token, approvedSourcePath);
   const manifestEntry = entries.find(
     (entry) => entry[".tag"] === "file" && entry.name === "manifest.json",
   );
-  if (!manifestEntry) throw new Error(`No manifest.json found in ${APPROVED_SOURCE_PATH}.`);
+  if (!manifestEntry) throw new Error("No manifest.json found in the configured approved folder.");
   const manifest = JSON.parse(
     await download(
       token,
@@ -365,7 +365,7 @@ async function run() {
   for (const { id, source } of data.sources) {
     const bytes = await download(
       token,
-      `${APPROVED_SOURCE_PATH}/${source.relativePath}`,
+      `${approvedSourcePath}/${source.relativePath}`,
       `${id} approved source download`,
     );
     validateArtifact(source, bytes, `items.${id}.source`);

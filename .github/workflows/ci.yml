@@ -20,16 +20,21 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          fetch-depth: 0
+          fetch-depth: 2
+          persist-credentials: false
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 22
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Verify hosted publication operating system
+        run: npm run verify:operating-system
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
       - name: Reject unmanaged Dropbox feed edits
         if: github.event_name == 'pull_request'
         env:
@@ -57,7 +62,13 @@ jobs:
         run: npm run build:pages
       - name: Test GitHub Pages output
         run: npm run test:built
+      - name: Verify GitHub Pages fallback boundary
+        run: npm run verify:pages-fallback
       - name: Build approved public-origin output
         run: SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build
+      - name: Block non-canonical hosts in generated production metadata
+        run: CANONICAL_ORIGIN=https://independentobserver.org npm run verify:canonical-origin
+      - name: Verify Vercel preview indexing boundary
+        run: VERCEL_ENV=preview SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build && npm run verify:preview-indexing
       - name: Run SEO audit
         run: SEO_SITE_URL=https://independentobserver.org npm run seo:audit

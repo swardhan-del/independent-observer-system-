@@ -1,0 +1,329 @@
+---
+import type { TopicHub } from "../data/topics";
+import { topicPluginFor, reviewQueueForTopic } from "../../plugins/topic-discovery/catalog";
+import { seriesItems } from "../data/series";
+import { sitePath } from "../lib/paths";
+
+type Props = {
+  topics: TopicHub[];
+};
+
+const { topics } = Astro.props as Props;
+
+function countRecords(topic: TopicHub, type: string) {
+  if (type === "public")
+    return topic.related.filter((item) => item.type === "SSRN preprint").length;
+  if (type === "preview")
+    return topic.related.filter((item) => item.type.includes("preview")).length;
+  if (type === "roadmap")
+    return topic.related.filter((item) => item.type.startsWith("Volume")).length;
+  return 0;
+}
+
+function typeTags(topic: TopicHub) {
+  const types = new Set<string>();
+  for (const item of topic.related) {
+    if (item.type === "SSRN preprint") types.add("preprint");
+    else if (item.type === "Research preview") types.add("research");
+    else if (item.type === "Documentary preview") types.add("documentary");
+    else if (item.type === "Video preview") types.add("video");
+    else if (item.type.startsWith("Volume")) types.add("roadmap");
+  }
+  return [...types];
+}
+
+function volumeTags(topic: TopicHub) {
+  return [
+    ...new Set(
+      topic.related
+        .map((item) => item.volume ?? (item.type.startsWith("Volume") ? item.type : ""))
+        .filter(Boolean),
+    ),
+  ];
+}
+---
+
+<div class="topic-atlas" id="topic-atlas" data-topic-atlas>
+  <div class="topic-atlas-toolbar">
+    <div class="topic-atlas-filters" role="group" aria-label="Filter topic signals by status">
+      <button type="button" data-topic-view="all" aria-pressed="true">All fields</button>
+      <button type="button" data-topic-view="public" aria-pressed="false">Public preprints</button>
+      <button type="button" data-topic-view="preview" aria-pressed="false">Preview map</button>
+      <button type="button" data-topic-view="roadmap" aria-pressed="false">Series roadmap</button>
+      <button type="button" data-topic-view="release" aria-pressed="false">Held for release</button>
+    </div>
+    <p class="topic-atlas-count" data-topic-atlas-count role="status" aria-live="polite">
+      {topics.length} fields shown
+    </p>
+  </div>
+  <div class="topic-atlas-refine" aria-label="Refine the topic atlas">
+    <div>
+      <label for="topic-atlas-query">Search fields and connected work</label>
+      <input
+        id="topic-atlas-query"
+        type="search"
+        placeholder="Try AI, welfare, migration…"
+        autocomplete="off"
+        data-topic-query
+      />
+    </div>
+    <div>
+      <label for="topic-atlas-volume">Volume</label>
+      <select id="topic-atlas-volume" data-topic-volume-filter>
+        <option value="all">All volumes</option>
+        {seriesItems.map((item) => <option value={item.volume}>{item.volume}</option>)}
+      </select>
+    </div>
+    <div>
+      <label for="topic-atlas-type">Content type</label>
+      <select id="topic-atlas-type" data-topic-type-filter>
+        <option value="all">All types</option>
+        <option value="preprint">SSRN preprints</option>
+        <option value="research">Research previews</option>
+        <option value="documentary">Documentary previews</option>
+        <option value="video">Video previews</option>
+        <option value="roadmap">Volume roadmap</option>
+      </select>
+    </div>
+    <div>
+      <label for="topic-atlas-sort">Order</label>
+      <select id="topic-atlas-sort" data-topic-sort>
+        <option value="connected">Most connected</option>
+        <option value="alpha">A–Z</option>
+      </select>
+    </div>
+    <button type="button" class="topic-atlas-clear" data-topic-clear>Clear refinements</button>
+  </div>
+  <div class="topic-atlas-grid">
+    {
+      topics.map((topic, index) => {
+        const plugin = topicPluginFor(topic.slug);
+        const releaseCount = reviewQueueForTopic(topic.slug).length;
+        const publicCount = countRecords(topic, "public");
+        const previewCount = countRecords(topic, "preview");
+        const roadmapCount = countRecords(topic, "roadmap");
+        const types = typeTags(topic);
+        const volumes = volumeTags(topic);
+        return (
+          <article
+            class="topic-atlas-card"
+            data-topic-card
+            data-public-count={publicCount}
+            data-preview-count={previewCount}
+            data-roadmap-count={roadmapCount}
+            data-release-count={releaseCount}
+            data-topic-types={types.join(",")}
+            data-topic-volumes={volumes.join(",")}
+            data-topic-title={topic.name}
+            data-topic-search={`${topic.name} ${topic.description} ${plugin.question} ${plugin.method}`}
+            data-topic-search-work={topic.related
+              .map((item) => `${item.title} ${item.category} ${item.description} ${item.status}`)
+              .join(" ")}
+          >
+            <div class="topic-atlas-card-topline">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{plugin.kicker}</span>
+            </div>
+            <h3>
+              <a href={sitePath(`/topics/${topic.slug}/`)}>{topic.name}</a>
+            </h3>
+            <p class="topic-atlas-question">{plugin.question}</p>
+            <p>{plugin.method}</p>
+            <div class="topic-atlas-stats" aria-label={`${topic.name} discovery signals`}>
+              <span>
+                <strong>{publicCount}</strong> public preprints
+              </span>
+              <span>
+                <strong>{previewCount}</strong> previews
+              </span>
+              <span>
+                <strong>{roadmapCount}</strong> roadmap notes
+              </span>
+              <span>
+                <strong>{releaseCount}</strong> held for release
+              </span>
+            </div>
+            <a class="topic-atlas-link" href={sitePath(`/topics/${topic.slug}/`)}>
+              Enter {topic.name} →
+            </a>
+          </article>
+        );
+      })
+    }
+  </div>
+  <p class="topic-atlas-empty" data-topic-atlas-empty hidden>
+    No fields match these refinements. Try a broader term such as AI, labor, institutions, or
+    migration, or clear the filters to restore the full map.
+  </p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-topic-atlas]").forEach((root) => {
+    const cards = [...root.querySelectorAll<HTMLElement>("[data-topic-card]")];
+    const grid = root.querySelector<HTMLElement>(".topic-atlas-grid");
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>("[data-topic-view]")];
+    const query = root.querySelector<HTMLInputElement>("[data-topic-query]");
+    const volumeFilter = root.querySelector<HTMLSelectElement>("[data-topic-volume-filter]");
+    const typeFilter = root.querySelector<HTMLSelectElement>("[data-topic-type-filter]");
+    const sort = root.querySelector<HTMLSelectElement>("[data-topic-sort]");
+    const clear = root.querySelector<HTMLButtonElement>("[data-topic-clear]");
+    const count = root.querySelector<HTMLElement>("[data-topic-atlas-count]");
+    const empty = root.querySelector<HTMLElement>("[data-topic-atlas-empty]");
+    if (
+      !cards.length ||
+      !grid ||
+      !buttons.length ||
+      !query ||
+      !volumeFilter ||
+      !typeFilter ||
+      !sort ||
+      !clear ||
+      !count ||
+      !empty
+    )
+      return;
+
+    let activeView = "all";
+
+    const normalize = (value: string) =>
+      value
+        .normalize("NFKD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLocaleLowerCase("en")
+        .replace(/[^\p{L}\p{N}]+/gu, " ")
+        .trim();
+    const synonymGroups = [
+      ["ai", "artificial", "intelligence", "automation"],
+      ["labor", "workforce", "employment", "work"],
+      ["institutions", "institution", "governance", "administration"],
+      ["migration", "demographic", "demographics", "foreign", "workers"],
+      ["technology", "technologies", "computing", "infrastructure"],
+    ];
+    const groupsFor = (value: string) =>
+      normalize(value)
+        .split(" ")
+        .filter(Boolean)
+        .map((token) => synonymGroups.find((group) => group.includes(token)) ?? [token]);
+    const hasQueryMatch = (card: HTMLElement) => {
+      const groups = groupsFor(query.value);
+      if (!groups.length) return true;
+      const tokens = new Set(
+        normalize(`${card.dataset.topicSearch ?? ""} ${card.dataset.topicSearchWork ?? ""}`).split(
+          " ",
+        ),
+      );
+      return groups.every((group) => group.some((term) => tokens.has(term)));
+    };
+
+    const syncUrl = () => {
+      const url = new URL(window.location.href);
+      if (activeView === "all") url.searchParams.delete("view");
+      else url.searchParams.set("view", activeView);
+      if (query.value.trim()) url.searchParams.set("q", query.value.trim());
+      else url.searchParams.delete("q");
+      if (volumeFilter.value === "all") url.searchParams.delete("volume");
+      else url.searchParams.set("volume", volumeFilter.value);
+      if (typeFilter.value === "all") url.searchParams.delete("type");
+      else url.searchParams.set("type", typeFilter.value);
+      if (sort.value === "connected") url.searchParams.delete("sort");
+      else url.searchParams.set("sort", sort.value);
+      window.history.replaceState(
+        null,
+        "",
+        url.pathname + (url.search ? url.search : "") + url.hash,
+      );
+    };
+
+    const update = (writeUrl = true) => {
+      const matching: HTMLElement[] = [];
+      for (const card of cards) {
+        const matches =
+          activeView === "all" ||
+          (activeView === "public" && Number(card.dataset.publicCount) > 0) ||
+          (activeView === "preview" && Number(card.dataset.previewCount) > 0) ||
+          (activeView === "roadmap" && Number(card.dataset.roadmapCount) > 0) ||
+          (activeView === "release" && Number(card.dataset.releaseCount) > 0);
+        const matchesVolume =
+          volumeFilter.value === "all" ||
+          (card.dataset.topicVolumes ?? "").split(",").includes(volumeFilter.value);
+        const matchesType =
+          typeFilter.value === "all" ||
+          (card.dataset.topicTypes ?? "").split(",").includes(typeFilter.value);
+        const matchesQuery = hasQueryMatch(card);
+        const visible = matches && matchesVolume && matchesType && matchesQuery;
+        card.hidden = !visible;
+        if (visible) matching.push(card);
+      }
+      const ordered = [...cards].sort((left, right) => {
+        if (sort.value === "alpha")
+          return (left.dataset.topicTitle ?? "").localeCompare(
+            right.dataset.topicTitle ?? "",
+            "en",
+          );
+        const leftSignals =
+          Number(left.dataset.publicCount ?? 0) +
+          Number(left.dataset.previewCount ?? 0) +
+          Number(left.dataset.roadmapCount ?? 0);
+        const rightSignals =
+          Number(right.dataset.publicCount ?? 0) +
+          Number(right.dataset.previewCount ?? 0) +
+          Number(right.dataset.roadmapCount ?? 0);
+        return (
+          rightSignals - leftSignals ||
+          (left.dataset.topicTitle ?? "").localeCompare(right.dataset.topicTitle ?? "", "en")
+        );
+      });
+      ordered.forEach((card) => grid.append(card));
+      for (const button of buttons) {
+        button.setAttribute("aria-pressed", String(button.dataset.topicView === activeView));
+      }
+      count.textContent = `${matching.length} ${matching.length === 1 ? "field" : "fields"} shown`;
+      empty.hidden = matching.length !== 0;
+      if (writeUrl) syncUrl();
+    };
+
+    for (const button of buttons) {
+      button.addEventListener("click", () => {
+        activeView = button.dataset.topicView ?? "all";
+        update();
+      });
+    }
+    query.addEventListener("input", () => update());
+    volumeFilter.addEventListener("change", () => update());
+    typeFilter.addEventListener("change", () => update());
+    sort.addEventListener("change", () => update());
+    clear.addEventListener("click", () => {
+      activeView = "all";
+      query.value = "";
+      volumeFilter.value = "all";
+      typeFilter.value = "all";
+      sort.value = "connected";
+      update();
+      query.focus();
+    });
+
+    const applyUrlState = () => {
+      const requestedView = new URLSearchParams(window.location.search).get("view") ?? "all";
+      activeView = buttons.some((button) => button.dataset.topicView === requestedView)
+        ? requestedView
+        : "all";
+      const params = new URLSearchParams(window.location.search);
+      query.value = params.get("q") ?? "";
+      volumeFilter.value = [...volumeFilter.options].some(
+        (option) => option.value === params.get("volume"),
+      )
+        ? (params.get("volume") ?? "all")
+        : "all";
+      typeFilter.value = [...typeFilter.options].some(
+        (option) => option.value === params.get("type"),
+      )
+        ? (params.get("type") ?? "all")
+        : "all";
+      sort.value = params.get("sort") === "alpha" ? "alpha" : "connected";
+      update(false);
+    };
+
+    window.addEventListener("popstate", applyUrlState);
+    applyUrlState();
+  });
+</script>

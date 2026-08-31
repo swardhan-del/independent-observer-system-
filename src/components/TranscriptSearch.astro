@@ -1,0 +1,55 @@
+---
+export type TranscriptLine = { time: string; speaker?: string; text: string };
+type Props = { lines: TranscriptLine[] };
+const { lines } = Astro.props as Props;
+---
+
+<section class="transcript" data-transcript aria-labelledby="transcript-title">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Accessible transcript</p><h2 id="transcript-title">Search the record</h2>
+    </div>
+    <label
+      >Find in transcript<input
+        type="search"
+        data-transcript-query
+        placeholder="Search words or speakers"
+      /></label
+    >
+  </div>
+  <ol data-transcript-lines>
+    {
+      lines.map((line) => (
+        <li data-transcript-line data-transcript-text={`${line.speaker ?? ""} ${line.text}`}>
+          <>
+            <a href={`#transcript-${line.time.replace(/\W/g, "-")}`}>{line.time}</a>
+            <p id={`transcript-${line.time.replace(/\W/g, "-")}`}>
+              <strong>{line.speaker}</strong> {line.text}
+            </p>
+          </>
+        </li>
+      ))
+    }
+  </ol>
+  <p data-transcript-empty hidden>No transcript lines match that search.</p>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-transcript]").forEach((root) => {
+    const input = root.querySelector<HTMLInputElement>("[data-transcript-query]");
+    const lines = [...root.querySelectorAll<HTMLElement>("[data-transcript-line]")];
+    const empty = root.querySelector<HTMLElement>("[data-transcript-empty]");
+    if (!input || !empty) return;
+    input.addEventListener("input", () => {
+      const query = input.value.trim().toLocaleLowerCase();
+      let visible = 0;
+      lines.forEach((line) => {
+        const match =
+          !query || (line.dataset.transcriptText ?? "").toLocaleLowerCase().includes(query);
+        line.hidden = !match;
+        if (match) visible += 1;
+      });
+      empty.hidden = visible > 0;
+    });
+  });
+</script>

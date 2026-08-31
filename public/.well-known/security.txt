@@ -1,0 +1,4 @@
+Contact: https://independentobserver.org/contact/
+Policy: https://independentobserver.org/about/
+Canonical: https://independentobserver.org/.well-known/security.txt
+Expires: 2027-08-27T00:00:00Z

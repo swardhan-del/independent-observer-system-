@@ -11,12 +11,22 @@ type Props = {
   description: string;
   currentPath?: string;
   noindex?: boolean;
+  canonicalPath?: string;
 };
 
-const { title, description, currentPath = "/", noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  currentPath = "/",
+  noindex = false,
+  canonicalPath = currentPath,
+} = Astro.props;
+const fallbackBuild = import.meta.env.PUBLIC_FALLBACK_BUILD === "true";
+const previewBuild = import.meta.env.VERCEL_ENV === "preview";
+const shouldNoindex = noindex || fallbackBuild || previewBuild;
 const fullTitle = title === "Home" ? "Independent Observer" : `${title} | Independent Observer`;
 const publicOrigin = Astro.site ?? new URL(Astro.url.origin);
-const canonicalUrl = new URL(sitePath(currentPath), publicOrigin).href;
+const canonicalUrl = new URL(sitePath(canonicalPath), publicOrigin).href;
 const websiteUrl = new URL(sitePath("/"), publicOrigin).href;
 const socialImageUrl = new URL(sitePath("/og-cover.jpg"), publicOrigin).href;
 const sitemapUrl = new URL(sitePath("/sitemap.xml"), publicOrigin).href;
@@ -80,7 +90,7 @@ const structuredData = JSON.stringify({
         ]
       : []),
   ],
-}).replace(/</g, "\u003c");
+}).replace(/</g, "\\u003c");
 ---
 
 <!doctype html>
@@ -96,7 +106,7 @@ const structuredData = JSON.stringify({
     />
     <meta name="author" content="Independent Observer" />
     <meta name="theme-color" content="#07182d" />
-    {noindex && <meta name="robots" content="noindex,follow" />}
+    {shouldNoindex && <meta name="robots" content="noindex,follow" />}
     <link rel="canonical" href={canonicalUrl} />
     <link rel="sitemap" type="application/xml" href={sitemapUrl} />
     <link
@@ -104,6 +114,12 @@ const structuredData = JSON.stringify({
       type="application/rss+xml"
       title="Independent Observer feed"
       href={new URL(sitePath("/feed.xml"), publicOrigin).href}
+    />
+    <link
+      rel="alternate"
+      type="application/atom+xml"
+      title="Independent Observer release feed"
+      href={new URL(sitePath("/feed.atom.xml"), publicOrigin).href}
     />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_US" />

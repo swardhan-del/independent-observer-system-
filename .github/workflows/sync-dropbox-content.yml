@@ -15,20 +15,23 @@ concurrency:
 
 jobs:
   sync:
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      DROPBOX_SOURCE_PATH: /Independent Observer desktop/Website Feed/approved
+      DROPBOX_SOURCE_PATH: ${{ vars.DROPBOX_APPROVED_PATH }}
       DROPBOX_APP_KEY: ${{ secrets.DROPBOX_APP_KEY }}
       DROPBOX_APP_SECRET: ${{ secrets.DROPBOX_APP_SECRET }}
       DROPBOX_REFRESH_TOKEN: ${{ secrets.DROPBOX_REFRESH_TOKEN }}
       GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: main
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 22
 

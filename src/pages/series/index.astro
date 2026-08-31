@@ -1,70 +1,42 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ContentFilter from "../../components/ContentFilter.astro";
 import PageHero from "../../components/PageHero.astro";
 import EditorialCard from "../../components/EditorialCard.astro";
+import PublicationCatalogue from "../../components/PublicationCatalogue.astro";
+import VolumeVisualStrip from "../../components/VolumeVisualStrip.astro";
 import { dropboxFeedItems } from "../../data/dropbox-content.generated";
-import { seriesItems } from "../../data/series";
 import { sitePath } from "../../lib/paths";
-import { slugify } from "../../lib/slugs";
 
 const automatedSeriesItems = dropboxFeedItems.filter((item) => item.kind === "series");
 ---
 
 <BaseLayout
-  title="Series Roadmap"
-  description="A preview roadmap for the four-volume Independent Observer nonfiction series."
+  title="Publication Catalogue"
+  description="The official public-safe catalogue of the four-volume Independent Observer research program."
   currentPath="/series/"
 >
   <PageHero
-    eyebrow="Publication roadmap"
-    title="One series. Four mechanisms."
-    description="A public-safe view of the Independent Observer series as it develops across democratic capacity, sovereignty, social citizenship, and human capability."
+    eyebrow="Publication catalogue"
+    title="One series. Four volumes."
+    description="Four lines of inquiry, one for each Independent Observer volume. Volume I is the method foundation: it represents observation, evidence, public memory, and democratic capacity, and is meant to show how a conclusion is formed before it is accepted. Volume II is the power inquiry: it represents sovereignty, institutions, history, migration, markets, and enforcement, and is meant to trace how authority is distributed and exercised. Volume III is the social-citizenship inquiry: it represents work, time, taxation, welfare, licensing, health, and economic security, and is meant to ask who carries the cost of change and who can access public capacity. Volume IV is the capability inquiry: it represents AI, infrastructure, science, labor, intimacy, and adaptation, and is meant to test how technological change can become human capability. Together, they form the official public-safe catalogue, with linked reading copies, research maps, and visible release boundaries."
   />
-  <section class="section section-white">
+  <section class="section section-rule volume-visual-section" aria-labelledby="volume-visual-title">
     <div class="shell">
-      <h2 class="sr-only">Independent Observer volume previews</h2>
-      <div class="placeholder-notice">
-        This is a review roadmap, not a publication catalogue. Candidate titles and descriptions may
-        change; no volume is represented as published, peer reviewed, or commercially released.
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Visual map</p>
+          <h2 id="volume-visual-title">Four questions. One connected program.</h2>
+        </div>
+        <p>
+          These visual companions make the movement through the catalogue visible: observation
+          becomes a way to locate power, follow distribution, and ask whether capability can be
+          governed.
+        </p>
       </div>
-      <ContentFilter targetId="series-preview-grid" itemCount={seriesItems.length} />
-      <div class="card-grid" id="series-preview-grid">
-        {
-          seriesItems.map((item, index) => (
-            <article
-              class="editorial-card"
-              data-filter-card
-              data-search-text={[
-                item.title,
-                item.volume,
-                item.category,
-                item.description,
-                item.status,
-              ]
-                .join(" ")
-                .toLocaleLowerCase()}
-              data-status={item.status.toLocaleLowerCase()}
-            >
-              <div class="card-meta">
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <span>{item.volume}</span>
-              </div>
-              <h3>{item.title}</h3>
-              <p class="card-category">{item.category}</p>
-              <p>{item.description}</p>
-              <div class="card-footer">
-                <span class="status-pill">{item.status}</span>
-                <a class="card-open-link" href={sitePath(`/series/${slugify(item.title)}/`)}>
-                  Open roadmap note →
-                </a>
-              </div>
-            </article>
-          ))
-        }
-      </div>
+      <VolumeVisualStrip />
     </div>
   </section>
+  <PublicationCatalogue />
   {
     automatedSeriesItems.length > 0 && (
       <section class="section section-navy">
@@ -72,9 +44,12 @@ const automatedSeriesItems = dropboxFeedItems.filter((item) => item.kind === "se
           <div class="section-heading">
             <div>
               <p class="eyebrow">Approved archive feed</p>
-              <h2>New roadmap notes</h2>
+              <h2>New catalogue records</h2>
             </div>
-            <p>Structured updates arrive from Dropbox only after explicit website approval.</p>
+            <p>
+              Structured updates arrive from the approved source feed only after explicit website
+              approval.
+            </p>
           </div>
           <div class="card-grid">
             {automatedSeriesItems.map((item, index) => (
@@ -91,10 +66,10 @@ const automatedSeriesItems = dropboxFeedItems.filter((item) => item.kind === "se
       <div class="prose">
         <h2>Public promise before publication</h2>
         <p>
-          A finished volume must pass claim-level evidence review, rights and provenance checks,
-          fairness review, rendered visual QA, cloud-state verification, and dated author approval.
-          The roadmap keeps those gates visible rather than converting a working archive into an
-          implied release.
+          A catalogue record does not make a volume a finished publication. A released volume must
+          pass claim-level evidence review, rights and provenance checks, fairness review, rendered
+          visual QA, cloud-state verification, and dated author approval. The catalogue keeps those
+          gates visible while making the work easier to investigate.
         </p>
         <p>
           <a href={sitePath("/research/")}>Explore the research desk</a> while the series develops.

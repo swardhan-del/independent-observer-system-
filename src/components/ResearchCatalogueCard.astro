@@ -1,0 +1,100 @@
+---
+import { normalizeSearchText } from "../lib/search";
+import type { ResearchCatalogueRecord } from "../lib/research-catalogue";
+
+type Props = {
+  record: ResearchCatalogueRecord;
+  index: number;
+};
+
+const { record, index } = Astro.props;
+const readingId = `route:${record.href}`;
+const statusClass = record.status === "In editorial development" ? " status-pill--active" : "";
+const topicLabel = record.volume ? `${record.volume} · ${record.category}` : record.category;
+const externalLinks = record.sourceUrl || record.researchGateUrl;
+---
+
+<li
+  class="research-catalogue-card"
+  data-research-card={record.id}
+  data-kind={record.kind}
+  data-status={normalizeSearchText(record.status)}
+  data-volume={record.volume ?? ""}
+  data-topic={record.topics?.join(" ") ?? ""}
+  aria-labelledby={`research-record-${index}`}
+>
+  <article>
+    <div class="research-catalogue-card-topline">
+      <span>{String(index).padStart(2, "0")}</span>
+      <span>{record.volume ?? record.kind}</span>
+    </div>
+    <div class="research-catalogue-card-heading">
+      <span class={`status-pill${statusClass}`}>{record.status}</span>
+      <span>{record.kind}</span>
+    </div>
+    <h3 id={`research-record-${index}`}><a href={record.href}>{record.title}</a></h3>
+    <p class="research-catalogue-card-topic">{topicLabel}</p>
+    {
+      record.publicationDate && (
+        <p class="research-catalogue-card-date">
+          <span>{record.dateLabel ?? "Posted"}</span> {record.publicationDate}
+        </p>
+      )
+    }
+    <p>{record.description}</p>
+    {
+      record.kind === "Volume record" && (
+        <p class="research-catalogue-card-signal">
+          Connected public work: {record.paperCount}{" "}
+          {record.paperCount === 1 ? "SSRN reading copy" : "SSRN reading copies"}.
+        </p>
+      )
+    }
+    {
+      record.kind === "SSRN preprint" && record.metrics && (
+        <p class="research-catalogue-card-signal">
+          Retrieved signal: {record.metrics.downloads ?? "—"} downloads ·{" "}
+          {record.metrics.abstractViews ?? "—"} abstract views; last directly verified{" "}
+          {record.metrics.checkedAt}. Current SSRN availability is review-pending.
+        </p>
+      )
+    }
+    <div class="research-catalogue-card-footer">
+      <button
+        class="card-save"
+        type="button"
+        data-reading-toggle
+        data-reading-id={readingId}
+        data-reading-title={record.title}
+        data-reading-href={record.href}
+        data-reading-type={record.kind}
+        aria-pressed="false">Save</button
+      >
+      <a class="card-open-link" href={record.href}>
+        {
+          record.kind === "SSRN preprint"
+            ? "Open reading copy"
+            : record.kind === "Volume record"
+              ? "Open volume record"
+              : "Open research concept"
+        } →
+      </a>
+      {
+        externalLinks && (
+          <span class="research-catalogue-card-external">
+            {record.sourceUrl && (
+              <a href={record.sourceUrl} target="_blank" rel="noreferrer">
+                SSRN ↗
+              </a>
+            )}
+            {record.researchGateUrl && (
+              <a href={record.researchGateUrl} target="_blank" rel="noreferrer">
+                ResearchGate ↗
+              </a>
+            )}
+          </span>
+        )
+      }
+    </div>
+  </article>
+</li>

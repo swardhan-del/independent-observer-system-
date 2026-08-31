@@ -1,11 +1,28 @@
 export type EditorialStatus = "Concept preview" | "In editorial development";
 
+export type EditorialDetailSection = {
+  heading: string;
+  paragraphs?: string[];
+  items?: string[];
+};
+
+export type EditorialSourceLink = {
+  label: string;
+  url: string;
+};
+
 export type EditorialItem = {
   title: string;
   category: string;
   description: string;
   status: EditorialStatus;
+  volume?: string;
   readingTime?: string;
+  detailHeading?: string;
+  detailLead?: string;
+  detailSections?: EditorialDetailSection[];
+  sourceNote?: string;
+  sourceLinks?: EditorialSourceLink[];
 };
 
 export const researchItems: EditorialItem[] = [
@@ -13,9 +30,57 @@ export const researchItems: EditorialItem[] = [
     title: "Lawsuits Are Illusions: Where Institutional Power Actually Resides",
     category: "Law & Institutions",
     description:
-      "A proposed analysis of the distance between formal legal remedies and the practical distribution of institutional power.",
+      "A Volume III research inquiry into how legal remedies become usable—or remain formal—using working-paper directions on Terry v. Ohio, mass incarceration, social control, and the Volume II question of practical democratic access.",
     status: "In editorial development",
-    readingTime: "Essay concept",
+    volume: "Volume III",
+    readingTime: "Essay concept · Volume III",
+    detailLead:
+      "This Volume III-connected inquiry follows the gap between a legal remedy on paper and the institutional capacity required to make that remedy usable: access, enforcement, welfare administration, work, and public visibility.",
+    detailSections: [
+      {
+        heading: "Volume III connection",
+        paragraphs: [
+          "The concept is mapped to Volume III, Managed Decline, because it asks how law, enforcement, welfare, taxation, labor, and public records distribute practical power and insecurity.",
+          "The closely related Volume III public SSRN reading copy is From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential. The public record is linked for discovery, while the matching source material remains outside the website; this page uses the relationship as a research map rather than reproducing the manuscript.",
+        ],
+      },
+      {
+        heading: "Questions carried into the volume",
+        items: [
+          "When formal legal remedies exist, what determines whether a person can reach, understand, and use them?",
+          "How do enforcement, welfare, and labor systems record hardship—and how might those records conceal institutional choices?",
+          "What would a restoration-focused policy have to measure before it could be compared with punitive or exclusionary systems?",
+        ],
+      },
+      {
+        heading: "Volume III research directions",
+        paragraphs: [
+          "One Volume III working-paper direction follows the paper's argument from Vietnam veterans' unmet reintegration needs to Terry v. Ohio and the institutional growth of discretionary policing. This page does not treat Terry v. Ohio as a single-cause explanation for mass incarceration; it marks a historical mechanism for further legal and empirical testing.",
+          "A second Volume III direction, Welfare, Wealthfare, and Social Control in Advanced Democracies, asks whether deindustrialization, blocked education and employment, welfare administration, surveillance, and punishment can create forms of structural confinement without a formal prison sentence. 'Open-air prison' is an analytical hypothesis in that working paper, not a verified description of every neighborhood.",
+          "Together with the public Volume III reading copy The Wardhan Tax Doctrine, these directions make the volume's concern concrete: who carries the cost of change, how institutions record failure, and whether public systems restore capacity or manage it.",
+        ],
+        items: [
+          "Terry v. Ohio and discretionary enforcement.",
+          "Mass incarceration and the 'failure economy': distinguish documented policy mechanisms from claims about motive.",
+          "Societal failure as a systems question: education, employment, welfare, records, and legal access.",
+          "Counterargument: avoid single-cause explanations and keep agency, institutional variation, and uncertainty visible.",
+        ],
+      },
+      {
+        heading: "Volume II context",
+        paragraphs: [
+          "The adjacent Volume II research line, Democracy's Achilles' Heel: Institutional Incentives and Political Outcomes, examines the distance between formal political equality and the practical ability to set agendas, obtain information, participate, and secure institutional correction.",
+          "That connection helps explain why this preview asks about usable remedies rather than lawsuits alone: rights, procedures, administration, and public capacity must meet before a formal remedy changes lived conditions. The Volume II manuscript remains a working/preprint direction, not a released Independent Observer publication.",
+        ],
+        items: [
+          "Resource conversion and access.",
+          "Information gatekeeping and institutional referees.",
+          "Correction channels between elections.",
+        ],
+      },
+    ],
+    sourceNote:
+      "This public catalogue relationship draws on the public SSRN reading copy From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential, the audited Volume III working-paper direction Welfare, Wealthfare, and Social Control in Advanced Democracies, and the Volume II working-paper direction Democracy's Achilles' Heel: Institutional Incentives and Political Outcomes. These source reservoirs inform the research map; Raw source files, alternate drafts, private metadata, and unverified claims remain outside the website.",
   },
   {
     title: "The Welfare Paradox",
@@ -29,9 +94,37 @@ export const researchItems: EditorialItem[] = [
     title: "The Autonomous Illusion",
     category: "Science & Labor",
     description:
-      "A proposed inquiry into technological forecasts, labor displacement, infrastructure, and the limits of automation narratives.",
+      "An inquiry into the hidden system beneath the promise of autonomy: what technology can replace, what human labor it still depends on, and how compute, energy, data, maintenance, and institutions shape the outcome.",
     status: "Concept preview",
-    readingTime: "Essay concept",
+    readingTime: "Research concept · 8 min overview",
+    detailLead:
+      "The future of automation is often described as a software story. This project asks what happens when the full system—physical infrastructure, human judgment, and institutional capacity—comes back into view.",
+    detailSections: [
+      {
+        heading: "The question beneath the headline",
+        paragraphs: [
+          "What looks like an autonomous machine is still part of a larger arrangement of people, resources, rules, and maintenance. The proposed investigation follows that arrangement instead of treating autonomy as a self-explanatory outcome.",
+        ],
+      },
+      {
+        heading: "A map for reading the debate",
+        items: [
+          "Which tasks are genuinely exposed to automation, and which are reorganized or moved out of sight?",
+          "What computing, energy, data, maintenance, and human judgment must remain in the loop?",
+          "Who owns the infrastructure, captures the gains, and carries the costs of transition?",
+          "How should education, scientific capacity, and public institutions adapt to uncertain forecasts?",
+        ],
+      },
+      {
+        heading: "What a finished investigation must make visible",
+        items: [
+          "Separate technological forecasts from demonstrated deployments.",
+          "Distinguish task substitution from augmentation and supervision.",
+          "Test optimistic and pessimistic scenarios against their stated assumptions.",
+          "Keep limitations, counterarguments, and unresolved questions visible.",
+        ],
+      },
+    ],
   },
 ];
 
@@ -50,6 +143,43 @@ export const documentaryItems: EditorialItem[] = [
       "A proposed documentary asking whether civilization should prioritize Earth systems, energy, and nearer-space infrastructure.",
     status: "Concept preview",
   },
+  {
+    title: "The Work Behind the Machine",
+    category: "AI & Human Capability · Volume IV",
+    description:
+      "A Volume IV documentary concept about the human systems behind automation—compute, energy, education, care, maintenance, and the judgment required to turn technical possibility into usable capability.",
+    status: "Concept preview",
+    volume: "Volume IV",
+    readingTime: "Documentary concept · Volume IV",
+    detailHeading: "A documentary about the work behind automation.",
+    detailLead:
+      "Volume IV asks what it takes for a new tool to become usable human capability. This treatment would follow the overlooked systems around automation—compute, energy, maintenance, training, care, and institutional accountability—rather than treating replacement as the whole story.",
+    detailSections: [
+      {
+        heading: "The Volume IV question",
+        paragraphs: [
+          "A machine can appear autonomous while depending on a large human and material support system. The documentary would make that system visible: the scientific infrastructure, energy, data, repair, education, and care required before technical possibility becomes durable public capacity.",
+        ],
+      },
+      {
+        heading: "What the treatment would make visible",
+        items: [
+          "The difference between a task being replaced, reorganized, augmented, or moved out of sight.",
+          "The people who maintain, explain, repair, supervise, and challenge automated systems.",
+          "How education, health, time, and institutional rules shape who can benefit from technical change.",
+          "The evidence needed to distinguish expanded human capability from a simple transfer of work and risk.",
+        ],
+      },
+      {
+        heading: "Publication status",
+        paragraphs: [
+          "This is a concept preview connected to The Last Human Workforce, not a released film. Research, source verification, rights review, a finished treatment, production, and human release approval remain separate requirements.",
+        ],
+      },
+    ],
+    sourceNote:
+      "This concept uses the public Volume IV research frame as a map for a future documentary treatment. Public SSRN reading copies and research previews remain distinct from a finished or released film; private source files and unpublished production material stay outside the website.",
+  },
 ];
 
 export const videoItems: EditorialItem[] = [
@@ -57,22 +187,83 @@ export const videoItems: EditorialItem[] = [
     title: "Why Evidence Alone Is Not Enough",
     category: "Institutional Accountability",
     description:
-      "A short-form editorial concept about the difference between possessing evidence and securing meaningful institutional review.",
+      "A short-form visual essay tracing the gap between having evidence and making it matter. It follows how a record is noticed, authenticated, interpreted, and carried into institutional review—and why access, procedure, competing narratives, and public attention can determine whether a documented fact leads to accountability or disappears.",
     status: "Concept preview",
+    readingTime: "Short-form video concept · 3–5 min",
+    detailHeading: "What this video is for.",
+    detailLead:
+      "This video is meant to help viewers see the missing steps between a record and a public response. It uses the Independent Observer method to show that evidence must be preserved, made legible, carried into a forum, tested against competing explanations, and connected to a correction path before it can support accountability.",
+    detailSections: [
+      {
+        heading: "What the video follows",
+        items: [
+          "The record: what was observed, preserved, and authenticated before interpretation begins.",
+          "The passage into public attention: how framing, competing narratives, and media incentives can make the same evidence visible or easy to ignore.",
+          "The institutional test: whether a person can reach review, receive a reasoned response, challenge an error, and obtain correction.",
+        ],
+      },
+      {
+        heading: "Why it matters to the project",
+        paragraphs: [
+          "Independent Observer asks readers to separate a documented fact from the explanation built around it. This concept makes that discipline visual by showing the missing steps between possessing evidence and securing meaningful institutional review.",
+        ],
+      },
+    ],
   },
   {
     title: "The Cost of Looking Away",
-    category: "Civic Culture",
+    category: "Democratic capacity & civic culture",
     description:
-      "A sample video entry showing how future episodes can be catalogued with a synopsis, topic, and publication status.",
+      "A documentary explainer concept about the gap between a public record and a meaningful institutional response: what determines whether evidence is noticed, processed, challenged, and corrected.",
     status: "Concept preview",
-  },
-  {
-    title: "Power, Procedure, and the Public Record",
-    category: "Law & Institutions",
-    description:
-      "A placeholder for a future explainer on how procedure can determine whether facts ever receive substantive consideration.",
-    status: "Concept preview",
+    volume: "Volume II · Democracy & Institutions",
+    readingTime: "Video concept · 12–18 min",
+    detailLead:
+      "A record can be visible without becoming usable. This concept follows the institutional path between evidence and response—access, information, administration, review, and correction—while keeping the method of observation separate from the conclusions still to be tested.",
+    detailSections: [
+      {
+        heading: "Topic and volume",
+        paragraphs: [
+          "The concept belongs to Volume II’s democracy-and-institutions work and is designed as a public-facing companion to Democracy’s Achilles’ Heel. Its question is not whether participation exists, but whether people can convert participation and evidence into a fair hearing between elections.",
+        ],
+      },
+      {
+        heading: "What the public-safe audit establishes",
+        paragraphs: [
+          "The 2026-08-22 Website Publication Audit classifies Democracy’s Achilles’ Heel as a higher-standard working paper that remains B — YELLOW / REVIEW REQUIRED. Its web-ready source notes report more than 158 million counted ballots in the 2024 U.S. general election and turnout of 64.7% of the citizen voting-age population, using the U.S. Election Assistance Commission’s 2024 Election Administration and Voting Survey.",
+        ],
+        items: [
+          "Those figures document substantial participation; they do not, by themselves, show that agenda-setting, information access, administration, or correction are equally available between elections.",
+          "The source notes caution that an unequal outcome does not by itself prove capture, suppression, or bad faith.",
+        ],
+      },
+      {
+        heading: "The mechanism the video would test",
+        items: [
+          "Evidence becomes consequential only when people can reach a forum, administrators can process the claim, institutions can hear competing accounts, and a correction path exists.",
+          "The same record can be visible and still be unusable when access burdens, information asymmetry, or procedural delay prevent meaningful review.",
+          "A finished treatment would keep documented facts, interpretation, hypothesis, counterargument, and unresolved questions visibly separate.",
+        ],
+      },
+      {
+        heading: "Publication status and release boundary",
+        paragraphs: [
+          "This page is an Independent Observer concept preview, not a released video or article. The related Volume II candidate remains awaiting human release; no player, transcript, final citation package, media-rights clearance, or production release is asserted here.",
+        ],
+      },
+    ],
+    sourceNote:
+      "The page uses only the public-safe source notes reviewed in the 2026-08-22 Website Publication Audit. Private source paths, working-paper files, internal controller evidence, and watermarked video exports remain outside the website.",
+    sourceLinks: [
+      {
+        label: "U.S. Election Assistance Commission · 2024 EAVS report",
+        url: "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      },
+      {
+        label: "U.S. Election Assistance Commission · 2024 EAVS release",
+        url: "https://www.eac.gov/news/2025/06/30/us-election-assistance-commission-releases-2024-election-administration-and-voting",
+      },
+    ],
   },
 ];
 

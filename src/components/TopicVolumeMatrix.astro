@@ -1,0 +1,257 @@
+---
+import {
+  topicPluginDefinitions,
+  volumeTopicConnections,
+} from "../../plugins/topic-discovery/catalog";
+import { seriesItems } from "../data/series";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+
+const defaultTopic = topicPluginDefinitions[0];
+const defaultVolume = seriesItems[0];
+const defaultConnection = volumeTopicConnections[defaultVolume.volume];
+---
+
+<section
+  class="section section-white topic-volume-matrix"
+  id="volume-matrix"
+  data-topic-volume-matrix
+  aria-labelledby="topic-volume-matrix-title"
+>
+  <div class="shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Relationship map</p>
+        <h2 id="topic-volume-matrix-title">Six fields across four volumes.</h2>
+      </div>
+      <p>
+        Select a cell to see how a subject connects to a volume, which public-safe ideas anchor the
+        connection, and where the reader can continue. “No dedicated entry point” means the map is
+        honest about what is not yet assembled; it does not mean the subject is unimportant.
+      </p>
+    </div>
+
+    <div
+      class="topic-matrix-wrap"
+      tabindex="0"
+      aria-label="Scrollable six-field by four-volume relationship table"
+    >
+      <table class="topic-matrix">
+        <caption>Independent Observer topic fields and their four-volume connections</caption>
+        <thead>
+          <tr>
+            <th scope="col">Field</th>
+            {
+              seriesItems.map((volume) => (
+                <th scope="col">
+                  {volume.volume}
+                  <span>{volume.title}</span>
+                </th>
+              ))
+            }
+          </tr>
+        </thead>
+        <tbody>
+          {
+            topicPluginDefinitions.map((topic) => (
+              <tr>
+                <th scope="row">
+                  <a href={sitePath(`/topics/${topic.slug}/`)}>{topic.name}</a>
+                  <span>{topic.kicker}</span>
+                </th>
+                {seriesItems.map((volume) => {
+                  const connection = volumeTopicConnections[volume.volume];
+                  const connected = connection.topicSlugs.includes(topic.slug);
+                  const publicLinks = connection.contentLinks.map((content) => ({
+                    ...content,
+                    path: sitePath(content.path),
+                  }));
+                  return (
+                    <td>
+                      <button
+                        type="button"
+                        class:list={{ "topic-matrix-cell": true, "is-connected": connected }}
+                        data-matrix-cell
+                        data-matrix-topic={topic.slug}
+                        data-matrix-volume={volume.volume}
+                        data-matrix-topic-name={topic.name}
+                        data-matrix-volume-title={volume.title}
+                        data-matrix-volume-href={sitePath(`/series/${slugify(volume.title)}/`)}
+                        data-matrix-topic-href={sitePath(`/topics/${topic.slug}/`)}
+                        data-matrix-lens={connection.lens}
+                        data-matrix-connected={String(connected)}
+                        data-matrix-ideas={connection.coreIdeas.join("||")}
+                        data-matrix-links={JSON.stringify(publicLinks)}
+                        aria-pressed={
+                          topic === defaultTopic && volume === defaultVolume ? "true" : "false"
+                        }
+                        aria-label={`${topic.name}, ${volume.volume}: ${connected ? "connected" : "no dedicated public entry point"}`}
+                      >
+                        <span>{connected ? "Connected" : "Not mapped"}</span>
+                        <small>
+                          {connected ? connection.lens : "No dedicated public entry point"}
+                        </small>
+                      </button>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <article class="topic-matrix-detail" data-matrix-detail aria-live="polite">
+      <div>
+        <p class="eyebrow">Selected connection</p>
+        <h3 data-matrix-detail-title>{defaultTopic.name} · {defaultVolume.volume}</h3>
+        <p data-matrix-detail-state>{defaultConnection.lens}</p>
+      </div>
+      <div>
+        <p data-matrix-detail-description>
+          This field is connected to the volume’s public research spine. Follow the core ideas and
+          public entry points below; the volume’s editorial status remains visible on its page.
+        </p>
+        <p class="topic-matrix-detail-label">Core ideas</p>
+        <ul data-matrix-detail-ideas>
+          {defaultConnection.coreIdeas.map((idea) => <li>{idea}</li>)}
+        </ul>
+        <div class="topic-matrix-detail-actions">
+          <a
+            class="button"
+            data-matrix-volume-link
+            href={sitePath(`/series/${slugify(defaultVolume.title)}/`)}
+            >Open {defaultVolume.volume} →</a
+          >
+          <a
+            class="button button-secondary"
+            data-matrix-topic-link
+            href={sitePath(`/topics/${defaultTopic.slug}/`)}>Open {defaultTopic.name} field</a
+          >
+        </div>
+        <div class="topic-matrix-detail-links" data-matrix-detail-links>
+          <p class="topic-matrix-detail-label">Public entry points</p>
+          {
+            defaultConnection.contentLinks.map((content) => (
+              <a href={sitePath(content.path)}>
+                <span>{content.kind}</span>
+                {content.label} →
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </article>
+
+    <noscript>
+      <p class="topic-matrix-noscript">
+        The table remains readable without JavaScript. Connected cells identify the mapped research
+        spine; use the topic and volume links to continue.
+      </p>
+    </noscript>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-topic-volume-matrix]").forEach((root) => {
+    const cells = [...root.querySelectorAll<HTMLButtonElement>("[data-matrix-cell]")];
+    const title = root.querySelector<HTMLElement>("[data-matrix-detail-title]");
+    const state = root.querySelector<HTMLElement>("[data-matrix-detail-state]");
+    const description = root.querySelector<HTMLElement>("[data-matrix-detail-description]");
+    const ideas = root.querySelector<HTMLElement>("[data-matrix-detail-ideas]");
+    const links = root.querySelector<HTMLElement>("[data-matrix-detail-links]");
+    const volumeLink = root.querySelector<HTMLAnchorElement>("[data-matrix-volume-link]");
+    const topicLink = root.querySelector<HTMLAnchorElement>("[data-matrix-topic-link]");
+    if (
+      !cells.length ||
+      !title ||
+      !state ||
+      !description ||
+      !ideas ||
+      !links ||
+      !volumeLink ||
+      !topicLink
+    )
+      return;
+
+    const updateUrl = (cell: HTMLButtonElement) => {
+      const url = new URL(window.location.href);
+      url.searchParams.set("matrix-field", cell.dataset.matrixTopic ?? "");
+      url.searchParams.set("matrix-volume", cell.dataset.matrixVolume ?? "");
+      window.history.replaceState(
+        null,
+        "",
+        url.pathname + (url.search ? url.search : "") + url.hash,
+      );
+    };
+
+    const render = (cell: HTMLButtonElement, persist = true) => {
+      const topicName = cell.dataset.matrixTopicName ?? "Selected field";
+      const volumeName = cell.dataset.matrixVolume ?? "Selected volume";
+      const volumeTitle = cell.dataset.matrixVolumeTitle ?? "Independent Observer";
+      const connected = cell.dataset.matrixConnected === "true";
+      const lens = cell.dataset.matrixLens ?? "Research connection";
+      title.textContent = `${topicName} · ${volumeName}`;
+      state.textContent = connected ? lens : "No dedicated public entry point is mapped yet.";
+      description.textContent = connected
+        ? `This field is connected to ${volumeTitle}, where the public-safe research spine keeps the volume's ideas, status, and entry points together.`
+        : `The current public-safe map has no dedicated entry point connecting ${topicName} to ${volumeTitle}. The gap remains visible until a reviewed connection is assembled.`;
+      ideas.replaceChildren();
+      for (const idea of (cell.dataset.matrixIdeas ?? "").split("||").filter(Boolean)) {
+        const item = document.createElement("li");
+        item.textContent = idea;
+        ideas.append(item);
+      }
+      volumeLink.href = cell.dataset.matrixVolumeHref ?? "/series/";
+      volumeLink.textContent = `Open ${volumeName} →`;
+      topicLink.href = cell.dataset.matrixTopicHref ?? "/topics/";
+      topicLink.textContent = `Open ${topicName} field`;
+      links.replaceChildren();
+      const label = document.createElement("p");
+      label.className = "topic-matrix-detail-label";
+      label.textContent = connected ? "Public entry points" : "Next public step";
+      links.append(label);
+      if (connected) {
+        let sourceLinks: Array<{ kind?: string; label?: string; path?: string }> = [];
+        try {
+          sourceLinks = JSON.parse(cell.dataset.matrixLinks ?? "[]") as Array<{
+            kind?: string;
+            label?: string;
+            path?: string;
+          }>;
+        } catch {
+          sourceLinks = [];
+        }
+        sourceLinks.forEach((source) => {
+          const link = document.createElement("a");
+          link.href = source.path ?? "/";
+          const sourceType = document.createElement("span");
+          sourceType.textContent = source.kind ?? "Public entry";
+          link.append(sourceType, source.label ?? "Open public entry", " →");
+          links.append(link);
+        });
+      } else {
+        const next = document.createElement("a");
+        next.href = cell.dataset.matrixVolumeHref ?? "/series/";
+        next.textContent = `Review the ${volumeName} catalogue →`;
+        links.append(next);
+      }
+      cells.forEach((candidate) => {
+        const active = candidate === cell;
+        candidate.setAttribute("aria-pressed", String(active));
+        candidate.classList.toggle("is-selected", active);
+      });
+      if (persist) updateUrl(cell);
+    };
+
+    const initial = new URLSearchParams(window.location.search);
+    const requested = cells.find(
+      (cell) =>
+        cell.dataset.matrixTopic === initial.get("matrix-field") &&
+        cell.dataset.matrixVolume === initial.get("matrix-volume"),
+    );
+    cells.forEach((cell) => cell.addEventListener("click", () => render(cell)));
+    render(requested ?? cells[0], false);
+  });
+</script>

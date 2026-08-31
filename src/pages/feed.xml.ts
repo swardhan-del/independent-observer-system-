@@ -1,12 +1,6 @@
 import type { APIRoute } from "astro";
-import { documentaryItems, researchItems, videoItems } from "../data/content";
+import { releaseLog } from "../data/release-log";
 import { sitePath } from "../lib/paths";
-
-const slugify = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
 
 const escapeXml = (value: string) =>
   value.replace(
@@ -24,23 +18,12 @@ const escapeXml = (value: string) =>
 export const GET: APIRoute = ({ site, url }) => {
   const publicOrigin = site ?? new URL(url.origin);
   const feedUrl = new URL(sitePath("/feed.xml"), publicOrigin).href;
-  const entries = [
-    ...researchItems.map((item) => ({
-      ...item,
-      path: `/research/${slugify(item.title)}/`,
-      kind: "Research preview",
-    })),
-    ...documentaryItems.map((item) => ({
-      ...item,
-      path: `/documentaries/${slugify(item.title)}/`,
-      kind: "Documentary preview",
-    })),
-    ...videoItems.map((item) => ({
-      ...item,
-      path: `/videos/${slugify(item.title)}/`,
-      kind: "Video preview",
-    })),
-  ];
+  // RSS contains only owner-approved releases; previews and external records stay out.
+  const entries = releaseLog.map((item) => ({
+    ...item,
+    path: item.route,
+    kind: "Approved release",
+  }));
 
   const items = entries
     .map((item) => {
@@ -50,7 +33,8 @@ export const GET: APIRoute = ({ site, url }) => {
       <link>${link}</link>
       <guid isPermaLink="true">${link}</guid>
       <category>${escapeXml(item.category)}</category>
-      <description>${escapeXml(`${item.description} Status: ${item.status}. ${item.kind}.`)}</description>
+      <pubDate>${new Date(`${item.date}T00:00:00Z`).toUTCString()}</pubDate>
+      <description>${escapeXml(`${item.description} Category: ${item.category}. ${item.kind}.`)}</description>
     </item>`;
     })
     .join("\n");

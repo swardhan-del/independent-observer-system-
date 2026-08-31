@@ -1,24 +1,76 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import LibraryContentBlocks from "../../components/LibraryContentBlocks.astro";
+import LibraryResearchShelf from "../../components/LibraryResearchShelf.astro";
 import PageHero from "../../components/PageHero.astro";
 import { dropboxFeedItems } from "../../data/dropbox-content.generated";
 import { publicDocumentItems } from "../../data/documents";
 import { publicLibrarySnapshot } from "../../data/public-library";
 import { sitePath } from "../../lib/paths";
 
-const { areas, note, stats, volumes } = publicLibrarySnapshot;
+const { areas, note, stats } = publicLibrarySnapshot;
 ---
 
 <BaseLayout
   title="Public Research Library"
-  description="A public-safe map of the Independent Observer research archive, its three public volume summaries, and the boundaries around private source material."
+  description="A public archive of source-led Independent Observer research papers and public reading copies across four volumes: observation and method, institutions and government, socioeconomic displacement and managed decline, and science and technology."
   currentPath="/library/"
 >
   <PageHero
     eyebrow="Public archive"
     title="See the map behind the work."
-    description="A public-safe overview of the Independent Observer research structure, drawn from a reviewed Dropbox export without exposing raw archive material."
+    description="A public archive of source-led social-science papers and public reading copies across four volumes: observation and method; institutions and government; socioeconomic displacement and managed decline; and science and technology."
   />
+
+  <LibraryResearchShelf />
+
+  <section class="section section-rule" aria-labelledby="library-scope-title">
+    <div class="shell page-grid">
+      <aside class="page-aside">Editorial scope</aside>
+      <div class="prose">
+        <h2 id="library-scope-title">Volume II: make power legible.</h2>
+        <p>
+          Volume II, <em>The Empire Beneath Democracy</em>, is the power inquiry in this library. It
+          studies how authority works beneath formal democratic language: who sets an agenda, whose
+          membership is recognized, who is exposed to enforcement, and how capital, technology,
+          security, labor, markets, and alliances shape practical sovereignty.
+        </p>
+        <div class="library-method-callout">
+          <p class="library-block-label">Volume II research method</p>
+          <ol class="library-method-steps">
+            <li>
+              Define the population, legal category, period, and outcome before comparing claims.
+            </li>
+            <li>
+              Follow the mechanism through rules, records, incentives, enforcement, and capacity.
+            </li>
+            <li>
+              Compare public indicators without turning a correlation or headline into a cause.
+            </li>
+            <li>Keep interpretation, policy options, uncertainty, and release status visible.</li>
+          </ol>
+        </div>
+        <p>
+          The public archive links matched SSRN reading copies and, where a matching public record
+          exists, ResearchGate. These are external preprint records and public reading copies; they
+          are not a claim of peer review or a mirror of private working files. The Volume II shelf
+          below describes what each paper contributes and why it belongs in the power inquiry.
+        </p>
+        <p>
+          The other volumes remain connected: Volume I develops observation and method; Volume III
+          follows work, welfare, taxation, and social citizenship; and Volume IV examines science,
+          technology, AI, and human capability. This site is for academic discussion grounded in
+          references and identifiable sources, and it excludes unsupported factual claims,
+          conspiracy framing, and material that promotes or sensationalizes violence or harm.
+        </p>
+        <p>
+          <a class="button button-secondary button-on-light" href="#research-volume-ii">
+            Explore Volume II’s research shelf →
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
 
   <section class="section section-white">
     <div class="shell page-grid">
@@ -40,6 +92,11 @@ const { areas, note, stats, volumes } = publicLibrarySnapshot;
                   <strong>{stat.label}</strong>
                 </p>
                 <p>{stat.detail}</p>
+                {stat.label === "Public volume summaries" && (
+                  <a class="library-stat-link" href="#public-volume-content">
+                    Explore the four-volume map →
+                  </a>
+                )}
               </article>
             ))
           }
@@ -48,38 +105,7 @@ const { areas, note, stats, volumes } = publicLibrarySnapshot;
     </div>
   </section>
 
-  <section class="section section-navy">
-    <div class="shell">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Research volumes</p>
-          <h2>Three public summaries.</h2>
-        </div>
-        <p>
-          The summaries describe the research architecture without presenting any volume as a
-          finished, peer-reviewed, or commercially released publication.
-        </p>
-      </div>
-      <div class="card-grid">
-        {
-          volumes.map((volume, index) => (
-            <article class="editorial-card">
-              <div class="card-meta">
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <span>Public summary</span>
-              </div>
-              <h3>{volume.title}</h3>
-              <p class="card-category">{volume.focus}</p>
-              <p>{volume.summary}</p>
-              <div class="card-footer">
-                <span class="status-pill">Overview only</span>
-              </div>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-  </section>
+  <LibraryContentBlocks />
 
   <section class="section section-white">
     <div class="shell">
@@ -90,7 +116,7 @@ const { areas, note, stats, volumes } = publicLibrarySnapshot;
         </div>
         <p>
           These reading copies make approved public-safe material easy to find without opening the
-          private Dropbox archive to the web.
+          private working archive to the web.
         </p>
       </div>
       <div class="card-grid">
@@ -108,7 +134,14 @@ const { areas, note, stats, volumes } = publicLibrarySnapshot;
               </h3>
               <p>{entry.description}</p>
               <div class="card-footer">
-                <span class="status-pill">Reviewed public copy</span>
+                <span class="status-pill">{entry.status ?? "Reviewed public copy"}</span>
+                {entry.metrics && (
+                  <span>
+                    SSRN: {entry.metrics.downloads ?? "—"} downloads ·{" "}
+                    {entry.metrics.abstractViews ?? "—"} views · last directly verified{" "}
+                    {entry.metrics.checkedAt}; availability review pending
+                  </span>
+                )}
                 <a class="card-open-link" href={sitePath(`/library/documents/${entry.id}/`)}>
                   Open reader →
                 </a>
@@ -162,7 +195,7 @@ const { areas, note, stats, volumes } = publicLibrarySnapshot;
         <div class="principles">
           <div class="principle">
             <span>01</span><div>
-              <h3>Dropbox is the working archive</h3><p>
+              <h3>The working archive stays private</h3><p>
                 The website receives only approved summaries; it does not mirror the archive.
               </p>
             </div>
@@ -198,7 +231,7 @@ const { areas, note, stats, volumes } = publicLibrarySnapshot;
         <p class="eyebrow">Integration status</p>
         <h2>Structured updates stay reviewable.</h2>
         <p>
-          Approved Dropbox feed items currently visible in the site build:
+          Approved source-feed items currently visible in the site build:
           <strong>{dropboxFeedItems.length}</strong>. The archive summary above is a reviewed
           snapshot; it does not imply that the private archive is continuously or automatically
           public.
@@ -207,7 +240,7 @@ const { areas, note, stats, volumes } = publicLibrarySnapshot;
       <div class="contact-panel">
         <h2>Next safe step</h2>
         <p>
-          Add a short, public-safe summary to the approved Dropbox feed when it is ready for
+          Add a short, public-safe summary to the approved source feed when it is ready for
           publication. The workflow will validate it and open a pull request for review.
         </p>
         <a class="button" href={sitePath("/contact/")}>Contact the project</a>
