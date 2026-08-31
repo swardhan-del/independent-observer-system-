@@ -17,6 +17,7 @@
     "verify:canonical-origin": "node scripts/verify-canonical-origin.mjs",
     "verify:pages-fallback": "node scripts/verify-pages-fallback.mjs",
     "verify:preview-indexing": "node scripts/verify-preview-indexing.mjs",
+    "verify:production": "node scripts/verify-production-contract.mjs",
     "seo:audit": "node plugins/seo/seo-audit.mjs",
     "domain:preflight": "node plugins/hosting/custom-domain-preflight.mjs"
   },
