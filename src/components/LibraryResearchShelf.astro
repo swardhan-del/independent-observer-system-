@@ -41,6 +41,14 @@ const volumeIllustrations = {
       "A human figure is connected to laboratory instruments, energy, compute, and care. The visual makes the stack visible: frontier technology becomes capability only when it can be understood, maintained, financed, and governed.",
   },
 } as const;
+
+const volumeTaglines = {
+  "Volume I": "How records become evidence, conclusions, and democratic capacity.",
+  "Volume II": "How sovereignty, institutions, and enforcement distribute practical power.",
+  "Volume III":
+    "How work, taxation, welfare, and time turn economic change into lived security or insecurity.",
+  "Volume IV": "How science, infrastructure, and AI become usable human capability.",
+} as const;
 ---
 
 <section
@@ -50,50 +58,60 @@ const volumeIllustrations = {
 >
   <div class="shell">
     <div class="section-heading library-research-shelf-heading">
-      <div class="library-research-shelf-heading-title">
-        <p class="eyebrow">Four-volume research shelf</p>
-        <h2 id="research-shelf-title">Follow the work by volume.</h2>
+      <div class="library-research-shelf-heading-main">
+        <div class="library-research-shelf-heading-title">
+          <p class="eyebrow">Four-volume research shelf</p>
+          <h2 id="research-shelf-title">Follow the work by volume.</h2>
+        </div>
+        <div class="library-research-shelf-heading-copy">
+          <p>
+            Four volumes, one connected research project: Volume I asks how records become evidence;
+            Volume II follows sovereignty and institutional power; Volume III examines work,
+            taxation, welfare, and social citizenship; Volume IV traces how science, infrastructure,
+            and AI become human capability.
+          </p>
+          <p>
+            Use the Roman-numeral index to move from method (I), to power (II), to social
+            citizenship (III), and capability (IV). The linked records are public SSRN reading
+            copies selected from matched, public-safe records; usage counts are discovery signals,
+            not ratings or publication approval. Verified ResearchGate links and source-taxonomy
+            directions appear only where their public status is clear.
+          </p>
+        </div>
       </div>
-      <div class="library-research-shelf-heading-copy">
-        <p>
-          Each volume has a distinct question, set of principles, and public entry point. The linked
-          records below are public SSRN reading copies selected from matched, public-safe records;
-          usage counts are discovery signals, not ratings or publication approval.
-        </p>
-        <p>
-          The local search index covers every public SSRN reading copy currently in the site data
-          and exposes a matching ResearchGate record only when a verified public URL exists. The
-          Volume II shelf also explains the research method and the contribution of each public
-          paper. The research map beneath selected volume cards identifies additional papers
-          developed in the source taxonomy; those entries are not public SSRN reading copies or
-          publication approvals.
-        </p>
-      </div>
-    </div>
 
-    <div class="library-volume-rail" role="group" aria-label="Jump to a volume">
-      {
-        libraryVolumeGuides.map((guide, index) => {
-          const series = seriesByVolume.get(guide.volume);
-          const guideSlug = slugify(guide.volume);
-          const volumePapers = papers.filter((paper) => paper.volume === guide.volume);
-          const paper = volumePapers[0];
-          return (
-            <a class="library-volume-rail-card" href={`#research-${guideSlug}`}>
-              <span class="card-meta">
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <span>{guide.volume}</span>
-              </span>
-              <strong>{guide.focus}</strong>
-              <span>
-                {volumePapers.length} public reading {volumePapers.length === 1 ? "copy" : "copies"}
-              </span>
-              {paper && <span>{paper.metrics?.downloads ?? "—"} downloads · not a rating</span>}
-              {series && <span class="library-volume-rail-link">View volume brief →</span>}
-            </a>
-          );
-        })
-      }
+      <nav class="library-volume-rail" aria-label="Jump to one of four volumes, I through IV">
+        <div class="library-volume-rail-header">
+          <p class="library-block-label">Four-volume map</p>
+          <span>Roman numerals I–IV</span>
+        </div>
+        <div class="library-volume-rail-list">
+          {
+            libraryVolumeGuides.map((guide, index) => {
+              const series = seriesByVolume.get(guide.volume);
+              const guideSlug = slugify(guide.volume);
+              const volumePapers = papers.filter((paper) => paper.volume === guide.volume);
+              const paper = volumePapers[0];
+              return (
+                <a class="library-volume-rail-card" href={`#research-${guideSlug}`}>
+                  <span class="card-meta">
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <span>{guide.volume}</span>
+                  </span>
+                  <strong>{guide.focus}</strong>
+                  <span class="library-volume-rail-summary">{volumeTaglines[guide.volume]}</span>
+                  <span class="library-volume-rail-signal">
+                    {volumePapers.length} public reading{" "}
+                    {volumePapers.length === 1 ? "copy" : "copies"}
+                    {paper && <> · {paper.metrics?.downloads ?? "—"} downloads · not a rating</>}
+                  </span>
+                  {series && <span class="library-volume-rail-link">View volume brief →</span>}
+                </a>
+              );
+            })
+          }
+        </div>
+      </nav>
     </div>
 
     <div class="library-volume-shelf">
