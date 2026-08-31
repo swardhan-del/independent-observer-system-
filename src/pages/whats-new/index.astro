@@ -2,8 +2,22 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import { releaseLog } from "../../data/release-log";
-import { sixCandidateReleaseQueue } from "../../data/publication-registry";
+import {
+  releaseCandidatePresentations,
+  sixCandidateReleaseQueue,
+} from "../../data/publication-registry";
 import { sitePath } from "../../lib/paths";
+
+const volumeOrder = {
+  "Volume I": 1,
+  "Volume II": 2,
+  "Volume III": 3,
+  "Volume IV": 4,
+} as const;
+
+const orderedReleaseCandidates = [...sixCandidateReleaseQueue].sort(
+  (left, right) => volumeOrder[left.volume] - volumeOrder[right.volume],
+);
 ---
 
 <BaseLayout
@@ -28,13 +42,35 @@ import { sitePath } from "../../lib/paths";
           reviewed in the controlled registry, but no item is represented here as a released
           publication until its source, rights, quality, and human release gates are complete.
         </p>
+        <p class="release-candidate-boundary">
+          Each entry has a public-safe description and one controlled reading route. A route opens a
+          verified public record, a volume brief, or a public companion; it does not expose working
+          files or change the release status of the candidate.
+        </p>
         <ol class="release-candidate-list">
           {
-            sixCandidateReleaseQueue.map((entry) => (
-              <li>
-                <span>{entry.volume}</span>
+            orderedReleaseCandidates.map((entry, index) => (
+              <li class="release-candidate-card" id={`release-candidate-${entry.id}`}>
+                <div class="release-candidate-card-meta">
+                  <span class="release-candidate-index">{String(index + 1).padStart(2, "0")}</span>
+                  <span>{entry.volume}</span>
+                </div>
                 <strong>{entry.title}</strong>
-                <small>{entry.topics.join(" · ")} · awaiting human release</small>
+                <p class="release-candidate-description">
+                  {releaseCandidatePresentations[entry.id].description}
+                </p>
+                <div class="release-candidate-card-footer">
+                  <div class="release-candidate-footer-meta">
+                    <small>{entry.topics.join(" · ")}</small>
+                    <span class="release-candidate-status">Awaiting human release</span>
+                  </div>
+                  <a
+                    href={sitePath(releaseCandidatePresentations[entry.id].publicRoute)}
+                    class="release-candidate-link"
+                  >
+                    {releaseCandidatePresentations[entry.id].linkLabel}
+                  </a>
+                </div>
               </li>
             ))
           }

@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { nextClearanceQueue } from "../data/clearance-queue";
-import { publicPublicationRegistry, sixCandidateReleaseQueue } from "../data/publication-registry";
+import {
+  publicPublicationRegistry,
+  releaseCandidatePresentations,
+  sixCandidateReleaseQueue,
+} from "../data/publication-registry";
 import { regrowingHumanitySources } from "../data/regrowing-humanity-evidence";
 
 describe("publication release safety", () => {
@@ -24,6 +28,25 @@ describe("publication release safety", () => {
           !("releaseApproved" in record),
       ),
     ).toBe(true);
+  });
+
+  it("gives every release candidate a bounded public presentation", () => {
+    expect(Object.keys(releaseCandidatePresentations)).toEqual(
+      expect.arrayContaining(sixCandidateReleaseQueue.map((record) => record.id)),
+    );
+    expect(
+      sixCandidateReleaseQueue.every((record) => {
+        const presentation = releaseCandidatePresentations[record.id];
+        return (
+          presentation.description.length > 120 &&
+          presentation.publicRoute.startsWith("/") &&
+          presentation.linkLabel.length > 0
+        );
+      }),
+    ).toBe(true);
+    expect(JSON.stringify(releaseCandidatePresentations)).not.toMatch(
+      /(?:dropbox|CloudStorage|Users\/|\.docx|\.pdf)/i,
+    );
   });
 
   it("keeps the next clearance wave metadata-only", () => {

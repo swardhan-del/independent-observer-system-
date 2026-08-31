@@ -209,6 +209,14 @@ describe("built website", () => {
     const html = readOutput("whats-new/index.html");
     expect(html).toContain("The release log is intentionally empty.");
     expect(html).toContain("six current candidates remain awaiting human release");
+    expect(html).toContain(
+      "Each entry has a public-safe description and one controlled reading route.",
+    );
+    expect(html).toContain("Read the public Volume I record");
+    expect(html).toContain("Open the Volume II research shelf");
+    expect(html).toContain("Awaiting human release");
+    expect(html).not.toContain("Dropbox");
+    expect(html).not.toContain("Independent Observer desktop");
   });
 
   it("makes the reviewed public literature visible on the homepage", () => {
