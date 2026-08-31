@@ -486,12 +486,17 @@ describe("built website", () => {
     const html = readOutput("contact/index.html");
 
     expect(html).toContain("Questions about Independent Observer.");
-    expect(html).toContain('action="mailto:swardhan1@icloud.com"');
+    expect(html).toContain('action="/api/contact"');
+    expect(html).toContain("Send inquiry directly");
     expect(html).toContain('id="contact-disclosure"');
     expect(html).toContain("threats, harassment, profanity");
-    expect(html).toContain("Nothing is stored by this site");
+    expect(html).toContain("applicable criminal, civil, and communications laws");
+    expect(html).toContain("national law-enforcement authority");
+    expect(html).toContain("The site does not publish submissions");
     expect(html).toContain("An inquiry does not guarantee a response");
     expect(html).toContain("A small public Q&amp;A.");
+    expect(html).not.toContain("Prepare email draft");
+    expect(html).not.toContain("opens a draft in your mail application");
     expect(html).not.toContain("Contact is not open yet.");
   });
 

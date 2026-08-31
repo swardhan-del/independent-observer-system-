@@ -1,8 +1,10 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
+import { contactAddress, contactTopics } from "../../data/contact";
+import { sitePath } from "../../lib/paths";
 
-const contactAddress = "swardhan1@icloud.com";
+const contactEndpoint = sitePath("/api/contact");
 ---
 
 <BaseLayout
@@ -13,22 +15,20 @@ const contactAddress = "swardhan1@icloud.com";
   <PageHero
     eyebrow="Contact"
     title="Questions about Independent Observer."
-    description="Use the inquiry form for questions about the four volumes, research, public reading copies, or publications. It opens a draft in your mail app; sending is your choice, and an inquiry does not guarantee a reply."
+    description="Use the inquiry form for relevant questions about the four volumes, research, public reading copies, or publications. It submits through the site's delivery channel; no mail-app draft is created, and an inquiry does not guarantee a reply."
   />
   <section class="section section-white" aria-labelledby="contact-inquiry-title">
     <div class="shell page-grid">
       <div class="prose">
         <h2 id="contact-inquiry-title">Send an inquiry</h2>
         <p>
-          The author can receive questions at <a href={`mailto:${contactAddress}`}
-            >{contactAddress}</a
-          >. Please keep messages relevant to Independent Observer volumes, research, public
-          records, corrections, rights, or publication questions.
+          Use this channel for relevant questions about Independent Observer volumes, research,
+          public records, corrections, rights, or publication. The delivery path is configured for
+          <strong>{contactAddress}</strong> and does not open a draft in your mail application.
         </p>
         <p>
-          The form does not send through this website. It prepares a message in your own mail
-          application so you can review it before sending. The site does not collect, store, or
-          forward the form contents.
+          Direct delivery is available only when the production mail service is configured. The site
+          does not publish submissions or expose a public discussion feed.
         </p>
         <h3>What can be discussed</h3>
         <ul>
@@ -36,45 +36,62 @@ const contactAddress = "swardhan1@icloud.com";
           <li>Questions about a public reading copy, source link, status label, or correction.</li>
           <li>Publication, documentary, rights, and research-method questions.</li>
         </ul>
+        <p class="contact-legal-note">
+          The inquiry channel is for lawful, relevant correspondence; threats, harassment,
+          profanity, impersonation, defamatory, libelous, or slanderous content are prohibited.
+          Messages may be preserved and reported to the appropriate service provider or national
+          law-enforcement authority where required or permitted by applicable criminal, civil, and
+          communications laws. This notice is informational and is not legal advice.
+        </p>
         <p>
-          Please do not include sensitive personal information. Questions and discussion are
-          welcome, but threats, harassment, profanity, defamatory or libelous allegations, and
-          slanderous content will not be accepted.
+          Independent Observer has the right to conduct independent research. An inquiry does not
+          create access to unpublished material or guarantee a response.
         </p>
       </div>
       <aside class="contact-panel contact-panel-open" aria-labelledby="contact-form-title">
         <p class="contact-panel-kicker">Inquiry channel</p>
         <h2 id="contact-form-title">Write to the research desk.</h2>
         <p>
-          Recipient: <a href={`mailto:${contactAddress}`}>{contactAddress}</a>. Review the draft in
-          your mail app before sending.
+          Recipient: <strong>{contactAddress}</strong>. Submit only a relevant, respectful inquiry;
+          the form sends it through the site's server-side delivery channel.
         </p>
         <form
           class="contact-inquiry-form"
-          action={`mailto:${contactAddress}`}
+          action={contactEndpoint}
           method="post"
-          enctype="text/plain"
           data-contact-inquiry-form
         >
+          <label class="contact-honeypot" for="contact-website">
+            Website
+            <input
+              id="contact-website"
+              name="website"
+              type="text"
+              tabindex="-1"
+              autocomplete="off"
+              aria-hidden="true"
+            />
+          </label>
           <label for="contact-name">
             Name <span>(optional)</span>
-            <input id="contact-name" name="name" type="text" autocomplete="name" />
+            <input id="contact-name" name="name" type="text" autocomplete="name" maxlength="120" />
           </label>
           <label for="contact-email">
             Email
-            <input id="contact-email" name="email" type="email" autocomplete="email" required />
+            <input
+              id="contact-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              maxlength="254"
+              required
+            />
           </label>
           <label for="contact-topic">
             Inquiry about
             <select id="contact-topic" name="topic" required>
               <option value="">Select a topic</option>
-              <option>Volume I · observation and method</option>
-              <option>Volume II · institutions and power</option>
-              <option>Volume III · work and social citizenship</option>
-              <option>Volume IV · science and capability</option>
-              <option>Public reading copy or correction</option>
-              <option>Publication, documentary, or rights question</option>
-              <option>Other Independent Observer question</option>
+              {contactTopics.map((topic) => <option value={topic}>{topic}</option>)}
             </select>
           </label>
           <label for="contact-message">
@@ -83,22 +100,24 @@ const contactAddress = "swardhan1@icloud.com";
               id="contact-message"
               name="message"
               minlength="10"
+              maxlength="5000"
               required
               placeholder="What would you like to ask?"></textarea>
           </label>
           <label class="contact-disclosure" for="contact-disclosure">
             <input id="contact-disclosure" name="disclosure" type="checkbox" required />
             <span>
-              I confirm that this inquiry is respectful and relevant. It contains no threats,
-              harassment, profanity, defamatory, libelous, or slanderous content, and no sensitive
-              personal data.
+              I confirm that this inquiry is relevant and respectful. I understand that threats,
+              harassment, impersonation, profanity, or defamatory, libelous, or slanderous content
+              is prohibited and may be reported under applicable law.
             </span>
           </label>
-          <button class="button button-on-light" type="submit">Prepare email draft →</button>
+          <button class="button button-on-light" type="submit">Send inquiry directly →</button>
           <p class="contact-inquiry-status" data-contact-inquiry-status aria-live="polite"></p>
           <p class="contact-privacy-note">
-            Nothing is stored by this site. Your mail provider handles any message after you choose
-            to send it. An inquiry does not guarantee a response.
+            The site does not publish submissions. When delivery is available, the message is
+            transmitted to the configured mail service and then handled by the recipient mailbox. An
+            inquiry does not guarantee a response.
           </p>
         </form>
       </aside>
@@ -110,7 +129,7 @@ const contactAddress = "swardhan1@icloud.com";
       <div class="prose">
         <h2 id="contact-discussion-title">A small public Q&amp;A.</h2>
         <p>
-          This page provides a private, user-initiated mail draft rather than a public comment
+          This page provides a private, user-initiated inquiry channel rather than a public comment
           forum. A moderated question-and-answer or discussion space may be considered later after
           its privacy, moderation, and response rules are ready.
         </p>
@@ -133,14 +152,17 @@ const contactAddress = "swardhan1@icloud.com";
             <summary>How are abusive or defamatory messages handled?</summary>
             <p>
               Threats, harassment, profanity, and defamatory, libelous, or slanderous allegations
-              are outside the inquiry channel and will not be accepted as discussion.
+              are outside the inquiry channel. Where required or permitted by applicable law, a
+              message may be preserved and reported to an appropriate service provider or national
+              law-enforcement authority.
             </p>
           </details>
           <details>
             <summary>Is this a public discussion board?</summary>
             <p>
-              Not currently. The current route is one-to-one correspondence initiated through your
-              mail application. No public comments or community discussion are published here.
+              Not currently. The current route is one-to-one correspondence through the site's
+              server-side delivery channel. No public comments or community discussion are published
+              here.
             </p>
           </details>
         </div>
@@ -154,27 +176,74 @@ const contactAddress = "swardhan1@icloud.com";
   const status = document.querySelector("[data-contact-inquiry-status]");
 
   if (form instanceof HTMLFormElement && status instanceof HTMLElement) {
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      const values = new FormData(form);
-      const name = String(values.get("name") ?? "").trim() || "Not provided";
-      const email = String(values.get("email") ?? "").trim();
-      const topic = String(values.get("topic") ?? "").trim();
-      const message = String(values.get("message") ?? "").trim();
-      const subject = `Independent Observer inquiry: ${topic}`;
-      const body = [
-        `Name: ${name}`,
-        `Email: ${email}`,
-        `Inquiry about: ${topic}`,
-        "",
-        message,
-        "",
-        "I confirm that this inquiry follows the contact disclosure.",
-      ].join("\n");
 
-      window.location.href = `mailto:swardhan1@icloud.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      status.textContent =
-        "Your mail app should open with a draft. Nothing is stored by this site.";
+      const values = new FormData(form);
+      const submitButton = form.querySelector("button[type=submit]");
+      const originalLabel =
+        submitButton instanceof HTMLButtonElement
+          ? submitButton.textContent
+          : "Send inquiry directly →";
+      const endpoint = form.getAttribute("action") || "/api/contact";
+      const payload = {
+        name: String(values.get("name") ?? "").trim(),
+        email: String(values.get("email") ?? "").trim(),
+        topic: String(values.get("topic") ?? "").trim(),
+        message: String(values.get("message") ?? "").trim(),
+        disclosure: values.get("disclosure") === "on",
+        website: String(values.get("website") ?? "").trim(),
+      };
+
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = true;
+        submitButton.setAttribute("aria-busy", "true");
+        submitButton.textContent = "Sending…";
+      }
+      status.dataset.state = "busy";
+      status.textContent = "Sending your inquiry…";
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+        const result = (await response.json().catch(() => null)) as {
+          error?: unknown;
+          message?: unknown;
+        } | null;
+
+        if (!response.ok) {
+          throw new Error(
+            typeof result?.error === "string"
+              ? result.error
+              : "The inquiry could not be sent. Please try again later.",
+          );
+        }
+
+        status.dataset.state = "success";
+        status.textContent =
+          typeof result?.message === "string"
+            ? result.message
+            : "Your inquiry was sent to the research desk. An inquiry does not guarantee a response.";
+        form.reset();
+      } catch (error) {
+        status.dataset.state = "error";
+        status.textContent =
+          error instanceof Error
+            ? error.message
+            : "The inquiry could not be sent. Please try again later.";
+      } finally {
+        if (submitButton instanceof HTMLButtonElement) {
+          submitButton.disabled = false;
+          submitButton.removeAttribute("aria-busy");
+          submitButton.textContent = originalLabel;
+        }
+      }
     });
   }
 </script>

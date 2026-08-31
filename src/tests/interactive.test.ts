@@ -122,7 +122,7 @@ describe("interactive preview tools", () => {
     expect(catalogue).toContain("replaceState");
   });
 
-  it("ships a transparent inquiry form without creating a collection endpoint", () => {
+  it("ships a direct inquiry form with server-side delivery and disclosure", () => {
     expect(readFileSync(join(sourceRoot, "pages/index.astro"), "utf8")).toContain(
       'aria-label="Newsletter preview"',
     );
@@ -130,9 +130,22 @@ describe("interactive preview tools", () => {
     expect(contact).toContain("<form");
     expect(contact).toContain("contact-name");
     expect(contact).toContain("contact-disclosure");
-    expect(contact).toContain("mailto:");
-    expect(contact).toContain("encodeURIComponent");
-    expect(contact).toContain("Nothing is stored by this site");
+    const contactApi = readFileSync(join(process.cwd(), "api/contact.ts"), "utf8");
+    expect(contact).toContain("action={contactEndpoint}");
+    expect(contact).toContain('method="post"');
+    expect(contact).toContain("fetch(endpoint");
+    expect(contact).toContain('"Content-Type": "application/json"');
+    expect(contact).toContain("Send inquiry directly");
+    expect(contact).not.toContain("mailto:");
+    expect(contact).not.toContain("encodeURIComponent");
+    expect(contact).toContain("The site does not publish submissions");
+    expect(contact).toMatch(/applicable criminal,\s+civil,\s+and\s+communications laws/);
+    expect(contact).toMatch(/national\s+law-enforcement\s+authority/);
+    expect(contactApi).toContain("RESEND_API_KEY");
+    expect(contactApi).toContain("CONTACT_FROM_EMAIL");
+    expect(contactApi).toContain("validateContactPayload");
+    expect(contactApi).toContain("https://api.resend.com/emails");
+    expect(contactApi).not.toContain("console.log");
     expect(contact).toContain("Questions and discussion");
     expect(contact).not.toContain("Contact is not open yet.");
     expect(contact).not.toContain("No email address or message form is active.");

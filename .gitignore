@@ -10,3 +10,4 @@ coverage/
 private/
 .vercel
 .env*
+!.env.example

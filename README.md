@@ -101,6 +101,12 @@ If that exact approved folder is unavailable, the automation must fail closed. D
 
 This site uses Astro, native browser search/filter interactions, GitHub Actions, and the narrow Dropbox feed contract. Those are the integrations currently needed for this static publication; no third-party website plugin is required for the public library. An SEO or content autopilot must not generate or publish claims without human review. Search visibility comes from the existing crawlable pages, canonical metadata, JSON-LD, robots file, sitemap, and human-submitted Search Console indexing requests.
 
+## Contact delivery
+
+The contact page submits relevant inquiries to the server-side `api/contact.ts` function. It validates the selected topic, email, message length, conduct disclosure, and a honeypot field before sending plain text through the configured transactional mail service. The sender's email is used only as the reply-to address; the page does not create a mail-app draft or publish a public discussion feed.
+
+Production delivery requires the server-only `RESEND_API_KEY` and `CONTACT_FROM_EMAIL` variables. The sender address or domain must be verified with the mail service. `CONTACT_TO_EMAIL` is optional and defaults to the research desk address in the site data. Until the required production variables exist, the endpoint returns a clear `503` response and sends nothing. Never commit these values; use Vercel's production environment settings or its approved mail integration.
+
 ## Google Search visibility
 
 The public build includes a crawlable `robots.txt`, an absolute-URL XML sitemap, canonical URLs,

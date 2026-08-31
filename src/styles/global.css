@@ -2660,6 +2660,27 @@ textarea {
   line-height: 1.45;
 }
 
+.contact-inquiry-status[data-state="error"] {
+  color: #8b2f2f !important;
+}
+
+.contact-inquiry-status[data-state="success"] {
+  color: var(--gold-ink) !important;
+}
+
+.contact-honeypot {
+  position: absolute !important;
+  left: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}
+
+.contact-legal-note {
+  border-left: 3px solid var(--gold);
+  padding-left: 1rem;
+}
+
 .contact-privacy-note {
   margin: 0 !important;
   color: var(--slate-500) !important;
