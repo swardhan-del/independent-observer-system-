@@ -1,30 +1,6 @@
 import type { APIRoute } from "astro";
 import { sitePath } from "../lib/paths";
-import { topicHubs } from "../data/topics";
-import { publicDocumentItems } from "../data/documents";
-import { seriesItems } from "../data/series";
-import { slugify } from "../lib/slugs";
-
-// Sitemap policy: index genuine public section pages and the public library.
-// Detail routes remain out until they contain finished, review-cleared publications.
-// The 404 page and private/automated Dropbox material are never included.
-const publicRoutes = [
-  "/",
-  "/series/",
-  ...seriesItems.map((entry) => `/series/${slugify(entry.title)}/`),
-  "/library/",
-  "/whats-new/",
-  "/research/",
-  "/documentaries/",
-  "/videos/",
-  "/about/",
-  "/contact/",
-  "/start/",
-  "/publication-operating-system/",
-  "/topics/",
-  ...topicHubs.map((topic) => `/topics/${topic.slug}/`),
-  ...publicDocumentItems.map((entry) => `/library/documents/${entry.id}/`),
-];
+import { indexableRouteRegistry } from "../data/route-registry";
 
 function escapeXml(value: string) {
   return value
@@ -37,9 +13,9 @@ function escapeXml(value: string) {
 
 export const GET: APIRoute = ({ site }) => {
   const publicOrigin = site ?? new URL("http://localhost");
-  const entries = publicRoutes
+  const entries = indexableRouteRegistry
     .map(
-      (route) =>
+      ({ route }) =>
         `  <url><loc>${escapeXml(new URL(sitePath(route), publicOrigin).href)}</loc></url>`,
     )
     .join("\n");

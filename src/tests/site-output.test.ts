@@ -7,6 +7,7 @@ import { volumeReels } from "../data/video-reels";
 import { slugify } from "../lib/slugs";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
 import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
+import { indexableRouteRegistry } from "../data/route-registry";
 
 const distRoot = join(process.cwd(), "dist");
 const routes = [
@@ -39,9 +40,7 @@ const routes = [
     file: `library/documents/${entry.id}/index.html`,
   })),
 ] as const;
-const sitemapRoutes = routes
-  .filter(({ route }) => !["/start-here/", "/review/regrowing-humanity/"].includes(route))
-  .map(({ route }) => route);
+const sitemapRoutes = indexableRouteRegistry.map(({ route }) => route);
 
 function readOutput(relativePath: string) {
   return readFileSync(join(distRoot, relativePath), "utf8");
