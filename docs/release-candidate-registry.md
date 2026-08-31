@@ -52,7 +52,7 @@ must be marked for review rather than described as currently downloadable.
 ## Required release sequence
 
 ```text
-approved source manifest → validation → sanitized generated data → pull request
+owner-approved source manifest → validation → sanitized generated data → pull request
 → CI → human review → merge → deployment
 ```
 

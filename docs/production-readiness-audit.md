@@ -17,8 +17,9 @@ publication, release, policy wording, author claims, source claims, or deploymen
 | Framework         | Astro `7.1.3`                               | `package.json`, `astro.config.mjs`, Vercel build metadata |
 | Rendering         | Static output, trailing-slash routes        | `astro.config.mjs`                                        |
 
-Authoritative checkout used for this audit:
-`/Users/siddharthawardhan/Library/CloudStorage/Dropbox/Independent Observer desktop/.codex_work/independent-observer-system-`
+Authoritative checkout used for this audit: the isolated website checkout
+inside the Dropbox desktop workspace. Local absolute paths are intentionally
+omitted from repository documentation.
 
 The parent Dropbox desktop folder is a different, dirty archive repository with
 remote `https://github.com/swardhan-del/Independent-Observer-desktop.git`. It was

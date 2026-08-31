@@ -33,6 +33,8 @@ jobs:
         run: npm ci
       - name: Verify hosted publication operating system
         run: npm run verify:operating-system
+      - name: Verify publication manifest contract
+        run: npx vitest run scripts/publication-manifest.test.mjs scripts/sync-dropbox-public-feed.test.mjs
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
       - name: Reject unmanaged Dropbox feed edits
