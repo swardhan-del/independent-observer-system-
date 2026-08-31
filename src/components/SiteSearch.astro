@@ -9,6 +9,7 @@ import { topicPluginFor } from "../../plugins/topic-discovery/catalog";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 import type { SearchEntry } from "../lib/search";
+import { previewGreenPublications } from "../data/green-publications";
 
 const topicNames = topics.map((topic) => topic.name);
 const feedHref: Record<string, string> = {
@@ -41,6 +42,18 @@ const topicsForCategory = (category: string) => {
 };
 
 const searchItems: SearchEntry[] = [
+  ...previewGreenPublications.map((item) => ({
+    id: `publication:${item.candidateId}`,
+    title: item.title,
+    category: item.topics.slice(0, 2).join(" · "),
+    description: item.standfirst,
+    status: item.status,
+    type: "Research" as const,
+    topics: item.topics,
+    volume: item.volume,
+    format: "bounded text-only preview article",
+    href: sitePath(`/research/${item.slug}/`),
+  })),
   ...researchItems.map((item) => ({
     id: `research:${item.title}`,
     title: item.title,

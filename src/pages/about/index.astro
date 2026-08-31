@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import AboutVolumeAtlas from "../../components/AboutVolumeAtlas.astro";
 import { sitePath } from "../../lib/paths";
+import { publicationPreviewEnabled } from "../../data/green-publications";
 ---
 
 <BaseLayout
@@ -103,6 +104,16 @@ import { sitePath } from "../../lib/paths";
           distribution shapes capability, and capability returns the project to the question of who
           can observe, participate, and correct the system.
         </p>
+        {
+          publicationPreviewEnabled && (
+            <p>
+              <a href={sitePath("/research/the-independent-observer-method/")}>
+                The Independent Observer Method
+              </a>{" "}
+              is the current bounded statement of this editorial and correction framework.
+            </p>
+          )
+        }
         <p>
           <a href="#about-volume-atlas">Browse the interactive volume atlas →</a>
         </p>

@@ -1,15 +1,40 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": true,
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    {
+      "source": "/security.txt",
+      "destination": "/.well-known/security.txt",
+      "permanent": true
+    },
+    {
+      "source": "/start-here/",
+      "destination": "/start/",
+      "permanent": true
+    }
+  ],
   "headers": [
+    {
+      "source": "/_astro/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
     {
       "source": "/(.*)",
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' 'unsafe-inline'; connect-src 'self'; upgrade-insecure-requests"
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data:; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' 'sha256-+wvvO2BDjh8PNW5RKTlHDAWp3XblRbc1Vs9xL44B4Ho=' 'sha256-2UR5Ro2/KkIs60V3ZICH8CDXJPfNRUNHrYEMtdS5RY4=' 'sha256-39mBt0m9km8oC6n+dc8XIAFL4+B2t+U0IgBIslTyhBs=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-E6sCTguoKLjKTPRlIfUWKoq6+3FZ28J5kphWvP+yzg4=' 'sha256-GX9+zOVYasQbWRLBlp5HyE6qI+alL4QR17byciw94q8=' 'sha256-Gg5d9JM1LG3MU4nwo7TfJZrWB9Elq2QSb1gikkbWXeQ=' 'sha256-HaF8spmXJEQBkhIWMcfGKQuP53q7WtLSkZnGl0WwlpQ=' 'sha256-Jfv4QxS4StgdX1ujQBbXz3cOkmZHBcMBFUJNex1CcG8=' 'sha256-N8pEbekj/cxLWDQPQIpNXRg4t7W5h/0hrgRR9dTYDKc=' 'sha256-R+j1KkMvzcuSjYxpXehmyVOAZpfWtN38PuwaAXGwREU=' 'sha256-eW7ZmaZp7BlI2qWdxWTm9OUOizkz6l77PRFfv/4se2w=' 'sha256-eidZcDZhmjEdATsgQIAhyE38UzAC8TPNwQmZGwjFwPI=' 'sha256-iNEYHQ9Adc5dvsBRArAOSwt8vphNSvR0SrlFxMrBUjc=' 'sha256-wvGQ2Q2XjLwMEahP0NaAd6IIPPyhqfR7WXmMF59V7VI=' 'sha256-zFmhW0sUwni/qZCF4z9dNLII1q/+SrPnUC5UYaRNrmY='; connect-src 'self'; upgrade-insecure-requests"
         },
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "X-Frame-Options", "value": "DENY" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Access-Control-Allow-Origin", "value": "https://independentobserver.org" },
+        { "key": "X-Permitted-Cross-Domain-Policies", "value": "none" },
         {
           "key": "Permissions-Policy",
           "value": "camera=(), microphone=(), geolocation=(), browsing-topics=()"

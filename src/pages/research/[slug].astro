@@ -5,35 +5,48 @@ import { researchItems } from "../../data/content";
 import { ssrnPreprintDocuments } from "../../data/ssrn";
 import { slugify } from "../../lib/slugs";
 import { sitePath } from "../../lib/paths";
+import GreenPublicationArticle from "../../components/GreenPublicationArticle.astro";
+import { previewGreenPublications } from "../../data/green-publications";
 
 export function getStaticPaths() {
-  return researchItems.map((item) => ({
+  const concepts = researchItems.map((item) => ({
     params: { slug: slugify(item.title) },
     props: { item },
   }));
+  const green = previewGreenPublications.map((publication) => ({
+    params: { slug: publication.slug },
+    props: { publication },
+  }));
+  return [...concepts, ...green];
 }
 
-const { item } = Astro.props;
-const currentPath = `/research/${slugify(item.title)}/`;
-const featuredDocuments = item.volume
-  ? ssrnPreprintDocuments.filter((entry) => entry.volume === item.volume)
+const { item, publication } = Astro.props;
+const currentPath = item ? `/research/${slugify(item.title)}/` : "/research/";
+const featuredDocuments = item?.volume
+  ? ssrnPreprintDocuments.filter((entry) => entry.volume === item?.volume)
   : [];
 const statusNote =
-  item.title === "The Autonomous Illusion"
+  item?.title === "The Autonomous Illusion"
     ? "This is a concept-stage research preview. It defines the question, scope, and evidentiary standard for a future article; it is not a completed finding or publication."
     : "This is a public editorial preview. Full articles, citations, dates, and publication links will appear only after verification and review.";
 ---
 
-<BaseLayout title={item.title} description={item.description} currentPath={currentPath}>
-  <EditorialDetail
-    item={item}
-    eyebrow="Research preview"
-    backLabel="Back to research"
-    backHref={sitePath("/research/")}
-    statusNote={statusNote}
-    featuredDocuments={featuredDocuments}
-    heroClassName="research-detail-hero"
-    showVolumeConnection={true}
-    showVolumeResearchMap={true}
-  />
-</BaseLayout>
+{
+  publication ? (
+    <GreenPublicationArticle publication={publication} />
+  ) : (
+    <BaseLayout title={item.title} description={item.description} currentPath={currentPath}>
+      <EditorialDetail
+        item={item}
+        eyebrow="Research preview"
+        backLabel="Back to research"
+        backHref={sitePath("/research/")}
+        statusNote={statusNote}
+        featuredDocuments={featuredDocuments}
+        heroClassName="research-detail-hero"
+        showVolumeConnection={true}
+        showVolumeResearchMap={true}
+      />
+    </BaseLayout>
+  )
+}

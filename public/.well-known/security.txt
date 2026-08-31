@@ -1,4 +1,4 @@
 Contact: https://independentobserver.org/contact/
-Policy: https://independentobserver.org/about/
+Policy: https://github.com/swardhan-del/independent-observer-system-/blob/571ff19e35ef9f61a2fbc120d2619e7d8ee49d46/SECURITY.md
 Canonical: https://independentobserver.org/.well-known/security.txt
 Expires: 2027-08-27T00:00:00Z

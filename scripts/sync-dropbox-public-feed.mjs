@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, extname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { validatePublicationManifest } from "./publication-manifest.mjs";
 
 const OUTPUT_PATH = resolve("src/data/dropbox-content.generated.ts");
 const MAX_ARTIFACT_BYTES = 95 * 1024 * 1024;
@@ -259,7 +260,7 @@ function validateSections(sections, field) {
 
 export function parseManifest(manifest) {
   if (
-    manifest?.schemaVersion !== 2 ||
+    manifest?.schemaVersion !== 3 ||
     !Array.isArray(manifest.items) ||
     manifest.items.length > 100 ||
     manifest.approvedForWebsite !== true ||
@@ -269,21 +270,27 @@ export function parseManifest(manifest) {
     throw new Error("Manifest schema or release gates failed.");
   }
 
+  if (!process.env.PUBLICATION_OWNER_ID) {
+    throw new Error("PUBLICATION_OWNER_ID is required for owner-only release validation.");
+  }
+  validatePublicationManifest(manifest, { ownerId: process.env.PUBLICATION_OWNER_ID });
+
   const ids = new Set();
   const feedItems = [];
   const documentItems = [];
   const sources = [];
   for (const [index, item] of manifest.items.entries()) {
     const field = `items[${index}]`;
-    const id = cleanText(item?.id, `${field}.id`, 80);
+    const id = cleanText(item?.id ?? item?.candidateId, `${field}.id`, 80);
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id) || ids.has(id))
       throw new Error(`${field}.id is invalid or duplicated.`);
     ids.add(id);
-    if (!ALLOWED_KINDS.has(item?.kind)) throw new Error(`${field}.kind is not allowed.`);
+    const kind = item?.kind ?? item?.contentType;
+    if (!ALLOWED_KINDS.has(kind)) throw new Error(`${field}.kind is not allowed.`);
     if (!ALLOWED_STATUSES.has(item.status)) throw new Error(`${field}.status is not allowed.`);
     const title = cleanPublicText(item.title, `${field}.title`, 160);
     const category = validateCategory(
-      cleanPublicText(item.category, `${field}.category`, 100),
+      cleanPublicText(item.category ?? item.topics?.[0], `${field}.category`, 100),
       `${field}.category`,
     );
     const description = cleanPublicText(item.description, `${field}.description`, 800);
@@ -309,7 +316,7 @@ export function parseManifest(manifest) {
       continue;
     }
 
-    const feedItem = { id, kind: item.kind, title, category, description, status: item.status };
+    const feedItem = { id, kind, title, category, description, status: item.status };
     if (item.readingTime !== undefined)
       feedItem.readingTime = cleanPublicText(item.readingTime, `${field}.readingTime`, 80);
     feedItems.push(feedItem);

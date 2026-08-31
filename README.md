@@ -169,7 +169,7 @@ repository.
 
 The workflow fails closed when the folder, manifest, credentials, manifest schema, approval gates,
 source declarations, or artifact checks are unavailable or invalid. The manifest must use
-`schemaVersion: 2`, set `approvedForWebsite` to `true`, and set all four release gates to `true`:
+`schemaVersion: 3`, include every required publication field, set `approvedForWebsite` to `true`, set all release gates to `true`, and match the configured owner in `approvedBy`:
 `sourceVerified`, `contentQualityChecked`, `rightsAndProvenanceReviewed`, and `releaseApproved`.
 Items are limited to approved public categories and preview statuses. When a source artifact is
 declared, the workflow verifies its safe relative path, SHA-256, byte size, and expected container

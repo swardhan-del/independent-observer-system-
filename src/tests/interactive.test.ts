@@ -462,7 +462,7 @@ describe("interactive preview tools", () => {
     expect(researchCatalogue).toContain("rankSearchEntries");
     expect(researchCatalogue).toContain("Recently matched");
     expect(researchCatalogue).toContain("Private source paths");
-    expect(researchCatalogueRecords).toHaveLength(28);
+    expect(researchCatalogueRecords).toHaveLength(34);
     expect(researchCatalogueVolumes).toEqual(["Volume I", "Volume II", "Volume III", "Volume IV"]);
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "Volume record"),

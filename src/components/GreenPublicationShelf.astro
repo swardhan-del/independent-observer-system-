@@ -1,0 +1,54 @@
+---
+import { previewGreenPublications, readingTimeMinutes } from "../data/green-publications";
+import { sitePath } from "../lib/paths";
+const { volume, topic, title = "Current research articles" } = Astro.props;
+const records = previewGreenPublications.filter(
+  (item) => (!volume || item.volume === volume) && (!topic || item.topics.includes(topic)),
+);
+---
+
+{
+  records.length > 0 && (
+    <section class="section section-white" aria-labelledby="green-publications-title">
+      <div class="shell">
+        <div class="section-heading">
+          <>
+            <div>
+              <>
+                <p class="eyebrow">Protected preview · registry-driven</p>
+                <h2 id="green-publications-title">{title}</h2>
+              </>
+            </div>
+            <p>
+              Six bounded, text-only Green candidates are connected from one publication registry.
+              They are not production releases, feeds, or downloadable manuscripts.
+            </p>
+          </>
+        </div>
+        <div class="card-grid">
+          {records.map((item) => (
+            <article class="editorial-card">
+              <div class="card-meta">
+                <span>{item.volume}</span>
+                <span>{item.topics.slice(0, 2).join(" · ")}</span>
+              </div>
+              <h3>
+                <a class="card-title-link" href={sitePath(`/research/${item.slug}/`)}>
+                  {item.title}
+                </a>
+              </h3>
+              <p>{item.standfirst}</p>
+              <div class="card-footer">
+                <span class="status-pill">Preview-only article</span>
+                <span>{readingTimeMinutes(item)} min read</span>
+                <a class="card-open-link" href={sitePath(`/research/${item.slug}/`)}>
+                  Read bounded preview →
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

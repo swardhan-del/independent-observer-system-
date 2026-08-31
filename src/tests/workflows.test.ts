@@ -50,6 +50,7 @@ describe("workflow publication safety", () => {
     expect(sync).toContain("DROPBOX_APP_KEY");
     expect(sync).toContain("DROPBOX_APP_SECRET");
     expect(sync).toContain("DROPBOX_REFRESH_TOKEN");
+    expect(sync).toContain("PUBLICATION_OWNER_ID");
     expect(sync).toContain("node scripts/sync-dropbox-public-feed.mjs");
     expect(sync).toContain("DROPBOX_SOURCE_PATH");
     expect(sync).toContain('cron: "17 6 * * 1"');

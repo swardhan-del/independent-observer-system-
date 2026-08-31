@@ -13,6 +13,7 @@ import { volumeOneClaimMap, volumeOneEvidence } from "../../data/volume-one-evid
 import { volumeTwoFramework } from "../../data/volume-two-framework";
 import { volumeFourClaimMap, volumeFourEvidence } from "../../data/volume-four-evidence";
 import VolumeOneSourceMap from "../../components/VolumeOneSourceMap.astro";
+import GreenPublicationShelf from "../../components/GreenPublicationShelf.astro";
 
 export function getStaticPaths() {
   return seriesItems.map((item) => ({
@@ -94,4 +95,5 @@ const isVolumeFour = item.volume === "Volume IV";
           : undefined}
   />
   {isVolumeOne && <VolumeOneSourceMap />}
+  <GreenPublicationShelf volume={item.volume} title={`${item.volume}: current bounded articles`} />
 </BaseLayout>
