@@ -6,7 +6,10 @@ import {
   releaseCandidatePresentations,
   sixCandidateReleaseQueue,
 } from "../../data/publication-registry";
+import { ssrnPreprintDocuments } from "../../data/ssrn";
+import { seriesItems } from "../../data/series";
 import { sitePath } from "../../lib/paths";
+import { slugify } from "../../lib/slugs";
 
 const volumeOrder = {
   "Volume I": 1,
@@ -18,6 +21,23 @@ const volumeOrder = {
 const orderedReleaseCandidates = [...sixCandidateReleaseQueue].sort(
   (left, right) => volumeOrder[left.volume] - volumeOrder[right.volume],
 );
+
+const orderedVolumes = [...seriesItems].sort(
+  (left, right) =>
+    volumeOrder[left.volume as keyof typeof volumeOrder] -
+    volumeOrder[right.volume as keyof typeof volumeOrder],
+);
+
+const publicPapersByVolume = new Map(
+  orderedVolumes.map((volume) => [
+    volume.volume,
+    [...ssrnPreprintDocuments]
+      .filter((paper) => paper.volume === volume.volume)
+      .sort((left, right) => (right.metrics?.downloads ?? 0) - (left.metrics?.downloads ?? 0)),
+  ]),
+);
+
+const totalPublicPapers = ssrnPreprintDocuments.length;
 ---
 
 <BaseLayout
@@ -28,7 +48,7 @@ const orderedReleaseCandidates = [...sixCandidateReleaseQueue].sort(
   <PageHero
     eyebrow="Release log"
     title="What’s new, when it is real."
-    description="This log records owner-approved releases that have passed the publication path. Staged candidates and external preprints stay in their own status lanes."
+    description="This log records owner-approved releases that have passed the publication path. Use the research index below to understand each volume and its public paper trail; staged candidates and external preprints stay in their own status lanes."
   />
   <section class="section section-white" aria-labelledby="release-log-title">
     <div class="shell">
@@ -93,6 +113,107 @@ const orderedReleaseCandidates = [...sixCandidateReleaseQueue].sort(
           </ol>
         )
       }
+    </div>
+  </section>
+
+  <section
+    class="section section-rule release-research-index"
+    aria-labelledby="volume-research-index-title"
+  >
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Four-volume research index</p>
+          <h2 id="volume-research-index-title">
+            Understand each volume through its public paper trail.
+          </h2>
+        </div>
+        <p>
+          The four volumes ask different questions about public life. This index pairs each volume’s
+          purpose with {totalPublicPapers} public SSRN reading copies, so readers can see what each paper
+          examines and what it contributes without mistaking a preprint for an approved release.
+        </p>
+      </div>
+
+      <div class="release-volume-index">
+        {
+          orderedVolumes.map((volume, index) => {
+            const papers = publicPapersByVolume.get(volume.volume) ?? [];
+
+            return (
+              <article class="release-volume" id={`release-${slugify(volume.volume)}`}>
+                <div class="release-volume-overview">
+                  <div class="release-volume-meta">
+                    <span class="release-volume-number">{String(index + 1).padStart(2, "0")}</span>
+                    <span>{volume.volume}</span>
+                  </div>
+                  <h3>{volume.title}</h3>
+                  <p class="release-volume-category">{volume.category}</p>
+                  <p class="release-volume-description">{volume.description}</p>
+                  <div class="release-volume-overview-footer">
+                    <span>
+                      {papers.length} public SSRN{" "}
+                      {papers.length === 1 ? "reading copy" : "reading copies"}
+                    </span>
+                    <a
+                      href={sitePath(
+                        `/library/?paperVolume=${encodeURIComponent(volume.volume)}#research-${slugify(volume.volume)}`,
+                      )}
+                    >
+                      Open {volume.volume} shelf →
+                    </a>
+                  </div>
+                </div>
+
+                <div class="release-volume-papers" aria-label={`${volume.volume} public papers`}>
+                  <div class="release-volume-papers-heading">
+                    <p class="eyebrow">Public paper trail</p>
+                    <p>
+                      Each entry is a public SSRN preprint record. Its description identifies the
+                      paper’s question and its contribution to {volume.volume}; it does not imply
+                      peer review, publication approval, or a quality rating.
+                    </p>
+                  </div>
+                  {papers.map((paper, paperIndex) => (
+                    <article class="release-volume-paper" id={`release-paper-${paper.id}`}>
+                      <div class="release-volume-paper-meta">
+                        <span>{String(paperIndex + 1).padStart(2, "0")}</span>
+                        <span>SSRN preprint</span>
+                      </div>
+                      <h4>
+                        <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
+                      </h4>
+                      <p>{paper.description}</p>
+                      {paper.volumeRelevance && (
+                        <p class="release-volume-paper-contribution">
+                          <strong>Contribution to {volume.volume}:</strong> {paper.volumeRelevance}
+                        </p>
+                      )}
+                      <div class="release-volume-paper-footer">
+                        <span>{paper.category}</span>
+                        <span>{paper.status ?? "External preprint record"}</span>
+                        {paper.metrics?.downloads !== undefined && (
+                          <span>{paper.metrics.downloads} downloads · usage signal only</span>
+                        )}
+                      </div>
+                      <div class="release-volume-paper-links">
+                        <a href={sitePath(`/library/documents/${paper.id}/`)}>
+                          Open public reader →
+                        </a>
+                        {paper.sourceUrl && (
+                          <a href={paper.sourceUrl} target="_blank" rel="noreferrer">
+                            View public record ↗
+                          </a>
+                        )}
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </article>
+            );
+          })
+        }
+      </div>
     </div>
   </section>
 </BaseLayout>

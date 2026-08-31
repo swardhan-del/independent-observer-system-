@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { publicDocumentItems } from "../data/documents";
 import { seriesItems } from "../data/series";
+import { ssrnPreprintDocuments } from "../data/ssrn";
 import { volumeReels } from "../data/video-reels";
 import { slugify } from "../lib/slugs";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
@@ -217,6 +218,31 @@ describe("built website", () => {
     expect(html).toContain("Awaiting human release");
     expect(html).not.toContain("Dropbox");
     expect(html).not.toContain("Independent Observer desktop");
+  });
+
+  it("renders every public SSRN paper in its volume research index", () => {
+    const html = readOutput("whats-new/index.html");
+
+    expect(html).toContain("Understand each volume through its public paper trail.");
+    expect(html).toContain(`${ssrnPreprintDocuments.length} public SSRN reading copies`);
+    expect(html.match(/class="release-volume-paper"/g)).toHaveLength(ssrnPreprintDocuments.length);
+
+    for (const volume of seriesItems) {
+      const papers = ssrnPreprintDocuments.filter((paper) => paper.volume === volume.volume);
+
+      expect(html).toContain(`id="release-${slugify(volume.volume)}"`);
+      expect(html).toContain(`${papers.length} public SSRN reading cop`);
+      expect(html).toContain(volume.title);
+
+      for (const paper of papers) {
+        expect(html).toContain(`id="release-paper-${paper.id}"`);
+        expect(html).toContain(`href="/library/documents/${paper.id}/"`);
+        expect(html).toContain(paper.sourceUrl ?? "");
+      }
+    }
+
+    expect(html).not.toMatch(/dropbox|CloudStorage|Library\/CloudStorage|Users\//i);
+    expect(html).toContain("preprint for an approved release");
   });
 
   it("makes the reviewed public literature visible on the homepage", () => {
