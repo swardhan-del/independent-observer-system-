@@ -3,7 +3,7 @@ import {
   contactPolicy,
   contactTopics,
   type ContactTopic,
-} from "../src/data/contact";
+} from "../src/data/contact.js";
 
 type VercelRequest = {
   method?: string;
@@ -148,7 +148,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
 
   const rawBody = parseBody(req.body);
   const validation = validateContactPayload(rawBody);
-  if (!validation.ok) {
+  if (validation.ok === false) {
     respond(res, 400, { error: validation.error });
     return;
   }
