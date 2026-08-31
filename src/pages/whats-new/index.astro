@@ -20,7 +20,9 @@ import { sitePath } from "../../lib/paths";
     <div class="shell">
       <div class="release-log-empty" data-release-log-empty hidden={releaseLog.length > 0}>
         <p class="eyebrow">Release desk · human approval lane</p>
-        <h2 id="release-log-title">The release log is intentionally empty—for now.</h2>
+        <h2 id={releaseLog.length === 0 ? "release-log-title" : undefined}>
+          The release log is intentionally empty—for now.
+        </h2>
         <span class="sr-only">The release log is intentionally empty.</span>
         <p>
           The six current candidates remain awaiting human release. They are visible below so the
@@ -46,10 +48,10 @@ import { sitePath } from "../../lib/paths";
       {
         releaseLog.length > 0 && (
           <ol class="release-log" aria-labelledby="release-log-title">
-            {releaseLog.map((entry) => (
+            {releaseLog.map((entry, index) => (
               <li>
                 <time datetime={entry.date}>{entry.date}</time>
-                <h2 id="release-log-title">
+                <h2 id={index === 0 ? "release-log-title" : undefined}>
                   <a href={sitePath(entry.route)}>{entry.title}</a>
                 </h2>
               </li>

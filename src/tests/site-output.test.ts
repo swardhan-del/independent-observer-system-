@@ -204,10 +204,10 @@ describe("built website", () => {
     expect(html).toContain("what futures people can actually govern");
   });
 
-  it("publishes an honest empty release log until an owner-approved release exists", () => {
+  it("publishes the owner-approved six-publication release log", () => {
     const html = readOutput("whats-new/index.html");
-    expect(html).toContain("The release log is intentionally empty.");
-    expect(html).toContain("six current candidates remain awaiting human release");
+    expect(html).toContain("Regrowing Humanity");
+    expect(html).toContain("Democracy’s Achilles’ Heel");
   });
 
   it("makes the reviewed public literature visible on the homepage", () => {
@@ -589,13 +589,13 @@ describe("built website", () => {
     expect(metaContent(html, "name", "robots")).toBe("noindex,follow");
     expect(html).toContain("Awaiting human release");
     expect(readOutput("sitemap.xml")).not.toContain("/review/regrowing-humanity/");
-    expect(readOutput("feed.xml")).not.toContain("Regrowing Humanity");
+    expect(readOutput("feed.xml")).not.toContain("/review/regrowing-humanity/");
   });
 
-  it("keeps Atom empty until a real release is recorded", () => {
+  it("publishes the six owner-approved releases in Atom", () => {
     const atom = readOutput("feed.atom.xml");
     expect(atom).toContain('<feed xmlns="http://www.w3.org/2005/Atom">');
-    expect(atom).not.toContain("<entry>");
+    expect([...atom.matchAll(/<entry>/g)]).toHaveLength(6);
   });
 
   it("hosts the exact owner-provided operating-system DOCX", () => {
@@ -682,11 +682,11 @@ describe("built website", () => {
     expect(locations.some((location) => location.endsWith("/404/"))).toBe(false);
   });
 
-  it("keeps RSS empty until an owner-approved release exists", () => {
+  it("publishes the six owner-approved releases in RSS", () => {
     const feed = readOutput("feed.xml");
     const itemBlocks = [...feed.matchAll(/<item>[\s\S]*?<\/item>/g)].map((match) => match[0]);
 
-    expect(itemBlocks).toHaveLength(0);
+    expect(itemBlocks).toHaveLength(6);
     expect(feed).toContain('<rss version="2.0">');
     expect(feed).not.toContain("Status: ");
   });

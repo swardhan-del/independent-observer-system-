@@ -18,7 +18,7 @@ export type GreenPublication = {
   sourceVerified: true;
   rightsReviewed: true;
   accessibilityReviewed: true;
-  productionReleased: false;
+  productionReleased: boolean;
   relatedPublicationIds: string[];
   paragraphs: string[];
   sourceNotes: { label: string; href: string }[];
@@ -58,7 +58,7 @@ export const greenPublications: GreenPublication[] = [
     sourceVerified: true,
     rightsReviewed: true,
     accessibilityReviewed: true,
-    productionReleased: false,
+    productionReleased: true,
     relatedPublicationIds: ["IO-V4-LAST-HUMAN-WORKFORCE", "IO-V3-SERVER-AS-FURNACE"],
     paragraphs: [
       "Prosthetic limbs are moving from passive substitutes toward systems that interpret motor intention, generate movement, return sensory information, and adapt through use. The central question is not whether a device looks futuristic, but whether it can become a reliable extension of embodied capability for a particular user.",
@@ -110,7 +110,7 @@ export const greenPublications: GreenPublication[] = [
     sourceVerified: true,
     rightsReviewed: true,
     accessibilityReviewed: true,
-    productionReleased: false,
+    productionReleased: true,
     relatedPublicationIds: ["IO-V2-DEMOCRACYS-ACHILLES-HEEL"],
     paragraphs: [
       "Independence is not the same as centrism. It is a rule for handling evidence: state the standard before the conclusion, apply it across coalitions, distinguish facts from interpretations, and correct the record when evidence changes.",
@@ -150,7 +150,7 @@ export const greenPublications: GreenPublication[] = [
     sourceVerified: true,
     rightsReviewed: true,
     accessibilityReviewed: true,
-    productionReleased: false,
+    productionReleased: true,
     relatedPublicationIds: ["IO-V3-SERVER-AS-FURNACE", "IO-V4-REGROWING-HUMANITY"],
     paragraphs: [
       "The most misleading question about artificial intelligence and work is which jobs will disappear. A better question is which tasks will move, which tasks will be redesigned, and who will control the transition.",
@@ -197,7 +197,7 @@ export const greenPublications: GreenPublication[] = [
     sourceVerified: true,
     rightsReviewed: true,
     accessibilityReviewed: true,
-    productionReleased: false,
+    productionReleased: true,
     relatedPublicationIds: ["IO-V4-LAST-HUMAN-WORKFORCE"],
     paragraphs: [
       "Artificial intelligence is often discussed as if it were weightless. A data center is an electrical load, cooling plant, fiber node, secured building, water user or water-avoidance system, and site that makes demands on local infrastructure.",
@@ -243,7 +243,7 @@ export const greenPublications: GreenPublication[] = [
     sourceVerified: true,
     rightsReviewed: true,
     accessibilityReviewed: true,
-    productionReleased: false,
+    productionReleased: true,
     relatedPublicationIds: ["IO-V2-DEMOCRACYS-ACHILLES-HEEL"],
     paragraphs: [
       "A state can promise demographic sovereignty while factories, hospitals, farms, hotels, construction sites, and care systems depend on workers born elsewhere. Borrowed labor describes a gap between economic function and political status; it is not a claim that every migrant worker is exploited.",
@@ -295,7 +295,7 @@ export const greenPublications: GreenPublication[] = [
     sourceVerified: true,
     rightsReviewed: true,
     accessibilityReviewed: true,
-    productionReleased: false,
+    productionReleased: true,
     relatedPublicationIds: ["IO-V1-INDEPENDENT-OBSERVER-METHOD", "IO-V2-BORROWED-LABOR"],
     paragraphs: [
       "Democracy’s formal promise is necessary but incomplete. Citizens also need information, organization, access to institutions, understandable rules, and a meaningful correction when a decision is wrong.",
@@ -320,7 +320,12 @@ export const greenPublications: GreenPublication[] = [
 
 export const publicationPreviewEnabled =
   process.env.PUBLICATION_PREVIEW === "true" || process.env.VERCEL_ENV === "preview";
-export const previewGreenPublications = publicationPreviewEnabled ? greenPublications : [];
+export const releasedGreenPublications = greenPublications.filter(
+  (item) => item.productionReleased,
+);
+export const previewGreenPublications = publicationPreviewEnabled
+  ? greenPublications
+  : releasedGreenPublications;
 export const greenPublicationBySlug = new Map(
   greenPublications.map((publication) => [publication.slug, publication]),
 );

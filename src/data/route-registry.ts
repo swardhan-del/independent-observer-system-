@@ -4,7 +4,7 @@ import { seriesItems } from "./series";
 import { topicHubs } from "./topics";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
-import { previewGreenPublications } from "./green-publications";
+import { previewGreenPublications, publicationPreviewEnabled } from "./green-publications";
 
 export type CanonicalRouteType =
   | "home"
@@ -106,7 +106,7 @@ const contentRoutes: CanonicalRouteRecord[] = [
     title: item.title,
     type: "research" as const,
     source: "publication-registry",
-    indexable: false,
+    indexable: !publicationPreviewEnabled,
   })),
   ...documentaryItems.map((item) => ({
     route: `/documentaries/${slugify(item.title)}/`,

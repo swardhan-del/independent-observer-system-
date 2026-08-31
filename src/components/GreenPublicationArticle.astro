@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import {
   greenPublicationById,
   greenPublicationBySlug,
+  publicationPreviewEnabled,
   readingTimeMinutes,
 } from "../data/green-publications";
 import type { GreenPublication } from "../data/green-publications";
@@ -32,7 +33,7 @@ const schema = JSON.stringify({
   title={publication.shortTitle}
   description={publication.standfirst}
   currentPath={currentPath}
-  noindex={true}
+  noindex={publicationPreviewEnabled}
 >
   <script type="application/ld+json" set:html={schema} is:inline />
   <article

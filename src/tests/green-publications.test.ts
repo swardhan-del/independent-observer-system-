@@ -32,7 +32,7 @@ describe("central green publication registry", () => {
         (item) => item.sourceVerified && item.rightsReviewed && item.accessibilityReviewed,
       ),
     ).toBe(true);
-    expect(greenPublications.every((item) => item.productionReleased === false)).toBe(true);
+    expect(greenPublications.every((item) => item.productionReleased === true)).toBe(true);
     const publicRecord = publicGreenPublication(greenPublications[0]);
     expect(publicRecord).not.toHaveProperty("controllerSha256");
     expect(JSON.stringify(publicRecord)).not.toMatch(
