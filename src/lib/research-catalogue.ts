@@ -5,8 +5,10 @@ import { volumeResearchMap } from "../data/volume-research";
 import { sitePath } from "./paths";
 import { slugify } from "./slugs";
 import type { SearchEntry } from "./search";
+import { previewGreenPublications } from "../data/green-publications";
 
-export type ResearchCatalogueKind = "Volume record" | "SSRN preprint" | "Research concept";
+export type ResearchCatalogueKind =
+  "Volume record" | "SSRN preprint" | "Research concept" | "Current research article";
 
 export type ResearchCatalogueRecord = SearchEntry & {
   kind: ResearchCatalogueKind;
@@ -101,6 +103,21 @@ const conceptRecords: ResearchCatalogueRecord[] = researchItems.map((item) => ({
   kind: "Research concept",
 }));
 
+const greenRecords: ResearchCatalogueRecord[] = previewGreenPublications.map((item) => ({
+  id: `green:${item.candidateId}`,
+  title: item.title,
+  category: item.topics.slice(0, 2).join(" · "),
+  description: item.standfirst,
+  status: item.status,
+  type: "Research",
+  format: "Bounded text-only preview",
+  href: sitePath(`/research/${item.slug}/`),
+  topics: item.topics,
+  volume: item.volume,
+  kind: "Current research article",
+  publicationDate: item.publicationDate,
+}));
+
 /**
  * One public-safe research index. Volume records lead the default view, while
  * SSRN reading copies are sorted by retrieved usage signal for discovery only.
@@ -109,12 +126,14 @@ export const researchCatalogueRecords: ResearchCatalogueRecord[] = [
   ...volumeRecords,
   ...paperRecords,
   ...conceptRecords,
+  ...greenRecords,
 ];
 
 export const researchCatalogueKinds: ResearchCatalogueKind[] = [
   "Volume record",
   "SSRN preprint",
   "Research concept",
+  "Current research article",
 ];
 
 export const researchCatalogueTopics = topicNames;

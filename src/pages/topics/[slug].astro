@@ -6,6 +6,7 @@ import TopicReviewQueue from "../../components/TopicReviewQueue.astro";
 import { reviewQueueForTopic, topicPluginFor } from "../../../plugins/topic-discovery/catalog";
 import { topicHubs } from "../../data/topics";
 import { sitePath } from "../../lib/paths";
+import GreenPublicationShelf from "../../components/GreenPublicationShelf.astro";
 
 export function getStaticPaths() {
   return topicHubs.map((topic) => ({ params: { slug: topic.slug }, props: { topic } }));
@@ -126,6 +127,7 @@ const mappedVolumeSummary =
     </div>
   </section>
   <TopicVolumeMap />
+  <GreenPublicationShelf topic={topic.name} title={`${topic.name}: current articles`} />
   <TopicReviewQueue
     signals={reviewSignals}
     title={"Held for release in " + topic.name}

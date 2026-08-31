@@ -7,6 +7,7 @@ import { dropboxFeedItems } from "../../data/dropbox-content.generated";
 import { publicDocumentItems } from "../../data/documents";
 import { publicLibrarySnapshot } from "../../data/public-library";
 import { sitePath } from "../../lib/paths";
+import GreenPublicationShelf from "../../components/GreenPublicationShelf.astro";
 
 const { areas, note, stats } = publicLibrarySnapshot;
 ---
@@ -23,6 +24,25 @@ const { areas, note, stats } = publicLibrarySnapshot;
   />
 
   <LibraryResearchShelf />
+  <GreenPublicationShelf title="Current Independent Observer articles" />
+  <section class="section section-rule" aria-labelledby="library-review-boundaries-title">
+    <div class="shell page-grid">
+      <aside class="page-aside">Editorial status</aside><div class="prose">
+        <h2 id="library-review-boundaries-title">Historical records remain distinguishable.</h2>
+        <p>
+          Some older public records remain available for historical continuity but are not current
+          Green publications. Empire of Distraction and When the Storm Decides remain methodology
+          holds; From Vietnam to Terry v. Ohio requires source-audit rebuilding; Wardhan Tax
+          Doctrine has competing full-text versions; and Who Deported More? is a public SSRN record
+          whose newer manuscript remains under review.
+        </p>
+        <p>
+          These labels preserve links without silently substituting newer working-archive material.
+          The six current bounded articles above are the principal preview layer.
+        </p>
+      </div>
+    </div>
+  </section>
 
   <section class="section section-rule" aria-labelledby="library-scope-title">
     <div class="shell page-grid">

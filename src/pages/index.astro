@@ -12,6 +12,7 @@ import HomepageVolumeGuide from "../components/HomepageVolumeGuide.astro";
 import HomepageLiteratureShelf from "../components/HomepageLiteratureShelf.astro";
 import VolumeVisualStrip from "../components/VolumeVisualStrip.astro";
 import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
+import GreenPublicationShelf from "../components/GreenPublicationShelf.astro";
 
 const volumeOneMethod = ssrnPreprintDocuments.find(
   (entry) => entry.id === "independent-observer-volume-one-ssrn",
@@ -333,6 +334,7 @@ const heroVolumeLinks = seriesItems.map((item, index) => ({
       />
     </div>
   </section>
+  <GreenPublicationShelf title="New research" />
 
   <section class="section section-navy" aria-label="Distribution channels">
     <div class="shell">
