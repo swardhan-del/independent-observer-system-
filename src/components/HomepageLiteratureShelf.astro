@@ -1,8 +1,8 @@
 ---
-import { ssrnPreprintDocuments } from "../data/ssrn";
+import { paperDocuments } from "../data/papers";
 import { sitePath } from "../lib/paths";
 
-const papers = [...ssrnPreprintDocuments].sort(
+const papers = [...paperDocuments].sort(
   (left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1),
 );
 ---
@@ -13,16 +13,16 @@ const papers = [...ssrnPreprintDocuments].sort(
 >
   <div class="shell">
     <div class="section-heading">
-      <p class="eyebrow">Public reading set</p>
+      <p class="eyebrow">Author paper catalogue</p>
       <h2 id="homepage-literature-title">
         The literature behind critical thinking, reasoning, and documentation.
       </h2>
       <p class="homepage-literature-intro">
         Independent Observer is a source-led research project, not a single argument. This shelf
-        gathers {papers.length} public SSRN reading copies so readers can examine questions that coverage
+        gathers {papers.length} public author paper pages so readers can examine questions that coverage
         can flatten or omit while keeping references, uncertainty, and correction visible. The project
-        is grounded in identifiable sources, not conspiracy framing; each record is an SSRN preprint and
-        public reading copy, not peer review or an approved Independent Observer release.
+        is grounded in identifiable sources, not conspiracy framing; each record is a source-reviewed
+        synopsis, not the complete manuscript, peer review, or an approved Independent Observer release.
       </p>
     </div>
 
@@ -42,17 +42,17 @@ const papers = [...ssrnPreprintDocuments].sort(
             </h3>
             <p>{paper.description}</p>
             <div class="homepage-literature-footer">
-              <a href={sitePath(`/library/documents/${paper.id}/`)}>Read the public copy →</a>
+              <a href={sitePath(`/library/documents/${paper.id}/`)}>Read the paper synopsis →</a>
               <span>{paper.metrics?.downloads ?? "—"} downloads · usage signal only</span>
             </div>
-            {paper.sourceUrl && (
+            {paper.researchGateUrl && (
               <a
                 class="homepage-literature-source"
-                href={paper.sourceUrl}
+                href={paper.researchGateUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Open SSRN record ↗
+                Open ResearchGate record ↗
               </a>
             )}
           </article>

@@ -41,7 +41,7 @@ export const researchItems: EditorialItem[] = [
         heading: "Volume III connection",
         paragraphs: [
           "The concept is mapped to Volume III, Managed Decline, because it asks how law, enforcement, welfare, taxation, labor, and public records distribute practical power and insecurity.",
-          "The closely related Volume III public SSRN reading copy is From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential. The public record is linked for discovery, while the matching source material remains outside the website; this page uses the relationship as a research map rather than reproducing the manuscript.",
+          "The closely related Volume III public author paper page is From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential. The public record is linked for discovery, while the matching source material remains outside the website; this page uses the relationship as a research map rather than reproducing the manuscript.",
         ],
       },
       {
@@ -80,7 +80,7 @@ export const researchItems: EditorialItem[] = [
       },
     ],
     sourceNote:
-      "This public catalogue relationship draws on the public SSRN reading copy From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential, the audited Volume III working-paper direction Welfare, Wealthfare, and Social Control in Advanced Democracies, and the Volume II working-paper direction Democracy's Achilles' Heel: Institutional Incentives and Political Outcomes. These source reservoirs inform the research map; Raw source files, alternate drafts, private metadata, and unverified claims remain outside the website.",
+      "This public catalogue relationship draws on the public author paper page From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential, the audited Volume III working-paper direction Welfare, Wealthfare, and Social Control in Advanced Democracies, and the Volume II working-paper direction Democracy's Achilles' Heel: Institutional Incentives and Political Outcomes. These source reservoirs inform the research map; Raw source files, alternate drafts, private metadata, and unverified claims remain outside the website.",
   },
   {
     title: "The Welfare Paradox",
@@ -178,7 +178,7 @@ export const documentaryItems: EditorialItem[] = [
       },
     ],
     sourceNote:
-      "This concept uses the public Volume IV research frame as a map for a future documentary treatment. Public SSRN reading copies and research previews remain distinct from a finished or released film; private source files and unpublished production material stay outside the website.",
+      "This concept uses the public Volume IV research frame as a map for a future documentary treatment. Public author paper pages and research previews remain distinct from a finished or released film; private source files and unpublished production material stay outside the website.",
   },
 ];
 

@@ -204,13 +204,13 @@ const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
       {
         showVolumePapersInPreview && featuredDocuments.length > 0 && (
           <section class="detail-volume-papers" aria-labelledby="detail-volume-papers-title">
-            <p class="eyebrow">Public SSRN papers</p>
-            <h3 id="detail-volume-papers-title">Papers already posted on SSRN.</h3>
+            <p class="eyebrow">Public author papers</p>
+            <h3 id="detail-volume-papers-title">Author papers with reviewed public records.</h3>
             <p>
               These are the Volume I records matched to the author's research set and verified as
-              public SSRN records. Here, “posted” identifies a public SSRN record; it does not imply
-              peer review. Other files marked “SSRN-ready” remain outside this list until an actual
-              public record is confirmed.
+              public paper records. Here, “posted” identifies a public paper record; it does not
+              imply peer review. Other files marked “submission-ready” remain outside this list
+              until an actual public record is confirmed.
             </p>
             <ol class="detail-volume-paper-list">
               {featuredDocuments.map((entry, index) => (
@@ -222,7 +222,7 @@ const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
                   <h4>
                     <a href={sitePath(`/library/documents/${entry.id}/`)}>{entry.title}</a>
                   </h4>
-                  {entry.id === "independent-observer-volume-one-ssrn" && volumeOneReel && (
+                  {entry.id === "independent-observer-volume-one" && volumeOneReel && (
                     <figure class="detail-volume-paper-media">
                       <video
                         controls
@@ -250,10 +250,12 @@ const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
                     </p>
                   )}
                   <div class="detail-volume-paper-links">
-                    <a href={sitePath(`/library/documents/${entry.id}/`)}>Read the public copy →</a>
-                    {entry.sourceUrl && (
-                      <a href={entry.sourceUrl} target="_blank" rel="noopener noreferrer">
-                        Open SSRN record ↗
+                    <a href={sitePath(`/library/documents/${entry.id}/`)}>
+                      Read the paper synopsis →
+                    </a>
+                    {entry.researchGateUrl && (
+                      <a href={entry.researchGateUrl} target="_blank" rel="noopener noreferrer">
+                        Open ResearchGate record ↗
                       </a>
                     )}
                   </div>
@@ -341,16 +343,16 @@ const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
         <div class="section-heading">
           <div>
             <p class="eyebrow">Selected public records</p>
-            <h2 id="featured-preprints-title">SSRN-linked preprints from this volume.</h2>
+            <h2 id="featured-preprints-title">author-controlled preprints from this volume.</h2>
           </div>
           <p>
-            Ordered by the latest retrievable SSRN download signal. SSRN does not publish star
-            ratings; downloads and abstract views are usage counts, not quality scores.
+            Ordered by the archived download signal. The snapshot does not publish star ratings;
+            downloads and abstract views are usage counts, not quality scores.
           </p>
         </div>
         <div class="card-grid">
           {featuredDocuments.map((entry, index) => (
-            <article class="editorial-card ssrn-feature-card">
+            <article class="editorial-card paper-feature-card">
               <div class="card-meta">
                 <span>{String(index + 1).padStart(2, "0")}</span>
                 <span>{entry.status}</span>

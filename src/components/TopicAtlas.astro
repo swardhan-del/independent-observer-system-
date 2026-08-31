@@ -11,8 +11,7 @@ type Props = {
 const { topics } = Astro.props as Props;
 
 function countRecords(topic: TopicHub, type: string) {
-  if (type === "public")
-    return topic.related.filter((item) => item.type === "SSRN preprint").length;
+  if (type === "public") return topic.related.filter((item) => item.type === "Author paper").length;
   if (type === "preview")
     return topic.related.filter((item) => item.type.includes("preview")).length;
   if (type === "roadmap")
@@ -23,7 +22,7 @@ function countRecords(topic: TopicHub, type: string) {
 function typeTags(topic: TopicHub) {
   const types = new Set<string>();
   for (const item of topic.related) {
-    if (item.type === "SSRN preprint") types.add("preprint");
+    if (item.type === "Author paper") types.add("preprint");
     else if (item.type === "Research preview") types.add("research");
     else if (item.type === "Documentary preview") types.add("documentary");
     else if (item.type === "Video preview") types.add("video");
@@ -78,7 +77,7 @@ function volumeTags(topic: TopicHub) {
       <label for="topic-atlas-type">Content type</label>
       <select id="topic-atlas-type" data-topic-type-filter>
         <option value="all">All types</option>
-        <option value="preprint">SSRN preprints</option>
+        <option value="preprint">author papers</option>
         <option value="research">Research previews</option>
         <option value="documentary">Documentary previews</option>
         <option value="video">Video previews</option>

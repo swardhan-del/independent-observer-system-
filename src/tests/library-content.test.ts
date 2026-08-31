@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
 import { publicLibrarySnapshot } from "../data/public-library";
-import { ssrnPreprintDocuments } from "../data/ssrn";
+import { paperDocuments } from "../data/papers";
 import { seriesItems } from "../data/series";
 import { volumeResearchMap } from "../data/volume-research";
 
@@ -43,7 +43,7 @@ describe("library content blocks", () => {
     ).toBe(true);
   });
 
-  it("keeps the source-taxonomy research map separate from public SSRN records", () => {
+  it("keeps the source-taxonomy research map separate from public paper records", () => {
     const volumeOne = libraryVolumeGuides.find((guide) => guide.volume === "Volume I");
     const volumeTwo = libraryVolumeGuides.find((guide) => guide.volume === "Volume II");
 
@@ -96,20 +96,20 @@ describe("library content blocks", () => {
     expect(volumeFour?.summary).toContain("advanced technology is measured");
     expect(researchShelf).toContain("Source-taxonomy research map");
     expect(researchShelf).toContain("library-volume-shelf-research-label");
-    expect(researchShelf).toContain("not public SSRN reading copies or publication approvals");
+    expect(researchShelf).toMatch(/not public author paper pages or\s+publication approvals/);
   });
 
-  it("maps public SSRN preprints to the correct volume without changing their status", () => {
-    expect(ssrnPreprintDocuments.every((entry) => entry.status === "SSRN preprint")).toBe(true);
+  it("maps public author papers to the correct volume without changing their status", () => {
+    expect(paperDocuments.every((entry) => entry.status === "Author working paper")).toBe(true);
     expect(
       libraryVolumeGuides.every((guide) =>
-        ssrnPreprintDocuments.some((entry) => entry.volume === guide.volume),
+        paperDocuments.some((entry) => entry.volume === guide.volume),
       ),
     ).toBe(true);
     expect(
-      ssrnPreprintDocuments.every(
+      paperDocuments.every(
         (entry) =>
-          entry.sourceUrl?.includes("papers.ssrn.com") && entry.metrics?.downloads !== undefined,
+          entry.sourceFingerprintSha256?.length === 64 && entry.metrics?.downloads !== undefined,
       ),
     ).toBe(true);
   });
@@ -123,7 +123,7 @@ describe("library content blocks", () => {
     expect(libraryPage).toContain("Volume II shelf");
     expect(libraryPage).toContain("Volume IV examines science,");
     expect(libraryPage).toContain("This site is for academic discussion grounded in");
-    expect(publicLibrarySnapshot.note).toContain("SSRN records");
+    expect(publicLibrarySnapshot.note).toContain("paper records");
     expect(publicLibrarySnapshot.note).toContain("ResearchGate records");
   });
 
@@ -132,11 +132,11 @@ describe("library content blocks", () => {
     expect(libraryPage).toContain("<LibraryResearchShelf />");
     expect(libraryPage).not.toContain("Three public summaries.");
     expect(contentBlocks).toContain("data-library-volume-filter");
-    expect(contentBlocks).toContain("Additional public SSRN shelf");
+    expect(contentBlocks).toContain("Additional author paper pages");
     expect(contentBlocks).toContain("Core ideas");
     expect(contentBlocks).toContain("Why this volume matters");
     expect(contentBlocks).toContain("Representative public paper");
-    expect(contentBlocks).toContain("Highest current download signal in this volume");
+    expect(contentBlocks).toContain("Highest archived download signal in this volume");
     expect(contentBlocks).toContain("window.history.replaceState");
   });
 
@@ -146,7 +146,7 @@ describe("library content blocks", () => {
     expect(researchShelf).toContain("library-research-shelf-heading");
     expect(researchShelf).toContain("library-research-shelf-heading-copy");
     expect(researchShelf).toContain("Core principles");
-    expect(researchShelf).toContain("Highest current download signal");
+    expect(researchShelf).toContain("Highest archived download signal");
     expect(researchShelf).toContain("not a quality score");
     expect(researchShelf).toContain("How the power inquiry is assembled.");
     expect(researchShelf).toContain("Contribution to {guide.volume}.");
@@ -157,7 +157,6 @@ describe("library content blocks", () => {
     expect(researchShelf).toContain("paperVolume");
     expect(researchShelf).toContain("paperQ");
     expect(researchShelf).toContain("replace(/[^\\p{L}\\p{N}]+/gu");
-    expect(researchShelf).toContain("Open SSRN record");
     expect(researchShelf).toContain("Open ResearchGate record");
     expect(researchShelf).toContain("ResearchGate record");
     expect(researchShelf).not.toContain("releaseApproved = true");
@@ -190,22 +189,23 @@ describe("library content blocks", () => {
     ).toBe(true);
   });
 
-  it("keeps Volume I, II, and III public preprints in the local search index", () => {
-    const firstThreeVolumes = ssrnPreprintDocuments.filter((entry) =>
+  it("keeps Volume I, II, and III author papers in the local search index", () => {
+    const firstThreeVolumes = paperDocuments.filter((entry) =>
       ["Volume I", "Volume II", "Volume III"].includes(entry.volume ?? ""),
     );
     expect(firstThreeVolumes).toHaveLength(16);
-    expect(firstThreeVolumes.every((entry) => entry.sourceUrl)).toBe(true);
+    expect(firstThreeVolumes.filter((entry) => entry.researchGateUrl)).toHaveLength(13);
+    expect(
+      firstThreeVolumes.filter((entry) => !entry.researchGateUrl).map((entry) => entry.id),
+    ).toEqual(["latino-irony", "empire-of-distraction", "children-left-behind-after-a-war"]);
     expect(siteSearch).toContain("...publicDocumentItems.map");
-    expect(siteSearch).toContain("SSRN preprint");
+    expect(siteSearch).toContain("Author paper");
     expect(siteSearch).toContain("ResearchGate record");
     expect(siteSearch).toContain("Search public papers, work, fields, and volume guides");
   });
 
   it("makes the Volume III tax paper's placement and scope explicit", () => {
-    const taxPaper = ssrnPreprintDocuments.find(
-      (entry) => entry.id === "wardhan-tax-doctrine-ssrn",
-    );
+    const taxPaper = paperDocuments.find((entry) => entry.id === "wardhan-tax-doctrine");
     const volumeThree = seriesItems.find((entry) => entry.volume === "Volume III");
 
     expect(taxPaper?.description).toContain("within Managed Decline");
@@ -223,7 +223,7 @@ describe("library content blocks", () => {
     expect(homepageVolumeGuide).toContain("public ");
     expect(homepageVolumeGuide).toContain("in this volume");
     expect(homepageVolumeGuide).toContain("library/documents/${paper.id}");
-    expect(homepageVolumeGuide).toContain("SSRN usage signal only");
+    expect(homepageVolumeGuide).toMatch(/Archived distribution signal\s+only/);
   });
 
   it("selects one public-safe paper signal for every volume", () => {
@@ -231,10 +231,10 @@ describe("library content blocks", () => {
     expect(volumeResearchMap.every((item) => item.papers.length > 0)).toBe(true);
     expect(new Set(volumeResearchMap.map((item) => item.papers[0]?.volume)).size).toBe(4);
     expect(volumeResearchMap.map((item) => item.papers[0]?.id)).toEqual([
-      "the-illusion-of-equality-ssrn",
-      "who-deported-more-ssrn",
-      "wardhan-tax-doctrine-ssrn",
-      "entanglement-primer-ssrn",
+      "the-illusion-of-equality",
+      "who-deported-more",
+      "wardhan-tax-doctrine",
+      "entanglement-primer",
     ]);
     expect(contentBlocks).not.toContain("highest-rated");
     expect(contentBlocks).toContain("not quality ratings");

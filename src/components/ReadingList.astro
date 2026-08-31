@@ -1,10 +1,10 @@
 ---
 import { seriesItems } from "../data/series";
-import { ssrnPreprintDocuments } from "../data/ssrn";
+import { paperDocuments } from "../data/papers";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 
-const featuredPreprints = [...ssrnPreprintDocuments]
+const featuredPreprints = [...paperDocuments]
   .sort((a, b) => (b.metrics?.downloads ?? -1) - (a.metrics?.downloads ?? -1))
   .slice(0, 5);
 ---
@@ -56,12 +56,12 @@ const featuredPreprints = [...ssrnPreprintDocuments]
           </button>
         </div>
         <p class="reading-list-recommendations-intro">
-          Five matched SSRN preprints ordered by the latest retrieved download signal, followed by
+          Five author-controlled paper pages ordered by the archived download signal, followed by
           the four Independent Observer book and volume roadmaps. These are public reading copies
           and previews—not published books or peer-reviewed Independent Observer articles.
         </p>
         <div class="reading-list-recommendation-group">
-          <h4>Highest-download matched SSRN preprints</h4>
+          <h4>Highest-download author paper pages</h4>
           <div class="reading-list-recommendation-grid">
             {
               featuredPreprints.map((entry) => {
@@ -74,8 +74,7 @@ const featuredPreprints = [...ssrnPreprintDocuments]
                     </h5>
                     <p>
                       {entry.volume} · {entry.metrics?.downloads ?? "—"} downloads · last directly
-                      verified {entry.metrics?.checkedAt}; public reading copy, availability review
-                      pending copy
+                      checked {entry.metrics?.checkedAt}; author-controlled synopsis
                     </p>
                     <div class="reading-list-recommendation-actions">
                       <button
@@ -84,15 +83,12 @@ const featuredPreprints = [...ssrnPreprintDocuments]
                         data-reading-id={`document:${entry.id}`}
                         data-reading-title={entry.title}
                         data-reading-href={href}
-                        data-reading-type="SSRN preprint"
+                        data-reading-type="Author paper"
                         aria-pressed="false"
                       >
                         Save
                       </button>
                       <a href={href}>Open copy →</a>
-                      <a href={entry.sourceUrl} target="_blank" rel="noopener noreferrer">
-                        SSRN ↗
-                      </a>
                       {entry.researchGateUrl && (
                         <a href={entry.researchGateUrl} target="_blank" rel="noopener noreferrer">
                           ResearchGate ↗

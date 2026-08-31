@@ -18,13 +18,13 @@ export const volumeOneSourceMap: VolumeOneSourceMaterial[] = [
   {
     id: "manifesto-of-a-destiny-method",
     family: "Method and governance",
-    status: "Public SSRN record · reading copy",
+    status: "Public paper record · reading copy",
     title: "Manifesto of a Destiny: The Independent Observer Method",
     summary:
       "The current manifesto defines independence as consistency: apply the same standards across coalitions, separate mechanism from prediction and proposal, and revise claims through an explicit correction rule. It treats institutional trust as infrastructure and describes the verification, delay, enforcement, and risk costs that can follow opaque or selectively applied rules.",
     contribution:
       "This is the Volume I anchor. It gives the wider source set a reusable claim format, versioning discipline, and a nonpartisan way to move from observation to institutional diagnosis.",
-    href: sitePath("/library/documents/independent-observer-volume-one-ssrn/"),
+    href: sitePath("/library/documents/independent-observer-volume-one/"),
   },
   {
     id: "from-plato-to-chomsky",
@@ -60,18 +60,18 @@ export const volumeOneSourceMap: VolumeOneSourceMaterial[] = [
   {
     id: "systems-centered-manifesto",
     family: "Automation, labor, and civic capacity",
-    status: "Public SSRN record · reading copy",
+    status: "Public paper record · reading copy",
     title: "A Systems-Centered Manifesto on Automation, Education, and the Carceral State",
     summary:
       "This systems paper links automation in global supply chains with skill mismatch, incarceration, recidivism, and reentry. It argues that tariffs alone are an imprecise route to employment when production is automated and geographically flexible, and pairs industrial policy with vocational learning, apprenticeships, second-chance hiring, and local capability-building.",
     contribution:
       "It shows the Volume I method operating across policy boundaries: labor, education, technology, and legal institutions are read as one connected system and then translated into testable reform proposals.",
-    href: sitePath("/library/documents/a-systems-centered-manifesto-ssrn/"),
+    href: sitePath("/library/documents/a-systems-centered-manifesto/"),
   },
   {
     id: "state-of-exception",
     family: "Rights and emergency power",
-    status: "SSRN submission draft · public record not confirmed",
+    status: "submission draft · public record not confirmed",
     title: "The State of Exception: Constitutional Rights in Declining Empires",
     summary:
       "This working paper examines how emergency powers can move from temporary response to durable legal, administrative, and digital infrastructures of control. Its historical and conceptual frame brings constitutional rights, wartime fear, surveillance, and the boundary between emergency and normal governance into the Volume I method of evidence and institutional review.",
@@ -103,14 +103,14 @@ export const volumeOneSourceMap: VolumeOneSourceMaterial[] = [
   {
     id: "illusion-of-equality",
     family: "Institutional power and political economy",
-    status: "Public SSRN record · reading copy",
+    status: "Public paper record · reading copy",
     title:
       "The Illusion of Equality: The Founding Fathers’ Contradictions, the Flaws of Democracy, and the Future of U.S. Economic Influence",
     summary:
       "This historical and political-economy working paper examines the gap between equality language and the constitutional, legal, electoral, and economic structures that distribute power. It connects founding-era exclusions, representation, corporate influence, reserve-currency politics, and contemporary economic strategy as a case for reading context and incentives together.",
     contribution:
       "It gives the method a concrete institutional case: formal rights, historical inheritance, present incentives, and practical capacity must be connected before a claim about democratic equality is accepted.",
-    href: sitePath("/library/documents/the-illusion-of-equality-ssrn/"),
+    href: sitePath("/library/documents/the-illusion-of-equality/"),
   },
 ] as const;
 

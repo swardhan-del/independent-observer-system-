@@ -15,11 +15,11 @@ export function getStaticPaths() {
 const { topic } = Astro.props;
 const plugin = topicPluginFor(topic.slug);
 const reviewSignals = reviewQueueForTopic(topic.slug);
-const preprintCount = topic.related.filter((item) => item.type === "SSRN preprint").length;
+const preprintCount = topic.related.filter((item) => item.type === "Author paper").length;
 const previewCount = topic.related.filter((item) => item.type.includes("preview")).length;
 const roadmapCount = topic.related.filter((item) => item.type.startsWith("Volume")).length;
 const publicOutputItems = topic.related.filter(
-  (item) => item.type === "SSRN preprint" || item.type.includes("preview"),
+  (item) => item.type === "Author paper" || item.type.includes("preview"),
 );
 const mappedVolumes = [
   ...new Set(
@@ -44,7 +44,7 @@ const mappedVolumeSummary =
         <span class="status-pill">Public discovery map</span>
         <h2>{plugin.question}</h2>
         <p>
-          {plugin.method} This hub already has public outputs: {preprintCount} matched SSRN reading
+          {plugin.method} This hub already has public outputs: {preprintCount} author paper
           {preprintCount === 1 ? " copy" : " copies"} and {previewCount} research, documentary, or video
           {previewCount === 1 ? "preview" : "previews"}. These are public records and previews, not
           a claim that a standalone Independent Observer article has been released; the map below
@@ -110,7 +110,7 @@ const mappedVolumeSummary =
                 <>
                   <span class="status-pill">{item.status}</span>
                   <a class="card-open-link" href={item.href}>
-                    {item.type === "SSRN preprint" ? "Open reading copy →" : "Open preview →"}
+                    {item.type === "Author paper" ? "Open reading copy →" : "Open preview →"}
                   </a>
                 </>
               </div>

@@ -11,7 +11,7 @@ const { record, index } = Astro.props;
 const readingId = `route:${record.href}`;
 const statusClass = record.status === "In editorial development" ? " status-pill--active" : "";
 const topicLabel = record.volume ? `${record.volume} · ${record.category}` : record.category;
-const externalLinks = record.sourceUrl || record.researchGateUrl;
+const externalLinks = record.researchGateUrl;
 ---
 
 <li
@@ -46,16 +46,16 @@ const externalLinks = record.sourceUrl || record.researchGateUrl;
       record.kind === "Volume record" && (
         <p class="research-catalogue-card-signal">
           Connected public work: {record.paperCount}{" "}
-          {record.paperCount === 1 ? "SSRN reading copy" : "SSRN reading copies"}.
+          {record.paperCount === 1 ? "author paper page" : "author paper pages"}.
         </p>
       )
     }
     {
-      record.kind === "SSRN preprint" && record.metrics && (
+      record.kind === "Author paper" && record.metrics && (
         <p class="research-catalogue-card-signal">
-          Retrieved signal: {record.metrics.downloads ?? "—"} downloads ·{" "}
-          {record.metrics.abstractViews ?? "—"} abstract views; last directly verified{" "}
-          {record.metrics.checkedAt}. Current SSRN availability is review-pending.
+          Archived signal: {record.metrics.downloads ?? "—"} downloads ·{" "}
+          {record.metrics.abstractViews ?? "—"} abstract views; archived snapshot checked{" "}
+          {record.metrics.checkedAt}. The originating platform is not used for access.
         </p>
       )
     }
@@ -72,8 +72,8 @@ const externalLinks = record.sourceUrl || record.researchGateUrl;
       >
       <a class="card-open-link" href={record.href}>
         {
-          record.kind === "SSRN preprint"
-            ? "Open reading copy"
+          record.kind === "Author paper"
+            ? "Open paper synopsis"
             : record.kind === "Volume record"
               ? "Open volume record"
               : "Open research concept"
@@ -82,11 +82,6 @@ const externalLinks = record.sourceUrl || record.researchGateUrl;
       {
         externalLinks && (
           <span class="research-catalogue-card-external">
-            {record.sourceUrl && (
-              <a href={record.sourceUrl} target="_blank" rel="noreferrer">
-                SSRN ↗
-              </a>
-            )}
             {record.researchGateUrl && (
               <a href={record.researchGateUrl} target="_blank" rel="noreferrer">
                 ResearchGate ↗

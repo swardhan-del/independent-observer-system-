@@ -39,17 +39,22 @@ describe("publication release safety", () => {
     ).toBe(true);
   });
 
-  it("keeps external reading copies distinct from release approval", () => {
-    const external = publicPublicationRegistry.filter(
-      (record) => record.status === "external_preprint",
+  it("keeps author paper records distinct from release approval", () => {
+    const authorPapers = publicPublicationRegistry.filter(
+      (record) => record.status === "working_paper",
     );
-    expect(external.length).toBeGreaterThanOrEqual(7);
-    expect(external.every((record) => record.releaseDecision === "external_record_only")).toBe(
+    expect(authorPapers).toHaveLength(21);
+    expect(authorPapers.every((record) => record.releaseDecision === "external_record_only")).toBe(
       true,
     );
-    expect(external.every((record) => record.verifiedExternalUrl?.startsWith("https://"))).toBe(
-      true,
-    );
+    expect(
+      authorPapers.every(
+        (record) =>
+          record.verifiedExternalUrl === null ||
+          record.verifiedExternalUrl.startsWith("https://www.researchgate.net/publication/"),
+      ),
+    ).toBe(true);
+    expect(authorPapers.filter((record) => record.verifiedExternalUrl)).toHaveLength(18);
   });
 
   it("keeps the repository registry public-safe", () => {

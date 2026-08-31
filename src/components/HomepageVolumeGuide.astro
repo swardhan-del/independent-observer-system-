@@ -1,14 +1,14 @@
 ---
 import { topicPluginFor, volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
 import { seriesItems } from "../data/series";
-import { ssrnPreprintDocuments } from "../data/ssrn";
+import { paperDocuments } from "../data/papers";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 
 const papersByVolume = new Map(
   seriesItems.map((item) => [
     item.volume,
-    ssrnPreprintDocuments
+    paperDocuments
       .filter((paper) => paper.volume === item.volume)
       .sort((left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1)),
   ]),
@@ -99,7 +99,8 @@ const volumeVisuals = {
                     <li>
                       <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
                       <span>
-                        {paper.metrics?.downloads ?? "—"} downloads · SSRN usage signal only
+                        {paper.metrics?.downloads ?? "—"} downloads · Archived distribution signal
+                        only
                       </span>
                     </li>
                   ))}

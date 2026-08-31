@@ -1,6 +1,6 @@
 ---
 import type { PublicDocument } from "../data/documents";
-import { ssrnPreprintDocuments } from "../data/ssrn";
+import { paperDocuments } from "../data/papers";
 import { seriesItems } from "../data/series";
 import PageHero from "./PageHero.astro";
 import RelatedContent from "./RelatedContent.astro";
@@ -27,7 +27,7 @@ const suggestedCitation = citationComplete
   : `Independent Observer. “${entry.title}.” ${entry.sourceLabel}. Reviewed public copy.`;
 const related = relatedEntries.filter((candidate) => candidate.id !== entry.id).slice(0, 3);
 const volumeDocuments = entry.volume
-  ? ssrnPreprintDocuments
+  ? paperDocuments
       .filter((document) => document.volume === entry.volume)
       .sort((left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1))
   : [];
@@ -37,7 +37,7 @@ const volumeRecord = entry.volume
 ---
 
 <PageHero
-  eyebrow="Public document reader"
+  eyebrow="Author paper catalogue"
   title={entry.title}
   description={entry.description}
   className="document-reader-hero"
@@ -86,15 +86,15 @@ const volumeRecord = entry.volume
         {
           entry.metrics && (
             <div class="reader-metrics">
-              <dt>SSRN signal</dt>
+              <dt>Archived distribution</dt>
               <dd>
                 {entry.metrics.downloads ?? "—"} downloads · {entry.metrics.abstractViews ?? "—"}{" "}
                 views
                 <>
                   <br />
                   <small>
-                    Last directly verified {entry.metrics.checkedAt}. Current SSRN availability is
-                    review-pending.
+                    Snapshot checked {entry.metrics.checkedAt}. These historic counts are retained
+                    for context; the originating platform is not used for access.
                   </small>
                 </>
               </dd>
@@ -160,16 +160,14 @@ const volumeRecord = entry.volume
           )
         }
         {
-          entry.sourceUrl && (
+          entry.researchGateUrl && (
             <a
               class="reader-external-link"
-              href={entry.sourceUrl}
+              href={entry.researchGateUrl}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {entry.externalVerification === "needs_review"
-                ? "Open SSRN record (availability unverified) ↗"
-                : "Open SSRN record ↗"}
+              Open verified ResearchGate record ↗
             </a>
           )
         }
@@ -255,6 +253,35 @@ const volumeRecord = entry.volume
               ))}
             </ul>
           </details>
+        )
+      }
+
+      {
+        entry.sourceFingerprintSha256 && (
+          <section class="reader-provenance" aria-labelledby="reader-provenance-title">
+            <p class="eyebrow">Author-source provenance</p>
+            <h2 id="reader-provenance-title">A synopsis, not the manuscript</h2>
+            <p>
+              The complete paper file is withheld. The synopsis above was checked against an
+              author-controlled source without editing, repackaging, or publishing that file.
+            </p>
+            {entry.sourceTaxonomyNote && (
+              <p>
+                <strong>Archive placement:</strong> {entry.sourceTaxonomyNote}.
+              </p>
+            )}
+            <p class="reader-fingerprint">
+              <strong>Source fingerprint (SHA-256):</strong>{" "}
+              <code>{entry.sourceFingerprintSha256}</code>
+            </p>
+            {entry.rightsNotice && <p>{entry.rightsNotice}</p>}
+            {!entry.researchGateUrl && (
+              <p>
+                No outbound paper-platform link is published because an exact, content-consistent
+                ResearchGate record has not been verified.
+              </p>
+            )}
+          </section>
         )
       }
 

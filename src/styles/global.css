@@ -1127,11 +1127,11 @@ textarea {
   text-underline-offset: 4px;
 }
 
-.ssrn-feature-card {
+.paper-feature-card {
   min-height: 100%;
 }
 
-.ssrn-feature-card .card-footer {
+.paper-feature-card .card-footer {
   justify-content: flex-start;
 }
 
@@ -3993,6 +3993,7 @@ kbd {
 
 .reader-references,
 .reader-details,
+.reader-provenance,
 .reader-citation-box {
   margin-top: 42px;
   padding-top: 28px;
@@ -4034,6 +4035,31 @@ kbd {
 .reader-limitations {
   border-top-color: var(--gold);
   border-top-width: 2px;
+}
+
+.reader-provenance {
+  padding: 26px;
+  border: 1px solid var(--slate-300);
+  border-left: 4px solid var(--gold);
+  background: #f8f5ee;
+}
+
+.reader-provenance h2 {
+  margin: 4px 0 12px;
+  color: var(--navy-900);
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
+.reader-provenance p {
+  color: var(--slate-700);
+}
+
+.reader-fingerprint code {
+  overflow-wrap: anywhere;
+  color: var(--navy-900);
+  font-size: 0.76rem;
 }
 
 .reader-citation-box {

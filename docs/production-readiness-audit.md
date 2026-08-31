@@ -1,5 +1,9 @@
 # Independent Observer production-readiness baseline
 
+Historical baseline: paper-reader and external-link observations in this file predate the
+author-controlled paper catalogue. The current catalogue audit is
+`docs/author-paper-migration-audit-2026-08-31.md`.
+
 Status: baseline captured before implementation
 
 Audit timestamp: `2026-08-31T00:08:01Z`
@@ -125,17 +129,17 @@ trailing-slash output, but redirect behavior is not yet enforced at the edge.
 
 ## Current canonical data sources
 
-| Consumer                        | Current source(s)                                                                                                              |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| Header navigation               | hard-coded links in `src/components/Header.astro`                                                                              |
-| Search                          | `src/components/SiteSearch.astro`, aggregating `content.ts`, `documents.ts`, `series.ts`, `topics.ts`, and public SSRN records |
-| Research catalogue              | `src/lib/research-catalogue.ts`, `content.ts`, `series.ts`, `ssrn.ts`, and `volume-research.ts`                                |
-| Sitemap                         | `src/pages/sitemap.xml.ts`, manually combining `topicHubs`, `publicDocumentItems`, `seriesItems`, and section paths            |
-| RSS and Atom                    | `src/data/release-log.ts` through `src/pages/feed.xml.ts` and `src/pages/feed.atom.xml.ts`                                     |
-| Volume counts and relationships | `src/data/series.ts`, `src/data/ssrn.ts`, `src/data/documents.ts`, volume evidence/research maps, and topic plugin catalogs    |
-| Related work                    | `src/lib/related.ts` plus page-specific arrays and component inputs                                                            |
-| Structured data                 | `src/layouts/BaseLayout.astro` and page/component-specific markup                                                              |
-| Release safety                  | `src/data/publication-registry.ts`, `src/data/clearance-queue.ts`, `src/data/release-log.ts`, and release-safety tests         |
+| Consumer                        | Current source(s)                                                                                                                            |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Header navigation               | hard-coded links in `src/components/Header.astro`                                                                                            |
+| Search                          | `src/components/SiteSearch.astro`, aggregating `content.ts`, `documents.ts`, `series.ts`, `topics.ts`, and public retired repository records |
+| Research catalogue              | `src/lib/research-catalogue.ts`, `content.ts`, `series.ts`, `retired-repository.ts`, and `volume-research.ts`                                |
+| Sitemap                         | `src/pages/sitemap.xml.ts`, manually combining `topicHubs`, `publicDocumentItems`, `seriesItems`, and section paths                          |
+| RSS and Atom                    | `src/data/release-log.ts` through `src/pages/feed.xml.ts` and `src/pages/feed.atom.xml.ts`                                                   |
+| Volume counts and relationships | `src/data/series.ts`, `src/data/papers.ts`, `src/data/documents.ts`, volume evidence/research maps, and topic plugin catalogs                |
+| Related work                    | `src/lib/related.ts` plus page-specific arrays and component inputs                                                                          |
+| Structured data                 | `src/layouts/BaseLayout.astro` and page/component-specific markup                                                                            |
+| Release safety                  | `src/data/publication-registry.ts`, `src/data/clearance-queue.ts`, `src/data/release-log.ts`, and release-safety tests                       |
 
 The current typed publication registry is a useful foundation, but it is a
 metadata-only release queue plus external-record projection. It is not yet the
@@ -173,7 +177,7 @@ after any change.
    `/security.txt` is a 404 and the current policy URL has not been verified as a
    disclosure policy.
 7. Several reader labels still imply a local public reading copy even where the
-   page only exposes a public SSRN record and synopsis.
+   page only exposes a public retired repository record and synopsis.
 8. The four volume totals, content status vocabulary, page metadata, and related
    links are derived from multiple overlapping models.
 9. Current visible copy includes the reported grammar/pluralization defects,
@@ -191,7 +195,7 @@ The following are not silently decided by this baseline:
 - which verified author/editorial, ownership, independence, funding, conflict,
   correction, privacy, accessibility, licensing, source-challenge, and
   vulnerability-disclosure statements may be published;
-- whether the 21 SSRN document routes may use any local full-text promise;
+- whether the 21 retired repository document routes may use any local full-text promise;
 - whether an approved role mailbox and server-side delivery channel exist;
 - whether any public-release, peer-review, correction, or supersession status has
   changed since the recorded source checks;

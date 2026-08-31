@@ -127,13 +127,12 @@ const searchItems: SearchEntry[] = [
     category: entry.category,
     description: entry.description,
     status: entry.status ?? "Reviewed public copy",
-    type:
-      entry.status === "SSRN preprint" ? ("Research" as const) : ("Published document" as const),
+    type: entry.status === "Author paper" ? ("Research" as const) : ("Published document" as const),
     topics: topicsForCategory(entry.category),
     volume: entry.volume,
     format:
-      entry.status === "SSRN preprint"
-        ? `SSRN preprint${entry.researchGateUrl ? " · ResearchGate record" : ""}`
+      entry.status === "Author paper"
+        ? `Author paper${entry.researchGateUrl ? " · ResearchGate record" : ""}`
         : "document",
     href: sitePath(`/library/documents/${entry.id}/`),
   })),
@@ -207,7 +206,7 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
         data-search-input
         type="search"
         autocomplete="off"
-        placeholder="Try “Volume I”, “SSRN”, “AI”, or “migration”"
+        placeholder="Try “Volume I”, “ResearchGate”, “AI”, or “migration”"
         aria-controls="site-search-results"
         aria-describedby="site-search-status"
       />

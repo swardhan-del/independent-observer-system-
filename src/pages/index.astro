@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import EditorialCard from "../components/EditorialCard.astro";
 import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
-import { ssrnPreprintDocuments } from "../data/ssrn";
+import { paperDocuments } from "../data/papers";
 import { seriesItems } from "../data/series";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
@@ -14,8 +14,8 @@ import VolumeVisualStrip from "../components/VolumeVisualStrip.astro";
 import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
 import GreenPublicationShelf from "../components/GreenPublicationShelf.astro";
 
-const volumeOneMethod = ssrnPreprintDocuments.find(
-  (entry) => entry.id === "independent-observer-volume-one-ssrn",
+const volumeOneMethod = paperDocuments.find(
+  (entry) => entry.id === "independent-observer-volume-one",
 );
 const volumeOneMethodHref = volumeOneMethod
   ? sitePath(`/library/documents/${volumeOneMethod.id}/`)
@@ -24,8 +24,8 @@ const volumeOneSource = {
   label: "Read the Volume I public record",
   href: volumeOneMethodHref,
 };
-// The public Volume I SSRN record reports a dated usage signal; current access stays review-pending.
-const highestDownloadDocument = [...ssrnPreprintDocuments]
+// The public Volume I paper record reports a dated usage signal; current access stays review-pending.
+const highestDownloadDocument = [...paperDocuments]
   .filter((entry) => typeof entry.metrics?.downloads === "number")
   .sort((a, b) => (b.metrics?.downloads ?? 0) - (a.metrics?.downloads ?? 0))[0];
 const heroVolumeLinks = seriesItems.map((item, index) => ({
@@ -53,7 +53,7 @@ const heroVolumeLinks = seriesItems.map((item, index) => ({
           Volume II follows sovereignty, migration, institutions, and power; Volume III follows
           work, taxation, welfare, and social citizenship; and Volume IV follows AI, infrastructure,
           intimacy, science, and human capability. Its public library connects these questions to
-          reviewed SSRN reading copies and research maps drawn from a bounded public-safe archive.
+          reviewed author paper pages and research maps drawn from a bounded public-safe archive.
         </p>
         <p class="hero-summary hero-summary-secondary">
           Its purpose is to keep the record, the interpretation, and the limits visible—so readers
@@ -71,10 +71,11 @@ const heroVolumeLinks = seriesItems.map((item, index) => ({
         </div>
         <h2 id="hero-note-title">Four volumes. One observing method.</h2>
         <p>
-          Public previews and matched SSRN records make the developing work legible. Research
-          published through SSRN, ResearchGate, and Zenodo enters this index only as reviewed,
-          public-safe material. New research, revisions, and evidence continue to develop here;
-          private drafts remain in the working archive until human release review.
+          Public previews and matched paper records make the developing work legible. Research
+          published through ResearchGate, Zenodo, or another verified public record enters this
+          index only as reviewed, public-safe material. New research, revisions, and evidence
+          continue to develop here; private drafts remain in the working archive until human release
+          review.
         </p>
         <dl class="hero-note-stats">
           <div>
@@ -86,8 +87,8 @@ const heroVolumeLinks = seriesItems.map((item, index) => ({
             <dd>fields</dd>
           </div>
           <div>
-            <dt>{ssrnPreprintDocuments.length}</dt>
-            <dd>SSRN records</dd>
+            <dt>{paperDocuments.length}</dt>
+            <dd>paper records</dd>
           </div>
         </dl>
         <p class="hero-volume-nav-label">Choose a volume to enter the research</p>
@@ -113,7 +114,7 @@ const heroVolumeLinks = seriesItems.map((item, index) => ({
               class="hero-note-signal"
               href={sitePath(`/library/documents/${highestDownloadDocument.id}/`)}
             >
-              <span>Highest retrieved SSRN usage signal</span>
+              <span>Highest retrieved Archived distribution signal</span>
               <strong>{highestDownloadDocument.title}</strong>
               <small>
                 {highestDownloadDocument.metrics?.downloads ?? "—"} downloads · usage signal—not a
@@ -312,7 +313,7 @@ const heroVolumeLinks = seriesItems.map((item, index) => ({
         blocks={[
           {
             category: "Documented fact",
-            text: `The public Volume I SSRN record last directly reported ${volumeOneMethod?.metrics?.downloads ?? "—"} downloads and ${volumeOneMethod?.metrics?.abstractViews ?? "—"} abstract views on ${volumeOneMethod?.metrics?.checkedAt ?? "an earlier audit"}. These figures are usage signals, not a quality rating; current availability is review-pending.`,
+            text: `An archived distribution snapshot for the public Volume I paper record captured ${volumeOneMethod?.metrics?.downloads ?? "—"} downloads and ${volumeOneMethod?.metrics?.abstractViews ?? "—"} abstract views on ${volumeOneMethod?.metrics?.checkedAt ?? "an earlier audit"}. These figures are usage signals, not a quality rating or an access link.`,
             source: volumeOneSource,
           },
           {

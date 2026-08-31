@@ -1,8 +1,7 @@
-import { ssrnPreprintDocuments } from "./ssrn";
+import { paperDocuments } from "./papers";
 
 export type ControlledPublicationStatus =
   | "approved_article"
-  | "external_preprint"
   | "public_preview"
   | "working_paper"
   | "roadmap_concept"
@@ -138,33 +137,31 @@ export const sixCandidateReleaseQueue: PublicationRegistryRecord[] = [
   },
 ];
 
-const externalPreprintRecords: PublicationRegistryRecord[] = ssrnPreprintDocuments.map(
-  (document) => {
-    const volume = document.volume;
-    if (!volume || !["Volume I", "Volume II", "Volume III", "Volume IV"].includes(volume)) {
-      throw new Error(`Unsupported volume in public registry: ${document.id}`);
-    }
+const authorPaperRecords: PublicationRegistryRecord[] = paperDocuments.map((document) => {
+  const volume = document.volume;
+  if (!volume || !["Volume I", "Volume II", "Volume III", "Volume IV"].includes(volume)) {
+    throw new Error(`Unsupported volume in public registry: ${document.id}`);
+  }
 
-    return {
-      id: document.id,
-      title: document.title,
-      author: document.author ?? author,
-      contentType: "document",
-      volume: volume as PublicationRegistryRecord["volume"],
-      topics: [document.category],
-      status: "external_preprint",
-      rightsDecision: "reviewed_public_safe_text",
-      externalVerification: "needs_review",
-      provenanceFingerprint: `public-ssrn-${document.id}`,
-      verifiedExternalUrl: document.sourceUrl ?? null,
-      releaseDecision: "external_record_only",
-      canonicalRoute: `/library/documents/${document.id}/`,
-      lastVerificationDate: document.metrics?.checkedAt ?? registryDate,
-    };
-  },
-);
+  return {
+    id: document.id,
+    title: document.title,
+    author: document.author ?? author,
+    contentType: "document",
+    volume: volume as PublicationRegistryRecord["volume"],
+    topics: [document.category],
+    status: "working_paper",
+    rightsDecision: "reviewed_public_safe_text",
+    externalVerification: document.researchGateUrl ? "verified" : "needs_review",
+    provenanceFingerprint: document.sourceFingerprintSha256 ?? `public-${document.id}`,
+    verifiedExternalUrl: document.researchGateUrl ?? null,
+    releaseDecision: "external_record_only",
+    canonicalRoute: `/library/documents/${document.id}/`,
+    lastVerificationDate: document.metrics?.checkedAt ?? registryDate,
+  };
+});
 
 export const publicPublicationRegistry: PublicationRegistryRecord[] = [
-  ...externalPreprintRecords,
+  ...authorPaperRecords,
   ...sixCandidateReleaseQueue,
 ];

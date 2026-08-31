@@ -41,13 +41,13 @@ complete.
 | Second wave | From Mao to Manufacturing Sovereignty                         | II         | not included           |
 | Second wave | Heavy Water Data Center Coolant Feasibility Study             | III        | not included           |
 
-## Existing external records
+## Author-paper catalogue
 
-The seven existing SSRN reading-copy records remain separate from the first-wave queue. They are
-`external_preprint` records linked to their verified public SSRN URLs and internal public reading
-routes. Usage signals are dated discovery context, never ratings or proof of quality. If an
-external record cannot be reverified, its last-verification date must remain visible and the record
-must be marked for review rather than described as currently downloadable.
+The 21 author-paper catalogue records remain separate from the first-wave publication queue. They
+publish selected source-reviewed synopses, not manuscript files: 18 link to an exact ResearchGate
+record and 3 publish no outbound paper-platform link because a content-consistent record was not
+verified. Historical usage signals are dated discovery context, never ratings or proof of quality.
+The catalogue migration has its own review and production-approval gate.
 
 ## Required release sequence
 

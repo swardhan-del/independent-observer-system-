@@ -1,5 +1,9 @@
 # Annotation boundary and deferred work
 
+Historical boundary: this file records the earlier foundations deferrals. The current
+`content/author-controlled-paper-catalogue-2026-08-31` branch implements the owner-requested paper
+catalogue migration while preserving and retesting the protected annotation behavior.
+
 This branch is based on the exact production commit
 `571ff19e35ef9f61a2fbc120d2619e7d8ee49d46`. The active annotation work is on
 `build/interactive-publication-v1` at `4be397ffd6f920ffacac4a1d738ce43dfd98239`.
@@ -23,7 +27,7 @@ anchors, evidence-layer mappings, or active interaction behavior.
   is merged and its stable IDs and evidence behavior are reverified.
 - One existing site-output test fixture now derives its sitemap expectation
   from the registry; no annotation assertion, anchor, or behavior was changed.
-- Large information-architecture changes, status/grammar copy changes, SSRN
+- Large information-architecture changes, status/grammar copy changes, retired repository
   reader-label changes, format minimums, and library pagination are deferred
   because they overlap protected templates, content data, or annotation-owned
   tests.

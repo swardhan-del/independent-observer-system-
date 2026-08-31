@@ -217,8 +217,8 @@ const catalogueStats = [
                 {leadingPaper && (
                   <p>
                     Leading public signal: {leadingPaper.metrics?.downloads ?? "—"} downloads ·{" "}
-                    {leadingPaper.metrics?.abstractViews ?? "—"} abstract views · last directly
-                    verified {leadingPaper.metrics?.checkedAt}; availability review pending
+                    {leadingPaper.metrics?.abstractViews ?? "—"} abstract views · archived snapshot
+                    checked {leadingPaper.metrics?.checkedAt}
                   </p>
                 )}
               </div>
@@ -227,8 +227,8 @@ const catalogueStats = [
                 <p class="publication-catalogue-subhead">Matched public reading copies</p>
                 <p class="publication-catalogue-papers-intro">
                   {item.papers.length > 0
-                    ? `Public-safe SSRN records connected to ${item.volume}, ordered by retrieved downloads.`
-                    : `No matched SSRN reading copy is currently indexed for ${item.volume}.`}
+                    ? `Author-controlled paper pages connected to ${item.volume}, ordered by archived downloads.`
+                    : `No author paper page is currently indexed for ${item.volume}.`}
                 </p>
                 {item.papers.length > 0 && (
                   <ul>
@@ -236,21 +236,20 @@ const catalogueStats = [
                       <li>
                         <div class="publication-catalogue-paper-links">
                           <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
-                          {paper.sourceUrl && (
+                          {paper.researchGateUrl && (
                             <a
                               class="publication-catalogue-paper-external"
-                              href={paper.sourceUrl}
+                              href={paper.researchGateUrl}
                               target="_blank"
                               rel="noreferrer"
                             >
-                              SSRN record ↗
+                              ResearchGate record ↗
                             </a>
                           )}
                         </div>
                         <span>
                           {paper.status} · {paper.metrics?.downloads ?? "—"} downloads · usage
-                          signal only · last directly verified {paper.metrics?.checkedAt};
-                          availability review pending
+                          signal only · archived snapshot checked {paper.metrics?.checkedAt}
                         </span>
                       </li>
                     ))}

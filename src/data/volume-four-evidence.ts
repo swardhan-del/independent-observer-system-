@@ -8,7 +8,7 @@
 export const volumeFourEvidence = [
   {
     category: "Documented fact",
-    text: "The public catalogue identifies The Last Human Workforce as Volume IV's capability inquiry. Its scope includes AI, automation, scientific infrastructure, energy, quantum computing, medical technology, neuroprosthetics, education, intimacy, and human evolution. The entry remains in editorial development; it is not a finished publication. The public library connects the volume to reading copies on digital intimacy, biological timing and care, education in an AI economy, and quantum information and infrastructure. Those records are labeled as public SSRN preprints; their usage signals are discovery metadata, not peer review or technical validation.",
+    text: "The public catalogue identifies The Last Human Workforce as Volume IV's capability inquiry. Its scope includes AI, automation, scientific infrastructure, energy, quantum computing, medical technology, neuroprosthetics, education, intimacy, and human evolution. The entry remains in editorial development; it is not a finished publication. The public library connects the volume to reading copies on digital intimacy, biological timing and care, education in an AI economy, and quantum information and infrastructure. Those records are labeled as public author papers; their usage signals are discovery metadata, not peer review or technical validation.",
     source: {
       label: "Browse Volume IV's public records",
       href: "/library/",

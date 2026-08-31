@@ -7,7 +7,7 @@ import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 
 const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
-// "Highest current download signal in this volume" is never shown without a dated verification note.
+// "Highest archived download signal in this volume" is never shown without a dated snapshot note.
 ---
 
 <section
@@ -24,8 +24,8 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
       <p>
         The Independent Observer is one connected research project with four distinct lines of
         inquiry. Each block explains a volume's purpose, principles, subject lenses, and public
-        reading copies. SSRN downloads are discovery signals, not quality ratings, peer review, or
-        publication approval.
+        reading copies. archived downloads are discovery signals, not quality ratings, peer review,
+        or publication approval.
       </p>
     </div>
 
@@ -127,16 +127,16 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
                     <span class="status-pill">{representativePaper.status}</span>
                     <span>{representativePaper.metrics?.downloads ?? "—"} downloads</span>
                     <span>
-                      Last directly verified {representativePaper.metrics?.checkedAt}; current
-                      availability review pending; not a rating.
+                      Archived snapshot checked {representativePaper.metrics?.checkedAt}; not a
+                      rating.
                     </span>
-                    {representativePaper.sourceUrl && (
+                    {representativePaper.researchGateUrl && (
                       <a
-                        href={representativePaper.sourceUrl}
+                        href={representativePaper.researchGateUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Open SSRN record ↗
+                        Open ResearchGate record ↗
                       </a>
                     )}
                   </div>
@@ -147,7 +147,7 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
                 <div class="library-preprint-shelf" aria-labelledby={`${volumeId}-preprints`}>
                   <div class="library-preprint-heading">
                     <div>
-                      <p class="library-block-label">Additional public SSRN shelf</p>
+                      <p class="library-block-label">Additional author paper pages</p>
                       <h4 id={`${volumeId}-preprints`}>More reading copies from {guide.volume}</h4>
                     </div>
                     <span>
@@ -158,7 +158,7 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
                   <div class="library-preprint-grid">
                     {additionalPreprints.map((entry) => (
                       <article class="library-preprint-card">
-                        <span class="library-preprint-status">SSRN preprint</span>
+                        <span class="library-preprint-status">Author working paper</span>
                         <h5>
                           <a href={sitePath(`/library/documents/${entry.id}/`)}>{entry.title}</a>
                         </h5>
@@ -166,12 +166,16 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
                         <div class="library-preprint-footer">
                           <span>
                             {entry.metrics?.downloads ?? "—"} downloads ·{" "}
-                            {entry.metrics?.abstractViews ?? "—"} views · last directly verified{" "}
-                            {entry.metrics?.checkedAt}; availability review pending
+                            {entry.metrics?.abstractViews ?? "—"} views · archived snapshot checked{" "}
+                            {entry.metrics?.checkedAt}
                           </span>
-                          {entry.sourceUrl && (
-                            <a href={entry.sourceUrl} target="_blank" rel="noopener noreferrer">
-                              SSRN record ↗
+                          {entry.researchGateUrl && (
+                            <a
+                              href={entry.researchGateUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              ResearchGate record ↗
                             </a>
                           )}
                         </div>

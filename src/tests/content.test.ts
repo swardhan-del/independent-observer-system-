@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
 import { dropboxDocumentItems, dropboxFeedItems } from "../data/dropbox-content.generated";
 import { publicDocumentItems } from "../data/documents";
-import { ssrnPreprintDocuments } from "../data/ssrn";
+import { paperDocuments } from "../data/papers";
 import { seriesItems } from "../data/series";
 import { publicLibrarySnapshot } from "../data/public-library";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
@@ -74,7 +74,7 @@ describe("editorial preview data", () => {
       volumeOne?.detailSections
         ?.flatMap((section) => [...(section.paragraphs ?? []), ...(section.items ?? [])])
         .join(" "),
-    ).toContain("Three Volume I papers currently have matched public SSRN records");
+    ).toContain("Three Volume I papers currently have matched public paper records");
   });
 
   it("maps the reviewed Volume I source package without exposing raw files", () => {
@@ -127,7 +127,7 @@ describe("editorial preview data", () => {
     expect(
       volumeTwoFramework.families
         .flatMap((family) => family.papers)
-        .filter((paper) => paper.status === "Public SSRN record"),
+        .filter((paper) => paper.status === "Public paper record"),
     ).toHaveLength(7);
   });
 
@@ -164,13 +164,13 @@ describe("editorial preview data", () => {
       volumeResearchMap.every((item) => item.papers.every((paper) => paper.volume === item.volume)),
     ).toBe(true);
     expect(volumeResearchMap.find((item) => item.volume === "Volume I")?.papers[0]?.id).toBe(
-      "the-illusion-of-equality-ssrn",
+      "the-illusion-of-equality",
     );
     expect(volumeResearchMap.find((item) => item.volume === "Volume II")?.papers[0]?.id).toBe(
-      "who-deported-more-ssrn",
+      "who-deported-more",
     );
     expect(volumeResearchMap.find((item) => item.volume === "Volume IV")?.papers[0]?.id).toBe(
-      "entanglement-primer-ssrn",
+      "entanglement-primer",
     );
   });
 
@@ -244,7 +244,7 @@ describe("editorial preview data", () => {
     expect(entry?.detailSections?.[1]?.items).toEqual(
       expect.arrayContaining([expect.stringContaining("replaced, reorganized, augmented")]),
     );
-    expect(entry?.sourceNote).toContain("Public SSRN reading copies");
+    expect(entry?.sourceNote).toContain("Public author paper pages");
     expect(entry?.status).toBe("Concept preview");
   });
 
@@ -306,50 +306,51 @@ describe("editorial preview data", () => {
     ).toBe(true);
   });
 
-  it("keeps SSRN-linked preprints ranked by public usage signals and clearly labeled", () => {
-    expect(ssrnPreprintDocuments.length).toBeGreaterThanOrEqual(5);
-    expect(ssrnPreprintDocuments[0]?.id).toBe("who-deported-more-ssrn");
-    expect(ssrnPreprintDocuments.every((entry) => entry.status === "SSRN preprint")).toBe(true);
+  it("keeps author-controlled papers ranked by archived usage signals and clearly labeled", () => {
+    expect(paperDocuments.length).toBeGreaterThanOrEqual(5);
+    expect(paperDocuments[0]?.id).toBe("who-deported-more");
+    expect(paperDocuments.every((entry) => entry.status === "Author working paper")).toBe(true);
     expect(
-      ssrnPreprintDocuments.every(
+      paperDocuments.every(
         (entry) =>
-          entry.sourceUrl?.includes("papers.ssrn.com") &&
           entry.metrics?.downloads !== undefined &&
-          entry.metrics?.abstractViews !== undefined,
+          entry.metrics?.abstractViews !== undefined &&
+          entry.sourceFingerprintSha256?.length === 64,
       ),
     ).toBe(true);
-    expect(ssrnPreprintDocuments.some((entry) => entry.title.includes("Who Deported More"))).toBe(
-      true,
-    );
+    expect(paperDocuments.some((entry) => entry.title.includes("Who Deported More"))).toBe(true);
     expect(
-      ssrnPreprintDocuments.find((entry) => entry.id === "who-deported-more-ssrn")?.researchGateUrl,
+      paperDocuments.find((entry) => entry.id === "who-deported-more")?.researchGateUrl,
     ).toContain("researchgate.net/publication/396491871");
     expect(
-      ssrnPreprintDocuments.find((entry) => entry.id === "disconnected-hearts-ssrn")
-        ?.researchGateUrl,
+      paperDocuments.find((entry) => entry.id === "disconnected-hearts")?.researchGateUrl,
     ).toContain("researchgate.net/publication/397333270");
-    expect(ssrnPreprintDocuments.map((entry) => entry.id)).toEqual(
+    expect(paperDocuments.filter((entry) => entry.researchGateUrl)).toHaveLength(18);
+    expect(
+      paperDocuments.filter((entry) => !entry.researchGateUrl).map((entry) => entry.id),
+    ).toEqual(["latino-irony", "empire-of-distraction", "children-left-behind-after-a-war"]);
+    expect(paperDocuments.map((entry) => entry.id)).toEqual(
       expect.arrayContaining([
-        "citizens-without-a-country-ssrn",
-        "empire-of-distraction-ssrn",
-        "geography-of-enslaved-wealth-ssrn",
-        "two-masks-one-face-ssrn",
-        "children-left-behind-after-a-war-ssrn",
-        "lottery-of-luck-ssrn",
-        "entanglement-primer-ssrn",
-        "entanglement-foundations-ssrn",
+        "citizens-without-a-country",
+        "empire-of-distraction",
+        "geography-of-enslaved-wealth",
+        "two-masks-one-face",
+        "children-left-behind-after-a-war",
+        "lottery-of-luck",
+        "entanglement-primer",
+        "entanglement-foundations",
       ]),
     );
   });
 
-  it("includes the three verified public Volume I SSRN papers", () => {
-    const volumeOnePapers = ssrnPreprintDocuments.filter((entry) => entry.volume === "Volume I");
+  it("includes the three verified public Volume I author papers", () => {
+    const volumeOnePapers = paperDocuments.filter((entry) => entry.volume === "Volume I");
 
     expect(volumeOnePapers.map((entry) => entry.id)).toEqual(
       expect.arrayContaining([
-        "independent-observer-volume-one-ssrn",
-        "a-systems-centered-manifesto-ssrn",
-        "the-illusion-of-equality-ssrn",
+        "independent-observer-volume-one",
+        "a-systems-centered-manifesto",
+        "the-illusion-of-equality",
       ]),
     );
     expect(volumeOnePapers).toHaveLength(3);
@@ -377,7 +378,7 @@ describe("public library data", () => {
   });
 
   it("explains the Who Deported More paper's data and media significance", () => {
-    const entry = ssrnPreprintDocuments.find((item) => item.id === "who-deported-more-ssrn");
+    const entry = paperDocuments.find((item) => item.id === "who-deported-more");
     const abstract = entry?.sections.find((section) => section.id === "abstract")?.paragraphs?.[0];
 
     expect(abstract).toContain("This working paper clarifies commonly conflated measures");

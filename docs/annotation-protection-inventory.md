@@ -4,6 +4,11 @@ This inventory is intentionally conservative. It protects the active annotation
 branch and the shared surfaces that carry evidence-layer behavior, annotation
 anchors, source mappings, or the visible styling tested by that work.
 
+The branch and commit boundary below records the original foundations review. The current
+`content/author-controlled-paper-catalogue-2026-08-31` migration intentionally updates protected
+paper-catalogue surfaces while preserving stable IDs, no-JavaScript behavior, and annotation
+interactions. It remains a review branch until separately approved for production.
+
 ## Branch and commit boundary
 
 - Active branch: `build/interactive-publication-v1`
@@ -72,7 +77,7 @@ src/data/documents.ts
 src/data/publication-registry.ts
 src/data/release-log.ts
 src/data/series.ts
-src/data/ssrn.ts
+src/data/papers.ts
 src/data/topics.ts
 src/data/video-reel-treatments.ts
 src/data/video-reels.ts
@@ -138,7 +143,7 @@ HTML structure, compare generated fragment targets and preserve all existing
 fragment IDs. Evidence controls must continue to highlight categories without
 hiding the remaining text, and the no-JavaScript reading path must remain intact.
 
-## Conflict rule
+## Original conflict rule
 
 PR 1 is limited to new validation/audit infrastructure, route and deployment
 configuration that does not alter the protected data or interaction surfaces, and

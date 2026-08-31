@@ -1,8 +1,8 @@
 /**
  * Public-safe content-block metadata for the four-volume library map.
  *
- * These are editorial guides assembled from the existing series roadmap and public SSRN
- * reading-copy metadata. They are not article releases and do not mirror the private archive.
+ * These are editorial guides assembled from the existing series roadmap and public
+ * paper-catalogue metadata. They are not article releases and do not mirror the private archive.
  */
 export type LibraryVolumeGuide = {
   volume: "Volume I" | "Volume II" | "Volume III" | "Volume IV";

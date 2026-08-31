@@ -14,9 +14,10 @@ following statements to the website and does not authorize a release.
 
 ## Publication and reader semantics
 
-- For each of the 21 SSRN document routes, verify whether an approved full text
-  is hosted locally. If not, use public-record/abstract language and an external
-  preprint label.
+- The 21 author-paper routes currently publish source-reviewed synopses only. No full manuscript
+  is hosted locally, linked from Dropbox, or authorized by this register.
+- Any later full-text publication requires paper-specific rights, version, source, and owner
+  approval. Do not infer that approval from the catalogue migration.
 - Verify author, posted/modified date, version, citation, licence, source
   package, correction, and supersession fields before presenting them as facts.
 - Keep peer-review status separate from author review, editorial review, and

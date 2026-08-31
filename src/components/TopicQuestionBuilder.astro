@@ -15,7 +15,7 @@ const concernOptions = [
 ];
 
 const statusOptions = [
-  { value: "preprint", label: "Public SSRN preprint" },
+  { value: "preprint", label: "Public Author paper" },
   { value: "preview", label: "Research or documentary preview" },
   { value: "roadmap", label: "Four-volume catalogue" },
   { value: "release", label: "Held for human release" },
@@ -43,7 +43,7 @@ function volumeHref(label: string) {
 function pathwayStatuses(pathway: (typeof topicPathways)[number]) {
   const statuses = new Set<string>(["roadmap"]);
   pathway.contentLinks.forEach((content) => {
-    if (content.kind === "SSRN preprint") statuses.add("preprint");
+    if (content.kind === "Author paper") statuses.add("preprint");
     if (content.kind.includes("preview")) statuses.add("preview");
   });
   return [...statuses];
