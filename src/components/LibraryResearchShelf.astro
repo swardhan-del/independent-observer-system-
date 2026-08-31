@@ -73,9 +73,10 @@ const volumeTaglines = {
           <p>
             Use the Roman-numeral index to move from method (I), to power (II), to social
             citizenship (III), and capability (IV). The linked records are public author-paper
-            synopses selected from matched, public-safe records; usage counts are discovery
-            signals, not ratings or publication approval. Verified ResearchGate links and
-            source-taxonomy directions appear only where their public status is clear.
+            synopses selected from matched, public-safe records; usage counts are discovery signals,
+            not ratings or publication approval. Verified ResearchGate links and source-taxonomy
+            directions appear only where their public status is clear. Source-taxonomy research-map
+            entries are not public author paper pages or publication approvals.
           </p>
         </div>
       </div>
@@ -101,7 +102,8 @@ const volumeTaglines = {
                   <strong>{guide.focus}</strong>
                   <span class="library-volume-rail-summary">{volumeTaglines[guide.volume]}</span>
                   <span class="library-volume-rail-signal">
-                    {volumePapers.length} paper {volumePapers.length === 1 ? "synopsis" : "synopses"}
+                    {volumePapers.length} paper{" "}
+                    {volumePapers.length === 1 ? "synopsis" : "synopses"}
                     {paper && <> · {paper.metrics?.downloads ?? "—"} downloads · not a rating</>}
                   </span>
                   {series && <span class="library-volume-rail-link">View volume brief →</span>}
