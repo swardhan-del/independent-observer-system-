@@ -10,6 +10,7 @@ import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 import type { SearchEntry } from "../lib/search";
 import { previewGreenPublications } from "../data/green-publications";
+import { promptLibrary } from "../data/prompt-library";
 
 const topicNames = topics.map((topic) => topic.name);
 const feedHref: Record<string, string> = {
@@ -158,6 +159,16 @@ const searchItems: SearchEntry[] = [
     topics: [topic.name],
     format: "topic hub",
     href: sitePath(`/topics/${topic.name.toLocaleLowerCase()}/`),
+  })),
+  ...promptLibrary.map((prompt) => ({
+    id: `prompt:${prompt.id}`,
+    title: prompt.title,
+    category: prompt.category,
+    description: prompt.summary,
+    status: "Public prompt template",
+    type: "Prompt" as const,
+    format: prompt.format,
+    href: sitePath("/prompts/"),
   })),
   ...libraryVolumeGuides.map((guide) => ({
     id: `volume:${guide.volume}`,

@@ -1,0 +1,91 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import PromptCard from "../../components/PromptCard.astro";
+import { promptLibrary } from "../../data/prompt-library";
+import { sitePath } from "../../lib/paths";
+---
+
+<BaseLayout
+  title="Visibility Studio"
+  description="Public-safe prompt templates for turning Independent Observer research into searchable pages, source-led graphics, and social video entry points."
+  currentPath="/prompts/"
+>
+  <PageHero
+    eyebrow="Public prompt library"
+    title="Make one question travel."
+    description="A practical studio for turning one approved Independent Observer page into a clear research route, a useful visual, and a source-led social entry point."
+  >
+    <div class="hero-actions">
+      <a class="button" href={sitePath("/start/")}>Start with the method →</a>
+      <a class="button button-secondary" href={sitePath("/videos/")}>See the video desk →</a>
+    </div>
+  </PageHero>
+
+  <section class="section section-white" aria-labelledby="prompt-studio-intro-title">
+    <div class="shell">
+      <div class="section-heading prompt-studio-heading">
+        <div>
+          <p class="eyebrow">One source, several depths</p>
+          <h2 id="prompt-studio-intro-title">Build the feeder, keep the source.</h2>
+        </div>
+        <p>
+          These templates are designed for human-reviewed public work. They help a question move
+          from the website into a reel, carousel, essay, transcript, or focused outreach brief
+          without turning interpretation into a fact or a preview into a release.
+        </p>
+      </div>
+
+      <div class="prompt-principles-grid" aria-label="Prompt studio principles">
+        <article>
+          <span>01</span>
+          <h3>Start with a question</h3>
+          <p>Make the first frame understandable before asking anyone to share it.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Show the mechanism</h3>
+          <p>Trace rules, incentives, records, institutions, and consequences in order.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Leave the limits visible</h3>
+          <p>
+            State what the evidence establishes, what is interpretation, and what remains unknown.
+          </p>
+        </article>
+        <article>
+          <span>04</span>
+          <h3>Route back to the page</h3>
+          <p>Every social adaptation should point to one canonical source trail.</p>
+        </article>
+      </div>
+
+      <div class="prompt-library-grid" aria-label="Independent Observer prompt library">
+        {promptLibrary.map((prompt, index) => <PromptCard prompt={prompt} index={index + 1} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-navy" aria-labelledby="prompt-studio-boundary-title">
+    <div class="shell page-grid">
+      <aside class="page-aside">Editorial boundary</aside>
+      <div class="prose">
+        <p class="eyebrow">Use the prompt responsibly</p>
+        <h2 id="prompt-studio-boundary-title">Reach is not a substitute for a record.</h2>
+        <p>
+          A prompt can shape an explanation; it cannot verify a claim. Check every number, quote,
+          date, legal statement, scientific statement, image, and publication status against the
+          approved public source package before release. Private archive material and unpublished
+          evidence do not belong in these templates.
+        </p>
+        <div class="detail-actions">
+          <a class="button" href={sitePath("/library/")}>Open the public library →</a>
+          <a class="button button-secondary" href={sitePath("/about/")}>Read the method →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script src="../prompt-copy.js" is:inline></script>

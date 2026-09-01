@@ -861,6 +861,211 @@ textarea {
   color: var(--gold-light);
 }
 
+.prompt-studio-heading {
+  margin-bottom: 34px;
+}
+
+.prompt-principles-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-bottom: 44px;
+  background: var(--slate-300);
+  border: 1px solid var(--slate-300);
+}
+
+.prompt-principles-grid article {
+  min-height: 190px;
+  padding: 25px 22px;
+  background: var(--paper);
+}
+
+.prompt-principles-grid article > span {
+  color: var(--gold-ink);
+  font-family: var(--serif);
+  font-size: 1.65rem;
+}
+
+.prompt-principles-grid h3 {
+  margin: 20px 0 8px;
+  color: var(--navy-900);
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.prompt-principles-grid p {
+  margin: 0;
+  color: var(--slate-700);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.prompt-library-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.prompt-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 28px;
+  border: 1px solid var(--slate-300);
+  border-top: 3px solid var(--navy-700);
+  background: var(--white);
+  box-shadow: 0 8px 25px rgb(4 17 31 / 6%);
+}
+
+.prompt-card:hover {
+  border-top-color: var(--gold);
+  box-shadow: 0 14px 36px rgb(4 17 31 / 11%);
+}
+
+.prompt-card-topline,
+.prompt-card-meta,
+.prompt-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.prompt-card-meta,
+.prompt-card-format,
+.prompt-card-actions > span {
+  color: var(--slate-500);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.prompt-card-meta {
+  justify-content: start;
+}
+
+.prompt-card-meta span:first-child {
+  color: var(--gold-ink);
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  letter-spacing: 0;
+}
+
+.prompt-card h2 {
+  max-width: 480px;
+  margin: 34px 0 12px;
+  color: var(--navy-900);
+  font-family: var(--serif);
+  font-size: clamp(1.55rem, 2.3vw, 2.25rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.prompt-card-summary {
+  min-height: 52px;
+  margin: 0 0 22px;
+  color: var(--slate-700);
+}
+
+.prompt-card details {
+  margin-top: auto;
+  border-top: 1px solid var(--slate-300);
+}
+
+.prompt-card summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  color: var(--gold-ink);
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  list-style: none;
+  text-transform: uppercase;
+}
+
+.prompt-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.prompt-card summary:hover,
+.prompt-card summary:focus-visible {
+  color: var(--navy-900);
+}
+
+.prompt-card details[open] summary span {
+  transform: rotate(45deg);
+}
+
+.prompt-card-body {
+  padding-top: 16px;
+}
+
+.prompt-card-actions {
+  margin-bottom: 10px;
+}
+
+.prompt-copy {
+  padding: 7px 10px;
+  border: 1px solid var(--navy-700);
+  background: transparent;
+  color: var(--navy-700);
+  cursor: pointer;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.prompt-copy:hover,
+.prompt-copy:focus-visible {
+  border-color: var(--gold-ink);
+  background: var(--gold-light);
+  color: var(--navy-950);
+}
+
+.prompt-text {
+  max-height: 430px;
+  margin: 0;
+  overflow: auto;
+  padding: 17px;
+  background: var(--navy-950);
+  color: #e8edf2;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 900px) {
+  .prompt-principles-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .prompt-principles-grid,
+  .prompt-library-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .prompt-card {
+    padding: 23px 20px;
+  }
+
+  .prompt-card-topline,
+  .prompt-card-actions {
+    align-items: start;
+    flex-direction: column;
+  }
+}
+
 .about-method-callout {
   margin: 30px 0 34px;
   padding: 17px 20px;

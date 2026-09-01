@@ -91,6 +91,8 @@ These settings generate absolute canonical and social-sharing URLs at build time
 
 The public site now includes [`/library/`](https://independentobserver.org/library/), a reviewed public-safe map of the Independent Observer archive. It publishes aggregate counts, four high-level volume summaries, and broad research areas; it does not publish raw files, local paths, private records, draft evidence, or working archive filenames.
 
+The public site also includes [`/prompts/`](https://independentobserver.org/prompts/), a curated Visibility Studio with public-safe templates for source-led reels, graphics, SEO reviews, transcripts, essays, and focused distribution. The prompt library is an editorial aid, not an automatic publishing system or a substitute for source review.
+
 The library is a reviewed snapshot from the Dropbox `public_export` package. It is deliberately separate from the protected archive and is labeled as a snapshot so aggregate counts are not mistaken for a live inventory. The existing approved-feed automation remains narrower: it accepts only structured preview items from the dedicated approved website-feed folder, opens a pull request, and waits for CI and human review.
 
 The library also includes a public document reader. It publishes reviewed plain-text sections rather than mirroring Dropbox PDFs, DOCX files, private notes, or local archive paths. The reader provides a table of contents and stable section links so approved material can be found and read on the site.

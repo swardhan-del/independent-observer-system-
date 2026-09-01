@@ -5,7 +5,8 @@ export type SearchEntryType =
   | "Series"
   | "Documentary"
   | "Video"
-  | "Topic";
+  | "Topic"
+  | "Prompt";
 
 export type SearchEntry = {
   id: string;

@@ -51,7 +51,7 @@ describe("production route contract", () => {
     expect(new Set(canonicalRouteRegistry.map((record) => record.route)).size).toBe(
       canonicalRouteRegistry.length,
     );
-    expect(indexableRouteRegistry).toHaveLength(58);
+    expect(indexableRouteRegistry).toHaveLength(59);
     expect(indexableRouteRegistry.every((record) => record.indexable)).toBe(true);
   });
 

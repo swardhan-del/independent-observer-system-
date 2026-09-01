@@ -45,6 +45,13 @@ const sectionRoutes: CanonicalRouteRecord[] = [
     indexable: true,
   },
   {
+    route: "/prompts/",
+    title: "Visibility Studio",
+    type: "section",
+    source: "prompt-library",
+    indexable: true,
+  },
+  {
     route: "/research/",
     title: "Research & Essays",
     type: "section",

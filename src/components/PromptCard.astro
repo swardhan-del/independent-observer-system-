@@ -1,0 +1,35 @@
+---
+import type { PromptEntry } from "../data/prompt-library";
+
+type Props = {
+  prompt: PromptEntry;
+  index: number;
+};
+
+const { prompt, index } = Astro.props as Props;
+const promptTargetId = `prompt-text-${prompt.id}`;
+---
+
+<article class="prompt-card">
+  <div class="prompt-card-topline">
+    <div class="prompt-card-meta">
+      <span>{String(index).padStart(2, "0")}</span>
+      <span>{prompt.category}</span>
+    </div>
+    <span class="prompt-card-format">{prompt.format}</span>
+  </div>
+  <h2>{prompt.title}</h2>
+  <p class="prompt-card-summary">{prompt.summary}</p>
+  <details>
+    <summary>Open prompt <span aria-hidden="true">＋</span></summary>
+    <div class="prompt-card-body">
+      <div class="prompt-card-actions">
+        <span>Public-safe template</span>
+        <button class="prompt-copy" type="button" data-copy-prompt data-copy-target={promptTargetId}
+          >Copy prompt</button
+        >
+      </div>
+      <pre class="prompt-text" id={promptTargetId}><code>{prompt.prompt}</code></pre>
+    </div>
+  </details>
+</article>
