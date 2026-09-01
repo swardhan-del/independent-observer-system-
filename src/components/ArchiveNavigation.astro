@@ -1,68 +1,150 @@
 ---
-import { archiveNavigation, type ArchiveNavigationItem } from "../data/archive-navigation";
+import { archiveNavigation, archivePaperById, archivePapers } from "../data/archive-navigation";
 import { volumeResearchMap } from "../data/volume-research";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 
-const navigationItem = (item: string | ArchiveNavigationItem): ArchiveNavigationItem =>
-  typeof item === "string" ? { title: item } : item;
+const subfolderCount = archiveNavigation.reduce(
+  (total, volume) =>
+    total +
+    volume.sections.reduce((sectionTotal, section) => sectionTotal + section.subfolders.length, 0),
+  0,
+);
+
+const primaryPaperCount = archiveNavigation.reduce(
+  (total, volume) =>
+    total +
+    volume.sections.reduce(
+      (sectionTotal, section) =>
+        sectionTotal +
+        section.subfolders.reduce(
+          (subfolderTotal, subfolder) =>
+            subfolderTotal +
+            subfolder.papers.filter((placement) => placement.relationship === "primary").length,
+          0,
+        ),
+      0,
+    ),
+  0,
+);
+
+const relationshipLabel = {
+  "cross-volume": "Canonical record in another volume",
+  book: "Book compilation",
+  project: "Research project",
+} as const;
 ---
 
 <section class="archive-navigation" aria-labelledby="archive-navigation-title">
   <div class="archive-navigation-heading">
     <div>
       <p class="eyebrow">Archive navigation</p>
-      <h3 id="archive-navigation-title">Browse the programme the way it is organized.</h3>
+      <h3 id="archive-navigation-title">Every volume, category, subfolder, and paper family.</h3>
     </div>
     <p>
-      Volume, category, research family, and paper route are visible together. Cross-volume work is
-      connected without duplicating its canonical record.
+      {archivePapers.length} paper-family records across {subfolderCount} archive subfolders. A cross-volume
+      connection points to one canonical record instead of duplicating a paper.
     </p>
   </div>
+
+  <p class="archive-navigation-summary">
+    {primaryPaperCount} primary paper placements · book compilations and research projects are marked
+    separately · public reading pages appear only where a controlled public record exists.
+  </p>
+
   <div class="archive-navigation-volumes">
-    {archiveNavigation.map((volume) => {
-      const record = volumeResearchMap.find((item) => item.volume === volume.volume);
-      return (
-        <details class="archive-navigation-volume" open>
-          <summary>
-            <span>{volume.volume}</span>
-            <strong>{record?.title ?? volume.archiveTitle ?? volume.volume}</strong>
-            <small>{volume.sections.length} archive sections</small>
-          </summary>
-          <div class="archive-navigation-sections">
-            {volume.sections.map((section) => (
-              <section>
-                <h4>{section.title}</h4>
-                <p>{section.description}</p>
-                <ul>
-                  {section.items.map((item) => {
-                    const entry = navigationItem(item);
-                    return (
-                      <li>
-                        {entry.href ? (
-                          <a href={sitePath(entry.href)}>{entry.title}</a>
-                        ) : (
-                          entry.title
-                        )}
-                        {entry.status && <small>{entry.status}</small>}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </section>
-            ))}
-          </div>
-          {record ? (
-            <a href={sitePath(`/series/${slugify(record.title)}/`)}>Open the {volume.volume} reading catalogue →</a>
-          ) : (
-            <p class="archive-navigation-emerging">Emerging research path; public reading catalogue in development.</p>
-          )}
-        </details>
-      );
-    })}
+    {
+      archiveNavigation.map((volume) => {
+        const record = volumeResearchMap.find((item) => item.volume === volume.volume);
+        const volumeSubfolderCount = volume.sections.reduce(
+          (total, section) => total + section.subfolders.length,
+          0,
+        );
+        return (
+          <details class="archive-navigation-volume" open>
+            <summary>
+              <span>{volume.volume}</span>
+              <strong>{record?.title ?? volume.archiveTitle ?? volume.volume}</strong>
+              <small>{volumeSubfolderCount} subfolders</small>
+            </summary>
+
+            <div class="archive-navigation-sections">
+              {volume.sections.map((section) => (
+                <details class="archive-navigation-section" open>
+                  <summary>
+                    <h4>{section.title}</h4>
+                    <small>{section.subfolders.length} subfolders</small>
+                  </summary>
+                  <p>{section.description}</p>
+
+                  <div class="archive-navigation-subfolders">
+                    {section.subfolders.map((subfolder) => (
+                      <section
+                        class="archive-navigation-subfolder"
+                        id={`archive-${slugify(`${volume.volume}-${section.id}-${subfolder.id}`)}`}
+                      >
+                        <div class="archive-navigation-subfolder-heading">
+                          <h5>{subfolder.title}</h5>
+                          <span>
+                            {subfolder.papers.length}{" "}
+                            {subfolder.papers.length === 1 ? "record" : "records"}
+                          </span>
+                        </div>
+                        {subfolder.description && <p>{subfolder.description}</p>}
+                        <ol>
+                          {subfolder.papers.map((placement) => {
+                            const entry = archivePaperById.get(placement.paperId);
+                            if (!entry) return null;
+                            const relationship =
+                              placement.relationship && placement.relationship !== "primary"
+                                ? relationshipLabel[placement.relationship]
+                                : undefined;
+                            return (
+                              <li>
+                                <div>
+                                  {entry.href ? (
+                                    <a href={sitePath(entry.href)}>{entry.title}</a>
+                                  ) : (
+                                    <strong>{entry.title}</strong>
+                                  )}
+                                  <small>{entry.status}</small>
+                                  {relationship && (
+                                    <small class="archive-navigation-relationship">
+                                      {relationship}
+                                    </small>
+                                  )}
+                                </div>
+                                {entry.href && (
+                                  <a class="archive-navigation-open" href={sitePath(entry.href)}>
+                                    Open →
+                                  </a>
+                                )}
+                              </li>
+                            );
+                          })}
+                        </ol>
+                      </section>
+                    ))}
+                  </div>
+                </details>
+              ))}
+            </div>
+
+            {record ? (
+              <a href={sitePath(`/series/${slugify(record.title)}/`)}>
+                Open the {volume.volume} reading catalogue →
+              </a>
+            ) : (
+              <p class="archive-navigation-emerging">Forthcoming catalogue path.</p>
+            )}
+          </details>
+        );
+      })
+    }
   </div>
+
   <p class="archive-navigation-boundary">
-    Archive navigation is a discovery map. It does not publish raw source files, duplicate
-    versions, or unreviewed manuscripts.
+    This public map names the archive’s paper families without publishing raw source files,
+    alternate drafts, submission packages, reference folders, or private source paths.
   </p>
 </section>
