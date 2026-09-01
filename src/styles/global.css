@@ -9581,6 +9581,19 @@ kbd {
   margin-top: 5px;
 }
 
+.archive-navigation-sections li a {
+  color: var(--navy-900);
+  font-weight: 700;
+}
+
+.archive-navigation-sections li small {
+  display: block;
+  margin-top: 2px;
+  color: var(--slate-500);
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
 .archive-navigation-volume > a {
   color: var(--navy-900);
   font-weight: 800;

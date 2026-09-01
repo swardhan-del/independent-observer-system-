@@ -1,8 +1,11 @@
 ---
-import { archiveNavigation } from "../data/archive-navigation";
+import { archiveNavigation, type ArchiveNavigationItem } from "../data/archive-navigation";
 import { volumeResearchMap } from "../data/volume-research";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
+
+const navigationItem = (item: string | ArchiveNavigationItem): ArchiveNavigationItem =>
+  typeof item === "string" ? { title: item } : item;
 ---
 
 <section class="archive-navigation" aria-labelledby="archive-navigation-title">
@@ -31,7 +34,21 @@ import { slugify } from "../lib/slugs";
               <section>
                 <h4>{section.title}</h4>
                 <p>{section.description}</p>
-                <ul>{section.items.map((item) => <li>{item}</li>)}</ul>
+                <ul>
+                  {section.items.map((item) => {
+                    const entry = navigationItem(item);
+                    return (
+                      <li>
+                        {entry.href ? (
+                          <a href={sitePath(entry.href)}>{entry.title}</a>
+                        ) : (
+                          entry.title
+                        )}
+                        {entry.status && <small>{entry.status}</small>}
+                      </li>
+                    );
+                  })}
+                </ul>
               </section>
             ))}
           </div>
