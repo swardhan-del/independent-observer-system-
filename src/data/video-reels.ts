@@ -5,6 +5,7 @@ export type VolumeReel = {
   category: string;
   description: string;
   mediaUrl: string;
+  posterUrl?: string;
   mediaType: "video/mp4";
   sourceLabel: string;
   sourceNote: string;
@@ -19,13 +20,14 @@ export const volumeReels: VolumeReel[] = [
   {
     volume: "Series overview",
     volumeTitle: "Independent Observer · Book Presentations",
-    title: "Independent Observer Book Presentations",
-    category: "Series overview · Volumes I, II & IV",
+    title: "Is This the Life We Want? | Independent Observer",
+    category: "Book trailer · Volumes I, II & IV",
     description:
-      "A vertical presentation reel drawn from the Volume I, Volume II, and Volume IV book decks. It provides one visual entry point to civic agency, institutional power, and human capability without replacing individual paper pages or representing a Volume III deck that does not yet exist.",
-    mediaUrl: "/media/reels/independent-observer-book-presentations-overview.mp4",
+      "A scored vertical trailer connecting the book presentations behind Independent Observer: Volume I on civic agency, Volume II on democratic power, and Volume IV on human capability. It asks how systems distribute voice, opportunity, accountability, knowledge, and the practical capacity to act—then points readers toward the volume pages for the longer work. This is one series-level entry point, not a duplicate paper page or a claim that a Volume III presentation exists.",
+    mediaUrl: "/media/reels/is-this-the-life-we-want-independent-observer.mp4",
+    posterUrl: "/media/reels/is-this-the-life-we-want-independent-observer-poster.png",
     mediaType: "video/mp4",
-    sourceLabel: "Book-presentation reel · Volume I, II & IV source decks",
+    sourceLabel: "Author-created book trailer · original instrumental score",
     sourceNote: "Preview asset · presentation overview; Volume III deck forthcoming",
     volumeHref: "/series/",
   },

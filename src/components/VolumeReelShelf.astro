@@ -29,6 +29,7 @@ const reelAnchor = (item: VolumeReel) => `volume-reel-${slugify(`${item.volume}-
           controls
           preload="metadata"
           playsinline
+          poster={item.posterUrl ? sitePath(item.posterUrl) : undefined}
           aria-label={`${item.title} · ${item.volume}`}
         >
           <source src={sitePath(item.mediaUrl)} type={item.mediaType} />

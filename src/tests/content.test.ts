@@ -272,6 +272,11 @@ describe("editorial preview data", () => {
     expect(volumeReels.filter((reel) => reel.volume === "Volume II")).toHaveLength(4);
     expect(volumeReels.filter((reel) => reel.volume === "Volume III")).toHaveLength(3);
     expect(volumeReels.filter((reel) => reel.volume === "Volume IV")).toHaveLength(2);
+    expect(volumeReels.find((reel) => reel.volume === "Series overview")).toMatchObject({
+      title: "Is This the Life We Want? | Independent Observer",
+      mediaUrl: "/media/reels/is-this-the-life-we-want-independent-observer.mp4",
+      posterUrl: "/media/reels/is-this-the-life-we-want-independent-observer-poster.png",
+    });
     expect(volumeReels.every((reel) => reel.mediaType === "video/mp4")).toBe(true);
     expect(volumeReels.every((reel) => reel.sourceNote.includes("Preview asset"))).toBe(true);
     expect(volumeReels.every((reel) => reel.description.length > 100)).toBe(true);
