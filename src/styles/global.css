@@ -9500,6 +9500,112 @@ kbd {
   font-size: 0.6rem;
 }
 
+.archive-navigation {
+  margin: 44px 0;
+  padding: 30px;
+  border: 1px solid var(--line);
+  background: var(--sand-100);
+}
+
+.archive-navigation-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.72fr);
+  gap: 30px;
+  align-items: end;
+}
+
+.archive-navigation-heading h3,
+.archive-navigation-sections h4 {
+  margin: 0;
+}
+
+.archive-navigation-heading > p,
+.archive-navigation-sections p,
+.archive-navigation-boundary {
+  color: var(--slate-700);
+}
+
+.archive-navigation-volumes {
+  display: grid;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.archive-navigation-volume {
+  border: 1px solid var(--line);
+  background: var(--white);
+  padding: 16px 18px;
+}
+
+.archive-navigation-volume summary {
+  display: grid;
+  grid-template-columns: 95px 1fr auto;
+  gap: 14px;
+  align-items: baseline;
+  cursor: pointer;
+}
+
+.archive-navigation-volume summary span,
+.archive-navigation-volume summary small {
+  color: var(--gold-ink);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.archive-navigation-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin: 24px 0;
+}
+
+.archive-navigation-sections section {
+  border-top: 3px solid var(--gold);
+  padding-top: 10px;
+}
+
+.archive-navigation-sections p {
+  margin: 7px 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.archive-navigation-sections ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.archive-navigation-sections li + li {
+  margin-top: 5px;
+}
+
+.archive-navigation-volume > a {
+  color: var(--navy-900);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.archive-navigation-volume > a:hover,
+.archive-navigation-volume > a:focus-visible {
+  color: var(--gold-ink);
+  text-decoration: underline;
+}
+
+.archive-navigation-boundary {
+  margin: 22px 0 0;
+  font-size: 0.82rem;
+}
+
+@media (max-width: 700px) {
+  .archive-navigation-heading,
+  .archive-navigation-volume summary {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
 .publication-catalogue-controls {
   margin-top: 44px;
   padding: 30px;

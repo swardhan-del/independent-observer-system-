@@ -7,6 +7,7 @@ import {
 import { volumeResearchMap } from "../data/volume-research";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
+import ArchiveNavigation from "./ArchiveNavigation.astro";
 
 const publicCopyCount = volumeResearchMap.reduce(
   (total, volume) => total + volume.papers.length,
@@ -81,6 +82,8 @@ const catalogueStats = [
         }
       </ol>
     </section>
+
+    <ArchiveNavigation />
 
     <div class="publication-catalogue-controls" data-publication-catalogue>
       <div class="publication-catalogue-control-heading">

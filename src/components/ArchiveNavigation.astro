@@ -1,0 +1,47 @@
+---
+import { archiveNavigation } from "../data/archive-navigation";
+import { volumeResearchMap } from "../data/volume-research";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+---
+
+<section class="archive-navigation" aria-labelledby="archive-navigation-title">
+  <div class="archive-navigation-heading">
+    <div>
+      <p class="eyebrow">Archive navigation</p>
+      <h3 id="archive-navigation-title">Browse the programme the way it is organized.</h3>
+    </div>
+    <p>
+      Volume, category, research family, and paper route are visible together. Cross-volume work is
+      connected without duplicating its canonical record.
+    </p>
+  </div>
+  <div class="archive-navigation-volumes">
+    {archiveNavigation.map((volume) => {
+      const record = volumeResearchMap.find((item) => item.volume === volume.volume);
+      return (
+        <details class="archive-navigation-volume" open>
+          <summary>
+            <span>{volume.volume}</span>
+            <strong>{record?.title ?? volume.volume}</strong>
+            <small>{volume.sections.length} archive sections</small>
+          </summary>
+          <div class="archive-navigation-sections">
+            {volume.sections.map((section) => (
+              <section>
+                <h4>{section.title}</h4>
+                <p>{section.description}</p>
+                <ul>{section.items.map((item) => <li>{item}</li>)}</ul>
+              </section>
+            ))}
+          </div>
+          {record && <a href={sitePath(`/series/${slugify(record.title)}/`)}>Open the {volume.volume} reading catalogue →</a>}
+        </details>
+      );
+    })}
+  </div>
+  <p class="archive-navigation-boundary">
+    Archive navigation is a discovery map. It does not publish raw source files, duplicate
+    versions, or unreviewed manuscripts.
+  </p>
+</section>
