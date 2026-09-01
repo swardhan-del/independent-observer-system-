@@ -262,11 +262,12 @@ describe("editorial preview data", () => {
   });
 
   it("provides a public-safe preview reel library for every volume", () => {
-    expect(volumeReels).toHaveLength(12);
+    expect(volumeReels).toHaveLength(13);
     expect(new Set(volumeReels.map((reel) => reel.mediaUrl)).size).toBe(volumeReels.length);
     expect(new Set(volumeReels.map((reel) => reel.volume))).toEqual(
-      new Set(["Volume I", "Volume II", "Volume III", "Volume IV"]),
+      new Set(["Series overview", "Volume I", "Volume II", "Volume III", "Volume IV"]),
     );
+    expect(volumeReels.filter((reel) => reel.volume === "Series overview")).toHaveLength(1);
     expect(volumeReels.filter((reel) => reel.volume === "Volume I")).toHaveLength(3);
     expect(volumeReels.filter((reel) => reel.volume === "Volume II")).toHaveLength(4);
     expect(volumeReels.filter((reel) => reel.volume === "Volume III")).toHaveLength(3);

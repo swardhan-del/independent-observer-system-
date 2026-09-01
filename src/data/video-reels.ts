@@ -1,5 +1,5 @@
 export type VolumeReel = {
-  volume: "Volume I" | "Volume II" | "Volume III" | "Volume IV";
+  volume: "Series overview" | "Volume I" | "Volume II" | "Volume III" | "Volume IV";
   volumeTitle: string;
   title: string;
   category: string;
@@ -16,6 +16,19 @@ export type VolumeReel = {
  * These players are preview assets; they do not assert publication approval.
  */
 export const volumeReels: VolumeReel[] = [
+  {
+    volume: "Series overview",
+    volumeTitle: "Independent Observer · Book Presentations",
+    title: "Independent Observer Book Presentations",
+    category: "Series overview · Volumes I, II & IV",
+    description:
+      "A vertical presentation reel drawn from the Volume I, Volume II, and Volume IV book decks. It provides one visual entry point to civic agency, institutional power, and human capability without replacing individual paper pages or representing a Volume III deck that does not yet exist.",
+    mediaUrl: "/media/reels/independent-observer-book-presentations-overview.mp4",
+    mediaType: "video/mp4",
+    sourceLabel: "Book-presentation reel · Volume I, II & IV source decks",
+    sourceNote: "Preview asset · presentation overview; Volume III deck forthcoming",
+    volumeHref: "/series/",
+  },
   {
     volume: "Volume I",
     volumeTitle: "Independent Observer",
