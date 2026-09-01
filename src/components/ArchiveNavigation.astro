@@ -23,7 +23,7 @@ import { slugify } from "../lib/slugs";
         <details class="archive-navigation-volume" open>
           <summary>
             <span>{volume.volume}</span>
-            <strong>{record?.title ?? volume.volume}</strong>
+            <strong>{record?.title ?? volume.archiveTitle ?? volume.volume}</strong>
             <small>{volume.sections.length} archive sections</small>
           </summary>
           <div class="archive-navigation-sections">
@@ -35,7 +35,11 @@ import { slugify } from "../lib/slugs";
               </section>
             ))}
           </div>
-          {record && <a href={sitePath(`/series/${slugify(record.title)}/`)}>Open the {volume.volume} reading catalogue →</a>}
+          {record ? (
+            <a href={sitePath(`/series/${slugify(record.title)}/`)}>Open the {volume.volume} reading catalogue →</a>
+          ) : (
+            <p class="archive-navigation-emerging">Emerging research path; public reading catalogue in development.</p>
+          )}
         </details>
       );
     })}

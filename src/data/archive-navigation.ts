@@ -1,6 +1,7 @@
 export type ArchiveNavigationSection = { title: string; description: string; items: string[] };
 export type ArchiveNavigationVolume = {
-  volume: "Volume I" | "Volume II" | "Volume III";
+  volume: "Volume I" | "Volume II" | "Volume III" | "Volume IV" | "Volume V";
+  archiveTitle?: string;
   sections: ArchiveNavigationSection[];
 };
 
@@ -37,6 +38,23 @@ export const archiveNavigation: ArchiveNavigationVolume[] = [
       { title: "D. Immigration, law enforcement, measurement, and labor dependence", description: "Measurement, enforcement, labor, and migration systems.", items: ["Who Deported More", "Hidden moral economy"] },
       { title: "E. Governance, legitimacy, and accountability", description: "Institutional trust, accountability, and public legitimacy.", items: ["Governance and accountability research"] },
       { title: "F. Education, medicine, health, and human capital", description: "Education, health systems, medicine, and capability.", items: ["Education and human-capital research"] },
+    ],
+  },
+  {
+    volume: "Volume IV",
+    sections: [
+      { title: "Book and master compilation", description: "The Last Human Workforce book compilation, in editorial development.", items: ["The Last Human Workforce"] },
+      { title: "Technology, cognition, and governance", description: "Technology as a human and institutional system, rather than a software-only story.", items: ["Medical technology and mechanistic training", "Biotechnology, biosecurity, and dual-use governance", "Quantum systems and societal implications", "AI learning and digital cognition"] },
+      { title: "Human capability and development", description: "Embodiment, adaptation, care, and the conditions that make technical capability usable.", items: ["Neuroprosthetics and human regeneration", "Environmental instability and human development"] },
+      { title: "Research projects", description: "Interdisciplinary research-to-narrative projects, distinct from research papers.", items: ["GeneLock: The Silent Sequence"] },
+      { title: "Cross-volume connections", description: "Connections from Volume III into learning, cognition, infrastructure, and capability.", items: ["Volume III to IV transition", "Learning and cognition bridges"] },
+    ],
+  },
+  {
+    volume: "Volume V",
+    archiveTitle: "Future Societal Problems — Forthcoming",
+    sections: [
+      { title: "Education, rationality, and cognitive control", description: "An emerging fifth-volume research direction on education, judgment, and human capability.", items: ["Education and Rational Thinking"] },
     ],
   },
 ];
