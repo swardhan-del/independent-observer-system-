@@ -218,6 +218,16 @@ describe("built website", () => {
     expect(homeHtml).toContain("Who Deported More?");
     expect(homeHtml).toContain("The Double Tax on Time");
     expect(homeHtml).toContain("Author paper");
+    expect(homeHtml).toContain("An evidence-first comparison of immigration enforcement numbers");
+    expect(homeHtml).toContain("A practical guide to what quantum entanglement can");
+    expect(homeHtml).toContain("A multi-factor study of Latino voting");
+    expect(homeHtml).toContain("Volume IV’s inquiry into how technology and economic conditions");
+    expect(homeHtml).toContain("A Volume III policy proposal asking whether tax rules");
+    expect(homeHtml).toContain("A comparative study of why resource-rich places can remain poor");
+    expect(homeHtml).toContain("A twenty-year scenario for post-authoritarian reconstruction");
+    expect(homeHtml).toContain("A Volume IV analysis of education as economic infrastructure");
+    expect(homeHtml).toContain("A policy and political-economy frame for the unequal timing costs");
+    expect(homeHtml).toContain("A long-range history of how colonization, industrialization");
     expect(homeHtml).not.toContain("/Independent Observer desktop/");
   });
 

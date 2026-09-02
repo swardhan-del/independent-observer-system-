@@ -229,6 +229,8 @@ export const paperDocuments: PublicDocument[] = [
     category: "Demography & Migration",
     description:
       "A data-defined working paper that separates removals, returns, and expulsions before comparing enforcement priorities across administrations.",
+    homepageDescription:
+      "An evidence-first comparison of immigration enforcement numbers: it separates removals, returns, expulsions, and interior or border actions before asking what administrative choices make presidential records look different. The point is not a partisan scorecard but a definitions-and-data test for reading enforcement claims.",
     volumeRelevance:
       "This paper gives Volume II an empirical entry point into sovereignty and administrative power. Its definitions-first approach shows how legal categories, agency routines, and enforcement resources shape the public numbers through which political authority is judged.",
     publicationDate: "13 October 2025",
@@ -272,6 +274,8 @@ export const paperDocuments: PublicDocument[] = [
     category: "Politics & Demography",
     description:
       "A working paper that treats Latino voting behavior as internally heterogeneous rather than as a single identity-based bloc.",
+    homepageDescription:
+      "A multi-factor study of Latino voting that rejects a single bloc explanation. It examines how identity, cultural outlook, economic experience, immigration policy, local services, and political memory can interact without turning a working-paper argument into a universal account of voters.",
     volumeRelevance:
       "It contributes a democratic-membership case to Volume II by asking how identity, policy experience, local institutions, and immigration enforcement interact in political choice. The paper’s value is its refusal to treat a large population as one political actor or one explanation.",
     publicationDate: "23 September 2025",
@@ -311,6 +315,8 @@ export const paperDocuments: PublicDocument[] = [
     category: "Technology & Intimacy",
     description:
       "A short working paper on how automation, economic precarity, and digital mediation reshape intimacy, identity, and demographic life.",
+    homepageDescription:
+      "Volume IV’s inquiry into how technology and economic conditions reshape intimacy. It connects automation, precarious work, digital mediation, social isolation, declining birth rates, and identity to a larger question: what institutions make durable human connection possible when interaction becomes increasingly mediated?",
     publicationDate: "6 November 2025",
     dateLabel: "Posted",
     researchGateUrl:
@@ -350,6 +356,8 @@ export const paperDocuments: PublicDocument[] = [
     category: "Political Economy & Tax",
     description:
       "A Volume III policy working paper within Managed Decline. It asks how tax design can recognize time spent building skills, reduce pressure on wage labor, and restore progressive treatment of selected ownership income. Its placement is deliberate: the paper addresses Volume III’s inquiry into labor markets, welfare, taxation, and administrative access, rather than Volume I’s method foundation or Volume II’s sovereignty and institutional design. It connects the proposed credits and relief mechanisms to eligibility rules, reporting, documentation, and audit design.",
+    homepageDescription:
+      "A Volume III policy proposal asking whether tax rules can treat time spent acquiring skills as an investment rather than only a private cost. It connects wage relief, ownership income, eligibility, documentation, reporting, and audit design to the question of how public systems can recognize work and redistribute security.",
     publicationDate: "3 October 2025",
     dateLabel: "Posted",
     metrics: { downloads: 42, abstractViews: 202, citations: 0 },
@@ -391,6 +399,8 @@ export const paperDocuments: PublicDocument[] = [
     category: "Gender & Political Economy",
     description:
       "A working paper examining how biological timing, career structures, caregiving policy, and demographic economics interact.",
+    homepageDescription:
+      "A policy and political-economy frame for the unequal timing costs of biology, caregiving, education, career progression, and bureaucracy. It argues for equity rather than identical treatment and connects fertility care, parental leave, migration, taxation, and human capital without claiming one universal solution.",
     publicationDate: "7 November 2025",
     dateLabel: "Posted",
     metrics: { downloads: 39, abstractViews: 225, citations: 0 },
@@ -429,6 +439,8 @@ export const paperDocuments: PublicDocument[] = [
     category: "History & Geopolitics",
     description:
       "A historical working paper connecting colonization, industrialization, economic design, and contemporary competition among major powers.",
+    homepageDescription:
+      "A long-range history of how colonization, industrialization, economic design, and knowledge extraction still shape present power. It reads U.S.–China–Russia competition through institutions, capital, literacy, inequality, and democratic vulnerability, while keeping historical analogy distinct from proof.",
     volumeRelevance:
       "This paper extends Volume II’s sovereignty inquiry across time: it connects historical extraction, industrial capacity, capital, and geopolitical competition to the institutions that make power durable. It gives the volume a long-range frame for reading present rivalry without collapsing different periods into one story.",
     publicationDate: "23 October 2025",
@@ -674,6 +686,8 @@ export const paperDocuments: PublicDocument[] = [
     category: "Resource Wealth & Political Economy",
     description:
       "A comparative political-economy working paper asking why resource-rich regions can remain poor when capital, information, trade, and institutional access are tightly controlled.",
+    homepageDescription:
+      "A comparative study of why resource-rich places can remain poor. It follows the path from natural endowment through capital control, foreign investment, trade, information, logistics, and governance, asking when resource wealth becomes broad capability—and when it becomes dependence or patronage.",
     volumeRelevance:
       "The paper extends Volume II's sovereignty inquiry beyond constitutions and elections into the control of capital, logistics, investment, and knowledge. Its significance is the link between resource endowments and the institutions that decide whether those resources become broad capability or concentrated patronage.",
     publicationDate: "17 November 2025",
@@ -840,6 +854,8 @@ export const paperDocuments: PublicDocument[] = [
     category: "Geopolitics & Sovereignty",
     description:
       "A geopolitical working paper modelling a twenty-year path for post-authoritarian reconstruction through administrative transparency, industrial diversification, civic reintegration, and carefully sequenced governance reform.",
+    homepageDescription:
+      "A twenty-year scenario for post-authoritarian reconstruction that treats sovereignty as institutional capacity, not isolation. It links administrative transparency, industrial diversification, energy, sanctions, ownership, civic reintegration, and Eurasian interdependence while labeling the roadmap as a model open to revision.",
     volumeRelevance:
       "This paper extends Volume II's sovereignty inquiry into industrial policy and post-autocratic reconstruction. It asks how a state can rebuild administrative capacity, diversify its economy, and reintegrate citizens without treating sovereignty as isolation or political liberalization as a substitute for functioning institutions.",
     publicationDate: "3 December 2025",
@@ -965,6 +981,8 @@ export const paperDocuments: PublicDocument[] = [
     category: "Education, AI & Human Capability",
     description:
       "A Volume IV working paper examining education as economic infrastructure and asking how AI amplifies existing human capital, income concentration, and unequal routes to stable middle-class life.",
+    homepageDescription:
+      "A Volume IV analysis of education as economic infrastructure in an AI economy. It contrasts durable, scalable pathways for building human capability with rare platform success, then asks whether schooling, adult learning, AI literacy, employment, and tax policy can keep technological change from concentrating stability in a few hands.",
     volumeRelevance:
       "The paper gives Volume IV a human-capability test: when automation changes the value of skills, which institutions help people build durable capacity rather than depend on rare outlier success? It links education, re-skilling, AI literacy, and economic stability to the volume's wider question of who can govern technological change.",
     publicationDate: "1 December 2025",
@@ -1007,6 +1025,8 @@ export const paperDocuments: PublicDocument[] = [
     category: "Quantum Computing & Scientific Capacity",
     description:
       "A concise Volume IV primer translating quantum-information concepts, engineering constraints, and policy implications into a practical map of what quantum systems can and cannot do.",
+    homepageDescription:
+      "A practical guide to what quantum entanglement can—and cannot—do. It moves from superposition and no-signalling to error correction, cryptography, networking, and the institutional infrastructure required before quantum advantage becomes deployable capacity.",
     volumeRelevance:
       "This is a capability paper for Volume IV: it connects scientific principles to hardware limits, error correction, cryptography, networking, and the institutional choices needed to turn technical possibility into public capacity.",
     publicationDate: "19 September 2025",

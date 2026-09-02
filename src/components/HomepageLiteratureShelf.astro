@@ -40,7 +40,7 @@ const papers = [...paperDocuments].sort(
             <h3>
               <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
             </h3>
-            <p>{paper.description}</p>
+            <p>{paper.homepageDescription ?? paper.description}</p>
             <div class="homepage-literature-footer">
               <a href={sitePath(`/library/documents/${paper.id}/`)}>Read the paper synopsis →</a>
               <span>{paper.metrics?.downloads ?? "—"} downloads · usage signal only</span>

@@ -646,7 +646,9 @@ describe("interactive preview tools", () => {
     expect(homepage).toContain("Highest retrieved Archived distribution signal");
     expect(homepage.replace(/\s+/g, " ")).toContain("usage signal—not a quality rating");
     expect(homepageVolumeGuide).toContain("Volume I establishes the method of observation");
-    expect(homepageVolumeGuide).toContain("homepage-volume-sequence");
+    expect(homepageVolumeGuide).toContain("homepage-concept-map");
+    expect(homepageVolumeGuide).toContain("topic-volume-concept-center");
+    expect(homepageVolumeGuide).toContain("volumeActions");
     expect(homepageVolumeGuide).toContain("homepage-volume-illustration");
     expect(homepageVolumeGuide).toContain("seriesItems.map");
     expect(homepageVolumeGuide).toContain("volumeTopicConnections[item.volume]");
