@@ -242,7 +242,7 @@ function pathwayStatuses(pathway: (typeof topicPathways)[number]) {
         const concerns = route.dataset.questionConcerns?.split(",") ?? [];
         const statuses = route.dataset.questionStatuses?.split(",") ?? [];
         return (
-          (selectedConcern !== "all" && concerns.includes(selectedConcern) ? 3 : 0) +
+          (selectedConcern !== "all" && concerns.includes(selectedConcern) ? 5 : 0) +
           (selectedField !== "all" && fields.includes(selectedField) ? 2 : 0) +
           (selectedStatus !== "all" && statuses.includes(selectedStatus) ? 1 : 0)
         );
