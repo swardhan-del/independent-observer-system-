@@ -183,6 +183,16 @@ const volumeActions = [
                       <li>
                         <strong>{direction.title}</strong>
                         <span>{direction.description}</span>
+                        {direction.researchGateUrl && (
+                          <a
+                            class="homepage-volume-scope-link"
+                            href={direction.researchGateUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Open verified ResearchGate preprint ↗
+                          </a>
+                        )}
                       </li>
                     ))}
                   </ul>

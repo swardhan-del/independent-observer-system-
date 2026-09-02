@@ -228,6 +228,10 @@ describe("built website", () => {
     expect(homeHtml).toContain("A Volume IV analysis of education as economic infrastructure");
     expect(homeHtml).toContain("A policy and political-economy frame for the unequal timing costs");
     expect(homeHtml).toContain("A long-range history of how colonization, industrialization");
+    expect(homeHtml).toContain(
+      "https://www.researchgate.net/publication/396766821_Hours_to_Ownership_Why_the_AI_Industrial_Revolution_Rewires_Inequality",
+    );
+    expect(homeHtml).toContain("Open verified ResearchGate preprint");
     expect(homeHtml).not.toContain("/Independent Observer desktop/");
   });
 
@@ -563,6 +567,10 @@ describe("built website", () => {
     expect(html).toContain(
       "Hours to Ownership: Why the AI Industrial Revolution Rewires Inequality",
     );
+    expect(html).toContain(
+      "https://www.researchgate.net/publication/396766821_Hours_to_Ownership_Why_the_AI_Industrial_Revolution_Rewires_Inequality",
+    );
+    expect(html).toContain("Open verified ResearchGate preprint");
     expect(html).toContain("The Perception Proxy: From Factory Collapse to Podcast Rage");
     expect(html).toContain("Provides a central Volume III bridge");
     expect(html).toContain("not public author paper pages or publication approvals");

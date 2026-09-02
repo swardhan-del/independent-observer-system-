@@ -19,6 +19,7 @@ export type LibraryResearchPaper = {
   lens: string;
   description: string;
   relevance: string;
+  researchGateUrl?: string;
 };
 
 export const libraryVolumeGuides: LibraryVolumeGuide[] = [
@@ -251,6 +252,8 @@ export const libraryVolumeGuides: LibraryVolumeGuide[] = [
           "Compares earlier industrial revolutions with general-purpose AI, emphasizing cognitive automation, platform gatekeepers, and scarce compute, energy, and data. It proposes shifting the distributional question from hours alone toward ownership of equity, intellectual property, datasets, and distribution channels, alongside portable benefits and adult learning.",
         relevance:
           "Extends Volume III into the next labor transition by asking whether technological change produces broad-based ownership and capability or intensifies winner-take-most inequality.",
+        researchGateUrl:
+          "https://www.researchgate.net/publication/396766821_Hours_to_Ownership_Why_the_AI_Industrial_Revolution_Rewires_Inequality",
       },
       {
         title:

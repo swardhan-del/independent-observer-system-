@@ -261,6 +261,18 @@ const volumeIllustrations = {
                         <p class="library-volume-shelf-research-relevance">
                           <strong>Why it belongs here.</strong> {researchPaper.relevance}
                         </p>
+                        {researchPaper.researchGateUrl && (
+                          <div class="library-volume-shelf-research-links">
+                            <a
+                              href={researchPaper.researchGateUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Open verified ResearchGate preprint ↗
+                            </a>
+                            <span>October 2025 · public preprint record</span>
+                          </div>
+                        )}
                       </article>
                     ))}
                   </div>

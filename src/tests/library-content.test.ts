@@ -80,6 +80,12 @@ describe("library content blocks", () => {
     expect(volumeThree?.importance).toContain("political-economy study");
     expect(volumeThree?.importance).toContain("Volume II’s study of institutions and enforcement");
     expect(volumeThree?.summary).toContain("Managed Decline is a political-economy inquiry");
+    expect(
+      volumeThree?.researchPapers.find((paper) => paper.title.startsWith("Hours to Ownership"))
+        ?.researchGateUrl,
+    ).toBe(
+      "https://www.researchgate.net/publication/396766821_Hours_to_Ownership_Why_the_AI_Industrial_Revolution_Rewires_Inequality",
+    );
     const volumeFour = libraryVolumeGuides.find((guide) => guide.volume === "Volume IV");
     expect(volumeFour?.researchPapers.map((paper) => paper.title)).toEqual([
       "When Real Science Becomes Science Fiction: Biophysics, Medical Technology, and the Decline of Mechanistic Training",
@@ -96,6 +102,7 @@ describe("library content blocks", () => {
     expect(volumeFour?.summary).toContain("advanced technology is measured");
     expect(researchShelf).toContain("Source-taxonomy research map");
     expect(researchShelf).toContain("library-volume-shelf-research-label");
+    expect(researchShelf).toContain("researchGateUrl");
     expect(researchShelf).toMatch(/not public author paper pages or\s+publication approvals/);
   });
 
