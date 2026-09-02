@@ -493,6 +493,7 @@ describe("built website", () => {
     expect(startHtml).toContain("See how the four volumes connect.");
     expect(startHtml).toContain("topic-volume-concept-map");
     expect(startHtml).toContain("observe · connect · correct");
+    expect(startHtml).not.toContain("public author paper pages");
   });
 
   it("renders Volume II's four research families and four principles in Public Preview", () => {
