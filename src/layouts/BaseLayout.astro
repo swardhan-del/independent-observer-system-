@@ -198,7 +198,7 @@ const structuredData = JSON.stringify({
   </head>
   <body>
     <Header currentPath={currentPath} />
-    <ReadingList />
+    {currentPath === "/series/" ? <ReadingList context="catalogue" /> : <ReadingList />}
     <main id="main-content">
       <slot />
     </main>

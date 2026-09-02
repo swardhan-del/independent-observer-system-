@@ -19,7 +19,45 @@ const automatedSeriesItems = dropboxFeedItems.filter((item) => item.kind === "se
     eyebrow="Publication catalogue"
     title="One series. Four volumes."
     description="Four lines of inquiry, one for each Independent Observer volume. Volume I is the method foundation: it represents observation, evidence, public memory, and democratic capacity, and is meant to show how a conclusion is formed before it is accepted. Volume II is the power inquiry: it represents sovereignty, institutions, history, migration, markets, and enforcement, and is meant to trace how authority is distributed and exercised. Volume III is the social-citizenship inquiry: it represents work, time, taxation, welfare, licensing, health, and economic security, and is meant to ask who carries the cost of change and who can access public capacity. Volume IV is the capability inquiry: it represents AI, infrastructure, science, labor, intimacy, and adaptation, and is meant to test how technological change can become human capability. Together, they form the official public-safe catalogue, with linked reading copies, research maps, and visible release boundaries."
-  />
+    className="catalogue-hero"
+  >
+    <figure class="catalogue-hero-visual">
+      <img
+        src={sitePath("/independent-observer-four-volume-map-v2.png")}
+        alt="Four-volume Independent Observer map connecting observation, power, distribution, and capability around one observing lens."
+        width="1536"
+        height="1024"
+        loading="eager"
+        decoding="async"
+      />
+      <div
+        class="catalogue-hero-map-links"
+        role="group"
+        aria-label="Open a volume from the four-volume map"
+      >
+        <a href={sitePath("/series/independent-observer/")}>
+          <span>01</span>
+          <strong>Observation</strong>
+        </a>
+        <a href={sitePath("/series/the-empire-beneath-democracy/")}>
+          <span>02</span>
+          <strong>Power</strong>
+        </a>
+        <a href={sitePath("/series/managed-decline/")}>
+          <span>03</span>
+          <strong>Distribution</strong>
+        </a>
+        <a href={sitePath("/series/the-last-human-workforce/")}>
+          <span>04</span>
+          <strong>Capability</strong>
+        </a>
+      </div>
+      <figcaption>
+        <span>Interactive volume map</span>
+        <strong>Choose a node to open its catalogue file.</strong>
+      </figcaption>
+    </figure>
+  </PageHero>
   <section class="section section-rule volume-visual-section" aria-labelledby="volume-visual-title">
     <div class="shell">
       <div class="section-heading">

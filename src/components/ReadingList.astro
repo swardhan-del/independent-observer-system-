@@ -4,9 +4,85 @@ import { paperDocuments } from "../data/papers";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 
+type Props = {
+  context?: "catalogue";
+};
+
+const { context } = Astro.props as Props;
+const isCatalogueContext = context === "catalogue";
 const featuredPreprints = [...paperDocuments]
   .sort((a, b) => (b.metrics?.downloads ?? -1) - (a.metrics?.downloads ?? -1))
   .slice(0, 5);
+const volumeOnePapers = [...paperDocuments]
+  .filter((entry) => entry.volume === "Volume I")
+  .sort((a, b) => (b.metrics?.downloads ?? -1) - (a.metrics?.downloads ?? -1));
+
+type ReadingRecommendation = {
+  id: string;
+  title: string;
+  href: string;
+  status: string;
+  meta: string;
+  type: string;
+  externalHref?: string;
+};
+
+type ReadingRecommendationGroup = {
+  title: string;
+  entries: ReadingRecommendation[];
+};
+
+const recommendationGroups: ReadingRecommendationGroup[] = isCatalogueContext
+  ? [
+      {
+        title: "Follow the four-volume spine",
+        entries: seriesItems.map((item) => ({
+          id: `series:${item.title}`,
+          title: `${item.volume}: ${item.title}`,
+          href: sitePath(`/series/${slugify(item.title)}/`),
+          status: item.status,
+          meta: `${item.category} · roadmap preview`,
+          type: "Series roadmap",
+        })),
+      },
+      {
+        title: "Start with Volume I’s public papers",
+        entries: volumeOnePapers.map((entry) => ({
+          id: `document:${entry.id}`,
+          title: entry.title,
+          href: sitePath(`/library/documents/${entry.id}/`),
+          status: entry.status ?? "Reviewed public copy",
+          meta: `${entry.volume} · ${entry.metrics?.downloads ?? "—"} downloads · public synopsis`,
+          type: "Author paper",
+          externalHref: entry.researchGateUrl,
+        })),
+      },
+    ]
+  : [
+      {
+        title: "Highest-download author paper pages",
+        entries: featuredPreprints.map((entry) => ({
+          id: `document:${entry.id}`,
+          title: entry.title,
+          href: sitePath(`/library/documents/${entry.id}/`),
+          status: entry.status ?? "Reviewed public copy",
+          meta: `${entry.volume} · ${entry.metrics?.downloads ?? "—"} downloads · author-controlled synopsis`,
+          type: "Author paper",
+          externalHref: entry.researchGateUrl,
+        })),
+      },
+      {
+        title: "Books and volumes in development",
+        entries: seriesItems.map((item) => ({
+          id: `series:${item.title}`,
+          title: `${item.volume}: ${item.title}`,
+          href: sitePath(`/series/${slugify(item.title)}/`),
+          status: item.status,
+          meta: `${item.category} · roadmap preview`,
+          type: "Series roadmap",
+        })),
+      },
+    ];
 ---
 
 <div class="reading-list-tools" data-reading-list>
@@ -49,93 +125,60 @@ const featuredPreprints = [...paperDocuments]
         <div class="reading-list-recommendations-heading">
           <div>
             <p class="eyebrow">Curated starting shelf</p>
-            <h3 id="reading-list-recommendations-title">Recommended public previews</h3>
+            <h3 id="reading-list-recommendations-title">
+              {isCatalogueContext ? "Catalogue reading shelf" : "Recommended public previews"}
+            </h3>
           </div>
           <button class="reading-list-save-all" type="button" data-reading-save-all>
-            Save all previews
+            {isCatalogueContext ? "Save all catalogue previews" : "Save all previews"}
           </button>
         </div>
         <p class="reading-list-recommendations-intro">
-          Five author-controlled paper pages ordered by the archived download signal, followed by
-          the four Independent Observer book and volume roadmaps. These are public reading copies
-          and previews—not published books or peer-reviewed Independent Observer articles.
+          {
+            isCatalogueContext
+              ? "Start with the four-volume sequence, then open the public Volume I paper records. Save only what you want to revisit; nothing is added automatically."
+              : "Five author-controlled paper pages ordered by the archived download signal, followed by the four Independent Observer book and volume roadmaps. These are public reading copies and previews—not published books or peer-reviewed Independent Observer articles."
+          }
         </p>
-        <div class="reading-list-recommendation-group">
-          <h4>Highest-download author paper pages</h4>
-          <div class="reading-list-recommendation-grid">
-            {
-              featuredPreprints.map((entry) => {
-                const href = sitePath(`/library/documents/${entry.id}/`);
-                return (
+        {
+          recommendationGroups.map((group) => (
+            <div class="reading-list-recommendation-group">
+              <h4>{group.title}</h4>
+              <div class="reading-list-recommendation-grid">
+                {group.entries.map((entry) => (
                   <article class="reading-list-recommendation-card">
                     <span class="reading-list-recommendation-status">{entry.status}</span>
                     <h5>
-                      <a href={href}>{entry.title}</a>
+                      <a href={entry.href}>{entry.title}</a>
                     </h5>
-                    <p>
-                      {entry.volume} · {entry.metrics?.downloads ?? "—"} downloads · last directly
-                      checked {entry.metrics?.checkedAt}; author-controlled synopsis
-                    </p>
+                    <p>{entry.meta}</p>
                     <div class="reading-list-recommendation-actions">
                       <button
                         type="button"
                         data-reading-toggle
-                        data-reading-id={`document:${entry.id}`}
+                        data-reading-id={entry.id}
                         data-reading-title={entry.title}
-                        data-reading-href={href}
-                        data-reading-type="Author paper"
+                        data-reading-href={entry.href}
+                        data-reading-type={entry.type}
                         aria-pressed="false"
                       >
                         Save
                       </button>
-                      <a href={href}>Open copy →</a>
-                      {entry.researchGateUrl && (
-                        <a href={entry.researchGateUrl} target="_blank" rel="noopener noreferrer">
-                          ResearchGate ↗
+                      <a href={entry.href}>
+                        {entry.type === "Author paper" ? "Open synopsis →" : "Open roadmap →"}
+                      </a>
+                      {entry.externalHref && (
+                        <a href={entry.externalHref} target="_blank" rel="noopener noreferrer">
+                          External ResearchGate record ↗
                         </a>
                       )}
                     </div>
                   </article>
-                );
-              })
-            }
-          </div>
-        </div>
-        <div class="reading-list-recommendation-group">
-          <h4>Books and volumes in development</h4>
-          <div class="reading-list-recommendation-grid">
-            {
-              seriesItems.map((item) => {
-                const href = sitePath(`/series/${slugify(item.title)}/`);
-                return (
-                  <article class="reading-list-recommendation-card">
-                    <span class="reading-list-recommendation-status">{item.status}</span>
-                    <h5>
-                      <a href={href}>
-                        {item.volume}: {item.title}
-                      </a>
-                    </h5>
-                    <p>{item.category} · roadmap preview</p>
-                    <div class="reading-list-recommendation-actions">
-                      <button
-                        type="button"
-                        data-reading-toggle
-                        data-reading-id={`series:${item.title}`}
-                        data-reading-title={`${item.volume}: ${item.title}`}
-                        data-reading-href={href}
-                        data-reading-type="Series roadmap"
-                        aria-pressed="false"
-                      >
-                        Save
-                      </button>
-                      <a href={href}>Open roadmap →</a>
-                    </div>
-                  </article>
-                );
-              })
-            }
-          </div>
-        </div>
+                ))}
+              </div>
+            </div>
+          ))
+        }
         <p class="form-note">
           Saving is explicit and stays private on this device. Roadmap entries remain previews while
           the books are in development; no release status changes when you save one.

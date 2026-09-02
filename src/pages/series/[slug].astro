@@ -34,6 +34,7 @@ const isVolumeFour = item.volume === "Volume IV";
   <EditorialDetail
     item={item}
     eyebrow={`${item.volume} catalogue file`}
+    heroClassName={isVolumeOne ? "volume-one-detail-hero" : undefined}
     backLabel="Back to publication catalogue"
     backHref={sitePath("/series/")}
     statusNote="This is a public catalogue entry. The volume remains in development; publication, peer review, and commercial release are not implied."

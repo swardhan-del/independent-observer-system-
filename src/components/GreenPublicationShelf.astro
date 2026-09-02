@@ -5,27 +5,28 @@ const { volume, topic, title = "Current research articles" } = Astro.props;
 const records = previewGreenPublications.filter(
   (item) => (!volume || item.volume === volume) && (!topic || item.topics.includes(topic)),
 );
+const recordCount = records.length;
+const recordLabel =
+  recordCount === 1
+    ? "one bounded, text-only article"
+    : `${recordCount} bounded, text-only articles`;
+const recordDescription = volume
+  ? `${recordLabel} is currently connected to ${volume}. These public synopsis pages are available here without an account; they are not production releases, feeds, or downloadable manuscripts.`
+  : `${recordCount} bounded, text-only Green candidates are connected from one publication registry. These public synopsis pages are not production releases, feeds, or downloadable manuscripts.`;
 ---
 
 {
   records.length > 0 && (
     <section class="section section-white" aria-labelledby="green-publications-title">
       <div class="shell">
-        <div class="section-heading">
-          <>
-            <div>
-              <>
-                <p class="eyebrow">Protected preview · registry-driven</p>
-                <h2 id="green-publications-title">{title}</h2>
-              </>
-            </div>
-            <p>
-              Six bounded, text-only Green candidates are connected from one publication registry.
-              They are not production releases, feeds, or downloadable manuscripts.
-            </p>
-          </>
+        <div class="section-heading green-publication-shelf-heading">
+          <div>
+            <p class="eyebrow">Public synopsis shelf · registry-driven</p>
+            <h2 id="green-publications-title">{title}</h2>
+          </div>
+          <p>{recordDescription}</p>
         </div>
-        <div class="card-grid">
+        <div class:list={["card-grid", recordCount === 1 && "green-publication-grid-single"]}>
           {records.map((item) => (
             <article class="editorial-card">
               <div class="card-meta">
