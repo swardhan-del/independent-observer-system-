@@ -113,6 +113,10 @@ const defaultClaimMap = {
 const selectedClaimMap = claimMap ?? defaultClaimMap;
 const showArgumentFramework = Boolean(evidenceBlocks || claimMap);
 const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
+const frameworkRelevanceLabel =
+  item.volume === "Volume II"
+    ? "Why it matters to Volume II."
+    : `Why it matters to ${item.volume}.`;
 ---
 
 <PageHero
@@ -157,7 +161,7 @@ const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
                       <p class="detail-volume-family-description">{family.description}</p>
                       <div class="detail-volume-family-context">
                         <p>
-                          <strong>Why it matters to Volume II.</strong> {family.significance}
+                          <strong>{frameworkRelevanceLabel}</strong> {family.significance}
                         </p>
                         <p>
                           <strong>Guiding principle.</strong> {family.principle}
