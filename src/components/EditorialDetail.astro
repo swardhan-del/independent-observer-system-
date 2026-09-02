@@ -111,6 +111,7 @@ const defaultClaimMap = {
   limitation: "This preview does not yet support a publishable conclusion.",
 };
 const selectedClaimMap = claimMap ?? defaultClaimMap;
+const showArgumentFramework = Boolean(evidenceBlocks || claimMap);
 const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
 ---
 
@@ -384,28 +385,30 @@ const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
   )
 }
 
-<section class="section section-rule">
-  <div class="shell reader-tools-grid">
-    <EvidenceLayer
-      blocks={evidenceBlocks ?? defaultEvidenceBlocks}
-      title={evidenceTitle}
-      intro={evidenceIntro}
-      statusNote={evidenceStatusNote}
-      source={evidenceSource}
-    />
-    <ClaimMap
-      claim={selectedClaimMap.claim}
-      evidence={selectedClaimMap.evidence}
-      mechanism={selectedClaimMap.mechanism}
-      counterargument={selectedClaimMap.counterargument}
-      limitation={selectedClaimMap.limitation}
-    />
-  </div>
-  {
-    showVolumeResearchMap && (
-      <div class="shell">
-        <VolumeResearchMap currentVolume={item.volume} />
+{
+  showArgumentFramework && (
+    <section class="section section-rule">
+      <div class="shell reader-tools-grid">
+        <EvidenceLayer
+          blocks={evidenceBlocks ?? defaultEvidenceBlocks}
+          title={evidenceTitle}
+          intro={evidenceIntro}
+          statusNote={evidenceStatusNote}
+          source={evidenceSource}
+        />
+        <ClaimMap
+          claim={selectedClaimMap.claim}
+          evidence={selectedClaimMap.evidence}
+          mechanism={selectedClaimMap.mechanism}
+          counterargument={selectedClaimMap.counterargument}
+          limitation={selectedClaimMap.limitation}
+        />
       </div>
-    )
-  }
-</section>
+      {showVolumeResearchMap && (
+        <div class="shell">
+          <VolumeResearchMap currentVolume={item.volume} />
+        </div>
+      )}
+    </section>
+  )
+}

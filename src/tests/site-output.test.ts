@@ -368,17 +368,15 @@ describe("built website", () => {
     expect(html).not.toContain("Independence is a method, not a pose.");
   });
 
-  it("renders the linked four-volume spine on the History hub", () => {
+  it("keeps the History hub topic-specific without repeating the full volume map", () => {
     const html = readOutput("topics/history/index.html");
 
-    expect(html).toContain("One project, four connected volumes.");
-    expect(html).toContain("Independent Observer");
-    expect(html).toContain("The Empire Beneath Democracy");
-    expect(html).toContain("Managed Decline");
-    expect(html).toContain("The Last Human Workforce");
-    expect(html).toContain("Public entry points");
+    expect(html).toContain("Public discovery map");
+    expect(html).toContain("Mapped to Volume I, and Volume II in the four-volume spine.");
     expect(html).toContain("The Wardhan Tax Doctrine");
     expect(html).toContain("The Autonomous Illusion");
+    expect(html).not.toContain("One project, four connected volumes.");
+    expect(html).not.toContain('class="topic-volume-map"');
   });
 
   it("shows Politics public outputs while preserving the standalone release boundary", () => {
@@ -627,16 +625,15 @@ describe("built website", () => {
     expect(security).not.toMatch(/@/);
   });
 
-  it("shows a document's actual volume and author-paper synopsis stack", () => {
+  it("shows a document's actual volume without duplicating the author-paper stack", () => {
     const html = readOutput("library/documents/wardhan-tax-doctrine/index.html");
 
     expect(html).toContain("Volume III publication context");
     expect(html).toContain("Volume III · Managed Decline");
     expect(html).toContain("Managed Decline");
-    expect(html).toContain(
-      "Volume III’s inquiry into labor markets, welfare, taxation, and administrative access",
-    );
-    expect(html).toContain("Author paper synopses in this volume");
+    expect(html).toContain("one of 3 public author-paper records mapped to Volume III");
+    expect(html).toContain("without repeating their descriptions here");
+    expect(html).toContain("Open the Volume III catalogue");
     expect(html).toContain("The Wardhan Tax Doctrine");
     expect(html).toContain(
       "The Wardhan Tax Doctrine asks whether the tax system can recognize time spent acquiring skills",
@@ -644,7 +641,7 @@ describe("built website", () => {
     expect(html).toContain(
       "not enacted law, an official revenue score, or individualized tax advice",
     );
-    expect(html).toContain("Current document");
+    expect(html).not.toContain("Author paper synopses in this volume");
     expect(html).not.toContain("curated public reading copy assembled from the matching Dropbox");
     expect(html).not.toContain("/Independent Observer desktop/");
   });

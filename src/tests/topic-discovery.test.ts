@@ -69,6 +69,19 @@ describe("topic discovery plugin", () => {
           type: "Author paper",
           title: "Disconnected Hearts — The Tech Revolution of Intimacy",
         }),
+        expect.objectContaining({
+          type: "Documentary preview",
+          title: "The Work Behind the Machine",
+        }),
+      ]),
+    );
+    expect(topicHubs.find((topic) => topic.slug === "science")?.related).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: "Author paper",
+          title:
+            "Entanglement, No-Signalling, and the Real Path to Quantum Advantage: A Systems-Level Primer for Practitioners and Policymakers",
+        }),
       ]),
     );
     expect(topicHubs.every((topic) => topic.related.every((item) => item.status.length > 0))).toBe(
@@ -111,14 +124,14 @@ describe("topic discovery plugin", () => {
     expect(topicIndex).toContain("<TopicVolumeMatrix />");
     expect(topicIndex).toContain("<TopicAtlas topics={topicHubs} />");
     expect(topicIndex).toContain("<TopicReviewQueue signals={reviewQueueSignals} />");
-    expect(topicDetail).toContain(
+    expect(topicDetail).not.toContain(
       'import TopicVolumeMap from "../../components/TopicVolumeMap.astro";',
     );
-    expect(topicDetail).toContain("<TopicVolumeMap />");
+    expect(topicDetail).not.toContain("<TopicVolumeMap />");
     expect(topicDetail).toContain("publicOutputItems");
     expect(topicDetail).toContain("Public outputs in this map");
     expect(topicDetail).toContain("standalone Independent Observer article has been released");
-    expect(topicDetail.indexOf("<TopicVolumeMap />")).toBeLessThan(
+    expect(topicDetail.indexOf("<GreenPublicationShelf")).toBeLessThan(
       topicDetail.indexOf("<TopicReviewQueue"),
     );
     expect(topicAtlas).toContain("data-topic-view");

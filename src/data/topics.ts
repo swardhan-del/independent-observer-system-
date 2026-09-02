@@ -91,13 +91,13 @@ const topicMatches: Record<string, string[]> = {
   science: [
     "The Autonomous Illusion",
     "The Martian Illusion",
-    "The Last Human Workforce",
-    "Disconnected Hearts — The Tech Revolution of Intimacy",
+    "Entanglement, No-Signalling, and the Real Path to Quantum Advantage: A Systems-Level Primer for Practitioners and Policymakers",
+    "Entanglement, No-Signalling, and the Real Path to Quantum Advantage: Foundations, Architectures, and Societal Implications",
   ],
   technology: [
     "The Autonomous Illusion",
+    "The Work Behind the Machine",
     "The Last Human Workforce",
-    "The Martian Illusion",
     "Disconnected Hearts — The Tech Revolution of Intimacy",
   ],
 };

@@ -2,6 +2,7 @@
 import type { PublicDocument } from "../data/documents";
 import type { SeriesItem } from "../data/series";
 import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
 
 type Props = {
   entry: PublicDocument;
@@ -11,9 +12,10 @@ type Props = {
 
 const { entry, volumeRecord, volumeDocuments } = Astro.props as Props;
 const volumeTitle = volumeRecord?.title ?? entry.volume ?? "Independent Observer";
-const volumeDescription =
-  volumeRecord?.description ??
-  "A public catalogue context for papers connected to this Independent Observer volume.";
+const volumeHref = volumeRecord
+  ? sitePath(`/series/${slugify(volumeRecord.title)}/`)
+  : sitePath("/series/");
+const volumePaperCount = volumeDocuments.length;
 ---
 
 <aside
@@ -23,40 +25,23 @@ const volumeDescription =
 >
   <div class="reader-volume-context-heading">
     <p class="eyebrow">{entry.volume} publication context</p>
-    <h3 id="reader-volume-context-title">{volumeTitle}</h3>
-    <p>{volumeDescription}</p>
+    <h3 id="reader-volume-context-title"><a href={volumeHref}>{volumeTitle}</a></h3>
+    <p>
+      This reader is one of {volumePaperCount} public author-paper records mapped to {entry.volume}.
+      The complete set, volume description, and research spine live on the single volume catalogue
+      page.
+    </p>
   </div>
 
   <div class="reader-volume-context-list">
-    <p class="reader-volume-context-label">Author paper synopses in this volume</p>
+    <p class="reader-volume-context-label">Current record in the volume catalogue</p>
     <p class="reader-volume-context-note">
-      These are the public author-controlled paper records currently indexed for {entry.volume}.
-      Each item keeps its own status; a selected synopsis is not the complete manuscript, a released
-      book, or a completed volume.
+      The paper-specific synopsis above stays on this page. Use the volume catalogue to compare the
+      other public author-paper records without repeating their descriptions here.
     </p>
-    <ol aria-label={`${entry.volume} author paper synopses`}>
-      {
-        volumeDocuments.map((document) => (
-          <li class:list={{ "is-current": document.id === entry.id }}>
-            <div class="reader-volume-card-topline">
-              <span>{document.volume}</span>
-              <span>{document.status ?? "Author paper synopsis"}</span>
-            </div>
-            <h4>
-              <a href={sitePath(`/library/documents/${document.id}/`)}>{document.title}</a>
-            </h4>
-            <p>{document.description}</p>
-            <div class="reader-volume-card-meta">
-              <span>{document.category}</span>
-              {document.metrics?.downloads !== undefined && (
-                <span>{document.metrics.downloads} archived downloads</span>
-              )}
-              {document.id === entry.id && <span>Current document</span>}
-            </div>
-          </li>
-        ))
-      }
-    </ol>
+    <a class="button button-secondary button-on-light" href={volumeHref}>
+      Open the {entry.volume} catalogue →
+    </a>
     <p class="reader-volume-context-boundary">
       Volume publication, peer review, and release still require the project’s source, rights,
       quality, and human approval gates.

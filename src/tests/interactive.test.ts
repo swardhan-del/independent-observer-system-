@@ -145,6 +145,7 @@ describe("interactive preview tools", () => {
     expect(detail).toContain('rel="noreferrer"');
     expect(detail).toContain("evidenceBlocks");
     expect(detail).toContain("selectedClaimMap");
+    expect(detail).toContain("showArgumentFramework");
     expect(evidence).toContain("Publication status");
     expect(evidence).toContain("data-evidence-filter");
     expect(evidence).toContain("sitePath");
@@ -209,13 +210,14 @@ describe("interactive preview tools", () => {
     expect(volumeFourEvidence).not.toContain("Reserved for the eventual, reviewed thesis");
   });
 
-  it("connects public document readers to their actual volume and same-volume copies", () => {
+  it("connects public document readers to their volume without repeating every paper", () => {
     expect(reader).toContain("paperDocuments");
     expect(reader).toContain('section.id === "publication-boundary"');
     expect(reader).toContain("<ReaderVolumeContext");
-    expect(readerVolumeContext).toContain("Author paper synopses in this volume");
-    expect(readerVolumeContext).toContain("a selected synopsis is not the complete manuscript");
-    expect(readerVolumeContext).toContain("Current document");
+    expect(readerVolumeContext).toContain("public author-paper records");
+    expect(readerVolumeContext).toContain("without repeating their descriptions");
+    expect(readerVolumeContext).toContain("Open the {entry.volume} catalogue");
+    expect(readerVolumeContext).not.toContain("volumeDocuments.map");
     expect(readerVolumeContext).toContain("human approval gates");
     expect(papersSource).toContain(
       "author-paper catalogue entry connected to the Independent Observer program",
@@ -226,7 +228,8 @@ describe("interactive preview tools", () => {
   });
 
   it("keeps the research desk distinct while mapping essays across all four volumes", () => {
-    expect(researchPage).toContain("showVolumeResearchMap");
+    expect(researchPage).not.toContain("showVolumeResearchMap={true}");
+    expect(detail).toContain("showVolumeResearchMap?: boolean");
     expect(detail).toContain("<VolumeResearchMap currentVolume={item.volume} />");
     expect(volumeResearchMapSource).toContain("Research and essays across four volumes.");
     expect(volumeResearchMapSource).toContain("not another publication-status category");
