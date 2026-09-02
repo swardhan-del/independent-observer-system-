@@ -30,13 +30,20 @@ const isVolumeOne = item.volume === "Volume I";
 const isVolumeTwo = item.volume === "Volume II";
 const isVolumeThree = item.volume === "Volume III";
 const isVolumeFour = item.volume === "Volume IV";
+const volumeHeroClass =
+  {
+    "Volume I": "volume-one-detail-hero",
+    "Volume II": "volume-two-detail-hero",
+    "Volume III": "volume-three-detail-hero",
+    "Volume IV": "volume-four-detail-hero",
+  }[item.volume] ?? "";
 ---
 
 <BaseLayout title={item.title} description={item.description} currentPath={currentPath}>
   <EditorialDetail
     item={item}
     eyebrow={`${item.volume} catalogue file`}
-    heroClassName={`volume-${item.volume.replace("Volume ", "").toLowerCase()}-detail-hero`}
+    heroClassName={volumeHeroClass}
     backLabel="Back to publication catalogue"
     backHref={sitePath("/series/")}
     statusNote="This is a public catalogue entry. The volume remains in development; publication, peer review, and commercial release are not implied."
