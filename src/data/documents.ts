@@ -1,5 +1,6 @@
 import { dropboxDocumentItems } from "./dropbox-content.generated";
 import { paperDocuments } from "./papers";
+import type { PlacementDecision } from "./placement-decisions";
 
 export type PublicDocumentSection = {
   id: string;
@@ -27,6 +28,7 @@ export type ExternalVerificationStatus = "verified" | "needs_review";
 
 export type PublicDocument = {
   id: string;
+  familyId: string;
   title: string;
   volume?: string;
   category: string;
@@ -50,12 +52,14 @@ export type PublicDocument = {
   limitations?: string[];
   citations?: PublicCitation[];
   relatedIds?: string[];
+  placementDecision?: PlacementDecision;
   sections: PublicDocumentSection[];
 };
 
 const reviewedDocuments: PublicDocument[] = [
   {
     id: "documentary-projects-print-capture",
+    familyId: "IO-FAMILY-DOCUMENTARY-PROJECTS-PRINT-CAPTURE",
     title: "Documentary Projects — Independent Observer",
     category: "Documentary desk",
     description:

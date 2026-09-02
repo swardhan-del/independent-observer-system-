@@ -1,8 +1,12 @@
+import { familyIdForKey } from "./family-registry";
+
 export type ArchivePaper = {
   id: string;
+  familyId: string;
   title: string;
   status: string;
   href?: string;
+  researchGateUrl?: string;
 };
 
 export type ArchivePlacement = {
@@ -35,7 +39,15 @@ const paper = (
   title: string,
   status = "Archive catalogue entry · editorial review",
   href?: string,
-): ArchivePaper => ({ id, title, status, href });
+  researchGateUrl?: string,
+): ArchivePaper => ({
+  id,
+  familyId: familyIdForKey(id),
+  title,
+  status,
+  href,
+  researchGateUrl,
+});
 
 /**
  * Each research family appears once here. Source variants, drafts, manuscript
@@ -217,7 +229,13 @@ export const archivePapers: ArchivePaper[] = [
     "/library/documents/wardhan-tax-doctrine/",
   ),
   paper("social-class-welfare", "Social Class and Welfare"),
-  paper("hours-to-ownership", "Hours to Ownership"),
+  paper(
+    "hours-to-ownership",
+    "Hours to Ownership",
+    "Archive catalogue entry · verified ResearchGate record",
+    undefined,
+    "https://www.researchgate.net/publication/396766821_Hours_to_Ownership_Why_the_AI_Industrial_Revolution_Rewires_Inequality",
+  ),
   paper(
     "double-tax-on-time",
     "The Double Tax on Time: Why Women Pay for Both Biology and Bureaucracy",
@@ -228,7 +246,13 @@ export const archivePapers: ArchivePaper[] = [
     "economics-of-color",
     "The Economics of Color: Deindustrialization, Wealth Stratification, Race, Crime, and Identity",
   ),
-  paper("from-steel-to-screens", "From Steel to Screens"),
+  paper(
+    "from-steel-to-screens",
+    "From Steel to Screens",
+    "Archive catalogue entry · verified ResearchGate record",
+    undefined,
+    "https://www.researchgate.net/publication/397270097_From_Steel_to_Screens_Deindustrialization_Mass_Incarceration_and_the_Rise_of_the_Adult_Industry_in_Post-Industrial_America",
+  ),
   paper("perception-proxy", "The Perception Proxy"),
   paper("homelessness-manufacture", "Homelessness Manufacture"),
   paper(
@@ -255,6 +279,9 @@ export const archivePapers: ArchivePaper[] = [
   paper(
     "ious-to-dos",
     "From IOUs to DOs: Federal Reserve Debt Instruments, Tariff Policy, and Domestic Medical Labor",
+    "Archive catalogue entry · verified ResearchGate record",
+    undefined,
+    "https://www.researchgate.net/publication/397777032_From_Treasury_Securities_to_Doctor_of_Osteopathic_The_Macroeconomic_Chain_Linking_Federal_Reserve_Debt_Instruments_Tariff_Policy_and_Domestic_Medical_Labor_in_Post-Petrodollar_America",
   ),
   paper(
     "ious-to-empires",
@@ -263,7 +290,13 @@ export const archivePapers: ArchivePaper[] = [
   paper("territorial-collapse-networked", "From Territorial Collapse to Networked Fade"),
   paper("dollar-vs-brics", "Dollar vs. BRICS"),
   paper("digital-empire", "The Digital Empire"),
-  paper("empire-distraction", "The Empire of Distraction"),
+  paper(
+    "empire-distraction",
+    "The Empire of Distraction",
+    "Archive catalogue entry · verified ResearchGate record · placement held",
+    undefined,
+    "https://www.researchgate.net/publication/400015476_The_Empire_of_Distraction_Foreign_Agenda-Setting_Malapportionment_and_the_Managed_Myth_of_Popular_Rule_in_the_United_States",
+  ),
   paper("us-counter-china", "U.S. Counter-China and Latin America Playbook"),
   paper("empire-without-bread", "Empire Without Bread"),
   paper("first-without-supremacy", "First Without Supremacy"),
@@ -273,6 +306,7 @@ export const archivePapers: ArchivePaper[] = [
     "The Server as a Furnace: Rust Belt AI Thermal Infrastructure",
     "Public author paper",
     "/research/the-server-as-a-furnace/",
+    "https://www.researchgate.net/publication/411789776_The_Server_as_a_Furnace_Rust_Belt_AI_Thermal_Infrastructure",
   ),
   paper("hidden-moral-economy", "The Hidden Moral Economy of Immigration"),
   paper(
@@ -303,7 +337,7 @@ export const archivePapers: ArchivePaper[] = [
     "last-human-workforce",
     "The Last Human Workforce",
     "Book compilation · editorial development",
-    "/research/the-last-human-workforce/",
+    "/series/the-last-human-workforce/",
   ),
   paper("rival-west-built", "The Rival the West Built"),
   paper("programmable-gene-silencing", "Programmable Gene Silencing Governance"),
@@ -345,6 +379,9 @@ export const archivePapers: ArchivePaper[] = [
 ];
 
 export const archivePaperById = new Map(archivePapers.map((entry) => [entry.id, entry]));
+export const archivePaperByFamilyId = new Map(
+  archivePapers.map((entry) => [entry.familyId, entry]),
+);
 
 const primary = (...paperIds: string[]): ArchivePlacement[] =>
   paperIds.map((paperId) => ({ paperId, relationship: "primary" }));
@@ -910,3 +947,46 @@ export const archiveNavigation: ArchiveNavigationVolume[] = [
     ],
   },
 ];
+
+export type ArchivePlacementRecord = ArchivePlacement & {
+  familyId: string;
+  volume: ArchiveNavigationVolume["volume"];
+  sectionId: string;
+  sectionTitle: string;
+  subfolderId: string;
+  subfolderTitle: string;
+};
+
+export const archivePlacementRecords: ArchivePlacementRecord[] = archiveNavigation.flatMap(
+  (volume) =>
+    volume.sections.flatMap((section) =>
+      section.subfolders.flatMap((subfolder) =>
+        subfolder.papers.flatMap((placement) => {
+          const archivePaper = archivePaperById.get(placement.paperId);
+          if (!archivePaper) return [];
+          return [
+            {
+              ...placement,
+              familyId: archivePaper.familyId,
+              volume: volume.volume,
+              sectionId: section.id,
+              sectionTitle: section.title,
+              subfolderId: subfolder.id,
+              subfolderTitle: subfolder.title,
+            },
+          ];
+        }),
+      ),
+    ),
+);
+
+export const archivePlacementsByFamilyId = new Map<string, ArchivePlacementRecord[]>();
+for (const placement of archivePlacementRecords) {
+  const existing = archivePlacementsByFamilyId.get(placement.familyId) ?? [];
+  existing.push(placement);
+  archivePlacementsByFamilyId.set(placement.familyId, existing);
+}
+
+export function archivePlacementsForFamily(familyId?: string) {
+  return familyId ? (archivePlacementsByFamilyId.get(familyId) ?? []) : [];
+}

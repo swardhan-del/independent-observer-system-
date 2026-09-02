@@ -217,7 +217,11 @@ const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
                 <li class="detail-volume-paper">
                   <div class="detail-volume-paper-heading">
                     <span>{String(index + 1).padStart(2, "0")}</span>
-                    <span>{entry.status}</span>
+                    <span>
+                      {entry.placementDecision?.status === "held"
+                        ? "Placement held · owner approval required"
+                        : entry.status}
+                    </span>
                   </div>
                   <h4>
                     <a href={sitePath(`/library/documents/${entry.id}/`)}>{entry.title}</a>

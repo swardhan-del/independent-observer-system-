@@ -5,6 +5,7 @@ import { topicHubs } from "./topics";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 import { previewGreenPublications, publicationPreviewEnabled } from "./green-publications";
+import { familyIdForKey } from "./family-registry";
 
 export type CanonicalRouteType =
   | "home"
@@ -24,6 +25,7 @@ export type CanonicalRouteRecord = {
   title: string;
   type: CanonicalRouteType;
   source: string;
+  familyId?: string;
   indexable: boolean;
   canonicalRoute?: string;
 };
@@ -49,6 +51,13 @@ const sectionRoutes: CanonicalRouteRecord[] = [
     title: "Research & Essays",
     type: "section",
     source: "research",
+    indexable: true,
+  },
+  {
+    route: "/prompts/",
+    title: "Visibility Studio",
+    type: "section",
+    source: "prompts",
     indexable: true,
   },
   {
@@ -78,6 +87,7 @@ const contentRoutes: CanonicalRouteRecord[] = [
     title: `${item.volume}: ${item.title}`,
     type: "series" as const,
     source: "series",
+    familyId: familyIdForKey(item.title),
     indexable: true,
   })),
   ...topicHubs.map((topic) => ({
@@ -92,6 +102,7 @@ const contentRoutes: CanonicalRouteRecord[] = [
     title: item.title,
     type: "document" as const,
     source: "documents",
+    familyId: item.familyId,
     indexable: true,
   })),
   ...researchItems.map((item) => ({
@@ -99,6 +110,7 @@ const contentRoutes: CanonicalRouteRecord[] = [
     title: item.title,
     type: "research" as const,
     source: "content",
+    familyId: familyIdForKey(item.title),
     indexable: true,
   })),
   ...previewGreenPublications.map((item) => ({
@@ -106,6 +118,7 @@ const contentRoutes: CanonicalRouteRecord[] = [
     title: item.title,
     type: "research" as const,
     source: "publication-registry",
+    familyId: item.familyId,
     indexable: !publicationPreviewEnabled,
   })),
   ...documentaryItems.map((item) => ({
@@ -156,7 +169,16 @@ const utilityRoutes: CanonicalRouteRecord[] = [
   },
 ];
 
-function assertUniqueRoutes(records: CanonicalRouteRecord[]) {
+export function normalizePublicTitle(title: string) {
+  return title
+    .toLocaleLowerCase()
+    .replace(/[’']/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .replace(/\s+/g, " ");
+}
+
+export function assertUniqueRoutes(records: CanonicalRouteRecord[]) {
   const seen = new Set<string>();
   for (const record of records) {
     const normalized = sitePath(record.route);
@@ -167,6 +189,22 @@ function assertUniqueRoutes(records: CanonicalRouteRecord[]) {
   }
 }
 
+export function assertUniquePublicTitles(records: CanonicalRouteRecord[]) {
+  const grouped = new Map<string, CanonicalRouteRecord[]>();
+  for (const record of records.filter((candidate) => candidate.indexable)) {
+    const key = `${record.type}:${normalizePublicTitle(record.title)}`;
+    const existing = grouped.get(key) ?? [];
+    existing.push(record);
+    grouped.set(key, existing);
+  }
+
+  for (const [key, matches] of grouped) {
+    if (matches.length > 1) {
+      throw new Error(`Duplicate normalized public title within entity type: ${key}`);
+    }
+  }
+}
+
 export const canonicalRouteRegistry = [
   ...utilityRoutes,
   ...sectionRoutes,
@@ -174,6 +212,7 @@ export const canonicalRouteRegistry = [
 ] as CanonicalRouteRecord[];
 
 assertUniqueRoutes(canonicalRouteRegistry);
+assertUniquePublicTitles(canonicalRouteRegistry);
 
 export const indexableRouteRegistry = canonicalRouteRegistry.filter((record) => record.indexable);
 

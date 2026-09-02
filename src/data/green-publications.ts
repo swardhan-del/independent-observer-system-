@@ -1,5 +1,8 @@
+import { archiveFamilyIds, familyIdForKey } from "./family-registry";
+
 export type GreenPublication = {
   candidateId: string;
+  familyId: string;
   slug: string;
   title: string;
   shortTitle: string;
@@ -32,6 +35,7 @@ const sharedLimitations =
 export const greenPublications: GreenPublication[] = [
   {
     candidateId: "IO-V4-REGROWING-HUMANITY",
+    familyId: familyIdForKey("IO-V4-REGROWING-HUMANITY"),
     slug: "regrowing-humanity",
     title:
       "Regrowing Humanity: How Robotic Limbs Are Becoming Integrated Extensions of the Human Body",
@@ -59,7 +63,7 @@ export const greenPublications: GreenPublication[] = [
     rightsReviewed: true,
     accessibilityReviewed: true,
     productionReleased: true,
-    relatedPublicationIds: ["IO-V4-LAST-HUMAN-WORKFORCE", "IO-V3-SERVER-AS-FURNACE"],
+    relatedPublicationIds: [archiveFamilyIds.lastHumanWorkforce, archiveFamilyIds.serverAsFurnace],
     paragraphs: [
       "Prosthetic limbs are moving from passive substitutes toward systems that interpret motor intention, generate movement, return sensory information, and adapt through use. The central question is not whether a device looks futuristic, but whether it can become a reliable extension of embodied capability for a particular user.",
       "A useful taxonomy keeps socket-suspended, body-powered, myoelectric, peripheral-nerve, cortical, and bone-anchored systems distinct. Osseointegration describes skeletal attachment; targeted muscle reinnervation and regenerative peripheral nerve interfaces describe biological signal strategies. None is automatically superior for every user, task, environment, or budget.",
@@ -85,6 +89,7 @@ export const greenPublications: GreenPublication[] = [
   },
   {
     candidateId: "IO-V1-INDEPENDENT-OBSERVER-METHOD",
+    familyId: familyIdForKey("IO-V1-INDEPENDENT-OBSERVER-METHOD"),
     slug: "the-independent-observer-method",
     title: "The Independent Observer Method",
     shortTitle: "The Independent Observer Method",
@@ -111,7 +116,7 @@ export const greenPublications: GreenPublication[] = [
     rightsReviewed: true,
     accessibilityReviewed: true,
     productionReleased: true,
-    relatedPublicationIds: ["IO-V2-DEMOCRACYS-ACHILLES-HEEL"],
+    relatedPublicationIds: [archiveFamilyIds.democracysAchillesHeel],
     paragraphs: [
       "Independence is not the same as centrism. It is a rule for handling evidence: state the standard before the conclusion, apply it across coalitions, distinguish facts from interpretations, and correct the record when evidence changes.",
       "The method asks four questions: what mechanism could produce the outcome; what would we expect to observe; which levers could change it; and what tradeoffs or new risks would those levers create? This structure does not promise neutrality or a single political programme. It makes disagreement more useful by forcing a claim to show its moving parts.",
@@ -132,9 +137,10 @@ export const greenPublications: GreenPublication[] = [
   },
   {
     candidateId: "IO-V4-LAST-HUMAN-WORKFORCE",
+    familyId: familyIdForKey("IO-V4-LAST-HUMAN-WORKFORCE"),
     slug: "the-last-human-workforce",
-    title: "The Last Human Workforce",
-    shortTitle: "The Last Human Workforce",
+    title: "The Last Human Workforce: Task Bundles, Automation, and Transition Design",
+    shortTitle: "The Last Human Workforce: Task Bundles, Automation, and Transition Design",
     standfirst: "Automation changes the task bundle before it eliminates the job title.",
     author,
     volume: "Volume IV",
@@ -151,7 +157,7 @@ export const greenPublications: GreenPublication[] = [
     rightsReviewed: true,
     accessibilityReviewed: true,
     productionReleased: true,
-    relatedPublicationIds: ["IO-V3-SERVER-AS-FURNACE", "IO-V4-REGROWING-HUMANITY"],
+    relatedPublicationIds: [archiveFamilyIds.serverAsFurnace, archiveFamilyIds.regrowingHumanity],
     paragraphs: [
       "The most misleading question about artificial intelligence and work is which jobs will disappear. A better question is which tasks will move, which tasks will be redesigned, and who will control the transition.",
       "Economic production is made of task bundles. Automation can displace labor from tasks it takes over, while new tasks can create demand elsewhere. Job titles may survive while the work inside them changes; the distribution of training, monitoring, and bargaining power determines who benefits.",
@@ -172,6 +178,7 @@ export const greenPublications: GreenPublication[] = [
   },
   {
     candidateId: "IO-V3-SERVER-AS-FURNACE",
+    familyId: familyIdForKey("IO-V3-SERVER-AS-FURNACE"),
     slug: "the-server-as-a-furnace",
     title: "The Server as a Furnace",
     shortTitle: "The Server as a Furnace",
@@ -198,7 +205,7 @@ export const greenPublications: GreenPublication[] = [
     rightsReviewed: true,
     accessibilityReviewed: true,
     productionReleased: true,
-    relatedPublicationIds: ["IO-V4-LAST-HUMAN-WORKFORCE"],
+    relatedPublicationIds: [archiveFamilyIds.lastHumanWorkforce],
     paragraphs: [
       "Artificial intelligence is often discussed as if it were weightless. A data center is an electrical load, cooling plant, fiber node, secured building, water user or water-avoidance system, and site that makes demands on local infrastructure.",
       "The phrase server as a furnace is a physical reminder, not a promise of free energy. A plausible heat-reuse chain needs compatible temperature, proximity, pipe economics, aligned load profiles, and redundant cooling when the host cannot accept heat.",
@@ -218,12 +225,17 @@ export const greenPublications: GreenPublication[] = [
         label: "ASHRAE AI data-center framework",
         href: "https://www.ashrae.org/technical-resources/ai-data-center-framework/energy-and-thermal-efficiency",
       },
+      {
+        label: "Author’s ResearchGate record",
+        href: "https://www.researchgate.net/publication/411789776_The_Server_as_a_Furnace_Rust_Belt_AI_Thermal_Infrastructure",
+      },
     ],
     limitations:
       "Conceptual engineering analysis only; no site-specific design, feasibility finding, safety certification, or professional engineering advice.",
   },
   {
     candidateId: "IO-V2-BORROWED-LABOR",
+    familyId: familyIdForKey("IO-V2-BORROWED-LABOR"),
     slug: "borrowed-labor",
     title: "Borrowed Labor",
     shortTitle: "Borrowed Labor",
@@ -244,7 +256,7 @@ export const greenPublications: GreenPublication[] = [
     rightsReviewed: true,
     accessibilityReviewed: true,
     productionReleased: true,
-    relatedPublicationIds: ["IO-V2-DEMOCRACYS-ACHILLES-HEEL"],
+    relatedPublicationIds: [archiveFamilyIds.democracysAchillesHeel],
     paragraphs: [
       "A state can promise demographic sovereignty while factories, hospitals, farms, hotels, construction sites, and care systems depend on workers born elsewhere. Borrowed labor describes a gap between economic function and political status; it is not a claim that every migrant worker is exploited.",
       "Eurostat recorded natural population decrease in Poland, Hungary, and Slovakia in 2024. Its fourth-quarter 2025 whole-economy job-vacancy rates were 0.7%, 2.0%, and 1.0%. These figures do not prove an absolute shortage or determine which migration policy is legitimate.",
@@ -270,6 +282,7 @@ export const greenPublications: GreenPublication[] = [
   },
   {
     candidateId: "IO-V2-DEMOCRACYS-ACHILLES-HEEL",
+    familyId: familyIdForKey("IO-V2-DEMOCRACYS-ACHILLES-HEEL"),
     slug: "democracys-achilles-heel",
     title: "Democracy’s Achilles’ Heel",
     shortTitle: "Democracy’s Achilles’ Heel",
@@ -296,7 +309,10 @@ export const greenPublications: GreenPublication[] = [
     rightsReviewed: true,
     accessibilityReviewed: true,
     productionReleased: true,
-    relatedPublicationIds: ["IO-V1-INDEPENDENT-OBSERVER-METHOD", "IO-V2-BORROWED-LABOR"],
+    relatedPublicationIds: [
+      archiveFamilyIds.independentObserverMethod,
+      archiveFamilyIds.borrowedLabor,
+    ],
     paragraphs: [
       "Democracy’s formal promise is necessary but incomplete. Citizens also need information, organization, access to institutions, understandable rules, and a meaningful correction when a decision is wrong.",
       "The framework follows five channels: resource conversion; administrative access; information pluralism; partisan tolerance; and institutional referees. None is a complete theory of democratic failure, and each can have legitimate functions. The question is whether a rule’s necessity, implementation, and review are proportionate to the burden it creates.",
@@ -331,6 +347,9 @@ export const greenPublicationBySlug = new Map(
 );
 export const greenPublicationById = new Map(
   greenPublications.map((publication) => [publication.candidateId, publication]),
+);
+export const greenPublicationByFamilyId = new Map(
+  greenPublications.map((publication) => [publication.familyId, publication]),
 );
 
 export function readingTimeMinutes(publication: GreenPublication) {

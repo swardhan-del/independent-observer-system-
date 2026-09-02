@@ -1,0 +1,152 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import { sitePath } from "../../lib/paths";
+
+const currentPath = "/prompts/";
+const description =
+  "A practical studio for turning one approved Independent Observer page into a clear research route, a useful visual, and a source-led social entry point.";
+
+const principles = [
+  {
+    title: "Start with a question",
+    description: "Make the first frame understandable before asking anyone to share it.",
+  },
+  {
+    title: "Show the mechanism",
+    description: "Trace rules, incentives, records, institutions, and consequences in order.",
+  },
+  {
+    title: "Leave the limits visible",
+    description:
+      "State what the evidence establishes, what is interpretation, and what remains unknown.",
+  },
+  {
+    title: "Route back to the page",
+    description: "Every social adaptation should point to one canonical source trail.",
+  },
+];
+
+const templates = [
+  [
+    "The mechanism in 60 seconds",
+    "Turn one documented question into a calm, source-led vertical explainer.",
+  ],
+  [
+    "Before you share",
+    "Make source literacy a repeatable series rather than a one-off disclaimer.",
+  ],
+  [
+    "Long-form essay from one question",
+    "Expand a single question into a structured essay without losing the evidence boundary.",
+  ],
+  [
+    "SEO without the rewrite",
+    "Improve the discoverability of an existing page while preserving its structure and meaning.",
+  ],
+  [
+    "The source-trail carousel",
+    "Give readers a visual route from a claim to the record, limitation, and full page.",
+  ],
+  [
+    "Subtractive graphic brief",
+    "Make dense systems work at phone size by removing visual noise before adding decoration.",
+  ],
+  [
+    "Evidence, inference, unknown",
+    "Turn the project’s method into a recognizable public format readers can save and share.",
+  ],
+  [
+    "One page, many routes",
+    "Build a small, coherent release package from one approved public page.",
+  ],
+  [
+    "Transcript and captions",
+    "Make every video more searchable, usable, and trustworthy without changing the argument.",
+  ],
+  [
+    "Podcast and newsletter briefing",
+    "Give a relevant host or editor a focused reason to share one useful source-led question.",
+  ],
+];
+---
+
+<BaseLayout title="Visibility Studio" description={description} currentPath={currentPath}>
+  <PageHero
+    eyebrow="Public prompt library"
+    title="Make one question travel."
+    description={description}
+  />
+
+  <section class="section section-white" aria-labelledby="prompt-principles-title">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">One source, several depths</p>
+          <h2 id="prompt-principles-title">Build the feeder, keep the source.</h2>
+        </div>
+        <p>
+          These templates are designed for human-reviewed public work. They help a question move
+          from the website into a reel, carousel, essay, transcript, or focused outreach brief
+          without turning interpretation into a fact or a preview into a release.
+        </p>
+      </div>
+      <div class="card-grid">
+        {
+          principles.map((principle) => (
+            <article class="editorial-card">
+              <p class="eyebrow">Public method</p>
+              <h3>{principle.title}</h3>
+              <p>{principle.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-navy" aria-labelledby="prompt-templates-title">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Source-led templates</p>
+          <h2 id="prompt-templates-title">Public routes for public questions.</h2>
+        </div>
+        <p>
+          Use a template only after selecting one approved public source page. The route stays
+          public-safe, bounded, and connected to the original record.
+        </p>
+      </div>
+      <div class="card-grid">
+        {
+          templates.map(([title, templateDescription]) => (
+            <article class="editorial-card">
+              <p class="eyebrow">Prompt template</p>
+              <h3>{title}</h3>
+              <p>{templateDescription}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-white" aria-labelledby="prompt-boundary-title">
+    <div class="shell page-grid">
+      <aside class="page-aside">
+        <span>Release boundary</span><span>Human review required</span>
+      </aside>
+      <div class="prose detail-prose">
+        <p class="eyebrow">Use the prompt responsibly</p>
+        <h2 id="prompt-boundary-title">Reach is not a substitute for a record.</h2>
+        <p>
+          A prompt can shape an explanation; it cannot verify a claim. Check every number, quote,
+          date, legal statement, scientific statement, image, and publication status against the
+          approved public source package before release. Private archive material and unpublished
+          evidence do not belong in these templates.
+        </p>
+        <a class="button" href={sitePath("/research/")}>Browse the public research index →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

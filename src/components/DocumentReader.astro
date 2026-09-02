@@ -6,6 +6,7 @@ import PageHero from "./PageHero.astro";
 import RelatedContent from "./RelatedContent.astro";
 import ReaderVolumeContext from "./ReaderVolumeContext.astro";
 import { sitePath } from "../lib/paths";
+import { relatedRecords } from "../lib/related";
 
 type Props = {
   entry: PublicDocument;
@@ -21,16 +22,30 @@ const paragraphCount = entry.sections.reduce(
 );
 const estimatedMinutes = Math.max(1, Math.ceil((paragraphCount * 65) / 220));
 const status = entry.status ?? "Reviewed public copy";
+const placementHeld = entry.placementDecision?.status === "held";
 const citationComplete = Boolean(entry.author && entry.publicationDate);
 const suggestedCitation = citationComplete
   ? `${entry.author}. “${entry.title}.” Independent Observer, ${entry.publicationDate}.`
   : `Independent Observer. “${entry.title}.” ${entry.sourceLabel}. Reviewed public copy.`;
-const related = relatedEntries.filter((candidate) => candidate.id !== entry.id).slice(0, 3);
-const volumeDocuments = entry.volume
-  ? paperDocuments
-      .filter((document) => document.volume === entry.volume)
-      .sort((left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1))
-  : [];
+const related = relatedRecords(
+  {
+    ...entry,
+    href: sitePath(`/library/documents/${entry.id}/`),
+    status,
+  },
+  relatedEntries.map((candidate) => ({
+    ...candidate,
+    href: sitePath(`/library/documents/${candidate.id}/`),
+    status: candidate.status ?? "Reviewed public copy",
+  })),
+  3,
+);
+const volumeDocuments =
+  entry.volume && !placementHeld
+    ? paperDocuments
+        .filter((document) => document.volume === entry.volume)
+        .sort((left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1))
+    : [];
 const volumeRecord = entry.volume
   ? seriesItems.find((volume) => volume.volume === entry.volume)
   : undefined;
@@ -51,7 +66,12 @@ const volumeRecord = entry.volume
       <dl class="reader-meta">
         <div><dt>Status</dt><dd>{status}</dd></div>
         {
-          entry.volume && (
+          placementHeld ? (
+            <div>
+              <dt>Archive placement</dt>
+              <dd>Held pending owner approval</dd>
+            </div>
+          ) : (
             <div>
               <dt>Volume</dt>
               <dd>
@@ -61,7 +81,16 @@ const volumeRecord = entry.volume
             </div>
           )
         }
-        <div><dt>Desk</dt><dd>{entry.category}</dd></div>
+        {
+          !placementHeld && (
+            <div>
+              <>
+                <dt>Desk</dt>
+                <dd>{entry.category}</dd>
+              </>
+            </div>
+          )
+        }
         <div><dt>Source</dt><dd>{entry.sourceLabel}</dd></div>
         {
           entry.author && (
@@ -265,9 +294,12 @@ const volumeRecord = entry.volume
               The complete paper file is withheld. The synopsis above was checked against an
               author-controlled source without editing, repackaging, or publishing that file.
             </p>
-            {entry.sourceTaxonomyNote && (
+            {(entry.sourceTaxonomyNote || placementHeld) && (
               <p>
-                <strong>Archive placement:</strong> {entry.sourceTaxonomyNote}.
+                <strong>Archive placement:</strong>{" "}
+                {placementHeld
+                  ? "Held pending owner approval; the current competing classifications are not treated as canonical."
+                  : `${entry.sourceTaxonomyNote}.`}
               </p>
             )}
             <p class="reader-fingerprint">
@@ -329,6 +361,9 @@ const volumeRecord = entry.volume
     category: item.category,
     href: sitePath(`/library/documents/${item.id}/`),
     status: item.status ?? "Reviewed public copy",
+    familyId: item.familyId,
+    volume: item.volume,
+    relatedIds: item.relatedIds,
   }))}
 />
 

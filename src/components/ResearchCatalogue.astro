@@ -97,7 +97,9 @@ const latestRecords = researchCatalogueRecords
                 <span>{record.publicationDate}</span>
                 <strong>{record.title}</strong>
                 <small>
-                  {record.volume} · {record.category}
+                  {record.placementStatus === "held"
+                    ? "Placement held · owner approval required"
+                    : `${record.volume} · ${record.category}`}
                 </small>
               </a>
             </li>

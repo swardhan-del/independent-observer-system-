@@ -194,10 +194,10 @@ describe("library content blocks", () => {
       ["Volume I", "Volume II", "Volume III"].includes(entry.volume ?? ""),
     );
     expect(firstThreeVolumes).toHaveLength(16);
-    expect(firstThreeVolumes.filter((entry) => entry.researchGateUrl)).toHaveLength(13);
+    expect(firstThreeVolumes.filter((entry) => entry.researchGateUrl)).toHaveLength(14);
     expect(
       firstThreeVolumes.filter((entry) => !entry.researchGateUrl).map((entry) => entry.id),
-    ).toEqual(["latino-irony", "empire-of-distraction", "children-left-behind-after-a-war"]);
+    ).toEqual(["latino-irony", "children-left-behind-after-a-war"]);
     expect(siteSearch).toContain("...publicDocumentItems.map");
     expect(siteSearch).toContain("Author paper");
     expect(siteSearch).toContain("ResearchGate record");

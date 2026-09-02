@@ -54,7 +54,7 @@ describe("publication release safety", () => {
           record.verifiedExternalUrl.startsWith("https://www.researchgate.net/publication/"),
       ),
     ).toBe(true);
-    expect(authorPapers.filter((record) => record.verifiedExternalUrl)).toHaveLength(18);
+    expect(authorPapers.filter((record) => record.verifiedExternalUrl)).toHaveLength(19);
   });
 
   it("keeps the repository registry public-safe", () => {

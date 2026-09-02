@@ -113,6 +113,16 @@ const relationshipLabel = {
                                       {relationship}
                                     </small>
                                   )}
+                                  {entry.researchGateUrl && (
+                                    <a
+                                      class="archive-navigation-external"
+                                      href={entry.researchGateUrl}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                    >
+                                      ResearchGate record ↗
+                                    </a>
+                                  )}
                                 </div>
                                 {entry.href && (
                                   <a class="archive-navigation-open" href={sitePath(entry.href)}>

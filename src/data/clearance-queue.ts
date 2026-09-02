@@ -1,7 +1,9 @@
 import type { ControlledPublicationStatus } from "./publication-registry";
+import { familyIdForKey } from "./family-registry";
 
 export type ClearanceQueueItem = {
   id: string;
+  familyId: string;
   title: string;
   volume: "Volume I" | "Volume II" | "Volume III" | "Volume IV" | null;
   priority: "priority" | "second_wave";
@@ -18,6 +20,7 @@ const item = (
   priority: ClearanceQueueItem["priority"],
 ): ClearanceQueueItem => ({
   id,
+  familyId: familyIdForKey(id),
   title,
   volume,
   priority,

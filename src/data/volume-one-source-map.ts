@@ -103,7 +103,7 @@ export const volumeOneSourceMap: VolumeOneSourceMaterial[] = [
   {
     id: "illusion-of-equality",
     family: "Institutional power and political economy",
-    status: "Public paper record · reading copy",
+    status: "Placement held · public reading copy retained for route compatibility",
     title:
       "The Illusion of Equality: The Founding Fathers’ Contradictions, the Flaws of Democracy, and the Future of U.S. Economic Influence",
     summary:

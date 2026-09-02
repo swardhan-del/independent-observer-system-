@@ -26,7 +26,11 @@ const externalLinks = record.researchGateUrl;
   <article>
     <div class="research-catalogue-card-topline">
       <span>{String(index).padStart(2, "0")}</span>
-      <span>{record.volume ?? record.kind}</span>
+      <span
+        >{
+          record.placementStatus === "held" ? "Placement held" : (record.volume ?? record.kind)
+        }</span
+      >
     </div>
     <div class="research-catalogue-card-heading">
       <span class={`status-pill${statusClass}`}>{record.status}</span>
@@ -34,6 +38,11 @@ const externalLinks = record.researchGateUrl;
     </div>
     <h3 id={`research-record-${index}`}><a href={record.href}>{record.title}</a></h3>
     <p class="research-catalogue-card-topic">{topicLabel}</p>
+    {
+      record.placementStatus === "held" && (
+        <p class="research-catalogue-card-topic">Archive placement held pending owner approval.</p>
+      )
+    }
     {
       record.publicationDate && (
         <p class="research-catalogue-card-date">

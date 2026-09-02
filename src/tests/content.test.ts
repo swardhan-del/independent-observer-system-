@@ -331,10 +331,13 @@ describe("editorial preview data", () => {
     expect(
       paperDocuments.find((entry) => entry.id === "disconnected-hearts")?.researchGateUrl,
     ).toContain("researchgate.net/publication/397333270");
-    expect(paperDocuments.filter((entry) => entry.researchGateUrl)).toHaveLength(18);
+    expect(paperDocuments.filter((entry) => entry.researchGateUrl)).toHaveLength(19);
     expect(
       paperDocuments.filter((entry) => !entry.researchGateUrl).map((entry) => entry.id),
-    ).toEqual(["latino-irony", "empire-of-distraction", "children-left-behind-after-a-war"]);
+    ).toEqual(["latino-irony", "children-left-behind-after-a-war"]);
+    expect(
+      paperDocuments.find((entry) => entry.id === "empire-of-distraction")?.researchGateUrl,
+    ).toContain("researchgate.net/publication/400015476");
     expect(paperDocuments.map((entry) => entry.id)).toEqual(
       expect.arrayContaining([
         "citizens-without-a-country",

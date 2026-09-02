@@ -1,5 +1,5 @@
 const siteUrl = new URL(process.env.SITE_URL ?? "https://independentobserver.org");
-const expectedRouteCount = Number(process.env.EXPECTED_INDEXABLE_ROUTES ?? "52");
+const expectedRouteCount = Number(process.env.EXPECTED_INDEXABLE_ROUTES ?? "59");
 const failures = [];
 const pages = new Map();
 

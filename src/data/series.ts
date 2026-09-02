@@ -53,7 +53,7 @@ export const seriesItems: SeriesItem[] = [
       {
         heading: "Public record and research boundaries",
         paragraphs: [
-          "Three Volume I papers currently have matched public paper records: the Foundational Manifesto, A Systems-Centered Manifesto on Automation, Education, and the Carceral State, and The Illusion of Equality. The other titles above are mapped research directions; naming them here does not claim that they are public paper records or released publications.",
+          "Three Volume I papers currently have matched public paper records: the Foundational Manifesto, A Systems-Centered Manifesto on Automation, Education, and the Carceral State, and The Illusion of Equality. The Illusion of Equality’s archive placement is held pending owner approval; the other titles above are mapped research directions. Naming them here does not claim that they are public paper records or released publications.",
           "The Foundational Manifesto’s public record was last directly verified at 23 downloads and 113 abstract views on 25 August 2026. The Systems-Centered Manifesto record was verified at 22 downloads and 120 abstract views, and The Illusion of Equality at 36 downloads and 137 abstract views, on 30 August 2026. These figures are time-varying usage signals—not quality scores, citations, endorsements, or peer review.",
         ],
       },

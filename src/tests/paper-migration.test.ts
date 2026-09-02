@@ -27,11 +27,11 @@ describe("author paper migration", () => {
     expect(JSON.stringify(paperDocuments).toLocaleLowerCase()).not.toContain(retiredPlatformToken);
   });
 
-  it("publishes only verified ResearchGate records and preserves three review holds", () => {
+  it("publishes only verified ResearchGate records and preserves two review holds", () => {
     const linked = paperDocuments.filter((paper) => paper.researchGateUrl);
     const held = paperDocuments.filter((paper) => !paper.researchGateUrl);
 
-    expect(linked).toHaveLength(18);
+    expect(linked).toHaveLength(19);
     expect(
       linked.every((paper) =>
         paper.researchGateUrl?.startsWith("https://www.researchgate.net/publication/"),
@@ -39,7 +39,6 @@ describe("author paper migration", () => {
     ).toBe(true);
     expect(held.map((paper) => paper.id)).toEqual([
       "latino-irony",
-      "empire-of-distraction",
       "children-left-behind-after-a-war",
     ]);
   });

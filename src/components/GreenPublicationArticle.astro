@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import {
   greenPublicationById,
+  greenPublicationByFamilyId,
   greenPublicationBySlug,
   publicationPreviewEnabled,
   readingTimeMinutes,
@@ -12,7 +13,7 @@ import { sitePath } from "../lib/paths";
 const { publication } = Astro.props as { publication: GreenPublication };
 const currentPath = `/research/${publication.slug}/`;
 const related = publication.relatedPublicationIds
-  .map((id) => greenPublicationById.get(id))
+  .map((id) => greenPublicationByFamilyId.get(id) ?? greenPublicationById.get(id))
   .filter((item): item is GreenPublication => Boolean(item))
   .filter((item) => greenPublicationBySlug.has(item.slug));
 const schema = JSON.stringify({

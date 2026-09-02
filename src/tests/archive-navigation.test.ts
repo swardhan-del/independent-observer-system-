@@ -32,6 +32,32 @@ describe("archive navigation", () => {
     );
   });
 
+  it("exposes verified external records without creating duplicate paper routes", () => {
+    const linked = new Map(
+      archivePapers.filter((paper) => paper.researchGateUrl).map((paper) => [paper.id, paper]),
+    );
+
+    expect([...linked.keys()].sort()).toEqual(
+      [
+        "empire-distraction",
+        "from-steel-to-screens",
+        "hours-to-ownership",
+        "ious-to-dos",
+        "server-as-furnace",
+      ].sort(),
+    );
+    expect(linked.get("from-steel-to-screens")?.href).toBeUndefined();
+    expect(linked.get("hours-to-ownership")?.href).toBeUndefined();
+    expect(linked.get("ious-to-dos")?.href).toBeUndefined();
+    expect(linked.get("empire-distraction")?.href).toBeUndefined();
+    expect(linked.get("server-as-furnace")?.href).toBe("/research/the-server-as-a-furnace/");
+    expect(
+      [...linked.values()].every((paper) =>
+        paper.researchGateUrl?.startsWith("https://www.researchgate.net/publication/"),
+      ),
+    ).toBe(true);
+  });
+
   it("uses a forthcoming Volume V record rather than inventing a completed fifth volume", () => {
     const volumeV = archiveNavigation.find((volume) => volume.volume === "Volume V");
     expect(volumeV?.archiveTitle).toContain("Forthcoming");

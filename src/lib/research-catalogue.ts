@@ -12,6 +12,8 @@ export type ResearchCatalogueKind =
 
 export type ResearchCatalogueRecord = SearchEntry & {
   kind: ResearchCatalogueKind;
+  familyId?: string;
+  placementStatus?: "held";
   publicationDate?: string;
   dateLabel?: string;
   metrics?: {
@@ -68,7 +70,10 @@ const paperRecords: ResearchCatalogueRecord[] = [...paperDocuments]
   .map((paper) => ({
     id: `paper:${paper.id}`,
     title: paper.title,
-    category: paper.category,
+    category:
+      paper.placementDecision?.status === "held"
+        ? "Placement held · owner approval required"
+        : paper.category,
     description: paper.description,
     status: paper.status ?? "Author paper",
     type: "Research",
@@ -76,6 +81,8 @@ const paperRecords: ResearchCatalogueRecord[] = [...paperDocuments]
     href: sitePath(`/library/documents/${paper.id}/`),
     topics: topicsForRecord(paper.category, paper.volume),
     volume: paper.volume,
+    familyId: paper.familyId,
+    placementStatus: paper.placementDecision?.status === "held" ? "held" : undefined,
     kind: "Author paper",
     publicationDate: paper.publicationDate,
     dateLabel: paper.dateLabel,
@@ -103,6 +110,7 @@ const conceptRecords: ResearchCatalogueRecord[] = researchItems.map((item) => ({
 
 const greenRecords: ResearchCatalogueRecord[] = previewGreenPublications.map((item) => ({
   id: `green:${item.candidateId}`,
+  familyId: item.familyId,
   title: item.title,
   category: item.topics.slice(0, 2).join(" · "),
   description: item.standfirst,

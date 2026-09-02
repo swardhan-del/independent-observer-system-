@@ -51,7 +51,7 @@ describe("production route contract", () => {
     expect(new Set(canonicalRouteRegistry.map((record) => record.route)).size).toBe(
       canonicalRouteRegistry.length,
     );
-    expect(indexableRouteRegistry).toHaveLength(58);
+    expect(indexableRouteRegistry).toHaveLength(59);
     expect(indexableRouteRegistry.every((record) => record.indexable)).toBe(true);
   });
 
@@ -123,8 +123,7 @@ describe("production route contract", () => {
     )?.value;
     expect(csp).toBeTruthy();
     expect(csp).not.toContain("'unsafe-inline'");
-    expect(csp).toContain("img-src 'self' data:");
-    expect(csp).not.toContain("img-src 'self' data: https:");
+    expect(csp).toContain("img-src 'self' data: https://vercel.live https://vercel.com blob:");
     expect(
       headers.find((header: { key: string }) => header.key === "Access-Control-Allow-Origin")
         ?.value,

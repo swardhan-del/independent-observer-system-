@@ -1,4 +1,6 @@
 import type { PublicDocument, PublicDocumentSection } from "./documents";
+import { explicitRelatedFamilyIds, familyIdForKey } from "./family-registry";
+import { placementDecisionFor } from "./placement-decisions";
 
 const author = "Siddhartha Harsh Wardhan";
 const metricsDate = "25 August 2026";
@@ -23,6 +25,8 @@ const researchGateUrls: Partial<Record<string, string>> = {
     "https://www.researchgate.net/publication/395751230_The_Illusion_of_Equality_The_Founding_Fathers%27_Contradictions_The_Flaws_of_Democracy_and_The_Future_of_US_Economic_Influence",
   "citizens-without-a-country":
     "https://www.researchgate.net/publication/400013203_Citizens_Without_a_Country_The_Democratic_Legitimacy_Crisis_of_Non-Resident_Birthright_Voting_in_US_Federal_Elections_Political_Empire_Independent_Observer_-Volume_II",
+  "empire-of-distraction":
+    "https://www.researchgate.net/publication/400015476_The_Empire_of_Distraction_Foreign_Agenda-Setting_Malapportionment_and_the_Managed_Myth_of_Popular_Rule_in_the_United_States",
   "geography-of-enslaved-wealth":
     "https://www.researchgate.net/publication/397697866_The_Geography_of_Enslaved_Wealth_How_Resource-Rich_Lands_Produce_Poor_Societies",
   "two-masks-one-face":
@@ -130,7 +134,10 @@ const sourceReviews: Record<string, { fingerprint: string; taxonomy: string }> =
   },
 };
 
-type PaperInput = Omit<PublicDocument, "sourceLabel" | "status" | "author" | "metrics"> & {
+type PaperInput = Omit<
+  PublicDocument,
+  "sourceLabel" | "status" | "author" | "metrics" | "familyId" | "placementDecision"
+> & {
   metrics: Omit<NonNullable<PublicDocument["metrics"]>, "checkedAt">;
   metricsCheckedAt?: string;
   publicationContext?: string;
@@ -173,6 +180,7 @@ function makeDocument(input: PaperInput): PublicDocument {
 
   return {
     ...document,
+    familyId: familyIdForKey(document.id),
     sourceLabel: "Author-controlled source · selected public synopsis",
     sourceModified: `Author-controlled source reviewed ${sourceReviewDate}`,
     sourceReviewedAt: sourceReviewDate,
@@ -193,6 +201,17 @@ function makeDocument(input: PaperInput): PublicDocument {
       ...input.metrics,
       checkedAt: metricsCheckedAt ?? metricsDate,
     },
+    relatedIds: [
+      ...new Set([
+        ...(document.relatedIds ?? []).map((relatedId) => familyIdForKey(relatedId)),
+        ...explicitRelatedFamilyIds(familyIdForKey(document.id)),
+      ]),
+    ],
+    placementDecision: placementDecisionFor(
+      familyIdForKey(document.id),
+      document.volume,
+      document.category,
+    ),
   };
 }
 
