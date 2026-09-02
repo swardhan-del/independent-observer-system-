@@ -11,6 +11,8 @@ import { volumeTwoFramework } from "../data/volume-two-framework";
 import { volumeFourClaimMap, volumeFourEvidence } from "../data/volume-four-evidence";
 import { volumeReels } from "../data/video-reels";
 import { volumeOneSourceMap, volumeOneSourceMapSummary } from "../data/volume-one-source-map";
+import { homepageVolumeScopes } from "../data/homepage-volume-scope";
+import { previewGreenPublications } from "../data/green-publications";
 
 describe("editorial preview data", () => {
   it("keeps all sample work clearly labeled as unfinished", () => {
@@ -172,6 +174,59 @@ describe("editorial preview data", () => {
     expect(volumeResearchMap.find((item) => item.volume === "Volume IV")?.papers[0]?.id).toBe(
       "entanglement-primer",
     );
+  });
+
+  it("shows the wider volume research map without repeating indexed public records", () => {
+    expect(homepageVolumeScopes.map((scope) => scope.volume)).toEqual([
+      "Volume I",
+      "Volume II",
+      "Volume III",
+      "Volume IV",
+    ]);
+    expect(homepageVolumeScopes.every((scope) => scope.directions.length > 0)).toBe(true);
+    expect(
+      homepageVolumeScopes.every(
+        (scope) =>
+          scope.hypothesis.length > 80 &&
+          scope.limitation.includes("early-stage, ongoing research project"),
+      ),
+    ).toBe(true);
+
+    const normalizeTitle = (title: string) =>
+      title
+        .toLocaleLowerCase()
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+    const indexedTitles = [
+      ...paperDocuments.flatMap((paper) => [paper.title, paper.id]),
+      ...previewGreenPublications.flatMap((paper) => [paper.title, paper.shortTitle, paper.slug]),
+    ].map(normalizeTitle);
+    expect(
+      homepageVolumeScopes.every((scope) =>
+        scope.directions.every((direction) => {
+          const normalizedTitle = normalizeTitle(direction.title);
+          return indexedTitles.every(
+            (indexedTitle) =>
+              normalizedTitle !== indexedTitle &&
+              !normalizedTitle.includes(indexedTitle) &&
+              !indexedTitle.includes(normalizedTitle),
+          );
+        }),
+      ),
+    ).toBe(true);
+
+    expect(
+      homepageVolumeScopes
+        .find((scope) => scope.volume === "Volume I")
+        ?.directions.map((direction) => direction.title),
+    ).toContain("Capital Amplification and the Myth of Equal Opportunity");
+    expect(
+      homepageVolumeScopes
+        .flatMap((scope) => scope.directions)
+        .every(
+          (direction) => !`${direction.title} ${direction.description}`.match(/dropbox|\/users\//i),
+        ),
+    ).toBe(true);
   });
 
   it("gives The Autonomous Illusion a substantive, still-preview-safe brief", () => {

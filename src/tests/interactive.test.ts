@@ -244,7 +244,7 @@ describe("interactive preview tools", () => {
     expect(homepageVolumeGuide).toContain("paperDocuments");
     expect(homepageVolumeGuide).toContain("papersByVolume");
     expect(homepageVolumeGuide).toContain("public ");
-    expect(homepageVolumeGuide).toContain("in this volume");
+    expect(homepageVolumeGuide).toContain("currently indexed");
     expect(homepageVolumeGuide).toMatch(/Archived distribution signal\s+only/);
     expect(homepageVolumeGuide).toContain("until its own release");
     expect(homepageVolumeGuide).toContain("gate is complete");
@@ -650,6 +650,11 @@ describe("interactive preview tools", () => {
     expect(homepageVolumeGuide).toContain("topic-volume-concept-center");
     expect(homepageVolumeGuide).toContain("volumeActions");
     expect(homepageVolumeGuide).toContain("homepage-volume-illustration");
+    expect(homepageVolumeGuide).toContain("homepage-research-method");
+    expect(homepageVolumeGuide).toContain("The connected paper list is a public index");
+    expect(homepageVolumeGuide).toContain("additional mapped directions");
+    expect(homepageVolumeGuide).toContain("homepage-volume-hypothesis");
+    expect(homepageVolumeGuide).toContain("homepage-volume-limitation");
     expect(homepageVolumeGuide).toContain("seriesItems.map");
     expect(homepageVolumeGuide).toContain("volumeTopicConnections[item.volume]");
     expect(homepageVolumeGuide).toContain("item.volume");

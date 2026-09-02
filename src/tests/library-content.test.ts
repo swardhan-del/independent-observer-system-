@@ -221,7 +221,7 @@ describe("library content blocks", () => {
       "utf8",
     );
     expect(homepageVolumeGuide).toContain("public ");
-    expect(homepageVolumeGuide).toContain("in this volume");
+    expect(homepageVolumeGuide).toContain("currently indexed");
     expect(homepageVolumeGuide).toContain("library/documents/${paper.id}");
     expect(homepageVolumeGuide).toMatch(/Archived distribution signal\s+only/);
   });

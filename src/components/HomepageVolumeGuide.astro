@@ -2,6 +2,7 @@
 import { topicPluginFor, volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
 import { seriesItems } from "../data/series";
 import { paperDocuments } from "../data/papers";
+import { homepageVolumeScopeFor } from "../data/homepage-volume-scope";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 
@@ -82,11 +83,47 @@ const volumeActions = [
       }
     </div>
   </div>
+  <section class="homepage-research-method" aria-labelledby="homepage-research-method-title">
+    <div class="homepage-research-method-heading">
+      <p class="eyebrow">How the site works</p>
+      <h3 id="homepage-research-method-title">Follow the claim from record to hypothesis.</h3>
+      <p>
+        The connected paper list is a public index, not a complete inventory of the research. The
+        research map below makes the wider programme visible while keeping release status and
+        uncertainty legible.
+      </p>
+    </div>
+    <ol class="homepage-research-method-steps">
+      <li>
+        <strong>Evidence</strong>
+        <span
+          >Start with identifiable sources, context, competing records, and what can be checked.</span
+        >
+      </li>
+      <li>
+        <strong>Interpretation</strong>
+        <span
+          >Connect records across law, history, politics, economics, science, and lived capability.</span
+        >
+      </li>
+      <li>
+        <strong>Hypothesis</strong>
+        <span
+          >State the mechanism or question as something that can be tested, challenged, or revised.</span
+        >
+      </li>
+      <li>
+        <strong>Limitation</strong>
+        <span>Keep uncertainty, source gaps, version changes, and release boundaries visible.</span>
+      </li>
+    </ol>
+  </section>
   <ol class="homepage-volume-grid" aria-label="Topics connected to each volume">
     {
       seriesItems.map((item, index) => {
         const connection = volumeTopicConnections[item.volume];
         const papers = papersByVolume.get(item.volume) ?? [];
+        const scope = homepageVolumeScopeFor(item.volume);
         const visual = volumeVisuals[item.volume as keyof typeof volumeVisuals];
         return (
           <li class="homepage-volume-card" id={`homepage-${slugify(item.volume)}`}>
@@ -111,7 +148,8 @@ const volumeActions = [
             <p>{item.description}</p>
             <div class="homepage-volume-papers">
               <p class="homepage-volume-papers-label">
-                {papers.length} public {papers.length === 1 ? "paper" : "papers"} in this volume
+                {papers.length} connected public{" "}
+                {papers.length === 1 ? "paper record" : "paper records"} currently indexed
               </p>
               {papers.length > 0 && (
                 <ul>
@@ -127,6 +165,38 @@ const volumeActions = [
                 </ul>
               )}
             </div>
+            {scope && (
+              <div class="homepage-volume-scope">
+                <div class="homepage-volume-scope-heading">
+                  <span class="homepage-volume-scope-label">Research map</span>
+                  <strong>{scope.directions.length} additional mapped directions</strong>
+                </div>
+                <p class="homepage-volume-scope-note">
+                  These entries broaden the volume beyond the connected paper records above. They
+                  are public-safe editorial summaries, not a claim that every title is a released
+                  publication.
+                </p>
+                <details class="homepage-volume-scope-details">
+                  <summary>View the wider research map</summary>
+                  <ul>
+                    {scope.directions.map((direction) => (
+                      <li>
+                        <strong>{direction.title}</strong>
+                        <span>{direction.description}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+                <div class="homepage-volume-hypothesis">
+                  <span>Hypothesis</span>
+                  <p>{scope.hypothesis}</p>
+                </div>
+                <div class="homepage-volume-limitation">
+                  <span>Limitation</span>
+                  <p>{scope.limitation}</p>
+                </div>
+              </div>
+            )}
             <div class="homepage-volume-topics" aria-label={`${item.volume} topics`}>
               {connection.topicSlugs.map((slug) => {
                 const topic = topicPluginFor(slug);
