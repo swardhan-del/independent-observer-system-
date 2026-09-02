@@ -123,6 +123,19 @@ export const volumeReels: VolumeReel[] = [
     volumeHref: "/series/the-empire-beneath-democracy/",
   },
   {
+    volume: "Volume II",
+    volumeTitle: "The Empire Beneath Democracy",
+    title: "Japan Betrayed",
+    category: "Geopolitics, Security & National Case Studies",
+    description:
+      "A geopolitical case-study preview using Japan’s postwar security, economic, and demographic experience to examine how alliance dependence, national strategy, industrial capacity, and demographic change shape practical sovereignty. It extends Volume II’s empire and geopolitics family without treating one national case as a universal model.",
+    mediaUrl: "/media/reels/japan-betrayed.mp4",
+    mediaType: "video/mp4",
+    sourceLabel: "Organized long-form video export · geopolitics case-study classification",
+    sourceNote: "Preview asset · release review remains separate",
+    volumeHref: "/series/the-empire-beneath-democracy/",
+  },
+  {
     volume: "Volume III",
     volumeTitle: "Managed Decline",
     title: "Factory Labor, Wages, and Economic Power",
@@ -164,13 +177,14 @@ export const volumeReels: VolumeReel[] = [
   {
     volume: "Volume IV",
     volumeTitle: "The Last Human Workforce",
-    title: "Engineering the Brainstem: The 3D Cranial Traversal",
-    category: "Science, Medicine & Human Capability",
+    title: "Global Debt to Doctors",
+    category: "Medicine, Debt & Professional Power",
     description:
-      "A three-dimensional science preview for Volume IV, where technical possibility is tested against embodied knowledge, education, care, institutions, and the human work required to make capability real.",
-    mediaUrl: "/media/reels/volume-iv-engineering-the-brainstem.mp4",
+      "A medicine-and-infrastructure preview connecting physician training, health-system debt, professional authority, and the material conditions that determine who can provide and receive care. It shifts the Volume IV lens from anatomy alone to the institutional and economic systems that make human capability usable.",
+    mediaUrl: "/media/reels/global-debt-to-doctors.mp4",
     mediaType: "video/mp4",
-    sourceLabel: "Organized science video export · high-confidence anatomy classification",
+    sourceLabel:
+      "Organized long-form video export · medicine and professional-power classification",
     sourceNote: "Preview asset · release review remains separate",
     volumeHref: "/series/the-last-human-workforce/",
   },

@@ -262,16 +262,31 @@ describe("editorial preview data", () => {
   });
 
   it("provides a public-safe preview reel library for every volume", () => {
-    expect(volumeReels).toHaveLength(13);
+    expect(volumeReels).toHaveLength(14);
     expect(new Set(volumeReels.map((reel) => reel.mediaUrl)).size).toBe(volumeReels.length);
     expect(new Set(volumeReels.map((reel) => reel.volume))).toEqual(
       new Set(["Series overview", "Volume I", "Volume II", "Volume III", "Volume IV"]),
     );
     expect(volumeReels.filter((reel) => reel.volume === "Series overview")).toHaveLength(1);
     expect(volumeReels.filter((reel) => reel.volume === "Volume I")).toHaveLength(3);
-    expect(volumeReels.filter((reel) => reel.volume === "Volume II")).toHaveLength(4);
+    expect(volumeReels.filter((reel) => reel.volume === "Volume II")).toHaveLength(5);
     expect(volumeReels.filter((reel) => reel.volume === "Volume III")).toHaveLength(3);
     expect(volumeReels.filter((reel) => reel.volume === "Volume IV")).toHaveLength(2);
+    expect(volumeReels).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          title: "Japan Betrayed",
+          mediaUrl: "/media/reels/japan-betrayed.mp4",
+        }),
+        expect.objectContaining({
+          title: "Global Debt to Doctors",
+          mediaUrl: "/media/reels/global-debt-to-doctors.mp4",
+        }),
+      ]),
+    );
+    expect(volumeReels.map((reel) => reel.mediaUrl)).not.toContain(
+      "/media/reels/volume-iv-engineering-the-brainstem.mp4",
+    );
     expect(volumeReels.find((reel) => reel.volume === "Series overview")).toMatchObject({
       title: "Is This the Life We Want? | Independent Observer",
       mediaUrl: "/media/reels/is-this-the-life-we-want-independent-observer.mp4",

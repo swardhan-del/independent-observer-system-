@@ -158,7 +158,7 @@ describe("built website", () => {
     expect(existsSync(join(distRoot, "404.html"))).toBe(true);
   });
 
-  it("builds one playable MP4 preview for every volume", () => {
+  it("builds a distinct playable MP4 preview library for every volume", () => {
     const html = readOutput("videos/index.html");
 
     expect(tags(html, "video")).toHaveLength(volumeReels.length);

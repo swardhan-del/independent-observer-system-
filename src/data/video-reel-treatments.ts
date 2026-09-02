@@ -49,7 +49,7 @@ const treatment = (
 
 /**
  * Public storyboard treatments for additional reels. They are not playable media or release
- * approvals; the four entries in data/video-reels.ts remain the only current players.
+ * approvals; the entries in data/video-reels.ts remain the current public players.
  */
 export const reelTreatments: ReelTreatment[] = [
   treatment(
