@@ -180,6 +180,11 @@ describe("topic discovery plugin", () => {
     expect(startIndex).toContain("<TopicVolumeMap />");
     expect(startIndex).toContain("Explore the four volumes in development.");
     expect(startIndex).toContain("Siddhartha Harsh Wardhan");
+    expect(startIndex).toContain("Research for independent judgment.");
+    expect(startIndex).toContain("sources and references");
+    expect(startIndex).toContain("The research is ongoing");
+    expect(startIndex).not.toContain("public author paper pages");
+    expect(startIndex).not.toContain("private working archive");
     expect(startIndex).toContain("Understand Volume I’s method");
     expect(startIndex).toContain("Explore Volume IV: AI and labor");
     expect(startIndex).toContain("Connect democracy to Volume IV capacity");
