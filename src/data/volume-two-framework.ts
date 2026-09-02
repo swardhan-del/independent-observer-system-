@@ -6,7 +6,11 @@
 export type VolumeTwoResearchPaper = {
   title: string;
   description: string;
-  status: "Public paper record" | "Mapped research direction";
+  status:
+    | "Public paper record"
+    | "Mapped research direction"
+    | "Research preview"
+    | "Preview-only bounded text adaptation";
   href?: string;
 };
 
@@ -25,12 +29,15 @@ export type VolumeTwoPrinciple = {
 };
 
 export type VolumeTwoFramework = {
+  thesis: string;
   intro: string;
   families: readonly VolumeTwoResearchFamily[];
   principles: readonly VolumeTwoPrinciple[];
 };
 
 export const volumeTwoFramework: VolumeTwoFramework = {
+  thesis:
+    "A state is sovereign in practice only to the extent that its institutions can convert formal authority into usable choices under conditions set by membership, enforcement, capital, technology, security, labor, resources, and alliances.",
   intro:
     "Volume II, The Empire Beneath Democracy, is organized as four connected paper families—not four isolated papers and not a claim that the project ends with four manuscripts. Each family takes a different route into the same question: how does authority become usable, limited, or materially dependent beneath the language of democratic sovereignty? The sequence begins with institutions and party power, moves through membership and enforcement, tests law and civil rights, and then follows capital, resources, alliances, and geopolitical dependence beyond the state. The family briefs below are a public editorial synthesis of that research map. Representative titles are labeled as public paper records or mapped research directions; no private draft is reproduced and no working paper is represented as a released publication.",
   families: [
@@ -161,8 +168,8 @@ export const volumeTwoFramework: VolumeTwoFramework = {
       description:
         "This family carries the inquiry beyond domestic institutions to the systems that make independence materially possible or impossible. It follows capital, technology, security, labor, trade, resources, industrial policy, alliances, lobbying, and historical power shifts across the United States, Europe, Russia, China, and resource-rich regions. Its central question is whether a state can claim sovereign choice while relying on external infrastructures; this is Volume II’s bridge from institutional design to geopolitical and political-economic dependence.",
       significance:
-        "This family supplies the volume’s outward-facing scale. It connects constitutional and administrative choices to the capital, technology, security, labor, resource, and alliance systems that set the real limits of national autonomy.",
-      principle: "Sovereignty is relational and material.",
+        "This family extends Volume II beyond the domestic boundary. It connects constitutional and administrative choices to the capital, technology, security, labor, resource, and alliance systems that make autonomy possible, expensive, or conditional. It gives the volume its external scale: independence is measured by the relationships a state can negotiate, not only by the powers it claims.",
+      principle: "Sovereignty is relational, material, and conditional.",
       papers: [
         {
           title:
@@ -211,7 +218,7 @@ export const volumeTwoFramework: VolumeTwoFramework = {
     {
       title: "Sovereignty is relational and material.",
       description:
-        "A state can speak in the language of independence while relying on outside capital, technology, security, labor, or markets; dependence is a mechanism to investigate, not an insult to assign.",
+        "A state can speak in the language of independence while relying on outside capital, technology, security, labor, or markets. Practical autonomy is therefore a relationship to negotiate and maintain, not a possession to merely declare; dependence is a mechanism to investigate, not an insult to assign.",
     },
     {
       title: "Enforcement reveals how power is organized.",

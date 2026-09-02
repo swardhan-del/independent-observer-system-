@@ -137,8 +137,11 @@ const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
       {
         volumeFramework && (
           <section class="detail-volume-framework" aria-labelledby="detail-volume-framework-title">
-            <p class="eyebrow">Volume II public reading frame</p>
+            <p class="eyebrow">{item.volume} public reading frame</p>
             <h3 id="detail-volume-framework-title">Four paper families. Four principles.</h3>
+            <p class="detail-volume-thesis">
+              <strong>Volume thesis.</strong> {volumeFramework.thesis}
+            </p>
             <p>{volumeFramework.intro}</p>
             <div class="detail-volume-framework-group">
               <h4>Four paper families</h4>
@@ -321,9 +324,13 @@ const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
               <ul class="detail-source-list">
                 {item.sourceLinks.map((source) => (
                   <li>
-                    <a href={source.url} target="_blank" rel="noreferrer">
-                      {source.label} ↗
-                    </a>
+                    {source.internal ? (
+                      <a href={sitePath(source.url)}>{source.label} →</a>
+                    ) : (
+                      <a href={source.url} target="_blank" rel="noreferrer">
+                        {source.label} ↗
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -404,11 +411,19 @@ const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
           limitation={selectedClaimMap.limitation}
         />
       </div>
-      {showVolumeResearchMap && (
-        <div class="shell">
-          <VolumeResearchMap currentVolume={item.volume} />
-        </div>
-      )}
+    </section>
+  )
+}
+
+{
+  showVolumeResearchMap && (
+    <section
+      class="section section-navy detail-research-map"
+      aria-labelledby="volume-research-map-title"
+    >
+      <div class="shell">
+        <VolumeResearchMap currentVolume={item.volume} />
+      </div>
     </section>
   )
 }

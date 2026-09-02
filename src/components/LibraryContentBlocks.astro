@@ -122,6 +122,9 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
                       </a>
                     </h4>
                     <p>{representativePaper.description}</p>
+                    <a href={sitePath(`/library/documents/${representativePaper.id}/`)}>
+                      Read the public synopsis →
+                    </a>
                   </div>
                   <div class="library-representative-paper-meta">
                     <span class="status-pill">{representativePaper.status}</span>
@@ -136,7 +139,7 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Open ResearchGate record ↗
+                        Open ResearchGate record ↗ · optional external link
                       </a>
                     )}
                   </div>
@@ -163,6 +166,9 @@ const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
                           <a href={sitePath(`/library/documents/${entry.id}/`)}>{entry.title}</a>
                         </h5>
                         <p>{entry.description}</p>
+                        <a href={sitePath(`/library/documents/${entry.id}/`)}>
+                          Read the public synopsis →
+                        </a>
                         <div class="library-preprint-footer">
                           <span>
                             {entry.metrics?.downloads ?? "—"} downloads ·{" "}

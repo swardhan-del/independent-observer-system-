@@ -1737,6 +1737,48 @@ textarea {
   max-width: min(64%, 820px);
 }
 
+.volume-two-detail-hero,
+.volume-three-detail-hero,
+.volume-four-detail-hero {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--navy-900);
+  background-position:
+    center,
+    right center;
+  background-repeat: no-repeat;
+  background-size:
+    100% 100%,
+    auto 100%;
+}
+
+.volume-two-detail-hero {
+  background-image:
+    linear-gradient(90deg, rgb(7 24 45 / 99%) 0%, rgb(7 24 45 / 92%) 44%, rgb(7 24 45 / 48%) 100%),
+    url("/volume-illustrations/volume-ii-sovereignty.jpg");
+}
+
+.volume-three-detail-hero {
+  background-image:
+    linear-gradient(90deg, rgb(7 24 45 / 99%) 0%, rgb(7 24 45 / 92%) 44%, rgb(7 24 45 / 48%) 100%),
+    url("/volume-illustrations/volume-iii-distribution.jpg");
+}
+
+.volume-four-detail-hero {
+  background-image:
+    linear-gradient(90deg, rgb(7 24 45 / 99%) 0%, rgb(7 24 45 / 92%) 44%, rgb(7 24 45 / 48%) 100%),
+    url("/volume-illustrations/volume-iv-capability.jpg");
+}
+
+.volume-two-detail-hero h1,
+.volume-two-detail-hero .page-intro,
+.volume-three-detail-hero h1,
+.volume-three-detail-hero .page-intro,
+.volume-four-detail-hero h1,
+.volume-four-detail-hero .page-intro {
+  max-width: min(64%, 860px);
+}
+
 .page-hero-inner {
   padding-block: 88px 70px;
 }
@@ -1761,6 +1803,39 @@ textarea {
   margin-top: 20px;
   font-size: clamp(1.08rem, 1.7vw, 1.32rem);
   line-height: 1.5;
+}
+
+.documentary-nato-hero,
+.documentary-detail-hero {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--navy-900);
+  background-position:
+    center,
+    right center;
+  background-repeat: no-repeat;
+  background-size:
+    100% 100%,
+    auto 100%;
+}
+
+.documentary-nato-hero {
+  background-image:
+    linear-gradient(90deg, rgb(7 24 45 / 99%) 0%, rgb(7 24 45 / 92%) 44%, rgb(7 24 45 / 48%) 100%),
+    url("/volume-illustrations/volume-ii-sovereignty.jpg");
+}
+
+.documentary-detail-hero {
+  background-image:
+    linear-gradient(90deg, rgb(7 24 45 / 99%) 0%, rgb(7 24 45 / 92%) 44%, rgb(7 24 45 / 48%) 100%),
+    url("/volume-illustrations/volume-iv-capability.jpg");
+}
+
+.documentary-nato-hero h1,
+.documentary-nato-hero .page-intro,
+.documentary-detail-hero h1,
+.documentary-detail-hero .page-intro {
+  max-width: min(64%, 860px);
 }
 
 .topics-hero .page-hero-inner {
@@ -6240,6 +6315,29 @@ kbd {
 
 .detail-volume-framework > p:not(.eyebrow) {
   max-width: 70ch;
+}
+
+.detail-volume-thesis {
+  max-width: 82ch !important;
+  margin: 18px 0 16px !important;
+  padding: 16px 18px;
+  border-left: 4px solid var(--gold);
+  background: #f3f0e8;
+  color: var(--navy-900);
+  font-family: var(--serif);
+  font-size: clamp(1.16rem, 2vw, 1.45rem);
+  line-height: 1.35;
+}
+
+.detail-volume-thesis strong {
+  font-family: var(--sans);
+  font-size: 0.68em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.detail-research-map {
+  border-top: 1px solid rgb(255 255 255 / 15%);
 }
 
 .detail-volume-framework h3 {
@@ -11526,7 +11624,13 @@ kbd {
   .catalogue-hero h1,
   .catalogue-hero .page-intro,
   .volume-one-detail-hero h1,
-  .volume-one-detail-hero .page-intro {
+  .volume-one-detail-hero .page-intro,
+  .volume-two-detail-hero h1,
+  .volume-two-detail-hero .page-intro,
+  .volume-three-detail-hero h1,
+  .volume-three-detail-hero .page-intro,
+  .volume-four-detail-hero h1,
+  .volume-four-detail-hero .page-intro {
     max-width: none;
   }
 
@@ -11590,6 +11694,50 @@ kbd {
     background-size:
       cover,
       100% auto;
+  }
+
+  .volume-two-detail-hero,
+  .volume-three-detail-hero,
+  .volume-four-detail-hero {
+    background-position:
+      center,
+      center bottom;
+    background-size:
+      cover,
+      100% auto;
+  }
+
+  .volume-two-detail-hero {
+    background-image:
+      linear-gradient(
+        180deg,
+        rgb(7 24 45 / 97%) 0%,
+        rgb(7 24 45 / 88%) 58%,
+        rgb(7 24 45 / 64%) 100%
+      ),
+      url("/volume-illustrations/volume-ii-sovereignty.jpg");
+  }
+
+  .volume-three-detail-hero {
+    background-image:
+      linear-gradient(
+        180deg,
+        rgb(7 24 45 / 97%) 0%,
+        rgb(7 24 45 / 88%) 58%,
+        rgb(7 24 45 / 64%) 100%
+      ),
+      url("/volume-illustrations/volume-iii-distribution.jpg");
+  }
+
+  .volume-four-detail-hero {
+    background-image:
+      linear-gradient(
+        180deg,
+        rgb(7 24 45 / 97%) 0%,
+        rgb(7 24 45 / 88%) 58%,
+        rgb(7 24 45 / 64%) 100%
+      ),
+      url("/volume-illustrations/volume-iv-capability.jpg");
   }
 
   .green-publication-grid-single {

@@ -9,6 +9,7 @@ export type EditorialDetailSection = {
 export type EditorialSourceLink = {
   label: string;
   url: string;
+  internal?: boolean;
 };
 
 export type EditorialItem = {
@@ -135,6 +136,79 @@ export const documentaryItems: EditorialItem[] = [
     description:
       "A documentary concept mapping the legal, military, diplomatic, and economic consequences of a major alliance rupture.",
     status: "In editorial development",
+    volume: "Volume II",
+    readingTime: "Documentary treatment preview · Volume II",
+    detailHeading: "A documentary about the conditions of strategic choice.",
+    detailLead:
+      "Could America Leave NATO? is a documentary question, not a prediction. It asks what changes when a country that has organized security through an alliance begins to reconsider the legal commitments, military capacity, industrial base, and political story that make that role possible.",
+    detailSections: [
+      {
+        heading: "The question beneath the headline",
+        paragraphs: [
+          "The film would begin with a simple question—what would leaving, weakening, or conditionally continuing an alliance actually require?—then separate formal legal authority from practical capacity. A treaty decision, a military posture, a diplomatic signal, and a public narrative are related events, but they are not the same event and should not be collapsed into one dramatic claim.",
+          "The working question is how strategic dependence is distributed. Who supplies security, who carries the cost, who can replace a capability, and which domestic institutions can review a major change? The film would follow those relationships rather than present geopolitical rupture as a single switch.",
+        ],
+      },
+      {
+        heading: "A five-part documentary route",
+        items: [
+          "Law and membership: distinguish treaty text, constitutional authority, executive direction, legislative involvement, notice, and the difference between formal withdrawal and reduced participation.",
+          "Military capacity: ask which capabilities, logistics, intelligence, procurement, and readiness arrangements are shared, duplicated, or difficult to replace on a short timeline.",
+          "Diplomacy and alliance bargaining: trace how partners respond through negotiation, reassurance, rearmament, hedging, or new forms of cooperation rather than assuming one uniform reaction.",
+          "Industry, capital, and resources: connect security commitments to production, energy, technology, labor, public budgets, and the economic systems that sustain strategic choice.",
+          "Public reasoning: show how evidence, uncertainty, competing interests, and democratic correction should remain visible when a high-stakes policy is narrated to the public.",
+        ],
+      },
+      {
+        heading: "How empires contract from within",
+        paragraphs: [
+          "The phrase ‘how empires collapse within themselves’ is used here as a testable documentary lens, not as a claim that an alliance rupture is inevitable or that contemporary states are identical to historic empires. The film would examine possible internal pressures: commitments that outgrow the productive base, security arrangements that distribute costs unevenly, allies that must adapt, domestic legitimacy that weakens, and institutions that cannot explain or correct a major decision.",
+          "Each pressure would need its own evidence and counterargument. A burden can be real without proving decline; a rearmament response can signal adaptation without proving collapse; and a public disagreement can reflect democratic contest rather than institutional failure.",
+        ],
+      },
+      {
+        heading: "Connections across the Independent Observer spine",
+        paragraphs: [
+          "Volume II supplies the central map: sovereignty is relational, material, and conditional. Its public research frame connects alliance dependence to capital, technology, security, labor, resources, enforcement, and the institutions that turn formal authority into usable choices.",
+          "Volume III adds the distribution question. Strategic change is also a question of work, industrial capacity, taxation, public budgets, education, and who absorbs the transition cost. That cross-volume connection keeps the film from treating foreign policy as separate from social citizenship at home.",
+        ],
+      },
+      {
+        heading: "Phase 3 treatment boundary",
+        paragraphs: [
+          "The Dropbox-backed public audit identifies this project as a documentary concept in editorial development. The website can publish a public-safe treatment outline and its research connections; it does not publish a private Phase 3 dossier, raw archive material, unreleased footage, working contacts, or an unverified production claim.",
+          "A future Phase 3 package would still need a source dossier, legal and rights review, a scene-by-scene treatment, current fact-checking, access decisions, and human release approval before it could be described as a finished documentary or a production commitment.",
+        ],
+      },
+      {
+        heading: "What a finished film must verify",
+        items: [
+          "The legal route and institutional roles involved in any change to alliance participation.",
+          "The specific military, diplomatic, industrial, and fiscal dependencies being described.",
+          "The strongest argument for continuity alongside the strongest argument for retrenchment.",
+          "What is documented, what is inferred, what is forecast, and what remains unresolved for the viewer.",
+        ],
+      },
+    ],
+    sourceNote:
+      "This public preview expands the existing Dropbox-backed Documentary Projects record without reproducing private production material. It is connected to the public Volume II roadmap and public paper synopsis pages; those links are reading routes, not evidence that a film has been released or that every mapped research direction is public.",
+    sourceLinks: [
+      {
+        label: "Read the Volume II public reading frame",
+        url: "/series/the-empire-beneath-democracy/",
+        internal: true,
+      },
+      {
+        label: "Read From Colonization to China’s Rise",
+        url: "/library/documents/from-colonization-to-chinas-rise/",
+        internal: true,
+      },
+      {
+        label: "Read the Managed Decline roadmap",
+        url: "/series/managed-decline/",
+        internal: true,
+      },
+    ],
   },
   {
     title: "The Martian Illusion",
