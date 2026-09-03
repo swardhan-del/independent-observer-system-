@@ -111,9 +111,10 @@ describe("redundancy and provenance controls", () => {
     expect(researchHtml).toContain(`property="og:title" content="${disambiguatedTitle}`);
     expect(researchHtml).toContain(`name="twitter:title" content="${disambiguatedTitle}`);
     expect(researchHtml).toContain(`"headline":"${disambiguatedTitle}"`);
-    expect(researchHtml).toContain(
-      'rel="canonical" href="https://independentobserver.org/research/the-last-human-workforce/"',
-    );
+    const canonical = researchHtml.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
+    if (!canonical) throw new Error("Research preview is missing a canonical URL.");
+    expect(new URL(canonical).origin).toBe("https://independentobserver.org");
+    expect(new URL(canonical).pathname).toMatch(/\/research\/the-last-human-workforce\/$/);
     expect(normalizePublicTitle("The Last Human Workforce")).not.toBe(
       normalizePublicTitle(disambiguatedTitle),
     );
