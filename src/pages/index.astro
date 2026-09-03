@@ -13,6 +13,7 @@ import HomepageLiteratureShelf from "../components/HomepageLiteratureShelf.astro
 import VolumeVisualStrip from "../components/VolumeVisualStrip.astro";
 import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
 import GreenPublicationShelf from "../components/GreenPublicationShelf.astro";
+import { historyPodcast } from "../data/podcast";
 
 const volumeOneMethod = paperDocuments.find(
   (entry) => entry.id === "independent-observer-volume-one",
@@ -219,6 +220,26 @@ const heroVolumeLinks = seriesItems.map((item, index) => ({
   </section>
 
   <HomepageLiteratureShelf />
+
+  <section
+    class="section section-rule homepage-podcast-feature"
+    aria-labelledby="homepage-podcast-title"
+  >
+    <div class="shell homepage-podcast-grid">
+      <div>
+        <p class="eyebrow">New · audio essays</p>
+        <h2 id="homepage-podcast-title">{historyPodcast.title}</h2>
+        <p>
+          {historyPodcast.subtitle} Hear the four-volume research spine in sequence, then open the public
+          paper records and transcripts behind each episode.
+        </p>
+      </div>
+      <div class="homepage-podcast-action">
+        <span>Season one · {historyPodcast.episodes.length} episodes</span>
+        <a class="button" href={sitePath("/podcast/")}>Listen to the season →</a>
+      </div>
+    </div>
+  </section>
 
   <section class="section section-navy">
     <div class="shell newsletter">

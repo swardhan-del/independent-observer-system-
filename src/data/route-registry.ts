@@ -68,6 +68,13 @@ const sectionRoutes: CanonicalRouteRecord[] = [
     indexable: true,
   },
   { route: "/videos/", title: "Videos", type: "section", source: "video", indexable: true },
+  {
+    route: "/podcast/",
+    title: "History Across the Volumes",
+    type: "section",
+    source: "podcast",
+    indexable: true,
+  },
   { route: "/about/", title: "About", type: "section", source: "about", indexable: true },
   { route: "/contact/", title: "Contact", type: "section", source: "contact", indexable: true },
   { route: "/start/", title: "Start Here", type: "section", source: "start", indexable: true },

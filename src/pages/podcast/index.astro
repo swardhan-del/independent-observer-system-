@@ -1,0 +1,275 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import PodcastEpisode from "../../components/PodcastEpisode.astro";
+import { historyPodcast } from "../../data/podcast";
+import { sitePath } from "../../lib/paths";
+
+const currentPath = "/podcast/";
+---
+
+<BaseLayout
+  title={historyPodcast.title}
+  description={historyPodcast.description}
+  currentPath={currentPath}
+>
+  <PageHero
+    eyebrow="Independent Observer audio"
+    title={historyPodcast.title}
+    description={historyPodcast.description}
+    className="podcast-hero"
+  >
+    <div class="podcast-hero-grid">
+      <div>
+        <p class="podcast-status">{historyPodcast.status}</p>
+        <p class="podcast-hero-copy">
+          Four short episodes follow the project’s movement from observation, to power, to social
+          citizenship, to human capability. Each one pairs two core paper records with a plain-text
+          transcript and a visible publication boundary.
+        </p>
+        <div class="podcast-hero-actions">
+          <a class="button" href="#episodes">Listen to season one →</a>
+          <a class="podcast-feed-link" href={sitePath("/podcast/feed.xml")}
+            >Subscribe with a podcast app ↗</a
+          >
+        </div>
+      </div>
+      <figure class="podcast-hero-map">
+        <img
+          src={sitePath("/independent-observer-four-volume-map-v2.png")}
+          alt="Four-volume Independent Observer map connecting observation, power, distribution, and capability."
+          width="1536"
+          height="1024"
+          loading="eager"
+          decoding="async"
+        />
+        <figcaption>The same four-volume spine, translated into audio.</figcaption>
+      </figure>
+    </div>
+  </PageHero>
+
+  <section class="section section-white" id="episodes" aria-labelledby="episodes-title">
+    <div class="shell">
+      <div class="section-heading podcast-section-heading">
+        <div>
+          <p class="eyebrow">Season one</p>
+          <h2 id="episodes-title">Four volumes, heard in sequence.</h2>
+        </div>
+        <p>
+          Start anywhere. The source cards beneath each player lead back to the public reading
+          pages, while the transcripts make the audio searchable and readable without a player.
+        </p>
+      </div>
+      <div class="podcast-episodes">
+        {historyPodcast.episodes.map((episode) => <PodcastEpisode episode={episode} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-navy podcast-listening-section" aria-labelledby="listening-title">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">History listening shelf</p>
+          <h2 id="listening-title">Shows worth hearing alongside this project.</h2>
+        </div>
+        <p>
+          These are format references, not endorsements or source material for the Independent
+          Observer episodes. Each offers a different way to make historical questions audible.
+        </p>
+      </div>
+      <div class="podcast-listening-grid">
+        {
+          historyPodcast.listeningGuide.map((entry, index) => (
+            <a
+              class="podcast-listening-card"
+              href={entry.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <strong>{entry.title}</strong>
+              <p>{entry.description}</p>
+              <em>Open show →</em>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-rule">
+    <div class="shell page-grid">
+      <aside class="page-aside">Read the record</aside>
+      <div class="prose">
+        <h2>Audio is a doorway, not a replacement.</h2>
+        <p>
+          The episodes adapt public-safe synopses from the catalogue. They do not expose private
+          manuscripts, turn working papers into peer-reviewed findings, or change the release status
+          of any paper. Use the source links and the <a href={sitePath("/series/")}
+            >publication catalogue</a
+          >
+          to continue reading.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .podcast-hero {
+    overflow: hidden;
+  }
+
+  .podcast-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
+    align-items: center;
+    gap: clamp(28px, 6vw, 74px);
+    margin-top: 30px;
+  }
+
+  .podcast-status {
+    display: inline-block;
+    padding: 7px 10px;
+    border: 1px solid rgb(234 214 167 / 52%);
+    color: var(--gold-light);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .podcast-hero-copy {
+    max-width: 60ch;
+    margin: 18px 0 24px;
+    color: var(--slate-300);
+    font-size: 1.03rem;
+  }
+
+  .podcast-hero-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+
+  .podcast-feed-link {
+    color: var(--gold-light);
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .podcast-feed-link:hover,
+  .podcast-feed-link:focus-visible {
+    color: var(--white);
+  }
+
+  .podcast-hero-map {
+    margin: 0;
+    border: 1px solid rgb(234 214 167 / 38%);
+    background: var(--navy-950);
+  }
+
+  .podcast-hero-map img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    opacity: 0.86;
+  }
+
+  .podcast-hero-map figcaption {
+    padding: 11px 14px;
+    color: var(--gold-light);
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
+  }
+
+  .podcast-section-heading {
+    margin-bottom: 34px;
+  }
+
+  .podcast-episodes {
+    max-width: 980px;
+    margin-inline: auto;
+  }
+
+  .podcast-listening-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .podcast-listening-card {
+    display: flex;
+    min-height: 220px;
+    flex-direction: column;
+    padding: 22px;
+    border: 1px solid rgb(255 255 255 / 16%);
+    background: rgb(255 255 255 / 5%);
+    color: var(--white);
+    text-decoration: none;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .podcast-listening-card:hover,
+  .podcast-listening-card:focus-visible {
+    border-color: var(--gold);
+    background: rgb(255 255 255 / 10%);
+    transform: translateY(-3px);
+  }
+
+  .podcast-listening-card > span {
+    color: var(--gold-light);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+  }
+
+  .podcast-listening-card strong {
+    margin-top: 30px;
+    font-family: var(--serif);
+    font-size: 1.45rem;
+    line-height: 1.08;
+  }
+
+  .podcast-listening-card p {
+    margin: 10px 0 18px;
+    color: var(--slate-300);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .podcast-listening-card em {
+    margin-top: auto;
+    color: var(--gold-light);
+    font-size: 0.78rem;
+    font-style: normal;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .podcast-listening-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
+    .podcast-hero-grid,
+    .podcast-listening-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .podcast-listening-card {
+      min-height: 0;
+    }
+  }
+</style>

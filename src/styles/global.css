@@ -11977,3 +11977,49 @@ kbd {
     max-width: none;
   }
 }
+
+.homepage-podcast-feature {
+  background: var(--paper-warm);
+}
+
+.homepage-podcast-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 28px;
+}
+
+.homepage-podcast-grid h2 {
+  margin: 0 0 10px;
+  color: var(--navy-950);
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1;
+}
+
+.homepage-podcast-grid p {
+  max-width: 64ch;
+  margin: 0;
+  color: var(--slate-700);
+}
+
+.homepage-podcast-action {
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+}
+
+.homepage-podcast-action span {
+  color: var(--gold-ink);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 720px) {
+  .homepage-podcast-grid {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+}
