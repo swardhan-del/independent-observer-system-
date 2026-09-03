@@ -32,5 +32,5 @@ jobs:
       - name: Crawl production contract
         env:
           SITE_URL: https://independentobserver.org
-          EXPECTED_INDEXABLE_ROUTES: "52"
+          EXPECTED_INDEXABLE_ROUTES: "54"
         run: npm run verify:production
