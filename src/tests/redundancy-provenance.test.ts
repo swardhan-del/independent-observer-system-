@@ -82,12 +82,12 @@ describe("redundancy and provenance controls", () => {
     }
   });
 
-  it("keeps every route from the live pre-change sitemap accounted for", () => {
+  it("keeps every route from the live pre-change sitemap represented", () => {
     const beforeRoutes = readFileSync(join(auditDirectory, "live-sitemap-before.txt"), "utf8")
       .split(/\r?\n/)
       .map((route) => route.trim())
       .filter(Boolean);
-    const localRoutes = new Set(indexableRouteRegistry.map((record) => record.route));
+    const localRoutes = new Set(canonicalRouteRegistry.map((record) => record.route));
     for (const route of beforeRoutes) {
       const pathname = new URL(route).pathname;
       expect(localRoutes.has(pathname)).toBe(true);

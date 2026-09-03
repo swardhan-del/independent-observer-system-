@@ -4,7 +4,6 @@ import {
   greenPublicationById,
   greenPublicationByFamilyId,
   greenPublicationBySlug,
-  publicationPreviewEnabled,
   readingTimeMinutes,
 } from "../data/green-publications";
 import type { GreenPublication } from "../data/green-publications";
@@ -34,7 +33,7 @@ const schema = JSON.stringify({
   title={publication.shortTitle}
   description={publication.standfirst}
   currentPath={currentPath}
-  noindex={publicationPreviewEnabled}
+  noindex={!publication.productionReleased}
 >
   <script type="application/ld+json" set:html={schema} is:inline />
   <article
@@ -47,7 +46,11 @@ const schema = JSON.stringify({
         ><span>{publication.shortTitle}</span>
       </nav>
       <div class="article-status" role="status">
-        {publication.status} · not in the production release feed
+        {publication.status} · {
+          publication.productionReleased
+            ? "in the production release feed"
+            : "not in the production release feed"
+        }
       </div>
       <header class="article-header">
         <p class="eyebrow">{publication.volume} · {publication.publicationType}</p>

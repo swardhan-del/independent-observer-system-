@@ -41,6 +41,14 @@ const routes = [
   })),
 ] as const;
 const sitemapRoutes = indexableRouteRegistry.map(({ route }) => route);
+const greenPreviewRoutes = [
+  "/research/regrowing-humanity/",
+  "/research/the-independent-observer-method/",
+  "/research/the-last-human-workforce/",
+  "/research/the-server-as-a-furnace/",
+  "/research/borrowed-labor/",
+  "/research/democracys-achilles-heel/",
+] as const;
 
 function readOutput(relativePath: string) {
   return readFileSync(join(distRoot, relativePath), "utf8");
@@ -204,10 +212,13 @@ describe("built website", () => {
     expect(html).toContain("what futures people can actually govern");
   });
 
-  it("publishes the owner-approved six-publication release log", () => {
+  it("keeps the release log empty while preview candidates await approval", () => {
     const html = readOutput("whats-new/index.html");
+    expect(html).toContain("The release log is intentionally empty.");
+    expect(html).toContain("six current candidates remain awaiting human release");
     expect(html).toContain("Regrowing Humanity");
     expect(html).toContain("Democracy’s Achilles’ Heel");
+    expect(html).not.toContain('class="release-log"');
   });
 
   it("makes the reviewed public literature visible on the homepage", () => {
@@ -609,10 +620,24 @@ describe("built website", () => {
     expect(readOutput("feed.xml")).not.toContain("/review/regrowing-humanity/");
   });
 
-  it("publishes the six owner-approved releases in Atom", () => {
+  it("keeps all six curated research previews noindex and outside release discovery", () => {
+    const sitemap = readOutput("sitemap.xml");
+    const atom = readOutput("feed.atom.xml");
+    const rss = readOutput("feed.xml");
+
+    for (const route of greenPreviewRoutes) {
+      const html = readOutput(`${route.slice(1)}index.html`);
+      expect(metaContent(html, "name", "robots"), route).toBe("noindex,follow");
+      expect(sitemap, route).not.toContain(route);
+      expect(atom, route).not.toContain(route);
+      expect(rss, route).not.toContain(route);
+    }
+  });
+
+  it("keeps preview candidates out of Atom until release approval", () => {
     const atom = readOutput("feed.atom.xml");
     expect(atom).toContain('<feed xmlns="http://www.w3.org/2005/Atom">');
-    expect([...atom.matchAll(/<entry>/g)]).toHaveLength(6);
+    expect([...atom.matchAll(/<entry>/g)]).toHaveLength(0);
   });
 
   it("hosts the exact owner-provided operating-system DOCX", () => {
@@ -698,11 +723,11 @@ describe("built website", () => {
     expect(locations.some((location) => location.endsWith("/404/"))).toBe(false);
   });
 
-  it("publishes the six owner-approved releases in RSS", () => {
+  it("keeps preview candidates out of RSS until release approval", () => {
     const feed = readOutput("feed.xml");
     const itemBlocks = [...feed.matchAll(/<item>[\s\S]*?<\/item>/g)].map((match) => match[0]);
 
-    expect(itemBlocks).toHaveLength(6);
+    expect(itemBlocks).toHaveLength(0);
     expect(feed).toContain('<rss version="2.0">');
     expect(feed).not.toContain("Status: ");
   });

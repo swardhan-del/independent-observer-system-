@@ -3,7 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import AboutVolumeAtlas from "../../components/AboutVolumeAtlas.astro";
 import { sitePath } from "../../lib/paths";
-import { publicationPreviewEnabled } from "../../data/green-publications";
+import { previewGreenPublications } from "../../data/green-publications";
 ---
 
 <BaseLayout
@@ -105,7 +105,7 @@ import { publicationPreviewEnabled } from "../../data/green-publications";
           can observe, participate, and correct the system.
         </p>
         {
-          publicationPreviewEnabled && (
+          previewGreenPublications.length > 0 && (
             <p>
               <a href={sitePath("/research/the-independent-observer-method/")}>
                 The Independent Observer Method

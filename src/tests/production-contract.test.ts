@@ -47,11 +47,11 @@ describe("production route contract", () => {
     return join(distRoot, relativePath);
   }
 
-  it("keeps the canonical route registry unique and the intended public set at 52", () => {
+  it("keeps the canonical route registry unique and excludes preview-only article routes", () => {
     expect(new Set(canonicalRouteRegistry.map((record) => record.route)).size).toBe(
       canonicalRouteRegistry.length,
     );
-    expect(indexableRouteRegistry).toHaveLength(59);
+    expect(indexableRouteRegistry).toHaveLength(53);
     expect(indexableRouteRegistry.every((record) => record.indexable)).toBe(true);
   });
 

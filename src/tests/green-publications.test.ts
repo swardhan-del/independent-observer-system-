@@ -4,6 +4,7 @@ import {
   previewGreenPublications,
   publicGreenPublication,
   readingTimeMinutes,
+  releasedGreenPublications,
 } from "../data/green-publications";
 
 const expected = [
@@ -32,7 +33,8 @@ describe("central green publication registry", () => {
         (item) => item.sourceVerified && item.rightsReviewed && item.accessibilityReviewed,
       ),
     ).toBe(true);
-    expect(greenPublications.every((item) => item.productionReleased === true)).toBe(true);
+    expect(greenPublications.every((item) => item.productionReleased === false)).toBe(true);
+    expect(releasedGreenPublications).toHaveLength(0);
     const publicRecord = publicGreenPublication(greenPublications[0]);
     expect(publicRecord).not.toHaveProperty("controllerSha256");
     expect(JSON.stringify(publicRecord)).not.toMatch(
@@ -45,9 +47,8 @@ describe("central green publication registry", () => {
       expect(readingTimeMinutes(item)).toBeGreaterThanOrEqual(1);
   });
 
-  it("only exposes the records in an explicitly enabled preview build", () => {
-    expect(previewGreenPublications.length === 0 || previewGreenPublications.length === 6).toBe(
-      true,
-    );
+  it("keeps all six bounded records in the non-release preview layer", () => {
+    expect(previewGreenPublications).toHaveLength(6);
+    expect(previewGreenPublications.every((item) => !item.productionReleased)).toBe(true);
   });
 });

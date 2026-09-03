@@ -184,9 +184,10 @@ into `public/` and never deploys directly. The sequence is:
 The review branch also carries a sanitized metadata registry in
 `src/data/publication-registry.ts` and a metadata-only next-clearance queue in
 `src/data/clearance-queue.ts`. The six first-wave candidates remain `public_preview` records awaiting
-human release; they have no public article routes, no release flag, and no manuscript text in the
-registry. A local ignored audit manifest may hold source-level checksums and reviewer notes for
-release management, but it is never committed or included in the build.
+human release. The site may render bounded, noindex preview routes for visual and editorial review,
+but those routes have no release-feed or sitemap eligibility and contain no controller manuscript.
+A local ignored audit manifest may hold source-level checksums and reviewer notes for release
+management, but it is never committed or included in the build.
 
 To activate the workflow, the repository owner must configure the read-only Dropbox credentials as
 GitHub repository secrets named `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and `DROPBOX_REFRESH_TOKEN`.
