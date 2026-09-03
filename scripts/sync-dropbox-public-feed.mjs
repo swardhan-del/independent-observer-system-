@@ -295,10 +295,10 @@ export function parseManifest(manifest) {
     );
     const description = cleanPublicText(item.description, `${field}.description`, 800);
     if (!item.source) throw new Error(`${field}.source is required.`);
-    const source = validateSourceDeclaration(item.source, item.kind, field);
+    const source = validateSourceDeclaration(item.source, kind, field);
     sources.push({ id, source });
 
-    if (item.kind === "document") {
+    if (kind === "document") {
       const document = {
         id,
         title,
