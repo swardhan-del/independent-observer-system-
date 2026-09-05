@@ -68,4 +68,17 @@ describe("publication manifest", () => {
       }),
     ).toThrow();
   });
+
+  it("rejects impossible nominal calendar dates", () => {
+    expect(() =>
+      validatePublicationManifest(manifest({ dateCreated: "2026-02-31" }), {
+        ownerId: "owner-test",
+      }),
+    ).toThrow();
+    expect(() =>
+      validatePublicationManifest(manifest({ approvedAt: "2026-02-31T10:00:00Z" }), {
+        ownerId: "owner-test",
+      }),
+    ).toThrow();
+  });
 });
