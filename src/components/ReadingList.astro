@@ -205,6 +205,7 @@ const recommendationGroups: ReadingRecommendationGroup[] = isCatalogueContext
 <script>
   import {
     migrateReadingList,
+    readingListLegacyStorageKey,
     readingListStorageKey,
     sortReadingList,
     type ReadingStatus,
@@ -247,7 +248,22 @@ const recommendationGroups: ReadingRecommendationGroup[] = isCatalogueContext
 
     const readStored = () => {
       try {
-        return localStorage.getItem(readingListStorageKey);
+        const current = localStorage.getItem(readingListStorageKey);
+        if (current !== null) return current;
+
+        const legacy = localStorage.getItem(readingListLegacyStorageKey);
+        if (legacy === null) return null;
+
+        const migrated = migrateReadingList(legacy);
+        const serialized = JSON.stringify(migrated);
+        localStorage.setItem(readingListStorageKey, serialized);
+        localStorage.removeItem(readingListLegacyStorageKey);
+        if (migrated.length) {
+          announceStorage(
+            `${migrated.length} saved ${migrated.length === 1 ? "item" : "items"} migrated to the current reading list format.`,
+          );
+        }
+        return serialized;
       } catch {
         announceStorage("Browser storage is unavailable; your list is temporary.");
         return null;
