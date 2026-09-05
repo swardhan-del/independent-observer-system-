@@ -3,7 +3,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import ReadingList from "../components/ReadingList.astro";
 import "../styles/global.css";
-import { sitePath } from "../lib/paths";
+import { publicSitePath, sitePath } from "../lib/paths";
 import { socialLinks } from "../data/social";
 
 type Props = {
@@ -35,10 +35,10 @@ const previewBuild = process.env.VERCEL_ENV === "preview";
 const shouldNoindex = noindex || fallbackBuild || previewBuild;
 const fullTitle = title === "Home" ? "Independent Observer" : `${title} | Independent Observer`;
 const publicOrigin = Astro.site ?? new URL(Astro.url.origin);
-const canonicalUrl = new URL(sitePath(canonicalPath), publicOrigin).href;
-const websiteUrl = new URL(sitePath("/"), publicOrigin).href;
-const socialImageUrl = new URL(sitePath("/og-cover.jpg"), publicOrigin).href;
-const sitemapUrl = new URL(sitePath("/sitemap.xml"), publicOrigin).href;
+const canonicalUrl = new URL(publicSitePath(canonicalPath), publicOrigin).href;
+const websiteUrl = new URL(publicSitePath("/"), publicOrigin).href;
+const socialImageUrl = new URL(publicSitePath("/og-cover.jpg"), publicOrigin).href;
+const sitemapUrl = new URL(publicSitePath("/sitemap.xml"), publicOrigin).href;
 const breadcrumbItems =
   currentPath === "/"
     ? []
@@ -73,7 +73,7 @@ const structuredData = JSON.stringify({
       url: websiteUrl,
       logo: {
         "@type": "ImageObject",
-        url: new URL(sitePath("/favicon.svg"), publicOrigin).href,
+        url: new URL(publicSitePath("/favicon.svg"), publicOrigin).href,
       },
       sameAs: socialLinks.map((socialLink) => socialLink.href),
     },
@@ -159,13 +159,13 @@ const structuredData = JSON.stringify({
       rel="alternate"
       type="application/rss+xml"
       title="Independent Observer feed"
-      href={new URL(sitePath("/feed.xml"), publicOrigin).href}
+      href={new URL(publicSitePath("/feed.xml"), publicOrigin).href}
     />
     <link
       rel="alternate"
       type="application/atom+xml"
       title="Independent Observer release feed"
-      href={new URL(sitePath("/feed.atom.xml"), publicOrigin).href}
+      href={new URL(publicSitePath("/feed.atom.xml"), publicOrigin).href}
     />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_US" />
