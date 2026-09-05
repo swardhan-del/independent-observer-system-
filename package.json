@@ -12,7 +12,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "astro check && astro build && vitest run",
-    "test:built": "vitest run",
+    "test:built": "vitest run --exclude src/tests/site-output.test.ts --exclude src/tests/production-contract.test.ts",
     "verify:operating-system": "node scripts/verify-publication-operating-system.mjs",
     "verify:canonical-origin": "node scripts/verify-canonical-origin.mjs",
     "verify:pages-fallback": "node scripts/verify-pages-fallback.mjs",
