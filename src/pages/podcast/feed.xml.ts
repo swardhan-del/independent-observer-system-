@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import { statSync } from "node:fs";
 import { resolve } from "node:path";
 import { historyPodcastEpisodes } from "../../data/podcast";
-import { sitePath } from "../../lib/paths";
+import { publicSitePath } from "../../lib/paths";
 
 const escapeXml = (value: string) =>
   value.replace(
@@ -25,13 +25,13 @@ function durationFor(seconds: number) {
 
 export const GET: APIRoute = ({ site, url }) => {
   const origin = site ?? new URL(url.origin);
-  const feedUrl = new URL(sitePath("/podcast/feed.xml"), origin).href;
-  const showUrl = new URL(sitePath("/podcast/"), origin).href;
+  const feedUrl = new URL(publicSitePath("/podcast/feed.xml"), origin).href;
+  const showUrl = new URL(publicSitePath("/podcast/"), origin).href;
   const publishedAt = new Date("2026-09-03T00:00:00Z").toUTCString();
   const items = historyPodcastEpisodes
     .map((episode) => {
       const episodeUrl = `${showUrl}#episode-${String(episode.number).padStart(2, "0")}`;
-      const audioUrl = new URL(sitePath(episode.audioUrl), origin).href;
+      const audioUrl = new URL(publicSitePath(episode.audioUrl), origin).href;
       const audioLength = statSync(
         resolve(process.cwd(), "public", episode.audioUrl.slice(1)),
       ).size;
