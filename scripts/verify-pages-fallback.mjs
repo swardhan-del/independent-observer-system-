@@ -56,22 +56,26 @@ for (const pathname of htmlFiles) {
     );
   }
 
-  for (const tag of [...tags(html, "a"), ...tags(html, "link")]) {
+  for (const tag of tags(html, "a")) {
     const href = attribute(tag, "href");
     if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) {
       continue;
     }
     const target = new URL(href, canonical || productionOrigin);
-    if (target.origin !== productionOrigin || target.pathname.startsWith("/_astro/")) continue;
+    if (target.origin !== productionOrigin) continue;
     const output = outputForUrl(target);
     if (!output || !existsSync(output)) {
-      failures.push(`${relative(dist, pathname)}: unresolved fallback link ${href}`);
+      failures.push(`${relative(dist, pathname)}: unresolved fallback navigation ${href}`);
       continue;
     }
     if (target.hash && output.endsWith(".html")) {
       const targetHtml = readFileSync(output, "utf8");
       const fragment = decodeURIComponent(target.hash.slice(1));
-      if (!new RegExp(`\\bid=["']${fragment.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["']`).test(targetHtml)) {
+      if (
+        !new RegExp(
+          `\\bid=["']${fragment.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["']`,
+        ).test(targetHtml)
+      ) {
         failures.push(`${relative(dist, pathname)}: unresolved fragment ${href}`);
       }
     }
