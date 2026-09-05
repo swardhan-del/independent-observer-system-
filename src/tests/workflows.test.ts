@@ -6,6 +6,7 @@ const workflowRoot = join(process.cwd(), ".github/workflows");
 const ci = readFileSync(join(workflowRoot, "ci.yml"), "utf8");
 const deploy = readFileSync(join(workflowRoot, "deploy.yml"), "utf8");
 const sync = readFileSync(join(workflowRoot, "sync-dropbox-content.yml"), "utf8");
+const vercelHeaders = readFileSync(join(process.cwd(), "vercel.json"), "utf8");
 
 function triggerKeys(workflow: string) {
   const triggerBlock = workflow.match(/^on:\s*\n([\s\S]*?)^permissions:/m)?.[1] ?? "";
@@ -43,10 +44,13 @@ describe("workflow publication safety", () => {
 
   it("keeps Dropbox synchronization scoped to an approved feed and review PR", () => {
     expect(triggerKeys(sync)).toEqual(["workflow_dispatch", "schedule"]);
-    expect(sync).toContain("/Independent Observer desktop/Website Feed/approved");
+    expect(sync).toContain("if: ${{ github.ref == 'refs/heads/main' }}");
+    expect(sync).toContain("ref: main");
+    expect(sync).toContain("DROPBOX_SOURCE_PATH: ${{ vars.DROPBOX_APPROVED_PATH }}");
     expect(sync).toContain("DROPBOX_APP_KEY");
     expect(sync).toContain("DROPBOX_APP_SECRET");
     expect(sync).toContain("DROPBOX_REFRESH_TOKEN");
+    expect(sync).toContain("PUBLICATION_OWNER_ID");
     expect(sync).toContain("node scripts/sync-dropbox-public-feed.mjs");
     expect(sync).toContain("DROPBOX_SOURCE_PATH");
     expect(sync).toContain('cron: "17 6 * * 1"');
@@ -69,5 +73,20 @@ describe("workflow publication safety", () => {
     expect(script).toContain("sourceVerified");
     expect(script).toContain("MAX_ARTIFACT_BYTES");
     expect(script).not.toContain("assetPath");
+  });
+
+  it("checks the hosted operating standard and production dependency surface", () => {
+    expect(ci).toContain("npm run verify:operating-system");
+    expect(ci).toContain("npm audit --omit=dev --audit-level=high");
+    expect(ci).toContain("npm run verify:preview-indexing");
+  });
+
+  it("defines security headers for the canonical Vercel host", () => {
+    expect(vercelHeaders).toContain("Content-Security-Policy");
+    expect(vercelHeaders).toContain("frame-ancestors 'none'");
+    expect(vercelHeaders).toContain("X-Content-Type-Options");
+    expect(vercelHeaders).toContain("Strict-Transport-Security");
+    expect(vercelHeaders).toContain("Referrer-Policy");
+    expect(vercelHeaders).toContain("Permissions-Policy");
   });
 });

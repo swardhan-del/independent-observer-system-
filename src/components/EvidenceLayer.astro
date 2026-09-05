@@ -1,0 +1,121 @@
+---
+import { sitePath } from "../lib/paths";
+
+export type EvidenceCategory =
+  | "Documented fact"
+  | "Interpretation"
+  | "Hypothesis"
+  | "Policy proposal"
+  | "Limitation"
+  | "Counterargument"
+  | "Unresolved question";
+
+export type EvidenceBlock = {
+  category: EvidenceCategory;
+  text: string;
+  source?: {
+    label: string;
+    href: string;
+    internal?: boolean;
+  };
+};
+
+type Props = {
+  blocks: EvidenceBlock[];
+  title?: string;
+  intro?: string;
+  statusNote?: string;
+  source?: {
+    label: string;
+    href: string;
+  };
+};
+
+const {
+  blocks,
+  title = "Evidence layer",
+  intro = "Highlighting is a reading aid, not a credibility score. The full text remains visible.",
+  statusNote,
+  source,
+} = Astro.props as Props;
+---
+
+<section class="evidence-layer" data-evidence-layer aria-labelledby="evidence-layer-title">
+  <div class="evidence-layer-heading">
+    <div>
+      <p class="eyebrow">Reader control</p>
+      <h2 id="evidence-layer-title">{title}</h2>
+    </div>
+    <p>{intro}</p>
+  </div>
+  {
+    (statusNote || source) && (
+      <div class="evidence-layer-context">
+        {statusNote && (
+          <p>
+            <strong>Publication status</strong>
+            {statusNote}
+          </p>
+        )}
+        {source && (
+          <p>
+            <strong>Source</strong>
+            <a href={source.href} target="_blank" rel="noreferrer">
+              {source.label} ↗
+            </a>
+          </p>
+        )}
+      </div>
+    )
+  }
+  <div class="evidence-controls" role="group" aria-label="Highlight evidence categories">
+    <button type="button" data-evidence-filter="all" aria-pressed="true">All layers</button>
+    {
+      blocks.map((block) => (
+        <button type="button" data-evidence-filter={block.category} aria-pressed="false">
+          {block.category}
+        </button>
+      ))
+    }
+  </div>
+  <div class="evidence-blocks">
+    {
+      blocks.map((block) => (
+        <article class="evidence-block" data-evidence-category={block.category}>
+          <span class="evidence-label">{block.category}</span>
+          <p>{block.text}</p>
+          {block.source && (
+            <a
+              class="evidence-source"
+              data-evidence-source
+              href={block.source.internal ? sitePath(block.source.href) : block.source.href}
+            >
+              {block.source.label} <span aria-hidden="true">→</span>
+            </a>
+          )}
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-evidence-layer]").forEach((root) => {
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>("[data-evidence-filter]")];
+    const blocks = [...root.querySelectorAll<HTMLElement>("[data-evidence-category]")];
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.evidenceFilter ?? "all";
+        buttons.forEach((candidate) =>
+          candidate.setAttribute("aria-pressed", String(candidate === button)),
+        );
+        blocks.forEach((block) =>
+          block.classList.toggle(
+            "is-highlighted",
+            filter === "all" || block.dataset.evidenceCategory === filter,
+          ),
+        );
+      });
+    });
+  });
+</script>

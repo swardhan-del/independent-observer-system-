@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import { releaseLog } from "../../data/release-log";
+import { sixCandidateReleaseQueue } from "../../data/publication-registry";
+import { sitePath } from "../../lib/paths";
+---
+
+<BaseLayout
+  title="What’s New"
+  description="A dated release log for approved Independent Observer publications."
+  currentPath="/whats-new/"
+>
+  <PageHero
+    eyebrow="Release log"
+    title="What’s new, when it is real."
+    description="This log records owner-approved releases that have passed the publication path. Staged candidates and external preprints stay in their own status lanes."
+  />
+  <section class="section section-white" aria-labelledby="release-log-title">
+    <div class="shell">
+      <div class="release-log-empty" data-release-log-empty hidden={releaseLog.length > 0}>
+        <p class="eyebrow">Release desk · human approval lane</p>
+        <h2 id={releaseLog.length === 0 ? "release-log-title" : undefined}>
+          The release log is intentionally empty—for now.
+        </h2>
+        <span class="sr-only">The release log is intentionally empty.</span>
+        <p>
+          The six current candidates remain awaiting human release. They are visible below so the
+          project has a clear public record of what is being prepared. Their metadata can be
+          reviewed in the controlled registry, but no item is represented here as a released
+          publication until its source, rights, quality, and human release gates are complete.
+        </p>
+        <ol class="release-candidate-list">
+          {
+            sixCandidateReleaseQueue.map((entry) => (
+              <li>
+                <span>{entry.volume}</span>
+                <strong>{entry.title}</strong>
+                <small>{entry.topics.join(" · ")} · awaiting human release</small>
+              </li>
+            ))
+          }
+        </ol>
+        <a class="button button-secondary" href={sitePath("/library/")}
+          >Explore the public library →</a
+        >
+      </div>
+      {
+        releaseLog.length > 0 && (
+          <ol class="release-log" aria-labelledby="release-log-title">
+            {releaseLog.map((entry, index) => (
+              <li>
+                <time datetime={entry.date}>{entry.date}</time>
+                <h2 id={index === 0 ? "release-log-title" : undefined}>
+                  <a href={sitePath(entry.route)}>{entry.title}</a>
+                </h2>
+              </li>
+            ))}
+          </ol>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

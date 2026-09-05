@@ -1,0 +1,69 @@
+---
+import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
+import { seriesItems } from "../data/series";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+
+type Props = {
+  compact?: boolean;
+};
+
+const { compact = false } = Astro.props as Props;
+const volumeVisuals = {
+  "Volume I": {
+    src: "/volume-illustrations/volume-i-observation.jpg",
+    alt: "Editorial collage of an observation lens, layered records, and linked public nodes.",
+    caption: "Observe and document",
+  },
+  "Volume II": {
+    src: "/volume-illustrations/volume-ii-sovereignty.jpg",
+    alt: "Editorial collage of civic buildings, map layers, legal pathways, and connected institutions.",
+    caption: "Locate power and sovereignty",
+  },
+  "Volume III": {
+    src: "/volume-illustrations/volume-iii-distribution.jpg",
+    alt: "Editorial collage of industrial and service work, a time grid, public infrastructure, and balanced pathways.",
+    caption: "Follow the cost of change",
+  },
+  "Volume IV": {
+    src: "/volume-illustrations/volume-iv-capability.jpg",
+    alt: "Editorial collage of a human figure connected to laboratory instruments, energy, compute, and care systems.",
+    caption: "Govern human capability",
+  },
+} as const;
+---
+
+<div
+  class:list={["volume-visual-strip", compact && "volume-visual-strip-compact"]}
+  aria-label="Visual map of the four Independent Observer volumes"
+>
+  {
+    seriesItems.map((item, index) => {
+      const visual = volumeVisuals[item.volume as keyof typeof volumeVisuals];
+      const connection = volumeTopicConnections[item.volume];
+      return (
+        <a class="volume-visual-card" href={sitePath(`/series/${slugify(item.title)}/`)}>
+          <figure>
+            <img
+              src={sitePath(visual.src)}
+              alt={visual.alt}
+              width="1100"
+              height="1100"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="volume-visual-card-number">{String(index + 1).padStart(2, "0")}</span>
+          </figure>
+          <div class="volume-visual-card-copy">
+            <span>{item.volume}</span>
+            <h3>{item.title}</h3>
+            <p>
+              {visual.caption} · {connection.lens}
+            </p>
+            <strong>Open the volume file →</strong>
+          </div>
+        </a>
+      );
+    })
+  }
+</div>

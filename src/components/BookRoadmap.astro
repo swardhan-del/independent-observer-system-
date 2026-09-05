@@ -1,0 +1,92 @@
+---
+import { seriesItems } from "../data/series";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+
+const bookNotes: Record<string, string> = {
+  "Volume I":
+    "The method book of the series: a practical account of observation, evidence, public memory, and democratic capacity. It follows how a claim becomes accountable—what was seen, which sources support it, what context or contradiction is missing, and how readers can correct the record.",
+  "Volume II":
+    "The power book: a study of sovereignty, institutions, migration, representation, enforcement, and the arrangements beneath formal democracy. It asks who can set the agenda, whose membership is recognized, and how power becomes usable—or remains only constitutional language.",
+  "Volume III":
+    "The social-citizenship book: an inquiry into work, time, taxation, welfare, licensing, health, and economic security. It traces who carries the cost of economic change and whether public systems restore capacity or manage people through constrained choices.",
+  "Volume IV":
+    "The capability book: a forward-looking study of AI, science, infrastructure, energy, intimacy, education, care, and human adaptation. It asks what must be understood, maintained, financed, and governed before technology becomes usable human capability rather than a new source of dependence.",
+};
+
+const bookVisuals = {
+  "Volume I": {
+    src: "/volume-illustrations/volume-i-observation.jpg",
+    alt: "Editorial collage of an observation lens, layered records, and linked public nodes.",
+  },
+  "Volume II": {
+    src: "/volume-illustrations/volume-ii-sovereignty.jpg",
+    alt: "Editorial collage of civic buildings, map layers, legal pathways, and connected institutions.",
+  },
+  "Volume III": {
+    src: "/volume-illustrations/volume-iii-distribution.jpg",
+    alt: "Editorial collage of industrial and service work, a time grid, public infrastructure, and balanced pathways.",
+  },
+  "Volume IV": {
+    src: "/volume-illustrations/volume-iv-capability.jpg",
+    alt: "Editorial collage of a human figure connected to laboratory instruments, energy, compute, and care systems.",
+  },
+} as const;
+---
+
+<section class="section section-navy book-roadmap" aria-labelledby="book-roadmap-title">
+  <div class="shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Forthcoming book projects</p>
+        <h2 id="book-roadmap-title">Four books, one connected inquiry.</h2>
+      </div>
+      <p>
+        Meet the four planned books behind Independent Observer. Together they move from the
+        discipline of building a record, to the organization of power, to the distribution of social
+        costs, and finally to the conditions that let technology become shared human capability.
+        Explore a title below to read its public volume brief and follow the research question as it
+        develops.
+      </p>
+    </div>
+    <div class="placeholder-notice book-roadmap-boundary">
+      Titles are shown for orientation only. There are no Amazon listings, sales links, release
+      dates, or publication approvals represented on this page.
+    </div>
+    <ol class="book-roadmap-grid" aria-label="Four forthcoming Independent Observer books">
+      {
+        seriesItems.map((item, index) => {
+          const visual = bookVisuals[item.volume as keyof typeof bookVisuals];
+          return (
+            <li class="book-roadmap-card">
+              <a class="book-roadmap-image" href={sitePath(`/series/${slugify(item.title)}/`)}>
+                <img
+                  src={sitePath(visual.src)}
+                  alt={visual.alt}
+                  width="1100"
+                  height="1100"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <div class="book-roadmap-card-copy">
+                <div class="book-roadmap-topline">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <span>Planned book · not released</span>
+                </div>
+                <p class="book-roadmap-volume">{item.volume}</p>
+                <h3>
+                  <a href={sitePath(`/series/${slugify(item.title)}/`)}>{item.title}</a>
+                </h3>
+                <p>{bookNotes[item.volume]}</p>
+                <a class="book-roadmap-link" href={sitePath(`/series/${slugify(item.title)}/`)}>
+                  Read the public volume brief →
+                </a>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</section>

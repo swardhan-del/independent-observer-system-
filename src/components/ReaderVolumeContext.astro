@@ -1,0 +1,50 @@
+---
+import type { PublicDocument } from "../data/documents";
+import type { SeriesItem } from "../data/series";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+
+type Props = {
+  entry: PublicDocument;
+  volumeRecord?: SeriesItem;
+  volumeDocuments: PublicDocument[];
+};
+
+const { entry, volumeRecord, volumeDocuments } = Astro.props as Props;
+const volumeTitle = volumeRecord?.title ?? entry.volume ?? "Independent Observer";
+const volumeHref = volumeRecord
+  ? sitePath(`/series/${slugify(volumeRecord.title)}/`)
+  : sitePath("/series/");
+const volumePaperCount = volumeDocuments.length;
+---
+
+<aside
+  class="reader-volume-context"
+  aria-labelledby="reader-volume-context-title"
+  data-reader-volume-context
+>
+  <div class="reader-volume-context-heading">
+    <p class="eyebrow">{entry.volume} publication context</p>
+    <h3 id="reader-volume-context-title"><a href={volumeHref}>{volumeTitle}</a></h3>
+    <p>
+      This reader is one of {volumePaperCount} public author-paper records mapped to {entry.volume}.
+      The complete set, volume description, and research spine live on the single volume catalogue
+      page.
+    </p>
+  </div>
+
+  <div class="reader-volume-context-list">
+    <p class="reader-volume-context-label">Current record in the volume catalogue</p>
+    <p class="reader-volume-context-note">
+      The paper-specific synopsis above stays on this page. Use the volume catalogue to compare the
+      other public author-paper records without repeating their descriptions here.
+    </p>
+    <a class="button button-secondary button-on-light" href={volumeHref}>
+      Open the {entry.volume} catalogue →
+    </a>
+    <p class="reader-volume-context-boundary">
+      Volume publication, peer review, and release still require the project’s source, rights,
+      quality, and human approval gates.
+    </p>
+  </div>
+</aside>

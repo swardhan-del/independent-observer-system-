@@ -2,11 +2,39 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import EditorialCard from "../components/EditorialCard.astro";
 import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
-import { dropboxFeedItems } from "../data/dropbox-content.generated";
+import { paperDocuments } from "../data/papers";
+import { seriesItems } from "../data/series";
 import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
 import { socialLinks } from "../data/social";
+import EvidenceLayer from "../components/EvidenceLayer.astro";
+import HomepageVolumeGuide from "../components/HomepageVolumeGuide.astro";
+import HomepageLiteratureShelf from "../components/HomepageLiteratureShelf.astro";
+import VolumeVisualStrip from "../components/VolumeVisualStrip.astro";
+import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
+import GreenPublicationShelf from "../components/GreenPublicationShelf.astro";
+import { historyPodcast } from "../data/podcast";
 
-const feedCount = dropboxFeedItems.length;
+const volumeOneMethod = paperDocuments.find(
+  (entry) => entry.id === "independent-observer-volume-one",
+);
+const volumeOneMethodHref = volumeOneMethod
+  ? sitePath(`/library/documents/${volumeOneMethod.id}/`)
+  : sitePath("/library/");
+const volumeOneSource = {
+  label: "Read the Volume I public record",
+  href: volumeOneMethodHref,
+};
+// The public Volume I paper record reports a dated usage signal; current access stays review-pending.
+const highestDownloadDocument = [...paperDocuments]
+  .filter((entry) => typeof entry.metrics?.downloads === "number")
+  .sort((a, b) => (b.metrics?.downloads ?? 0) - (a.metrics?.downloads ?? 0))[0];
+const heroVolumeLinks = seriesItems.map((item, index) => ({
+  ...item,
+  number: String(index + 1).padStart(2, "0"),
+  href: sitePath(`/series/${slugify(item.title)}/`),
+  lens: volumeTopicConnections[item.volume].lens,
+}));
 ---
 
 <BaseLayout
@@ -20,21 +48,82 @@ const feedCount = dropboxFeedItems.length;
         <p class="eyebrow">Independent analysis for a complex age</p>
         <h1>Observe the system.<br /><em>Question the frame.</em></h1>
         <p class="hero-summary">
-          Independent Observer is an independent public home for reports, research, and documentary
-          work that examines how history, institutions, political economy, science, and technology
-          shape public life.
+          Independent Observer is a public research home for a four-volume inquiry into how people
+          observe, inherit, contest, and reshape public systems. Volume I develops the
+          method—source, record, context, contradiction, and limit—before a conclusion is accepted.
+          Volume II follows sovereignty, migration, institutions, and power; Volume III follows
+          work, taxation, welfare, and social citizenship; and Volume IV follows AI, infrastructure,
+          intimacy, science, and human capability. Its public library connects these questions to
+          reviewed author paper pages and research maps drawn from a bounded public-safe archive.
+        </p>
+        <p class="hero-summary hero-summary-secondary">
+          Its purpose is to keep the record, the interpretation, and the limits visible—so readers
+          can follow how a public argument is made and revise it when the evidence changes.
         </p>
         <div class="hero-actions">
           <a class="button" href={sitePath("/research/")}>Explore the research</a>
           <a class="button button-secondary" href={sitePath("/about/")}>Read the mission</a>
         </div>
       </div>
-      <aside class="hero-note" aria-label="Editorial status">
-        <span>Editorial status</span>
+      <aside class="hero-note" aria-labelledby="hero-note-title">
+        <div class="hero-note-heading">
+          <span>Public research index</span>
+          <span class="hero-note-status">Open · 2026</span>
+        </div>
+        <h2 id="hero-note-title">Four volumes. One observing method.</h2>
         <p>
-          Public archive in progress. Reports appear only after they are explicitly reviewed for
-          public release; working material remains in Dropbox.
+          Public previews and matched paper records make the developing work legible. Research
+          published through ResearchGate, Zenodo, or another verified public record enters this
+          index only as reviewed, public-safe material. New research, revisions, and evidence
+          continue to develop here; private drafts remain in the working archive until human release
+          review.
         </p>
+        <dl class="hero-note-stats">
+          <div>
+            <dt>{seriesItems.length}</dt>
+            <dd>volumes</dd>
+          </div>
+          <div>
+            <dt>{topics.length}</dt>
+            <dd>fields</dd>
+          </div>
+          <div>
+            <dt>{paperDocuments.length}</dt>
+            <dd>paper records</dd>
+          </div>
+        </dl>
+        <p class="hero-volume-nav-label">Choose a volume to enter the research</p>
+        <nav class="hero-volume-nav" aria-label="Explore the four volumes">
+          {
+            heroVolumeLinks.map((volume) => (
+              <a class="hero-volume-link" href={volume.href}>
+                <span class="hero-volume-number">{volume.number}</span>
+                <span class="hero-volume-copy">
+                  <strong>{volume.title}</strong>
+                  <span>{volume.lens}</span>
+                </span>
+                <span class="hero-volume-arrow" aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            ))
+          }
+        </nav>
+        {
+          highestDownloadDocument && (
+            <a
+              class="hero-note-signal"
+              href={sitePath(`/library/documents/${highestDownloadDocument.id}/`)}
+            >
+              <span>Highest retrieved Archived distribution signal</span>
+              <strong>{highestDownloadDocument.title}</strong>
+              <small>
+                {highestDownloadDocument.metrics?.downloads ?? "—"} downloads · usage signal—not a
+                quality rating
+              </small>
+            </a>
+          )
+        }
       </aside>
     </div>
     <div class="hero-watermark" aria-hidden="true">IO</div>
@@ -60,17 +149,94 @@ const feedCount = dropboxFeedItems.length;
 
   <section class="section section-white">
     <div class="shell mission-grid">
-      <div class="index" aria-hidden="true">01</div>
+      <div class="index" aria-hidden="true">IO</div>
       <div class="mission-copy">
+        <p class="eyebrow">Independent Observer</p>
+        <h2>
+          One research project about what public systems make visible, possible, and changeable.
+        </h2>
         <p>
-          Serious inquiry begins before certainty: with the discipline to separate evidence,
-          interpretation, institutional narrative, and unresolved questions.
+          The project follows evidence from the record to the institution, from institutional power
+          to the distribution of work and security, and from distribution to human capability. It is
+          grounded in references, identifiable sources, and visible limits—not conspiracy framing.
         </p>
+        <figure class="mission-illustration">
+          <img
+            src={sitePath("/independent-observer-four-volume-map-v2.png")}
+            alt="Editorial illustration of a central observing lens connecting four research fields: evidence, institutions, distribution, and capability."
+            width="1536"
+            height="1024"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>
+            One observing lens, four connected questions: how evidence becomes legible, how power is
+            organized, how change is distributed, and how capability is governed.
+          </figcaption>
+        </figure>
+        <div class="mission-volume-list" aria-label="The general message of each volume">
+          <article class="mission-volume">
+            <span class="mission-volume-number">Volume I</span>
+            <h3><a href={sitePath("/series/independent-observer/")}>Observation</a></h3>
+            <p>Build a record, separate fact from interpretation, and keep correction possible.</p>
+            <a class="mission-volume-link" href={volumeOneMethodHref}>Read the method →</a>
+          </article>
+          <article class="mission-volume">
+            <span class="mission-volume-number">Volume II</span>
+            <h3><a href={sitePath("/series/the-empire-beneath-democracy/")}>Power</a></h3>
+            <p>
+              Trace sovereignty, institutions, membership, and enforcement beneath formal democracy.
+            </p>
+            <a class="mission-volume-link" href={sitePath("/series/the-empire-beneath-democracy/")}
+              >Open the power inquiry →</a
+            >
+          </article>
+          <article class="mission-volume">
+            <span class="mission-volume-number">Volume III</span>
+            <h3><a href={sitePath("/series/managed-decline/")}>Distribution</a></h3>
+            <p>Ask who carries the cost of work, taxation, welfare, and economic change.</p>
+            <a class="mission-volume-link" href={sitePath("/series/managed-decline/")}
+              >Open the social-citizenship inquiry →</a
+            >
+          </article>
+          <article class="mission-volume">
+            <span class="mission-volume-number">Volume IV</span>
+            <h3><a href={sitePath("/series/the-last-human-workforce/")}>Capability</a></h3>
+            <p>Test AI, science, infrastructure, and adaptation against human governance.</p>
+            <a class="mission-volume-link" href={sitePath("/series/the-last-human-workforce/")}
+              >Open the capability inquiry →</a
+            >
+          </article>
+        </div>
+        <div class="mission-visual-map">
+          <p class="eyebrow">A visual way through the program</p>
+          <VolumeVisualStrip compact />
+        </div>
+        <a class="button button-secondary" href={sitePath("/about/#about-volume-atlas")}
+          >Explore all four volumes →</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <HomepageLiteratureShelf />
+
+  <section
+    class="section section-rule homepage-podcast-feature"
+    aria-labelledby="homepage-podcast-title"
+  >
+    <div class="shell homepage-podcast-grid">
+      <div>
+        <p class="eyebrow">New · audio essays</p>
+        <h2 id="homepage-podcast-title">{historyPodcast.title}</h2>
         <p>
-          This site is a durable public home for long-form essays, documentary research, and concise
-          public explainers. It is independent of social-platform feeds, while its private working
-          archive remains in Dropbox.
+          {historyPodcast.subtitle} Hear the four-volume research spine in sequence, then open the public
+          paper records and transcripts behind each episode.
         </p>
+      </div>
+      <div class="homepage-podcast-action">
+        <span>Season one · {historyPodcast.episodes.length} episodes</span>
+        <a class="button" href={sitePath("/podcast/")}>Listen to the season →</a>
       </div>
     </div>
   </section>
@@ -81,15 +247,15 @@ const feedCount = dropboxFeedItems.length;
         <p class="eyebrow">Your independent archive</p>
         <h2>Reports remain under your control.</h2>
         <p>
-          Dropbox is the working archive. This public site receives only reviewed, public-safe
-          summaries, so your private files and unfinished evidence stay private.
+          The working archive is the source of record. This public site receives only reviewed,
+          public-safe summaries, so your private files and unfinished evidence stay private.
         </p>
       </div>
       <div>
         <a class="button" href={sitePath("/library/")}>Open the public library →</a>
         <p class="form-note">
-          {feedCount} approved report {feedCount === 1 ? "card is" : "cards are"} currently in the public
-          feed.
+          The approved release queue is deliberately empty. Public previews and the reviewed library
+          remain available while human release decisions are pending.
         </p>
       </div>
     </div>
@@ -104,7 +270,8 @@ const feedCount = dropboxFeedItems.length;
         </div>
         <p>
           Search the site from the masthead, or start with a desk, the public library, or one of the
-          six coverage fields below.
+          six coverage fields. Each topic is a lens on one of the four volumes, not a separate
+          publication competing with the series.
         </p>
       </div>
       <div class="discovery-grid">
@@ -128,22 +295,68 @@ const feedCount = dropboxFeedItems.length;
           <strong>Videos</strong>
           <p>Explore explainers and future releases by subject.</p>
         </a>
+        <a class="discovery-card discovery-card-accent" href={sitePath("/start/")}>
+          <span>05</span>
+          <strong>Start here</strong>
+          <p>Choose a guided route by method, subject, or archive.</p>
+        </a>
       </div>
       <div class="topic-links" aria-label="Browse coverage fields">
         {
           topics.map((topic) => (
-            <a class="topic-link" href={sitePath("/#topic-" + topic.name.toLowerCase())}>
+            <a class="topic-link" href={sitePath("/topics/" + topic.name.toLowerCase() + "/")}>
               {topic.name}
             </a>
           ))
         }
       </div>
+      <HomepageVolumeGuide />
       <p class="form-note">
         Tip: press <kbd>⌘</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Mac or
         <kbd>Ctrl</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Windows to open search.
       </p>
     </div>
   </section>
+
+  <section class="section section-white" aria-labelledby="homepage-evidence-title">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Read with the layers visible</p>
+          <h2 id="homepage-evidence-title">A publication should show how it knows.</h2>
+        </div>
+        <p>
+          Use the evidence-layer control to see the distinction the future article reader will
+          preserve. Nothing is scored and no category replaces the full text.
+        </p>
+      </div>
+      <EvidenceLayer
+        blocks={[
+          {
+            category: "Documented fact",
+            text: `An archived distribution snapshot for the public Volume I paper record captured ${volumeOneMethod?.metrics?.downloads ?? "—"} downloads and ${volumeOneMethod?.metrics?.abstractViews ?? "—"} abstract views on ${volumeOneMethod?.metrics?.checkedAt ?? "an earlier audit"}. These figures are usage signals, not a quality rating or an access link.`,
+            source: volumeOneSource,
+          },
+          {
+            category: "Interpretation",
+            text: "The foundation paper interprets information asymmetry and institutional design as part of political economy; it asks readers to inspect the record before accepting a conclusion.",
+            source: volumeOneSource,
+          },
+          {
+            category: "Hypothesis",
+            text: "If the basis and limits of an argument are visible, public disagreement may become more correctable.",
+            source: volumeOneSource,
+          },
+          {
+            category: "Limitation",
+            text: "This is a working paper, not peer review; the usage figures do not establish the method or prove a claim about any person or institution.",
+            source: volumeOneSource,
+          },
+        ]}
+      />
+    </div>
+  </section>
+  <GreenPublicationShelf title="New research" />
 
   <section class="section section-navy" aria-label="Distribution channels">
     <div class="shell">

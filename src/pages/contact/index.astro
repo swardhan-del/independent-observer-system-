@@ -1,47 +1,180 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
+
+const contactAddress = "swardhan1@icloud.com";
 ---
 
 <BaseLayout
   title="Contact"
-  description="Contact page preview for Independent Observer."
+  description="Send a respectful inquiry about Independent Observer volumes, research, and public publications."
   currentPath="/contact/"
 >
   <PageHero
     eyebrow="Contact"
-    title="Begin with the substance."
-    description="A future contact channel for corrections, research leads, documentary inquiries, and professional correspondence."
+    title="Questions about Independent Observer."
+    description="Use the inquiry form for questions about the four volumes, research, public reading copies, or publications. It opens a draft in your mail app; sending is your choice, and an inquiry does not guarantee a reply."
   />
-  <section class="section section-white">
+  <section class="section section-white" aria-labelledby="contact-inquiry-title">
     <div class="shell page-grid">
       <div class="prose">
-        <h2>Contact system not yet activated</h2>
+        <h2 id="contact-inquiry-title">Send an inquiry</h2>
         <p>
-          No public email address or form-processing service has been configured. This prevents the
-          preview from inventing contact details or collecting information without a privacy policy.
+          The author can receive questions at <a href={`mailto:${contactAddress}`}
+            >{contactAddress}</a
+          >. Please keep messages relevant to Independent Observer volumes, research, public
+          records, corrections, rights, or publication questions.
         </p>
-        <h3>Planned inquiry categories</h3>
+        <p>
+          The form does not send through this website. It prepares a message in your own mail
+          application so you can review it before sending. The site does not collect, store, or
+          forward the form contents.
+        </p>
+        <h3>What can be discussed</h3>
         <ul>
-          <li>Corrections and source challenges</li>
-          <li>Research leads and public records</li>
-          <li>Documentary and media inquiries</li>
-          <li>Rights, licensing, and professional correspondence</li>
+          <li>Questions about Volume I, II, III, or IV and their public research trails.</li>
+          <li>Questions about a public reading copy, source link, status label, or correction.</li>
+          <li>Publication, documentary, rights, and research-method questions.</li>
         </ul>
+        <p>
+          Please do not include sensitive personal information. Questions and discussion are
+          welcome, but threats, harassment, profanity, defamatory or libelous allegations, and
+          slanderous content will not be accepted.
+        </p>
       </div>
-      <form class="contact-panel" aria-label="Contact form preview" onsubmit="return false">
-        <div class="placeholder-notice">
-          Preview only—this form does not transmit or store data.
+      <aside class="contact-panel contact-panel-open" aria-labelledby="contact-form-title">
+        <p class="contact-panel-kicker">Inquiry channel</p>
+        <h2 id="contact-form-title">Write to the research desk.</h2>
+        <p>
+          Recipient: <a href={`mailto:${contactAddress}`}>{contactAddress}</a>. Review the draft in
+          your mail app before sending.
+        </p>
+        <form
+          class="contact-inquiry-form"
+          action={`mailto:${contactAddress}`}
+          method="post"
+          enctype="text/plain"
+          data-contact-inquiry-form
+        >
+          <label for="contact-name">
+            Name <span>(optional)</span>
+            <input id="contact-name" name="name" type="text" autocomplete="name" />
+          </label>
+          <label for="contact-email">
+            Email
+            <input id="contact-email" name="email" type="email" autocomplete="email" required />
+          </label>
+          <label for="contact-topic">
+            Inquiry about
+            <select id="contact-topic" name="topic" required>
+              <option value="">Select a topic</option>
+              <option>Volume I · observation and method</option>
+              <option>Volume II · institutions and power</option>
+              <option>Volume III · work and social citizenship</option>
+              <option>Volume IV · science and capability</option>
+              <option>Public reading copy or correction</option>
+              <option>Publication, documentary, or rights question</option>
+              <option>Other Independent Observer question</option>
+            </select>
+          </label>
+          <label for="contact-message">
+            Message
+            <textarea
+              id="contact-message"
+              name="message"
+              minlength="10"
+              required
+              placeholder="What would you like to ask?"></textarea>
+          </label>
+          <label class="contact-disclosure" for="contact-disclosure">
+            <input id="contact-disclosure" name="disclosure" type="checkbox" required />
+            <span>
+              I confirm that this inquiry is respectful and relevant. It contains no threats,
+              harassment, profanity, defamatory, libelous, or slanderous content, and no sensitive
+              personal data.
+            </span>
+          </label>
+          <button class="button button-on-light" type="submit">Prepare email draft →</button>
+          <p class="contact-inquiry-status" data-contact-inquiry-status aria-live="polite"></p>
+          <p class="contact-privacy-note">
+            Nothing is stored by this site. Your mail provider handles any message after you choose
+            to send it. An inquiry does not guarantee a response.
+          </p>
+        </form>
+      </aside>
+    </div>
+  </section>
+  <section class="section section-rule" aria-labelledby="contact-discussion-title">
+    <div class="shell page-grid">
+      <aside class="page-aside">Questions and discussion</aside>
+      <div class="prose">
+        <h2 id="contact-discussion-title">A small public Q&amp;A.</h2>
+        <p>
+          This page provides a private, user-initiated mail draft rather than a public comment
+          forum. A moderated question-and-answer or discussion space may be considered later after
+          its privacy, moderation, and response rules are ready.
+        </p>
+        <div class="contact-faq">
+          <details open>
+            <summary>What kinds of questions are useful?</summary>
+            <p>
+              Questions about a volume, research direction, public reading copy, source boundary,
+              correction, documentary concept, or publication status are the best fit.
+            </p>
+          </details>
+          <details>
+            <summary>Will every message receive a reply?</summary>
+            <p>
+              No. The form makes an inquiry possible, but it does not promise a response, timeline,
+              publication decision, or private research access.
+            </p>
+          </details>
+          <details>
+            <summary>How are abusive or defamatory messages handled?</summary>
+            <p>
+              Threats, harassment, profanity, and defamatory, libelous, or slanderous allegations
+              are outside the inquiry channel and will not be accepted as discussion.
+            </p>
+          </details>
+          <details>
+            <summary>Is this a public discussion board?</summary>
+            <p>
+              Not currently. The current route is one-to-one correspondence initiated through your
+              mail application. No public comments or community discussion are published here.
+            </p>
+          </details>
         </div>
-        <h2>Send an inquiry</h2>
-        <label for="contact-name">Name</label>
-        <input id="contact-name" type="text" disabled />
-        <label for="contact-email">Email</label>
-        <input id="contact-email" type="email" disabled />
-        <label for="contact-message">Message</label>
-        <textarea id="contact-message" disabled></textarea>
-        <button class="button" type="button" disabled>Coming later</button>
-      </form>
+      </div>
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  const form = document.querySelector("[data-contact-inquiry-form]");
+  const status = document.querySelector("[data-contact-inquiry-status]");
+
+  if (form instanceof HTMLFormElement && status instanceof HTMLElement) {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const values = new FormData(form);
+      const name = String(values.get("name") ?? "").trim() || "Not provided";
+      const email = String(values.get("email") ?? "").trim();
+      const topic = String(values.get("topic") ?? "").trim();
+      const message = String(values.get("message") ?? "").trim();
+      const subject = `Independent Observer inquiry: ${topic}`;
+      const body = [
+        `Name: ${name}`,
+        `Email: ${email}`,
+        `Inquiry about: ${topic}`,
+        "",
+        message,
+        "",
+        "I confirm that this inquiry follows the contact disclosure.",
+      ].join("\n");
+
+      window.location.href = `mailto:swardhan1@icloud.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      status.textContent =
+        "Your mail app should open with a draft. Nothing is stored by this site.";
+    });
+  }
+</script>

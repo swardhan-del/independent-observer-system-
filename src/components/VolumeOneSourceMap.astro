@@ -1,0 +1,234 @@
+---
+import { volumeOneSourceMap, volumeOneSourceMapSummary } from "../data/volume-one-source-map";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+
+type Props = {
+  compact?: boolean;
+};
+
+const { compact = false } = Astro.props as Props;
+const visibleSources = compact ? volumeOneSourceMap.slice(0, 4) : volumeOneSourceMap;
+const families = [...new Set(visibleSources.map((source) => source.family))];
+const sourceMapHref = sitePath("/series/independent-observer/#volume-one-source-map");
+const visiblePublicRecordCount = visibleSources.filter((source) => source.href).length;
+const sourceStages = [
+  {
+    id: "source",
+    label: "Source material",
+    detail: `${visibleSources.length} mapped ${visibleSources.length === 1 ? "entry" : "entries"}`,
+  },
+  {
+    id: "summary",
+    label: "Editorial summary",
+    detail: "Read the contribution",
+  },
+  {
+    id: "public",
+    label: "Public reading path",
+    detail: `${visiblePublicRecordCount} linked ${visiblePublicRecordCount === 1 ? "record" : "records"}`,
+  },
+] as const;
+---
+
+<section
+  class={`section volume-one-source-map ${compact ? "volume-one-source-map-compact" : ""}`}
+  id={compact ? undefined : "volume-one-source-map"}
+  data-volume-one-source-map
+  aria-labelledby={compact ? undefined : "volume-one-source-map-title"}
+>
+  <div class="shell">
+    <div class="volume-one-source-map-heading">
+      <div>
+        <p class="eyebrow">Volume I source map</p>
+        <h2 id={compact ? undefined : "volume-one-source-map-title"}>
+          {
+            compact
+              ? "The source package behind Volume I."
+              : "What the Volume I source package adds."
+          }
+        </h2>
+      </div>
+      <p>
+        {
+          compact
+            ? "Four anchor materials are shown here as public-safe summaries. The full catalogue map includes nine reviewed source entries, with public-record links only where the record is confirmed."
+            : "The supplied Volume I materials deepen the method with civic capacity, human development, capability preservation, emergency power, public memory, and institutional case studies. This map makes each contribution legible without publishing the source files."
+        }
+      </p>
+    </div>
+
+    <div
+      class="volume-one-source-flow"
+      role="group"
+      aria-label="How Volume I source material reaches the public site"
+    >
+      {
+        sourceStages.map((stage, index) => (
+          <>
+            {index > 0 && <i aria-hidden="true">→</i>}
+            <button
+              type="button"
+              data-volume-one-source-stage={stage.id}
+              aria-pressed={stage.id === "summary"}
+            >
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <strong>{stage.label}</strong>
+              <small>{stage.detail}</small>
+            </button>
+          </>
+        ))
+      }
+    </div>
+    <p
+      class="volume-one-source-stage-status"
+      data-volume-one-source-stage-status
+      role="status"
+      aria-live="polite"
+    >
+      Editorial summary view · showing all {visibleSources.length} source {
+        visibleSources.length === 1 ? "entry" : "entries"
+      }.
+    </p>
+
+    {
+      !compact && (
+        <div
+          class="volume-one-source-controls"
+          role="group"
+          aria-label="Filter Volume I source map"
+        >
+          <button type="button" data-volume-one-source-filter="all" aria-pressed="true">
+            All {volumeOneSourceMapSummary.total}
+          </button>
+          {families.map((family) => (
+            <button type="button" data-volume-one-source-filter={family} aria-pressed="false">
+              {family}
+            </button>
+          ))}
+          <span data-volume-one-source-status role="status" aria-live="polite">
+            Showing {visibleSources.length} of {volumeOneSourceMapSummary.total} source entries
+          </span>
+        </div>
+      )
+    }
+
+    <div class="volume-one-source-grid">
+      {
+        visibleSources.map((source, index) => (
+          <article
+            class="volume-one-source-card"
+            id={`volume-one-source-${slugify(source.id)}`}
+            data-volume-one-source-card
+            data-volume-one-source-family={source.family}
+            data-volume-one-source-public={source.href ? "true" : "false"}
+          >
+            <div class="volume-one-source-card-topline">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{source.family}</span>
+            </div>
+            <span class="volume-one-source-status">{source.status}</span>
+            <h3>{source.title}</h3>
+            <p>{source.summary}</p>
+            <div class="volume-one-source-contribution">
+              <p class="library-block-label">Contribution to Volume I</p>
+              <p>{source.contribution}</p>
+            </div>
+            {source.href ? (
+              <a class="volume-one-source-link" href={source.href}>
+                Open public synopsis →
+              </a>
+            ) : (
+              <span class="volume-one-source-link volume-one-source-link--pending">
+                Public path pending review
+              </span>
+            )}
+          </article>
+        ))
+      }
+    </div>
+
+    {
+      compact && (
+        <div class="volume-one-source-compact-footer">
+          <span>
+            {volumeOneSourceMapSummary.publicRecordCount} public-record links · source summaries
+            only
+          </span>
+          <a href={sourceMapHref}>See the complete Volume I source map →</a>
+        </div>
+      )
+    }
+
+    <p class="volume-one-source-boundary">
+      {volumeOneSourceMapSummary.note}
+    </p>
+    <p class="volume-one-source-access-note">
+      <strong>Public access:</strong> Every “Open public synopsis” link stays on this website and does
+      not require a ResearchGate account. ResearchGate records, where shown elsewhere, are optional external
+      links and may apply their own temporary access controls.
+    </p>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-volume-one-source-map]").forEach((root) => {
+    const filters = [
+      ...root.querySelectorAll<HTMLButtonElement>("[data-volume-one-source-filter]"),
+    ];
+    const stages = [...root.querySelectorAll<HTMLButtonElement>("[data-volume-one-source-stage]")];
+    const cards = [...root.querySelectorAll<HTMLElement>("[data-volume-one-source-card]")];
+    const status = root.querySelector<HTMLElement>("[data-volume-one-source-status]");
+    const stageStatus = root.querySelector<HTMLElement>("[data-volume-one-source-stage-status]");
+    if (!cards.length || !stageStatus) return;
+
+    let selectedFamily = "all";
+    let selectedStage = "summary";
+    const update = () => {
+      let visible = 0;
+      cards.forEach((card) => {
+        const matchesFamily =
+          selectedFamily === "all" || card.dataset.volumeOneSourceFamily === selectedFamily;
+        const matchesStage =
+          selectedStage !== "public" || card.dataset.volumeOneSourcePublic === "true";
+        const show = matchesFamily && matchesStage;
+        card.hidden = !show;
+        if (show) visible += 1;
+      });
+      filters.forEach((candidate) =>
+        candidate.setAttribute(
+          "aria-pressed",
+          String((candidate.dataset.volumeOneSourceFilter ?? "all") === selectedFamily),
+        ),
+      );
+      stages.forEach((candidate) =>
+        candidate.setAttribute(
+          "aria-pressed",
+          String((candidate.dataset.volumeOneSourceStage ?? "summary") === selectedStage),
+        ),
+      );
+      if (status) status.textContent = `Showing ${visible} of ${cards.length} source entries`;
+      const stageLabel =
+        selectedStage === "public"
+          ? "Public reading path"
+          : selectedStage === "source"
+            ? "Source material"
+            : "Editorial summary";
+      stageStatus.textContent = `${stageLabel} view · showing ${visible} of ${cards.length} source ${cards.length === 1 ? "entry" : "entries"}.`;
+    };
+
+    filters.forEach((filter) =>
+      filter.addEventListener("click", () => {
+        selectedFamily = filter.dataset.volumeOneSourceFilter ?? "all";
+        update();
+      }),
+    );
+    stages.forEach((stage) =>
+      stage.addEventListener("click", () => {
+        selectedStage = stage.dataset.volumeOneSourceStage ?? "summary";
+        update();
+      }),
+    );
+    update();
+  });
+</script>

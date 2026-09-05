@@ -22,6 +22,9 @@ const currentPath = `/documentaries/${slugify(item.title)}/`;
     eyebrow="Documentary preview"
     backLabel="Back to documentaries"
     backHref={sitePath("/documentaries/")}
+    heroClassName={item.title === "Could America Leave NATO?"
+      ? "documentary-nato-hero"
+      : "documentary-detail-hero"}
     statusNote="This is a project concept in development, not a completed or released film. Research, rights, production, and fact-checking remain required."
   />
 </BaseLayout>

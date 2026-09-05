@@ -1,0 +1,50 @@
+---
+import type { VolumeReel } from "../data/video-reels";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+
+type Props = {
+  items: VolumeReel[];
+};
+
+const { items } = Astro.props as Props;
+const reelAnchor = (item: VolumeReel) => `volume-reel-${slugify(`${item.volume}-${item.title}`)}`;
+---
+
+<div class="volume-reel-grid">
+  {
+    items.map((item, index) => (
+      <article class="volume-reel-card" id={reelAnchor(item)}>
+        <div class="volume-reel-card__meta">
+          <div class="card-meta">
+            <span>
+              {String(index + 1).padStart(2, "0")} · {item.volume}
+            </span>
+            <span>Preview reel</span>
+          </div>
+          <a href={sitePath(item.volumeHref)}>{item.volumeTitle} →</a>
+        </div>
+        <video
+          class="volume-reel-card__player"
+          controls
+          preload="metadata"
+          playsinline
+          poster={item.posterUrl ? sitePath(item.posterUrl) : undefined}
+          aria-label={`${item.title} · ${item.volume}`}
+        >
+          <source src={sitePath(item.mediaUrl)} type={item.mediaType} />
+          Your browser does not support the embedded video player.
+        </video>
+        <div class="volume-reel-card__body">
+          <p class="eyebrow">{item.category}</p>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+          <div class="volume-reel-card__footer">
+            <span>{item.sourceLabel}</span>
+            <span>{item.sourceNote}</span>
+          </div>
+        </div>
+      </article>
+    ))
+  }
+</div>

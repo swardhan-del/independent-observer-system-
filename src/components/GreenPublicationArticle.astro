@@ -1,0 +1,119 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  greenPublicationById,
+  greenPublicationByFamilyId,
+  greenPublicationBySlug,
+  readingTimeMinutes,
+} from "../data/green-publications";
+import type { GreenPublication } from "../data/green-publications";
+import { sitePath } from "../lib/paths";
+
+const { publication } = Astro.props as { publication: GreenPublication };
+const currentPath = `/research/${publication.slug}/`;
+const related = publication.relatedPublicationIds
+  .map((id) => greenPublicationByFamilyId.get(id) ?? greenPublicationById.get(id))
+  .filter((item): item is GreenPublication => Boolean(item))
+  .filter((item) => greenPublicationBySlug.has(item.slug));
+const schema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  headline: publication.title,
+  author: { "@type": "Person", name: publication.author },
+  datePublished: publication.publicationDate,
+  dateModified: publication.lastReviewedDate,
+  version: publication.version,
+  isAccessibleForFree: true,
+  license: publication.license,
+  url: new URL(sitePath(currentPath), Astro.site ?? Astro.url.origin).href,
+}).replace(/</g, "\\u003c");
+---
+
+<BaseLayout
+  title={publication.shortTitle}
+  description={publication.standfirst}
+  currentPath={currentPath}
+  noindex={!publication.productionReleased}
+>
+  <script type="application/ld+json" set:html={schema} is:inline />
+  <article
+    class="section section-white research-article"
+    data-candidate-id={publication.candidateId}
+  >
+    <div class="shell article-shell">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href={sitePath("/research/")}>Research &amp; Essays</a><span aria-hidden="true">/</span
+        ><span>{publication.shortTitle}</span>
+      </nav>
+      <div class="article-status" role="status">
+        {publication.status} · {
+          publication.productionReleased
+            ? "in the production release feed"
+            : "not in the production release feed"
+        }
+      </div>
+      <header class="article-header">
+        <p class="eyebrow">{publication.volume} · {publication.publicationType}</p>
+        <h1>{publication.title}</h1>
+        <p class="article-standfirst">{publication.standfirst}</p>
+        <p class="article-byline">
+          By {publication.author} · {readingTimeMinutes(publication)} min read · version {
+            publication.version
+          }
+        </p>
+        <p class="article-meta">
+          Factual cutoff {publication.factualCutoffDate} · reviewed {publication.lastReviewedDate} · {
+            publication.topics.join(" · ")
+          }
+        </p>
+      </header>
+      <div class="article-body prose">
+        {publication.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+        <section aria-labelledby="article-sources">
+          <h2 id="article-sources">Sources and notes</h2>
+          <ul>
+            {
+              publication.sourceNotes.map((source) => (
+                <li>
+                  <a href={source.href} target="_blank" rel="noopener noreferrer">
+                    {source.label} ↗
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+        <section aria-labelledby="article-limitations">
+          <h2 id="article-limitations">Limitations</h2>
+          <p>{publication.limitations}</p>
+        </section>
+        <section aria-labelledby="article-disclosures">
+          <h2 id="article-disclosures">Disclosure</h2>
+          <p>
+            No funding or conflicts are asserted in this bounded preview. AI-use and release records
+            remain part of the editorial control process. Corrections can be sent through the <a
+              href={sitePath("/contact/")}>contact page</a
+            >.
+          </p>
+        </section>
+      </div>
+      {
+        related.length > 0 && (
+          <aside class="article-related" aria-labelledby="article-related-title">
+            <>
+              <h2 id="article-related-title">Continue reading</h2>
+              <ul>
+                {related.map((item) => (
+                  <li>
+                    <a href={sitePath(`/research/${item.slug}/`)}>{item.title}</a>
+                    <span>{item.volume}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          </aside>
+        )
+      }
+    </div>
+  </article>
+</BaseLayout>

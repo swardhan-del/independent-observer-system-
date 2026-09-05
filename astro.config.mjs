@@ -1,6 +1,6 @@
 import { defineConfig } from "astro/config";
 
-const DEFAULT_SITE_URL = "https://swardhan-del.github.io";
+const DEFAULT_SITE_URL = "https://independentobserver.org";
 
 function normalizeSiteUrl(value) {
   const url = new URL(value);

@@ -1,0 +1,259 @@
+---
+import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
+import { topicPluginFor } from "../../plugins/topic-discovery/catalog";
+import { seriesItems } from "../data/series";
+import { volumeResearchMap } from "../data/volume-research";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+
+const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
+// "Highest archived download signal in this volume" is never shown without a dated snapshot note.
+---
+
+<section
+  class="section section-navy library-content-blocks"
+  id="public-volume-content"
+  aria-labelledby="library-content-title"
+>
+  <div class="shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Public content blocks</p>
+        <h2 id="library-content-title">Four volumes. Four reasons the work matters.</h2>
+      </div>
+      <p>
+        The Independent Observer is one connected research project with four distinct lines of
+        inquiry. Each block explains a volume's purpose, principles, subject lenses, and public
+        reading copies. archived downloads are discovery signals, not quality ratings, peer review,
+        or publication approval.
+      </p>
+    </div>
+
+    <div class="library-volume-toolbar">
+      <div class="library-volume-filters" role="group" aria-label="Filter library by volume">
+        <button type="button" data-library-volume-filter="all" aria-pressed="true">
+          All four volumes
+        </button>
+        {
+          libraryVolumeGuides.map((guide) => (
+            <button
+              type="button"
+              data-library-volume-filter={slugify(guide.volume)}
+              aria-pressed="false"
+            >
+              {guide.volume}
+            </button>
+          ))
+        }
+      </div>
+      <p class="library-volume-status" data-library-volume-status role="status" aria-live="polite">
+        Showing all four volumes
+      </p>
+    </div>
+
+    <div class="library-volume-blocks">
+      {
+        libraryVolumeGuides.map((guide, index) => {
+          const series = seriesByVolume.get(guide.volume);
+          if (!series) return null;
+          const volumeSlug = slugify(guide.volume);
+          const volumeId = `library-${volumeSlug}`;
+          const preprints =
+            volumeResearchMap.find((item) => item.volume === guide.volume)?.papers ?? [];
+          const representativePaper = preprints[0];
+          const additionalPreprints = preprints.slice(1);
+          return (
+            <article
+              class="library-volume-block"
+              id={volumeId}
+              data-library-volume-card={volumeSlug}
+              aria-labelledby={`${volumeId}-title`}
+            >
+              <div class="library-volume-block-header">
+                <div class="card-meta">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <span>{guide.volume}</span>
+                </div>
+                <span class="status-pill">{series.status}</span>
+              </div>
+              <h3 id={`${volumeId}-title`}>
+                <a href={sitePath(`/series/${slugify(series.title)}/`)}>{series.title}</a>
+              </h3>
+              <p class="library-volume-focus">{guide.focus}</p>
+              <div class="library-volume-importance">
+                <p class="library-block-label">Why this volume matters</p>
+                <p>{guide.importance}</p>
+              </div>
+              <p class="library-volume-summary">{guide.summary}</p>
+
+              <div class="library-volume-ideas">
+                <div>
+                  <p class="library-block-label">Core ideas</p>
+                  <ul>
+                    {guide.coreIdeas.map((idea) => (
+                      <li>{idea}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p class="library-block-label">Topic lenses</p>
+                  <div class="library-topic-links">
+                    {guide.topicSlugs.map((slug) => {
+                      const topic = topicPluginFor(slug);
+                      return <a href={sitePath(`/topics/${slug}/`)}>{topic.name}</a>;
+                    })}
+                  </div>
+                  <a
+                    class="library-volume-roadmap-link"
+                    href={sitePath(`/series/${slugify(series.title)}/`)}
+                  >
+                    Open the {guide.volume} roadmap note →
+                  </a>
+                </div>
+              </div>
+
+              {representativePaper && (
+                <div class="library-representative-paper">
+                  <div>
+                    <p class="library-block-label">Representative public paper</p>
+                    <h4>
+                      <a href={sitePath(`/library/documents/${representativePaper.id}/`)}>
+                        {representativePaper.title}
+                      </a>
+                    </h4>
+                    <p>{representativePaper.description}</p>
+                    <a href={sitePath(`/library/documents/${representativePaper.id}/`)}>
+                      Read the public synopsis →
+                    </a>
+                  </div>
+                  <div class="library-representative-paper-meta">
+                    <span class="status-pill">{representativePaper.status}</span>
+                    <span>{representativePaper.metrics?.downloads ?? "—"} downloads</span>
+                    <span>
+                      Archived snapshot checked {representativePaper.metrics?.checkedAt}; not a
+                      rating.
+                    </span>
+                    {representativePaper.researchGateUrl && (
+                      <a
+                        href={representativePaper.researchGateUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Open ResearchGate record ↗ · optional external link
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {additionalPreprints.length > 0 && (
+                <div class="library-preprint-shelf" aria-labelledby={`${volumeId}-preprints`}>
+                  <div class="library-preprint-heading">
+                    <div>
+                      <p class="library-block-label">Additional author paper pages</p>
+                      <h4 id={`${volumeId}-preprints`}>More reading copies from {guide.volume}</h4>
+                    </div>
+                    <span>
+                      {additionalPreprints.length}{" "}
+                      {additionalPreprints.length === 1 ? "reading copy" : "reading copies"}
+                    </span>
+                  </div>
+                  <div class="library-preprint-grid">
+                    {additionalPreprints.map((entry) => (
+                      <article class="library-preprint-card">
+                        <span class="library-preprint-status">Author working paper</span>
+                        <h5>
+                          <a href={sitePath(`/library/documents/${entry.id}/`)}>{entry.title}</a>
+                        </h5>
+                        <p>{entry.description}</p>
+                        <a href={sitePath(`/library/documents/${entry.id}/`)}>
+                          Read the public synopsis →
+                        </a>
+                        <div class="library-preprint-footer">
+                          <span>
+                            {entry.metrics?.downloads ?? "—"} downloads ·{" "}
+                            {entry.metrics?.abstractViews ?? "—"} views · archived snapshot checked{" "}
+                            {entry.metrics?.checkedAt}
+                          </span>
+                          {entry.researchGateUrl && (
+                            <a
+                              href={entry.researchGateUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              ResearchGate record ↗
+                            </a>
+                          )}
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const section = document.querySelector<HTMLElement>(".library-content-blocks");
+  if (section) {
+    const cards = [...section.querySelectorAll<HTMLElement>("[data-library-volume-card]")];
+    const filters = [
+      ...section.querySelectorAll<HTMLButtonElement>("[data-library-volume-filter]"),
+    ];
+    const status = section.querySelector<HTMLElement>("[data-library-volume-status]");
+    if (cards.length && filters.length && status) {
+      let selected = "all";
+      const labels = new Map(
+        filters.map((filter) => [
+          filter.dataset.libraryVolumeFilter ?? "",
+          filter.textContent?.trim() ?? "",
+        ]),
+      );
+      const labelFor = (value: string) =>
+        value === "all" ? "all four volumes" : (labels.get(value) ?? value);
+      const updateUrl = () => {
+        const url = new URL(window.location.href);
+        if (selected === "all") url.searchParams.delete("volume");
+        else url.searchParams.set("volume", selected);
+        window.history.replaceState(
+          null,
+          "",
+          url.pathname + (url.search ? url.search : "") + url.hash,
+        );
+      };
+      const render = (persist = true) => {
+        cards.forEach((card) => {
+          card.hidden = selected !== "all" && card.dataset.libraryVolumeCard !== selected;
+        });
+        filters.forEach((filter) =>
+          filter.setAttribute(
+            "aria-pressed",
+            String(filter.dataset.libraryVolumeFilter === selected),
+          ),
+        );
+        status.textContent = `Showing ${labelFor(selected)}`;
+        if (persist) updateUrl();
+      };
+      filters.forEach((filter) =>
+        filter.addEventListener("click", () => {
+          selected = filter.dataset.libraryVolumeFilter ?? "all";
+          render();
+        }),
+      );
+      const readUrl = () => {
+        const value = new URLSearchParams(window.location.search).get("volume") ?? "all";
+        selected = filters.some((filter) => filter.dataset.libraryVolumeFilter === value)
+          ? value
+          : "all";
+        render(false);
+      };
+      window.addEventListener("popstate", readUrl);
+      readUrl();
+    }
+  }
+</script>

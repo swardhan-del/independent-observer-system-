@@ -3,102 +3,180 @@ import { documentaryItems, researchItems, topics, videoItems } from "../data/con
 import { dropboxFeedItems } from "../data/dropbox-content.generated";
 import { publicDocumentItems } from "../data/documents";
 import { seriesItems } from "../data/series";
-import { publicLibrarySnapshot } from "../data/public-library";
+import { volumeReels } from "../data/video-reels";
+import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
+import { topicPluginFor } from "../../plugins/topic-discovery/catalog";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
+import type { SearchEntry } from "../lib/search";
+import { previewGreenPublications } from "../data/green-publications";
 
-type SearchEntry = {
-  title: string;
-  category: string;
-  description: string;
-  status: string;
-  kind: string;
-  href: string;
-};
-
+const topicNames = topics.map((topic) => topic.name);
 const feedHref: Record<string, string> = {
   research: sitePath("/research/"),
   documentary: sitePath("/documentaries/"),
   video: sitePath("/videos/"),
   series: sitePath("/series/"),
 };
+const topicsForCategory = (category: string) => {
+  const value = category.toLocaleLowerCase();
+  return topicNames.filter((topic) => {
+    const name = topic.toLocaleLowerCase();
+    if (value.includes(name)) return true;
+    if (name === "economics") return value.includes("econom") || value.includes("labor");
+    if (name === "politics")
+      return value.includes("politic") || value.includes("institution") || value.includes("civic");
+    if (name === "history")
+      return (
+        value.includes("history") || value.includes("civilization") || value.includes("geopolitic")
+      );
+    if (name === "technology")
+      return (
+        value.includes("technology") ||
+        value.includes("science") ||
+        value.includes("comput") ||
+        value.includes("labor")
+      );
+    return false;
+  });
+};
 
 const searchItems: SearchEntry[] = [
+  ...previewGreenPublications.map((item) => ({
+    id: `publication:${item.candidateId}`,
+    title: item.title,
+    category: item.topics.slice(0, 2).join(" · "),
+    description: item.standfirst,
+    status: item.status,
+    type: "Research" as const,
+    topics: item.topics,
+    volume: item.volume,
+    format: "bounded text-only preview article",
+    href: sitePath(`/research/${item.slug}/`),
+  })),
   ...researchItems.map((item) => ({
+    id: `research:${item.title}`,
     title: item.title,
     category: item.category,
     description: item.description,
     status: item.status,
-    kind: "Research preview",
+    type: "Research" as const,
+    topics: topicsForCategory(item.category),
+    format: "essay",
     href: sitePath(`/research/${slugify(item.title)}/`),
   })),
   ...documentaryItems.map((item) => ({
+    id: `documentary:${item.title}`,
     title: item.title,
     category: item.category,
     description: item.description,
     status: item.status,
-    kind: "Documentary preview",
+    type: "Documentary" as const,
+    topics: topicsForCategory(item.category),
+    format: "film",
     href: sitePath(`/documentaries/${slugify(item.title)}/`),
   })),
   ...videoItems.map((item) => ({
+    id: `video:${item.title}`,
     title: item.title,
     category: item.category,
     description: item.description,
     status: item.status,
-    kind: "Video preview",
+    type: "Video" as const,
+    topics: topicsForCategory(item.category),
+    format: "video",
     href: sitePath(`/videos/${slugify(item.title)}/`),
   })),
+  ...volumeReels.map((item) => ({
+    id: `video-reel:${item.title}`,
+    title: item.title,
+    category: item.category,
+    description: item.description,
+    status: item.sourceNote,
+    type: "Video" as const,
+    topics: topicsForCategory(item.category),
+    volume: item.volume,
+    format: "playable preview reel",
+    href: sitePath(`/videos/#volume-reel-${slugify(`${item.volume}-${item.title}`)}`),
+  })),
   ...seriesItems.map((item) => ({
+    id: `series:${item.title}`,
     title: item.title,
     category: item.category,
     description: item.description,
     status: item.status,
-    kind: item.volume,
+    type: "Series" as const,
+    topics: item.volume === "Volume IV" ? ["Technology", "Economics"] : [],
+    volume: item.volume,
+    format: "volume roadmap",
     href: sitePath(`/series/${slugify(item.title)}/`),
   })),
   ...dropboxFeedItems.map((item) => ({
+    id: `approved:${item.id}`,
     title: item.title,
     category: item.category,
     description: item.description,
     status: item.status,
-    kind: "Approved feed",
-    href: feedHref[item.kind] ?? sitePath("/series/"),
+    type: "Approved preview" as const,
+    format: item.kind,
+    href: feedHref[item.kind] ?? sitePath("/library/"),
   })),
   ...publicDocumentItems.map((entry) => ({
+    id: `document:${entry.id}`,
     title: entry.title,
     category: entry.category,
     description: entry.description,
-    status: "Reviewed public copy",
-    kind: "Public document",
+    status: entry.status ?? "Reviewed public copy",
+    type: entry.status === "Author paper" ? ("Research" as const) : ("Published document" as const),
+    topics: topicsForCategory(entry.category),
+    volume: entry.volume,
+    format:
+      entry.status === "Author paper"
+        ? `Author paper${entry.researchGateUrl ? " · ResearchGate record" : ""}`
+        : "document",
     href: sitePath(`/library/documents/${entry.id}/`),
   })),
-  ...publicLibrarySnapshot.volumes.map((volume) => ({
-    title: volume.title,
-    category: volume.focus,
-    description: volume.summary,
-    status: "Public summary",
-    kind: "Archive volume",
-    href: sitePath("/library/"),
-  })),
-  ...publicLibrarySnapshot.areas.map((area) => ({
-    title: area.title,
-    category: "Archive area",
-    description: area.summary,
-    status: "Public map",
-    kind: "Public library",
-    href: sitePath("/library/"),
-  })),
+  {
+    id: "publication-operating-system",
+    title: "Publication Operating System",
+    category: "Editorial governance",
+    description:
+      "The Independent Observer's operating standard for research, approval, publication, distribution, and learning.",
+    status: "Public reference document",
+    type: "Published document" as const,
+    topics: ["Law", "Politics"],
+    format: "DOCX standard",
+    href: sitePath("/publication-operating-system/"),
+  },
   ...topics.map((topic) => ({
+    id: `topic:${topic.name}`,
     title: topic.name,
     category: "Coverage field",
     description: topic.description,
     status: "Editorial framework",
-    kind: "Topic",
-    href: sitePath("/#topic-" + topic.name.toLowerCase()),
+    type: "Topic" as const,
+    topics: [topic.name],
+    format: "topic hub",
+    href: sitePath(`/topics/${topic.name.toLocaleLowerCase()}/`),
+  })),
+  ...libraryVolumeGuides.map((guide) => ({
+    id: `volume:${guide.volume}`,
+    title: guide.volume,
+    category: guide.focus,
+    description: guide.summary,
+    status: "Public summary",
+    type: "Series" as const,
+    topics: guide.topicSlugs.map((slug) => topicPluginFor(slug).name),
+    volume: guide.volume,
+    format: "volume content block",
+    href: sitePath(`/library/#library-${slugify(guide.volume)}`),
   })),
 ];
 
 const serializedIndex = JSON.stringify(searchItems).replace(/</g, "\\u003c");
+const types = [...new Set(searchItems.map((item) => item.type))];
+const statuses = [...new Set(searchItems.map((item) => item.status))];
+const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolean))] as string[];
 ---
 
 <div class="site-search" data-site-search data-index={serializedIndex}>
@@ -109,51 +187,98 @@ const serializedIndex = JSON.stringify(searchItems).replace(/</g, "\\u003c");
     aria-haspopup="dialog"
     aria-controls="site-search-dialog"
   >
-    Search
+    Search <span class="search-shortcut" aria-hidden="true">⌘K</span>
   </button>
   <dialog id="site-search-dialog" class="search-dialog" aria-labelledby="site-search-title">
     <div class="search-dialog-inner">
       <div class="search-dialog-header">
         <div>
-          <p class="eyebrow">Site search</p>
+          <p class="eyebrow">Local research index</p>
           <h2 id="site-search-title">Find an idea.</h2>
         </div>
-        <button class="search-close" type="button" data-search-close aria-label="Close search">
-          Close
-        </button>
+        <button class="search-close" type="button" data-search-close aria-label="Close search"
+          >Close</button
+        >
       </div>
-      <label for="site-search-input">Search previews, fields, series, and archive areas</label>
+      <label for="site-search-input">Search public papers, work, fields, and volume guides</label>
       <input
         id="site-search-input"
         data-search-input
         type="search"
         autocomplete="off"
-        placeholder="Try “institutional power”, “AI”, or “archive”"
+        placeholder="Try “Volume I”, “ResearchGate”, “AI”, or “migration”"
+        aria-controls="site-search-results"
+        aria-describedby="site-search-status"
       />
       <div class="search-suggestions" aria-label="Suggested searches">
         <span>Try:</span>
         <button type="button" data-search-query="institutions">Institutions</button>
-        <button type="button" data-search-query="technology">Technology</button>
+        <button type="button" data-search-query="AI">AI</button>
         <button type="button" data-search-query="archive">Archive</button>
       </div>
-      <p class="search-status" data-search-status role="status">
-        Type to search the public preview.
+      <div class="search-filters" aria-label="Search filters">
+        <label
+          >Type<select data-search-filter="type"
+            ><option value="">All types</option>{
+              types.map((type) => <option value={type}>{type}</option>)
+            }</select
+          ></label
+        >
+        <label
+          >Topic<select data-search-filter="topic"
+            ><option value="">All topics</option>{
+              topicNames.map((topic) => <option value={topic}>{topic}</option>)
+            }</select
+          ></label
+        >
+        <label
+          >Status<select data-search-filter="status"
+            ><option value="">All statuses</option>{
+              statuses.map((status) => <option value={status}>{status}</option>)
+            }</select
+          ></label
+        >
+        <label
+          >Volume<select data-search-filter="volume"
+            ><option value="">All volumes</option>{
+              volumes.map((volume) => <option value={volume}>{volume}</option>)
+            }</select
+          ></label
+        >
+      </div>
+      <p
+        class="search-status"
+        id="site-search-status"
+        data-search-status
+        role="status"
+        aria-live="polite"
+      >
+        Type to search papers, volume guides, and public work.
       </p>
-      <ul class="search-results" data-search-results></ul>
-      <p class="form-note">Search runs in your browser. Your query is not transmitted or stored.</p>
+      <ul
+        class="search-results"
+        id="site-search-results"
+        data-search-results
+        role="listbox"
+        aria-label="Search results"
+      >
+      </ul>
+      <p class="form-note">
+        Search runs in your browser. Your query and reading-list data are not transmitted or stored
+        by this site.
+      </p>
     </div>
   </dialog>
 </div>
 
 <script>
-  type SearchResult = {
-    title: string;
-    category: string;
-    description: string;
-    status: string;
-    kind: string;
-    href: string;
-  };
+  import {
+    highlightTokens,
+    rankSearchEntries,
+    searchSuggestions,
+    normalizeSearchText,
+    type SearchEntry,
+  } from "../lib/search";
 
   document.querySelectorAll<HTMLElement>("[data-site-search]").forEach((root) => {
     const dialog = root.querySelector<HTMLDialogElement>("#site-search-dialog");
@@ -162,89 +287,187 @@ const serializedIndex = JSON.stringify(searchItems).replace(/</g, "\\u003c");
     const input = root.querySelector<HTMLInputElement>("[data-search-input]");
     const status = root.querySelector<HTMLElement>("[data-search-status]");
     const results = root.querySelector<HTMLUListElement>("[data-search-results]");
-    const index = JSON.parse(root.dataset.index ?? "[]") as SearchResult[];
-    const normalize = (value: string) =>
-      value
-        .toLocaleLowerCase()
-        .normalize("NFKD")
-        .replace(/[\u0300-\u036f]/g, "");
+    const index = JSON.parse(root.dataset.index ?? "[]") as SearchEntry[];
+    const filterControls = [...root.querySelectorAll<HTMLSelectElement>("[data-search-filter]")];
+    let selectedIndex = -1;
+    let lastFocused: HTMLElement | null = null;
 
     if (!dialog || !openButton || !closeButton || !input || !status || !results) return;
 
-    const close = () => {
-      if (dialog.open) dialog.close();
-      openButton.focus();
+    const filters = () =>
+      Object.fromEntries(
+        filterControls
+          .map((control) => [control.dataset.searchFilter ?? "", control.value])
+          .filter(([, value]) => value),
+      );
+
+    const syncUrl = () => {
+      const url = new URL(window.location.href);
+      const params = new URLSearchParams();
+      if (input.value.trim()) params.set("q", input.value.trim());
+      for (const control of filterControls)
+        if (control.value) params.set(control.dataset.searchFilter ?? "", control.value);
+      const next = params.toString();
+      window.history.replaceState(null, "", `${url.pathname}${next ? `?${next}` : ""}${url.hash}`);
     };
 
-    const render = () => {
-      const query = normalize(input.value.trim());
-      const terms = query.split(/\\s+/).filter(Boolean);
-      results.replaceChildren();
+    const appendHighlighted = (parent: HTMLElement, text: string, query: string) => {
+      const terms = new Set(highlightTokens(query));
+      const parts = text.split(/([\p{L}\p{N}][\p{L}\p{N}'’-]*)/gu);
+      for (const part of parts) {
+        if (terms.has(normalizeSearchText(part))) {
+          const mark = document.createElement("mark");
+          mark.textContent = part;
+          parent.append(mark);
+        } else parent.append(document.createTextNode(part));
+      }
+    };
 
-      if (!query) {
-        status.textContent = "Type to search the public preview.";
+    const resultLinks = () => [
+      ...results.querySelectorAll<HTMLAnchorElement>("[data-search-result]"),
+    ];
+
+    const render = (writeUrl = true) => {
+      const query = input.value.trim();
+      const matches = rankSearchEntries(index, query, filters());
+      results.replaceChildren();
+      selectedIndex = matches.length ? 0 : -1;
+      if (writeUrl) syncUrl();
+
+      if (!query && !Object.keys(filters()).length) {
+        status.textContent = "Type to search papers, volume guides, and public work.";
         return;
       }
 
-      const matches = index
-        .filter((entry) => {
-          const searchable = normalize(
-            [entry.title, entry.category, entry.description, entry.status, entry.kind].join(" "),
-          );
-          return terms.every((term) => searchable.includes(term));
-        })
-        .slice(0, 12);
-
       status.textContent = matches.length
-        ? matches.length + (matches.length === 1 ? " result" : " results")
-        : "No matching preview found.";
+        ? `${matches.length} ${matches.length === 1 ? "result" : "results"}. Use arrow keys to navigate.`
+        : "No matching public entry.";
 
-      for (const entry of matches) {
+      if (!matches.length) {
+        const item = document.createElement("li");
+        item.className = "search-zero";
+        const message = document.createElement("p");
+        message.textContent = "Try a broader field or one of these local suggestions:";
+        item.append(message);
+        const suggestions = document.createElement("div");
+        suggestions.className = "search-zero-suggestions";
+        for (const suggestion of searchSuggestions(query)) {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.textContent = suggestion;
+          button.dataset.searchQuery = suggestion;
+          suggestions.append(button);
+        }
+        item.append(suggestions);
+        results.append(item);
+        return;
+      }
+
+      let group = "";
+      for (const [index, entry] of matches.slice(0, 16).entries()) {
+        if (entry.type !== group) {
+          group = entry.type;
+          const heading = document.createElement("li");
+          heading.className = "search-result-group";
+          heading.textContent = group;
+          heading.setAttribute("aria-hidden", "true");
+          results.append(heading);
+        }
         const item = document.createElement("li");
         const link = document.createElement("a");
-        const kind = document.createElement("span");
-        const title = document.createElement("strong");
-        const description = document.createElement("span");
-
-        link.href = entry.href;
         link.className = "search-result";
+        link.href = entry.href;
+        link.role = "option";
+        link.dataset.searchResult = String(index);
+        link.setAttribute("aria-selected", String(index === selectedIndex));
+        const kind = document.createElement("span");
         kind.className = "search-result-kind";
-        kind.textContent = entry.kind + " · " + entry.status;
-        title.textContent = entry.title;
+        kind.textContent = [entry.type, entry.status].filter(Boolean).join(" · ");
+        const title = document.createElement("strong");
+        appendHighlighted(title, entry.title, query);
+        const description = document.createElement("span");
         description.textContent = entry.description;
         link.append(kind, title, description);
         item.append(link);
         results.append(item);
       }
+      resultLinks()[selectedIndex]?.setAttribute("aria-selected", "true");
     };
 
-    openButton.addEventListener("click", () => {
+    const open = () => {
+      lastFocused =
+        document.activeElement instanceof HTMLElement ? document.activeElement : openButton;
       if (typeof dialog.showModal === "function") dialog.showModal();
       else dialog.setAttribute("open", "");
       input.focus();
-    });
+      render(false);
+    };
+    const close = () => {
+      if (dialog.open) dialog.close();
+      else dialog.removeAttribute("open");
+      (lastFocused ?? openButton).focus();
+    };
+
+    openButton.addEventListener("click", open);
     closeButton.addEventListener("click", close);
     dialog.addEventListener("click", (event) => {
       if (event.target === dialog) close();
     });
-    input.addEventListener("input", render);
-    root.querySelectorAll<HTMLButtonElement>("[data-search-query]").forEach((button) => {
-      button.addEventListener("click", () => {
-        input.value = button.dataset.searchQuery ?? "";
-        render();
-        input.focus();
-      });
-    });
-    dialog.addEventListener("close", () => {
-      input.value = "";
+    input.addEventListener("input", () => render());
+    filterControls.forEach((control) => control.addEventListener("change", () => render()));
+    root.addEventListener("click", (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>(
+        "[data-search-query]",
+      );
+      if (!button) return;
+      input.value = button.dataset.searchQuery ?? "";
       render();
+      input.focus();
+    });
+    dialog.addEventListener("keydown", (event) => {
+      const links = resultLinks();
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        if (!links.length) return;
+        event.preventDefault();
+        selectedIndex =
+          (selectedIndex + (event.key === "ArrowDown" ? 1 : -1) + links.length) % links.length;
+        links.forEach((link, index) =>
+          link.setAttribute("aria-selected", String(index === selectedIndex)),
+        );
+        links[selectedIndex]?.scrollIntoView({ block: "nearest" });
+      }
+      if (event.key === "Enter" && selectedIndex >= 0 && links[selectedIndex]) {
+        event.preventDefault();
+        links[selectedIndex].click();
+      }
+      if (event.key === "Tab") {
+        const focusable = [
+          ...dialog.querySelectorAll<HTMLElement>("button, input, select, a[href]"),
+        ].filter((element) => !element.hidden);
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
     });
     document.addEventListener("keydown", (event) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLocaleLowerCase() === "k") {
         event.preventDefault();
-        openButton.click();
+        open();
       }
       if (event.key === "Escape" && dialog.open) close();
     });
+
+    const params = new URLSearchParams(window.location.search);
+    input.value = params.get("q") ?? "";
+    filterControls.forEach((control) => {
+      control.value = params.get(control.dataset.searchFilter ?? "") ?? "";
+    });
+    render(false);
   });
 </script>

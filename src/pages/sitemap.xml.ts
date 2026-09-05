@@ -1,16 +1,6 @@
 import type { APIRoute } from "astro";
-import { sitePath } from "../lib/paths";
-
-const publicRoutes = [
-  "/",
-  "/series/",
-  "/library/",
-  "/research/",
-  "/documentaries/",
-  "/videos/",
-  "/about/",
-  "/contact/",
-];
+import { publicSitePath } from "../lib/paths";
+import { indexableRouteRegistry } from "../data/route-registry";
 
 function escapeXml(value: string) {
   return value
@@ -23,10 +13,10 @@ function escapeXml(value: string) {
 
 export const GET: APIRoute = ({ site }) => {
   const publicOrigin = site ?? new URL("http://localhost");
-  const entries = publicRoutes
+  const entries = indexableRouteRegistry
     .map(
-      (route) =>
-        `  <url><loc>${escapeXml(new URL(sitePath(route), publicOrigin).href)}</loc></url>`,
+      ({ route }) =>
+        `  <url><loc>${escapeXml(new URL(publicSitePath(route), publicOrigin).href)}</loc></url>`,
     )
     .join("\n");
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries}\n</urlset>\n`;
