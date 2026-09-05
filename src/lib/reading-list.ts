@@ -11,6 +11,21 @@ export type SavedReadingItem = {
 };
 
 export const readingListStorageKey = "independent-observer:reading-list:v2";
+export const readingListLegacyStorageKey = "independent-observer:reading-list:v1";
+
+export function isSafeReadingHref(value: unknown): value is string {
+  if (typeof value !== "string") return false;
+  const href = value.trim();
+  if (!href || /[\u0000-\u001f\u007f\\]/.test(href)) return false;
+  if (href.startsWith("/")) return !href.startsWith("//");
+
+  try {
+    const url = new URL(href);
+    return url.protocol === "https:" && !url.username && !url.password;
+  } catch {
+    return false;
+  }
+}
 
 export function isSavedReadingItem(value: unknown): value is SavedReadingItem {
   if (!value || typeof value !== "object") return false;
@@ -18,8 +33,9 @@ export function isSavedReadingItem(value: unknown): value is SavedReadingItem {
   return (
     typeof item.id === "string" &&
     typeof item.title === "string" &&
-    typeof item.href === "string" &&
+    isSafeReadingHref(item.href) &&
     typeof item.savedAt === "number" &&
+    Number.isFinite(item.savedAt) &&
     ["unread", "reading", "finished"].includes(item.status ?? "")
   );
 }
@@ -31,6 +47,7 @@ export function parseReadingList(value: string | null): SavedReadingItem[] {
     if (!Array.isArray(parsed)) return [];
     return parsed.filter(isSavedReadingItem).map((item) => ({
       ...item,
+      href: item.href.trim(),
       tag: typeof item.tag === "string" ? item.tag.slice(0, 80) : undefined,
       type: typeof item.type === "string" ? item.type : undefined,
     }));
@@ -52,7 +69,7 @@ export function migrateReadingList(value: string | null): SavedReadingItem[] {
       if (
         typeof candidate.id !== "string" ||
         typeof candidate.title !== "string" ||
-        typeof candidate.href !== "string"
+        !isSafeReadingHref(candidate.href)
       ) {
         return [];
       }
@@ -60,7 +77,7 @@ export function migrateReadingList(value: string | null): SavedReadingItem[] {
         {
           id: candidate.id,
           title: candidate.title,
-          href: candidate.href,
+          href: candidate.href.trim(),
           savedAt: Date.now(),
           status: "unread" as const,
         },
