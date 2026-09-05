@@ -27,11 +27,18 @@ function text(value, field, max = 400) {
 }
 
 function date(value, field) {
-  const parsed = Date.parse(value);
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}(?:T[^\s]+)?$/.test(value)) {
+    fail(`${field} is not an ISO date`);
+  }
+
+  const [datePart] = value.split("T");
+  const [year, month, day] = datePart.split("-").map(Number);
+  const calendarDate = new Date(Date.UTC(year, month - 1, day));
   if (
-    typeof value !== "string" ||
-    !/^\d{4}-\d{2}-\d{2}(?:T[^\s]+)?$/.test(value) ||
-    Number.isNaN(parsed)
+    calendarDate.getUTCFullYear() !== year ||
+    calendarDate.getUTCMonth() !== month - 1 ||
+    calendarDate.getUTCDate() !== day ||
+    (value.includes("T") && Number.isNaN(Date.parse(value)))
   ) {
     fail(`${field} is not an ISO date`);
   }
