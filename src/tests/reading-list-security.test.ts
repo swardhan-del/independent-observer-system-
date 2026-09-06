@@ -20,6 +20,11 @@ describe("reading list security and migration", () => {
     for (const href of [
       "javascript:alert(1)",
       "data:text/html,unsafe",
+      "vbscript:msgbox(1)",
+      "\nhttps://example.com/article",
+      "https://example.com/\u0000article",
+      "https:\\evil.example",
+      "/\\evil.example",
       "http://example.com/article",
       "//example.com/article",
       "https://user:pass@example.com/article",
@@ -27,6 +32,17 @@ describe("reading list security and migration", () => {
     ]) {
       expect(isSafeReadingHref(href)).toBe(false);
     }
+  });
+
+  it("preserves both current and legacy entries in a mixed migration", () => {
+    const entries = JSON.stringify([
+      { id: "current", title: "Current", href: "/about/", savedAt: 1, status: "reading" },
+      { id: "legacy", title: "Legacy", href: "/library/" },
+    ]);
+    expect(migrateReadingList(entries).map((item) => item.id)).toEqual(["current", "legacy"]);
+    expect(migrateReadingList(JSON.stringify(migrateReadingList(entries)))).toEqual(
+      migrateReadingList(entries),
+    );
   });
 
   it("drops unsafe hrefs from current-format imports", () => {
@@ -57,6 +73,8 @@ describe("reading list security and migration", () => {
     ]);
 
     const migrated = migrateReadingList(legacy);
+    expect(migrateReadingList(legacy)).toEqual(migrated);
+    expect(migrated[0].savedAt).toBe(0);
     expect(migrated).toHaveLength(1);
     expect(migrated[0]).toMatchObject({
       id: "legacy-safe",

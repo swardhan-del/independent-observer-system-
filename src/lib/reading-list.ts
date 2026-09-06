@@ -15,6 +15,7 @@ export const readingListLegacyStorageKey = "independent-observer:reading-list:v1
 
 export function isSafeReadingHref(value: unknown): value is string {
   if (typeof value !== "string") return false;
+  if (/[\u0000-\u001f\u007f\\]/.test(value)) return false;
   const href = value.trim();
   if (!href || /[\u0000-\u001f\u007f\\]/.test(href)) return false;
   if (href.startsWith("/")) return !href.startsWith("//");
@@ -57,13 +58,11 @@ export function parseReadingList(value: string | null): SavedReadingItem[] {
 }
 
 export function migrateReadingList(value: string | null): SavedReadingItem[] {
-  const parsed = parseReadingList(value);
-  if (parsed.length > 0) return parsed;
-
   try {
     const legacy: unknown = value ? JSON.parse(value) : [];
     if (!Array.isArray(legacy)) return [];
     return legacy.flatMap((item: unknown) => {
+      if (isSavedReadingItem(item)) return parseReadingList(JSON.stringify([item]));
       if (!item || typeof item !== "object") return [];
       const candidate = item as { id?: unknown; title?: unknown; href?: unknown };
       if (
@@ -78,7 +77,8 @@ export function migrateReadingList(value: string | null): SavedReadingItem[] {
           id: candidate.id,
           title: candidate.title,
           href: candidate.href.trim(),
-          savedAt: Date.now(),
+          // Legacy timestamps are unknown; stable sorting preserves their original order.
+          savedAt: 0,
           status: "unread" as const,
         },
       ];

@@ -41,6 +41,10 @@ function outputForUrl(url) {
 }
 
 const htmlFiles = walk(dist).filter((file) => file.endsWith(".html"));
+if (!htmlFiles.length) failures.push("fallback contains no HTML pages");
+for (const route of ["review", "private"]) {
+  if (existsSync(join(dist, route))) failures.push(`fallback exposes ${route} routes`);
+}
 for (const pathname of htmlFiles) {
   const html = readFileSync(pathname, "utf8");
   if (!/<meta[^>]+name=["']robots["'][^>]+content=["']noindex,follow["']/i.test(html)) {
@@ -58,12 +62,15 @@ for (const pathname of htmlFiles) {
 
   for (const tag of tags(html, "a")) {
     const href = attribute(tag, "href");
-    if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) {
+    if (!href || href.startsWith("mailto:") || href.startsWith("tel:")) {
       continue;
+    }
+    if (href.startsWith("/") && !href.startsWith(fallbackBase)) {
+      failures.push(`${relative(dist, pathname)}: navigation missing repository base ${href}`);
     }
     const target = new URL(href, canonical || productionOrigin);
     if (target.origin !== productionOrigin) continue;
-    const output = outputForUrl(target);
+    const output = href.startsWith("#") ? pathname : outputForUrl(target);
     if (!output || !existsSync(output)) {
       failures.push(`${relative(dist, pathname)}: unresolved fallback navigation ${href}`);
       continue;
@@ -72,9 +79,9 @@ for (const pathname of htmlFiles) {
       const targetHtml = readFileSync(output, "utf8");
       const fragment = decodeURIComponent(target.hash.slice(1));
       if (
-        !new RegExp(
-          `\\bid=["']${fragment.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["']`,
-        ).test(targetHtml)
+        !new RegExp(`\\bid=["']${fragment.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["']`).test(
+          targetHtml,
+        )
       ) {
         failures.push(`${relative(dist, pathname)}: unresolved fragment ${href}`);
       }
@@ -105,7 +112,10 @@ const sitemap = existsSync(join(dist, "sitemap.xml"))
   ? readFileSync(join(dist, "sitemap.xml"), "utf8")
   : "";
 for (const location of sitemap.matchAll(/<loc>(.*?)<\/loc>/g)) {
-  if (!location[1].startsWith(`${productionOrigin}/`) || location[1].startsWith(forbiddenProductionBase)) {
+  if (
+    !location[1].startsWith(`${productionOrigin}/`) ||
+    location[1].startsWith(forbiddenProductionBase)
+  ) {
     failures.push(`sitemap.xml: invalid canonical location ${location[1]}`);
   }
 }

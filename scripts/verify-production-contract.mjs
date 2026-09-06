@@ -1,5 +1,14 @@
+import { readFileSync } from "node:fs";
 const siteUrl = new URL(process.env.SITE_URL ?? "https://independentobserver.org");
-const expectedRouteCount = Number(process.env.EXPECTED_INDEXABLE_ROUTES ?? "54");
+// Compare live discovery with the reviewed build, not a historical route count.
+const expectedUrls = [
+  ...readFileSync(process.env.CONTRACT_SITEMAP ?? "dist/sitemap.xml", "utf8").matchAll(
+    /<loc>(.*?)<\/loc>/g,
+  ),
+].map((match) => match[1]);
+if (!expectedUrls.length)
+  throw new Error("Build the reviewed production sitemap before verification.");
+const expectedRouteCount = expectedUrls.length;
 const failures = [];
 const pages = new Map();
 
@@ -9,7 +18,11 @@ if (siteUrl.pathname !== "/" || siteUrl.search || siteUrl.hash) {
 
 async function fetchText(url, options = {}) {
   try {
-    const response = await fetch(url, { redirect: "manual", ...options });
+    const response = await fetch(url, {
+      redirect: "manual",
+      signal: AbortSignal.timeout(20000),
+      ...options,
+    });
     const text = await response.text();
     return { response, text };
   } catch (error) {
@@ -47,6 +60,9 @@ const uniqueSitemapUrls = [...new Set(sitemapUrls)];
 if (uniqueSitemapUrls.length !== sitemapUrls.length) failures.push("sitemap: duplicate locations");
 if (uniqueSitemapUrls.length !== expectedRouteCount) {
   failures.push(`sitemap: expected ${expectedRouteCount} URLs, found ${uniqueSitemapUrls.length}`);
+}
+if (JSON.stringify([...uniqueSitemapUrls].sort()) !== JSON.stringify([...expectedUrls].sort())) {
+  failures.push("sitemap: live URL set differs from the reviewed build");
 }
 if (!uniqueSitemapUrls.every((url) => new URL(url).origin === siteUrl.origin)) {
   failures.push("sitemap: every location must use SITE_URL origin");
@@ -124,6 +140,45 @@ for (const [path, expectedStatus] of [
 const robots = await fetchText(new URL("robots.txt", siteUrl));
 if (!robots.response || robots.response.status !== 200) failures.push("robots.txt: expected 200");
 if (!robots.text.includes(sitemapUrl.href)) failures.push("robots.txt: sitemap URL missing");
+if (/^Disallow:\s*\/$/m.test(robots.text)) failures.push("robots.txt: production crawling blocked");
+
+const homepage = pages.get(new URL("/", siteUrl).href);
+for (const header of [
+  "content-security-policy",
+  "strict-transport-security",
+  "x-content-type-options",
+  "referrer-policy",
+  "permissions-policy",
+  "x-frame-options",
+]) {
+  if (!homepage?.response?.headers.get(header)) failures.push(`homepage: missing ${header}`);
+}
+const csp = homepage?.response?.headers.get("content-security-policy") ?? "";
+if (
+  !csp.includes("form-action 'self' mailto:") ||
+  !csp.includes("frame-ancestors 'none'") ||
+  /'unsafe-(?:inline|eval)'/.test(csp)
+)
+  failures.push("homepage: CSP contract failed");
+for (const path of ["/review/regrowing-humanity/", "/private/"]) {
+  const result = await fetchText(new URL(path, siteUrl));
+  if (result.response?.status !== 404) failures.push(`${path}: excluded route must return 404`);
+}
+for (const path of ["feed.xml", "feed.atom.xml", "podcast/feed.xml"]) {
+  const result = await fetchText(new URL(path, siteUrl));
+  if (result.response?.status !== 200 || !result.text.startsWith("<?xml"))
+    failures.push(`${path}: XML feed unavailable`);
+  if (
+    /https:\/\/[^<"\s]*(?:vercel\.app|github\.io)/.test(result.text) ||
+    result.text.includes(`${siteUrl.origin}/independent-observer-system-/`)
+  )
+    failures.push(`${path}: noncanonical discovery URL`);
+  if (
+    path === "feed.atom.xml" &&
+    (!result.text.includes("<updated>") || !result.text.includes("<author>"))
+  )
+    failures.push("Atom: feed metadata missing");
+}
 
 const security = await fetchText(new URL(".well-known/security.txt", siteUrl));
 if (!security.response || security.response.status !== 200)
@@ -139,8 +194,10 @@ if (!buildInfo.response || buildInfo.response.status !== 200) {
     const parsed = JSON.parse(buildInfo.text);
     if (parsed.project !== "independent-observer")
       failures.push("build-info.json: project mismatch");
-    if (typeof parsed.commitSha !== "string" || !parsed.commitSha)
-      failures.push("build-info.json: commitSha missing");
+    if (typeof parsed.commitSha !== "string" || !/^[a-f0-9]{40}$/i.test(parsed.commitSha))
+      failures.push("build-info.json: valid commitSha missing");
+    if (process.env.EXPECTED_COMMIT_SHA && parsed.commitSha !== process.env.EXPECTED_COMMIT_SHA)
+      failures.push("build-info.json: deployed commit does not match the reviewed commit");
     if (typeof parsed.buildTimestamp !== "string" || !parsed.buildTimestamp)
       failures.push("build-info.json: buildTimestamp missing");
   } catch (error) {
@@ -154,6 +211,13 @@ if (!missingProbe.response || missingProbe.response.status !== 404) {
     `404 route: expected 404, received ${missingProbe.response?.status ?? "no response"}`,
   );
 }
+
+if (
+  missingProbe.response &&
+  !/noindex/i.test(missingProbe.response.headers.get("x-robots-tag") ?? "") &&
+  !/name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(missingProbe.text)
+)
+  failures.push("404 route: missing noindex");
 
 if (failures.length > 0) {
   console.error(failures.map((failure) => `FAIL ${failure}`).join("\n"));

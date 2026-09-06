@@ -161,13 +161,6 @@ const utilityRoutes: CanonicalRouteRecord[] = [
     canonicalRoute: "/start/",
   },
   {
-    route: "/review/regrowing-humanity/",
-    title: "Regrowing Humanity Evidence Lab",
-    type: "review",
-    source: "review",
-    indexable: false,
-  },
-  {
     route: "/build-info.json",
     title: "Build information",
     type: "utility",

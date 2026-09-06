@@ -1,9 +1,21 @@
 import type { APIRoute } from "astro";
 
-const commitSha =
-  [process.env.VERCEL_GIT_COMMIT_SHA, process.env.GITHUB_SHA, process.env.COMMIT_SHA]
-    .map((value) => value?.trim())
-    .find((value): value is string => Boolean(value)) ?? "unknown";
+import { execFileSync } from "node:child_process";
+import { resolveCommitSha } from "../lib/build-provenance";
+
+let localSha: string | undefined;
+try {
+  localSha = execFileSync("git", ["rev-parse", "HEAD"], {
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "ignore"],
+  });
+} catch {
+  /* Source archives may not include Git metadata. */
+}
+const commitSha = resolveCommitSha(
+  [process.env.VERCEL_GIT_COMMIT_SHA, process.env.GITHUB_SHA, process.env.COMMIT_SHA, localSha],
+  process.env.VERCEL_ENV === "production",
+);
 const buildTimestamp = process.env.BUILD_TIMESTAMP ?? new Date().toISOString();
 
 export const GET: APIRoute = () =>

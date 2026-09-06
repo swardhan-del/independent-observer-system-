@@ -27,7 +27,6 @@ const routes = [
   { route: "/start-here/", file: "start-here/index.html" },
   { route: "/publication-operating-system/", file: "publication-operating-system/index.html" },
   { route: "/whats-new/", file: "whats-new/index.html" },
-  { route: "/review/regrowing-humanity/", file: "review/regrowing-humanity/index.html" },
   { route: "/topics/", file: "topics/index.html" },
   { route: "/topics/history/", file: "topics/history/index.html" },
   { route: "/topics/politics/", file: "topics/politics/index.html" },
@@ -612,10 +611,8 @@ describe("built website", () => {
     }
   });
 
-  it("keeps the staged Evidence Lab noindex and outside release discovery", () => {
-    const html = readOutput("review/regrowing-humanity/index.html");
-    expect(metaContent(html, "name", "robots")).toBe("noindex,follow");
-    expect(html).toContain("Awaiting human release");
+  it("excludes the staged Evidence Lab from public output and discovery", () => {
+    expect(existsSync(join(distRoot, "review/regrowing-humanity/index.html"))).toBe(false);
     expect(readOutput("sitemap.xml")).not.toContain("/review/regrowing-humanity/");
     expect(readOutput("feed.xml")).not.toContain("/review/regrowing-humanity/");
   });
@@ -637,6 +634,8 @@ describe("built website", () => {
   it("keeps preview candidates out of Atom until release approval", () => {
     const atom = readOutput("feed.atom.xml");
     expect(atom).toContain('<feed xmlns="http://www.w3.org/2005/Atom">');
+    expect(atom).toMatch(/<updated>\d{4}-\d{2}-\d{2}T00:00:00Z<\/updated>/);
+    expect(atom).toContain("<author><name>Independent Observer</name></author>");
     expect([...atom.matchAll(/<entry>/g)]).toHaveLength(0);
   });
 

@@ -194,3 +194,16 @@ GitHub repository secrets named `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and `DR
 They must never be committed to this repository. The workflow runs weekly on Mondays and can be
 started manually; any generated change remains subject to CI, human review, branch protection, and
 the normal main-branch deployment gate.
+
+## Release verification
+
+Build the reviewed commit before running `npm run verify:production`. The verifier compares the
+live sitemap URL set against `dist/sitemap.xml`, generated from the approved route registry.
+Set `EXPECTED_COMMIT_SHA` to the reviewed main commit to check deployed provenance as well.
+The scheduled health workflow performs both checks. Production Vercel builds require a valid
+40-character Git SHA; local source archives without Git metadata report `unknown`.
+
+The Evidence Lab review component is retained in source but has no public route. Public builds,
+including the GitHub Pages fallback, exclude `/review/` and `/private/` route trees. Existing
+explicitly approved public previews remain noindex and outside release feeds and the sitemap.
+GitHub Pages updates only after protected main passes CI; never deploy the launch branch there.

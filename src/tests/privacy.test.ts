@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { dropboxDocumentItems, dropboxFeedItems } from "../data/dropbox-content.generated";
@@ -15,6 +15,11 @@ function publicBuildFiles(directory: string): string[] {
 }
 
 describe("public privacy boundary", () => {
+  it("excludes review and private route trees from every public build", () => {
+    for (const route of ["review", "private"])
+      expect(existsSync(join(process.cwd(), "dist", route))).toBe(false);
+  });
+
   it("keeps the generated Dropbox feed fail-closed", () => {
     expect(dropboxFeedItems).toEqual([]);
     expect(dropboxDocumentItems).toEqual([]);

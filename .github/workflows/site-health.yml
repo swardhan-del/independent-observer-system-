@@ -29,8 +29,10 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Build reviewed route contract
+        run: SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build
       - name: Crawl production contract
         env:
           SITE_URL: https://independentobserver.org
-          EXPECTED_INDEXABLE_ROUTES: "54"
+          EXPECTED_COMMIT_SHA: ${{ github.sha }}
         run: npm run verify:production

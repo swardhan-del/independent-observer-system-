@@ -69,16 +69,19 @@ describe("publication manifest", () => {
     ).toThrow();
   });
 
-  it("rejects impossible nominal calendar dates", () => {
+  it.each(["2026-02-31", "2026-04-31", "2025-02-29"])("rejects impossible date %s", (date) => {
+    for (const field of ["dateCreated", "dateModified", "approvedAt"]) {
+      expect(() =>
+        validatePublicationManifest(
+          manifest({ [field]: field === "approvedAt" ? `${date}T10:00:00Z` : date }),
+          { ownerId: "owner-test" },
+        ),
+      ).toThrow();
+    }
+  });
+  it.each(["2026-02-28", "2024-02-29"])("accepts real date %s", (date) => {
     expect(() =>
-      validatePublicationManifest(manifest({ dateCreated: "2026-02-31" }), {
-        ownerId: "owner-test",
-      }),
-    ).toThrow();
-    expect(() =>
-      validatePublicationManifest(manifest({ approvedAt: "2026-02-31T10:00:00Z" }), {
-        ownerId: "owner-test",
-      }),
-    ).toThrow();
+      validatePublicationManifest(manifest({ dateCreated: date }), { ownerId: "owner-test" }),
+    ).not.toThrow();
   });
 });

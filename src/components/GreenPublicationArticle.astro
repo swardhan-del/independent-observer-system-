@@ -7,7 +7,7 @@ import {
   readingTimeMinutes,
 } from "../data/green-publications";
 import type { GreenPublication } from "../data/green-publications";
-import { sitePath } from "../lib/paths";
+import { publicSitePath, sitePath } from "../lib/paths";
 
 const { publication } = Astro.props as { publication: GreenPublication };
 const currentPath = `/research/${publication.slug}/`;
@@ -25,7 +25,7 @@ const schema = JSON.stringify({
   version: publication.version,
   isAccessibleForFree: true,
   license: publication.license,
-  url: new URL(sitePath(currentPath), Astro.site ?? Astro.url.origin).href,
+  url: new URL(publicSitePath(currentPath), Astro.site ?? Astro.url.origin).href,
 }).replace(/</g, "\\u003c");
 ---
 
