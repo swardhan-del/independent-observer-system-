@@ -37,6 +37,8 @@ jobs:
         run: npx vitest run scripts/publication-manifest.test.mjs scripts/sync-dropbox-public-feed.test.mjs
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
+      - name: Audit build and test dependencies
+        run: npm audit --audit-level=moderate
       - name: Reject unmanaged Dropbox feed edits
         if: github.event_name == 'pull_request'
         env:
