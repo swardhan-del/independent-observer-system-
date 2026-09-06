@@ -1,0 +1,41 @@
+<script>
+  const masthead = document.querySelector<HTMLElement>(".site-header");
+  if (masthead) {
+    const measure = () =>
+      document.documentElement.style.setProperty(
+        "--site-header-offset",
+        `${Math.ceil(masthead.getBoundingClientRect().height) + 20}px`,
+      );
+    measure();
+    if ("ResizeObserver" in window) new ResizeObserver(measure).observe(masthead);
+    const revealTarget = () => {
+      let id = "";
+      try {
+        id = decodeURIComponent(window.location.hash.slice(1));
+      } catch {
+        return;
+      }
+      const target = document.getElementById(id);
+      if (
+        target?.matches(
+          "#reading-journeys, .journey, .podcast-episode, [data-transcript-paragraph]",
+        )
+      ) {
+        requestAnimationFrame(() => target.scrollIntoView({ block: "start" }));
+      }
+    };
+    revealTarget();
+    window.addEventListener("hashchange", revealTarget);
+  }
+</script>
+<style is:global>
+  #reading-journeys,
+  .journey,
+  .podcast-episode,
+  [data-transcript-paragraph] {
+    scroll-margin-top: var(--site-header-offset, 240px);
+  }
+  .site-header.sticky-header.scrolled {
+    background-color: var(--navy-950);
+  }
+</style>

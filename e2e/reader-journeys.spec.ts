@@ -65,7 +65,7 @@ test("podcast resumes real media, filters transcript and forgets progress", asyn
   await episode.locator("[data-podcast-resume]").click();
   await expect
     .poll(() => episode.locator("audio").evaluate((audio: HTMLAudioElement) => audio.currentTime))
-    .toBeGreaterThanOrEqual(42);
+    .toBeGreaterThan(42.5);
   await episode.locator("audio").evaluate((audio: HTMLAudioElement) => audio.pause());
   await episode.locator("summary").click();
   await episode.locator("[data-transcript-query]").fill("A timeline is not yet an explanation");
@@ -134,4 +134,19 @@ test("saved reading item survives closing the list and reloading", async ({ page
   await expect(page.locator("[data-reading-items] li")).toHaveCount(1);
   await page.locator("[data-reading-items] a").first().click();
   await expect(page.locator("[data-document-reader]")).toBeVisible();
+});
+
+test("reading journey heading clears the sticky masthead", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("link", { name: "Explore a question" }).click();
+  await expect(page).toHaveURL(/start\/#reading-journeys/);
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const heading = document.querySelector("#reading-journeys-title")!.getBoundingClientRect();
+        const header = document.querySelector(".site-header")!.getBoundingClientRect();
+        return heading.top - header.bottom;
+      }),
+    )
+    .toBeGreaterThanOrEqual(0);
 });

@@ -16,6 +16,7 @@ existing reading lists, and the protected production release path.
 - Transcript filtering and paragraph time links. **Times are approximate**, derived
   from narration length and nearby silence, and labeled in the interface. They are
   not a verified word alignment or synchronized captions.
+- Measured masthead offsets keep reading-journey and podcast anchors visible on mobile.
 - Four reading journeys connect an audio introduction with three existing public papers.
 - BibTeX and RIS downloads use known author/date metadata and identify the source record;
   unavailable metadata is not invented. Original plain-text citation controls remain.
