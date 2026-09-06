@@ -4,6 +4,7 @@ import { exportCitation } from "../lib/citations";
 import type { PublicDocument } from "../data/documents";
 import { paperDocuments } from "../data/papers";
 import { seriesItems } from "../data/series";
+import FollowUpdates from "./FollowUpdates.astro";
 import PageHero from "./PageHero.astro";
 import RelatedContent from "./RelatedContent.astro";
 import ReaderVolumeContext from "./ReaderVolumeContext.astro";
@@ -64,121 +65,48 @@ const volumeRecord = entry.volume
 <div class="reader-progress" data-reader-progress aria-hidden="true"><span></span></div>
 <section class="section section-white reader-shell">
   <div class="shell reader-layout">
-    <aside class="reader-sidebar">
-      <p class="eyebrow">Document details</p>
-      <dl class="reader-meta">
-        <div><dt>Status</dt><dd>{status}</dd></div>
-        {
-          placementHeld ? (
-            <div>
-              <dt>Archive placement</dt>
-              <dd>Held pending owner approval</dd>
-            </div>
-          ) : (
-            <div>
-              <dt>Volume</dt>
-              <dd>
-                {entry.volume}
-                {volumeRecord ? ` · ${volumeRecord.title}` : ""}
-              </dd>
-            </div>
-          )
-        }
-        {
-          !placementHeld && (
-            <div>
-              <>
-                <dt>Desk</dt>
-                <dd>{entry.category}</dd>
-              </>
-            </div>
-          )
-        }
-        <div><dt>Source</dt><dd>{entry.sourceLabel}</dd></div>
-        {
-          entry.author && (
-            <div>
-              <>
-                <dt>Author</dt>
-                <dd>{entry.author}</dd>
-              </>
-            </div>
-          )
-        }
-        {
-          entry.publicationDate && (
-            <div>
-              <>
-                <dt>{entry.dateLabel ?? "Published"}</dt>
-                <dd>{entry.publicationDate}</dd>
-              </>
-            </div>
-          )
-        }
-        {
-          entry.metrics && (
-            <div class="reader-metrics">
-              <dt>Archived distribution</dt>
-              <dd>
-                {entry.metrics.downloads ?? "—"} downloads · {entry.metrics.abstractViews ?? "—"}{" "}
-                views
-                <>
-                  <br />
-                  <small>
-                    Snapshot checked {entry.metrics.checkedAt}. These historic counts are retained
-                    for context; the originating platform is not used for access.
-                  </small>
-                </>
-              </dd>
-            </div>
-          )
-        }
-        {
-          entry.updatedDate && (
-            <div>
-              <>
-                <dt>Updated</dt>
-                <dd>{entry.updatedDate}</dd>
-              </>
-            </div>
-          )
-        }
-        {
-          entry.sourceModified && (
-            <div>
-              <>
-                <dt>Reviewed</dt>
-                <dd>{entry.sourceModified}</dd>
-              </>
-            </div>
-          )
-        }
-        <div><dt>Reading time</dt><dd>About {estimatedMinutes} min</dd></div>
-      </dl>
-      <nav aria-label="Document sections" class="reader-toc-nav">
-        <p class="reader-nav-label">On this page</p>
-        <ol class="reader-toc">
-          {
-            entry.sections.map((section, index) => (
-              <li>
-                <a href={`#${section.id}`} data-reader-toc-link>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  {section.heading}
-                </a>
-              </li>
-            ))
-          }
-        </ol>
-      </nav>
-      <a class="reader-back-link" href={sitePath("/library/")}>← Back to public library</a>
-    </aside>
-
     <article
       class="document-reader"
       data-document-reader
       data-reader-citation={suggestedCitation}
       data-reader-title={entry.title}
     >
+      {
+        entry.sections.map((section) => (
+          <section
+            class="reader-section"
+            id={section.id}
+            data-reader-section
+            data-section-title={section.heading}
+          >
+            <div class="reader-section-heading">
+              <h2>{section.heading}</h2>
+              <button type="button" class="section-link-button" data-copy-section-link={section.id}>
+                Copy section link
+              </button>
+            </div>
+            {section.paragraphs?.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+            {section.items && (
+              <ul>
+                {section.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            )}
+            {section.id === "publication-boundary" &&
+              entry.volume &&
+              volumeDocuments.length > 0 && (
+                <ReaderVolumeContext
+                  entry={entry}
+                  volumeRecord={volumeRecord}
+                  volumeDocuments={volumeDocuments}
+                />
+              )}
+          </section>
+        ))
+      }
       <div class="reader-actions" aria-label="Reader actions">
         <button type="button" data-reader-copy-link>Copy page link</button>
         <button type="button" data-reader-share>Share</button>
@@ -225,43 +153,7 @@ const volumeRecord = entry.volume
       <p class="reader-action-status" data-reader-action-status role="status" aria-live="polite">
       </p>
 
-      {
-        entry.sections.map((section) => (
-          <section
-            class="reader-section"
-            id={section.id}
-            data-reader-section
-            data-section-title={section.heading}
-          >
-            <div class="reader-section-heading">
-              <h2>{section.heading}</h2>
-              <button type="button" class="section-link-button" data-copy-section-link={section.id}>
-                Copy section link
-              </button>
-            </div>
-            {section.paragraphs?.map((paragraph) => (
-              <p>{paragraph}</p>
-            ))}
-            {section.items && (
-              <ul>
-                {section.items.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            )}
-            {section.id === "publication-boundary" &&
-              entry.volume &&
-              volumeDocuments.length > 0 && (
-                <ReaderVolumeContext
-                  entry={entry}
-                  volumeRecord={volumeRecord}
-                  volumeDocuments={volumeDocuments}
-                />
-              )}
-          </section>
-        ))
-      }
-
+      <FollowUpdates />
       {
         entry.citations && entry.citations.length > 0 && (
           <section class="reader-references" aria-labelledby="reader-references-title">
@@ -394,6 +286,114 @@ const volumeRecord = entry.volume
         >
       </div>
     </article>
+    <aside class="reader-sidebar">
+      <p class="eyebrow">Document details</p>
+      <dl class="reader-meta">
+        <div><dt>Status</dt><dd>{status}</dd></div>
+        {
+          placementHeld ? (
+            <div>
+              <dt>Archive placement</dt>
+              <dd>Held pending owner approval</dd>
+            </div>
+          ) : (
+            <div>
+              <dt>Volume</dt>
+              <dd>
+                {entry.volume}
+                {volumeRecord ? ` · ${volumeRecord.title}` : ""}
+              </dd>
+            </div>
+          )
+        }
+        {
+          !placementHeld && (
+            <div>
+              <>
+                <dt>Desk</dt>
+                <dd>{entry.category}</dd>
+              </>
+            </div>
+          )
+        }
+        <div><dt>Source</dt><dd>{entry.sourceLabel}</dd></div>
+        {
+          entry.author && (
+            <div>
+              <>
+                <dt>Author</dt>
+                <dd>{entry.author}</dd>
+              </>
+            </div>
+          )
+        }
+        {
+          entry.publicationDate && (
+            <div>
+              <>
+                <dt>{entry.dateLabel ?? "Published"}</dt>
+                <dd>{entry.publicationDate}</dd>
+              </>
+            </div>
+          )
+        }
+        {
+          entry.metrics && (
+            <div class="reader-metrics">
+              <dt>Archived distribution</dt>
+              <dd>
+                {entry.metrics.downloads ?? "—"} downloads · {entry.metrics.abstractViews ?? "—"}{" "}
+                views
+                <>
+                  <br />
+                  <small>
+                    Snapshot checked {entry.metrics.checkedAt}. These historic counts are retained
+                    for context; the originating platform is not used for access.
+                  </small>
+                </>
+              </dd>
+            </div>
+          )
+        }
+        {
+          entry.updatedDate && (
+            <div>
+              <>
+                <dt>Updated</dt>
+                <dd>{entry.updatedDate}</dd>
+              </>
+            </div>
+          )
+        }
+        {
+          entry.sourceModified && (
+            <div>
+              <>
+                <dt>Reviewed</dt>
+                <dd>{entry.sourceModified}</dd>
+              </>
+            </div>
+          )
+        }
+        <div><dt>Reading time</dt><dd>About {estimatedMinutes} min</dd></div>
+      </dl>
+      <nav aria-label="Document sections" class="reader-toc-nav">
+        <p class="reader-nav-label">On this page</p>
+        <ol class="reader-toc">
+          {
+            entry.sections.map((section, index) => (
+              <li>
+                <a href={`#${section.id}`} data-reader-toc-link>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {section.heading}
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+      <a class="reader-back-link" href={sitePath("/library/")}>← Back to public library</a>
+    </aside>
   </div>
   <div class="shell reader-top-link"><a href="#main-content">↑ Back to top</a></div>
 </section>
@@ -519,3 +519,20 @@ const volumeRecord = entry.volume
       });
   });
 </script>
+
+<style>
+  .reader-layout {
+    grid-template-areas: "details content";
+  }
+  .document-reader {
+    grid-area: content;
+  }
+  .reader-sidebar {
+    grid-area: details;
+  }
+  @media (max-width: 900px) {
+    .reader-layout {
+      grid-template-areas: "content" "details";
+    }
+  }
+</style>

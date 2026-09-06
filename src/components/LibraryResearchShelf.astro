@@ -49,247 +49,11 @@ const volumeIllustrations = {
   aria-labelledby="research-shelf-title"
 >
   <div class="shell">
-    <div class="section-heading library-research-shelf-heading">
-      <div class="library-research-shelf-heading-title">
-        <p class="eyebrow">Four-volume research shelf</p>
-        <h2 id="research-shelf-title">Follow the work by volume.</h2>
-      </div>
-      <div class="library-research-shelf-heading-copy">
-        <p>
-          Each volume has a distinct question, set of principles, and public entry point. The linked
-          records below are public author paper pages selected from matched, public-safe records;
-          usage counts are discovery signals, not ratings or publication approval.
-        </p>
-        <p>
-          The local search index covers every public author paper page currently in the site data
-          and exposes a matching ResearchGate record only when a verified public URL exists. The
-          Volume II shelf also explains the research method and the contribution of each public
-          paper. The research map beneath selected volume cards identifies additional papers
-          developed in the source taxonomy; those entries are not public author paper pages or
-          publication approvals.
-        </p>
-      </div>
-    </div>
-
-    <div class="library-volume-rail" role="group" aria-label="Jump to a volume">
-      {
-        libraryVolumeGuides.map((guide, index) => {
-          const series = seriesByVolume.get(guide.volume);
-          const guideSlug = slugify(guide.volume);
-          const volumePapers = papers.filter((paper) => paper.volume === guide.volume);
-          const paper = volumePapers[0];
-          return (
-            <a class="library-volume-rail-card" href={`#research-${guideSlug}`}>
-              <span class="card-meta">
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <span>{guide.volume}</span>
-              </span>
-              <strong>{guide.focus}</strong>
-              <span>
-                {volumePapers.length} public reading {volumePapers.length === 1 ? "copy" : "copies"}
-              </span>
-              {paper && <span>{paper.metrics?.downloads ?? "—"} downloads · not a rating</span>}
-              {series && <span class="library-volume-rail-link">View volume brief →</span>}
-            </a>
-          );
-        })
-      }
-    </div>
-
-    <div class="library-volume-shelf">
-      {
-        libraryVolumeGuides.map((guide, index) => {
-          const series = seriesByVolume.get(guide.volume);
-          const guideSlug = slugify(guide.volume);
-          const volumePapers = papers.filter((paper) => paper.volume === guide.volume);
-          const representativePaper = volumePapers[0];
-          return (
-            <article
-              class="library-volume-shelf-card"
-              id={`research-${guideSlug}`}
-              aria-labelledby={`research-${guideSlug}-title`}
-            >
-              <div class="library-volume-shelf-card-header">
-                <div class="card-meta">
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <span>{guide.volume}</span>
-                </div>
-                {series && <span class="status-pill">{series.status}</span>}
-              </div>
-              <div class="library-volume-shelf-intro">
-                <div>
-                  <h3 id={`research-${guideSlug}-title`}>{guide.focus}</h3>
-                  <p class="library-volume-shelf-importance">{guide.importance}</p>
-                </div>
-                <figure class="library-volume-shelf-illustration">
-                  <details open>
-                    <summary>
-                      <span class="library-volume-shelf-illustration-label">
-                        <span>Visual companion</span>
-                        <strong>{volumeIllustrations[guide.volume].label}</strong>
-                      </span>
-                      <img
-                        src={sitePath(volumeIllustrations[guide.volume].src)}
-                        alt={volumeIllustrations[guide.volume].alt}
-                        width="1100"
-                        height="1100"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                      <span class="library-volume-shelf-illustration-action">
-                        <span class="is-open">Close visual key</span>
-                        <span class="is-closed">Open visual key</span>
-                      </span>
-                    </summary>
-                    <div class="library-volume-shelf-illustration-key">
-                      <p class="library-block-label">How to read it</p>
-                      <p>{volumeIllustrations[guide.volume].caption}</p>
-                    </div>
-                  </details>
-                </figure>
-              </div>
-              {guide.volume === "Volume II" && (
-                <div class="library-volume-method" id="library-volume-ii-method">
-                  <div>
-                    <p class="library-block-label">Volume II method</p>
-                    <h4>How the power inquiry is assembled.</h4>
-                    <p>
-                      The method moves from definitions to institutions, then from institutions to
-                      measurable exposure and practical capacity. It keeps constitutional language,
-                      administrative routine, historical inheritance, and geopolitical dependence in
-                      the same frame without treating them as one cause.
-                    </p>
-                  </div>
-                  <ol>
-                    <li>
-                      <strong>Define:</strong> fix the population, period, category, and outcome.
-                    </li>
-                    <li>
-                      <strong>Trace:</strong> follow rules, incentives, enforcement, and records.
-                    </li>
-                    <li>
-                      <strong>Compare:</strong> test indicators against context and contradiction.
-                    </li>
-                    <li>
-                      <strong>Bound:</strong> separate evidence, interpretation, proposal, and
-                      uncertainty.
-                    </li>
-                  </ol>
-                </div>
-              )}
-              <div class="library-volume-shelf-columns">
-                <div>
-                  <p class="library-block-label">Core principles</p>
-                  <ul>
-                    {guide.coreIdeas.slice(0, 3).map((idea) => (
-                      <li>{idea}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <p class="library-block-label">Public entry points</p>
-                  <p>
-                    <a href={sitePath(`/series/${slugify(series?.title ?? guide.volume)}/`)}>
-                      Explore the {guide.volume} catalogue file →
-                    </a>
-                  </p>
-                  <p>
-                    <a
-                      href={sitePath(`/topics/?matrix-volume=${encodeURIComponent(guide.volume)}`)}
-                    >
-                      Map its topic lenses →
-                    </a>
-                  </p>
-                </div>
-              </div>
-              {representativePaper && (
-                <div class="library-volume-shelf-paper">
-                  <div>
-                    <p class="library-block-label">Highest archived download signal</p>
-                    <h4>
-                      <a href={sitePath(`/library/documents/${representativePaper.id}/`)}>
-                        {representativePaper.title}
-                      </a>
-                    </h4>
-                    <p>{representativePaper.description}</p>
-                    {representativePaper.volumeRelevance && (
-                      <p class="library-paper-contribution">
-                        <strong>Contribution to {guide.volume}.</strong>{" "}
-                        {representativePaper.volumeRelevance}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <strong>{representativePaper.metrics?.downloads ?? "—"} downloads</strong>
-                    <span>Archived distribution signal · not a quality score</span>
-                    <div class="library-external-links">
-                      {representativePaper.researchGateUrl && (
-                        <a
-                          href={representativePaper.researchGateUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Open ResearchGate record ↗
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-              {guide.researchPapers.length > 0 && (
-                <div class="library-volume-shelf-research">
-                  <div class="library-volume-shelf-research-heading">
-                    <div>
-                      <p class="library-block-label library-volume-shelf-research-label">
-                        Source-taxonomy research map
-                      </p>
-                      <h4>Additional papers developed for {guide.volume}.</h4>
-                    </div>
-                    <p>
-                      These working research records show the volume’s wider field of inquiry. They
-                      are not author paper pages or publication approvals.
-                    </p>
-                  </div>
-                  <div class="library-volume-shelf-research-grid">
-                    {guide.researchPapers.map((researchPaper) => (
-                      <article class="library-volume-shelf-research-card">
-                        <span class="library-volume-shelf-research-lens">
-                          Research direction · {researchPaper.lens}
-                        </span>
-                        <h5>{researchPaper.title}</h5>
-                        <p>{researchPaper.description}</p>
-                        <p class="library-volume-shelf-research-relevance">
-                          <strong>Why it belongs here.</strong> {researchPaper.relevance}
-                        </p>
-                        {researchPaper.researchGateUrl && (
-                          <div class="library-volume-shelf-research-links">
-                            <a
-                              href={researchPaper.researchGateUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              Open verified ResearchGate preprint ↗
-                            </a>
-                            <span>October 2025 · public preprint record</span>
-                          </div>
-                        )}
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {guide.volume === "Volume I" && <VolumeOneSourceMap compact />}
-            </article>
-          );
-        })
-      }
-    </div>
-
     <div class="library-paper-browser" data-library-paper-shelf>
       <div class="library-paper-browser-heading">
         <div>
           <p class="eyebrow">Public paper index</p>
-          <h3>Search the linked records.</h3>
+          <h2>Search the linked records.</h2>
         </div>
         <p data-library-paper-status role="status" aria-live="polite">
           Showing all {papers.length} author paper pages
@@ -331,9 +95,9 @@ const volumeIllustrations = {
                 <span>{paper.category}</span>
               </div>
               <span class="library-paper-status">{paper.status}</span>
-              <h4>
+              <h3>
                 <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
-              </h4>
+              </h3>
               <p>{paper.description}</p>
               {paper.volumeRelevance && (
                 <p class="library-paper-contribution">
@@ -357,10 +121,252 @@ const volumeIllustrations = {
           ))
         }
       </div>
+      <button type="button" data-library-show-more hidden>Show more papers</button>
       <p class="library-paper-empty" data-library-paper-empty hidden>
         No public paper matches those refinements. Try a broader title, subject, or volume.
       </p>
     </div>
+    <details class="library-programme">
+      <summary>Explore the four-volume research programme</summary>
+      <div class="section-heading library-research-shelf-heading">
+        <div class="library-research-shelf-heading-title">
+          <p class="eyebrow">Four-volume research shelf</p>
+          <h2 id="research-shelf-title">Follow the work by volume.</h2>
+        </div>
+        <div class="library-research-shelf-heading-copy">
+          <p>
+            Each volume has a distinct question, set of principles, and public entry point. The
+            linked records below are public author paper pages selected from matched, public-safe
+            records; usage counts are discovery signals, not ratings or publication approval.
+          </p>
+          <p>
+            The local search index covers every public author paper page currently in the site data
+            and exposes a matching ResearchGate record only when a verified public URL exists. The
+            Volume II shelf also explains the research method and the contribution of each public
+            paper. The research map beneath selected volume cards identifies additional papers
+            developed in the source taxonomy; those entries are not public author paper pages or
+            publication approvals.
+          </p>
+        </div>
+      </div>
+
+      <div class="library-volume-rail" role="group" aria-label="Jump to a volume">
+        {
+          libraryVolumeGuides.map((guide, index) => {
+            const series = seriesByVolume.get(guide.volume);
+            const guideSlug = slugify(guide.volume);
+            const volumePapers = papers.filter((paper) => paper.volume === guide.volume);
+            const paper = volumePapers[0];
+            return (
+              <a class="library-volume-rail-card" href={`#research-${guideSlug}`}>
+                <span class="card-meta">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <span>{guide.volume}</span>
+                </span>
+                <strong>{guide.focus}</strong>
+                <span>
+                  {volumePapers.length} public reading{" "}
+                  {volumePapers.length === 1 ? "copy" : "copies"}
+                </span>
+                {paper && <span>{paper.metrics?.downloads ?? "—"} downloads · not a rating</span>}
+                {series && <span class="library-volume-rail-link">View volume brief →</span>}
+              </a>
+            );
+          })
+        }
+      </div>
+
+      <div class="library-volume-shelf">
+        {
+          libraryVolumeGuides.map((guide, index) => {
+            const series = seriesByVolume.get(guide.volume);
+            const guideSlug = slugify(guide.volume);
+            const volumePapers = papers.filter((paper) => paper.volume === guide.volume);
+            const representativePaper = volumePapers[0];
+            return (
+              <article
+                class="library-volume-shelf-card"
+                id={`research-${guideSlug}`}
+                aria-labelledby={`research-${guideSlug}-title`}
+              >
+                <div class="library-volume-shelf-card-header">
+                  <div class="card-meta">
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <span>{guide.volume}</span>
+                  </div>
+                  {series && <span class="status-pill">{series.status}</span>}
+                </div>
+                <div class="library-volume-shelf-intro">
+                  <div>
+                    <h3 id={`research-${guideSlug}-title`}>{guide.focus}</h3>
+                    <p class="library-volume-shelf-importance">{guide.importance}</p>
+                  </div>
+                  <figure class="library-volume-shelf-illustration">
+                    <details open>
+                      <summary>
+                        <span class="library-volume-shelf-illustration-label">
+                          <span>Visual companion</span>
+                          <strong>{volumeIllustrations[guide.volume].label}</strong>
+                        </span>
+                        <img
+                          src={sitePath(volumeIllustrations[guide.volume].src)}
+                          alt={volumeIllustrations[guide.volume].alt}
+                          width="1100"
+                          height="1100"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                        <span class="library-volume-shelf-illustration-action">
+                          <span class="is-open">Close visual key</span>
+                          <span class="is-closed">Open visual key</span>
+                        </span>
+                      </summary>
+                      <div class="library-volume-shelf-illustration-key">
+                        <p class="library-block-label">How to read it</p>
+                        <p>{volumeIllustrations[guide.volume].caption}</p>
+                      </div>
+                    </details>
+                  </figure>
+                </div>
+                {guide.volume === "Volume II" && (
+                  <div class="library-volume-method" id="library-volume-ii-method">
+                    <div>
+                      <p class="library-block-label">Volume II method</p>
+                      <h4>How the power inquiry is assembled.</h4>
+                      <p>
+                        The method moves from definitions to institutions, then from institutions to
+                        measurable exposure and practical capacity. It keeps constitutional
+                        language, administrative routine, historical inheritance, and geopolitical
+                        dependence in the same frame without treating them as one cause.
+                      </p>
+                    </div>
+                    <ol>
+                      <li>
+                        <strong>Define:</strong> fix the population, period, category, and outcome.
+                      </li>
+                      <li>
+                        <strong>Trace:</strong> follow rules, incentives, enforcement, and records.
+                      </li>
+                      <li>
+                        <strong>Compare:</strong> test indicators against context and contradiction.
+                      </li>
+                      <li>
+                        <strong>Bound:</strong> separate evidence, interpretation, proposal, and
+                        uncertainty.
+                      </li>
+                    </ol>
+                  </div>
+                )}
+                <div class="library-volume-shelf-columns">
+                  <div>
+                    <p class="library-block-label">Core principles</p>
+                    <ul>
+                      {guide.coreIdeas.slice(0, 3).map((idea) => (
+                        <li>{idea}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="library-block-label">Public entry points</p>
+                    <p>
+                      <a href={sitePath(`/series/${slugify(series?.title ?? guide.volume)}/`)}>
+                        Explore the {guide.volume} catalogue file →
+                      </a>
+                    </p>
+                    <p>
+                      <a
+                        href={sitePath(
+                          `/topics/?matrix-volume=${encodeURIComponent(guide.volume)}`,
+                        )}
+                      >
+                        Map its topic lenses →
+                      </a>
+                    </p>
+                  </div>
+                </div>
+                {representativePaper && (
+                  <div class="library-volume-shelf-paper">
+                    <div>
+                      <p class="library-block-label">Highest archived download signal</p>
+                      <h4>
+                        <a href={sitePath(`/library/documents/${representativePaper.id}/`)}>
+                          {representativePaper.title}
+                        </a>
+                      </h4>
+                      <p>{representativePaper.description}</p>
+                      {representativePaper.volumeRelevance && (
+                        <p class="library-paper-contribution">
+                          <strong>Contribution to {guide.volume}.</strong>{" "}
+                          {representativePaper.volumeRelevance}
+                        </p>
+                      )}
+                    </div>
+                    <div>
+                      <strong>{representativePaper.metrics?.downloads ?? "—"} downloads</strong>
+                      <span>Archived distribution signal · not a quality score</span>
+                      <div class="library-external-links">
+                        {representativePaper.researchGateUrl && (
+                          <a
+                            href={representativePaper.researchGateUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Open ResearchGate record ↗
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {guide.researchPapers.length > 0 && (
+                  <div class="library-volume-shelf-research">
+                    <div class="library-volume-shelf-research-heading">
+                      <div>
+                        <p class="library-block-label library-volume-shelf-research-label">
+                          Source-taxonomy research map
+                        </p>
+                        <h4>Additional papers developed for {guide.volume}.</h4>
+                      </div>
+                      <p>
+                        These working research records show the volume’s wider field of inquiry.
+                        They are not author paper pages or publication approvals.
+                      </p>
+                    </div>
+                    <div class="library-volume-shelf-research-grid">
+                      {guide.researchPapers.map((researchPaper) => (
+                        <article class="library-volume-shelf-research-card">
+                          <span class="library-volume-shelf-research-lens">
+                            Research direction · {researchPaper.lens}
+                          </span>
+                          <h5>{researchPaper.title}</h5>
+                          <p>{researchPaper.description}</p>
+                          <p class="library-volume-shelf-research-relevance">
+                            <strong>Why it belongs here.</strong> {researchPaper.relevance}
+                          </p>
+                          {researchPaper.researchGateUrl && (
+                            <div class="library-volume-shelf-research-links">
+                              <a
+                                href={researchPaper.researchGateUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                Open verified ResearchGate preprint ↗
+                              </a>
+                              <span>October 2025 · public preprint record</span>
+                            </div>
+                          )}
+                        </article>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {guide.volume === "Volume I" && <VolumeOneSourceMap compact />}
+              </article>
+            );
+          })
+        }
+      </div>
+    </details>
   </div>
 </section>
 
@@ -372,6 +378,8 @@ const volumeIllustrations = {
     const filters = [...shelf.querySelectorAll<HTMLButtonElement>("[data-library-paper-filter]")];
     const status = shelf.querySelector<HTMLElement>("[data-library-paper-status]");
     const empty = shelf.querySelector<HTMLElement>("[data-library-paper-empty]");
+    const more = shelf.querySelector<HTMLButtonElement>("[data-library-show-more]");
+    let limit = 6;
     let selectedVolume = "all";
     let selectedQuery = "";
     const normalize = (value: string) =>
@@ -404,8 +412,8 @@ const volumeIllustrations = {
           .filter(Boolean);
         const matchesQuery = queryTokens.every((token) => searchTokens.includes(token));
         const show = matchesVolume && matchesQuery;
-        card.hidden = !show;
         if (show) visible += 1;
+        card.hidden = !show || visible > limit;
       });
       filters.forEach((filter) =>
         filter.setAttribute(
@@ -413,17 +421,25 @@ const volumeIllustrations = {
           String(filter.dataset.libraryPaperFilter === selectedVolume),
         ),
       );
-      if (status) status.textContent = `Showing ${visible} of ${cards.length} author paper pages`;
+      if (status)
+        status.textContent = `Showing ${Math.min(visible, limit)} of ${visible} matching author paper pages`;
       if (empty) empty.hidden = visible !== 0;
+      if (more) more.hidden = visible <= limit;
       if (persist) updateUrl();
     };
+    more?.addEventListener("click", () => {
+      limit += 6;
+      render(false);
+    });
     filters.forEach((filter) =>
       filter.addEventListener("click", () => {
+        limit = 6;
         selectedVolume = filter.dataset.libraryPaperFilter ?? "all";
         render();
       }),
     );
     query?.addEventListener("input", () => {
+      limit = 6;
       selectedQuery = query.value;
       render();
     });
@@ -436,3 +452,22 @@ const volumeIllustrations = {
     render(false);
   }
 </script>
+
+<style>
+  .library-programme {
+    margin-top: 32px;
+  }
+  .library-programme > summary {
+    cursor: pointer;
+    padding: 20px;
+    border: 1px solid var(--line);
+    font-weight: 700;
+  }
+  .library-paper-card p {
+    font-size: 1rem;
+  }
+  .library-paper-card .library-paper-contribution,
+  .library-paper-card .library-paper-card-footer {
+    display: none;
+  }
+</style>

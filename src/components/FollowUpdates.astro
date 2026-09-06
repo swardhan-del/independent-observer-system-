@@ -1,0 +1,33 @@
+---
+import { socialLinks } from "../data/social";
+import { sitePath } from "../lib/paths";
+const updates = socialLinks.find((link) => link.label === "Substack")!;
+---
+
+<aside class="follow-updates" aria-label="Follow Independent Observer">
+  <h2>Keep following the questions.</h2>
+  <p>
+    Follow Independent Observer on Substack for notes and publishing updates, or continue with the
+    audio series.
+  </p>
+  <a href={updates.href} target="_blank" rel="noopener noreferrer">Follow on Substack ↗</a>
+  <a href={sitePath("/podcast/feed.xml")}>Get the podcast feed →</a>
+  <a href={sitePath("/whats-new/")}>See what has changed →</a>
+</aside>
+<style>
+  .follow-updates {
+    margin-block: 32px;
+    padding: 24px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .follow-updates h2 {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+  }
+  .follow-updates a {
+    display: inline-block;
+    margin: 8px 20px 8px 0;
+    text-decoration: underline;
+  }
+</style>

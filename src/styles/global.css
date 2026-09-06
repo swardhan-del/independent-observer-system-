@@ -9482,7 +9482,7 @@ kbd {
   gap: 24px;
 }
 
-.library-paper-browser-heading h3 {
+.library-paper-browser-heading h2 {
   margin: 0;
   color: var(--navy-950);
   font-family: var(--serif);
@@ -9596,7 +9596,7 @@ kbd {
   text-transform: uppercase;
 }
 
-.library-paper-card h4 {
+.library-paper-card h3 {
   margin: 12px 0 10px;
   color: var(--navy-950);
   font-family: var(--serif);
@@ -9605,12 +9605,12 @@ kbd {
   line-height: 1.08;
 }
 
-.library-paper-card h4 a {
+.library-paper-card h3 a {
   color: inherit;
   text-decoration: none;
 }
 
-.library-paper-card h4 a:hover {
+.library-paper-card h3 a:hover {
   color: var(--gold-ink);
 }
 
@@ -12143,4 +12143,32 @@ kbd {
 .reader-toolbar .ambient-sound-toggle {
   color: var(--navy-950);
   border-color: var(--navy-950);
+}
+
+/* Keep the first reading decision within reach on compact screens. */
+.discovery-hero .page-hero-inner {
+  padding-block: 40px;
+}
+.discovery-hero .page-intro {
+  font-size: 1.15rem;
+  line-height: 1.5;
+  margin-top: 20px;
+}
+.library-research-shelf {
+  padding-block: 24px;
+}
+.library-paper-browser {
+  margin-top: 0;
+}
+@media (max-width: 700px) {
+  .discovery-hero h1 {
+    font-size: 2.2rem;
+  }
+  .library-paper-browser {
+    padding: 16px;
+  }
+  .library-paper-browser-controls {
+    margin-top: 16px;
+    padding-top: 16px;
+  }
 }

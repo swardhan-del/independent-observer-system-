@@ -1,4 +1,5 @@
 ---
+import FollowUpdates from "../../components/FollowUpdates.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import PodcastEpisode from "../../components/PodcastEpisode.astro";
@@ -36,7 +37,9 @@ const currentPath = "/podcast/";
       </div>
       <figure class="podcast-hero-map">
         <img
-          src={sitePath("/independent-observer-four-volume-map-v2.png")}
+          src={sitePath("/independent-observer-four-volume-map-v2-640.webp")}
+          srcset={`${sitePath("/independent-observer-four-volume-map-v2-640.webp")} 640w, ${sitePath("/independent-observer-four-volume-map-v2-1280.webp")} 1280w`}
+          sizes="(max-width: 760px) 100vw, 50vw"
           alt="Four-volume Independent Observer map connecting observation, power, distribution, and capability."
           width="1536"
           height="1024"
@@ -114,6 +117,7 @@ const currentPath = "/podcast/";
       </div>
     </div>
   </section>
+  <div class="shell"><FollowUpdates /></div>
 </BaseLayout>
 
 <style>
