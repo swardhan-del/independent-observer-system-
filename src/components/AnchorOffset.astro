@@ -18,7 +18,7 @@
       const target = document.getElementById(id);
       if (
         target?.matches(
-          "#reading-journeys, .journey, .podcast-episode, [data-transcript-paragraph]",
+          "#reading-journeys, #evidence-worksheet, .journey, .podcast-episode, [data-transcript-paragraph]",
         )
       ) {
         requestAnimationFrame(() => target.scrollIntoView({ block: "start" }));
@@ -30,6 +30,7 @@
 </script>
 <style is:global>
   #reading-journeys,
+  #evidence-worksheet,
   .journey,
   .podcast-episode,
   [data-transcript-paragraph] {
