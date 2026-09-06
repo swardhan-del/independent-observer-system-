@@ -1,5 +1,6 @@
 ---
 import AnchorOffset from "../components/AnchorOffset.astro";
+import AmbientSoundControl from "../components/AmbientSoundControl.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import ReadingList from "../components/ReadingList.astro";
@@ -199,7 +200,10 @@ const structuredData = JSON.stringify({
   </head>
   <body>
     <Header currentPath={currentPath} />
-    {currentPath === "/series/" ? <ReadingList context="catalogue" /> : <ReadingList />}
+    <div class="shell reader-toolbar">
+      <AmbientSoundControl />
+      {currentPath === "/series/" ? <ReadingList context="catalogue" /> : <ReadingList />}
+    </div>
     <main id="main-content">
       <slot />
     </main>

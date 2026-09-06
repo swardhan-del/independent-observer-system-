@@ -143,19 +143,13 @@ describe("built website", () => {
     expect(html).toContain("hero-volume-link");
   });
 
-  it("renders the homepage mission as a four-volume visual map", () => {
+  it("keeps the homepage volume map compact and links each existing volume", () => {
     const html = readOutput("index.html");
-
-    expect(html).toContain("One research project about what public systems make visible");
-    expect(html).toContain("The general message of each volume");
-    expect(html).toContain("independent-observer-four-volume-map-v2-1280.webp");
-    expect(html).toContain("One observing lens, four connected questions");
-    expect(html).toContain("volume-visual-strip-compact");
-    expect(html).toContain("Observe and document");
-    expect(html).toContain("Locate power and sovereignty");
-    expect(html).toContain("Follow the cost of change");
-    expect(html).toContain("Govern human capability");
-    expect(existsSync(join(distRoot, "independent-observer-four-volume-map-v2.png"))).toBe(true);
+    expect(html).toContain("One method. Four connected questions.");
+    expect(html).toContain("The volumes remain in development.");
+    for (const item of seriesItems)
+      expect(html).toContain(sitePathForTest(`/series/${slugify(item.title)}/`));
+    expect(html).not.toContain('class="homepage-volume-card"');
   });
 
   it("builds robots, sitemap, and 404 output", () => {
@@ -220,29 +214,16 @@ describe("built website", () => {
     expect(html).not.toContain('class="release-log"');
   });
 
-  it("makes the reviewed public literature visible on the homepage", () => {
-    expect(homeHtml).toContain(
-      "The literature behind critical thinking, reasoning, and documentation.",
-    );
-    expect(homeHtml).toContain("21 public author paper pages");
-    expect(homeHtml).toContain("Who Deported More?");
-    expect(homeHtml).toContain("The Double Tax on Time");
-    expect(homeHtml).toContain("Author paper");
-    expect(homeHtml).toContain("An evidence-first comparison of immigration enforcement numbers");
-    expect(homeHtml).toContain("A practical guide to what quantum entanglement can");
-    expect(homeHtml).toContain("A multi-factor study of Latino voting");
-    expect(homeHtml).toContain("Volume IV’s inquiry into how technology and economic conditions");
-    expect(homeHtml).toContain("A Volume III policy proposal asking whether tax rules");
-    expect(homeHtml).toContain("A comparative study of why resource-rich places can remain poor");
-    expect(homeHtml).toContain("A twenty-year scenario for post-authoritarian reconstruction");
-    expect(homeHtml).toContain("A Volume IV analysis of education as economic infrastructure");
-    expect(homeHtml).toContain("A policy and political-economy frame for the unequal timing costs");
-    expect(homeHtml).toContain("A long-range history of how colonization, industrialization");
-    expect(homeHtml).toContain(
-      "https://www.researchgate.net/publication/396766821_Hours_to_Ownership_Why_the_AI_Industrial_Revolution_Rewires_Inequality",
-    );
-    expect(homeHtml).toContain("Open verified ResearchGate preprint");
-    expect(homeHtml).not.toContain("/Independent Observer desktop/");
+  it("offers three unique summaries and a route to the complete library", () => {
+    const html = readOutput("index.html");
+    const cards = tags(html, "article").filter((tag) => attribute(tag, "data-home-reading"));
+    expect(cards).toHaveLength(3);
+    expect(new Set(cards.map((tag) => attribute(tag, "data-home-reading"))).size).toBe(3);
+    expect(html).toContain("Who Deported More?");
+    expect(html).toContain("Explore all 21 paper summaries");
+    expect(html).toContain(sitePathForTest("/library/"));
+    expect(html).toContain("These are summaries of working papers.");
+    expect(html).not.toContain("/Independent Observer desktop/");
   });
 
   it("makes the expanded public research index discoverable without exposing source files", () => {

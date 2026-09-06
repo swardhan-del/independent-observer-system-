@@ -1237,10 +1237,7 @@ textarea {
 }
 
 .reading-list-tools {
-  position: fixed;
-  z-index: 20;
-  right: max(14px, calc((100vw - 1180px) / 2));
-  bottom: 20px;
+  position: static;
 }
 
 .reading-list-trigger {
@@ -12027,4 +12024,123 @@ kbd {
     grid-template-columns: 1fr;
     align-items: start;
   }
+}
+
+/* Focused entry points; reader controls stay in the document flow. */
+.reader-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-block: 8px;
+}
+.reader-toolbar .reading-list-trigger {
+  box-shadow: none;
+}
+.focused-reading-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.focused-volume-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.focused-volume-grid .hero-volume-link {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: var(--navy-950);
+  color: var(--white);
+}
+.focused-podcast {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+.more-navigation {
+  position: relative;
+  align-self: center;
+}
+.more-navigation > summary {
+  padding: 18px;
+  cursor: pointer;
+  color: var(--white);
+}
+.more-navigation > .more-navigation-links {
+  position: absolute;
+  right: 0;
+  width: 250px;
+  background: var(--navy-950);
+  box-shadow: 0 8px 24px #0005;
+}
+.more-navigation > .more-navigation-links a {
+  display: block;
+}
+.article-version {
+  margin-block: 16px 24px;
+}
+.article-version summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+@media (max-width: 900px) {
+  .site-header .utility-bar {
+    display: none;
+  }
+  .site-header .masthead {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding-block: 12px;
+  }
+  .site-header .brand {
+    gap: 8px;
+  }
+  .site-header .brand-mark {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+  }
+  .site-header .brand strong {
+    font-size: 1rem;
+  }
+  .site-header .brand small {
+    font-size: 0.55rem;
+  }
+  .site-header .search-shortcut {
+    display: none;
+  }
+  .site-header .mobile-nav summary {
+    padding-block: 10px;
+  }
+  .focused-reading-grid,
+  .focused-podcast {
+    grid-template-columns: 1fr;
+  }
+  .focused-volume-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .focused-home-hero .hero-inner {
+    padding-block: 32px;
+  }
+}
+@media (max-width: 420px) {
+  .focused-volume-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Keep the secondary menu visible beyond the masthead without decorative overflow. */
+.site-header {
+  overflow: visible;
+}
+.site-header::after {
+  display: none;
+}
+.reader-toolbar .ambient-sound-toggle {
+  color: var(--navy-950);
+  border-color: var(--navy-950);
 }

@@ -1,10 +1,11 @@
 ---
+import { readerStatus } from "../lib/reader-status";
 import { topics } from "../data/content";
 const topicNames = topics.map((topic) => topic.name);
 import { searchItems } from "../data/search-index";
 import { sitePath } from "../lib/paths";
 const types = [...new Set(searchItems.map((item) => item.type))];
-const statuses = [...new Set(searchItems.map((item) => item.status))];
+const statuses = [...new Set(searchItems.map((item) => readerStatus(item.status)))];
 const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolean))] as string[];
 ---
 
@@ -104,6 +105,7 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
 </div>
 
 <script>
+  import { readerStatus } from "../lib/reader-status";
   import {
     highlightTokens,
     rankSearchEntries,
@@ -129,7 +131,10 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
           if (!response.ok) throw new Error("Search unavailable");
           const entries: unknown = await response.json();
           if (!Array.isArray(entries)) throw new Error("Invalid search index");
-          index = entries as SearchEntry[];
+          index = (entries as SearchEntry[]).map((entry) => ({
+            ...entry,
+            status: readerStatus(entry.status),
+          }));
           indexLoaded = true;
         })().catch(() => {
           indexRequest = undefined;
@@ -153,10 +158,13 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
     const syncUrl = () => {
       const url = new URL(window.location.href);
       const params = new URLSearchParams(url.search);
-      for (const key of ["q", "type", "topic", "status", "volume"]) params.delete(key);
-      if (input.value.trim()) params.set("q", input.value.trim());
+      for (const key of ["q", "type", "topic", "status", "volume"]) {
+        params.delete(`search-${key}`);
+        if (!sharesPageFilters) params.delete(key);
+      }
+      if (input.value.trim()) params.set("search-q", input.value.trim());
       for (const control of filterControls)
-        if (control.value) params.set(control.dataset.searchFilter ?? "", control.value);
+        if (control.value) params.set(`search-${control.dataset.searchFilter}`, control.value);
       const next = params.toString();
       window.history.replaceState(null, "", `${url.pathname}${next ? `?${next}` : ""}${url.hash}`);
     };
@@ -327,9 +335,15 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
     });
 
     const params = new URLSearchParams(window.location.search);
-    input.value = params.get("q") ?? "";
+    const sharesPageFilters = Boolean(
+      document.querySelector("[data-content-filter], [data-publication-catalogue]"),
+    );
+    const searchParam = (key: string) =>
+      params.get(`search-${key}`) ?? (sharesPageFilters ? "" : (params.get(key) ?? ""));
+    input.value = searchParam("q");
     filterControls.forEach((control) => {
-      control.value = params.get(control.dataset.searchFilter ?? "") ?? "";
+      const value = searchParam(control.dataset.searchFilter ?? "");
+      control.value = control.dataset.searchFilter === "status" ? readerStatus(value) : value;
     });
     render(false);
   });

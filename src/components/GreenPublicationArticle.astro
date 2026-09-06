@@ -46,10 +46,10 @@ const schema = JSON.stringify({
         ><span>{publication.shortTitle}</span>
       </nav>
       <div class="article-status" role="status">
-        {publication.status} · {
+        {
           publication.productionReleased
-            ? "in the production release feed"
-            : "not in the production release feed"
+            ? "Published article"
+            : "Draft article · awaiting release review"
         }
       </div>
       <header class="article-header">
@@ -57,15 +57,23 @@ const schema = JSON.stringify({
         <h1>{publication.title}</h1>
         <p class="article-standfirst">{publication.standfirst}</p>
         <p class="article-byline">
-          By {publication.author} · {readingTimeMinutes(publication)} min read · version {
-            publication.version
-          }
+          By {publication.author} · {readingTimeMinutes(publication)} min read
         </p>
-        <p class="article-meta">
-          Factual cutoff {publication.factualCutoffDate} · reviewed {publication.lastReviewedDate} · {
-            publication.topics.join(" · ")
-          }
-        </p>
+        <details class="article-version">
+          <summary>About this version</summary>
+          <p>
+            {publication.status} · {
+              publication.productionReleased
+                ? "in the production release feed"
+                : "not in the production release feed"
+            }
+          </p>
+          <p>
+            Version {publication.version} · Factual cutoff {publication.factualCutoffDate} · reviewed
+            {publication.lastReviewedDate}
+          </p>
+          <p>{publication.topics.join(" · ")}</p>
+        </details>
       </header>
       <div class="article-body prose">
         {publication.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
@@ -117,3 +125,17 @@ const schema = JSON.stringify({
     </div>
   </article>
 </BaseLayout>
+
+<script>
+  // Preserve provenance in print, then restore the reader's disclosure state.
+  const versionDetails = document.querySelector<HTMLDetailsElement>(".article-version");
+  let wasOpen = false;
+  window.addEventListener("beforeprint", () => {
+    if (!versionDetails) return;
+    wasOpen = versionDetails.open;
+    versionDetails.open = true;
+  });
+  window.addEventListener("afterprint", () => {
+    if (versionDetails) versionDetails.open = wasOpen;
+  });
+</script>
