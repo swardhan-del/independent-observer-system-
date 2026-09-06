@@ -93,12 +93,18 @@ describe("interactive preview tools", () => {
     expect(search).toContain("data-search-open");
     expect(search).toContain("data-search-results");
     expect(search).toContain("Search runs in your browser");
-    expect(search).not.toMatch(/fetch\s*\(/);
+    expect(search).toContain("fetch(root.dataset.indexUrl!");
+    expect(search).not.toContain("fetch(`/");
+    expect(search).toContain('credentials: "same-origin"');
     expect(search).toContain("ArrowDown");
     expect(search).toContain("data-search-filter");
     expect(search).toContain("highlightTokens");
-    expect(search).toContain("volumeReels.map");
-    expect(search).toContain("playable preview reel");
+    expect(readFileSync(join(sourceRoot, "data/search-index.ts"), "utf8")).toContain(
+      "volumeReels.map",
+    );
+    expect(readFileSync(join(sourceRoot, "data/search-index.ts"), "utf8")).toContain(
+      "playable preview reel",
+    );
   });
 
   it("ships accessible client-side filters for editorial previews", () => {
@@ -625,7 +631,7 @@ describe("interactive preview tools", () => {
     expect(homepage).toContain("The general message of each volume");
     expect(homepage).toContain("grounded in references, identifiable sources, and visible limits");
     expect(homepage).toContain("mission-illustration");
-    expect(homepage).toContain("independent-observer-four-volume-map-v2.png");
+    expect(homepage).toContain("independent-observer-four-volume-map-v2-1280.webp");
     expect(homepage).toContain("central observing lens connecting four research fields");
     expect(homepage).toContain("<VolumeVisualStrip compact />");
     expect(volumeVisualStrip).toContain("volume-visual-strip");

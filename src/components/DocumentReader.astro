@@ -1,4 +1,6 @@
 ---
+import { publicationRevisions } from "../data/publication-revisions";
+import { exportCitation } from "../lib/citations";
 import type { PublicDocument } from "../data/documents";
 import { paperDocuments } from "../data/papers";
 import { seriesItems } from "../data/series";
@@ -21,9 +23,10 @@ const paragraphCount = entry.sections.reduce(
   0,
 );
 const estimatedMinutes = Math.max(1, Math.ceil((paragraphCount * 65) / 220));
+const revisionHistory = publicationRevisions.filter((revision) => revision.documentId === entry.id);
 const status = entry.status ?? "Reviewed public copy";
 const placementHeld = entry.placementDecision?.status === "held";
-const citationComplete = Boolean(entry.author && entry.publicationDate);
+const citationComplete = Boolean(exportCitation(entry, "bib"));
 const suggestedCitation = citationComplete
   ? `${entry.author}. “${entry.title}.” Independent Observer, ${entry.publicationDate}.`
   : `Independent Observer. “${entry.title}.” ${entry.sourceLabel}. Reviewed public copy.`;
@@ -183,6 +186,24 @@ const volumeRecord = entry.volume
         <button type="button" data-reader-copy-citation>Copy citation</button>
         {
           citationComplete && (
+            <>
+              <a href={sitePath(`/citations/${entry.id}.bib`)} download>
+                Download BibTeX
+              </a>
+              <a href={sitePath(`/citations/${entry.id}.ris`)} download>
+                Download RIS
+              </a>
+            </>
+          )
+        }
+        <a
+          data-reader-correction
+          href={sitePath(`/contact/?page=${encodeURIComponent(`/library/documents/${entry.id}/`)}`)}
+          >Suggest a correction</a
+        >
+
+        {
+          citationComplete && (
             <button type="button" data-reader-download-citation>
               Download citation
             </button>
@@ -323,6 +344,23 @@ const volumeRecord = entry.volume
         )
       }
 
+      {
+        revisionHistory.length > 0 && (
+          <section aria-labelledby="paper-revision-history-title">
+            <h2 id="paper-revision-history-title">Revision history</h2>
+            <ol>
+              {revisionHistory.map((revision) => (
+                <li>
+                  <time datetime={revision.date}>{revision.date}</time>
+                  <p>{revision.change}</p>
+                  <p>Reason: {revision.reason}</p>
+                  <a href={`#${revision.affectedSection}`}>Read the affected section</a>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )
+      }
       <div class="reader-citation-box">
         <p class="eyebrow">Suggested citation</p>
         <p data-reader-citation>{suggestedCitation}</p>
@@ -417,6 +455,21 @@ const volumeRecord = entry.volume
           )
         : null;
     sections.forEach((section) => observer?.observe(section));
+    const correctionLink = reader.querySelector<HTMLAnchorElement>("[data-reader-correction]");
+    const updateCorrectionLink = () => {
+      if (!correctionLink) return;
+      const active = sections.find((section) => section.getBoundingClientRect().bottom > 150);
+      const target = new URL(correctionLink.href);
+      if (active)
+        target.searchParams.set(
+          "section",
+          active.querySelector("h2, h3")?.textContent ?? active.id,
+        );
+      correctionLink.href = target.href;
+    };
+    correctionLink?.addEventListener("focus", updateCorrectionLink);
+    correctionLink?.addEventListener("pointerenter", updateCorrectionLink);
+
     window.addEventListener("scroll", updateProgress, { passive: true });
     updateProgress();
     reader.querySelectorAll<HTMLButtonElement>("[data-copy-section-link]").forEach((button) => {

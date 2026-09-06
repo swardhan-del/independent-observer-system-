@@ -1,4 +1,6 @@
 ---
+import { publicationRevisions } from "../../data/publication-revisions";
+import { siteUpdates } from "../../data/site-updates";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import { releaseLog } from "../../data/release-log";
@@ -16,6 +18,59 @@ import { sitePath } from "../../lib/paths";
     title="What’s new, when it is real."
     description="This log records owner-approved releases that have passed the publication path. Staged candidates and external preprints stay in their own status lanes."
   />
+  <section class="section section-white" aria-labelledby="website-updates-title">
+    <div class="shell prose">
+      <h2 id="website-updates-title">Website improvements</h2>
+      <p>
+        Changes to reading and listening tools are recorded here. Publication releases are listed
+        separately below.
+      </p>
+      {
+        siteUpdates.map((update) => (
+          <article id={update.id}>
+            <>
+              <time datetime={update.date}>{update.date}</time>
+              <h3>{update.title}</h3>
+            </>
+            <ul>
+              {update.changes.map((change) => (
+                <li>
+                  <p>
+                    <strong>{change.what}</strong> {change.why}{" "}
+                    <a href={sitePath(change.route)}>{change.label} →</a>
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+  <section class="section section-white" aria-labelledby="paper-corrections-title">
+    <div class="shell prose">
+      <h2 id="paper-corrections-title">Paper revisions and corrections</h2>
+      {
+        publicationRevisions.length === 0 ? (
+          <p>No paper corrections have been recorded in this log yet.</p>
+        ) : (
+          <ol>
+            {publicationRevisions.map((entry) => (
+              <li>
+                <time datetime={entry.date}>{entry.date}</time>
+                <h3>
+                  <a href={sitePath(entry.route)}>{entry.title}</a>
+                </h3>
+                <p>{entry.change}</p>
+                <p>Reason: {entry.reason}</p>
+              </li>
+            ))}
+          </ol>
+        )
+      }
+      <a href={sitePath("/contact/")}>Suggest a correction →</a>
+    </div>
+  </section>
   <section class="section section-white" aria-labelledby="release-log-title">
     <div class="shell">
       <div class="release-log-empty" data-release-log-empty hidden={releaseLog.length > 0}>

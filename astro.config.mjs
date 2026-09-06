@@ -44,6 +44,8 @@ const base = normalizeBasePath(process.env.BASE_PATH ?? "/");
 
 export default defineConfig({
   output: "static",
+  build: { inlineStylesheets: "never" },
+  vite: { build: { assetsInlineLimit: 0 } },
   site,
   base,
   trailingSlash: "always",

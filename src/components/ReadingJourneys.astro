@@ -1,0 +1,66 @@
+---
+import { readingJourneys } from "../data/reading-journeys";
+import { sitePath } from "../lib/paths";
+---
+
+<section
+  class="section section-white"
+  id="reading-journeys"
+  aria-labelledby="reading-journeys-title"
+>
+  <div class="shell">
+    <p class="eyebrow">Choose a question</p>
+    <h2 id="reading-journeys-title">A reading journey through the research.</h2>
+    <p>
+      Begin with a short audio introduction, then read three connected papers in order. Each paper
+      keeps its sources and publication status visible.
+    </p>
+    <div class="journey-grid">
+      {
+        readingJourneys.map((journey) => (
+          <article class="journey" id={`journey-${journey.id}`}>
+            <>
+              <h3>{journey.title}</h3>
+              <p>{journey.introduction}</p>
+            </>
+            <a href={sitePath(`/podcast/#episode-${String(journey.episode).padStart(2, "0")}`)}>
+              Listen to the introduction →
+            </a>
+            <ol>
+              {journey.papers.map((paper) => (
+                <li>
+                  <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
+                </li>
+              ))}
+            </ol>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+<style>
+  .journey-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+  }
+  .journey {
+    padding: 24px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+  }
+  .journey h3 {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+  }
+  .journey li {
+    margin-block: 12px;
+  }
+  @media (max-width: 700px) {
+    .journey-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

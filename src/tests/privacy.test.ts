@@ -8,7 +8,7 @@ function publicBuildFiles(directory: string): string[] {
     const path = join(directory, entry.name);
     return entry.isDirectory()
       ? publicBuildFiles(path)
-      : /\.(?:html|xml|js|css)$/i.test(entry.name)
+      : /\.(?:html|xml|js|css|json|bib|ris)$/i.test(entry.name)
         ? [path]
         : [];
   });

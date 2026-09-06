@@ -207,3 +207,7 @@ The Evidence Lab review component is retained in source but has no public route.
 including the GitHub Pages fallback, exclude `/review/` and `/private/` route trees. Existing
 explicitly approved public previews remain noindex and outside release feeds and the sitemap.
 GitHub Pages updates only after protected main passes CI; never deploy the launch branch there.
+
+## Reader tools and private publishing desk
+
+See [Reader improvements](docs/reader-improvements-2026-09-06.md) for podcast search, listening resume, guided reading, citations, corrections, browser tests, and the private local publishing dashboard. Run `npm run dashboard` for the local desk and `npm run perf:check` for build size checks.

@@ -18,7 +18,7 @@ const researchShelf = readFileSync(
   "utf8",
 );
 const sourceMap = readFileSync(join(sourceRoot, "components/VolumeOneSourceMap.astro"), "utf8");
-const siteSearch = readFileSync(join(sourceRoot, "components/SiteSearch.astro"), "utf8");
+const siteSearch = readFileSync(join(sourceRoot, "data/search-index.ts"), "utf8");
 
 describe("library content blocks", () => {
   it("covers each roadmap volume with core ideas and topic lenses", () => {
@@ -208,7 +208,9 @@ describe("library content blocks", () => {
     expect(siteSearch).toContain("...publicDocumentItems.map");
     expect(siteSearch).toContain("Author paper");
     expect(siteSearch).toContain("ResearchGate record");
-    expect(siteSearch).toContain("Search public papers, work, fields, and volume guides");
+    expect(readFileSync(join(sourceRoot, "components/SiteSearch.astro"), "utf8")).toContain(
+      "Search papers, podcast transcripts, fields, and volume guides",
+    );
   });
 
   it("makes the Volume III tax paper's placement and scope explicit", () => {

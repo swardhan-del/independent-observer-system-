@@ -1,5 +1,7 @@
 ---
 import type { HistoryPodcastEpisode } from "../data/podcast";
+import { formatPlaybackTime } from "../lib/listening-progress";
+import podcastCues from "../data/podcast-cues.json";
 import { sitePath } from "../lib/paths";
 
 type Props = {
@@ -9,9 +11,20 @@ type Props = {
 const { episode } = Astro.props as Props;
 const transcriptParagraphs = episode.script.split(/\n\s*\n/).filter(Boolean);
 const episodeId = `episode-${String(episode.number).padStart(2, "0")}`;
+const cues = (podcastCues as Record<string, { starts: number[] }>)[
+  episode.audioUrl
+    .split("/")
+    .pop()!
+    .replace(/\.wav$/, "")
+];
 ---
 
-<article class="podcast-episode" id={episodeId} aria-labelledby={`${episodeId}-title`}>
+<article
+  class="podcast-episode"
+  id={episodeId}
+  aria-labelledby={`${episodeId}-title`}
+  data-podcast-episode={episodeId}
+>
   <div class="podcast-episode-topline">
     <span>Episode {String(episode.number).padStart(2, "0")} · {episode.volume}</span>
     <span>{episode.duration}</span>
@@ -22,21 +35,65 @@ const episodeId = `episode-${String(episode.number).padStart(2, "0")}`;
   <div class="podcast-player">
     <audio
       controls
-      preload="metadata"
+      preload="none"
       aria-label={`Listen to episode ${episode.number}: ${episode.title}`}
     >
+      <source src={sitePath(episode.audioUrl.replace(/\.wav$/, ".m4a"))} type="audio/mp4" />
       <source src={sitePath(episode.audioUrl)} type="audio/wav" />
       Your browser does not support the embedded audio player. Use the download link below.
     </audio>
-    <a class="podcast-download" href={sitePath(episode.audioUrl)} download>
+    <a
+      class="podcast-download"
+      href={sitePath(episode.audioUrl.replace(/\.wav$/, ".m4a"))}
+      download
+    >
       Download audio <span aria-hidden="true">↓</span>
     </a>
   </div>
 
+  <div class="podcast-tools" data-podcast-tools hidden>
+    <button type="button" data-podcast-resume hidden>Continue listening</button>
+    <button type="button" data-podcast-reset hidden>Forget progress</button>
+    <label
+      >Playback speed <select
+        data-podcast-speed
+        aria-label={`Playback speed for episode ${episode.number}`}
+      >
+        <option value="0.75">0.75×</option><option value="1" selected>1×</option><option
+          value="1.25">1.25×</option
+        ><option value="1.5">1.5×</option><option value="2">2×</option>
+      </select></label
+    >
+    <span data-podcast-status role="status">Listening progress stays on this device.</span>
+  </div>
   <details class="podcast-transcript">
     <summary>Read the full transcript</summary>
     <div class="podcast-transcript-copy">
-      {transcriptParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+      <label class="podcast-transcript-search" data-transcript-tools hidden
+        >Find in this transcript
+        <input
+          type="search"
+          data-transcript-query
+          aria-label={`Find in episode ${episode.number} transcript`}
+        />
+      </label>
+      <p data-transcript-status role="status"></p>
+      <p class="podcast-timing-note">Time links jump near the paragraph. Times are approximate.</p>
+      {
+        transcriptParagraphs.map((paragraph, index) => (
+          <div data-transcript-paragraph id={`${episodeId}-paragraph-${index + 1}`}>
+            <button
+              type="button"
+              data-transcript-seek={cues?.starts[index] ?? 0}
+              hidden
+              aria-label={`Jump near paragraph ${index + 1} at ${formatPlaybackTime(cues?.starts[index] ?? 0)}`}
+            >
+              ~{formatPlaybackTime(cues?.starts[index] ?? 0)}
+            </button>
+            <p>{paragraph}</p>
+          </div>
+        ))
+      }
     </div>
   </details>
 
@@ -238,5 +295,160 @@ const episodeId = `episode-${String(episode.number).padStart(2, "0")}`;
       display: grid;
       gap: 5px;
     }
+  }
+</style>
+
+<script>
+  import {
+    listeningStorageKey,
+    readListeningProgress,
+    resumablePosition,
+    formatPlaybackTime,
+  } from "../lib/listening-progress";
+  document.querySelectorAll<HTMLElement>("[data-podcast-episode]").forEach((root) => {
+    const id = root.dataset.podcastEpisode!;
+    const audio = root.querySelector<HTMLAudioElement>("audio")!;
+    const resume = root.querySelector<HTMLButtonElement>("[data-podcast-resume]")!;
+    const reset = root.querySelector<HTMLButtonElement>("[data-podcast-reset]")!;
+    const status = root.querySelector<HTMLElement>("[data-podcast-status]")!;
+    let saved = 0;
+    let started = false;
+    let lastSaved = 0;
+    const refresh = () => {
+      try {
+        saved = readListeningProgress(localStorage.getItem(listeningStorageKey))[id]?.position ?? 0;
+      } catch {
+        status.textContent = "Progress cannot be saved in this browser. Playback still works.";
+      }
+      resume.hidden = saved < 5;
+      reset.hidden = saved < 5;
+      resume.textContent = `Continue listening from ${formatPlaybackTime(saved)}`;
+    };
+    const persist = (forget = false) => {
+      if (!started && !forget) return;
+      try {
+        const all = readListeningProgress(localStorage.getItem(listeningStorageKey));
+        const position = resumablePosition(audio.currentTime, audio.duration);
+        if (forget || !position) delete all[id];
+        else all[id] = { position, updated: Date.now() };
+        localStorage.setItem(listeningStorageKey, JSON.stringify(all));
+        refresh();
+      } catch {
+        status.textContent = "Progress could not be saved. Playback still works.";
+      }
+    };
+    const seek = (seconds: number, play: boolean) => {
+      const apply = () => {
+        audio.currentTime = Math.max(0, Math.min(seconds, Math.max(0, audio.duration - 1)));
+        if (play)
+          audio.play().catch(() => {
+            status.textContent = "Press Play to continue.";
+          });
+      };
+      if (audio.readyState >= 1) apply();
+      else {
+        audio.addEventListener("loadedmetadata", apply, { once: true });
+        audio.load();
+      }
+    };
+    root.querySelector<HTMLElement>("[data-podcast-tools]")!.hidden = false;
+    root.querySelector<HTMLElement>("[data-transcript-tools]")!.hidden = false;
+    refresh();
+    resume.addEventListener("click", () => seek(saved, true));
+    reset.addEventListener("click", () => {
+      audio.pause();
+      seek(0, false);
+      persist(true);
+      started = false;
+      status.textContent = "Saved progress forgotten.";
+    });
+    audio.addEventListener("play", () => {
+      started = true;
+      document
+        .querySelectorAll<HTMLAudioElement>("[data-podcast-episode] audio")
+        .forEach((other) => {
+          if (other !== audio) other.pause();
+        });
+    });
+    audio.addEventListener("pause", () => persist());
+    audio.addEventListener("ended", () => persist(true));
+    audio.addEventListener("timeupdate", () => {
+      if (Date.now() - lastSaved > 5000) {
+        persist();
+        lastSaved = Date.now();
+      }
+    });
+    window.addEventListener("pagehide", () => persist());
+    window.addEventListener("storage", (event) => {
+      if (event.key === listeningStorageKey) refresh();
+    });
+    audio.addEventListener("error", () => {
+      status.textContent = "Audio could not load. Try the download link or read the transcript.";
+    });
+    root
+      .querySelector<HTMLSelectElement>("[data-podcast-speed]")!
+      .addEventListener("change", (event) => {
+        audio.playbackRate = Number((event.target as HTMLSelectElement).value);
+      });
+    root.querySelectorAll<HTMLButtonElement>("[data-transcript-seek]").forEach((button) => {
+      button.hidden = false;
+      button.addEventListener("click", () => seek(Number(button.dataset.transcriptSeek), true));
+    });
+    const paragraphs = [...root.querySelectorAll<HTMLElement>("[data-transcript-paragraph]")];
+    root
+      .querySelector<HTMLInputElement>("[data-transcript-query]")!
+      .addEventListener("input", (event) => {
+        const query = (event.target as HTMLInputElement).value.trim().toLocaleLowerCase();
+        let count = 0;
+        for (const paragraph of paragraphs) {
+          const matched =
+            !query || paragraph.querySelector("p")!.textContent.toLocaleLowerCase().includes(query);
+          paragraph.hidden = !matched;
+          if (matched) count++;
+        }
+        root.querySelector<HTMLElement>("[data-transcript-status]")!.textContent = query
+          ? `${count} matching paragraphs.`
+          : "";
+      });
+  });
+</script>
+<style>
+  .podcast-tools {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding-block: 16px;
+  }
+  .podcast-tools[hidden] {
+    display: none;
+  }
+  .podcast-tools button,
+  .podcast-tools select,
+  [data-transcript-seek] {
+    min-height: 44px;
+    padding: 8px 12px;
+    color: var(--navy-950);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+  .podcast-transcript-search {
+    display: grid;
+    gap: 8px;
+    padding-block: 14px;
+  }
+  .podcast-transcript-search[hidden] {
+    display: none;
+  }
+  .podcast-transcript-search input {
+    width: 100%;
+    padding: 12px;
+  }
+  [data-transcript-paragraph] {
+    margin-top: 18px;
+  }
+  .podcast-timing-note {
+    font-size: 0.9rem;
   }
 </style>

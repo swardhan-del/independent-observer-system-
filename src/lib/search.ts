@@ -5,7 +5,8 @@ export type SearchEntryType =
   | "Series"
   | "Documentary"
   | "Video"
-  | "Topic";
+  | "Topic"
+  | "Podcast";
 
 export type SearchEntry = {
   id: string;
@@ -18,6 +19,7 @@ export type SearchEntry = {
   topics?: string[];
   volume?: string;
   format?: string;
+  searchText?: string;
 };
 
 export type SearchFilters = {
@@ -96,7 +98,7 @@ function entryFields(entry: SearchEntry) {
     title: fieldTokens(entry.title),
     category: fieldTokens(entry.category),
     topics: fieldTokens(entry.topics),
-    description: fieldTokens(entry.description),
+    description: fieldTokens([entry.description, entry.searchText ?? ""]),
     status: fieldTokens(entry.status),
     format: fieldTokens([entry.format ?? "", entry.type, entry.volume ?? ""]),
   };
@@ -132,6 +134,7 @@ export function rankSearchEntries(
         entry.category,
         ...(entry.topics ?? []),
         entry.description,
+        entry.searchText ?? "",
         entry.status,
         entry.format ?? "",
         entry.type,

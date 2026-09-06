@@ -48,21 +48,19 @@ const heroVolumeLinks = seriesItems.map((item, index) => ({
         <p class="eyebrow">Independent analysis for a complex age</p>
         <h1>Observe the system.<br /><em>Question the frame.</em></h1>
         <p class="hero-summary">
-          Independent Observer is a public research home for a four-volume inquiry into how people
-          observe, inherit, contest, and reshape public systems. Volume I develops the
-          method—source, record, context, contradiction, and limit—before a conclusion is accepted.
-          Volume II follows sovereignty, migration, institutions, and power; Volume III follows
-          work, taxation, welfare, and social citizenship; and Volume IV follows AI, infrastructure,
-          intimacy, science, and human capability. Its public library connects these questions to
-          reviewed author paper pages and research maps drawn from a bounded public-safe archive.
+          Explore how power, work, history, and technology shape our lives. Read the research,
+          listen to the stories, and follow the evidence behind the arguments.
         </p>
         <p class="hero-summary hero-summary-secondary">
-          Its purpose is to keep the record, the interpretation, and the limits visible—so readers
-          can follow how a public argument is made and revise it when the evidence changes.
+          Four volumes by Siddhartha Harsh Wardhan, connecting public questions with sources,
+          interpretation, and room for correction.
         </p>
         <div class="hero-actions">
-          <a class="button" href={sitePath("/research/")}>Explore the research</a>
-          <a class="button button-secondary" href={sitePath("/about/")}>Read the mission</a>
+          <a class="button" href={sitePath("/research/")}>Read the research</a>
+          <a class="button button-secondary" href={sitePath("/podcast/")}>Listen to the podcast</a>
+          <a class="button button-secondary" href={sitePath("/start/#reading-journeys")}
+            >Explore a question</a
+          >
         </div>
       </div>
       <aside class="hero-note" aria-labelledby="hero-note-title">
@@ -162,7 +160,9 @@ const heroVolumeLinks = seriesItems.map((item, index) => ({
         </p>
         <figure class="mission-illustration">
           <img
-            src={sitePath("/independent-observer-four-volume-map-v2.png")}
+            src={sitePath("/independent-observer-four-volume-map-v2-1280.webp")}
+            srcset={`${sitePath("/independent-observer-four-volume-map-v2-640.webp")} 640w, ${sitePath("/independent-observer-four-volume-map-v2-1280.webp")} 1280w`}
+            sizes="(max-width: 700px) 100vw, 1000px"
             alt="Editorial illustration of a central observing lens connecting four research fields: evidence, institutions, distribution, and capability."
             width="1536"
             height="1024"

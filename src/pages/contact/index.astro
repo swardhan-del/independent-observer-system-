@@ -150,6 +150,13 @@ const contactAddress = "swardhan1@icloud.com";
 </BaseLayout>
 
 <script>
+  import { correctionContext } from "../../lib/corrections";
+  const context = correctionContext(window.location.search);
+  if (context) {
+    document.querySelector<HTMLSelectElement>("#contact-topic")!.value =
+      "Public reading copy or correction";
+    document.querySelector<HTMLTextAreaElement>("#contact-message")!.value = context;
+  }
   const form = document.querySelector("[data-contact-inquiry-form]");
   const status = document.querySelector("[data-contact-inquiry-status]");
 

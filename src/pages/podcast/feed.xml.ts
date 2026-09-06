@@ -31,10 +31,9 @@ export const GET: APIRoute = ({ site, url }) => {
   const items = historyPodcastEpisodes
     .map((episode) => {
       const episodeUrl = `${showUrl}#episode-${String(episode.number).padStart(2, "0")}`;
-      const audioUrl = new URL(publicSitePath(episode.audioUrl), origin).href;
-      const audioLength = statSync(
-        resolve(process.cwd(), "public", episode.audioUrl.slice(1)),
-      ).size;
+      const audioPath = episode.audioUrl.replace(/\.wav$/, ".m4a");
+      const audioUrl = new URL(publicSitePath(audioPath), origin).href;
+      const audioLength = statSync(resolve(process.cwd(), "public", audioPath.slice(1))).size;
       return `
     <item>
       <title>${escapeXml(`Episode ${episode.number}: ${episode.title}`)}</title>
@@ -42,7 +41,7 @@ export const GET: APIRoute = ({ site, url }) => {
       <guid isPermaLink="false">independent-observer-history-across-the-volumes-${episode.number}</guid>
       <pubDate>${publishedAt}</pubDate>
       <description>${escapeXml(`${episode.summary} ${episode.boundary}`)}</description>
-      <enclosure url="${audioUrl}" length="${audioLength}" type="audio/wav" />
+      <enclosure url="${audioUrl}" length="${audioLength}" type="audio/mp4" />
       <itunes:episodeType>full</itunes:episodeType>
       <itunes:episode>${episode.number}</itunes:episode>
       <itunes:duration>${durationFor(episode.durationSeconds)}</itunes:duration>

@@ -45,7 +45,9 @@ const volumeVisuals = {
         <a class="volume-visual-card" href={sitePath(`/series/${slugify(item.title)}/`)}>
           <figure>
             <img
-              src={sitePath(visual.src)}
+              src={sitePath(visual.src.replace(".jpg", "-640.webp"))}
+              srcset={`${sitePath(visual.src.replace(".jpg", "-640.webp"))} 640w, ${sitePath(visual.src.replace(".jpg", "-1280.webp"))} 1280w`}
+              sizes="(max-width: 700px) 100vw, 25vw"
               alt={visual.alt}
               width="1100"
               height="1100"

@@ -29,12 +29,12 @@ describe("history podcast", () => {
         episode.title,
       ).toBe(true);
       expect(feed).toContain(`Episode ${episode.number}: ${episode.title}`);
-      expect(feed).toContain(episode.audioUrl);
+      expect(feed).toContain(episode.audioUrl.replace(/\.wav$/, ".m4a"));
     }
 
     expect(feed.match(/<item>/g)).toHaveLength(4);
     expect(feed.match(/<enclosure /g)).toHaveLength(4);
-    expect(feed).toContain('type="audio/wav"');
+    expect(feed).toContain('type="audio/mp4"');
     expect(feed).toContain('<itunes:category text="History" />');
   });
 });

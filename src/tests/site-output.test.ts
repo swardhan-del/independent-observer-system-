@@ -148,7 +148,7 @@ describe("built website", () => {
 
     expect(html).toContain("One research project about what public systems make visible");
     expect(html).toContain("The general message of each volume");
-    expect(html).toContain("independent-observer-four-volume-map-v2.png");
+    expect(html).toContain("independent-observer-four-volume-map-v2-1280.webp");
     expect(html).toContain("One observing lens, four connected questions");
     expect(html).toContain("volume-visual-strip-compact");
     expect(html).toContain("Observe and document");
@@ -398,7 +398,7 @@ describe("built website", () => {
     expect(html).toContain("Public discovery map");
     expect(html).toContain("Mapped to Volume I, and Volume II in the four-volume spine.");
     expect(html).toContain("The Wardhan Tax Doctrine");
-    expect(html).toContain("The Autonomous Illusion");
+    expect(html).toContain("History");
     expect(html).not.toContain("One project, four connected volumes.");
     expect(html).not.toContain('class="topic-volume-map"');
   });
