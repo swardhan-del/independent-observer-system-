@@ -39,3 +39,50 @@ test("readable search statuses filter the existing index and preserve old links"
   await expect(page.locator("[data-search-result]").first()).toContainText("Who Deported More");
   await expect(page.locator("[data-search-result]").first()).toContainText("Working-paper summary");
 });
+
+test("desktop More links are clickable outside the masthead", async ({ page, isMobile }) => {
+  test.skip(isMobile, "Mobile uses the expanded menu");
+  await page.goto("/");
+  await page.locator(".more-navigation > summary").click();
+  const contact = page.locator(".more-navigation-links").getByRole("link", { name: "Contact" });
+  await contact.click();
+  await expect(page).toHaveURL(/\/contact\/$/);
+});
+
+test("global search preserves the catalogue's filters across reload", async ({ page }) => {
+  await page.goto("/series/?status=concept%20preview");
+  const activeFilter = page.locator('button[data-catalogue-status="concept preview"]');
+  await expect(activeFilter).toHaveAttribute("aria-pressed", "true");
+  await page.locator("[data-search-open]").click();
+  await page.locator("[data-search-input]").fill("Who Deported More");
+  await page.locator('[data-search-filter="status"]').selectOption("Working-paper summary");
+  await expect(page.locator("[data-search-result]").first()).toBeVisible();
+  expect(new URL(page.url()).searchParams.get("status")).toBe("concept preview");
+  expect(new URL(page.url()).searchParams.get("search-status")).toBe("Working-paper summary");
+  await page.reload();
+  await expect(activeFilter).toHaveAttribute("aria-pressed", "true");
+});
+
+test("sound can be paused after resizing to mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 850 });
+  await page.goto("/");
+  const sound = page.locator("[data-ambient-sound-toggle]");
+  await sound.click();
+  await expect(sound).toHaveAttribute("aria-pressed", "true");
+  await page.setViewportSize({ width: 393, height: 852 });
+  await expect(sound).toBeVisible();
+  await sound.click();
+  await expect(sound).toHaveAttribute("aria-pressed", "false");
+});
+
+test("article version details open for printing and restore afterwards", async ({ page }) => {
+  await page.goto("/research/borrowed-labor/");
+  const details = page.locator(".article-version");
+  await expect(details).not.toHaveAttribute("open");
+  await page.evaluate(() => window.dispatchEvent(new Event("beforeprint")));
+  await expect(details).toHaveAttribute("open");
+  await expect(details).toContainText("Factual cutoff");
+  await expect(details).toContainText("not in the production release feed");
+  await page.evaluate(() => window.dispatchEvent(new Event("afterprint")));
+  await expect(details).not.toHaveAttribute("open");
+});

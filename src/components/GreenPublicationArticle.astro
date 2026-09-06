@@ -125,3 +125,17 @@ const schema = JSON.stringify({
     </div>
   </article>
 </BaseLayout>
+
+<script>
+  // Preserve provenance in print, then restore the reader's disclosure state.
+  const versionDetails = document.querySelector<HTMLDetailsElement>(".article-version");
+  let wasOpen = false;
+  window.addEventListener("beforeprint", () => {
+    if (!versionDetails) return;
+    wasOpen = versionDetails.open;
+    versionDetails.open = true;
+  });
+  window.addEventListener("afterprint", () => {
+    if (versionDetails) versionDetails.open = wasOpen;
+  });
+</script>

@@ -77,7 +77,7 @@ const researchCatalogue = readFileSync(
 
 describe("interactive preview tools", () => {
   it("keeps ambient sound opt-in and browser-local", () => {
-    expect(header).toContain("<AmbientSoundControl />");
+    expect(layout).toContain("<AmbientSoundControl />");
     expect(ambientSound).toContain("data-ambient-sound-toggle");
     expect(ambientSound).toContain('aria-pressed="false"');
     expect(ambientSound).toContain("AudioContext");

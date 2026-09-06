@@ -12130,3 +12130,20 @@ kbd {
     grid-template-columns: 1fr;
   }
 }
+
+/* Keep the secondary menu visible beyond the masthead without decorative overflow. */
+.site-header {
+  overflow: visible;
+}
+.site-header::after {
+  display: none;
+}
+.reader-toolbar {
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.reader-toolbar .ambient-sound-toggle {
+  color: var(--navy-950);
+  border-color: var(--navy-950);
+}

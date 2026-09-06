@@ -1,6 +1,5 @@
 ---
 import SiteSearch from "./SiteSearch.astro";
-import AmbientSoundControl from "./AmbientSoundControl.astro";
 import { sitePath } from "../lib/paths";
 
 const { currentPath = "/" } = Astro.props;
@@ -31,7 +30,6 @@ const isCurrent = (href: string) =>
       <span>Independent media & research</span>
       <div class="utility-tools">
         <span class="utility-edition">Independent research · publication · social archive</span>
-        <AmbientSoundControl />
       </div>
     </div>
   </div>
