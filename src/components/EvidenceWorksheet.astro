@@ -1,0 +1,202 @@
+---
+const fields = [
+  { id: "claim", label: "The claim", help: "Write one statement you want to examine." },
+  {
+    id: "observed",
+    label: "Observed",
+    help: "What does the record actually show? Keep quotations distinct from your notes.",
+  },
+  {
+    id: "sources",
+    label: "Source trail",
+    help: "Record the source title, URL, date and page or passage that supports the observation.",
+  },
+  {
+    id: "inferred",
+    label: "Inferred",
+    help: "What interpretation connects the evidence to the claim? Name the assumptions.",
+  },
+  {
+    id: "unknown",
+    label: "Still unknown",
+    help: "What is missing, contradictory or outside the evidence? What would change your view?",
+  },
+  {
+    id: "next",
+    label: "Next check",
+    help: "Choose one record, definition or alternative explanation to investigate next.",
+  },
+];
+---
+
+<section class="section section-white" aria-labelledby="worksheet-title" id="evidence-worksheet">
+  <div class="shell" data-evidence-worksheet>
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Try the method</p><h2 id="worksheet-title">
+          Build your own evidence worksheet.
+        </h2>
+      </div>
+      <p>
+        Take one claim apart. Separate what you observed, what you inferred, and what you still need
+        to find out.
+      </p>
+    </div>
+    <p id="worksheet-privacy">
+      Your notes stay in this page and are not sent or automatically saved. Download them before
+      leaving. This worksheet organizes your reasoning; it does not verify a claim.
+    </p>
+    <div class="worksheet-grid" aria-describedby="worksheet-privacy">
+      {
+        fields.map(({ id, label, help }) => (
+          <div class="worksheet-field">
+            <label for={`worksheet-${id}`}>{label}</label>
+            <p id={`worksheet-${id}-help`}>{help}</p>
+            <textarea
+              id={`worksheet-${id}`}
+              data-worksheet-field={id}
+              data-label={label}
+              aria-describedby={`worksheet-${id}-help`}
+              rows={4}
+              autocomplete="off"
+            />
+          </div>
+        ))
+      }
+    </div>
+    <div class="worksheet-actions" data-worksheet-actions hidden>
+      <button type="button" class="button button-primary" data-worksheet-download
+        >Download notes (.txt)</button
+      >
+      <button type="button" class="button button-secondary" data-worksheet-print
+        >Print worksheet</button
+      >
+    </div>
+    <p data-worksheet-status role="status" aria-live="polite"></p>
+    <noscript
+      ><p>
+        You can type in these fields and use your browser’s Print command. Downloading notes
+        requires JavaScript.
+      </p></noscript
+    >
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-evidence-worksheet]").forEach((root) => {
+    const fields = [...root.querySelectorAll<HTMLTextAreaElement>("[data-worksheet-field]")];
+    const actions = root.querySelector<HTMLElement>("[data-worksheet-actions]");
+    const status = root.querySelector<HTMLElement>("[data-worksheet-status]");
+    if (actions) actions.hidden = false;
+    root.querySelector("[data-worksheet-download]")?.addEventListener("click", () => {
+      if (!fields.some((field) => field.value.trim())) {
+        if (status) status.textContent = "Add a claim or a note before downloading.";
+        fields[0]?.focus();
+        return;
+      }
+      const notes = [
+        "Independent Observer — Evidence worksheet",
+        "Personal notes; not independently verified.",
+        "",
+        ...fields.flatMap((field) => [
+          field.dataset.label ?? "Notes",
+          field.value.trim() || "Not recorded",
+          "",
+        ]),
+      ].join("\n");
+      const url = URL.createObjectURL(new Blob([notes], { type: "text/plain;charset=utf-8" }));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "independent-observer-evidence-notes.txt";
+      root.append(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      if (status) status.textContent = "Notes prepared for download. Your entries remain here.";
+    });
+    // Printed paragraphs expand to include all notes, unlike fixed-height textareas.
+    const preparePrint = () =>
+      fields.forEach((field) => {
+        let note = field.parentElement?.querySelector<HTMLElement>(".worksheet-print-note");
+        if (!note) {
+          note = document.createElement("p");
+          note.className = "worksheet-print-note";
+          field.after(note);
+        }
+        note.textContent = field.value || "Not recorded";
+      });
+    window.addEventListener("beforeprint", preparePrint);
+    root.querySelector("[data-worksheet-print]")?.addEventListener("click", () => {
+      preparePrint();
+      window.print();
+    });
+  });
+</script>
+
+<style>
+  .worksheet-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-block: 1.5rem;
+  }
+  .worksheet-field label {
+    display: block;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+  .worksheet-field p {
+    margin-block: 0.5rem;
+  }
+  .worksheet-field textarea {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #64748b;
+    border-radius: 0.4rem;
+    background: #fff;
+    color: #17283b;
+    resize: vertical;
+    font: inherit;
+  }
+  .worksheet-field textarea:focus-visible {
+    outline: 3px solid #365c71;
+    outline-offset: 3px;
+  }
+  .worksheet-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .worksheet-actions[hidden] {
+    display: none;
+  }
+  :global(.worksheet-print-note) {
+    display: none;
+  }
+  @media (max-width: 700px) {
+    .worksheet-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media print {
+    .worksheet-actions {
+      display: none;
+    }
+    .worksheet-grid {
+      display: block;
+    }
+    .worksheet-field {
+      margin-block: 1.5rem;
+    }
+    .worksheet-field:has(.worksheet-print-note) textarea {
+      display: none;
+    }
+    :global(.worksheet-print-note) {
+      display: block;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+  }
+</style>
