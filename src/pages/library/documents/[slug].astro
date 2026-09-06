@@ -28,6 +28,7 @@ const documentIndex = publicDocumentItems.findIndex((candidate) => candidate.id 
   description={entry.description}
   currentPath={currentPath}
   articleMetadata={{
+    title: entry.title,
     author: entry.author ?? "Independent Observer",
     publicationDate: entry.publicationDate,
     status: entry.status,

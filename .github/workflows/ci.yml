@@ -88,6 +88,7 @@ jobs:
       - name: Generate production SEO growth report
         run: npm run seo:report
       - name: Preserve SEO growth report
+        if: always() && hashFiles('seo-reports/latest.json') != ''
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: seo-growth-report

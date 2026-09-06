@@ -15,6 +15,7 @@ type Props = {
   noindex?: boolean;
   canonicalPath?: string;
   articleMetadata?: {
+    title?: string;
     author: string;
     publicationDate?: string;
     status?: string;
@@ -113,7 +114,7 @@ const structuredData = JSON.stringify({
             "@type": "ScholarlyArticle",
             "@id": `${canonicalUrl}#article`,
             url: canonicalUrl,
-            headline: title,
+            headline: articleMetadata.title ?? title,
             description,
             author: {
               "@type": "Person",
@@ -158,7 +159,7 @@ const structuredData = JSON.stringify({
       content="independent media, political economy, institutional power, documentary research, long-form journalism, history, science, technology, law, accountability, public reason"
     />
     <meta name="author" content="Independent Observer" />
-    {articleMetadata && <meta name="citation_title" content={title} />}
+    {articleMetadata && <meta name="citation_title" content={articleMetadata.title ?? title} />}
     {articleMetadata && <meta name="citation_author" content={articleMetadata.author} />}
     {publicationDateIso && <meta name="citation_publication_date" content={publicationDateIso} />}
     <meta name="theme-color" content="#07182d" />

@@ -852,3 +852,22 @@ describe("built website", () => {
 function sitePathForTest(route: string) {
   return route.replace(/^\//, "");
 }
+
+it("keeps exact scholarly titles when browser titles are shortened", () => {
+  const entry = publicDocumentItems.find((item) => item.id === "who-deported-more")!;
+  const html = readFileSync(
+    join(distRoot, "library/documents/who-deported-more/index.html"),
+    "utf8",
+  );
+  const citation = tags(html, "meta").find((tag) => attribute(tag, "name") === "citation_title")!;
+  expect(attribute(citation, "content")).toBe(entry.title);
+  const raw = html.match(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/)![1];
+  const schema = JSON.parse(raw);
+  expect(
+    schema["@graph"].find((item: { "@type": string }) => item["@type"] === "ScholarlyArticle")
+      .headline,
+  ).toBe(entry.title);
+  expect(html).toContain(
+    "Who Deported More? Comparing Immigration Enforcement | Independent Observer",
+  );
+});
