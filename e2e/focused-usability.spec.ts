@@ -38,6 +38,11 @@ test("readable search statuses filter the existing index and preserve old links"
   await page.locator("[data-search-input]").fill("Who Deported More");
   await expect(page.locator("[data-search-result]").first()).toContainText("Who Deported More");
   await expect(page.locator("[data-search-result]").first()).toContainText("Working-paper summary");
+  await page.locator('[data-search-filter="status"]').selectOption("");
+  expect(new URL(page.url()).searchParams.has("status")).toBe(false);
+  await page.reload();
+  await page.locator("[data-search-open]").click();
+  await expect(page.locator('[data-search-filter="status"]')).toHaveValue("");
 });
 
 test("desktop More links are clickable outside the masthead", async ({ page, isMobile }) => {

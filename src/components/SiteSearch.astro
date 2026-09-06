@@ -158,7 +158,10 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
     const syncUrl = () => {
       const url = new URL(window.location.href);
       const params = new URLSearchParams(url.search);
-      for (const key of ["q", "type", "topic", "status", "volume"]) params.delete(`search-${key}`);
+      for (const key of ["q", "type", "topic", "status", "volume"]) {
+        params.delete(`search-${key}`);
+        if (!sharesPageFilters) params.delete(key);
+      }
       if (input.value.trim()) params.set("search-q", input.value.trim());
       for (const control of filterControls)
         if (control.value) params.set(`search-${control.dataset.searchFilter}`, control.value);

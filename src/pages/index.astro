@@ -11,12 +11,17 @@ const readings = selectedIds.map((id) => {
   if (!paper) throw new Error(`Homepage selection is missing its public paper record: ${id}`);
   return paper;
 });
-const volumeQuestions = [
-  "How do we know what to believe?",
-  "Where does public power reside?",
-  "Who carries the cost of change?",
-  "What can people govern as technology changes?",
-];
+const volumeQuestions: Record<string, string> = {
+  "Volume I": "How do we know what to believe?",
+  "Volume II": "Where does public power reside?",
+  "Volume III": "Who carries the cost of change?",
+  "Volume IV": "What can people govern as technology changes?",
+};
+const questionFor = (volume: string) => {
+  const question = volumeQuestions[volume];
+  if (!question) throw new Error(`Homepage volume question is missing: ${volume}`);
+  return question;
+};
 ---
 
 <BaseLayout
@@ -113,7 +118,7 @@ const volumeQuestions = [
       </div>
       <nav class="focused-volume-grid" aria-label="Explore the four volumes">
         {
-          seriesItems.map((item, index) => (
+          seriesItems.map((item) => (
             <a
               id={`homepage-${slugify(item.volume)}`}
               class="hero-volume-link"
@@ -122,7 +127,7 @@ const volumeQuestions = [
               <>
                 <span>{item.volume}</span>
                 <strong>{item.title}</strong>
-                <span>{volumeQuestions[index]}</span>
+                <span>{questionFor(item.volume)}</span>
               </>
             </a>
           ))
