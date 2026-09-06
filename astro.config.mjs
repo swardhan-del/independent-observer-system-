@@ -1,6 +1,6 @@
 import { defineConfig } from "astro/config";
 
-const DEFAULT_SITE_URL = "https://swardhan-del.github.io";
+const DEFAULT_SITE_URL = "https://independentobserver.org";
 
 function normalizeSiteUrl(value) {
   const url = new URL(value);
@@ -44,6 +44,8 @@ const base = normalizeBasePath(process.env.BASE_PATH ?? "/");
 
 export default defineConfig({
   output: "static",
+  build: { inlineStylesheets: "never" },
+  vite: { build: { assetsInlineLimit: 0 } },
   site,
   base,
   trailingSlash: "always",

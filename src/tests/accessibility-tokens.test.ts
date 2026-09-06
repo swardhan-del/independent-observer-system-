@@ -48,7 +48,7 @@ describe("accessible color tokens", () => {
       "\\.eyebrow",
       "\\.mission-grid \\.index",
       "\\.topic span",
-      "\\.principle span",
+      "\\.mission-volume-number",
     ]) {
       expect(stylesheet).toMatch(
         new RegExp(`${selector}\\s*\\{[^}]*color:\\s*var\\(--gold-ink\\)`, "s"),
@@ -59,6 +59,12 @@ describe("accessible color tokens", () => {
   it("keeps dark documentary-card footers on the light slate token", () => {
     expect(stylesheet).toMatch(
       /\.section-navy \.card-footer\s*\{[^}]*color:\s*var\(--slate-300\)/s,
+    );
+  });
+
+  it("uses high-contrast ink for the library research-map label", () => {
+    expect(stylesheet).toMatch(
+      /\.library-volume-shelf-research-label\s*\{[^}]*color:\s*var\(--navy-950\)/s,
     );
   });
 });

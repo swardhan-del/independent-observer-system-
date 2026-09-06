@@ -1,0 +1,35 @@
+---
+export type PolicyOption = { title: string; benefit: string; cost: string; openQuestion: string };
+type Props = { options: PolicyOption[] };
+const { options } = Astro.props as Props;
+---
+
+<div class="policy-tradeoff" role="list" aria-label="Policy trade-off comparison">
+  {
+    options.map((option) => (
+      <article role="listitem">
+        <h3>{option.title}</h3>
+        <dl>
+          <div>
+            <>
+              <dt>Potential benefit</dt>
+              <dd>{option.benefit}</dd>
+            </>
+          </div>
+          <div>
+            <>
+              <dt>Potential cost</dt>
+              <dd>{option.cost}</dd>
+            </>
+          </div>
+          <div>
+            <>
+              <dt>Open question</dt>
+              <dd>{option.openQuestion}</dd>
+            </>
+          </div>
+        </dl>
+      </article>
+    ))
+  }
+</div>

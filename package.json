@@ -6,22 +6,32 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro check && astro build",
-    "build:pages": "SITE_URL=https://swardhan-del.github.io BASE_PATH=/independent-observer-system- astro check && SITE_URL=https://swardhan-del.github.io BASE_PATH=/independent-observer-system- astro build",
+    "build:pages": "PUBLIC_FALLBACK_BUILD=true SITE_URL=https://independentobserver.org BASE_PATH=/independent-observer-system- astro check && PUBLIC_FALLBACK_BUILD=true SITE_URL=https://independentobserver.org BASE_PATH=/independent-observer-system- astro build",
     "preview": "astro preview",
     "lint": "astro check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "astro check && astro build && vitest run",
-    "test:built": "vitest run",
+    "test:built": "vitest run --exclude src/tests/site-output.test.ts --exclude src/tests/production-contract.test.ts",
+    "verify:operating-system": "node scripts/verify-publication-operating-system.mjs",
+    "verify:canonical-origin": "node scripts/verify-canonical-origin.mjs",
+    "verify:pages-fallback": "node scripts/verify-pages-fallback.mjs",
+    "verify:preview-indexing": "node scripts/verify-preview-indexing.mjs",
+    "verify:production": "node scripts/verify-production-contract.mjs",
     "seo:audit": "node plugins/seo/seo-audit.mjs",
-    "domain:preflight": "node plugins/hosting/custom-domain-preflight.mjs"
+    "domain:preflight": "node plugins/hosting/custom-domain-preflight.mjs",
+    "dashboard": "tsx scripts/publishing-dashboard.ts",
+    "test:e2e": "playwright test",
+    "perf:check": "node scripts/measure-reader-performance.mjs"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "@playwright/test": "^1.63.0",
     "@types/node": "^22.0.0",
     "astro": "^7.1.3",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
+    "tsx": "^4.23.13",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   }

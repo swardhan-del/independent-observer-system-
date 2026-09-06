@@ -15,13 +15,36 @@ const gates = {
 };
 
 const approvedManifest = () => ({
-  schemaVersion: 2,
+  schemaVersion: 3,
   approvedForWebsite: true,
   releaseGates: { ...gates },
   items: [
     {
       id: "sample-item",
       kind: "research",
+      candidateId: "IO-SAMPLE-ITEM",
+      slug: "sample-item",
+      shortTitle: "Sample item",
+      author: "Synthetic Test Author",
+      volume: "Volume I",
+      topics: ["Public inquiry"],
+      contentType: "research",
+      version: "v1",
+      dateCreated: "2026-08-01",
+      dateModified: "2026-08-02",
+      controllerSha256: "a".repeat(64),
+      sourceVerified: true,
+      contentQualityChecked: true,
+      rightsAndProvenanceReviewed: true,
+      privacyLegalSafetyReviewed: true,
+      accessibilityChecked: true,
+      releaseApproved: true,
+      approvedBy: "owner-test",
+      approvedAt: "2026-08-03T10:00:00Z",
+      license: "all-rights-reserved",
+      citationStatus: "verified",
+      downloadAllowed: false,
+      publicAssetReferences: [],
       title: "A verified public document",
       category: "Public inquiry",
       description: "A description suitable for the public catalog.",
@@ -45,7 +68,8 @@ const sourceFor = (bytes, relativePath = "documents/example.txt", expectedType =
 });
 
 describe("Dropbox public-feed contract", () => {
-  it("requires schema v2, explicit website approval, and every release gate", () => {
+  it("requires schema v3, explicit website approval, and every release gate", () => {
+    process.env.PUBLICATION_OWNER_ID = "owner-test";
     expect(parseManifest(approvedManifest()).feedItems).toHaveLength(1);
     for (const key of Object.keys(gates)) {
       const manifest = approvedManifest();
@@ -114,7 +138,10 @@ describe("Dropbox public-feed contract", () => {
     expect(() => validateArtifact(sourceFor(privateText), privateText, "text")).toThrow(
       "text quality",
     );
-    for (const restricted of ["Student record", "https://www.dropbox.com/s/private/file.pdf"]) {
+    for (const restricted of [
+      "Student record",
+      "https://example.invalid/dropbox/private/file.pdf",
+    ]) {
       const bytes = Buffer.from(restricted);
       expect(() => validateArtifact(sourceFor(bytes), bytes, "restricted text")).toThrow(
         "text quality",
@@ -128,6 +155,29 @@ describe("Dropbox public-feed contract", () => {
       {
         id: "reviewed-document",
         kind: "document",
+        candidateId: "IO-REVIEWED-DOCUMENT",
+        slug: "reviewed-document",
+        shortTitle: "Reviewed document",
+        author: "Synthetic Test Author",
+        volume: "Volume I",
+        topics: ["Research desk"],
+        contentType: "document",
+        version: "v1",
+        dateCreated: "2026-08-01",
+        dateModified: "2026-08-02",
+        controllerSha256: "a".repeat(64),
+        sourceVerified: true,
+        contentQualityChecked: true,
+        rightsAndProvenanceReviewed: true,
+        privacyLegalSafetyReviewed: true,
+        accessibilityChecked: true,
+        releaseApproved: true,
+        approvedBy: "owner-test",
+        approvedAt: "2026-08-03T10:00:00Z",
+        license: "all-rights-reserved",
+        citationStatus: "verified",
+        downloadAllowed: false,
+        publicAssetReferences: [],
         title: "A reviewed public document",
         category: "Research desk",
         description: "A public-safe reading copy.",
@@ -142,6 +192,7 @@ describe("Dropbox public-feed contract", () => {
         sections: [{ id: "overview", heading: "Overview", paragraphs: ["Reviewed text only."] }],
       },
     ];
+    process.env.PUBLICATION_OWNER_ID = "owner-test";
     const result = parseManifest(manifest);
     expect(result.documentItems[0].sections[0].id).toBe("overview");
     expect(result.feedItems).toHaveLength(0);
@@ -162,6 +213,29 @@ describe("Dropbox public-feed contract", () => {
           {
             id: "reviewed-document",
             kind: "document",
+            candidateId: "IO-REVIEWED-DOCUMENT",
+            slug: "reviewed-document",
+            shortTitle: "Reviewed document",
+            author: "Synthetic Test Author",
+            volume: "Volume I",
+            topics: ["Research desk"],
+            contentType: "document",
+            version: "v1",
+            dateCreated: "2026-08-01",
+            dateModified: "2026-08-02",
+            controllerSha256: "a".repeat(64),
+            sourceVerified: true,
+            contentQualityChecked: true,
+            rightsAndProvenanceReviewed: true,
+            privacyLegalSafetyReviewed: true,
+            accessibilityChecked: true,
+            releaseApproved: true,
+            approvedBy: "owner-test",
+            approvedAt: "2026-08-03T10:00:00Z",
+            license: "all-rights-reserved",
+            citationStatus: "verified",
+            downloadAllowed: false,
+            publicAssetReferences: [],
             title: "A reviewed public document",
             category: "Research desk",
             description: "A public-safe reading copy.",
@@ -189,6 +263,29 @@ describe("Dropbox public-feed contract", () => {
         {
           id: "reviewed-document",
           kind: "document",
+          candidateId: "IO-REVIEWED-DOCUMENT",
+          slug: "reviewed-document",
+          shortTitle: "Reviewed document",
+          author: "Synthetic Test Author",
+          volume: "Volume I",
+          topics: ["Research desk"],
+          contentType: "document",
+          version: "v1",
+          dateCreated: "2026-08-01",
+          dateModified: "2026-08-02",
+          controllerSha256: "a".repeat(64),
+          sourceVerified: true,
+          contentQualityChecked: true,
+          rightsAndProvenanceReviewed: true,
+          privacyLegalSafetyReviewed: true,
+          accessibilityChecked: true,
+          releaseApproved: true,
+          approvedBy: "owner-test",
+          approvedAt: "2026-08-03T10:00:00Z",
+          license: "all-rights-reserved",
+          citationStatus: "verified",
+          downloadAllowed: false,
+          publicAssetReferences: [],
           title: "A reviewed public document",
           category: "Research desk",
           description: "A public-safe reading copy.",

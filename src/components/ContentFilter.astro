@@ -39,6 +39,8 @@ const controlId = targetId + "-query";
 </div>
 
 <script>
+  import { normalizeSearchText } from "../lib/search";
+
   document.querySelectorAll<HTMLElement>("[data-content-filter]").forEach((root) => {
     const target = document.getElementById(root.dataset.target ?? "");
     const queryInput = root.querySelector<HTMLInputElement>("[data-filter-query]");
@@ -79,13 +81,16 @@ const controlId = targetId + "-query";
     };
 
     const update = (writeUrl = true) => {
-      const query = queryInput.value.trim().toLocaleLowerCase();
+      const query = normalizeSearchText(queryInput.value);
+      const terms = query.split(" ").filter(Boolean);
       let visible = 0;
 
       for (const card of cards) {
         const text = card.dataset.searchText ?? "";
         const status = card.dataset.status ?? "";
-        const matchesQuery = !query || text.includes(query);
+        const normalizedText = normalizeSearchText(text);
+        const matchesQuery =
+          !terms.length || terms.every((term) => normalizedText.split(" ").includes(term));
         const matchesStatus = activeStatus === "all" || status === activeStatus;
         const isVisible = matchesQuery && matchesStatus;
 

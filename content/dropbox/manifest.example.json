@@ -1,11 +1,4 @@
 {
-  "schemaVersion": 2,
-  "approvedForWebsite": false,
-  "releaseGates": {
-    "sourceVerified": false,
-    "contentQualityChecked": false,
-    "rightsAndProvenanceReviewed": false,
-    "releaseApproved": false
-  },
+  "schemaVersion": 3,
   "items": []
 }

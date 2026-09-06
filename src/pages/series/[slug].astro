@@ -4,6 +4,17 @@ import EditorialDetail from "../../components/EditorialDetail.astro";
 import { seriesItems } from "../../data/series";
 import { slugify } from "../../lib/slugs";
 import { sitePath } from "../../lib/paths";
+import { paperDocuments } from "../../data/papers";
+import {
+  volumeThreeTaxDoctrineClaimMap,
+  volumeThreeTaxDoctrineEvidence,
+} from "../../data/volume-three-evidence";
+import { volumeOneClaimMap, volumeOneEvidence } from "../../data/volume-one-evidence";
+import { volumeTwoFramework } from "../../data/volume-two-framework";
+import { volumeFourFramework } from "../../data/volume-four-framework";
+import { volumeFourClaimMap, volumeFourEvidence } from "../../data/volume-four-evidence";
+import VolumeOneSourceMap from "../../components/VolumeOneSourceMap.astro";
+import GreenPublicationShelf from "../../components/GreenPublicationShelf.astro";
 
 export function getStaticPaths() {
   return seriesItems.map((item) => ({
@@ -14,14 +25,90 @@ export function getStaticPaths() {
 
 const { item } = Astro.props;
 const currentPath = `/series/${slugify(item.title)}/`;
+const featuredDocuments = paperDocuments.filter((entry) => entry.volume === item.volume);
+const isVolumeOne = item.volume === "Volume I";
+const isVolumeTwo = item.volume === "Volume II";
+const isVolumeThree = item.volume === "Volume III";
+const isVolumeFour = item.volume === "Volume IV";
+const volumeHeroClass =
+  {
+    "Volume I": "volume-one-detail-hero",
+    "Volume II": "volume-two-detail-hero",
+    "Volume III": "volume-three-detail-hero",
+    "Volume IV": "volume-four-detail-hero",
+  }[item.volume] ?? "";
 ---
 
 <BaseLayout title={item.title} description={item.description} currentPath={currentPath}>
   <EditorialDetail
     item={item}
-    eyebrow={`${item.volume} roadmap`}
-    backLabel="Back to series roadmap"
+    eyebrow={`${item.volume} catalogue file`}
+    heroClassName={volumeHeroClass}
+    backLabel="Back to publication catalogue"
     backHref={sitePath("/series/")}
-    statusNote="This is a public roadmap entry. The series remains in development; publication, peer review, and commercial release are not implied."
+    statusNote="This is a public catalogue entry. The volume remains in development; publication, peer review, and commercial release are not implied."
+    featuredDocuments={item.volume === "Volume I" ? featuredDocuments : []}
+    showVolumePapersInPreview={item.volume === "Volume I"}
+    volumeFramework={isVolumeTwo
+      ? volumeTwoFramework
+      : isVolumeFour
+        ? volumeFourFramework
+        : undefined}
+    showVolumeResearchMap={isVolumeTwo || isVolumeFour}
+    volumeDossierDocuments={featuredDocuments}
+    showVolumeResearchDossier={item.volume === "Volume III"}
+    evidenceBlocks={isVolumeOne
+      ? [...volumeOneEvidence]
+      : isVolumeThree
+        ? [...volumeThreeTaxDoctrineEvidence]
+        : isVolumeFour
+          ? [...volumeFourEvidence]
+          : undefined}
+    evidenceTitle={isVolumeOne
+      ? "Volume I: from evidence to democratic capacity"
+      : isVolumeThree
+        ? "Case study: The Wardhan Tax Doctrine"
+        : isVolumeFour
+          ? "Volume IV: from technology to human capability"
+          : undefined}
+    evidenceIntro={isVolumeOne
+      ? "Read the Foundational Manifesto through the Volume I method: separate the record, interpretation, hypothesis, proposal, limits, and open questions before drawing a conclusion."
+      : isVolumeThree
+        ? "Read one Volume III paper through distinct evidence categories. Selecting a layer isolates the type of statement; it never ranks credibility."
+        : isVolumeFour
+          ? "Read The Last Human Workforce as a capability inquiry: separate what the public catalogue records, what it interprets, what it proposes, and what remains open to technical and institutional review."
+          : undefined}
+    evidenceStatusNote={isVolumeOne
+      ? "Volume I public reading copy · Foundational Manifesto · review-stage method anchor"
+      : isVolumeThree
+        ? "Volume III author paper page · policy proposal under review"
+        : isVolumeFour
+          ? "Volume IV public catalogue entry · editorial development · capability inquiry under review"
+          : undefined}
+    evidenceSource={isVolumeOne
+      ? {
+          label: "Volume I Foundational Manifesto on ResearchGate",
+          href: "https://www.researchgate.net/publication/395665962_Independent_Observer_Critical_Studies_in_Philosophy_Politics_Economics_and_History_-_Volume_I_Foundational_Manifesto",
+        }
+      : isVolumeThree
+        ? {
+            label: "The Wardhan Tax Doctrine on ResearchGate",
+            href: "https://www.researchgate.net/publication/396189529_The_Wardhan_Tax_Doctrine_Time-as-Deduction_W-2_Relief_and_an_Eisenhower-Era_Return_to_Progressivity_with_IRC_Amendments",
+          }
+        : isVolumeFour
+          ? {
+              label: "Volume IV public records in the library",
+              href: sitePath("/library/"),
+            }
+          : undefined}
+    claimMap={isVolumeOne
+      ? { ...volumeOneClaimMap }
+      : isVolumeThree
+        ? { ...volumeThreeTaxDoctrineClaimMap }
+        : isVolumeFour
+          ? { ...volumeFourClaimMap }
+          : undefined}
   />
+  {isVolumeOne && <VolumeOneSourceMap />}
+  <GreenPublicationShelf volume={item.volume} title={`${item.volume}: current bounded articles`} />
 </BaseLayout>

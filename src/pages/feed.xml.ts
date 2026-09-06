@@ -1,12 +1,6 @@
 import type { APIRoute } from "astro";
-import { documentaryItems, researchItems, videoItems } from "../data/content";
-import { sitePath } from "../lib/paths";
-
-const slugify = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
+import { releaseLog } from "../data/release-log";
+import { publicSitePath } from "../lib/paths";
 
 const escapeXml = (value: string) =>
   value.replace(
@@ -23,34 +17,24 @@ const escapeXml = (value: string) =>
 
 export const GET: APIRoute = ({ site, url }) => {
   const publicOrigin = site ?? new URL(url.origin);
-  const feedUrl = new URL(sitePath("/feed.xml"), publicOrigin).href;
-  const entries = [
-    ...researchItems.map((item) => ({
-      ...item,
-      path: `/research/${slugify(item.title)}/`,
-      kind: "Research preview",
-    })),
-    ...documentaryItems.map((item) => ({
-      ...item,
-      path: `/documentaries/${slugify(item.title)}/`,
-      kind: "Documentary preview",
-    })),
-    ...videoItems.map((item) => ({
-      ...item,
-      path: `/videos/${slugify(item.title)}/`,
-      kind: "Video preview",
-    })),
-  ];
+  const feedUrl = new URL(publicSitePath("/feed.xml"), publicOrigin).href;
+  // RSS contains only owner-approved releases; previews and external records stay out.
+  const entries = releaseLog.map((item) => ({
+    ...item,
+    path: item.route,
+    kind: "Approved release",
+  }));
 
   const items = entries
     .map((item) => {
-      const link = new URL(sitePath(item.path), publicOrigin).href;
+      const link = new URL(publicSitePath(item.path), publicOrigin).href;
       return `    <item>
       <title>${escapeXml(item.title)}</title>
       <link>${link}</link>
       <guid isPermaLink="true">${link}</guid>
       <category>${escapeXml(item.category)}</category>
-      <description>${escapeXml(`${item.description} Status: ${item.status}. ${item.kind}.`)}</description>
+      <pubDate>${new Date(`${item.date}T00:00:00Z`).toUTCString()}</pubDate>
+      <description>${escapeXml(`${item.description} Category: ${item.category}. ${item.kind}.`)}</description>
     </item>`;
     })
     .join("\n");
@@ -59,7 +43,7 @@ export const GET: APIRoute = ({ site, url }) => {
 <rss version="2.0">
   <channel>
     <title>Independent Observer</title>
-    <link>${new URL(sitePath("/"), publicOrigin).href}</link>
+    <link>${new URL(publicSitePath("/"), publicOrigin).href}</link>
     <description>Independent research, documentary work, and public reasoning about institutions, history, political economy, science, and technology.</description>
     <language>en</language>
     <atom:link xmlns:atom="http://www.w3.org/2005/Atom" href="${feedUrl}" rel="self" type="application/rss+xml" />

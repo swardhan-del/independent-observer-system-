@@ -1,0 +1,99 @@
+---
+import type { TopicPathway } from "../../plugins/topic-discovery/catalog";
+import { topicPluginFor } from "../../plugins/topic-discovery/catalog";
+import { seriesItems } from "../data/series";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+
+type Props = {
+  pathways: TopicPathway[];
+};
+
+const { pathways } = Astro.props as Props;
+---
+
+<section
+  class="section section-navy topic-pathways"
+  id="topic-pathways"
+  aria-labelledby="topic-pathways-title"
+>
+  <div class="shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Start with a question</p>
+        <h2 id="topic-pathways-title">Five routes, plugged into the work.</h2>
+      </div>
+      <p>
+        Each route is a small discovery plugin: it connects a primary volume, core ideas, and public
+        entry points. Follow the links without mistaking a preview, preprint, or roadmap note for a
+        finished Independent Observer publication.
+      </p>
+    </div>
+    <div class="topic-pathway-grid">
+      {
+        pathways.map((pathway, index) => (
+          <article class="topic-pathway-card" id={`topic-pathway-${pathway.id}`}>
+            <div class="card-meta">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{pathway.label}</span>
+            </div>
+            <h3>{pathway.question}</h3>
+            <p>{pathway.description}</p>
+            <div class="topic-pathway-plugin" aria-label={`${pathway.label} discovery plugin`}>
+              <p class="topic-pathway-plugin-label">Discovery plugin</p>
+              <p class="topic-pathway-primary">
+                Primary volume:{" "}
+                {(() => {
+                  const volume = seriesItems.find(
+                    (item) => item.volume === pathway.primaryVolumeLabel,
+                  );
+                  return volume ? (
+                    <a href={sitePath(`/series/${slugify(volume.title)}/`)}>{volume.title}</a>
+                  ) : (
+                    pathway.primaryVolumeLabel
+                  );
+                })()}
+              </p>
+              <h4>Core ideas</h4>
+              <ul>
+                {pathway.coreIdeas.map((idea) => (
+                  <li>{idea}</li>
+                ))}
+              </ul>
+              <h4>Follow the work</h4>
+              <div class="topic-pathway-content-links">
+                {pathway.contentLinks.map((content) => (
+                  <a href={sitePath(content.path)}>
+                    <span>{content.kind}</span>
+                    {content.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+            <div class="topic-pathway-links" aria-label={`${pathway.label} topics`}>
+              {pathway.topicSlugs.map((slug) => {
+                const topic = topicPluginFor(slug);
+                return <a href={sitePath(`/topics/${slug}/`)}>{topic.name}</a>;
+              })}
+            </div>
+            <div class="topic-pathway-volumes" aria-label={`${pathway.label} relevant volumes`}>
+              <span class="topic-pathway-subhead">Relevant volumes</span>
+              <div class="topic-pathway-volume-links">
+                {pathway.volumeLabels.map((volumeLabel) => {
+                  const volume = seriesItems.find((item) => item.volume === volumeLabel);
+                  if (!volume) return null;
+                  return (
+                    <a href={sitePath(`/series/${slugify(volume.title)}/`)}>
+                      <span>{volumeLabel}</span>
+                      {volume.title}
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

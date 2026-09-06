@@ -1,0 +1,134 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import TopicReviewQueue from "../../components/TopicReviewQueue.astro";
+import { reviewQueueForTopic, topicPluginFor } from "../../../plugins/topic-discovery/catalog";
+import { topicHubs } from "../../data/topics";
+import { sitePath } from "../../lib/paths";
+import GreenPublicationShelf from "../../components/GreenPublicationShelf.astro";
+
+export function getStaticPaths() {
+  return topicHubs.map((topic) => ({ params: { slug: topic.slug }, props: { topic } }));
+}
+
+const { topic } = Astro.props;
+const plugin = topicPluginFor(topic.slug);
+const reviewSignals = reviewQueueForTopic(topic.slug);
+const preprintCount = topic.related.filter((item) => item.type === "Author paper").length;
+const previewCount = topic.related.filter((item) => item.type.includes("preview")).length;
+const roadmapCount = topic.related.filter((item) => item.type.startsWith("Volume")).length;
+const publicOutputItems = topic.related.filter(
+  (item) => item.type === "Author paper" || item.type.includes("preview"),
+);
+const mappedVolumes = [
+  ...new Set(
+    topic.related.map((item) => item.volume).filter((volume): volume is string => Boolean(volume)),
+  ),
+];
+const mappedVolumeSummary =
+  mappedVolumes.length > 1
+    ? `${mappedVolumes.slice(0, -1).join(", ")}, and ${mappedVolumes[mappedVolumes.length - 1]}`
+    : (mappedVolumes[0] ?? "");
+---
+
+<BaseLayout
+  title={topic.name + " topic hub"}
+  description={topic.description}
+  currentPath={"/topics/" + topic.slug + "/"}
+>
+  <PageHero eyebrow="Topic hub" title={topic.name} description={topic.description} />
+  <section class="section section-white">
+    <div class="shell">
+      <div class="topic-hub-status">
+        <span class="status-pill">Public discovery map</span>
+        <h2>{plugin.question}</h2>
+        <p>
+          {plugin.method} This hub already has public outputs: {preprintCount} author paper
+          {preprintCount === 1 ? " copy" : " copies"} and {previewCount} research, documentary, or video
+          {previewCount === 1 ? "preview" : "previews"}. These are public records and previews, not
+          a claim that a standalone Independent Observer article has been released; the map below
+          keeps them distinct from roadmap notes and work held for human release.
+        </p>
+        <div class="topic-hub-stat-row" aria-label={topic.name + " map summary"}>
+          <span><strong>{publicOutputItems.length}</strong> public outputs</span>
+          <span><strong>{preprintCount}</strong> public preprints</span>
+          <span><strong>{previewCount}</strong> previews</span>
+          <span><strong>{roadmapCount}</strong> roadmap notes</span>
+          <span><strong>{reviewSignals.length}</strong> held for release</span>
+        </div>
+        {
+          publicOutputItems.length > 0 && (
+            <div class="topic-hub-outputs">
+              <div class="topic-hub-outputs-heading">
+                <div>
+                  <p class="topic-hub-output-label">Public outputs in this map</p>
+                  <h3>Open the work that is available now.</h3>
+                </div>
+                <p class="topic-hub-output-context">
+                  {mappedVolumes.length > 0
+                    ? `Mapped to ${mappedVolumeSummary} in the four-volume spine.`
+                    : "Connected to the four-volume research spine."}
+                </p>
+              </div>
+              <ul class="topic-hub-output-list" aria-label={topic.name + " public outputs"}>
+                {publicOutputItems.map((item) => (
+                  <li>
+                    <a href={item.href}>
+                      <span>
+                        {item.type}
+                        {item.volume ? ` · ${item.volume}` : ""}
+                      </span>
+                      {item.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <a class="topic-hub-output-catalogue" href={sitePath("/research/")}>
+                Browse the full research catalogue →
+              </a>
+            </div>
+          )
+        }
+      </div>
+      <div class="card-grid topic-hub-grid">
+        {
+          topic.related.map((item, index) => (
+            <article class="editorial-card topic-related-card">
+              <div class="card-meta">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span>{item.type}</span>
+              </div>
+              <h3>
+                <a class="card-title-link" href={item.href}>
+                  {item.title}
+                </a>
+              </h3>
+              <p class="card-category">{item.category}</p>
+              <p>{item.description}</p>
+              <div class="card-footer">
+                <>
+                  <span class="status-pill">{item.status}</span>
+                  <a class="card-open-link" href={item.href}>
+                    {item.type === "Author paper" ? "Open reading copy →" : "Open preview →"}
+                  </a>
+                </>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+      <div class="detail-actions">
+        <a class="button" href={sitePath("/start/")}>Choose another path →</a>
+        <a class="button button-secondary button-on-light" href={sitePath("/topics/")}>
+          All topic hubs
+        </a>
+      </div>
+    </div>
+  </section>
+  <GreenPublicationShelf topic={topic.name} title={`${topic.name}: current articles`} />
+  <TopicReviewQueue
+    signals={reviewSignals}
+    title={"Held for release in " + topic.name}
+    intro={topic.reviewIntro}
+  />
+</BaseLayout>

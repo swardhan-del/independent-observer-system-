@@ -1,0 +1,75 @@
+---
+import { previewGreenPublications, readingTimeMinutes } from "../data/green-publications";
+import { sitePath } from "../lib/paths";
+const { volume, topic, title = "Current research articles" } = Astro.props;
+const records = previewGreenPublications.filter(
+  (item) => (!volume || item.volume === volume) && (!topic || item.topics.includes(topic)),
+);
+const recordCount = records.length;
+const releaseCount = records.filter((item) => item.productionReleased).length;
+const recordLabel =
+  recordCount === 1
+    ? "one bounded, text-only article"
+    : `${recordCount} bounded, text-only articles`;
+const recordDescription = volume
+  ? `${recordLabel} is currently connected to ${volume}. These public synopsis pages are available here without an account; they are not production releases, feeds, or downloadable manuscripts.`
+  : `${recordCount} bounded, text-only research previews are connected from one publication registry. These pages support editorial review; they are not downloadable manuscripts.`;
+const releaseDescription =
+  releaseCount === 0
+    ? "No item in this shelf is in the public release feed."
+    : `${releaseCount} item${releaseCount === 1 ? " is" : "s are"} in the public release feed.`;
+---
+
+{
+  records.length > 0 && (
+    <section class="section section-white" aria-labelledby="green-publications-title">
+      <div class="shell">
+        <div class="section-heading green-publication-shelf-heading">
+          <div>
+            <p class="eyebrow">Public synopsis shelf · registry-driven</p>
+            <h2 id="green-publications-title">{title}</h2>
+          </div>
+          <p>{recordDescription}</p>
+        </div>
+        <div class="green-publication-shelf-status" aria-label="Publication curation status">
+          <div class="green-publication-shelf-stat">
+            <strong>{recordCount}</strong>
+            <span>bounded previews</span>
+          </div>
+          <div class="green-publication-shelf-stat">
+            <strong>{releaseCount}</strong>
+            <span>release-feed entries</span>
+          </div>
+          <p>
+            {releaseDescription} Final release decisions remain separate from this preview shelf.
+          </p>
+        </div>
+        <div class:list={["card-grid", recordCount === 1 && "green-publication-grid-single"]}>
+          {records.map((item) => (
+            <article class="editorial-card">
+              <div class="card-meta">
+                <span>{item.volume}</span>
+                <span>{item.topics.slice(0, 2).join(" · ")}</span>
+              </div>
+              <h3>
+                <a class="card-title-link" href={sitePath(`/research/${item.slug}/`)}>
+                  {item.title}
+                </a>
+              </h3>
+              <p>{item.standfirst}</p>
+              <div class="card-footer">
+                <span class="status-pill">
+                  {item.productionReleased ? "Released article" : "Preview-only article"}
+                </span>
+                <span>{readingTimeMinutes(item)} min read</span>
+                <a class="card-open-link" href={sitePath(`/research/${item.slug}/`)}>
+                  Read bounded preview →
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

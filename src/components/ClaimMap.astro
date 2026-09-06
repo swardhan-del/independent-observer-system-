@@ -1,0 +1,38 @@
+---
+type Props = {
+  claim: string;
+  evidence: string;
+  mechanism: string;
+  counterargument: string;
+  limitation: string;
+};
+
+const { claim, evidence, mechanism, counterargument, limitation } = Astro.props as Props;
+const steps = [
+  ["Claim", claim],
+  ["Evidence", evidence],
+  ["Mechanism", mechanism],
+  ["Counterargument", counterargument],
+  ["Limitation", limitation],
+];
+---
+
+<section class="claim-map" aria-labelledby="claim-map-title">
+  <div class="claim-map-heading">
+    <p class="eyebrow">Argument structure</p>
+    <h2 id="claim-map-title">Claim map</h2>
+  </div>
+  <ol>
+    {
+      steps.map(([label, text], index) => (
+        <li>
+          <span class="claim-map-number">{String(index + 1).padStart(2, "0")}</span>
+          <div>
+            <strong>{label}</strong>
+            <p>{text}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</section>

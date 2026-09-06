@@ -1,0 +1,221 @@
+---
+import { topicPluginFor, volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
+import { seriesItems } from "../data/series";
+import { paperDocuments } from "../data/papers";
+import { homepageVolumeScopeFor } from "../data/homepage-volume-scope";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+
+const papersByVolume = new Map(
+  seriesItems.map((item) => [
+    item.volume,
+    paperDocuments
+      .filter((paper) => paper.volume === item.volume)
+      .sort((left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1)),
+  ]),
+);
+
+const volumeVisuals = {
+  "Volume I": {
+    src: "/volume-illustrations/volume-i-observation.jpg",
+    alt: "Editorial collage of an observation lens, layered records, and linked public nodes.",
+  },
+  "Volume II": {
+    src: "/volume-illustrations/volume-ii-sovereignty.jpg",
+    alt: "Editorial collage of civic buildings, map layers, legal pathways, and connected institutions.",
+  },
+  "Volume III": {
+    src: "/volume-illustrations/volume-iii-distribution.jpg",
+    alt: "Editorial collage of industrial and service work, a time grid, public infrastructure, and balanced pathways.",
+  },
+  "Volume IV": {
+    src: "/volume-illustrations/volume-iv-capability.jpg",
+    alt: "Editorial collage of a human figure connected to laboratory instruments, energy, compute, and care systems.",
+  },
+} as const;
+
+const volumeActions = [
+  "Observe the record",
+  "Locate power",
+  "Follow the cost",
+  "Govern capability",
+];
+---
+
+<div class="homepage-volume-guide" aria-labelledby="homepage-volume-guide-title">
+  <div class="homepage-volume-guide-heading">
+    <div>
+      <p class="eyebrow">The four-volume spine</p>
+      <h3 id="homepage-volume-guide-title">One philosophy, four fields of action.</h3>
+    </div>
+    <p class="homepage-volume-guide-intro">
+      Volume I establishes the method of observation. Volume II follows sovereignty and public
+      power. Volume III examines work and social citizenship. Volume IV follows AI, science,
+      infrastructure, intimacy, and human capability. The linked public papers show where the
+      research is already inspectable; each remains a preprint or reading copy until its own release
+      gate is complete.
+    </p>
+  </div>
+  <div
+    class="topic-volume-concept-map homepage-concept-map"
+    aria-label="How the four volumes connect"
+  >
+    <div class="topic-volume-concept-center">
+      <strong>Independent Observer</strong>
+      <span>observe · connect · correct</span>
+    </div>
+    <div class="topic-volume-concept-nodes">
+      {
+        seriesItems.map((item, index) => {
+          const connection = volumeTopicConnections[item.volume];
+          return (
+            <a class="topic-volume-concept-node" href={sitePath(`/series/${slugify(item.title)}/`)}>
+              <span>
+                {String(index + 1).padStart(2, "0")} · {item.volume}
+              </span>
+              <strong>{item.title}</strong>
+              <small>
+                {volumeActions[index]} · {connection.lens}
+              </small>
+            </a>
+          );
+        })
+      }
+    </div>
+  </div>
+  <section class="homepage-research-method" aria-labelledby="homepage-research-method-title">
+    <div class="homepage-research-method-heading">
+      <p class="eyebrow">How the site works</p>
+      <h3 id="homepage-research-method-title">Follow the claim from record to hypothesis.</h3>
+      <p>
+        The connected paper list is a public index, not a complete inventory of the research. The
+        research map below makes the wider programme visible while keeping release status and
+        uncertainty legible.
+      </p>
+    </div>
+    <ol class="homepage-research-method-steps">
+      <li>
+        <strong>Evidence</strong>
+        <span
+          >Start with identifiable sources, context, competing records, and what can be checked.</span
+        >
+      </li>
+      <li>
+        <strong>Interpretation</strong>
+        <span
+          >Connect records across law, history, politics, economics, science, and lived capability.</span
+        >
+      </li>
+      <li>
+        <strong>Hypothesis</strong>
+        <span
+          >State the mechanism or question as something that can be tested, challenged, or revised.</span
+        >
+      </li>
+      <li>
+        <strong>Limitation</strong>
+        <span>Keep uncertainty, source gaps, version changes, and release boundaries visible.</span>
+      </li>
+    </ol>
+  </section>
+  <ol class="homepage-volume-grid" aria-label="Topics connected to each volume">
+    {
+      seriesItems.map((item, index) => {
+        const connection = volumeTopicConnections[item.volume];
+        const papers = papersByVolume.get(item.volume) ?? [];
+        const scope = homepageVolumeScopeFor(item.volume);
+        const visual = volumeVisuals[item.volume as keyof typeof volumeVisuals];
+        return (
+          <li class="homepage-volume-card" id={`homepage-${slugify(item.volume)}`}>
+            <div class="homepage-volume-topline">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{item.volume}</span>
+            </div>
+            <figure class="homepage-volume-illustration">
+              <img
+                src={sitePath(visual.src)}
+                alt={visual.alt}
+                width="1100"
+                height="1100"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+            <h4>
+              <a href={sitePath(`/series/${slugify(item.title)}/`)}>{item.title}</a>
+            </h4>
+            <p class="homepage-volume-lens">{connection.lens}</p>
+            <p>{item.description}</p>
+            <div class="homepage-volume-papers">
+              <p class="homepage-volume-papers-label">
+                {papers.length} connected public{" "}
+                {papers.length === 1 ? "paper record" : "paper records"} currently indexed
+              </p>
+              {papers.length > 0 && (
+                <ul>
+                  {papers.map((paper) => (
+                    <li>
+                      <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
+                      <span>
+                        {paper.metrics?.downloads ?? "—"} downloads · Archived distribution signal
+                        only
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            {scope && (
+              <div class="homepage-volume-scope">
+                <div class="homepage-volume-scope-heading">
+                  <span class="homepage-volume-scope-label">Research map</span>
+                  <strong>{scope.directions.length} additional mapped directions</strong>
+                </div>
+                <p class="homepage-volume-scope-note">
+                  These entries broaden the volume beyond the connected paper records above. They
+                  are public-safe editorial summaries, not a claim that every title is a released
+                  publication.
+                </p>
+                <details class="homepage-volume-scope-details">
+                  <summary>View the wider research map</summary>
+                  <ul>
+                    {scope.directions.map((direction) => (
+                      <li>
+                        <strong>{direction.title}</strong>
+                        <span>{direction.description}</span>
+                        {direction.researchGateUrl && (
+                          <a
+                            class="homepage-volume-scope-link"
+                            href={direction.researchGateUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Open verified ResearchGate preprint ↗
+                          </a>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+                <div class="homepage-volume-hypothesis">
+                  <span>Hypothesis</span>
+                  <p>{scope.hypothesis}</p>
+                </div>
+                <div class="homepage-volume-limitation">
+                  <span>Limitation</span>
+                  <p>{scope.limitation}</p>
+                </div>
+              </div>
+            )}
+            <div class="homepage-volume-topics" aria-label={`${item.volume} topics`}>
+              {connection.topicSlugs.map((slug) => {
+                const topic = topicPluginFor(slug);
+                return <a href={sitePath(`/topics/${slug}/`)}>{topic.name}</a>;
+              })}
+            </div>
+          </li>
+        );
+      })
+    }
+  </ol>
+</div>

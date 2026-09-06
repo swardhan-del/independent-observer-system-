@@ -1,7 +1,16 @@
 ---
 import type { EditorialItem } from "../data/content";
+import type { PublicDocument } from "../data/documents";
 import PageHero from "./PageHero.astro";
 import { sitePath } from "../lib/paths";
+import { seriesItems } from "../data/series";
+import { slugify } from "../lib/slugs";
+import EvidenceLayer, { type EvidenceBlock } from "./EvidenceLayer.astro";
+import ClaimMap from "./ClaimMap.astro";
+import VolumeResearchMap from "./VolumeResearchMap.astro";
+import VolumeResearchDossier from "./VolumeResearchDossier.astro";
+import type { VolumeTwoFramework } from "../data/volume-two-framework";
+import { volumeReels } from "../data/video-reels";
 
 type DetailItem = EditorialItem & {
   volume?: string;
@@ -13,12 +22,109 @@ type Props = {
   backLabel: string;
   backHref: string;
   statusNote: string;
+  featuredDocuments?: PublicDocument[];
+  showVolumePapersInPreview?: boolean;
+  volumeFramework?: VolumeTwoFramework;
+  heroClassName?: string;
+  showVolumeConnection?: boolean;
+  showVolumeResearchMap?: boolean;
+  showVolumeResearchDossier?: boolean;
+  volumeDossierDocuments?: PublicDocument[];
+  evidenceBlocks?: EvidenceBlock[];
+  evidenceTitle?: string;
+  evidenceIntro?: string;
+  evidenceStatusNote?: string;
+  evidenceSource?: {
+    label: string;
+    href: string;
+  };
+  claimMap?: {
+    claim: string;
+    evidence: string;
+    mechanism: string;
+    counterargument: string;
+    limitation: string;
+  };
 };
 
-const { item, eyebrow, backLabel, backHref, statusNote } = Astro.props as Props;
+const {
+  item,
+  eyebrow,
+  backLabel,
+  backHref,
+  statusNote,
+  featuredDocuments = [],
+  showVolumePapersInPreview = false,
+  volumeFramework,
+  heroClassName,
+  showVolumeConnection = false,
+  showVolumeResearchMap = false,
+  showVolumeResearchDossier = false,
+  volumeDossierDocuments = [],
+  evidenceBlocks,
+  evidenceTitle,
+  evidenceIntro,
+  evidenceStatusNote,
+  evidenceSource,
+  claimMap,
+} = Astro.props as Props;
+const volumeRecord = item.volume
+  ? seriesItems.find(
+      (volume) => item.volume === volume.volume || item.volume?.startsWith(`${volume.volume} ·`),
+    )
+  : undefined;
+const defaultEvidenceBlocks: EvidenceBlock[] = [
+  {
+    category: "Documented fact",
+    text: "This entry is a public editorial preview. It is not presented as a released article or verified finding.",
+  },
+  {
+    category: "Interpretation",
+    text: "The eventual article will separate the author's reading of the material from the source record.",
+  },
+  {
+    category: "Hypothesis",
+    text: "Any explanatory hypothesis will be labeled and tested against the published evidence.",
+  },
+  {
+    category: "Policy proposal",
+    text: "No policy recommendation is being made by this preview.",
+  },
+  {
+    category: "Limitation",
+    text: "Citations, full methods, dates, and release metadata are not complete for this preview.",
+  },
+  {
+    category: "Counterargument",
+    text: "A finished version must represent strong opposing explanations before evaluating them.",
+  },
+  {
+    category: "Unresolved question",
+    text: "What remains uncertain will stay visible rather than being converted into a confident conclusion.",
+  },
+];
+const defaultClaimMap = {
+  claim: "Reserved for the eventual, reviewed thesis.",
+  evidence: "Reserved for source-verified material and complete citations.",
+  mechanism: "Reserved for the causal or institutional explanation.",
+  counterargument: "Reserved for the strongest competing explanation.",
+  limitation: "This preview does not yet support a publishable conclusion.",
+};
+const selectedClaimMap = claimMap ?? defaultClaimMap;
+const showArgumentFramework = Boolean(evidenceBlocks || claimMap);
+const volumeOneReel = volumeReels.find((reel) => reel.volume === "Volume I");
+const frameworkRelevanceLabel =
+  item.volume === "Volume II"
+    ? "Why it matters to Volume II."
+    : `Why it matters to ${item.volume}.`;
 ---
 
-<PageHero eyebrow={eyebrow} title={item.title} description={item.description} />
+<PageHero
+  eyebrow={eyebrow}
+  title={item.title}
+  description={item.description}
+  className={heroClassName}
+/>
 
 <section class="section section-white">
   <div class="shell page-grid">
@@ -28,9 +134,214 @@ const { item, eyebrow, backLabel, backHref, statusNote } = Astro.props as Props;
     </aside>
     <div class="prose detail-prose">
       <p class="eyebrow">Public preview</p>
-      <h2>What this entry is for.</h2>
+      <h2>{item.detailHeading ?? "What this entry is for."}</h2>
       <p>{item.description}</p>
+      {item.detailLead && <p class="detail-lead">{item.detailLead}</p>}
       <p>{statusNote}</p>
+      {
+        volumeFramework && (
+          <section class="detail-volume-framework" aria-labelledby="detail-volume-framework-title">
+            <p class="eyebrow">{item.volume} public reading frame</p>
+            <h3 id="detail-volume-framework-title">Four paper families. Four principles.</h3>
+            <p class="detail-volume-thesis">
+              <strong>Volume thesis.</strong> {volumeFramework.thesis}
+            </p>
+            <p>{volumeFramework.intro}</p>
+            <div class="detail-volume-framework-group">
+              <h4>Four paper families</h4>
+              <ol class="detail-volume-framework-list">
+                {volumeFramework.families.map((family, index) => (
+                  <li class="detail-volume-framework-item">
+                    <span class="detail-volume-framework-index">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <p class="detail-volume-family-label">Paper family · {family.title}</p>
+                      <h5>{family.fullTitle}</h5>
+                      <p class="detail-volume-family-description">{family.description}</p>
+                      <div class="detail-volume-family-context">
+                        <p>
+                          <strong>{frameworkRelevanceLabel}</strong> {family.significance}
+                        </p>
+                        <p>
+                          <strong>Guiding principle.</strong> {family.principle}
+                        </p>
+                      </div>
+                      <div class="detail-volume-family-papers">
+                        <h6>Representative paper titles and descriptions</h6>
+                        <ul>
+                          {family.papers.map((paper) => (
+                            <li>
+                              <p class="detail-volume-family-paper-status">{paper.status}</p>
+                              <h6>
+                                {paper.href ? (
+                                  <a href={sitePath(paper.href)}>{paper.title}</a>
+                                ) : (
+                                  paper.title
+                                )}
+                              </h6>
+                              <p>{paper.description}</p>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <div class="detail-volume-framework-group">
+              <h4>Four principles carried through the research map</h4>
+              <ol class="detail-volume-framework-list">
+                {volumeFramework.principles.map((principle, index) => (
+                  <li class="detail-volume-framework-item">
+                    <span class="detail-volume-framework-index">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <h5>{principle.title}</h5>
+                      <p>{principle.description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </section>
+        )
+      }
+      {
+        showVolumePapersInPreview && featuredDocuments.length > 0 && (
+          <section class="detail-volume-papers" aria-labelledby="detail-volume-papers-title">
+            <p class="eyebrow">Public author papers</p>
+            <h3 id="detail-volume-papers-title">Author papers with reviewed public records.</h3>
+            <p>
+              These are the Volume I records matched to the author's research set and verified as
+              public paper records. Here, “posted” identifies a public paper record; it does not
+              imply peer review. Other files marked “submission-ready” remain outside this list
+              until an actual public record is confirmed.
+            </p>
+            <ol class="detail-volume-paper-list">
+              {featuredDocuments.map((entry, index) => (
+                <li class="detail-volume-paper">
+                  <div class="detail-volume-paper-heading">
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <span>
+                      {entry.placementDecision?.status === "held"
+                        ? "Placement held · owner approval required"
+                        : entry.status}
+                    </span>
+                  </div>
+                  <h4>
+                    <a href={sitePath(`/library/documents/${entry.id}/`)}>{entry.title}</a>
+                  </h4>
+                  {entry.id === "independent-observer-volume-one" && volumeOneReel && (
+                    <figure class="detail-volume-paper-media">
+                      <video
+                        controls
+                        preload="metadata"
+                        playsinline
+                        aria-label={`${volumeOneReel.title} · ${volumeOneReel.volume}`}
+                      >
+                        <source
+                          src={sitePath(volumeOneReel.mediaUrl)}
+                          type={volumeOneReel.mediaType}
+                        />
+                        Your browser does not support the embedded video player.
+                      </video>
+                      <figcaption>
+                        <strong>Related preview reel · {volumeOneReel.title}</strong>
+                        <span>{volumeOneReel.description}</span>
+                        <a href={sitePath(volumeOneReel.volumeHref)}>Explore the Volume I reel →</a>
+                      </figcaption>
+                    </figure>
+                  )}
+                  <p>{entry.description}</p>
+                  {entry.volumeRelevance && (
+                    <p>
+                      <strong>Why it matters to Volume I.</strong> {entry.volumeRelevance}
+                    </p>
+                  )}
+                  <div class="detail-volume-paper-links">
+                    <a href={sitePath(`/library/documents/${entry.id}/`)}>
+                      Read the paper synopsis →
+                    </a>
+                    {entry.researchGateUrl && (
+                      <a href={entry.researchGateUrl} target="_blank" rel="noopener noreferrer">
+                        Optional ResearchGate record ↗
+                      </a>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )
+      }
+      {
+        showVolumeConnection && volumeRecord && (
+          <aside class="detail-volume-connection" aria-labelledby="detail-volume-title">
+            <p class="eyebrow">Volume connection</p>
+            <h3 id="detail-volume-title">
+              <a href={sitePath(`/series/${slugify(volumeRecord.title)}/`)}>
+                {volumeRecord.volume}: {volumeRecord.title}
+              </a>
+            </h3>
+            <p>{volumeRecord.description}</p>
+            <p>
+              This catalogue link connects the preview to the volume's public research spine. It
+              does not turn either entry into a released publication.
+            </p>
+          </aside>
+        )
+      }
+      {
+        item.detailSections && (
+          <div class="detail-sections" aria-label="Research brief">
+            {item.detailSections.map((section, index) => (
+              <section class="detail-section">
+                <span class="detail-section-index">{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3>{section.heading}</h3>
+                  {section.paragraphs?.map((paragraph) => (
+                    <p>{paragraph}</p>
+                  ))}
+                  {section.items && (
+                    <ul>
+                      {section.items.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </section>
+            ))}
+          </div>
+        )
+      }
+      {
+        item.sourceNote && (
+          <aside class="detail-source-note" aria-labelledby="detail-source-title">
+            <p class="eyebrow">Public source trail</p>
+            <h3 id="detail-source-title">Evidence with a release boundary.</h3>
+            <p>{item.sourceNote}</p>
+            {item.sourceLinks && (
+              <ul class="detail-source-list">
+                {item.sourceLinks.map((source) => (
+                  <li>
+                    {source.internal ? (
+                      <a href={sitePath(source.url)}>{source.label} →</a>
+                    ) : (
+                      <a href={source.url} target="_blank" rel="noreferrer">
+                        {source.label} ↗
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </aside>
+        )
+      }
       <div class="detail-actions">
         <a class="button" href={backHref}>{backLabel} →</a>
         <a class="button button-secondary" href={sitePath("/library/")}>Open the public library</a>
@@ -38,3 +349,85 @@ const { item, eyebrow, backLabel, backHref, statusNote } = Astro.props as Props;
     </div>
   </div>
 </section>
+
+{showVolumeResearchDossier && <VolumeResearchDossier publicDocuments={volumeDossierDocuments} />}
+
+{
+  featuredDocuments.length > 0 && !showVolumePapersInPreview && (
+    <section class="section section-navy" aria-labelledby="featured-preprints-title">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Selected public records</p>
+            <h2 id="featured-preprints-title">author-controlled preprints from this volume.</h2>
+          </div>
+          <p>
+            Ordered by the archived download signal. The snapshot does not publish star ratings;
+            downloads and abstract views are usage counts, not quality scores.
+          </p>
+        </div>
+        <div class="card-grid">
+          {featuredDocuments.map((entry, index) => (
+            <article class="editorial-card paper-feature-card">
+              <div class="card-meta">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span>{entry.status}</span>
+              </div>
+              <h3>
+                <a class="card-title-link" href={sitePath(`/library/documents/${entry.id}/`)}>
+                  {entry.title}
+                </a>
+              </h3>
+              <p>{entry.description}</p>
+              <div class="card-footer">
+                <span>
+                  {entry.metrics?.downloads ?? "—"} downloads ·{" "}
+                  {entry.metrics?.abstractViews ?? "—"} views
+                </span>
+                <a class="card-open-link" href={sitePath(`/library/documents/${entry.id}/`)}>
+                  Open reading copy →
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+{
+  showArgumentFramework && (
+    <section class="section section-rule">
+      <div class="shell reader-tools-grid">
+        <EvidenceLayer
+          blocks={evidenceBlocks ?? defaultEvidenceBlocks}
+          title={evidenceTitle}
+          intro={evidenceIntro}
+          statusNote={evidenceStatusNote}
+          source={evidenceSource}
+        />
+        <ClaimMap
+          claim={selectedClaimMap.claim}
+          evidence={selectedClaimMap.evidence}
+          mechanism={selectedClaimMap.mechanism}
+          counterargument={selectedClaimMap.counterargument}
+          limitation={selectedClaimMap.limitation}
+        />
+      </div>
+    </section>
+  )
+}
+
+{
+  showVolumeResearchMap && (
+    <section
+      class="section section-navy detail-research-map"
+      aria-labelledby="volume-research-map-title"
+    >
+      <div class="shell">
+        <VolumeResearchMap currentVolume={item.volume} />
+      </div>
+    </section>
+  )
+}

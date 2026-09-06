@@ -7,6 +7,7 @@ This folder is a public-safe control document for the Independent Observer websi
 ## Source and preservation boundary
 
 - Source authority: the Dropbox folder named `Independent Observer desktop`.
+- Canonical public host: the existing Vercel project at `https://independentobserver.org`; GitHub Pages remains a secondary fallback.
 - The Dropbox inventory was read-only. No Dropbox file or folder was moved, renamed, deleted, shared, or overwritten.
 - The top-level Dropbox inventory completed without pagination: 31 entries were observed.
 - The current intake folder `Website Feed/approved` had no approved feed manifest in the audited snapshot. The workflow therefore fails closed and publishes no new Dropbox feed item.

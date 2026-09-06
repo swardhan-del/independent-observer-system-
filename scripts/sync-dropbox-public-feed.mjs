@@ -2,8 +2,8 @@ import { createHash } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, extname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { validatePublicationManifest } from "./publication-manifest.mjs";
 
-const APPROVED_SOURCE_PATH = "/Independent Observer desktop/Website Feed/approved";
 const OUTPUT_PATH = resolve("src/data/dropbox-content.generated.ts");
 const MAX_ARTIFACT_BYTES = 95 * 1024 * 1024;
 const ALLOWED_STATUSES = new Set(["Concept preview", "In editorial development"]);
@@ -80,7 +80,7 @@ async function getAccessToken() {
   return (await response.json()).access_token;
 }
 
-async function listFolder(token) {
+async function listFolder(token, approvedSourcePath) {
   const entries = [];
   let response = await readJson(
     "https://api.dropboxapi.com/2/files/list_folder",
@@ -88,7 +88,7 @@ async function listFolder(token) {
       method: "POST",
       headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
       body: JSON.stringify({
-        path: APPROVED_SOURCE_PATH,
+        path: approvedSourcePath,
         recursive: false,
         include_deleted: false,
       }),
@@ -260,7 +260,7 @@ function validateSections(sections, field) {
 
 export function parseManifest(manifest) {
   if (
-    manifest?.schemaVersion !== 2 ||
+    manifest?.schemaVersion !== 3 ||
     !Array.isArray(manifest.items) ||
     manifest.items.length > 100 ||
     manifest.approvedForWebsite !== true ||
@@ -270,29 +270,35 @@ export function parseManifest(manifest) {
     throw new Error("Manifest schema or release gates failed.");
   }
 
+  if (!process.env.PUBLICATION_OWNER_ID) {
+    throw new Error("PUBLICATION_OWNER_ID is required for owner-only release validation.");
+  }
+  validatePublicationManifest(manifest, { ownerId: process.env.PUBLICATION_OWNER_ID });
+
   const ids = new Set();
   const feedItems = [];
   const documentItems = [];
   const sources = [];
   for (const [index, item] of manifest.items.entries()) {
     const field = `items[${index}]`;
-    const id = cleanText(item?.id, `${field}.id`, 80);
+    const id = cleanText(item?.id ?? item?.candidateId, `${field}.id`, 80);
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id) || ids.has(id))
       throw new Error(`${field}.id is invalid or duplicated.`);
     ids.add(id);
-    if (!ALLOWED_KINDS.has(item?.kind)) throw new Error(`${field}.kind is not allowed.`);
+    const kind = item?.kind ?? item?.contentType;
+    if (!ALLOWED_KINDS.has(kind)) throw new Error(`${field}.kind is not allowed.`);
     if (!ALLOWED_STATUSES.has(item.status)) throw new Error(`${field}.status is not allowed.`);
     const title = cleanPublicText(item.title, `${field}.title`, 160);
     const category = validateCategory(
-      cleanPublicText(item.category, `${field}.category`, 100),
+      cleanPublicText(item.category ?? item.topics?.[0], `${field}.category`, 100),
       `${field}.category`,
     );
     const description = cleanPublicText(item.description, `${field}.description`, 800);
     if (!item.source) throw new Error(`${field}.source is required.`);
-    const source = validateSourceDeclaration(item.source, item.kind, field);
+    const source = validateSourceDeclaration(item.source, kind, field);
     sources.push({ id, source });
 
-    if (item.kind === "document") {
+    if (kind === "document") {
       const document = {
         id,
         title,
@@ -310,7 +316,7 @@ export function parseManifest(manifest) {
       continue;
     }
 
-    const feedItem = { id, kind: item.kind, title, category, description, status: item.status };
+    const feedItem = { id, kind, title, category, description, status: item.status };
     if (item.readingTime !== undefined)
       feedItem.readingTime = cleanPublicText(item.readingTime, `${field}.readingTime`, 80);
     feedItems.push(feedItem);
@@ -345,15 +351,16 @@ export const dropboxDocumentItems: DropboxDocumentItem[] = ${JSON.stringify(docu
 }
 
 async function run() {
-  if (process.env.DROPBOX_SOURCE_PATH && process.env.DROPBOX_SOURCE_PATH !== APPROVED_SOURCE_PATH) {
-    throw new Error(`DROPBOX_SOURCE_PATH must equal ${APPROVED_SOURCE_PATH}.`);
+  const approvedSourcePath = required("DROPBOX_SOURCE_PATH");
+  if (!approvedSourcePath.startsWith("/") || approvedSourcePath.endsWith("/")) {
+    throw new Error("DROPBOX_SOURCE_PATH must be an absolute Dropbox API path.");
   }
   const token = await getAccessToken();
-  const entries = await listFolder(token);
+  const entries = await listFolder(token, approvedSourcePath);
   const manifestEntry = entries.find(
     (entry) => entry[".tag"] === "file" && entry.name === "manifest.json",
   );
-  if (!manifestEntry) throw new Error(`No manifest.json found in ${APPROVED_SOURCE_PATH}.`);
+  if (!manifestEntry) throw new Error("No manifest.json found in the configured approved folder.");
   const manifest = JSON.parse(
     await download(
       token,
@@ -365,7 +372,7 @@ async function run() {
   for (const { id, source } of data.sources) {
     const bytes = await download(
       token,
-      `${APPROVED_SOURCE_PATH}/${source.relativePath}`,
+      `${approvedSourcePath}/${source.relativePath}`,
       `${id} approved source download`,
     );
     validateArtifact(source, bytes, `items.${id}.source`);

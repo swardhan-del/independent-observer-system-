@@ -1,0 +1,68 @@
+---
+import { paperDocuments } from "../data/papers";
+import { sitePath } from "../lib/paths";
+
+const papers = [...paperDocuments].sort(
+  (left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1),
+);
+---
+
+<section
+  class="section section-navy homepage-literature-shelf"
+  aria-labelledby="homepage-literature-title"
+>
+  <div class="shell">
+    <div class="section-heading">
+      <p class="eyebrow">Author paper catalogue</p>
+      <h2 id="homepage-literature-title">
+        The literature behind critical thinking, reasoning, and documentation.
+      </h2>
+      <p class="homepage-literature-intro">
+        Independent Observer is a source-led research project, not a single argument. This shelf
+        gathers {papers.length} public author paper pages so readers can examine questions that coverage
+        can flatten or omit while keeping references, uncertainty, and correction visible. The project
+        is grounded in identifiable sources, not conspiracy framing; each record is a source-reviewed
+        synopsis, not the complete manuscript, peer review, or an approved Independent Observer release.
+      </p>
+    </div>
+
+    <div class="homepage-literature-grid">
+      {
+        papers.map((paper, index) => (
+          <article class="homepage-literature-card">
+            <div class="homepage-literature-topline">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{paper.volume ?? "Independent Observer"}</span>
+            </div>
+            <p class="homepage-literature-meta">
+              {paper.category} · {paper.status}
+            </p>
+            <h3>
+              <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
+            </h3>
+            <p>{paper.homepageDescription ?? paper.description}</p>
+            <div class="homepage-literature-footer">
+              <a href={sitePath(`/library/documents/${paper.id}/`)}>Read the paper synopsis →</a>
+              <span>{paper.metrics?.downloads ?? "—"} downloads · usage signal only</span>
+            </div>
+            {paper.researchGateUrl && (
+              <a
+                class="homepage-literature-source"
+                href={paper.researchGateUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open ResearchGate record ↗
+              </a>
+            )}
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="homepage-literature-cta">
+      <a class="button" href={sitePath("/library/")}>Explore the full public library →</a>
+      <span>Public summaries, volume context, source links, and visible limitations.</span>
+    </div>
+  </div>
+</section>

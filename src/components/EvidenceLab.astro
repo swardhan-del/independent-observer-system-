@@ -1,0 +1,263 @@
+---
+import ExplainerTimeline from "./ExplainerTimeline.astro";
+import GlossaryTooltip from "./GlossaryTooltip.astro";
+import MechanismDiagram from "./MechanismDiagram.astro";
+import PolicyTradeoff from "./PolicyTradeoff.astro";
+import TranscriptSearch from "./TranscriptSearch.astro";
+import {
+  contradictionNavigator,
+  evidenceLabLimitations,
+  evidenceLabTranscript,
+  neuroprostheticControlLoop,
+  numericalClaimAudit,
+  prostheticIntegrationTimeline,
+  regrowingHumanitySources,
+  restorationEnhancementPolicy,
+} from "../data/regrowing-humanity-evidence";
+---
+
+<section class="section section-white evidence-lab" aria-labelledby="evidence-lab-title">
+  <div class="shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Evidence Lab · public preview</p>
+        <h2 id="evidence-lab-title">What the record can support.</h2>
+      </div>
+      <p>
+        A source-led map for <em>Regrowing Humanity</em>. The preview distinguishes evidence from
+        interpretation and keeps release, rights, and clinical boundaries visible.
+      </p>
+    </div>
+
+    <div class="evidence-lab-notice" role="note">
+      <strong>Awaiting human release.</strong> This is a bounded research adaptation. It is not a released
+      article, peer-reviewed publication, treatment recommendation, or substitute for professional medical
+      advice.
+    </div>
+
+    <div class="evidence-lab-filters" data-evidence-filters>
+      <div class="evidence-lab-filter-buttons" role="group" aria-label="Evidence Lab layers">
+        <button type="button" data-evidence-filter="all" aria-pressed="true">All layers</button>
+        <button type="button" data-evidence-filter="evidence" aria-pressed="false">Evidence</button>
+        <button type="button" data-evidence-filter="interpretation" aria-pressed="false"
+          >Interpretation</button
+        >
+      </div>
+      <p data-evidence-filter-status role="status">Showing all Evidence Lab layers.</p>
+    </div>
+
+    <div class="evidence-lab-grid">
+      <article class="evidence-lab-panel" data-evidence-layer="evidence">
+        <p class="eyebrow">Source explorer</p>
+        <h3>{regrowingHumanitySources.length} reviewed source records</h3>
+        <p>
+          Thirty scholarly records and six institutional records form the public-facing source
+          index.
+        </p>
+        <ol class="evidence-source-list">
+          {
+            regrowingHumanitySources.map((source) => (
+              <li>
+                <span class="evidence-source-id">{source.id}</span>
+                <div>
+                  <strong>{source.label}</strong>
+                  <span>{source.locator}</span>
+                  {source.doi && (
+                    <a
+                      href={`https://doi.org/${source.doi}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      DOI ↗
+                    </a>
+                  )}
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </article>
+
+      <article class="evidence-lab-panel" data-evidence-layer="interpretation">
+        <p class="eyebrow">Reading key</p>
+        <h3>How to read the layers</h3>
+        <p>
+          <GlossaryTooltip
+            term="Evidence"
+            definition="A source-linked result, record, or reported observation."
+          />
+          names what the reviewed record supports. <GlossaryTooltip
+            term="Interpretation"
+            definition="A reasoned connection or question built from the evidence, not a direct source quotation."
+          />
+          names the bridge the reader should inspect.
+        </p>
+        <ul class="evidence-boundary-list">
+          <li>Source verification is not the same as universal agreement.</li>
+          <li>Emerging human evidence is labeled as emerging.</li>
+          <li>Usage, access, and social outcomes are not inferred from lab performance alone.</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="section-heading evidence-lab-subheading">
+      <div>
+        <p class="eyebrow">Numerical-claim audit</p><h3>What was checked before adaptation.</h3>
+      </div>
+      <p>
+        Claims are grouped by evidence family so readers can see the source trail and the retained
+        qualification.
+      </p>
+    </div>
+    <div class="table-scroll" data-evidence-layer="evidence">
+      <table class="evidence-audit-table">
+        <caption>Numerical-claim verification outcomes</caption>
+        <thead
+          ><tr
+            ><th scope="col">Claim family</th><th scope="col">Audit outcome</th><th scope="col"
+              >Source IDs</th
+            ><th scope="col">Boundary</th></tr
+          ></thead
+        >
+        <tbody>
+          {
+            numericalClaimAudit.map((row) => (
+              <tr>
+                <>
+                  <th scope="row">{row.claim}</th>
+                  <td>{row.outcome}</td>
+                  <td>{row.sourceIds}</td>
+                  <td>{row.boundary}</td>
+                </>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-heading evidence-lab-subheading">
+      <div><p class="eyebrow">Mechanism</p><h3>From intention to integrated action.</h3></div>
+      <p>
+        A conceptual control loop makes the moving parts inspectable without implying that the loop
+        is complete or universal.
+      </p>
+    </div>
+    <MechanismDiagram steps={neuroprostheticControlLoop} />
+
+    <div class="section-heading evidence-lab-subheading">
+      <div>
+        <p class="eyebrow">Prosthetic integration timeline</p><h3>
+          Progress is not a single finish line.
+        </h3>
+      </div>
+      <p>
+        The review follows changes in interface, control, surgery, use, and governance across
+        distinct evidence periods.
+      </p>
+    </div>
+    <ExplainerTimeline entries={prostheticIntegrationTimeline} />
+
+    <div class="section-heading evidence-lab-subheading">
+      <div><p class="eyebrow">Contradiction navigator</p><h3>Keep the tension in view.</h3></div>
+      <p>
+        These are not errors to hide; they are the questions that prevent a promising result from
+        becoming an overclaim.
+      </p>
+    </div>
+    <div class="contradiction-grid" data-evidence-layer="interpretation">
+      {
+        contradictionNavigator.map((entry) => (
+          <article>
+            <>
+              <h3>{entry.title}</h3>
+              <p>{entry.tension}</p>
+              <small>{entry.readingNote}</small>
+            </>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="section-heading evidence-lab-subheading">
+      <div>
+        <p class="eyebrow">Policy trade-offs</p><h3>
+          Restoration and enhancement are related, not identical.
+        </h3>
+      </div>
+      <p>
+        The policy frame keeps autonomy, access, safety, consent, and distribution visible as
+        separate decisions.
+      </p>
+    </div>
+    <PolicyTradeoff options={restorationEnhancementPolicy} />
+
+    <TranscriptSearch lines={evidenceLabTranscript} />
+
+    <div class="evidence-lab-panels">
+      <article class="evidence-lab-panel" data-evidence-layer="evidence">
+        <p class="eyebrow">Citation panel</p>
+        <h3>Export follows verification.</h3>
+        <p>
+          Each scholarly source is identified by author group, venue, year, and DOI where the review
+          matrix recorded a verified DOI. Institutional records remain labeled as official records
+          or guidance.
+        </p>
+        <button type="button" class="button button-secondary" data-evidence-copy-citations
+          >Copy source index</button
+        >
+        <p class="evidence-copy-status" data-evidence-copy-status role="status" aria-live="polite">
+        </p>
+      </article>
+      <article class="evidence-lab-panel" data-evidence-layer="interpretation">
+        <p class="eyebrow">Limitations panel</p>
+        <h3>The boundary is part of the result.</h3>
+        <ul>{evidenceLabLimitations.map((limitation) => <li>{limitation}</li>)}</ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<script>
+  const sourceIndex =
+    "Regrowing Humanity Evidence Lab source index\n" +
+    Array.from(document.querySelectorAll(".evidence-source-list li"))
+      .map((item) => item.textContent?.trim())
+      .join("\n");
+  document.querySelectorAll<HTMLElement>("[data-evidence-filters]").forEach((root) => {
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>("[data-evidence-filter]")];
+    const layers = [...document.querySelectorAll<HTMLElement>("[data-evidence-layer]")];
+    const status = root.querySelector<HTMLElement>("[data-evidence-filter-status]");
+    buttons.forEach((button) =>
+      button.addEventListener("click", () => {
+        const selected = button.dataset.evidenceFilter ?? "all";
+        buttons.forEach((candidate) =>
+          candidate.setAttribute("aria-pressed", String(candidate === button)),
+        );
+        layers.forEach((layer) => {
+          layer.hidden = selected !== "all" && layer.dataset.evidenceLayer !== selected;
+        });
+        if (status)
+          status.textContent =
+            selected === "all" ? "Showing all Evidence Lab layers." : `Showing ${selected} layers.`;
+      }),
+    );
+  });
+  document
+    .querySelectorAll<HTMLButtonElement>("[data-evidence-copy-citations]")
+    .forEach((button) => {
+      button.addEventListener("click", async () => {
+        const status = button.parentElement?.querySelector<HTMLElement>(
+          "[data-evidence-copy-status]",
+        );
+        try {
+          await navigator.clipboard.writeText(sourceIndex);
+          if (status) status.textContent = "Source index copied.";
+        } catch {
+          if (status)
+            status.textContent =
+              "Copy is unavailable in this browser; use the visible source list.";
+        }
+      });
+    });
+</script>

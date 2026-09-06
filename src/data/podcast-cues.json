@@ -1,0 +1,32 @@
+{
+  "episode-01-observation-before-judgment": {
+    "duration": 271.606,
+    "timing": "estimated from narration length and nearby silence",
+    "starts": [0, 5.43, 29.22, 65.6, 96.79, 121.17, 156.96, 196.04, 215.88, 239.22, 255.86],
+    "wavBytes": 11981920,
+    "m4aBytes": 2404967
+  },
+  "episode-02-empire-beneath-democracy": {
+    "duration": 296.591,
+    "timing": "estimated from narration length and nearby silence",
+    "starts": [0, 7.28, 28.12, 57.25, 91.24, 124.42, 156.11, 190.14, 223.93, 252.92, 272.41],
+    "wavBytes": 13083744,
+    "m4aBytes": 2649506
+  },
+  "episode-03-managed-decline": {
+    "duration": 317.593,
+    "timing": "estimated from narration length and nearby silence",
+    "starts": [0, 5.63, 38.21, 71.7, 104.53, 137.57, 171.55, 203.34, 231.42, 263.21, 281.4, 299.84],
+    "wavBytes": 14009952,
+    "m4aBytes": 2818355
+  },
+  "episode-04-the-last-human-workforce": {
+    "duration": 324.431,
+    "timing": "estimated from narration length and nearby silence",
+    "starts": [
+      0, 7.43, 44.26, 74.55, 107.33, 137.17, 164.86, 196.89, 231.18, 254.31, 276.7, 302.29
+    ],
+    "wavBytes": 14311520,
+    "m4aBytes": 2879345
+  }
+}

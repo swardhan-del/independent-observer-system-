@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { sitePath } from "../../lib/paths";
+
+const destination = sitePath("/start/");
+---
+
+<BaseLayout
+  title="Start here"
+  description="The legacy Start Here route now points readers to the current guided entry page."
+  currentPath="/start-here/"
+  canonicalPath="/start/"
+  noindex
+>
+  <meta http-equiv="refresh" content={`0;url=${destination}`} />
+  <section class="section section-white redirect-page" aria-labelledby="redirect-title">
+    <div class="shell narrow-shell">
+      <p class="eyebrow">START HERE</p>
+      <h1 id="redirect-title">Continue to the guided entry.</h1>
+      <p>
+        This legacy address now points to the current Start Here page. If your browser does not
+        redirect automatically, use the link below.
+      </p>
+      <a class="button button-primary" href={destination}>Open Start Here →</a>
+    </div>
+  </section>
+</BaseLayout>

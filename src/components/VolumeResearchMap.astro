@@ -1,0 +1,114 @@
+---
+import { researchItems } from "../data/content";
+import { volumeResearchMap } from "../data/volume-research";
+import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+
+type Props = {
+  currentVolume?: string;
+};
+
+const { currentVolume } = Astro.props as Props;
+const volumeRoles: Record<string, string> = {
+  "Volume I": "Foundation",
+  "Volume II": "Power and sovereignty",
+  "Volume III": "Work and social citizenship",
+  "Volume IV": "Capability and adaptation",
+};
+---
+
+<section
+  class="volume-research-map"
+  id="volume-research-map"
+  aria-labelledby="volume-research-map-title"
+>
+  <div class="volume-research-map-heading">
+    <div>
+      <p class="eyebrow">Research spine</p>
+      <h2 id="volume-research-map-title">Research and essays across four volumes.</h2>
+    </div>
+    <p>
+      This is a volume map for the research desk, not another publication-status category, topic
+      hub, or public-library shelf. It shows what each volume contributes and where the currently
+      indexed public reading copies belong.
+    </p>
+  </div>
+
+  <ol class="volume-research-map-grid" aria-label="Research mapped across four volumes">
+    {
+      volumeResearchMap.map((volume, index) => {
+        const guide = libraryVolumeGuides.find((entry) => entry.volume === volume.volume);
+        const linkedResearch = researchItems.filter((entry) => entry.volume === volume.volume);
+        const volumeId = "volume-research-" + slugify(volume.volume);
+        return (
+          <li
+            class:list={["volume-research-card", { "is-current": currentVolume === volume.volume }]}
+            id={volumeId}
+            aria-labelledby={volumeId + "-title"}
+          >
+            <div class="volume-research-card-topline">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{volume.volume}</span>
+            </div>
+            <div class="volume-research-card-heading">
+              <span class="volume-research-role">{volumeRoles[volume.volume]}</span>
+              <span class="status-pill">{volume.status}</span>
+            </div>
+            <h3 id={volumeId + "-title"}>
+              <a href={sitePath("/series/" + slugify(volume.title) + "/")}>{volume.title}</a>
+            </h3>
+            <p class="volume-research-importance">{guide?.importance}</p>
+            <p>{guide?.summary ?? volume.description}</p>
+
+            <div class="volume-research-principles">
+              <p class="library-block-label">Core research emphasis</p>
+              <ul>
+                {guide?.coreIdeas.slice(0, 3).map((idea) => (
+                  <li>{idea}</li>
+                ))}
+              </ul>
+            </div>
+
+            {linkedResearch.length > 0 && (
+              <div class="volume-research-linked-work">
+                <p class="library-block-label">Research desk connection</p>
+                <ul>
+                  {linkedResearch.map((entry) => (
+                    <li>
+                      <a href={sitePath("/research/" + slugify(entry.title) + "/")}>
+                        {entry.title}
+                      </a>
+                      <span>{entry.status}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <details class="volume-research-papers" open>
+              <summary>
+                {volume.papers.length}{" "}
+                {volume.papers.length === 1 ? "public reading copy" : "public reading copies"}
+              </summary>
+              <ul>
+                {volume.papers.map((paper) => (
+                  <li>
+                    <a href={sitePath("/library/documents/" + paper.id + "/")}>{paper.title}</a>
+                    <span>{paper.metrics?.downloads ?? "—"} downloads · usage signal only</span>
+                  </li>
+                ))}
+              </ul>
+            </details>
+
+            {currentVolume === volume.volume && (
+              <p class="volume-research-current" role="status">
+                Current volume for this entry
+              </p>
+            )}
+          </li>
+        );
+      })
+    }
+  </ol>
+</section>

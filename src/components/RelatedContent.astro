@@ -1,0 +1,38 @@
+---
+import type { RelatedRecord } from "../lib/related";
+
+type Props = {
+  records: RelatedRecord[];
+  title?: string;
+};
+
+const { records, title = "Related Independent Observer work" } = Astro.props as Props;
+---
+
+{
+  records.length > 0 && (
+    <section class="related-content section-rule" aria-labelledby="related-content-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Continue exploring</p>
+          <h2 id="related-content-title">{title}</h2>
+        </div>
+        <p>
+          Shared subjects and taxonomy connect this entry to adjacent work without implying
+          identical conclusions.
+        </p>
+      </div>
+      <div class="related-content-grid">
+        {records.map((record) => (
+          <article class="related-content-card">
+            <span class="status-pill">{record.status}</span>
+            <h3>
+              <a href={record.href}>{record.title}</a>
+            </h3>
+            <p>{record.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}
