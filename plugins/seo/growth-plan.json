@@ -1,0 +1,39 @@
+{
+  "reviewedAt": "2026-09-06",
+  "objective": "Help readers find a useful answer, follow the project and discover canonical public pages in search.",
+  "priorityPaths": [
+    "/",
+    "/library/",
+    "/start/",
+    "/library/documents/who-deported-more/",
+    "/about/",
+    "/podcast/"
+  ],
+  "nextActions": [
+    {
+      "id": "search-baseline",
+      "status": "verification-prepared",
+      "action": "Google Search Console browser access is available. Deploy the provided public ownership tag, verify the canonical URL-prefix property and submit its sitemap, then inspect priority URLs. Record actual results; the paid connector remains unavailable."
+    },
+    {
+      "id": "reader-discovery",
+      "status": "implemented-pending-release",
+      "action": "Verify mobile library search, six-record progressive browsing, compact Start Here, paper-first reading order and follow links."
+    },
+    {
+      "id": "editorial-cadence",
+      "status": "planned",
+      "action": "Prepare one source-backed explanation per week for review using an existing canonical paper family. Publish only when the explanation is ready; do not promise a fixed public cadence until it is sustainable."
+    },
+    {
+      "id": "distribution",
+      "status": "planned",
+      "action": "Prepare a short question-led summary and one verified figure for each completed explanation. Link back to its canonical page. External posts require authorization to send."
+    },
+    {
+      "id": "measurement",
+      "status": "needs-access",
+      "action": "Inspect existing analytics before adding tracking. Distinguish follow clicks from subscriptions and podcast playback from page views."
+    }
+  ]
+}

@@ -178,11 +178,11 @@ describe("topic discovery plugin", () => {
     expect(topicPathwaysComponent).toContain("Relevant volumes");
     expect(topicPathwaysComponent).toContain("slugify(volume.title)");
     expect(startIndex).toContain("<TopicVolumeMap />");
-    expect(startIndex).toContain("Explore the four volumes in development.");
+    expect(startIndex).toContain("Start with a question.");
     expect(startIndex).toContain("Siddhartha Harsh Wardhan");
     expect(startIndex).toContain("Research for independent judgment.");
     expect(startIndex).toContain("sources and references");
-    expect(startIndex).toContain("The research is ongoing");
+    expect(startIndex).toContain("Research in progress");
     expect(startIndex).not.toContain("public author paper pages");
     expect(startIndex).not.toContain("private working archive");
     expect(startIndex).toContain("Understand Volume I’s method");

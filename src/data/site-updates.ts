@@ -1,5 +1,30 @@
 export const siteUpdates = [
   {
+    id: "reader-discovery-2026-09-06",
+    date: "2026-09-06",
+    title: "A shorter path from question to paper",
+    changes: [
+      {
+        what: "The library now starts with search and six paper records, with more results available on demand.",
+        why: "Choose a read without scrolling through the whole research programme.",
+        route: "/library/",
+        label: "Find a paper",
+      },
+      {
+        what: "Paper introductions appear before citation tools, and document details follow the reading on mobile.",
+        why: "Reach the explanation first, then explore its sources and publication status.",
+        route: "/library/documents/who-deported-more/",
+        label: "Read a paper summary",
+      },
+      {
+        what: "Start Here leads with reading questions, and paper pages link directly to project updates and the podcast feed.",
+        why: "Find a starting point and keep following the research.",
+        route: "/start/",
+        label: "Choose a question",
+      },
+    ],
+  },
+  {
     id: "reader-tools-2026-09-06",
     date: "2026-09-06",
     title: "New ways to read, listen, and follow the research",

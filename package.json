@@ -22,7 +22,8 @@
     "domain:preflight": "node plugins/hosting/custom-domain-preflight.mjs",
     "dashboard": "tsx scripts/publishing-dashboard.ts",
     "test:e2e": "playwright test",
-    "perf:check": "node scripts/measure-reader-performance.mjs"
+    "perf:check": "node scripts/measure-reader-performance.mjs",
+    "seo:report": "node plugins/seo/growth-report.mjs"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",

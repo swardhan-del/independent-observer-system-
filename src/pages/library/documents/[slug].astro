@@ -12,12 +12,19 @@ export function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
+const searchTitles: Record<string, string> = {
+  "who-deported-more": "Who Deported More? Comparing Immigration Enforcement",
+  "latino-irony": "The Latino Irony: Hispanic Support for Trump",
+  "wardhan-tax-doctrine": "The Wardhan Tax Doctrine: Time and Tax Relief",
+  "disconnected-hearts": "Disconnected Hearts: Technology and Intimacy",
+  "double-tax-on-time": "The Double Tax on Time",
+};
 const currentPath = `/library/documents/${entry.id}/`;
 const documentIndex = publicDocumentItems.findIndex((candidate) => candidate.id === entry.id);
 ---
 
 <BaseLayout
-  title={entry.title}
+  title={searchTitles[entry.id] ?? entry.title}
   description={entry.description}
   currentPath={currentPath}
   articleMetadata={{

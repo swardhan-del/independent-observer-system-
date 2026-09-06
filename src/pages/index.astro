@@ -1,4 +1,5 @@
 ---
+import FollowUpdates from "../components/FollowUpdates.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { paperDocuments } from "../data/papers";
 import { seriesItems } from "../data/series";
@@ -25,7 +26,7 @@ const questionFor = (volume: string) => {
 ---
 
 <BaseLayout
-  title="Home"
+  title="Power, Work and Technology"
   description="Independent research on power, work, history, and technology. Start with a question, read a paper summary, or listen to the podcast."
   currentPath="/"
 >
@@ -140,4 +141,5 @@ const questionFor = (volume: string) => {
       </p>
     </div>
   </section>
+  <div class="shell"><FollowUpdates /></div>
 </BaseLayout>

@@ -123,7 +123,7 @@ describe("library content blocks", () => {
 
   it("describes the public archive and its four scholarly volume boundaries", () => {
     expect(libraryPage).not.toContain("drawn from a reviewed Dropbox export");
-    expect(libraryPage).toContain("source-led social-science papers");
+    expect(libraryPage).toContain("Search paper summaries on power, work, evidence and technology");
     expect(libraryPage).toContain("Volume II: make power legible.");
     expect(libraryPage).toContain("Volume II research method");
     expect(libraryPage).toContain("Define the population, legal category, period, and outcome");

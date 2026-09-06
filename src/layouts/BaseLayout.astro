@@ -141,6 +141,14 @@ const structuredData = JSON.stringify({
 <!doctype html>
 <html lang="en">
   <head>
+    {
+      currentPath === "/" && (
+        <meta
+          name="google-site-verification"
+          content="h9n2JK0QDIRl9KrBpQMYsy-OECkmR3D5fkCBKdGLLW8"
+        />
+      )
+    }
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
