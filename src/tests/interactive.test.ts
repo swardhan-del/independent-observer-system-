@@ -129,7 +129,7 @@ describe("interactive preview tools", () => {
   });
 
   it("ships a transparent inquiry form without creating a collection endpoint", () => {
-    expect(readFileSync(join(sourceRoot, "pages/index.astro"), "utf8")).toContain(
+    expect(readFileSync(join(sourceRoot, "pages/index.astro"), "utf8")).not.toContain(
       'aria-label="Newsletter preview"',
     );
     expect(contact).toContain("Questions about Independent Observer.");
@@ -624,47 +624,13 @@ describe("interactive preview tools", () => {
     expect(about).not.toContain("<TopicVolumeMap />");
   });
 
-  it("explains Volume I observation and connects all four volumes to topic hubs", () => {
-    expect(homepage).toContain(
-      "One research project about what public systems make visible, possible, and changeable.",
-    );
-    expect(homepage).toContain("The general message of each volume");
-    expect(homepage).toContain("grounded in references, identifiable sources, and visible limits");
-    expect(homepage).toContain("mission-illustration");
-    expect(homepage).toContain("independent-observer-four-volume-map-v2-1280.webp");
-    expect(homepage).toContain("central observing lens connecting four research fields");
-    expect(homepage).toContain("<VolumeVisualStrip compact />");
-    expect(volumeVisualStrip).toContain("volume-visual-strip");
-    expect(homepage).toContain("<HomepageVolumeGuide />");
+  it("uses existing public records for a concise homepage", () => {
     expect(homepage).toContain("paperDocuments");
-    expect(homepage).toContain("The public Volume I paper record reports");
-    expect(homepage).toContain("source: volumeOneSource");
-    expect(homepage.replace(/\s+/g, " ")).toMatch(
-      /research published through ResearchGate, Zenodo, or another verified public record/i,
-    );
-    expect(homepage.replace(/\s+/g, " ")).toMatch(
-      /new research, revisions, and evidence continue to develop here/i,
-    );
-    expect(homepage).toContain('aria-labelledby="hero-note-title"');
-    expect(homepage).toContain("Four volumes. One observing method.");
-    expect(homepage).toContain("hero-volume-nav");
-    expect(homepage).toContain("heroVolumeLinks.map");
-    expect(homepage).toContain("Highest retrieved Archived distribution signal");
-    expect(homepage.replace(/\s+/g, " ")).toContain("usage signal—not a quality rating");
-    expect(homepageVolumeGuide).toContain("Volume I establishes the method of observation");
-    expect(homepageVolumeGuide).toContain("homepage-concept-map");
-    expect(homepageVolumeGuide).toContain("topic-volume-concept-center");
-    expect(homepageVolumeGuide).toContain("volumeActions");
-    expect(homepageVolumeGuide).toContain("homepage-volume-illustration");
-    expect(homepageVolumeGuide).toContain("homepage-research-method");
-    expect(homepageVolumeGuide).toContain("The connected paper list is a public index");
-    expect(homepageVolumeGuide).toContain("additional mapped directions");
-    expect(homepageVolumeGuide).toContain("homepage-volume-hypothesis");
-    expect(homepageVolumeGuide).toContain("homepage-volume-limitation");
-    expect(homepageVolumeGuide).toContain("seriesItems.map");
-    expect(homepageVolumeGuide).toContain("volumeTopicConnections[item.volume]");
-    expect(homepageVolumeGuide).toContain("item.volume");
-    expect(homepageVolumeGuide).toContain("topicPluginFor(slug)");
+    expect(homepage).toContain("seriesItems.map");
+    expect(homepage).toContain("/library/documents/who-deported-more/");
+    expect(homepage).toContain("The volumes remain in development.");
+    expect(homepage).not.toContain("<HomepageVolumeGuide");
+    expect(homepage).not.toContain("<HomepageLiteratureShelf");
   });
 
   it("keeps video, reels, and survey pathways visibly preview-only", () => {

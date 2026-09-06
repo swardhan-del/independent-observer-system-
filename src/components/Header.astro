@@ -5,17 +5,18 @@ import { sitePath } from "../lib/paths";
 
 const { currentPath = "/" } = Astro.props;
 const navigation = [
-  { label: "Home", href: "/" },
   { label: "Start Here", href: "/start/" },
+  { label: "Read", href: "/library/" },
+  { label: "Listen & Watch", href: "/podcast/" },
+  { label: "About", href: "/about/" },
+];
+const secondaryNavigation = [
+  { label: "Research & Essays", href: "/research/" },
   { label: "Publication Catalogue", href: "/series/" },
   { label: "Topics", href: "/topics/" },
-  { label: "Public Library", href: "/library/" },
-  { label: "What’s New", href: "/whats-new/" },
-  { label: "Research & Essays", href: "/research/" },
   { label: "Documentaries", href: "/documentaries/" },
   { label: "Videos", href: "/videos/" },
-  { label: "Podcast", href: "/podcast/" },
-  { label: "About", href: "/about/" },
+  { label: "What’s New", href: "/whats-new/" },
   { label: "Contact", href: "/contact/" },
 ];
 
@@ -58,12 +59,26 @@ const isCurrent = (href: string) =>
           </a>
         ))
       }
+      <details class="more-navigation">
+        <summary>More</summary><div class="more-navigation-links">
+          {
+            secondaryNavigation.map((item) => (
+              <a
+                href={sitePath(item.href)}
+                aria-current={isCurrent(item.href) ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </div>
+      </details>
     </nav>
     <details class="shell mobile-nav">
       <summary>Menu <span class="mobile-nav-icon" aria-hidden="true"></span></summary>
       <nav aria-label="Mobile navigation">
         {
-          navigation.map((item) => (
+          [...navigation, ...secondaryNavigation].map((item) => (
             <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
               {item.label}
             </a>

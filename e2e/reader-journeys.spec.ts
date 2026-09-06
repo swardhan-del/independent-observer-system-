@@ -138,7 +138,7 @@ test("saved reading item survives closing the list and reloading", async ({ page
 
 test("reading journey heading clears the sticky masthead", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("link", { name: "Explore a question" }).click();
+  await page.getByRole("link", { name: "Start with a question" }).click();
   await expect(page).toHaveURL(/start\/#reading-journeys/);
   await expect
     .poll(async () =>

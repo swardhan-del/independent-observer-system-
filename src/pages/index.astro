@@ -1,526 +1,130 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import EditorialCard from "../components/EditorialCard.astro";
-import { documentaryItems, researchItems, topics, videoItems } from "../data/content";
 import { paperDocuments } from "../data/papers";
 import { seriesItems } from "../data/series";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
-import { socialLinks } from "../data/social";
-import EvidenceLayer from "../components/EvidenceLayer.astro";
-import HomepageVolumeGuide from "../components/HomepageVolumeGuide.astro";
-import HomepageLiteratureShelf from "../components/HomepageLiteratureShelf.astro";
-import VolumeVisualStrip from "../components/VolumeVisualStrip.astro";
-import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
-import GreenPublicationShelf from "../components/GreenPublicationShelf.astro";
 import { historyPodcast } from "../data/podcast";
-
-const volumeOneMethod = paperDocuments.find(
-  (entry) => entry.id === "independent-observer-volume-one",
-);
-const volumeOneMethodHref = volumeOneMethod
-  ? sitePath(`/library/documents/${volumeOneMethod.id}/`)
-  : sitePath("/library/");
-const volumeOneSource = {
-  label: "Read the Volume I public record",
-  href: volumeOneMethodHref,
-};
-// The public Volume I paper record reports a dated usage signal; current access stays review-pending.
-const highestDownloadDocument = [...paperDocuments]
-  .filter((entry) => typeof entry.metrics?.downloads === "number")
-  .sort((a, b) => (b.metrics?.downloads ?? 0) - (a.metrics?.downloads ?? 0))[0];
-const heroVolumeLinks = seriesItems.map((item, index) => ({
-  ...item,
-  number: String(index + 1).padStart(2, "0"),
-  href: sitePath(`/series/${slugify(item.title)}/`),
-  lens: volumeTopicConnections[item.volume].lens,
-}));
+const selectedIds = ["disconnected-hearts", "double-tax-on-time", "wardhan-tax-doctrine"];
+const readings = selectedIds.map((id) => paperDocuments.find((paper) => paper.id === id)!);
+const volumeQuestions = [
+  "How do we know what to believe?",
+  "Where does public power reside?",
+  "Who carries the cost of change?",
+  "What can people govern as technology changes?",
+];
 ---
 
 <BaseLayout
   title="Home"
-  description="Independent Observer is an independent public home for reports, research, and documentary work examining power, institutions, history, political economy, science, and technology."
+  description="Independent research on power, work, history, and technology. Start with a question, read a paper summary, or listen to the podcast."
   currentPath="/"
 >
-  <section class="hero">
+  <section class="hero focused-home-hero">
     <div class="shell hero-inner">
       <div>
-        <p class="eyebrow">Independent analysis for a complex age</p>
+        <p class="eyebrow">Independent media &amp; research</p>
         <h1>Observe the system.<br /><em>Question the frame.</em></h1>
         <p class="hero-summary">
-          Explore how power, work, history, and technology shape our lives. Read the research,
-          listen to the stories, and follow the evidence behind the arguments.
-        </p>
-        <p class="hero-summary hero-summary-secondary">
-          Four volumes by Siddhartha Harsh Wardhan, connecting public questions with sources,
-          interpretation, and room for correction.
+          Explore how power, work, history, and technology shape our lives. Follow the evidence
+          behind the arguments.
         </p>
         <div class="hero-actions">
-          <a class="button" href={sitePath("/research/")}>Read the research</a>
-          <a class="button button-secondary" href={sitePath("/podcast/")}>Listen to the podcast</a>
-          <a class="button button-secondary" href={sitePath("/start/#reading-journeys")}
-            >Explore a question</a
-          >
+          <a class="button" href={sitePath("/start/#reading-journeys")}>Start with a question</a>
+          <a class="button button-secondary" href={sitePath("/library/")}>Browse the library</a>
         </div>
       </div>
       <aside class="hero-note" aria-labelledby="hero-note-title">
-        <div class="hero-note-heading">
-          <span>Public research index</span>
-          <span class="hero-note-status">Open · 2026</span>
-        </div>
-        <h2 id="hero-note-title">Four volumes. One observing method.</h2>
+        <p class="eyebrow">Featured question</p>
+        <h2 id="hero-note-title">What does a deportation number actually count?</h2>
         <p>
-          Public previews and matched paper records make the developing work legible. Research
-          published through ResearchGate, Zenodo, or another verified public record enters this
-          index only as reviewed, public-safe material. New research, revisions, and evidence
-          continue to develop here; private drafts remain in the working archive until human release
-          review.
+          Different definitions and time periods can change a comparison. Start with the evidence
+          and limitations in <em>Who Deported More?</em>
         </p>
-        <dl class="hero-note-stats">
-          <div>
-            <dt>{seriesItems.length}</dt>
-            <dd>volumes</dd>
-          </div>
-          <div>
-            <dt>{topics.length}</dt>
-            <dd>fields</dd>
-          </div>
-          <div>
-            <dt>{paperDocuments.length}</dt>
-            <dd>paper records</dd>
-          </div>
-        </dl>
-        <p class="hero-volume-nav-label">Choose a volume to enter the research</p>
-        <nav class="hero-volume-nav" aria-label="Explore the four volumes">
-          {
-            heroVolumeLinks.map((volume) => (
-              <a class="hero-volume-link" href={volume.href}>
-                <span class="hero-volume-number">{volume.number}</span>
-                <span class="hero-volume-copy">
-                  <strong>{volume.title}</strong>
-                  <span>{volume.lens}</span>
-                </span>
-                <span class="hero-volume-arrow" aria-hidden="true">
-                  ↗
-                </span>
-              </a>
-            ))
-          }
-        </nav>
-        {
-          highestDownloadDocument && (
-            <a
-              class="hero-note-signal"
-              href={sitePath(`/library/documents/${highestDownloadDocument.id}/`)}
-            >
-              <span>Highest retrieved Archived distribution signal</span>
-              <strong>{highestDownloadDocument.title}</strong>
-              <small>
-                {highestDownloadDocument.metrics?.downloads ?? "—"} downloads · usage signal—not a
-                quality rating
-              </small>
-            </a>
-          )
-        }
+        <a class="button" href={sitePath("/library/documents/who-deported-more/")}
+          >Read the paper summary →</a
+        >
+        <p class="form-note">Working-paper summary · links to the source record</p>
       </aside>
     </div>
-    <div class="hero-watermark" aria-hidden="true">IO</div>
   </section>
-
-  <!-- Social proof / platform bar -->
-  <section class="platform-bar" aria-label="Publishing platforms">
-    <div class="shell platform-bar-inner">
-      <span class="platform-bar-label">Follow the work</span>
-      <ul class="platform-list" role="list">
-        {
-          socialLinks.map((link) => (
-            <li>
-              <a href={link.href} rel="me noopener noreferrer" target="_blank">
-                {link.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-
-  <section class="section section-white">
-    <div class="shell mission-grid">
-      <div class="index" aria-hidden="true">IO</div>
-      <div class="mission-copy">
-        <p class="eyebrow">Independent Observer</p>
-        <h2>
-          One research project about what public systems make visible, possible, and changeable.
-        </h2>
-        <p>
-          The project follows evidence from the record to the institution, from institutional power
-          to the distribution of work and security, and from distribution to human capability. It is
-          grounded in references, identifiable sources, and visible limits—not conspiracy framing.
-        </p>
-        <figure class="mission-illustration">
-          <img
-            src={sitePath("/independent-observer-four-volume-map-v2-1280.webp")}
-            srcset={`${sitePath("/independent-observer-four-volume-map-v2-640.webp")} 640w, ${sitePath("/independent-observer-four-volume-map-v2-1280.webp")} 1280w`}
-            sizes="(max-width: 700px) 100vw, 1000px"
-            alt="Editorial illustration of a central observing lens connecting four research fields: evidence, institutions, distribution, and capability."
-            width="1536"
-            height="1024"
-            loading="lazy"
-            decoding="async"
-          />
-          <figcaption>
-            One observing lens, four connected questions: how evidence becomes legible, how power is
-            organized, how change is distributed, and how capability is governed.
-          </figcaption>
-        </figure>
-        <div class="mission-volume-list" aria-label="The general message of each volume">
-          <article class="mission-volume">
-            <span class="mission-volume-number">Volume I</span>
-            <h3><a href={sitePath("/series/independent-observer/")}>Observation</a></h3>
-            <p>Build a record, separate fact from interpretation, and keep correction possible.</p>
-            <a class="mission-volume-link" href={volumeOneMethodHref}>Read the method →</a>
-          </article>
-          <article class="mission-volume">
-            <span class="mission-volume-number">Volume II</span>
-            <h3><a href={sitePath("/series/the-empire-beneath-democracy/")}>Power</a></h3>
-            <p>
-              Trace sovereignty, institutions, membership, and enforcement beneath formal democracy.
-            </p>
-            <a class="mission-volume-link" href={sitePath("/series/the-empire-beneath-democracy/")}
-              >Open the power inquiry →</a
-            >
-          </article>
-          <article class="mission-volume">
-            <span class="mission-volume-number">Volume III</span>
-            <h3><a href={sitePath("/series/managed-decline/")}>Distribution</a></h3>
-            <p>Ask who carries the cost of work, taxation, welfare, and economic change.</p>
-            <a class="mission-volume-link" href={sitePath("/series/managed-decline/")}
-              >Open the social-citizenship inquiry →</a
-            >
-          </article>
-          <article class="mission-volume">
-            <span class="mission-volume-number">Volume IV</span>
-            <h3><a href={sitePath("/series/the-last-human-workforce/")}>Capability</a></h3>
-            <p>Test AI, science, infrastructure, and adaptation against human governance.</p>
-            <a class="mission-volume-link" href={sitePath("/series/the-last-human-workforce/")}
-              >Open the capability inquiry →</a
-            >
-          </article>
-        </div>
-        <div class="mission-visual-map">
-          <p class="eyebrow">A visual way through the program</p>
-          <VolumeVisualStrip compact />
-        </div>
-        <a class="button button-secondary" href={sitePath("/about/#about-volume-atlas")}
-          >Explore all four volumes →</a
-        >
-      </div>
-    </div>
-  </section>
-
-  <HomepageLiteratureShelf />
-
-  <section
-    class="section section-rule homepage-podcast-feature"
-    aria-labelledby="homepage-podcast-title"
-  >
-    <div class="shell homepage-podcast-grid">
-      <div>
-        <p class="eyebrow">New · audio essays</p>
-        <h2 id="homepage-podcast-title">{historyPodcast.title}</h2>
-        <p>
-          {historyPodcast.subtitle} Hear the four-volume research spine in sequence, then open the public
-          paper records and transcripts behind each episode.
-        </p>
-      </div>
-      <div class="homepage-podcast-action">
-        <span>Season one · {historyPodcast.episodes.length} episodes</span>
-        <a class="button" href={sitePath("/podcast/")}>Listen to the season →</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-navy">
-    <div class="shell newsletter">
-      <div>
-        <p class="eyebrow">Your independent archive</p>
-        <h2>Reports remain under your control.</h2>
-        <p>
-          The working archive is the source of record. This public site receives only reviewed,
-          public-safe summaries, so your private files and unfinished evidence stay private.
-        </p>
-      </div>
-      <div>
-        <a class="button" href={sitePath("/library/")}>Open the public library →</a>
-        <p class="form-note">
-          The approved release queue is deliberately empty. Public previews and the reviewed library
-          remain available while human release decisions are pending.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-white" aria-label="Find the public work">
+  <section class="section section-white" aria-labelledby="homepage-literature-title">
     <div class="shell">
       <div class="section-heading">
-        <div>
-          <p class="eyebrow">Find your way in</p>
-          <h2>Search the public work.</h2>
-        </div>
-        <p>
-          Search the site from the masthead, or start with a desk, the public library, or one of the
-          six coverage fields. Each topic is a lens on one of the four volumes, not a separate
-          publication competing with the series.
+        <p class="eyebrow">Selected reading</p><h2 id="homepage-literature-title">
+          Three places to begin.
+        </h2><p>
+          These are summaries of working papers. Each page explains its sources and limitations.
         </p>
       </div>
-      <div class="discovery-grid">
-        <a class="discovery-card" href={sitePath("/library/")}>
-          <span>01</span>
-          <strong>Public Library</strong>
-          <p>See the reviewed map of the research archive.</p>
-        </a>
-        <a class="discovery-card" href={sitePath("/research/")}>
-          <span>02</span>
-          <strong>Research &amp; Essays</strong>
-          <p>Find concepts about law, institutions, labor, and power.</p>
-        </a>
-        <a class="discovery-card" href={sitePath("/documentaries/")}>
-          <span>03</span>
-          <strong>Documentary Projects</strong>
-          <p>Browse visual investigations in development.</p>
-        </a>
-        <a class="discovery-card" href={sitePath("/videos/")}>
-          <span>04</span>
-          <strong>Videos</strong>
-          <p>Explore explainers and future releases by subject.</p>
-        </a>
-        <a class="discovery-card discovery-card-accent" href={sitePath("/start/")}>
-          <span>05</span>
-          <strong>Start here</strong>
-          <p>Choose a guided route by method, subject, or archive.</p>
-        </a>
-      </div>
-      <div class="topic-links" aria-label="Browse coverage fields">
+      <div class="focused-reading-grid">
         {
-          topics.map((topic) => (
-            <a class="topic-link" href={sitePath("/topics/" + topic.name.toLowerCase() + "/")}>
-              {topic.name}
-            </a>
-          ))
-        }
-      </div>
-      <HomepageVolumeGuide />
-      <p class="form-note">
-        Tip: press <kbd>⌘</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Mac or
-        <kbd>Ctrl</kbd><span aria-hidden="true">/</span><kbd>K</kbd> on Windows to open search.
-      </p>
-    </div>
-  </section>
-
-  <section class="section section-white" aria-labelledby="homepage-evidence-title">
-    <div class="shell">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Read with the layers visible</p>
-          <h2 id="homepage-evidence-title">A publication should show how it knows.</h2>
-        </div>
-        <p>
-          Use the evidence-layer control to see the distinction the future article reader will
-          preserve. Nothing is scored and no category replaces the full text.
-        </p>
-      </div>
-      <EvidenceLayer
-        blocks={[
-          {
-            category: "Documented fact",
-            text: `An archived distribution snapshot for the public Volume I paper record captured ${volumeOneMethod?.metrics?.downloads ?? "—"} downloads and ${volumeOneMethod?.metrics?.abstractViews ?? "—"} abstract views on ${volumeOneMethod?.metrics?.checkedAt ?? "an earlier audit"}. These figures are usage signals, not a quality rating or an access link.`,
-            source: volumeOneSource,
-          },
-          {
-            category: "Interpretation",
-            text: "The foundation paper interprets information asymmetry and institutional design as part of political economy; it asks readers to inspect the record before accepting a conclusion.",
-            source: volumeOneSource,
-          },
-          {
-            category: "Hypothesis",
-            text: "If the basis and limits of an argument are visible, public disagreement may become more correctable.",
-            source: volumeOneSource,
-          },
-          {
-            category: "Limitation",
-            text: "This is a working paper, not peer review; the usage figures do not establish the method or prove a claim about any person or institution.",
-            source: volumeOneSource,
-          },
-        ]}
-      />
-    </div>
-  </section>
-  <GreenPublicationShelf title="New research" />
-
-  <section class="section section-navy" aria-label="Distribution channels">
-    <div class="shell">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Help the work travel</p>
-          <h2>Discover it where you already are.</h2>
-        </div>
-        <p>
-          This site keeps the reports and public archive under its own control. Social channels help
-          new readers find the work and lead them back to the fuller record.
-        </p>
-      </div>
-      <div class="distribution-grid">
-        {
-          socialLinks.map((link) => (
-            <a
-              class="distribution-card"
-              href={link.href}
-              target="_blank"
-              rel="me noopener noreferrer"
-            >
-              <strong>{link.label}</strong>
-              <span>{link.description}</span>
-              <span class="distribution-arrow" aria-hidden="true">
-                ↗
-              </span>
-            </a>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-rule">
-    <div class="shell">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Featured desk</p>
-          <h2>Research &amp; Essays</h2>
-        </div>
-        <p>
-          Developing work on institutional power, political economy, technology, and public
-          accountability.
-        </p>
-      </div>
-      <div class="card-grid">
-        {
-          researchItems.map((item, index) => (
-            <EditorialCard item={item} index={index + 1} sectionHref={sitePath("/research/")} />
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-navy">
-    <div class="shell">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Long-form visual inquiry</p>
-          <h2>Documentary Projects</h2>
-        </div>
-        <p>
-          Proposed films and narrative investigations designed to connect evidence, historical
-          context, and future consequences.
-        </p>
-      </div>
-      <div class="card-grid">
-        {
-          documentaryItems.map((item, index) => (
-            <EditorialCard
-              item={item}
-              index={index + 1}
-              sectionHref={sitePath("/documentaries/")}
-            />
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- Why This Matters CTA strip -->
-  <section class="section cta-strip">
-    <div class="shell cta-strip-inner">
-      <div class="cta-strip-copy">
-        <p class="eyebrow">The mission</p>
-        <h2>Why this work matters.</h2>
-        <p>
-          Public institutions shape every dimension of life — but most coverage flattens the
-          analysis. Independent Observer is being built to make the full picture visible.
-        </p>
-      </div>
-      <a class="button cta-strip-button" href={sitePath("/about/")}>Read the mission →</a>
-    </div>
-  </section>
-
-  <section class="section section-white">
-    <div class="shell">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Current formats</p>
-          <h2>Latest Videos</h2>
-        </div>
-        <p>
-          A preview catalogue for future shorts, explainers, and documentary releases. Publication
-          links will replace these status labels when available.
-        </p>
-      </div>
-      <div class="card-grid">
-        {
-          videoItems.map((item, index) => (
-            <EditorialCard item={item} index={index + 1} sectionHref={sitePath("/videos/")} />
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-rule">
-    <div class="shell">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Coverage</p>
-          <h2>Six connected fields</h2>
-        </div>
-        <p>
-          The editorial structure treats these subjects as interacting systems rather than isolated
-          verticals.
-        </p>
-      </div>
-      <div class="topics-grid">
-        {
-          topics.map((topic, index) => (
-            <article class="topic" id={"topic-" + topic.name.toLowerCase()}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{topic.name}</h3>
-              <p>{topic.description}</p>
-              <span class="topic-explore" aria-hidden="true">
-                Coverage area
-              </span>
+          readings.map((paper) => (
+            <article class="editorial-card" data-home-reading={paper.id}>
+              <>
+                <p class="eyebrow">{paper.volume}</p>
+                <h3>
+                  <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
+                </h3>
+                <p>{paper.homepageDescription ?? paper.description}</p>
+                <a class="text-link" href={sitePath(`/library/documents/${paper.id}/`)}>
+                  Read the summary →
+                </a>
+              </>
             </article>
           ))
         }
       </div>
+      <p>
+        <a class="text-link" href={sitePath("/library/")}
+          >Explore all {paperDocuments.length} paper summaries and the full library →</a
+        >
+      </p>
     </div>
   </section>
-
-  <section class="section section-navy" aria-label="Newsletter preview">
-    <div class="shell newsletter">
+  <section class="section section-navy" aria-labelledby="homepage-podcast-title">
+    <div class="shell focused-podcast">
       <div>
-        <p class="eyebrow">Independent publishing</p>
-        <h2>No algorithm required.</h2>
-        <p>
-          Read the reports and public summaries directly from this site. No social account,
-          subscription, or tracking service is required to access the work.
-        </p>
+        <p class="eyebrow">Listen &amp; watch</p><h2 id="homepage-podcast-title">
+          {historyPodcast.title}
+        </h2><p>{historyPodcast.subtitle}</p>
+      </div><div class="hero-actions">
+        <a class="button" href={sitePath("/podcast/")}>Listen to an episode →</a><a
+          class="button button-secondary"
+          href={sitePath("/videos/")}>Watch the video previews</a
+        >
       </div>
-      <div>
-        <a class="button" href={sitePath("/library/")}>Read reports &amp; summaries →</a>
-        <p class="form-note">
-          A quiet public home for the work, with a clear boundary around the private archive.
-        </p>
+    </div>
+  </section>
+  <section class="section section-white" aria-labelledby="homepage-volume-guide-title">
+    <div class="shell">
+      <div class="section-heading">
+        <p class="eyebrow">The four-volume project</p><h2 id="homepage-volume-guide-title">
+          One method. Four connected questions.
+        </h2><p>Choose a volume to enter the research. The volumes remain in development.</p>
       </div>
+      <nav class="focused-volume-grid" aria-label="Explore the four volumes">
+        {
+          seriesItems.map((item, index) => (
+            <a
+              id={`homepage-${slugify(item.volume)}`}
+              class="hero-volume-link"
+              href={sitePath(`/series/${slugify(item.title)}/`)}
+            >
+              <>
+                <span>{item.volume}</span>
+                <strong>{item.title}</strong>
+                <span>{volumeQuestions[index]}</span>
+              </>
+            </a>
+          ))
+        }
+      </nav>
+      <p>
+        <a class="text-link" href={sitePath("/about/")}
+          >About the author and the observing method →</a
+        >
+      </p>
     </div>
   </section>
 </BaseLayout>

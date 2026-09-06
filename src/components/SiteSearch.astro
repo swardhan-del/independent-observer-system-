@@ -1,10 +1,11 @@
 ---
+import { readerStatus } from "../lib/reader-status";
 import { topics } from "../data/content";
 const topicNames = topics.map((topic) => topic.name);
 import { searchItems } from "../data/search-index";
 import { sitePath } from "../lib/paths";
 const types = [...new Set(searchItems.map((item) => item.type))];
-const statuses = [...new Set(searchItems.map((item) => item.status))];
+const statuses = [...new Set(searchItems.map((item) => readerStatus(item.status)))];
 const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolean))] as string[];
 ---
 
@@ -104,6 +105,7 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
 </div>
 
 <script>
+  import { readerStatus } from "../lib/reader-status";
   import {
     highlightTokens,
     rankSearchEntries,
@@ -129,7 +131,10 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
           if (!response.ok) throw new Error("Search unavailable");
           const entries: unknown = await response.json();
           if (!Array.isArray(entries)) throw new Error("Invalid search index");
-          index = entries as SearchEntry[];
+          index = (entries as SearchEntry[]).map((entry) => ({
+            ...entry,
+            status: readerStatus(entry.status),
+          }));
           indexLoaded = true;
         })().catch(() => {
           indexRequest = undefined;
@@ -329,7 +334,10 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
     const params = new URLSearchParams(window.location.search);
     input.value = params.get("q") ?? "";
     filterControls.forEach((control) => {
-      control.value = params.get(control.dataset.searchFilter ?? "") ?? "";
+      control.value =
+        control.dataset.searchFilter === "status"
+          ? readerStatus(params.get("status") ?? "")
+          : (params.get(control.dataset.searchFilter ?? "") ?? "");
     });
     render(false);
   });
