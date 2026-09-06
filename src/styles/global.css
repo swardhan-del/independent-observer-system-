@@ -11186,6 +11186,11 @@ kbd {
   .homepage-literature-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  /* Fill the final row when the two-column catalogue has an odd paper count. */
+  .homepage-literature-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (max-width: 620px) {
