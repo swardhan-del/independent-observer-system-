@@ -23,3 +23,9 @@ The secondary dropdown now renders beyond the masthead without clipping. Homepag
 Regression coverage exercises the actual More link click, catalogue-filter persistence after search and reload, pausing sound after a desktop-to-mobile resize, and print disclosure restoration.
 
 Review-fix validation: 390 tests and 29 browser checks pass; the desktop-only menu check is intentionally skipped in the mobile project.
+
+## Solo-maintainer repository policy
+
+At the owner's explicit request, main now requires zero approving reviews and no separate approval of the latest push. Pull requests, the required GitHub Actions `verify` check, strict up-to-date status checks, administrator enforcement, and conversation resolution remain required. Force pushes and branch deletion remain disabled. This changes the permanent maintenance policy; it does not use an administrator merge override.
+
+The final cleanup adds an actionable build error for a missing selected paper ID and consolidates the reader toolbar's CSS without changing its layout.

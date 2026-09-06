@@ -12029,7 +12029,9 @@ kbd {
 /* Focused entry points; reader controls stay in the document flow. */
 .reader-toolbar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
   padding-block: 8px;
 }
 .reader-toolbar .reading-list-trigger {
@@ -12137,11 +12139,6 @@ kbd {
 }
 .site-header::after {
   display: none;
-}
-.reader-toolbar {
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
 }
 .reader-toolbar .ambient-sound-toggle {
   color: var(--navy-950);

@@ -6,7 +6,11 @@ import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 import { historyPodcast } from "../data/podcast";
 const selectedIds = ["disconnected-hearts", "double-tax-on-time", "wardhan-tax-doctrine"];
-const readings = selectedIds.map((id) => paperDocuments.find((paper) => paper.id === id)!);
+const readings = selectedIds.map((id) => {
+  const paper = paperDocuments.find((paper) => paper.id === id);
+  if (!paper) throw new Error(`Homepage selection is missing its public paper record: ${id}`);
+  return paper;
+});
 const volumeQuestions = [
   "How do we know what to believe?",
   "Where does public power reside?",
