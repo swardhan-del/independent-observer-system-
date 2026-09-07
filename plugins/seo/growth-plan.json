@@ -1,5 +1,5 @@
 {
-  "reviewedAt": "2026-09-06",
+  "reviewedAt": "2026-09-07",
   "objective": "Help readers find a useful answer, follow the project and discover canonical public pages in search.",
   "priorityPaths": [
     "/",
@@ -12,13 +12,13 @@
   "nextActions": [
     {
       "id": "search-baseline",
-      "status": "verification-prepared",
-      "action": "Google Search Console browser access is available. Deploy the provided public ownership tag, verify the canonical URL-prefix property and submit its sitemap, then inspect priority URLs. Record actual results; the paid connector remains unavailable."
+      "status": "setup-verified-baseline-pending-access",
+      "action": "Ownership verification, successful sitemap processing with 54 discovered pages, homepage indexing and an accepted recrawl request were observed on 2026-09-06. Do not repeat setup unless evidence warrants it. Collect the available 28-day query/page baseline and inspect priority landing pages when access returns; record dates and missing data. The 2026-09-07 browser check was blocked by the locked Mac, and GSC Wizard still required a subscription. Current traffic and indexing of other pages remain unknown."
     },
     {
       "id": "reader-discovery",
-      "status": "implemented-pending-release",
-      "action": "Verify mobile library search, six-record progressive browsing, compact Start Here, paper-first reading order and follow links."
+      "status": "released-verified",
+      "action": "PR 40 is live at production commit 949c190ac9200929fde19aa53598eaf450299239. Mobile library search, six-record progressive browsing, compact Start Here, paper-first reading order and follow links were verified on 2026-09-06. The custom-domain commit and production discovery checks were rechecked on 2026-09-07. Measure reader outcomes; do not repeat this completed redesign."
     },
     {
       "id": "editorial-cadence",
