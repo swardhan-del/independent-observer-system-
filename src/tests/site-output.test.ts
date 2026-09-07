@@ -479,7 +479,7 @@ describe("built website", () => {
   it("renders the inquiry route with disclosure and a no-storage boundary", () => {
     const html = readOutput("contact/index.html");
 
-    expect(html).toContain("Questions about Independent Observer.");
+    expect(html).toContain("Questions, evidence and constructive objections.");
     expect(html).toContain('action="mailto:swardhan1@icloud.com"');
     expect(html).toContain('id="contact-disclosure"');
     expect(html).toContain("threats, harassment, profanity");

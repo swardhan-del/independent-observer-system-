@@ -1,4 +1,5 @@
 ---
+import { byReadingUsefulness, startingQuestions } from "../data/scholarly-clarity";
 import { seriesItems } from "../data/series";
 import { paperDocuments } from "../data/papers";
 import { sitePath } from "../lib/paths";
@@ -10,12 +11,10 @@ type Props = {
 
 const { context } = Astro.props as Props;
 const isCatalogueContext = context === "catalogue";
-const featuredPreprints = [...paperDocuments]
-  .sort((a, b) => (b.metrics?.downloads ?? -1) - (a.metrics?.downloads ?? -1))
-  .slice(0, 5);
+const featuredPreprints = [...paperDocuments].sort(byReadingUsefulness).slice(0, 5);
 const volumeOnePapers = [...paperDocuments]
   .filter((entry) => entry.volume === "Volume I")
-  .sort((a, b) => (b.metrics?.downloads ?? -1) - (a.metrics?.downloads ?? -1));
+  .sort(byReadingUsefulness);
 
 type ReadingRecommendation = {
   id: string;
@@ -52,7 +51,7 @@ const recommendationGroups: ReadingRecommendationGroup[] = isCatalogueContext
           title: entry.title,
           href: sitePath(`/library/documents/${entry.id}/`),
           status: entry.status ?? "Reviewed public copy",
-          meta: `${entry.volume} · ${entry.metrics?.downloads ?? "—"} downloads · public synopsis`,
+          meta: `${entry.volume} · public synopsis`,
           type: "Author paper",
           externalHref: entry.researchGateUrl,
         })),
@@ -60,13 +59,13 @@ const recommendationGroups: ReadingRecommendationGroup[] = isCatalogueContext
     ]
   : [
       {
-        title: "Highest-download author paper pages",
+        title: "Questions to start with",
         entries: featuredPreprints.map((entry) => ({
           id: `document:${entry.id}`,
           title: entry.title,
           href: sitePath(`/library/documents/${entry.id}/`),
           status: entry.status ?? "Reviewed public copy",
-          meta: `${entry.volume} · ${entry.metrics?.downloads ?? "—"} downloads · author-controlled synopsis`,
+          meta: `${startingQuestions[entry.id] ?? entry.volume} · author-controlled synopsis`,
           type: "Author paper",
           externalHref: entry.researchGateUrl,
         })),
@@ -137,7 +136,7 @@ const recommendationGroups: ReadingRecommendationGroup[] = isCatalogueContext
           {
             isCatalogueContext
               ? "Start with the four-volume sequence, then open the public Volume I paper records. Save only what you want to revisit; nothing is added automatically."
-              : "Five author-controlled paper pages ordered by the archived download signal, followed by the four Independent Observer book and volume roadmaps. These are public reading copies and previews—not published books or peer-reviewed Independent Observer articles."
+              : "Five author-controlled paper pages selected for their starting questions and usefulness, followed by the four Independent Observer book and volume roadmaps. These are public reading copies and previews—not published books or peer-reviewed Independent Observer articles."
           }
         </p>
         {

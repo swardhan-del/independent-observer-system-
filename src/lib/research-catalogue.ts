@@ -1,3 +1,4 @@
+import { byReadingUsefulness } from "../data/scholarly-clarity";
 import { researchItems, topics } from "../data/content";
 import { seriesItems } from "../data/series";
 import { paperDocuments } from "../data/papers";
@@ -66,7 +67,7 @@ const volumeRecords: ResearchCatalogueRecord[] = volumeResearchMap.map((volume) 
 }));
 
 const paperRecords: ResearchCatalogueRecord[] = [...paperDocuments]
-  .sort((left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1))
+  .sort(byReadingUsefulness)
   .map((paper) => ({
     id: `paper:${paper.id}`,
     title: paper.title,

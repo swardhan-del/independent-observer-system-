@@ -12,6 +12,8 @@ export type RelatedRecord = {
   familyId?: string;
   volume?: string;
   relatedIds?: string[];
+  connection?: string;
+  relatedReadingReasons?: Record<string, string>;
 };
 
 function placementContext(record: RelatedRecord) {
@@ -53,14 +55,20 @@ export function relatedRecords(
       )
       .map((record) => {
         const candidateContext = placementContext(record);
-        const isExplicit = Boolean(record.familyId && explicitIds.has(record.familyId));
+        const isExplicit = Boolean(
+          explicitIds.has(record.id) || (record.familyId && explicitIds.has(record.familyId)),
+        );
         const sameSubfolder = [...currentContext.subfolders].some((key) =>
           candidateContext.subfolders.has(key),
         );
         const sameVolume = [...currentContext.volumes].some((volume) =>
           candidateContext.volumes.has(volume),
         );
-        const score = (isExplicit ? 1000 : 0) + (sameSubfolder ? 100 : 0) + (sameVolume ? 10 : 0);
+        const score =
+          (current.relatedReadingReasons?.[record.id] ? 2000 : 0) +
+          (isExplicit ? 1000 : 0) +
+          (sameSubfolder ? 100 : 0) +
+          (sameVolume ? 10 : 0);
         return { record, score };
       })
       .filter(({ score }) => score > 0)

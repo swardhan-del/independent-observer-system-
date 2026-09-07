@@ -132,7 +132,7 @@ describe("interactive preview tools", () => {
     expect(readFileSync(join(sourceRoot, "pages/index.astro"), "utf8")).not.toContain(
       'aria-label="Newsletter preview"',
     );
-    expect(contact).toContain("Questions about Independent Observer.");
+    expect(contact).toContain("Questions, evidence and constructive objections.");
     expect(contact).toContain("<form");
     expect(contact).toContain("contact-name");
     expect(contact).toContain("contact-disclosure");
@@ -355,7 +355,7 @@ describe("interactive preview tools", () => {
     expect(readingList).toContain("data-reading-export");
     expect(readingList).toContain("io:reading-list-updated");
     expect(readingList).toContain("Recommended public previews");
-    expect(readingList).toContain("Highest-download author paper pages");
+    expect(readingList).toContain("Questions to start with");
     expect(readingList).toContain("Books and volumes in development");
     expect(readingList).toContain("data-reading-save-all");
     expect(readingList).toContain("researchGateUrl");
