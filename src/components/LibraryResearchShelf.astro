@@ -1,4 +1,5 @@
 ---
+import { byReadingUsefulness, startingQuestions } from "../data/scholarly-clarity";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
 import { seriesItems } from "../data/series";
 import { paperDocuments } from "../data/papers";
@@ -7,9 +8,7 @@ import { slugify } from "../lib/slugs";
 import VolumeOneSourceMap from "./VolumeOneSourceMap.astro";
 
 const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
-const papers = [...paperDocuments].sort(
-  (left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1),
-);
+const papers = [...paperDocuments].sort(byReadingUsefulness);
 
 const volumeIllustrations = {
   "Volume I": {
@@ -98,6 +97,11 @@ const volumeIllustrations = {
               <h3>
                 <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
               </h3>
+              {startingQuestions[paper.id] && (
+                <p>
+                  <strong>{startingQuestions[paper.id]}</strong>
+                </p>
+              )}
               <p>{paper.description}</p>
               {paper.volumeRelevance && (
                 <p class="library-paper-contribution">
@@ -105,10 +109,12 @@ const volumeIllustrations = {
                 </p>
               )}
               <div class="library-paper-card-footer">
-                <span>
+                <details>
+                  <summary>Archived usage</summary>
                   {paper.metrics?.downloads ?? "—"} downloads ·{" "}
-                  {paper.metrics?.abstractViews ?? "—"} views
-                </span>
+                  {paper.metrics?.abstractViews ?? "—"} views. Historical counts are not quality
+                  ratings.
+                </details>
                 <div class="library-external-links">
                   {paper.researchGateUrl && (
                     <a href={paper.researchGateUrl} target="_blank" rel="noopener noreferrer">
@@ -168,7 +174,7 @@ const volumeIllustrations = {
                   {volumePapers.length} public reading{" "}
                   {volumePapers.length === 1 ? "copy" : "copies"}
                 </span>
-                {paper && <span>{paper.metrics?.downloads ?? "—"} downloads · not a rating</span>}
+                {paper && <span>Start with a selected public synopsis</span>}
                 {series && <span class="library-volume-rail-link">View volume brief →</span>}
               </a>
             );
@@ -287,7 +293,7 @@ const volumeIllustrations = {
                 {representativePaper && (
                   <div class="library-volume-shelf-paper">
                     <div>
-                      <p class="library-block-label">Highest archived download signal</p>
+                      <p class="library-block-label">Suggested starting read</p>
                       <h4>
                         <a href={sitePath(`/library/documents/${representativePaper.id}/`)}>
                           {representativePaper.title}
@@ -302,8 +308,13 @@ const volumeIllustrations = {
                       )}
                     </div>
                     <div>
-                      <strong>{representativePaper.metrics?.downloads ?? "—"} downloads</strong>
-                      <span>Archived distribution signal · not a quality score</span>
+                      <details>
+                        <summary>Archived usage</summary>
+                        <p>
+                          {representativePaper.metrics?.downloads ?? "—"} downloads · historical
+                          distribution, not a quality score.
+                        </p>
+                      </details>
                       <div class="library-external-links">
                         {representativePaper.researchGateUrl && (
                           <a

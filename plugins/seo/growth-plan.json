@@ -18,7 +18,7 @@
     {
       "id": "reader-discovery",
       "status": "released-verified",
-      "action": "PR 40 is live at production commit 949c190ac9200929fde19aa53598eaf450299239. Mobile library search, six-record progressive browsing, compact Start Here, paper-first reading order and follow links were verified on 2026-09-06. The custom-domain commit and production discovery checks were rechecked on 2026-09-07. Measure reader outcomes; do not repeat this completed redesign."
+      "action": "PR 40 introduced compact library browsing and paper-first reading in 949c190. PR 41 extends it with scholarly clarity at production commit de3a2a5855b77f9c19d79c1b79356e82929485af, verified on the custom domain on 2026-09-07. Mobile library search and Start Here discovery were rechecked during this weekly audit. Measure reader outcomes; do not repeat the completed redesign."
     },
     {
       "id": "editorial-cadence",
@@ -34,6 +34,11 @@
       "id": "measurement",
       "status": "needs-access",
       "action": "Inspect existing analytics before adding tracking. Distinguish follow clicks from subscriptions and podcast playback from page views."
+    },
+    {
+      "id": "scholarly-clarity",
+      "status": "implemented",
+      "action": "Completed: one sourced definitions explanation at the existing Who Deported More URL, shared availability and review clarity, and explained related readings. Release verification is maintained in the dated Website Feed audit. Remaining: individual evidence expansions for entanglement-primer, disconnected-hearts and wardhan-tax-doctrine; supported author disclosures; measured search outcomes."
     }
   ]
 }

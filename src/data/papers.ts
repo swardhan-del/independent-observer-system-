@@ -1,3 +1,4 @@
+import { scholarlyClarity } from "./scholarly-clarity";
 import type { PublicDocument, PublicDocumentSection } from "./documents";
 import { explicitRelatedFamilyIds, familyIdForKey } from "./family-registry";
 import { placementDecisionFor } from "./placement-decisions";
@@ -180,6 +181,20 @@ function makeDocument(input: PaperInput): PublicDocument {
 
   return {
     ...document,
+    genre: "Selected synopsis of an author working paper",
+    availability: {
+      webPage: "The selected synopsis is readable here. It is not the complete manuscript.",
+      original: researchGateUrl
+        ? "The original-paper record is external; its access conditions are separate from this web page."
+        : "No verified external original-paper link is provided on this page.",
+      data: "No accompanying dataset or codebook is provided on this page.",
+      code: "No accompanying analysis code is provided on this page.",
+    },
+    reviewScope: {
+      sourceChecking: `The synopsis was checked against an author-controlled source on ${sourceReviewDate}. A source fingerprint identifies the version; it does not validate the argument.`,
+      independentReview: "Independent scholarly review is not documented in this web record.",
+    },
+    ...scholarlyClarity[document.id],
     familyId: familyIdForKey(document.id),
     sourceLabel: "Author-controlled source · selected public synopsis",
     sourceModified: `Author-controlled source reviewed ${sourceReviewDate}`,

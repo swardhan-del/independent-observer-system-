@@ -143,7 +143,7 @@ describe("library content blocks", () => {
     expect(contentBlocks).toContain("Core ideas");
     expect(contentBlocks).toContain("Why this volume matters");
     expect(contentBlocks).toContain("Representative public paper");
-    expect(contentBlocks).toContain("Highest archived download signal in this volume");
+    expect(contentBlocks).not.toContain("Highest archived download signal");
     expect(contentBlocks).toContain("window.history.replaceState");
   });
 
@@ -153,7 +153,7 @@ describe("library content blocks", () => {
     expect(researchShelf).toContain("library-research-shelf-heading");
     expect(researchShelf).toContain("library-research-shelf-heading-copy");
     expect(researchShelf).toContain("Core principles");
-    expect(researchShelf).toContain("Highest archived download signal");
+    expect(researchShelf).toContain("Suggested starting read");
     expect(researchShelf).toContain("not a quality score");
     expect(researchShelf).toContain("How the power inquiry is assembled.");
     expect(researchShelf).toContain("Contribution to {guide.volume}.");
@@ -240,12 +240,12 @@ describe("library content blocks", () => {
     expect(volumeResearchMap.every((item) => item.papers.length > 0)).toBe(true);
     expect(new Set(volumeResearchMap.map((item) => item.papers[0]?.volume)).size).toBe(4);
     expect(volumeResearchMap.map((item) => item.papers[0]?.id)).toEqual([
-      "the-illusion-of-equality",
+      "a-systems-centered-manifesto",
       "who-deported-more",
       "wardhan-tax-doctrine",
       "entanglement-primer",
     ]);
     expect(contentBlocks).not.toContain("highest-rated");
-    expect(contentBlocks).toContain("not quality ratings");
+    expect(contentBlocks).toContain("not a quality rating");
   });
 });

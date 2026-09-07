@@ -7,6 +7,8 @@ export type PublicDocumentSection = {
   heading: string;
   paragraphs?: string[];
   items?: string[];
+  evidenceIds?: string[];
+  table?: { caption: string; headers: string[]; rows: string[][] };
 };
 
 export type PublicCitation = {
@@ -53,6 +55,11 @@ export type PublicDocument = {
   limitations?: string[];
   citations?: PublicCitation[];
   relatedIds?: string[];
+  genre?: string;
+  availability?: { webPage: string; original: string; data: string; code: string };
+  reviewScope?: { sourceChecking?: string; editorialReview?: string; independentReview?: string };
+  summaryEvidence?: PublicCitation[];
+  relatedReadingReasons?: Record<string, string>;
   placementDecision?: PlacementDecision;
   sections: PublicDocumentSection[];
 };

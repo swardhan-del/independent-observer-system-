@@ -1,5 +1,24 @@
 export const siteUpdates = [
   {
+    id: "scholarly-clarity-2026-09-06",
+    date: "2026-09-06",
+    title: "Trace the claim, understand the research object",
+    changes: [
+      {
+        what: "Who Deported More? now explains enforcement categories with official source locations and a non-numerical example.",
+        why: "Distinguish what a report counts before comparing its headline total.",
+        route: "/library/documents/who-deported-more/",
+        label: "Read the explanation",
+      },
+      {
+        what: "Paper readers distinguish summaries, original-paper records, material availability and documented review.",
+        why: "Know what you can read and what has been checked; manuscript release statuses are unchanged.",
+        route: "/library/",
+        label: "Explore the library",
+      },
+    ],
+  },
+  {
     id: "reader-discovery-2026-09-06",
     date: "2026-09-06",
     title: "A shorter path from question to paper",

@@ -166,7 +166,7 @@ describe("editorial preview data", () => {
       volumeResearchMap.every((item) => item.papers.every((paper) => paper.volume === item.volume)),
     ).toBe(true);
     expect(volumeResearchMap.find((item) => item.volume === "Volume I")?.papers[0]?.id).toBe(
-      "the-illusion-of-equality",
+      "a-systems-centered-manifesto",
     );
     expect(volumeResearchMap.find((item) => item.volume === "Volume II")?.papers[0]?.id).toBe(
       "who-deported-more",
@@ -460,20 +460,12 @@ describe("public library data", () => {
     const entry = paperDocuments.find((item) => item.id === "who-deported-more");
     const abstract = entry?.sections.find((section) => section.id === "abstract")?.paragraphs?.[0];
 
-    expect(abstract).toContain("This working paper clarifies commonly conflated measures");
-    expect(abstract).toContain("prosecutorial discretion, detainer policies, expedited removal");
-    expect(abstract).toContain("enhancing data transparency and comparability");
+    expect(abstract).toContain("what it counts");
+    expect(abstract).toContain("ICE’s FY2024 report includes returns");
     expect(entry?.sections.find((section) => section.id === "reading-points")?.heading).toBe(
-      "What the paper examines",
+      "Interior and border are a different question",
     );
-    expect(entry?.sections.find((section) => section.id === "reading-points")?.items).toEqual(
-      expect.arrayContaining([
-        expect.stringContaining("DHS Yearbook of Immigration Statistics"),
-        expect.stringContaining("FY2023–FY2024"),
-        expect.stringContaining("Title 42 public-health expulsions"),
-        expect.stringContaining("tidy CSV, codebook"),
-        expect.stringContaining("prosecutorial discretion"),
-      ]),
-    );
+    expect(entry?.availability?.data).toContain("No CSV or codebook");
+    expect(entry?.summaryEvidence?.length).toBe(4);
   });
 });
