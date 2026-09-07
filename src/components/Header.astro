@@ -6,15 +6,15 @@ const { currentPath = "/" } = Astro.props;
 const navigation = [
   { label: "Start Here", href: "/start/" },
   { label: "Read", href: "/library/" },
-  { label: "Listen & Watch", href: "/podcast/" },
+  { label: "Listen", href: "/podcast/" },
+  { label: "Topics", href: "/topics/" },
   { label: "About", href: "/about/" },
 ];
 const secondaryNavigation = [
   { label: "Research & Essays", href: "/research/" },
   { label: "Publication Catalogue", href: "/series/" },
-  { label: "Topics", href: "/topics/" },
   { label: "Documentaries", href: "/documentaries/" },
-  { label: "Videos", href: "/videos/" },
+  { label: "Video previews", href: "/videos/" },
   { label: "What’s New", href: "/whats-new/" },
   { label: "Contact", href: "/contact/" },
 ];
@@ -57,6 +57,7 @@ const isCurrent = (href: string) =>
           </a>
         ))
       }
+      <a class="nav-follow" href={sitePath("/#follow-updates")}>Follow</a>
       <details class="more-navigation">
         <summary>More</summary><div class="more-navigation-links">
           {
@@ -76,7 +77,11 @@ const isCurrent = (href: string) =>
       <summary>Menu <span class="mobile-nav-icon" aria-hidden="true"></span></summary>
       <nav aria-label="Mobile navigation">
         {
-          [...navigation, ...secondaryNavigation].map((item) => (
+          [
+            ...navigation,
+            { label: "Follow new research", href: "/#follow-updates" },
+            ...secondaryNavigation,
+          ].map((item) => (
             <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
               {item.label}
             </a>

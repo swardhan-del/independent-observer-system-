@@ -147,6 +147,40 @@ export const scholarlyClarity: Record<string, Partial<PublicDocument>> = {
   },
   "disconnected-hearts": {
     genre: "Synopsis of a conceptual argument",
+    sections: [
+      {
+        id: "abstract",
+        heading: "The argument in brief",
+        paragraphs: [
+          "The paper asks how the conditions of work and the ways people connect through technology interact. Its argument brings economic precarity, digital mediation, intimacy and demographic questions into the same frame, rather than treating technology as a complete explanation for social change.",
+          "This is a conceptual argument. The public synopsis does not establish that digital technology causes social isolation or declining birth rates.",
+        ],
+      },
+      {
+        id: "reading-points",
+        heading: "Three connected questions",
+        items: [
+          "Work: how might automation and economic insecurity affect the conditions in which people form relationships?",
+          "Connection: what changes when intimacy and identity are increasingly mediated through digital interaction?",
+          "Institutions: what would help people sustain human connection as those conditions change?",
+        ],
+      },
+      {
+        id: "reading-limits",
+        heading: "How to assess the argument",
+        paragraphs: [
+          "Treat these as questions to investigate, not demonstrated causal links. A useful next step is to ask which observations would distinguish economic pressures from changes in communication, and whether different groups or settings would support different explanations.",
+          "The original working-paper record is linked below. No dataset or independent scholarly review is supplied with this synopsis, so it cannot tell you the size or direction of a technology effect on demographic outcomes.",
+        ],
+      },
+      {
+        id: "publication-boundary",
+        heading: "Publication boundary",
+        paragraphs: [
+          "This remains a synopsis of an author working paper, not a released publication. The complete manuscript is not hosted here; the original paper record and limitations are available below.",
+        ],
+      },
+    ],
     relatedReadingReasons: {
       "double-tax-on-time":
         "Compare a separate argument about the time costs of work with this account of intimacy. The connection is time and social life, not evidence of a causal technology effect.",

@@ -40,15 +40,62 @@ type SynonymGroup = {
 };
 
 const synonymGroups: SynonymGroup[] = [
-  { key: "ai", terms: ["ai", "artificial", "intelligence", "automation"] },
-  { key: "labor", terms: ["labor", "workforce", "employment"] },
-  { key: "institutions", terms: ["institution", "institutions", "governance", "administration"] },
+  { key: "ai", terms: ["ai", "artificial", "intelligence", "automation", "automated"] },
+  {
+    key: "labor",
+    terms: ["labor", "labour", "work", "workers", "workforce", "employment", "job", "jobs"],
+  },
+  {
+    key: "institutions",
+    terms: ["institution", "institutions", "governance", "administration", "administrations"],
+  },
   {
     key: "migration",
-    terms: ["migration", "migrations", "demographic", "demographics", "foreign", "workers"],
+    terms: [
+      "migration",
+      "migrations",
+      "immigration",
+      "immigrant",
+      "immigrants",
+      "migrant",
+      "migrants",
+    ],
   },
-  { key: "technology", terms: ["technology", "technologies", "computing", "infrastructure"] },
+  {
+    key: "deportation",
+    terms: [
+      "deportation",
+      "deportations",
+      "deported",
+      "deport",
+      "removal",
+      "removals",
+      "expulsion",
+      "expulsions",
+    ],
+  },
+  { key: "demography", terms: ["demography", "demographic", "demographics"] },
+  { key: "technology", terms: ["technology", "technologies", "technological", "tech"] },
+  { key: "tax", terms: ["tax", "taxes", "taxation"] },
+  { key: "podcast", terms: ["podcast", "podcasts", "audio", "episode", "episodes"] },
 ];
+const stopWords = new Set([
+  "a",
+  "an",
+  "the",
+  "and",
+  "or",
+  "of",
+  "to",
+  "in",
+  "on",
+  "for",
+  "with",
+  "how",
+  "what",
+  "does",
+  "is",
+]);
 
 const synonymLookup = new Map(
   synonymGroups.flatMap((group) => group.terms.map((term) => [term, group] as const)),
@@ -74,7 +121,9 @@ function queryGroups(query: string): SynonymGroup[] {
   const seen = new Set<string>();
   const groups: SynonymGroup[] = [];
 
-  for (const token of tokenizeSearchText(query)) {
+  const tokens = tokenizeSearchText(query);
+  const meaningful = tokens.filter((token) => !stopWords.has(token));
+  for (const token of meaningful.length ? meaningful : tokens) {
     const group = synonymLookup.get(token) ?? { key: token, terms: [token] };
     if (!seen.has(group.key)) {
       seen.add(group.key);
@@ -98,7 +147,8 @@ function entryFields(entry: SearchEntry) {
     title: fieldTokens(entry.title),
     category: fieldTokens(entry.category),
     topics: fieldTokens(entry.topics),
-    description: fieldTokens([entry.description, entry.searchText ?? ""]),
+    description: fieldTokens(entry.description),
+    body: fieldTokens(entry.searchText),
     status: fieldTokens(entry.status),
     format: fieldTokens([entry.format ?? "", entry.type, entry.volume ?? ""]),
   };
@@ -157,7 +207,9 @@ export function rankSearchEntries(
         const descriptionMatch = hasGroupMatch(group, fields.description);
         const statusMatch =
           hasGroupMatch(group, fields.status) || hasGroupMatch(group, fields.format);
-        const anyMatch = titleMatch || taxonomyMatch || descriptionMatch || statusMatch;
+        const bodyMatch = hasGroupMatch(group, fields.body);
+        const anyMatch =
+          titleMatch || taxonomyMatch || descriptionMatch || statusMatch || bodyMatch;
 
         if (!anyMatch) return [];
         if (titleMatch) {
@@ -172,6 +224,9 @@ export function rankSearchEntries(
         } else if (statusMatch) {
           score += 200;
           matchedFields.add("status");
+        } else if (bodyMatch) {
+          score += 100;
+          matchedFields.add("body");
         }
       }
 
@@ -197,5 +252,5 @@ export function searchSuggestions(query: string): string[] {
   }
   if (normalized.includes("institution")) return ["governance", "law", "democracy"];
   if (normalized.includes("archive")) return ["public library", "research", "series"];
-  return ["AI", "institutions", "public library"];
+  return ["AI", "immigration", "tax"];
 }

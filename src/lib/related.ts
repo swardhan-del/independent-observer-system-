@@ -68,10 +68,14 @@ export function relatedRecords(
           (current.relatedReadingReasons?.[record.id] ? 2000 : 0) +
           (isExplicit ? 1000 : 0) +
           (sameSubfolder ? 100 : 0) +
+          (record.category === current.category ? 100 : 0) +
+          ((record.topics ?? []).some((topic) => (current.topics ?? []).includes(topic))
+            ? 100
+            : 0) +
           (sameVolume ? 10 : 0);
         return { record, score };
       })
-      .filter(({ score }) => score > 0)
+      .filter(({ score }) => score >= 100)
       .sort((a, b) => b.score - a.score || a.record.title.localeCompare(b.record.title, "en"))
       .slice(0, limit)
       .map(({ record }) => record);

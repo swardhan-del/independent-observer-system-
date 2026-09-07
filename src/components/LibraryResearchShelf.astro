@@ -1,4 +1,5 @@
 ---
+import { displayTitle, summaryDescription } from "../data/reader-presentation";
 import { byReadingUsefulness, startingQuestions } from "../data/scholarly-clarity";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
 import { seriesItems } from "../data/series";
@@ -86,8 +87,10 @@ const volumeIllustrations = {
             <article
               class="library-paper-card"
               data-library-paper-card
+              data-paper-id={paper.id}
+              data-paper-title={paper.title}
               data-paper-volume={paper.volume ?? "Unassigned"}
-              data-paper-search={`${paper.title} ${paper.category} ${paper.description} ${paper.volume ?? ""} author paper ${paper.researchGateUrl ? "ResearchGate" : ""}`}
+              data-paper-search={`${paper.title} ${displayTitle(paper)} ${startingQuestions[paper.id] ?? ""} ${paper.category} ${paper.description} ${paper.volume ?? ""} author paper ${paper.researchGateUrl ? "ResearchGate" : ""}`}
             >
               <div class="card-meta">
                 <span>{paper.volume ?? "Independent Observer"}</span>
@@ -95,14 +98,14 @@ const volumeIllustrations = {
               </div>
               <span class="library-paper-status">{paper.status}</span>
               <h3>
-                <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
+                <a href={sitePath(`/library/documents/${paper.id}/`)}>{displayTitle(paper)}</a>
               </h3>
               {startingQuestions[paper.id] && (
                 <p>
                   <strong>{startingQuestions[paper.id]}</strong>
                 </p>
               )}
-              <p>{paper.description}</p>
+              <p>{summaryDescription(paper)}</p>
               {paper.volumeRelevance && (
                 <p class="library-paper-contribution">
                   <strong>Why it contributes.</strong> {paper.volumeRelevance}
@@ -382,6 +385,7 @@ const volumeIllustrations = {
 </section>
 
 <script>
+  import { rankSearchEntries, type SearchEntry } from "../lib/search";
   const shelf = document.querySelector<HTMLElement>("[data-library-paper-shelf]");
   if (shelf) {
     const query = shelf.querySelector<HTMLInputElement>("[data-library-paper-query]");
@@ -393,13 +397,16 @@ const volumeIllustrations = {
     let limit = 6;
     let selectedVolume = "all";
     let selectedQuery = "";
-    const normalize = (value: string) =>
-      value
-        .normalize("NFKD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^\p{L}\p{N}]+/gu, " ")
-        .toLocaleLowerCase()
-        .trim();
+    const searchEntries: SearchEntry[] = cards.map((card) => ({
+      id: card.dataset.paperId!,
+      title: card.dataset.paperTitle!,
+      description: card.dataset.paperSearch ?? "",
+      category: "",
+      status: "Author working paper",
+      type: "Research",
+      volume: card.dataset.paperVolume,
+      href: card.querySelector<HTMLAnchorElement>("h3 a")!.href,
+    }));
     const updateUrl = () => {
       const url = new URL(window.location.href);
       if (selectedVolume === "all") url.searchParams.delete("paperVolume");
@@ -413,16 +420,24 @@ const volumeIllustrations = {
       );
     };
     const render = (persist = true) => {
-      const queryTokens = normalize(selectedQuery).split(/\s+/).filter(Boolean);
+      const matches = rankSearchEntries(
+        searchEntries,
+        selectedQuery,
+        selectedVolume === "all" ? {} : { volume: selectedVolume },
+      );
+      const ranks = new Map(matches.map((entry, index) => [entry.id, index]));
+      const ordered = selectedQuery.trim()
+        ? [...cards].sort(
+            (a, b) =>
+              (ranks.get(a.dataset.paperId!) ?? Infinity) -
+              (ranks.get(b.dataset.paperId!) ?? Infinity),
+          )
+        : cards;
+      const grid = shelf.querySelector(".library-paper-grid")!;
+      ordered.forEach((card) => grid.append(card));
       let visible = 0;
-      cards.forEach((card) => {
-        const matchesVolume =
-          selectedVolume === "all" || card.dataset.paperVolume === selectedVolume;
-        const searchTokens = normalize(card.dataset.paperSearch ?? "")
-          .split(/\s+/)
-          .filter(Boolean);
-        const matchesQuery = queryTokens.every((token) => searchTokens.includes(token));
-        const show = matchesVolume && matchesQuery;
+      ordered.forEach((card) => {
+        const show = ranks.has(card.dataset.paperId!);
         if (show) visible += 1;
         card.hidden = !show || visible > limit;
       });
@@ -454,13 +469,18 @@ const volumeIllustrations = {
       selectedQuery = query.value;
       render();
     });
-    const params = new URLSearchParams(window.location.search);
-    selectedVolume = params.get("paperVolume") ?? "all";
-    if (!filters.some((filter) => filter.dataset.libraryPaperFilter === selectedVolume))
-      selectedVolume = "all";
-    selectedQuery = params.get("paperQ") ?? "";
-    if (query) query.value = selectedQuery;
-    render(false);
+    const restoreUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      selectedVolume = params.get("paperVolume") ?? "all";
+      if (!filters.some((filter) => filter.dataset.libraryPaperFilter === selectedVolume))
+        selectedVolume = "all";
+      selectedQuery = params.get("paperQ") ?? "";
+      if (query) query.value = selectedQuery;
+      render(false);
+    };
+    window.addEventListener("popstate", restoreUrl);
+    window.addEventListener("pageshow", restoreUrl);
+    restoreUrl();
   }
 </script>
 

@@ -130,7 +130,7 @@ describe("topic discovery plugin", () => {
     expect(topicDetail).not.toContain("<TopicVolumeMap />");
     expect(topicDetail).toContain("publicOutputItems");
     expect(topicDetail).toContain("Public outputs in this map");
-    expect(topicDetail).toContain("standalone Independent Observer article has been released");
+    expect(topicDetail).toMatch(/Each link explains what is\s+available/);
     expect(topicDetail.indexOf("<GreenPublicationShelf")).toBeLessThan(
       topicDetail.indexOf("<TopicReviewQueue"),
     );
@@ -157,7 +157,7 @@ describe("topic discovery plugin", () => {
     expect(topicVolumeMatrix).toContain("data-matrix-links");
     expect(topicVolumeMatrix).toContain("replaceState");
     expect(topicReviewQueue).toContain("signal.status");
-    expect(topicReviewQueue).toContain("Metadata only · not a published article");
+    expect(topicReviewQueue).toContain("Project outline · not a published article");
     expect(topicReviewQueue).toContain("intro");
     expect(topicSpineNavigator).toContain(
       'aria-label="Explore the Independent Observer research spine"',

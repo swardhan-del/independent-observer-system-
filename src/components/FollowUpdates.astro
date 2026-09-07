@@ -1,14 +1,15 @@
 ---
 import { socialLinks } from "../data/social";
 import { sitePath } from "../lib/paths";
+const { id } = Astro.props;
 const updates = socialLinks.find((link) => link.label === "Substack")!;
 ---
 
-<aside class="follow-updates" aria-label="Follow Independent Observer">
-  <h2>Keep following the questions.</h2>
+<aside id={id} class="follow-updates" aria-label="Follow Independent Observer">
+  <h2>Follow new research.</h2>
   <p>
-    Follow Independent Observer on Substack for notes and publishing updates, or continue with the
-    audio series.
+    Get research notes and publishing updates through the Independent Observer Substack profile. You
+    choose whether to follow there. Prefer audio? Copy the podcast feed into your listening app.
   </p>
   <a href={updates.href} target="_blank" rel="noopener noreferrer">Follow on Substack ↗</a>
   <a href={sitePath("/podcast/feed.xml")}>Get the podcast feed →</a>

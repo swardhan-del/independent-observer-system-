@@ -1,0 +1,684 @@
+{
+  "checkedAt": "2026-09-07T20:46:33.359076+00:00",
+  "productionBuild": {
+    "schemaVersion": 1,
+    "project": "independent-observer",
+    "commitSha": "de3a2a5855b77f9c19d79c1b79356e82929485af",
+    "buildTimestamp": "2026-09-07T08:23:59.307Z"
+  },
+  "robots": "User-agent: *\nAllow: /\nSitemap: https://independentobserver.org/sitemap.xml\n",
+  "pages": [
+    {
+      "url": "https://independentobserver.org/",
+      "status": 200,
+      "final": "https://independentobserver.org/",
+      "title": "Power, Work and Technology | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/"],
+      "meta": {
+        "description": "Independent research on power, work, history, and technology. Start with a question, read a paper summary, or listen to the podcast."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/series/",
+      "status": 200,
+      "final": "https://independentobserver.org/series/",
+      "title": "Publication Catalogue | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/series/"],
+      "meta": {
+        "description": "The official public-safe catalogue of the four-volume Independent Observer research program."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/",
+      "title": "Public Research Library | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/library/"],
+      "meta": {
+        "description": "A public archive of source-led Independent Observer research papers and public reading copies across four volumes: observation and method, institutions and government, socioeconomic displacement and managed decline, and science and technology."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/whats-new/",
+      "status": 200,
+      "final": "https://independentobserver.org/whats-new/",
+      "title": "What\u2019s New | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/whats-new/"],
+      "meta": {
+        "description": "A dated release log for approved Independent Observer publications."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/research/",
+      "status": 200,
+      "final": "https://independentobserver.org/research/",
+      "title": "Research & Essays | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/research/"],
+      "meta": {
+        "description": "A public-safe, local research catalogue connecting the four Independent Observer volumes, public author paper pages, and concepts in development."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/prompts/",
+      "status": 200,
+      "final": "https://independentobserver.org/prompts/",
+      "title": "Visibility Studio | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/prompts/"],
+      "meta": {
+        "description": "A practical studio for turning one approved Independent Observer page into a clear research route, a useful visual, and a source-led social entry point."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/documentaries/",
+      "status": 200,
+      "final": "https://independentobserver.org/documentaries/",
+      "title": "Documentary Projects | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/documentaries/"],
+      "meta": {
+        "description": "Developing documentary projects from Independent Observer."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/videos/",
+      "status": 200,
+      "final": "https://independentobserver.org/videos/",
+      "title": "Videos | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/videos/"],
+      "meta": {
+        "description": "Video concepts and future releases from Independent Observer."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/podcast/",
+      "status": 200,
+      "final": "https://independentobserver.org/podcast/",
+      "title": "History Across the Volumes | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/podcast/"],
+      "meta": {
+        "description": "A first-season audio guide to the Independent Observer research program. Each episode adapts one or two public paper synopses from a volume and keeps the argument, source trail, and limitation visible."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/about/",
+      "status": 200,
+      "final": "https://independentobserver.org/about/",
+      "title": "About | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/about/"],
+      "meta": {
+        "description": "Mission and editorial principles of Independent Observer."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/contact/",
+      "status": 200,
+      "final": "https://independentobserver.org/contact/",
+      "title": "Contact | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/contact/"],
+      "meta": {
+        "description": "Send a respectful inquiry about Independent Observer volumes, research, and public publications."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/start/",
+      "status": 200,
+      "final": "https://independentobserver.org/start/",
+      "title": "Start here | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/start/"],
+      "meta": {
+        "description": "A guided introduction to Siddhartha Harsh Wardhan's four-volume, source-led research project and its questions about evidence, power, work, and human capability."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/publication-operating-system/",
+      "status": 200,
+      "final": "https://independentobserver.org/publication-operating-system/",
+      "title": "Publication Operating System | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/publication-operating-system/"],
+      "meta": {
+        "description": "The Independent Observer's publication operating standard for research, approval, publication, distribution, and learning."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/topics/",
+      "status": 200,
+      "final": "https://independentobserver.org/topics/",
+      "title": "Topic hubs | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/topics/"],
+      "meta": {
+        "description": "Browse Independent Observer topic hubs with honest separation between released work, previews, and roadmap notes."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/series/independent-observer/",
+      "status": 200,
+      "final": "https://independentobserver.org/series/independent-observer/",
+      "title": "Independent Observer | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/series/independent-observer/"],
+      "meta": {
+        "description": "Volume I is the method anchor for the Independent Observer series. It is about how a public claim becomes believable: what was observed, which sources support it, what context or contradiction is missing, how interpretation becomes argument, and how uncertainty is recorded. It brings law, labor, media, history, public memory, and democratic practice into one framework so readers can follow not only a conclusion but the path that produced it. Its central question is whether people can use and correct their institutions in practice, not merely whether those institutions are formally legitimate. The volume represents disciplined observation before judgment and is intended to establish the evidence, memory, and accountability standards used by the later volumes. It remains a review-stage catalogue entry, not a finished publication."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/series/the-empire-beneath-democracy/",
+      "status": 200,
+      "final": "https://independentobserver.org/series/the-empire-beneath-democracy/",
+      "title": "The Empire Beneath Democracy | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/series/the-empire-beneath-democracy/"],
+      "meta": {
+        "description": "Volume II is the power inquiry of the Independent Observer series: it studies how authority can remain formally democratic while becoming materially managed. Its research map brings together four families\u2014democracy, institutions, and party power; immigration, citizenship, and border; civil rights, the carceral state, and legal power; and empire, geopolitics, and sovereignty. Across those families, the volume asks who can set the agenda, who is exposed to enforcement, whose membership is recognized, which definitions make a statistic meaningful, and how capital, technology, security, labor, markets, and alliances shape practical sovereignty. It represents the inquiry beneath constitutional language, party rotation, and national claims of independence: the operating arrangements that narrow or expand usable public power. This remains a concept-stage catalogue entry, not a finished publication."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/series/managed-decline/",
+      "status": 200,
+      "final": "https://independentobserver.org/series/managed-decline/",
+      "title": "Managed Decline | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/series/managed-decline/"],
+      "meta": {
+        "description": "A concept-stage account of Managed Decline: how the Western industrial order moved from steel mills, mass production, and stable wage institutions toward screen-based, service, platform, and data work\u2014and how that transition redistributes time, security, and economic opportunity. Volume III studies labor markets, licensing, welfare, taxation, health systems, and public visibility, asking whether administrative systems restore social citizenship or manage constrained choices. Its research map connects selected paper records including The Wardhan Tax Doctrine and From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential with bounded working-paper directions such as From Steel to Screens and Welfare, Wealthfare, and Social Control in Advanced Democracies. These are research directions and reading links, not a claim that every manuscript is a released publication."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/series/the-last-human-workforce/",
+      "status": 200,
+      "final": "https://independentobserver.org/series/the-last-human-workforce/",
+      "title": "The Last Human Workforce | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/series/the-last-human-workforce/"],
+      "meta": {
+        "description": "A concept-stage capability inquiry into how technological change becomes usable human capacity. Volume IV follows AI, automation, scientific infrastructure, energy, quantum computing, medical technology, neuroprosthetics, education, intimacy, and human evolution. It asks what must be understood, maintained, financed, and governed before a new tool can be called progress: who owns the compute and data, who can repair the systems, who receives training and care, which claims survive evidence review, and how institutions protect human agency when technology becomes opaque. The volume represents the material and social conditions of adaptation\u2014from the energy and semiconductor base of advanced computation to the embodied, cognitive, and civic capabilities that let people use it. It remains an editorial-development catalogue entry, not a finished publication."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/topics/history/",
+      "status": 200,
+      "final": "https://independentobserver.org/topics/history/",
+      "title": "History topic hub | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/topics/history/"],
+      "meta": {
+        "description": "History is a way to trace how colonization, industrialization, constitutional design, political ritual, and public memory continue to distribute power in the present\u2014not a timeline of disconnected events."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/topics/politics/",
+      "status": 200,
+      "final": "https://independentobserver.org/topics/politics/",
+      "title": "Politics topic hub | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/topics/politics/"],
+      "meta": {
+        "description": "Public authority examined beyond party slogans, campaign cycles, and simplified institutional stories."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/topics/economics/",
+      "status": 200,
+      "final": "https://independentobserver.org/topics/economics/",
+      "title": "Economics topic hub | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/topics/economics/"],
+      "meta": {
+        "description": "Labor, taxation, markets, welfare, and the distribution of risk and reward."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/topics/law/",
+      "status": 200,
+      "final": "https://independentobserver.org/topics/law/",
+      "title": "Law topic hub | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/topics/law/"],
+      "meta": {
+        "description": "Rules, remedies, procedure, and the conditions under which public evidence can receive review."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/topics/science/",
+      "status": 200,
+      "final": "https://independentobserver.org/topics/science/",
+      "title": "Science topic hub | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/topics/science/"],
+      "meta": {
+        "description": "Evidence, energy, capability, scientific uncertainty, and the limits of confident forecasts."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/topics/technology/",
+      "status": 200,
+      "final": "https://independentobserver.org/topics/technology/",
+      "title": "Technology topic hub | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/topics/technology/"],
+      "meta": {
+        "description": "Automation, artificial intelligence, computing infrastructure, and the institutions that shape technical change."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/documentary-projects-print-capture/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/documentary-projects-print-capture/",
+      "title": "Documentary Projects \u2014 Independent Observer | Independent Observer",
+      "h1": 1,
+      "canonical": [
+        "https://independentobserver.org/library/documents/documentary-projects-print-capture/"
+      ],
+      "meta": {
+        "description": "A reviewed public-safe reading copy of the Documentary Projects print capture added to the Independent Observer working archive."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/who-deported-more/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/who-deported-more/",
+      "title": "Who Deported More? Comparing Immigration Enforcement | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/library/documents/who-deported-more/"],
+      "meta": {
+        "description": "A public explanation of why removals, returns and expulsions cannot be compared without checking definitions, reporting periods and agency coverage."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/latino-irony/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/latino-irony/",
+      "title": "The Latino Irony: Hispanic Support for Trump | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/library/documents/latino-irony/"],
+      "meta": {
+        "description": "A working paper that treats Latino voting behavior as internally heterogeneous rather than as a single identity-based bloc."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/disconnected-hearts/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/disconnected-hearts/",
+      "title": "Disconnected Hearts: Technology and Intimacy | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/library/documents/disconnected-hearts/"],
+      "meta": {
+        "description": "A short working paper on how automation, economic precarity, and digital mediation reshape intimacy, identity, and demographic life."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/wardhan-tax-doctrine/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/wardhan-tax-doctrine/",
+      "title": "The Wardhan Tax Doctrine: Time and Tax Relief | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/library/documents/wardhan-tax-doctrine/"],
+      "meta": {
+        "description": "A Volume III policy working paper within Managed Decline. It asks how tax design can recognize time spent building skills, reduce pressure on wage labor, and restore progressive treatment of selected ownership income. Its placement is deliberate: the paper addresses Volume III\u2019s inquiry into labor markets, welfare, taxation, and administrative access, rather than Volume I\u2019s method foundation or Volume II\u2019s sovereignty and institutional design. It connects the proposed credits and relief mechanisms to eligibility rules, reporting, documentation, and audit design."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/double-tax-on-time/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/double-tax-on-time/",
+      "title": "The Double Tax on Time | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/library/documents/double-tax-on-time/"],
+      "meta": {
+        "description": "A working paper examining how biological timing, career structures, caregiving policy, and demographic economics interact."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/from-colonization-to-chinas-rise/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/from-colonization-to-chinas-rise/",
+      "title": "From Colonization to China\u2019s Rise: How Historical Power Shifts Still Shape Global Politics and Democracy | Independent Observer",
+      "h1": 1,
+      "canonical": [
+        "https://independentobserver.org/library/documents/from-colonization-to-chinas-rise/"
+      ],
+      "meta": {
+        "description": "A historical working paper connecting colonization, industrialization, economic design, and contemporary competition among major powers."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/independent-observer-volume-one/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/independent-observer-volume-one/",
+      "title": "Independent Observer: Critical Studies in Philosophy, Politics, Economics, and History \u2014 Volume I (Foundational Manifesto) | Independent Observer",
+      "h1": 1,
+      "canonical": [
+        "https://independentobserver.org/library/documents/independent-observer-volume-one/"
+      ],
+      "meta": {
+        "description": "Volume I is the method anchor for the Independent Observer: a systems-level reading of how law, labor, media, evidence, and democratic capacity shape public life. It connects philosophy, political economy, historical analysis, and public reasoning while keeping the limits of a working paper visible."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/a-systems-centered-manifesto/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/a-systems-centered-manifesto/",
+      "title": "A Systems-Centered Manifesto on Automation, Education, and the Carceral State | Independent Observer",
+      "h1": 1,
+      "canonical": [
+        "https://independentobserver.org/library/documents/a-systems-centered-manifesto/"
+      ],
+      "meta": {
+        "description": "A working paper linking industrial automation in global supply chains, skill mismatch in U.S. labor markets, and mass incarceration and recidivism. It argues that tariffs alone cannot restore employment when production is automated and geographically flexible, and instead pairs industrial policy with vocational and apprenticeship pathways, reentry, second-chance hiring, and local skill investment."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/the-illusion-of-equality/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/the-illusion-of-equality/",
+      "title": "The Illusion of Equality: The Founding Fathers\u2019 Contradictions, The Flaws of Democracy, and The Future of U.S. Economic Influence | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/library/documents/the-illusion-of-equality/"],
+      "meta": {
+        "description": "A historical and political-economy working paper examining the gap between America\u2019s language of equality and the constitutional, legal, electoral, and economic structures that distribute power. It moves from founding-era exclusions and sovereign immunity to representation, corporate influence, reserve-currency politics, BRICS, and tariffs."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/citizens-without-a-country/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/citizens-without-a-country/",
+      "title": "Citizens Without a Country: The Democratic Legitimacy Crisis of Non-Resident Birthright Voting in U.S. Federal Elections | Independent Observer",
+      "h1": 1,
+      "canonical": [
+        "https://independentobserver.org/library/documents/citizens-without-a-country/"
+      ],
+      "meta": {
+        "description": "A Volume II working paper examining how non-resident birthright voting tests the relationship between political voice, residency, civic integration, and exposure to the consequences of federal policy."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/empire-of-distraction/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/empire-of-distraction/",
+      "title": "The Empire of Distraction: Foreign Agenda-Setting, Malapportionment, and the Managed Myth of Popular Rule in the United States | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/library/documents/empire-of-distraction/"],
+      "meta": {
+        "description": "A Volume II working paper linking foreign-policy agenda shocks to unequal representation, attention allocation, lobbying, and the distance between population-weighted preferences and enacted policy."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/geography-of-enslaved-wealth/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/geography-of-enslaved-wealth/",
+      "title": "The Geography of Enslaved Wealth: How Resource-Rich Lands Produce Poor Societies | Independent Observer",
+      "h1": 1,
+      "canonical": [
+        "https://independentobserver.org/library/documents/geography-of-enslaved-wealth/"
+      ],
+      "meta": {
+        "description": "A comparative political-economy working paper asking why resource-rich regions can remain poor when capital, information, trade, and institutional access are tightly controlled."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/two-masks-one-face/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/two-masks-one-face/",
+      "title": "Two Masks, One Face: State Capitalism and Private Feudalism as Mirrors of the Same System | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/library/documents/two-masks-one-face/"],
+      "meta": {
+        "description": "A comparative working paper testing whether state and private forms of concentrated power can reproduce similar hierarchies despite different ideological language and ownership structures."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/the-american-empire-was-never-a-democracy/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/the-american-empire-was-never-a-democracy/",
+      "title": "The American Empire was Never a Democracy | Independent Observer",
+      "h1": 1,
+      "canonical": [
+        "https://independentobserver.org/library/documents/the-american-empire-was-never-a-democracy/"
+      ],
+      "meta": {
+        "description": "A political-history working paper examining how constitutional design, representation, money in politics, media concentration, and militarized foreign policy can limit popular sovereignty beneath democratic language."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/when-the-storm-decides/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/when-the-storm-decides/",
+      "title": "When the Storm Decides: Crises, Perception, and Electoral Outcomes in the United States | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/library/documents/when-the-storm-decides/"],
+      "meta": {
+        "description": "A political working paper examining how terrorist attacks, natural disasters, pandemics, revolutions, and financial collapses become competence tests that reshape electoral perception and institutional legitimacy."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/managed-interdependence/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/managed-interdependence/",
+      "title": "Managed Interdependence: Industrial Policy and Governance Sequencing in Post-Autocratic Russia | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/library/documents/managed-interdependence/"],
+      "meta": {
+        "description": "A geopolitical working paper modelling a twenty-year path for post-authoritarian reconstruction through administrative transparency, industrial diversification, civic reintegration, and carefully sequenced governance reform."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/from-vietnam-to-terry-ohio/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/from-vietnam-to-terry-ohio/",
+      "title": "From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential | Independent Observer",
+      "h1": 1,
+      "canonical": [
+        "https://independentobserver.org/library/documents/from-vietnam-to-terry-ohio/"
+      ],
+      "meta": {
+        "description": "A Volume III working paper examining how veterans' reintegration, discretionary policing, welfare administration, and mass incarceration can redirect public investment toward punishment or human restoration."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/children-left-behind-after-a-war/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/children-left-behind-after-a-war/",
+      "title": "Children Left Behind After a War: Why Vietnam Produced a Visible \"War-Child\" Generation\u2014and Iraq Did Not | Independent Observer",
+      "h1": 1,
+      "canonical": [
+        "https://independentobserver.org/library/documents/children-left-behind-after-a-war/"
+      ],
+      "meta": {
+        "description": "A comparative demographic working paper examining how war, stigma, law, migration, social contact, and changing communication technologies shape whether war-born children become visible public categories."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/lottery-of-luck/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/lottery-of-luck/",
+      "title": "The Lottery of Luck: Why Education Remains the Only Scalable Path to Middle-Class Stability in the AI Economy | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/library/documents/lottery-of-luck/"],
+      "meta": {
+        "description": "A Volume IV working paper examining education as economic infrastructure and asking how AI amplifies existing human capital, income concentration, and unequal routes to stable middle-class life."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/entanglement-primer/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/entanglement-primer/",
+      "title": "Entanglement, No-Signalling, and the Real Path to Quantum Advantage: A Systems-Level Primer for Practitioners and Policymakers | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/library/documents/entanglement-primer/"],
+      "meta": {
+        "description": "A concise Volume IV primer translating quantum-information concepts, engineering constraints, and policy implications into a practical map of what quantum systems can and cannot do."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/library/documents/entanglement-foundations/",
+      "status": 200,
+      "final": "https://independentobserver.org/library/documents/entanglement-foundations/",
+      "title": "Entanglement, No-Signalling, and the Real Path to Quantum Advantage: Foundations, Architectures, and Societal Implications | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/library/documents/entanglement-foundations/"],
+      "meta": {
+        "description": "A foundational Volume IV paper connecting quantum mechanics, fault-tolerant architectures, quantum networks, cryptography transition, and the social consequences of scientific infrastructure."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/research/lawsuits-are-illusions-where-institutional-power-actually-resides/",
+      "status": 200,
+      "final": "https://independentobserver.org/research/lawsuits-are-illusions-where-institutional-power-actually-resides/",
+      "title": "Lawsuits Are Illusions: Where Institutional Power Actually Resides | Independent Observer",
+      "h1": 1,
+      "canonical": [
+        "https://independentobserver.org/research/lawsuits-are-illusions-where-institutional-power-actually-resides/"
+      ],
+      "meta": {
+        "description": "A Volume III research inquiry into how legal remedies become usable\u2014or remain formal\u2014using working-paper directions on Terry v. Ohio, mass incarceration, social control, and the Volume II question of practical democratic access."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/research/the-welfare-paradox/",
+      "status": 200,
+      "final": "https://independentobserver.org/research/the-welfare-paradox/",
+      "title": "The Welfare Paradox | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/research/the-welfare-paradox/"],
+      "meta": {
+        "description": "A research concept examining why voters may reject public programs from which their own communities benefit."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/research/the-autonomous-illusion/",
+      "status": 200,
+      "final": "https://independentobserver.org/research/the-autonomous-illusion/",
+      "title": "The Autonomous Illusion | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/research/the-autonomous-illusion/"],
+      "meta": {
+        "description": "An inquiry into the hidden system beneath the promise of autonomy: what technology can replace, what human labor it still depends on, and how compute, energy, data, maintenance, and institutions shape the outcome."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/documentaries/could-america-leave-nato/",
+      "status": 200,
+      "final": "https://independentobserver.org/documentaries/could-america-leave-nato/",
+      "title": "Could America Leave NATO? | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/documentaries/could-america-leave-nato/"],
+      "meta": {
+        "description": "A documentary concept mapping the legal, military, diplomatic, and economic consequences of a major alliance rupture."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/documentaries/the-martian-illusion/",
+      "status": 200,
+      "final": "https://independentobserver.org/documentaries/the-martian-illusion/",
+      "title": "The Martian Illusion | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/documentaries/the-martian-illusion/"],
+      "meta": {
+        "description": "A proposed documentary asking whether civilization should prioritize Earth systems, energy, and nearer-space infrastructure."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/documentaries/the-work-behind-the-machine/",
+      "status": 200,
+      "final": "https://independentobserver.org/documentaries/the-work-behind-the-machine/",
+      "title": "The Work Behind the Machine | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/documentaries/the-work-behind-the-machine/"],
+      "meta": {
+        "description": "A Volume IV documentary concept about the human systems behind automation\u2014compute, energy, education, care, maintenance, and the judgment required to turn technical possibility into usable capability."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/videos/why-evidence-alone-is-not-enough/",
+      "status": 200,
+      "final": "https://independentobserver.org/videos/why-evidence-alone-is-not-enough/",
+      "title": "Why Evidence Alone Is Not Enough | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/videos/why-evidence-alone-is-not-enough/"],
+      "meta": {
+        "description": "A short-form visual essay tracing the gap between having evidence and making it matter. It follows how a record is noticed, authenticated, interpreted, and carried into institutional review\u2014and why access, procedure, competing narratives, and public attention can determine whether a documented fact leads to accountability or disappears."
+      },
+      "xRobots": null
+    },
+    {
+      "url": "https://independentobserver.org/videos/the-cost-of-looking-away/",
+      "status": 200,
+      "final": "https://independentobserver.org/videos/the-cost-of-looking-away/",
+      "title": "The Cost of Looking Away | Independent Observer",
+      "h1": 1,
+      "canonical": ["https://independentobserver.org/videos/the-cost-of-looking-away/"],
+      "meta": {
+        "description": "A documentary explainer concept about the gap between a public record and a meaningful institutional response: what determines whether evidence is noticed, processed, challenged, and corrected."
+      },
+      "xRobots": null
+    }
+  ],
+  "missingPage": {
+    "url": "https://independentobserver.org/reader-audit-nonexistent-20260907/",
+    "error": "HTTP Error 404: Not Found"
+  }
+}

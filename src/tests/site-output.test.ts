@@ -387,14 +387,14 @@ describe("built website", () => {
   it("shows Politics public outputs while preserving the standalone release boundary", () => {
     const html = readOutput("topics/politics/index.html");
 
-    expect(html).toContain("This hub already has public outputs");
+    expect(html).toContain("Start with a working-paper summary");
     expect(html).toContain("Public outputs in this map");
     expect(html).toContain("Could America Leave NATO?");
     expect(html).toContain("The Latino Irony: Why Many Hispanic Americans Support Donald Trump");
     expect(html).toContain(
       "From Colonization to China’s Rise: How Historical Power Shifts Still Shape Global Politics and Democracy",
     );
-    expect(html).toContain("standalone Independent Observer article has been released");
+    expect(html).toContain("Each link explains what is available");
     expect(html).not.toContain("has no released article in this field at present");
   });
 
@@ -426,7 +426,7 @@ describe("built website", () => {
       "Regrowing Humanity: How Robotic Limbs Are Becoming Integrated Extensions of the Human Body",
     );
     expect(html).toContain("topic-review-grid");
-    expect(html).toContain("Metadata only · not a published article");
+    expect(html).toContain("Project outline · not a published article");
   });
 
   it("renders the Volume II shelf with method, contribution, and public-safe papers", () => {
@@ -729,7 +729,7 @@ describe("built website", () => {
       /<a\b[^>]*class=["'][^"']*skip-link[^"']*["'][^>]*href=["']#main-content["']/i,
     );
     expect(tags(html, "nav").filter((tag) => Boolean(attribute(tag, "aria-label")))).toHaveLength(
-      route === "/" || route === "/topics/" || route.startsWith("/library/documents/") ? 3 : 2,
+      route.startsWith("/library/documents/") ? 4 : route === "/" || route === "/topics/" ? 3 : 2,
     );
     expect(new Set(pageIds).size).toBe(pageIds.length);
     expect(headings[0]).toBe(1);
@@ -867,7 +867,5 @@ it("keeps exact scholarly titles when browser titles are shortened", () => {
     schema["@graph"].find((item: { "@type": string }) => item["@type"] === "ScholarlyArticle")
       .headline,
   ).toBe(entry.title);
-  expect(html).toContain(
-    "Who Deported More? Comparing Immigration Enforcement | Independent Observer",
-  );
+  expect(html).toContain("How to Compare Deportation Statistics | Independent Observer");
 });
