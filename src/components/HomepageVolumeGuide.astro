@@ -1,4 +1,5 @@
 ---
+import { byReadingUsefulness } from "../data/scholarly-clarity";
 import { topicPluginFor, volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
 import { seriesItems } from "../data/series";
 import { paperDocuments } from "../data/papers";
@@ -9,9 +10,7 @@ import { slugify } from "../lib/slugs";
 const papersByVolume = new Map(
   seriesItems.map((item) => [
     item.volume,
-    paperDocuments
-      .filter((paper) => paper.volume === item.volume)
-      .sort((left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1)),
+    paperDocuments.filter((paper) => paper.volume === item.volume).sort(byReadingUsefulness),
   ]),
 );
 
@@ -156,10 +155,11 @@ const volumeActions = [
                   {papers.map((paper) => (
                     <li>
                       <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
-                      <span>
+                      <details>
+                        <summary>Archived usage</summary>
                         {paper.metrics?.downloads ?? "—"} downloads · Archived distribution signal
                         only
-                      </span>
+                      </details>
                     </li>
                   ))}
                 </ul>

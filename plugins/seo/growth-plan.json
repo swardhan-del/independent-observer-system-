@@ -12,13 +12,13 @@
   "nextActions": [
     {
       "id": "search-baseline",
-      "status": "verification-prepared",
-      "action": "Google Search Console browser access is available. Deploy the provided public ownership tag, verify the canonical URL-prefix property and submit its sitemap, then inspect priority URLs. Record actual results; the paid connector remains unavailable."
+      "status": "verified-prior-release-monitoring",
+      "action": "Prior release evidence records Google ownership verification, sitemap submission and homepage indexing. Use the existing weekly audit to record impressions, clicks and priority URL indexing when accessible. Do not infer traffic growth from technical checks."
     },
     {
       "id": "reader-discovery",
-      "status": "implemented-pending-release",
-      "action": "Verify mobile library search, six-record progressive browsing, compact Start Here, paper-first reading order and follow links."
+      "status": "released-prior-release",
+      "action": "Compact library and paper-first reading were deployed in 949c190. Recheck their desktop/mobile behavior with scholarly clarity changes."
     },
     {
       "id": "editorial-cadence",
@@ -34,6 +34,11 @@
       "id": "measurement",
       "status": "needs-access",
       "action": "Inspect existing analytics before adding tracking. Distinguish follow clicks from subscriptions and podcast playback from page views."
+    },
+    {
+      "id": "scholarly-clarity",
+      "status": "implemented-awaiting-production-verification",
+      "action": "One sourced definitions explanation at the existing Who Deported More URL; shared availability, review and related-reading clarity. Remaining: individual evidence expansions for entanglement-primer, disconnected-hearts and wardhan-tax-doctrine; author funding/conflict/AI-use disclosures; measured search outcomes."
     }
   ]
 }

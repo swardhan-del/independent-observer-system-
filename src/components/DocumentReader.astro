@@ -1,4 +1,5 @@
 ---
+import { byReadingUsefulness } from "../data/scholarly-clarity";
 import { publicationRevisions } from "../data/publication-revisions";
 import { exportCitation } from "../lib/citations";
 import type { PublicDocument } from "../data/documents";
@@ -19,6 +20,10 @@ type Props = {
 };
 
 const { entry, relatedEntries = [], previous, next } = Astro.props as Props;
+const visibleSections = entry.sections.filter(
+  (section) => !entry.sourceFingerprintSha256 || section.id !== "publication-boundary",
+);
+const publicationBoundary = entry.sections.find((section) => section.id === "publication-boundary");
 const paragraphCount = entry.sections.reduce(
   (total, section) => total + (section.paragraphs?.length ?? 0) + (section.items?.length ?? 0),
   0,
@@ -34,6 +39,7 @@ const suggestedCitation = citationComplete
 const related = relatedRecords(
   {
     ...entry,
+    relatedIds: [...(entry.relatedIds ?? []), ...Object.keys(entry.relatedReadingReasons ?? {})],
     href: sitePath(`/library/documents/${entry.id}/`),
     status,
   },
@@ -48,7 +54,7 @@ const volumeDocuments =
   entry.volume && !placementHeld
     ? paperDocuments
         .filter((document) => document.volume === entry.volume)
-        .sort((left, right) => (right.metrics?.downloads ?? -1) - (left.metrics?.downloads ?? -1))
+        .sort(byReadingUsefulness)
     : [];
 const volumeRecord = entry.volume
   ? seriesItems.find((volume) => volume.volume === entry.volume)
@@ -72,7 +78,41 @@ const volumeRecord = entry.volume
       data-reader-title={entry.title}
     >
       {
-        entry.sections.map((section) => (
+        entry.genre && (
+          <p class="reader-object">
+            <strong>This page:</strong> {entry.genre}.
+          </p>
+        )
+      }
+      {
+        entry.availability && (
+          <details class="reader-details">
+            <>
+              <summary>What is available: page, manuscript, data and code</summary>
+              <dl>
+                <>
+                  <dt>This web page</dt>
+                  <dd>{entry.availability.webPage}</dd>
+                </>
+                <>
+                  <dt>Original paper</dt>
+                  <dd>{entry.availability.original}</dd>
+                </>
+                <>
+                  <dt>Data and codebook</dt>
+                  <dd>{entry.availability.data}</dd>
+                </>
+                <>
+                  <dt>Code</dt>
+                  <dd>{entry.availability.code}</dd>
+                </>
+              </dl>
+            </>
+          </details>
+        )
+      }
+      {
+        visibleSections.map((section) => (
           <section
             class="reader-section"
             id={section.id}
@@ -88,6 +128,42 @@ const volumeRecord = entry.volume
             {section.paragraphs?.map((paragraph) => (
               <p>{paragraph}</p>
             ))}
+            {section.table && (
+              <div class="reader-table-wrap">
+                <table>
+                  <caption>{section.table.caption}</caption>
+                  <thead>
+                    <tr>
+                      {section.table.headers.map((header) => (
+                        <th scope="col">{header}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {section.table.rows.map((row) => (
+                      <tr>
+                        {row.map((cell, index) =>
+                          index === 0 ? <th scope="row">{cell}</th> : <td>{cell}</td>,
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+            {section.evidenceIds && (
+              <p class="reader-evidence-links">
+                Supporting sources:{" "}
+                {section.evidenceIds.map((id, index) => (
+                  <>
+                    <span>{index > 0 ? " · " : ""}</span>
+                    <a href={`#${id}`}>
+                      {entry.summaryEvidence?.find((source) => source.id === id)?.label}
+                    </a>
+                  </>
+                ))}
+              </p>
+            )}
             {section.items && (
               <ul>
                 {section.items.map((item) => (
@@ -153,11 +229,61 @@ const volumeRecord = entry.volume
       <p class="reader-action-status" data-reader-action-status role="status" aria-live="polite">
       </p>
 
+      {
+        entry.summaryEvidence?.length && (
+          <section class="reader-references" aria-labelledby="explanation-sources">
+            <>
+              <h2 id="explanation-sources">Sources supporting this explanation</h2>
+              <ol>
+                {entry.summaryEvidence.map((source) => (
+                  <li id={source.id}>
+                    <strong>{source.label}.</strong> {source.citation}{" "}
+                    {source.url && <a href={source.url}>Read supporting source ↗</a>}
+                  </li>
+                ))}
+              </ol>
+            </>
+          </section>
+        )
+      }
+      {
+        entry.reviewScope && (
+          <section class="reader-review">
+            <>
+              <h2>What was reviewed</h2>
+              <dl>
+                {entry.reviewScope.sourceChecking && (
+                  <>
+                    <dt>Source checking</dt>
+                    <dd>{entry.reviewScope.sourceChecking}</dd>
+                  </>
+                )}
+                {entry.reviewScope.editorialReview && (
+                  <>
+                    <dt>Editorial scope</dt>
+                    <dd>{entry.reviewScope.editorialReview}</dd>
+                  </>
+                )}
+                {entry.reviewScope.independentReview && (
+                  <>
+                    <dt>Independent scholarly review</dt>
+                    <dd>{entry.reviewScope.independentReview}</dd>
+                  </>
+                )}
+              </dl>
+            </>
+          </section>
+        )
+      }
       <FollowUpdates />
       {
         entry.citations && entry.citations.length > 0 && (
           <section class="reader-references" aria-labelledby="reader-references-title">
-            <h2 id="reader-references-title">References</h2>
+            <h2 id="reader-references-title">
+              {entry.researchGateUrl || entry.sourceFingerprintSha256
+                ? "Original paper record"
+                : "References"}
+            </h2>
             <ol>
               {entry.citations.map((citation) => (
                 <li id={citation.id}>
@@ -175,7 +301,7 @@ const volumeRecord = entry.volume
       }
       {
         entry.notes && entry.notes.length > 0 && (
-          <details class="reader-details" open>
+          <details class="reader-details">
             <summary>Source notes</summary>
             <ul>
               {entry.notes.map((note) => (
@@ -200,19 +326,20 @@ const volumeRecord = entry.volume
 
       {
         entry.sourceFingerprintSha256 && (
-          <section class="reader-provenance" aria-labelledby="reader-provenance-title">
+          <details id="publication-boundary" class="reader-provenance reader-details">
+            <summary>Publication and technical provenance</summary>
+            {publicationBoundary?.paragraphs?.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+            {entry.volume && volumeDocuments.length > 0 && (
+              <ReaderVolumeContext
+                entry={entry}
+                volumeRecord={volumeRecord}
+                volumeDocuments={volumeDocuments}
+              />
+            )}
             <p class="eyebrow">Author-source provenance</p>
-            <h2 id="reader-provenance-title">A synopsis, not the manuscript</h2>
-            <p>
-              This public page contains the available synopsis and source trail. The complete source
-              manuscript remains outside the website build; the synopsis was checked against an
-              author-controlled source without editing, repackaging, or publishing that file.
-            </p>
-            <p>
-              The synopsis is available here without an account. Any ResearchGate link is an
-              optional external record and may apply its own access controls; it is not required to
-              read this page.
-            </p>
+
             {(entry.sourceTaxonomyNote || placementHeld) && (
               <p>
                 <strong>Archive placement:</strong>{" "}
@@ -232,7 +359,7 @@ const volumeRecord = entry.volume
                 ResearchGate record has not been verified.
               </p>
             )}
-          </section>
+          </details>
         )
       }
 
@@ -342,15 +469,18 @@ const volumeRecord = entry.volume
             <div class="reader-metrics">
               <dt>Archived distribution</dt>
               <dd>
-                {entry.metrics.downloads ?? "—"} downloads · {entry.metrics.abstractViews ?? "—"}{" "}
-                views
-                <>
-                  <br />
-                  <small>
-                    Snapshot checked {entry.metrics.checkedAt}. These historic counts are retained
-                    for context; the originating platform is not used for access.
-                  </small>
-                </>
+                <details>
+                  <summary>Historic usage snapshot</summary>
+                  {entry.metrics.downloads ?? "—"} downloads · {entry.metrics.abstractViews ?? "—"}{" "}
+                  views
+                  <>
+                    <br />
+                    <small>
+                      Snapshot checked {entry.metrics.checkedAt}. These historic counts are retained
+                      for context; the originating platform is not used for access.
+                    </small>
+                  </>
+                </details>
               </dd>
             </div>
           )
@@ -369,7 +499,7 @@ const volumeRecord = entry.volume
           entry.sourceModified && (
             <div>
               <>
-                <dt>Reviewed</dt>
+                <dt>Source checked</dt>
                 <dd>{entry.sourceModified}</dd>
               </>
             </div>
@@ -381,7 +511,7 @@ const volumeRecord = entry.volume
         <p class="reader-nav-label">On this page</p>
         <ol class="reader-toc">
           {
-            entry.sections.map((section, index) => (
+            visibleSections.map((section, index) => (
               <li>
                 <a href={`#${section.id}`} data-reader-toc-link>
                   <span>{String(index + 1).padStart(2, "0")}</span>
@@ -408,6 +538,11 @@ const volumeRecord = entry.volume
     familyId: item.familyId,
     volume: item.volume,
     relatedIds: item.relatedIds,
+    connection:
+      entry.relatedReadingReasons?.[item.id] ??
+      (entry.category === item.category
+        ? `Shares the ${entry.category} subject area; this is a separate argument, not supporting evidence for this page.`
+        : `Adjacent work in ${item.volume ?? "the archive"}; use its own sources and limitations to assess the connection.`),
   }))}
 />
 
@@ -521,6 +656,45 @@ const volumeRecord = entry.volume
 </script>
 
 <style>
+  .reader-table-wrap {
+    overflow-x: auto;
+  }
+  .reader-section,
+  .reader-references li[id] {
+    scroll-margin-top: var(--site-header-offset, 240px);
+  }
+  th:first-child {
+    width: 25%;
+  }
+  table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.95rem;
+  }
+  th,
+  td {
+    padding: 0.75rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+    overflow-wrap: anywhere;
+  }
+  caption {
+    text-align: left;
+    margin-bottom: 0.75rem;
+  }
+  .reader-object {
+    font-size: 1rem;
+  }
+  .reader-review dt {
+    font-weight: 700;
+    margin-top: 0.75rem;
+  }
+  dd {
+    margin-left: 0;
+  }
+
   .reader-layout {
     grid-template-areas: "details content";
   }
@@ -531,6 +705,11 @@ const volumeRecord = entry.volume
     grid-area: details;
   }
   @media (max-width: 900px) {
+    .reader-section,
+    .reader-references li[id] {
+      scroll-margin-top: var(--site-header-offset, 125px);
+    }
+
     .reader-layout {
       grid-template-areas: "content" "details";
     }

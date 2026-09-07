@@ -30,6 +30,11 @@ const { records, title = "Related Independent Observer work" } = Astro.props as 
               <a href={record.href}>{record.title}</a>
             </h3>
             <p>{record.description}</p>
+            {record.connection && (
+              <p>
+                <strong>Why read this next:</strong> {record.connection}
+              </p>
+            )}
           </article>
         ))}
       </div>
