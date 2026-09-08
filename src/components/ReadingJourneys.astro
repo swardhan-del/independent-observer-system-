@@ -1,4 +1,5 @@
 ---
+import { displayTitle } from "../data/reader-presentation";
 import { readingJourneys } from "../data/reading-journeys";
 import { sitePath } from "../lib/paths";
 ---
@@ -12,8 +13,8 @@ import { sitePath } from "../lib/paths";
     <p class="eyebrow">Choose a question</p>
     <h2 id="reading-journeys-title">A reading journey through the research.</h2>
     <p>
-      Begin with a short audio introduction, then read three connected papers in order. Each paper
-      keeps its sources and publication status visible.
+      Start with a short audio introduction or choose a paper summary below. Each paper keeps its
+      sources and publication status visible.
     </p>
     <div class="journey-grid">
       {
@@ -29,7 +30,7 @@ import { sitePath } from "../lib/paths";
             <ol>
               {journey.papers.map((paper) => (
                 <li>
-                  <a href={sitePath(`/library/documents/${paper.id}/`)}>{paper.title}</a>
+                  <a href={sitePath(`/library/documents/${paper.id}/`)}>{displayTitle(paper)}</a>
                 </li>
               ))}
             </ol>

@@ -68,8 +68,8 @@ const contactAddress = "swardhan1@icloud.com";
             <input id="contact-name" name="name" type="text" autocomplete="name" />
           </label>
           <label for="contact-email">
-            Email
-            <input id="contact-email" name="email" type="email" autocomplete="email" required />
+            Reply email <span>(optional; your mail app supplies a sender)</span>
+            <input id="contact-email" name="email" type="email" autocomplete="email" />
           </label>
           <label for="contact-topic">
             Inquiry about
@@ -101,7 +101,23 @@ const contactAddress = "swardhan1@icloud.com";
               personal data.
             </span>
           </label>
-          <button class="button button-on-light" type="submit">Prepare email draft →</button>
+          <div class="contact-actions">
+            <button class="button button-on-light" type="submit">Prepare email draft →</button>
+            <button class="button button-secondary button-on-light" type="button" data-copy-message
+              >Copy message</button
+            >
+            <button class="button button-secondary button-on-light" type="button" data-copy-address
+              >Copy email address</button
+            >
+          </div>
+          <p class="form-note">
+            No mail app? Copy the message and address into your webmail. Nothing is sent by these
+            buttons.
+          </p>
+          <label hidden data-copy-fallback-label for="contact-copy-fallback"
+            >Select and copy this text
+            <textarea id="contact-copy-fallback" readonly></textarea>
+          </label>
           <p class="contact-inquiry-status" data-contact-inquiry-status aria-live="polite"></p>
           <p class="contact-privacy-note">
             Nothing is stored by this site. Your mail provider handles any message after you choose
@@ -168,11 +184,10 @@ const contactAddress = "swardhan1@icloud.com";
   const status = document.querySelector("[data-contact-inquiry-status]");
 
   if (form instanceof HTMLFormElement && status instanceof HTMLElement) {
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
+    const draft = () => {
       const values = new FormData(form);
       const name = String(values.get("name") ?? "").trim() || "Not provided";
-      const email = String(values.get("email") ?? "").trim();
+      const email = String(values.get("email") ?? "").trim() || "Use the sender address";
       const topic = String(values.get("topic") ?? "").trim();
       const message = String(values.get("message") ?? "").trim();
       const subject = `Independent Observer inquiry: ${topic}`;
@@ -186,9 +201,42 @@ const contactAddress = "swardhan1@icloud.com";
         "I confirm that this inquiry follows the contact disclosure.",
       ].join("\n");
 
+      return { subject, body };
+    };
+    const copy = async (text: string, confirmation: string) => {
+      const fallbackLabel = form.querySelector<HTMLElement>("[data-copy-fallback-label]")!;
+      const fallback = form.querySelector<HTMLTextAreaElement>("#contact-copy-fallback")!;
+      fallbackLabel.hidden = true;
+      fallback.value = "";
+      try {
+        await navigator.clipboard.writeText(text);
+        status.textContent = confirmation + " Nothing has been sent.";
+      } catch {
+        fallback.value = text;
+        fallbackLabel.hidden = false;
+        fallback.focus();
+        fallback.select();
+        status.textContent =
+          "Automatic copying is unavailable. Select and copy the text below. Nothing has been sent.";
+      }
+    };
+    form.querySelector("[data-copy-address]")?.addEventListener("click", () => {
+      void copy("swardhan1@icloud.com", "Email address copied.");
+    });
+    form.querySelector("[data-copy-message]")?.addEventListener("click", () => {
+      if (!form.reportValidity()) return;
+      const { subject, body } = draft();
+      void copy(
+        `Subject: ${subject}\n\n${body}`,
+        "Message copied. Paste it into your mail service and review before sending.",
+      );
+    });
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const { subject, body } = draft();
       window.location.href = `mailto:swardhan1@icloud.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       status.textContent =
-        "Your mail app should open with a draft. Nothing is stored by this site.";
+        "Your mail app should open with a draft. If it does not, use Copy message and Copy email address. Nothing has been sent or stored by this site.";
     });
   }
 </script>

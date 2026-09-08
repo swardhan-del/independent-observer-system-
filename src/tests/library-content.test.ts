@@ -163,7 +163,7 @@ describe("library content blocks", () => {
     expect(researchShelf).toContain("data-library-paper-query");
     expect(researchShelf).toContain("paperVolume");
     expect(researchShelf).toContain("paperQ");
-    expect(researchShelf).toContain("replace(/[^\\p{L}\\p{N}]+/gu");
+    expect(researchShelf).toMatch(/rankSearchEntries\(\s*searchEntries/);
     expect(researchShelf).toContain("Open ResearchGate record");
     expect(researchShelf).toContain("ResearchGate record");
     expect(researchShelf).not.toContain("releaseApproved = true");
@@ -206,7 +206,7 @@ describe("library content blocks", () => {
       firstThreeVolumes.filter((entry) => !entry.researchGateUrl).map((entry) => entry.id),
     ).toEqual(["latino-irony", "children-left-behind-after-a-war"]);
     expect(siteSearch).toContain("...publicDocumentItems.map");
-    expect(siteSearch).toContain("Author paper");
+    expect(siteSearch).toContain("Working-paper summary");
     expect(siteSearch).toContain("ResearchGate record");
     expect(readFileSync(join(sourceRoot, "components/SiteSearch.astro"), "utf8")).toContain(
       "Search papers, podcast transcripts, fields, and volume guides",

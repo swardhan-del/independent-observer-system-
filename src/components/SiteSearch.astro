@@ -91,7 +91,7 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
         class="search-results"
         id="site-search-results"
         data-search-results
-        role="listbox"
+        role="list"
         aria-label="Search results"
       >
       </ul>
@@ -190,7 +190,7 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
       const query = input.value.trim();
       const matches = rankSearchEntries(index, query, filters());
       results.replaceChildren();
-      selectedIndex = matches.length ? 0 : -1;
+      selectedIndex = -1;
       if (writeUrl) syncUrl();
 
       if (!query && !Object.keys(filters()).length) {
@@ -199,7 +199,7 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
       }
 
       status.textContent = matches.length
-        ? `${matches.length} ${matches.length === 1 ? "result" : "results"}. Use arrow keys to navigate.`
+        ? `${matches.length} ${matches.length === 1 ? "result" : "results"}${matches.length > 16 ? "; showing the 16 most relevant" : ""}. Use arrow keys to navigate.`
         : "No matching public entry.";
 
       if (!matches.length) {
@@ -216,6 +216,23 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
           button.textContent = suggestion;
           button.dataset.searchQuery = suggestion;
           suggestions.append(button);
+        }
+        const browse = document.createElement("a");
+        browse.href = root.querySelector<HTMLAnchorElement>(".form-note a")!.href;
+        browse.textContent = "Browse all papers →";
+        suggestions.append(browse);
+        if (Object.keys(filters()).length) {
+          const clear = document.createElement("button");
+          clear.type = "button";
+          clear.textContent = "Clear filters";
+          clear.addEventListener("click", () => {
+            filterControls.forEach((control) => {
+              control.value = "";
+            });
+            render();
+            input.focus();
+          });
+          suggestions.append(clear);
         }
         item.append(suggestions);
         results.append(item);
@@ -236,9 +253,8 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
         const link = document.createElement("a");
         link.className = "search-result";
         link.href = entry.href;
-        link.role = "option";
         link.dataset.searchResult = String(index);
-        link.setAttribute("aria-selected", String(index === selectedIndex));
+        link.dataset.active = String(index === selectedIndex);
         const kind = document.createElement("span");
         kind.className = "search-result-kind";
         kind.textContent = [entry.type, entry.status].filter(Boolean).join(" · ");
@@ -250,10 +266,10 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
         item.append(link);
         results.append(item);
       }
-      resultLinks()[selectedIndex]?.setAttribute("aria-selected", "true");
     };
 
     const open = async () => {
+      if (dialog.open) return;
       lastFocused =
         document.activeElement instanceof HTMLElement ? document.activeElement : openButton;
       if (typeof dialog.showModal === "function") dialog.showModal();
@@ -292,24 +308,27 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
     });
     dialog.addEventListener("keydown", (event) => {
       const links = resultLinks();
-      if ((event.key === "ArrowDown" || event.key === "ArrowUp") && event.target === input) {
+      if (
+        (event.key === "ArrowDown" || event.key === "ArrowUp") &&
+        (event.target === input || links.includes(event.target as HTMLAnchorElement))
+      ) {
         if (!links.length) return;
         event.preventDefault();
+        const focusedIndex = links.indexOf(event.target as HTMLAnchorElement);
         selectedIndex =
-          (selectedIndex + (event.key === "ArrowDown" ? 1 : -1) + links.length) % links.length;
-        links.forEach((link, index) =>
-          link.setAttribute("aria-selected", String(index === selectedIndex)),
-        );
-        links[selectedIndex]?.scrollIntoView({ block: "nearest" });
+          event.target === input
+            ? event.key === "ArrowDown"
+              ? 0
+              : links.length - 1
+            : (focusedIndex + (event.key === "ArrowDown" ? 1 : -1) + links.length) % links.length;
+        links.forEach((link, index) => {
+          link.dataset.active = String(index === selectedIndex);
+        });
+        links[selectedIndex]?.focus();
       }
-      if (
-        event.key === "Enter" &&
-        event.target === input &&
-        selectedIndex >= 0 &&
-        links[selectedIndex]
-      ) {
+      if (event.key === "Enter" && event.target === input && links.length > 0) {
         event.preventDefault();
-        links[selectedIndex].click();
+        links[0].click();
       }
       if (event.key === "Tab") {
         const focusable = [
@@ -331,20 +350,28 @@ const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolea
         event.preventDefault();
         open();
       }
-      if (event.key === "Escape" && dialog.open) close();
+      if (event.key === "Escape" && dialog.open) {
+        event.preventDefault();
+        close();
+      }
     });
 
-    const params = new URLSearchParams(window.location.search);
     const sharesPageFilters = Boolean(
       document.querySelector("[data-content-filter], [data-publication-catalogue]"),
     );
-    const searchParam = (key: string) =>
-      params.get(`search-${key}`) ?? (sharesPageFilters ? "" : (params.get(key) ?? ""));
-    input.value = searchParam("q");
-    filterControls.forEach((control) => {
-      const value = searchParam(control.dataset.searchFilter ?? "");
-      control.value = control.dataset.searchFilter === "status" ? readerStatus(value) : value;
-    });
-    render(false);
+    const restoreUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      const searchParam = (key: string) =>
+        params.get(`search-${key}`) ?? (sharesPageFilters ? "" : (params.get(key) ?? ""));
+      input.value = searchParam("q");
+      filterControls.forEach((control) => {
+        const value = searchParam(control.dataset.searchFilter ?? "");
+        control.value = control.dataset.searchFilter === "status" ? readerStatus(value) : value;
+      });
+      render(false);
+    };
+    window.addEventListener("popstate", restoreUrl);
+    window.addEventListener("pageshow", restoreUrl);
+    restoreUrl();
   });
 </script>

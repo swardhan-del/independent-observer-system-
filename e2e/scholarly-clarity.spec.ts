@@ -39,7 +39,10 @@ test("disclosures support keyboard access and the exact scholarly title remains 
   await expect(
     page.getByText("No accompanying dataset or codebook is provided on this page."),
   ).toBeVisible();
-  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Quantum Entanglement: A Practical Primer",
+  );
+  await expect(page.locator(".reader-citation-box [data-reader-citation]")).toContainText(
     "Entanglement, No-Signalling, and the Real Path to Quantum Advantage",
   );
   await expect(page.getByText(/Continue from the primer to the companion synopsis/)).toBeVisible();

@@ -14,9 +14,6 @@ export function getStaticPaths() {
 const { topic } = Astro.props;
 const plugin = topicPluginFor(topic.slug);
 const reviewSignals = reviewQueueForTopic(topic.slug);
-const preprintCount = topic.related.filter((item) => item.type === "Author paper").length;
-const previewCount = topic.related.filter((item) => item.type.includes("preview")).length;
-const roadmapCount = topic.related.filter((item) => item.type.startsWith("Volume")).length;
 const publicOutputItems = topic.related.filter(
   (item) => item.type === "Author paper" || item.type.includes("preview"),
 );
@@ -42,20 +39,12 @@ const mappedVolumeSummary =
       <div class="topic-hub-status">
         <span class="status-pill">Public discovery map</span>
         <h2>{plugin.question}</h2>
+        <p>{plugin.method}</p>
+        {topic.reviewIntro && <p>{topic.reviewIntro}</p>}
         <p>
-          {plugin.method} This hub already has public outputs: {preprintCount} author paper
-          {preprintCount === 1 ? " copy" : " copies"} and {previewCount} research, documentary, or video
-          {previewCount === 1 ? "preview" : "previews"}. These are public records and previews, not
-          a claim that a standalone Independent Observer article has been released; the map below
-          keeps them distinct from roadmap notes and work held for human release.
+          Start with a working-paper summary or a project preview. Each link explains what is
+          available and what remains in development.
         </p>
-        <div class="topic-hub-stat-row" aria-label={topic.name + " map summary"}>
-          <span><strong>{publicOutputItems.length}</strong> public outputs</span>
-          <span><strong>{preprintCount}</strong> public preprints</span>
-          <span><strong>{previewCount}</strong> previews</span>
-          <span><strong>{roadmapCount}</strong> roadmap notes</span>
-          <span><strong>{reviewSignals.length}</strong> held for release</span>
-        </div>
         {
           publicOutputItems.length > 0 && (
             <div class="topic-hub-outputs">
@@ -125,10 +114,6 @@ const mappedVolumeSummary =
       </div>
     </div>
   </section>
-  <GreenPublicationShelf topic={topic.name} title={`${topic.name}: current articles`} />
-  <TopicReviewQueue
-    signals={reviewSignals}
-    title={"Held for release in " + topic.name}
-    intro={topic.reviewIntro}
-  />
+  <GreenPublicationShelf topic={topic.name} title={`${topic.name}: research previews`} />
+  <TopicReviewQueue signals={reviewSignals} title={"In development: " + topic.name} />
 </BaseLayout>

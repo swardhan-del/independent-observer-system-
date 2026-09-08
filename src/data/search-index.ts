@@ -1,3 +1,4 @@
+import { displayTitle } from "./reader-presentation";
 import { historyPodcastEpisodes } from "./podcast";
 import { documentaryItems, researchItems, topics, videoItems } from "./content";
 import { dropboxFeedItems } from "./dropbox-content.generated";
@@ -23,9 +24,9 @@ const topicsForCategory = (category: string) => {
   return topicNames.filter((topic) => {
     const name = topic.toLocaleLowerCase();
     if (value.includes(name)) return true;
-    if (name === "economics") return value.includes("econom") || value.includes("labor");
-    if (name === "politics")
-      return value.includes("politic") || value.includes("institution") || value.includes("civic");
+    if (name === "economics") return /econom|labor|labour|tax|welfare/.test(value);
+    if (name === "science") return /scien|quantum|physics/.test(value);
+    if (name === "politics") return /politic|institution|civic|migration|demograph/.test(value);
     if (name === "history")
       return (
         value.includes("history") || value.includes("civilization") || value.includes("geopolitic")
@@ -60,6 +61,7 @@ export const searchItems: SearchEntry[] = [
     title: item.title,
     category: item.topics.slice(0, 2).join(" · "),
     description: item.standfirst,
+    searchText: item.paragraphs.join(" "),
     status: item.status,
     type: "Research" as const,
     topics: item.topics,
@@ -139,13 +141,29 @@ export const searchItems: SearchEntry[] = [
     title: entry.title,
     category: entry.category,
     description: entry.description,
+    searchText: [
+      displayTitle(entry),
+      ...entry.sections
+        .filter((section) => section.id !== "publication-boundary")
+        .flatMap((section) => [
+          section.heading,
+          ...(section.paragraphs ?? []),
+          ...(section.items ?? []),
+          ...(section.table
+            ? [section.table.caption, ...section.table.headers, ...section.table.rows.flat()]
+            : []),
+        ]),
+    ].join(" "),
     status: entry.status ?? "Reviewed public copy",
-    type: entry.status === "Author paper" ? ("Research" as const) : ("Published document" as const),
+    type:
+      entry.status === "Author working paper"
+        ? ("Research" as const)
+        : ("Published document" as const),
     topics: topicsForCategory(entry.category),
     volume: entry.volume,
     format:
-      entry.status === "Author paper"
-        ? `Author paper${entry.researchGateUrl ? " · ResearchGate record" : ""}`
+      entry.status === "Author working paper"
+        ? `Working-paper summary${entry.researchGateUrl ? " · ResearchGate record" : ""}`
         : "document",
     href: sitePath(`/library/documents/${entry.id}/`),
   })),

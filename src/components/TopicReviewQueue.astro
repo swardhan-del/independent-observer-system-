@@ -9,8 +9,8 @@ type Props = {
 
 const {
   signals,
-  title = "Held for human release",
-  intro = "These safe metadata signals come from the dated source-review package. The underlying drafts remain unlinked and unpublished until the owner closes the human release gate.",
+  title = "In development",
+  intro = "These projects are not available as completed articles. Their titles describe the planned work; publication dates have not been announced.",
 } = Astro.props as Props;
 ---
 
@@ -20,7 +20,7 @@ const {
       <div class="shell">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Review boundary</p>
+            <p class="eyebrow">Future work</p>
             <h2 id="topic-review-title">{title}</h2>
           </div>
           <p>{intro}</p>
@@ -30,12 +30,13 @@ const {
             <article class="topic-review-card">
               <div class="topic-review-card-topline">
                 <span>{String(index + 1).padStart(2, "0")}</span>
-                <span class="status-pill">{signal.status}</span>
+                <span class="status-pill">
+                  {signal.status === "Awaiting human release" ? "In development" : signal.status}
+                </span>
               </div>
               <h3>{signal.title}</h3>
               <p class="topic-review-category">{signal.category}</p>
-              <p>{signal.description}</p>
-              <p class="topic-review-note">Metadata only · not a published article</p>
+              <p class="topic-review-note">Project outline · not a published article</p>
             </article>
           ))}
         </div>

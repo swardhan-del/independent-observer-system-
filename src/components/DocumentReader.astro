@@ -1,4 +1,5 @@
 ---
+import { displayTitle, readingMinutes } from "../data/reader-presentation";
 import { byReadingUsefulness } from "../data/scholarly-clarity";
 import { publicationRevisions } from "../data/publication-revisions";
 import { exportCitation } from "../lib/citations";
@@ -24,11 +25,7 @@ const visibleSections = entry.sections.filter(
   (section) => !entry.sourceFingerprintSha256 || section.id !== "publication-boundary",
 );
 const publicationBoundary = entry.sections.find((section) => section.id === "publication-boundary");
-const paragraphCount = entry.sections.reduce(
-  (total, section) => total + (section.paragraphs?.length ?? 0) + (section.items?.length ?? 0),
-  0,
-);
-const estimatedMinutes = Math.max(1, Math.ceil((paragraphCount * 65) / 220));
+const estimatedMinutes = readingMinutes(entry);
 const revisionHistory = publicationRevisions.filter((revision) => revision.documentId === entry.id);
 const status = entry.status ?? "Reviewed public copy";
 const placementHeld = entry.placementDecision?.status === "held";
@@ -63,10 +60,15 @@ const volumeRecord = entry.volume
 
 <PageHero
   eyebrow="Author paper catalogue"
-  title={entry.title}
+  title={displayTitle(entry)}
   description={entry.description}
   className="document-reader-hero"
-/>
+>
+  <p class="reader-byline">
+    {entry.author ?? "Independent Observer"} · {status} · About {estimatedMinutes} min read
+  </p>
+  {entry.updatedDate && <p class="reader-updated">Updated {entry.updatedDate}</p>}
+</PageHero>
 
 <div class="reader-progress" data-reader-progress aria-hidden="true"><span></span></div>
 <section class="section section-white reader-shell">
@@ -77,6 +79,20 @@ const volumeRecord = entry.volume
       data-reader-citation={suggestedCitation}
       data-reader-title={entry.title}
     >
+      <details class="reader-contents reader-details">
+        <summary>On this page</summary>
+        <nav aria-label="Article contents">
+          <ol>
+            {
+              visibleSections.map((section) => (
+                <li>
+                  <a href={`#${section.id}`}>{section.heading}</a>
+                </li>
+              ))
+            }
+          </ol>
+        </nav>
+      </details>
       {
         entry.genre && (
           <p class="reader-object">
@@ -129,7 +145,12 @@ const volumeRecord = entry.volume
               <p>{paragraph}</p>
             ))}
             {section.table && (
-              <div class="reader-table-wrap">
+              <div
+                class="reader-table-wrap"
+                tabindex="0"
+                role="region"
+                aria-label={section.table.caption}
+              >
                 <table>
                   <caption>{section.table.caption}</caption>
                   <thead>
