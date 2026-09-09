@@ -65,7 +65,18 @@ jobs:
       - name: Check reader performance budgets
         run: npm run perf:check
       - name: Install browser for reader journey tests
-        run: npx playwright install --with-deps chromium
+        run: |
+          for attempt in 1 2 3; do
+            if npx playwright install --with-deps chromium; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              echo "Playwright browser installation failed after 3 attempts."
+              exit 1
+            fi
+            echo "Playwright browser installation failed on attempt $attempt; retrying in 10 seconds."
+            sleep 10
+          done
       - name: Test desktop and mobile reader journeys
         run: npm run test:e2e
       - name: Preserve browser failure evidence
