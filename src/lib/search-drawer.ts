@@ -41,6 +41,12 @@ export function initialize(root: HTMLElement) {
 
   if (!dialog || !openButton || !closeButton || !input || !status || !results) return;
 
+  const pageOwnsLegacyFilters = Boolean(
+    document.querySelector(
+      "[data-research-catalogue], [data-publication-catalogue], [data-topic-atlas]",
+    ),
+  );
+
   const filters = () =>
     Object.fromEntries(
       filterControls
@@ -68,8 +74,10 @@ export function initialize(root: HTMLElement) {
     if (!indexLoaded) return;
     const query = input.value.trim();
     const url = new URL(location.href);
-    for (const key of ["q", "type", "topic", "status", "volume"])
+    for (const key of ["q", "type", "topic", "status", "volume"]) {
       url.searchParams.delete(`search-${key}`);
+      if (!pageOwnsLegacyFilters) url.searchParams.delete(key);
+    }
     if (url.href !== location.href)
       history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
     try {
@@ -256,7 +264,11 @@ export function initialize(root: HTMLElement) {
     } catch {
       /* Optional local history. */
     }
-    const searchParam = (key: string) => params.get(`search-${key}`) ?? local[key] ?? "";
+    const searchParam = (key: string) =>
+      params.get(`search-${key}`) ??
+      (!pageOwnsLegacyFilters ? params.get(key) : null) ??
+      local[key] ??
+      "";
     input.value = searchParam("q");
     filterControls.forEach((control) => {
       const value = searchParam(control.dataset.searchFilter ?? "");
