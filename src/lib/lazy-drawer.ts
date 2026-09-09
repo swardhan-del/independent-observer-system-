@@ -13,21 +13,26 @@ export function mountDrawer(kind: "search" | "reading") {
   let mounted = false;
   let pending: Promise<void> | undefined;
   const count = root.querySelector<HTMLElement>("[data-reading-count]");
-  const updateCount = () => {
-    if (!count || mounted) return;
+  const updateLightweightReadingState = () => {
+    if (kind !== "reading" || mounted) return;
     try {
-      count.textContent = String(
-        migrateReadingList(
-          localStorage.getItem(readingListStorageKey) ??
-            localStorage.getItem(readingListLegacyStorageKey),
-        ).length,
+      const saved = migrateReadingList(
+        localStorage.getItem(readingListStorageKey) ??
+          localStorage.getItem(readingListLegacyStorageKey),
       );
+      if (count) count.textContent = String(saved.length);
+      const savedIds = new Set(saved.map((item) => item.id));
+      document.querySelectorAll<HTMLButtonElement>("[data-reading-toggle]").forEach((button) => {
+        const isSaved = savedIds.has(button.dataset.readingId ?? "");
+        button.setAttribute("aria-pressed", String(isSaved));
+        button.textContent = isSaved ? "Saved" : "Save";
+      });
     } catch {
       /* Storage is optional. */
     }
   };
-  updateCount();
-  window.addEventListener("storage", updateCount);
+  updateLightweightReadingState();
+  window.addEventListener("storage", updateLightweightReadingState);
   const ensureMounted = () => {
     if (!pending)
       pending = (async () => {
@@ -59,6 +64,7 @@ export function mountDrawer(kind: "search" | "reading") {
       kind === "search" ? "[data-search-open]" : "[data-reading-open], [data-reading-toggle]",
     );
     if (!target) return;
+    updateLightweightReadingState();
     event.preventDefault();
     const error = root.querySelector<HTMLElement>("[data-drawer-error]")!;
     error.hidden = true;
