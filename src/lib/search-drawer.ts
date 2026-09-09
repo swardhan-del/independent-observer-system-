@@ -68,10 +68,8 @@ export function initialize(root: HTMLElement) {
     if (!indexLoaded) return;
     const query = input.value.trim();
     const url = new URL(location.href);
-    for (const key of ["q", "type", "topic", "status", "volume"]) {
+    for (const key of ["q", "type", "topic", "status", "volume"])
       url.searchParams.delete(`search-${key}`);
-      if (!sharesPageFilters) url.searchParams.delete(key);
-    }
     if (url.href !== location.href)
       history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
     try {
@@ -249,9 +247,6 @@ export function initialize(root: HTMLElement) {
     }
   });
 
-  const sharesPageFilters = Boolean(
-    document.querySelector("[data-content-filter], [data-publication-catalogue]"),
-  );
   const restoreUrl = () => {
     const params = new URLSearchParams(window.location.search);
     let local: Record<string, string> = {};
@@ -261,9 +256,7 @@ export function initialize(root: HTMLElement) {
     } catch {
       /* Optional local history. */
     }
-    const searchParam = (key: string) =>
-      params.get(`search-${key}`) ??
-      (sharesPageFilters ? (local[key] ?? "") : (params.get(key) ?? local[key] ?? ""));
+    const searchParam = (key: string) => params.get(`search-${key}`) ?? local[key] ?? "";
     input.value = searchParam("q");
     filterControls.forEach((control) => {
       const value = searchParam(control.dataset.searchFilter ?? "");
