@@ -1,4 +1,4 @@
-import type { PublicCitation, PublicDocument } from "./documents";
+import type { PublicDocument } from "./documents";
 
 // Display copy is separate from the original manuscript title and citation metadata.
 export const documentTitles: Record<string, string> = {
@@ -24,11 +24,6 @@ export const documentTitles: Record<string, string> = {
   "entanglement-primer": "Quantum Entanglement: A Practical Primer",
   "entanglement-foundations": "Quantum Entanglement: Systems and Society",
   "documentary-projects-print-capture": "Documentary Projects: Archive Reading Copy",
-};
-
-const sourceCitationOverrides: Record<string, string> = {
-  "who-deported-more":
-    "Harsh Wardhan, Siddhartha, Who Deported More? Measuring Removals, Returns, and Enforcement Priorities Across Presidential Administrations 2000–2025 (2025).",
 };
 
 const documentDescriptions: Record<string, string> = {
@@ -57,11 +52,6 @@ export const volumeDescriptions: Record<string, string> = {
 
 export const displayTitle = (entry: Pick<PublicDocument, "id" | "title">) =>
   documentTitles[entry.id] ?? entry.title;
-
-export const sourceCitationText = (
-  entry: Pick<PublicDocument, "id">,
-  citation: Pick<PublicCitation, "citation">,
-) => sourceCitationOverrides[entry.id] ?? citation.citation;
 
 export const summaryDescription = (entry: Pick<PublicDocument, "id" | "description">) =>
   documentDescriptions[entry.id] ?? entry.description;
