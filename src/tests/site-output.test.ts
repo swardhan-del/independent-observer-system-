@@ -207,8 +207,8 @@ describe("built website", () => {
 
   it("keeps the release log empty while preview candidates await approval", () => {
     const html = readOutput("whats-new/index.html");
-    expect(html).toContain("The release log is intentionally empty.");
-    expect(html).toContain("six current candidates remain awaiting human release");
+    expect(html).toContain("Six essays in development");
+    expect(html).toContain("not released publications");
     expect(html).toContain("Regrowing Humanity");
     expect(html).toContain("Democracy’s Achilles’ Heel");
     expect(html).not.toContain('class="release-log"');

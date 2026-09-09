@@ -9,14 +9,14 @@ export const scholarlyClarity: Record<string, Partial<PublicDocument>> = {
       "This remains an author working-paper record; the web explanation does not change its publication or review status.",
       "The complete manuscript and a validated comparison dataset are not supplied here. Assess the cited official sources directly.",
     ],
-    updatedDate: "6 September 2026",
+    updatedDate: "9 September 2026",
     availability: {
       webPage:
         "Read the definitions, example and source links here without an account. This is a public explanation, not the manuscript or a ranked comparison.",
       original:
         "The manuscript is not hosted here. The external ResearchGate record is a separate research object with its own access conditions; this update does not change its release status.",
       data: "No CSV or codebook is published or downloadable through this website. Their mention in the source manuscript is not proof of a publicly available, validated dataset.",
-      code: "No analysis code is supplied with this web explanation. The illustrative example below performs no calculation.",
+      code: "No analysis code is supplied with this web explanation. The worked example uses invented numbers only; it does not analyze an actual dataset.",
     },
     reviewScope: {
       sourceChecking:
@@ -76,10 +76,10 @@ export const scholarlyClarity: Record<string, Partial<PublicDocument>> = {
       },
       {
         id: "example",
-        heading: "Explanatory example — no statistics",
+        heading: "Worked example — invented numbers",
         paragraphs: [
-          "Imagine one report lists removals alone and another lists removals plus returns. A larger total in the second report would not, on its own, show that it recorded more removals. First separate the categories, align the period and agency coverage, then ask the comparison question again.",
-          "This is a hypothetical example of comparing sets, not a finding about any administration or a reconstruction of the manuscript’s table.",
+          "Imagine two fictional reports covering the same period and agencies. Report A lists 100 removals. Report B lists 150 departures: 80 removals plus 70 returns. Comparing 150 with 100 makes B look larger. Comparing removals alone gives 80 versus 100: B has 20 fewer removals. The headline reverses because the categories differ.",
+          "This is a hypothetical teaching example. Every number is invented; none describes an administration or reproduces the manuscript’s table. For real reports, first align definitions, periods and agency coverage, then compare like with like.",
         ],
       },
       {
