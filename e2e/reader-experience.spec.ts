@@ -75,7 +75,7 @@ test("library uses the same reader vocabulary and retains a crawlable paper link
 });
 
 test("saved reading toggles are synchronized before the first lazy click", async ({ page }) => {
-  await page.goto("/library/");
+  await page.goto("/research/");
   const toggle = page.locator("[data-reading-toggle]").first();
   const savedItem = await toggle.evaluate((button) => ({
     id: (button as HTMLButtonElement).dataset.readingId!,
