@@ -1,3 +1,4 @@
+import { readingTools } from "./reading-tools";
 import { displayTitle } from "./reader-presentation";
 import { historyPodcastEpisodes } from "./podcast";
 import { documentaryItems, researchItems, topics, videoItems } from "./content";
@@ -43,6 +44,19 @@ const topicsForCategory = (category: string) => {
 };
 
 export const searchItems: SearchEntry[] = [
+  ...readingTools.map((tool) => ({
+    id: `reading-tool:${tool.id}`,
+    title: tool.title,
+    description: tool.introduction,
+    searchText: [tool.example, tool.limit, ...tool.rows.flat()].join(" "),
+    category: "Reading tools",
+    status: "Public learning exercise",
+    type: "Research" as const,
+    topics: tool.topics,
+    volume: tool.volume,
+    format: "Learning exercise",
+    href: sitePath(`/reading-tools/#${tool.id}`),
+  })),
   ...historyPodcastEpisodes.map((episode) => ({
     id: `podcast:${episode.number}`,
     title: episode.title,

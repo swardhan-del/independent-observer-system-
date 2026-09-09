@@ -31,10 +31,10 @@ test("mobile readers reach substance before metadata and citation controls", asy
   await expect(page.getByRole("link", { name: "Follow on Substack" })).toBeVisible();
 });
 
-test("library links remain accessible without JavaScript", async ({ browser }) => {
+test("library links remain accessible without JavaScript", async ({ browser, baseURL }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:4337/library/");
+  await page.goto(`${baseURL}/library/`);
   expect(await page.locator("[data-library-paper-card]:visible").count()).toBeGreaterThan(6);
   await context.close();
 });

@@ -1,0 +1,392 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import { readingTools } from "../../data/reading-tools";
+import { sitePath } from "../../lib/paths";
+---
+
+<BaseLayout
+  title="Reading tools: test a claim"
+  description="Six practical exercises for checking attention, computing energy, housing outcomes, measurement limits, megaprojects and ownership claims."
+  currentPath="/reading-tools/"
+>
+  <PageHero
+    eyebrow="Read · question · test"
+    title="Put an argument to work."
+    description="Choose a question, try an example, and record what evidence you would need. These exercises connect the research to decisions you can examine."
+  />
+  <div class="shell tools-layout">
+    <nav aria-label="Choose a reading tool" class="tools-menu">
+      {readingTools.map((tool) => <a href={`#${tool.id}`}>{tool.title}</a>)}
+      <a href={sitePath("/library/documents/entanglement-primer/#worked-example")}
+        >Can entanglement send a message?</a
+      >
+      <a href={sitePath("/library/documents/wardhan-tax-doctrine/#balance-sheet-example")}
+        >Does borrowing create wealth?</a
+      >
+    </nav>
+    <p class="tool-intro">
+      Public learning exercises · Updated 9 September 2026. Examples are hypothetical. Notes stay in
+      this page until you download them; they are not sent or automatically saved. Reloading clears
+      them.
+    </p>
+    <noscript
+      ><p>
+        The explanations and tables work without JavaScript. Print this page to keep notes; the
+        calculator and text download require JavaScript.
+      </p></noscript
+    >
+    {
+      readingTools.map((tool) => (
+        <section class="tool-card" id={tool.id} aria-labelledby={`${tool.id}-heading`}>
+          <p class="eyebrow">{tool.volume} · Reading exercise</p>
+          <h2 id={`${tool.id}-heading`}>{tool.title}</h2>
+          <p>{tool.introduction}</p>
+          <div class="tool-table" tabindex="0" role="region" aria-label={`${tool.title} table`}>
+            <table>
+              <>
+                <caption>{tool.title} — questions to investigate</caption>
+                <thead>
+                  <tr>
+                    {tool.headers.map((h) => (
+                      <th scope="col">{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {tool.rows.map((row) => (
+                    <tr>
+                      {row.map((cell, i) =>
+                        i === 0 ? <th scope="row">{cell}</th> : <td>{cell}</td>,
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </>
+            </table>
+          </div>
+          <div class="tool-example">
+            <>
+              <h3>Try the distinction</h3>
+              <p>{tool.example}</p>
+            </>
+          </div>
+          {tool.id === "mindhive" && (
+            <form id="energy-form">
+              <fieldset>
+                <legend>Change the hypothetical assumptions</legend>
+                <p id="energy-help">
+                  All inputs are illustrative. IT load includes the equipment boundary you choose;
+                  PUE includes facility overhead. Constant load for a 365-day year is assumed.
+                </p>
+                <div class="energy-inputs">
+                  <label>
+                    Number of workloads
+                    <input
+                      name="workloads"
+                      type="number"
+                      value="1000"
+                      min="1"
+                      max="1000000000"
+                      step="1"
+                      required
+                      aria-describedby="energy-help"
+                    />
+                  </label>
+                  <label>
+                    Average IT kW per workload
+                    <input
+                      name="kw"
+                      type="number"
+                      value="1"
+                      min="0.000001"
+                      max="1000000000"
+                      step="any"
+                      required
+                      aria-describedby="energy-help"
+                    />
+                  </label>
+                  <label>
+                    Assumed annual PUE
+                    <input
+                      name="pue"
+                      type="number"
+                      value="1.2"
+                      min="1"
+                      max="10"
+                      step="any"
+                      required
+                      aria-describedby="energy-help"
+                    />
+                  </label>
+                </div>
+                <button class="button" type="submit">
+                  Calculate hypothetical energy
+                </button>
+                <p id="energy-result" role="status" aria-live="polite">
+                  Illustrative starting case: 1 MW IT power; 10,512 MWh facility energy per 365-day
+                  year.
+                </p>
+                <p>
+                  Formula: workloads × kW per workload ÷ 1,000 × PUE × 8,760 = annual facility MWh.
+                  This simplified calculation does not model changing loads or validate a
+                  brain-emulation scenario.
+                </p>
+              </fieldset>
+            </form>
+          )}
+          <p class="tool-limit">{tool.limit}</p>
+          {tool.sources && (
+            <details>
+              <summary>Sources and what they support</summary>
+              <ul>
+                {tool.sources.map((source) => (
+                  <li>
+                    <a href={source.url}>{source.title} ↗</a>
+                    <p>{source.scope}</p>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          )}
+          <div class="tool-notes">
+            <h3>Make your own evidence note</h3>
+            {tool.prompts.map((prompt, i) => (
+              <label for={`${tool.id}-note-${i}`}>
+                {prompt}
+                <textarea
+                  id={`${tool.id}-note-${i}`}
+                  data-tool-note
+                  data-heading={tool.title}
+                  data-prompt={prompt}
+                  rows="3"
+                  maxlength="6000"
+                  autocomplete="off"
+                />
+              </label>
+            ))}
+          </div>
+          <p>
+            <a href={sitePath(tool.related)}>{tool.relatedLabel} →</a>
+          </p>
+          <a href="#main-content">Back to the tools ↑</a>
+        </section>
+      ))
+    }
+    <section class="tool-actions" aria-labelledby="keep-notes">
+      <h2 id="keep-notes">Keep your work</h2><p>
+        The text download includes your notes and current calculator assumptions. Nothing is
+        uploaded.
+      </p><button class="button" id="download-tool-notes" type="button">Download my notes</button>
+      <button class="button button-secondary" id="clear-tool-notes" type="button"
+        >Clear notes and reset assumptions</button
+      ><p id="notes-status" role="status" aria-live="polite"></p>
+    </section>
+  </div>
+</BaseLayout>
+<script>
+  import { energyScenario } from "../../lib/energy-scenario";
+  const form = document.querySelector<HTMLFormElement>("#energy-form")!;
+  const result = document.querySelector<HTMLElement>("#energy-result")!;
+  const notes = [...document.querySelectorAll<HTMLTextAreaElement>("[data-tool-note]")];
+  const status = document.querySelector<HTMLElement>("#notes-status")!;
+  function calculate() {
+    const data = new FormData(form);
+    const answer = energyScenario(
+      Number(data.get("workloads")),
+      Number(data.get("kw")),
+      Number(data.get("pue")),
+    );
+    if (!form.checkValidity() || !answer) {
+      result.textContent =
+        "Enter a whole workload count from 1 to 1 billion, a positive kW value up to 1 billion, and PUE from 1 to 10.";
+      return;
+    }
+    const format = (n: number) => n.toLocaleString("en", { maximumSignificantDigits: 8 });
+    result.textContent = `Hypothetical result: ${format(answer.itMW)} MW IT power; ${format(answer.facilityMWh)} MWh facility energy per 365-day year. Not an estimate of actual emulation needs.`;
+  }
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    calculate();
+  });
+  form.addEventListener("input", () => {
+    result.textContent = "Assumptions changed. Calculate to update the result.";
+  });
+  document.querySelector("#download-tool-notes")?.addEventListener("click", () => {
+    calculate();
+    const data = new FormData(form);
+    const text = [
+      "Independent Observer — reading tools",
+      "User notes; hypothetical inputs, not validated findings.",
+      window.location.href,
+      `Workloads: ${data.get("workloads")}; average IT kW each: ${data.get("kw")}; annual PUE: ${data.get("pue")}`,
+      result.textContent ?? "",
+      ...notes.map(
+        (note) =>
+          `\n${note.dataset.heading}\n${note.dataset.prompt}\n${note.value || "(No note entered)"}`,
+      ),
+    ].join("\n");
+    const url = URL.createObjectURL(new Blob([text], { type: "text/plain;charset=utf-8" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "independent-observer-reading-notes.txt";
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    status.textContent = "Your notes download is ready. No notes were uploaded.";
+  });
+  document.querySelector("#clear-tool-notes")?.addEventListener("click", () => {
+    notes.forEach((note) => (note.value = ""));
+    form.reset();
+    calculate();
+    status.textContent = "Notes cleared and assumptions reset.";
+  });
+</script>
+<style>
+  .tools-layout {
+    max-width: 1050px;
+    padding-block: 32px 64px;
+  }
+  .tools-menu {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .tools-menu a {
+    padding: 16px;
+    border: 1px solid var(--line);
+    font-weight: 700;
+  }
+  .tool-card {
+    padding-block: 40px;
+    border-bottom: 1px solid var(--line);
+    scroll-margin-top: 100px;
+  }
+  .tool-card h2 {
+    font-size: clamp(1.6rem, 3vw, 2.3rem);
+  }
+  .tool-card p,
+  .tool-intro {
+    max-width: 78ch;
+    line-height: 1.7;
+  }
+  .tool-table {
+    overflow-x: auto;
+    margin-block: 24px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+  }
+  caption {
+    text-align: left;
+    font-weight: 700;
+    padding-bottom: 12px;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 14px;
+    border: 1px solid var(--line);
+    vertical-align: top;
+    min-width: 140px;
+  }
+  thead {
+    background: #07182d;
+    color: white;
+  }
+  .tool-example {
+    border-left: 4px solid #b68a49;
+    padding: 8px 24px;
+    background: #f5f2ec;
+  }
+  .tool-limit {
+    font-size: 0.95rem;
+  }
+  .tool-notes label {
+    display: block;
+    margin-block: 16px;
+    font-weight: 700;
+  }
+  textarea,
+  input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 8px;
+    padding: 12px;
+    border: 1px solid #637080;
+    border-radius: 4px;
+    background: white;
+    color: #142536;
+    font: inherit;
+  }
+  textarea {
+    resize: vertical;
+    font-weight: 400;
+  }
+  fieldset {
+    margin-block: 24px;
+    padding: 20px;
+    border: 1px solid var(--line);
+  }
+  legend {
+    font-weight: 700;
+  }
+  .energy-inputs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .tool-actions {
+    padding-block: 32px;
+  }
+  button {
+    cursor: pointer;
+    margin-block: 8px;
+  }
+  details summary {
+    cursor: pointer;
+    padding-block: 12px;
+    font-weight: 700;
+  }
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  .tool-table:focus-visible {
+    outline: 3px solid #936318;
+    outline-offset: 3px;
+  }
+  @media (max-width: 640px) {
+    .tools-menu,
+    .energy-inputs {
+      grid-template-columns: 1fr;
+    }
+    .tool-card {
+      padding-block: 24px;
+    }
+    fieldset {
+      padding: 12px;
+      min-width: 0;
+    }
+  }
+  @media print {
+    .tools-menu,
+    .tool-actions button,
+    .tool-card > a {
+      display: none;
+    }
+    textarea {
+      height: 100px;
+    }
+    .tool-card {
+      break-inside: avoid;
+    }
+    .tool-table {
+      overflow: visible;
+    }
+  }
+</style>

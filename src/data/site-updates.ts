@@ -1,5 +1,30 @@
 export const siteUpdates = [
   {
+    id: "curated-tools-2026-09-09",
+    date: "2026-09-09",
+    title: "Put the research into practice",
+    changes: [
+      {
+        what: "Six new reading exercises with downloadable notes.",
+        why: "Test attention, energy assumptions, housing outcomes, measurement limits, project resilience and ownership claims.",
+        route: "/reading-tools/",
+        label: "Try the reading tools",
+      },
+      {
+        what: "An entanglement example shows what Bob can learn.",
+        why: "Compare two joint-result patterns with the same local probabilities.",
+        route: "/library/documents/entanglement-primer/#worked-example",
+        label: "Read the probability example",
+      },
+      {
+        what: "A fictional balance sheet separates cash from net wealth.",
+        why: "Extend the existing tax discussion without repeating it or implying a tax calculation.",
+        route: "/library/documents/wardhan-tax-doctrine/#balance-sheet-example",
+        label: "Read the accounting example",
+      },
+    ],
+  },
+  {
     id: "first-visit-2026-09-09",
     date: "2026-09-09",
     title: "A clearer place to begin",

@@ -1,3 +1,4 @@
+import { readingExtensions, extensionEvidence } from "./reading-extensions";
 import { scholarlyClarity } from "./scholarly-clarity";
 import type { PublicDocument, PublicDocumentSection } from "./documents";
 import { explicitRelatedFamilyIds, familyIdForKey } from "./family-registry";
@@ -195,6 +196,21 @@ function makeDocument(input: PaperInput): PublicDocument {
       independentReview: "Independent scholarly review is not documented in this web record.",
     },
     ...scholarlyClarity[document.id],
+    ...(readingExtensions[document.id]
+      ? {
+          updatedDate: "9 September 2026",
+          sections: (scholarlyClarity[document.id]?.sections ?? document.sections).flatMap(
+            (section) =>
+              section.id === "publication-boundary"
+                ? [...readingExtensions[document.id], section]
+                : [section],
+          ),
+          summaryEvidence: [
+            ...(scholarlyClarity[document.id]?.summaryEvidence ?? document.summaryEvidence ?? []),
+            ...(extensionEvidence[document.id] ?? []),
+          ],
+        }
+      : {}),
     familyId: familyIdForKey(document.id),
     sourceLabel: "Author-controlled source · selected public synopsis",
     sourceModified: `Author-controlled source reviewed ${sourceReviewDate}`,
