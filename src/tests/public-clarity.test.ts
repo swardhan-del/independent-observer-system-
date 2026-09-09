@@ -49,9 +49,7 @@ test("reader title stays concise while scholarly metadata preserves the source t
   expect(html).toContain(`property="og:title" content="${displayTitle}"`);
   expect(html).toContain(`name="citation_title" content="${scholarlyTitle}"`);
   expect(html).toContain(`data-reader-title="${scholarlyTitle}"`);
-  expect(html).toContain(
-    `Harsh Wardhan, Siddhartha, ${scholarlyTitle} (2025).`,
-  );
+  expect(html).toContain(`Harsh Wardhan, Siddhartha, ${scholarlyTitle} (2025).`);
   const article = JSON.parse(
     html.match(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/)![1],
   )["@graph"].find((item: any) => item["@type"] === "ScholarlyArticle");
