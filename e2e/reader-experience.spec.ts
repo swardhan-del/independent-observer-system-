@@ -28,6 +28,40 @@ test("reader vocabulary, keyboard links, filters and history preserve discovery"
   await expect(input).toHaveValue("Who Deported More");
 });
 
+test("global search never consumes research or topic page filter parameters", async ({ page }) => {
+  const cases = [
+    "/research/?q=migration&volume=Volume%20II",
+    "/topics/?q=democracy&volume=Volume%20II",
+  ];
+
+  for (const path of cases) {
+    await page.goto("/");
+    await page.evaluate(() => sessionStorage.removeItem("io:search"));
+    await page.goto(path);
+    const before = new URL(page.url());
+    expect(before.searchParams.get("q")).toBeTruthy();
+    expect(before.searchParams.get("volume")).toBeTruthy();
+
+    await page.locator("[data-search-open]").click();
+    const input = page.locator("[data-search-input]");
+    await expect(input).toHaveValue("");
+    await input.fill("deportation");
+    await page.keyboard.press("Escape");
+
+    let current = new URL(page.url());
+    expect(current.searchParams.get("q")).toBe(before.searchParams.get("q"));
+    expect(current.searchParams.get("volume")).toBe(before.searchParams.get("volume"));
+
+    await page.reload();
+    current = new URL(page.url());
+    expect(current.searchParams.get("q")).toBe(before.searchParams.get("q"));
+    expect(current.searchParams.get("volume")).toBe(before.searchParams.get("volume"));
+    await page.locator("[data-search-open]").click();
+    await expect(page.locator("[data-search-input]")).toHaveValue("deportation");
+    await page.keyboard.press("Escape");
+  }
+});
+
 test("library uses the same reader vocabulary and retains a crawlable paper link", async ({
   page,
 }) => {
@@ -38,6 +72,33 @@ test("library uses the same reader vocabulary and retains a crawlable paper link
   await expect(cards.locator("h3 a")).toHaveAttribute("href", /who-deported-more/);
   await page.reload();
   await expect(cards).toHaveCount(1);
+});
+
+test("saved reading toggles are synchronized before the first lazy click", async ({ page }) => {
+  await page.goto("/library/");
+  const toggle = page.locator<HTMLButtonElement>("[data-reading-toggle]").first();
+  const savedItem = await toggle.evaluate((button) => ({
+    id: button.dataset.readingId!,
+    title: button.dataset.readingTitle!,
+    href: button.dataset.readingHref!,
+    type: button.dataset.readingType,
+    savedAt: Date.now(),
+    status: "unread" as const,
+  }));
+  await page.evaluate((item) => {
+    localStorage.setItem("independent-observer:reading-list:v2", JSON.stringify([item]));
+  }, savedItem);
+  await page.reload();
+
+  const restoredToggle = page.locator<HTMLButtonElement>("[data-reading-toggle]").first();
+  await expect(restoredToggle).toHaveText("Saved");
+  await expect(restoredToggle).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("[data-reading-count]")).toHaveText("1");
+
+  await restoredToggle.click();
+  await expect(restoredToggle).toHaveText("Save");
+  await expect(restoredToggle).toHaveAttribute("aria-pressed", "false");
+  await expect(page.locator("[data-reading-count]")).toHaveText("0");
 });
 
 test("mobile contents precede article text and source tables remain in the viewport", async ({
