@@ -1,11 +1,14 @@
 import { test, expect } from "@playwright/test";
-test("model explanation is readable and traceable without JavaScript", async ({ browser }) => {
+test("model explanation is readable and traceable without JavaScript", async ({
+  browser,
+  baseURL,
+}) => {
   const context = await browser.newContext({
     javaScriptEnabled: false,
     viewport: { width: 393, height: 852 },
   });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:4337/library/documents/who-deported-more/");
+  await page.goto(`${baseURL}/library/documents/who-deported-more/`);
   await expect(
     page
       .getByText("Public explanation accompanying an author working paper", { exact: false })

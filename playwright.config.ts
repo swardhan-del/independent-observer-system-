@@ -1,4 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
+const previewPort = Number(process.env.PLAYWRIGHT_PORT ?? 4337);
+const previewUrl = `http://127.0.0.1:${previewPort}`;
 export default defineConfig({
   testDir: "./e2e",
   timeout: 30000,
@@ -8,7 +10,7 @@ export default defineConfig({
   workers: process.env.CI ? 2 : 2,
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
-    baseURL: "http://127.0.0.1:4337",
+    baseURL: previewUrl,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     launchOptions: process.env.PLAYWRIGHT_EXECUTABLE_PATH
@@ -20,8 +22,9 @@ export default defineConfig({
     { name: "mobile", use: { ...devices["Pixel 7"] } },
   ],
   webServer: {
-    command: "npm run preview -- --host 127.0.0.1 --port 4337",
-    url: "http://127.0.0.1:4337",
+    command: `npm run preview -- --host 127.0.0.1 --port ${previewPort} --ignore-lock`,
+    env: { ASTRO_PREVIEW_BACKGROUND: "1" },
+    url: previewUrl,
     reuseExistingServer: !process.env.CI,
   },
 });

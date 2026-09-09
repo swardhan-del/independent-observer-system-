@@ -1,4 +1,5 @@
 ---
+import ReadingToolsInvitation from "../../components/ReadingToolsInvitation.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import LibraryContentBlocks from "../../components/LibraryContentBlocks.astro";
 import LibraryResearchShelf from "../../components/LibraryResearchShelf.astro";
@@ -25,6 +26,7 @@ const { areas, note, stats } = publicLibrarySnapshot;
   />
 
   <LibraryResearchShelf />
+  <ReadingToolsInvitation />
   <details class="shell library-background">
     <summary>Draft previews, volume guides and editorial context</summary>
     <GreenPublicationShelf title="Research previews" />
