@@ -2,6 +2,8 @@ import type { PublicDocument } from "./documents";
 
 export const scholarlyClarity: Record<string, Partial<PublicDocument>> = {
   "who-deported-more": {
+    title:
+      "Who Deported More? Measuring Removals, Returns, and Enforcement Priorities Across Presidential Administrations 2000–2025",
     genre: "Public explanation accompanying an author working paper",
     description:
       "A public explanation of why removals, returns and expulsions cannot be compared without checking definitions, reporting periods and agency coverage.",
