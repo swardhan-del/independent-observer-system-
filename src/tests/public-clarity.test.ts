@@ -39,17 +39,20 @@ for (const route of routes)
       "Siddhartha Harsh Wardhan",
     );
   });
-test("one deportation title and verified date across metadata and citation", () => {
+test("reader title stays concise while scholarly metadata preserves the source title", () => {
   const html = readFileSync("dist/library/documents/who-deported-more/index.html", "utf8");
-  const title = "Who Deported More? A Guide to Comparing Deportation Statistics";
-  expect(html).toContain(`<title>${title}</title>`);
-  expect(html).toContain(`<h1>${title}</h1>`);
-  expect(html).toContain(`property="og:title" content="${title}"`);
-  expect(html).toContain(`name="citation_title" content="${title}"`);
+  const displayTitle = "Who Deported More? A Guide to Comparing Deportation Statistics";
+  const scholarlyTitle =
+    "Who Deported More? Measuring Removals, Returns, and Enforcement Priorities Across Presidential Administrations 2000–2025";
+  expect(html).toContain(`<title>${displayTitle}</title>`);
+  expect(html).toContain(`<h1>${displayTitle}</h1>`);
+  expect(html).toContain(`property="og:title" content="${displayTitle}"`);
+  expect(html).toContain(`name="citation_title" content="${scholarlyTitle}"`);
+  expect(html).toContain(`data-reader-title="${scholarlyTitle}"`);
   const article = JSON.parse(
     html.match(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/)![1],
   )["@graph"].find((item: any) => item["@type"] === "ScholarlyArticle");
-  expect(article.headline).toBe(title);
+  expect(article.headline).toBe(scholarlyTitle);
   expect(article.datePublished).toBe("2025-10-13");
   expect(article.mainEntityOfPage["@id"]).toMatch(/who-deported-more\/#webpage$/);
   expect(article.author["@id"]).toMatch(/#author$/);
