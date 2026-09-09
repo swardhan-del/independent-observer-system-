@@ -76,12 +76,12 @@ test("library uses the same reader vocabulary and retains a crawlable paper link
 
 test("saved reading toggles are synchronized before the first lazy click", async ({ page }) => {
   await page.goto("/library/");
-  const toggle = page.locator<HTMLButtonElement>("[data-reading-toggle]").first();
+  const toggle = page.locator("[data-reading-toggle]").first();
   const savedItem = await toggle.evaluate((button) => ({
-    id: button.dataset.readingId!,
-    title: button.dataset.readingTitle!,
-    href: button.dataset.readingHref!,
-    type: button.dataset.readingType,
+    id: (button as HTMLButtonElement).dataset.readingId!,
+    title: (button as HTMLButtonElement).dataset.readingTitle!,
+    href: (button as HTMLButtonElement).dataset.readingHref!,
+    type: (button as HTMLButtonElement).dataset.readingType,
     savedAt: Date.now(),
     status: "unread" as const,
   }));
@@ -90,7 +90,7 @@ test("saved reading toggles are synchronized before the first lazy click", async
   }, savedItem);
   await page.reload();
 
-  const restoredToggle = page.locator<HTMLButtonElement>("[data-reading-toggle]").first();
+  const restoredToggle = page.locator("[data-reading-toggle]").first();
   await expect(restoredToggle).toHaveText("Saved");
   await expect(restoredToggle).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator("[data-reading-count]")).toHaveText("1");
