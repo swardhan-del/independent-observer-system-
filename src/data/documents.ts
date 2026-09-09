@@ -117,8 +117,22 @@ const reviewedDocuments: PublicDocument[] = [
   },
 ];
 
+const canonicalSourceCitations: Record<string, string> = {
+  "who-deported-more":
+    "Harsh Wardhan, Siddhartha, Who Deported More? Measuring Removals, Returns, and Enforcement Priorities Across Presidential Administrations 2000–2025 (2025).",
+};
+
+const normalizePaperMetadata = (document: PublicDocument): PublicDocument => {
+  const canonicalCitation = canonicalSourceCitations[document.id];
+  if (!canonicalCitation || !document.citations?.length) return document;
+  return {
+    ...document,
+    citations: document.citations.map((citation) => ({ ...citation, citation: canonicalCitation })),
+  };
+};
+
 export const publicDocumentItems: PublicDocument[] = [
   ...reviewedDocuments,
-  ...paperDocuments,
+  ...paperDocuments.map(normalizePaperMetadata),
   ...dropboxDocumentItems,
 ];
