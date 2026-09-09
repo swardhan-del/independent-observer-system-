@@ -69,7 +69,9 @@ describe("reader vocabulary and evidence boundaries", () => {
 
   it("shortens presentation without rewriting formal citations or release status", () => {
     const entry = paperDocuments.find((item) => item.id === "who-deported-more")!;
-    expect(displayTitle(entry)).toBe("How to Compare Deportation Statistics");
+    expect(displayTitle(entry)).toBe(
+      "Who Deported More? A Guide to Comparing Deportation Statistics",
+    );
     expect(exportCitation(entry, "bib")).toContain(entry.title);
     expect(entry.status).toBe("Author working paper");
     expect(Object.values(volumeDescriptions).every((description) => description.length < 180)).toBe(

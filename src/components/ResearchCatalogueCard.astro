@@ -28,7 +28,9 @@ const externalLinks = record.researchGateUrl;
       <span>{String(index).padStart(2, "0")}</span>
       <span
         >{
-          record.placementStatus === "held" ? "Placement held" : (record.volume ?? record.kind)
+          record.placementStatus === "held"
+            ? "In editorial development"
+            : (record.volume ?? record.kind)
         }</span
       >
     </div>
@@ -40,7 +42,7 @@ const externalLinks = record.researchGateUrl;
     <p class="research-catalogue-card-topic">{topicLabel}</p>
     {
       record.placementStatus === "held" && (
-        <p class="research-catalogue-card-topic">Archive placement held pending owner approval.</p>
+        <p class="research-catalogue-card-topic">Volume placement is in editorial development.</p>
       )
     }
     {

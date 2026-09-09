@@ -1,0 +1,96 @@
+---
+import { readerStatus } from "../../lib/reader-status";
+import { topics } from "../../data/content";
+const topicNames = topics.map((topic) => topic.name);
+import { searchItems } from "../../data/search-index";
+import { sitePath } from "../../lib/paths";
+const types = [...new Set(searchItems.map((item) => item.type))];
+const statuses = [...new Set(searchItems.map((item) => readerStatus(item.status)))];
+const volumes = [...new Set(searchItems.map((item) => item.volume).filter(Boolean))] as string[];
+
+export const partial = true;
+---
+
+<meta name="robots" content="noindex,follow" />
+<dialog id="site-search-dialog" class="search-dialog" aria-labelledby="site-search-title">
+  <div class="search-dialog-inner">
+    <div class="search-dialog-header">
+      <div>
+        <p class="eyebrow">Local research index</p>
+        <h2 id="site-search-title">Find an idea.</h2>
+      </div>
+      <button class="search-close" type="button" data-search-close aria-label="Close search"
+        >Close</button
+      >
+    </div>
+    <label for="site-search-input"
+      >Search papers, podcast transcripts, fields, and volume guides</label
+    >
+    <input
+      id="site-search-input"
+      data-search-input
+      type="search"
+      autocomplete="off"
+      placeholder="Try “Volume I”, “ResearchGate”, “AI”, or “migration”"
+      aria-controls="site-search-results"
+      aria-describedby="site-search-status"
+    />
+    <div class="search-suggestions" aria-label="Suggested searches">
+      <span>Try:</span>
+      <button type="button" data-search-query="institutions">Institutions</button>
+      <button type="button" data-search-query="AI">AI</button>
+      <button type="button" data-search-query="archive">Archive</button>
+    </div>
+    <div class="search-filters" aria-label="Search filters">
+      <label
+        >Type<select data-search-filter="type"
+          ><option value="">All types</option>{
+            types.map((type) => <option value={type}>{type}</option>)
+          }</select
+        ></label
+      >
+      <label
+        >Topic<select data-search-filter="topic"
+          ><option value="">All topics</option>{
+            topicNames.map((topic) => <option value={topic}>{topic}</option>)
+          }</select
+        ></label
+      >
+      <label
+        >Status<select data-search-filter="status"
+          ><option value="">All statuses</option>{
+            statuses.map((status) => <option value={status}>{status}</option>)
+          }</select
+        ></label
+      >
+      <label
+        >Volume<select data-search-filter="volume"
+          ><option value="">All volumes</option>{
+            volumes.map((volume) => <option value={volume}>{volume}</option>)
+          }</select
+        ></label
+      >
+    </div>
+    <p
+      class="search-status"
+      id="site-search-status"
+      data-search-status
+      role="status"
+      aria-live="polite"
+    >
+      Type to search papers, volume guides, and public work.
+    </p>
+    <ul
+      class="search-results"
+      id="site-search-results"
+      data-search-results
+      role="list"
+      aria-label="Search results"
+    >
+    </ul>
+    <p class="form-note">
+      Search runs in your browser. The public index downloads when you open search. Your query is
+      processed on this device. <a href={sitePath("/library/")}>Browse the Library</a> if search is unavailable.
+    </p>
+  </div>
+</dialog>

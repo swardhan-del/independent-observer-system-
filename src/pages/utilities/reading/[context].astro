@@ -1,0 +1,197 @@
+---
+import { byReadingUsefulness, startingQuestions } from "../../../data/scholarly-clarity";
+import { seriesItems } from "../../../data/series";
+import { paperDocuments } from "../../../data/papers";
+import { sitePath } from "../../../lib/paths";
+import { slugify } from "../../../lib/slugs";
+
+type Props = {
+  context?: "catalogue" | "default";
+};
+
+const { context } = Astro.props as Props;
+const isCatalogueContext = context === "catalogue";
+const featuredPreprints = [...paperDocuments].sort(byReadingUsefulness).slice(0, 5);
+const volumeOnePapers = [...paperDocuments]
+  .filter((entry) => entry.volume === "Volume I")
+  .sort(byReadingUsefulness);
+
+type ReadingRecommendation = {
+  id: string;
+  title: string;
+  href: string;
+  status: string;
+  meta: string;
+  type: string;
+  externalHref?: string;
+};
+
+type ReadingRecommendationGroup = {
+  title: string;
+  entries: ReadingRecommendation[];
+};
+
+const recommendationGroups: ReadingRecommendationGroup[] = isCatalogueContext
+  ? [
+      {
+        title: "Follow the four-volume spine",
+        entries: seriesItems.map((item) => ({
+          id: `series:${item.title}`,
+          title: `${item.volume}: ${item.title}`,
+          href: sitePath(`/series/${slugify(item.title)}/`),
+          status: item.status,
+          meta: `${item.category} · roadmap preview`,
+          type: "Series roadmap",
+        })),
+      },
+      {
+        title: "Start with Volume I’s public papers",
+        entries: volumeOnePapers.map((entry) => ({
+          id: `document:${entry.id}`,
+          title: entry.title,
+          href: sitePath(`/library/documents/${entry.id}/`),
+          status: entry.status ?? "Reviewed public copy",
+          meta: `${entry.volume} · public synopsis`,
+          type: "Author paper",
+          externalHref: entry.researchGateUrl,
+        })),
+      },
+    ]
+  : [
+      {
+        title: "Questions to start with",
+        entries: featuredPreprints.map((entry) => ({
+          id: `document:${entry.id}`,
+          title: entry.title,
+          href: sitePath(`/library/documents/${entry.id}/`),
+          status: entry.status ?? "Reviewed public copy",
+          meta: `${startingQuestions[entry.id] ?? entry.volume} · author-controlled synopsis`,
+          type: "Author paper",
+          externalHref: entry.researchGateUrl,
+        })),
+      },
+      {
+        title: "Books and volumes in development",
+        entries: seriesItems.map((item) => ({
+          id: `series:${item.title}`,
+          title: `${item.volume}: ${item.title}`,
+          href: sitePath(`/series/${slugify(item.title)}/`),
+          status: item.status,
+          meta: `${item.category} · roadmap preview`,
+          type: "Series roadmap",
+        })),
+      },
+    ];
+
+export const partial = true;
+export function getStaticPaths() {
+  return ["default", "catalogue"].map((context) => ({ params: { context }, props: { context } }));
+}
+---
+
+<meta name="robots" content="noindex,follow" />
+<dialog id="reading-list-dialog" class="reading-list-dialog" aria-labelledby="reading-list-title">
+  <div class="reading-list-inner">
+    <div class="reading-list-header">
+      <div>
+        <p class="eyebrow">Private on this device</p>
+        <h2 id="reading-list-title">Reading list</h2>
+      </div>
+      <button class="reading-list-close" type="button" data-reading-close>Close</button>
+    </div>
+    <div class="reading-list-toolbar">
+      <label for="reading-list-sort">Sort saved items</label>
+      <select id="reading-list-sort" data-reading-sort>
+        <option value="recent">Recently saved</option>
+        <option value="title">Title</option>
+        <option value="type">Content type</option>
+      </select>
+    </div>
+    <p class="reading-list-storage-note" data-reading-storage role="status"></p>
+    <p class="reading-list-empty" data-reading-empty>
+      Your private list is empty. Choose a public preview below, or save one from any research,
+      documentary, video, or series desk.
+    </p>
+    <ol class="reading-list-items" data-reading-items></ol>
+    <section
+      class="reading-list-recommendations"
+      aria-labelledby="reading-list-recommendations-title"
+    >
+      <div class="reading-list-recommendations-heading">
+        <div>
+          <p class="eyebrow">Curated starting shelf</p>
+          <h3 id="reading-list-recommendations-title">
+            {isCatalogueContext ? "Catalogue reading shelf" : "Recommended public previews"}
+          </h3>
+        </div>
+        <button class="reading-list-save-all" type="button" data-reading-save-all>
+          {isCatalogueContext ? "Save all catalogue previews" : "Save all previews"}
+        </button>
+      </div>
+      <p class="reading-list-recommendations-intro">
+        {
+          isCatalogueContext
+            ? "Start with the four-volume sequence, then open the public Volume I paper records. Save only what you want to revisit; nothing is added automatically."
+            : "Five author-controlled paper pages selected for their starting questions and usefulness, followed by the four Independent Observer book and volume roadmaps. These are public reading copies and previews—not published books or peer-reviewed Independent Observer articles."
+        }
+      </p>
+      {
+        recommendationGroups.map((group) => (
+          <div class="reading-list-recommendation-group">
+            <h4>{group.title}</h4>
+            <div class="reading-list-recommendation-grid">
+              {group.entries.map((entry) => (
+                <article class="reading-list-recommendation-card">
+                  <span class="reading-list-recommendation-status">{entry.status}</span>
+                  <h5>
+                    <a href={entry.href}>{entry.title}</a>
+                  </h5>
+                  <p>{entry.meta}</p>
+                  <div class="reading-list-recommendation-actions">
+                    <button
+                      type="button"
+                      data-reading-toggle
+                      data-reading-id={entry.id}
+                      data-reading-title={entry.title}
+                      data-reading-href={entry.href}
+                      data-reading-type={entry.type}
+                      aria-pressed="false"
+                    >
+                      Save
+                    </button>
+                    <a href={entry.href}>
+                      {`${entry.type === "Author paper" ? "Read the synopsis of" : "Explore the roadmap for"} ${entry.title} →`}
+                    </a>
+                    {entry.externalHref && (
+                      <a href={entry.externalHref} target="_blank" rel="noopener noreferrer">
+                        External ResearchGate record ↗
+                      </a>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+      <p class="form-note">
+        Saving is explicit and stays private on this device. Roadmap entries remain previews while
+        the books are in development; no release status changes when you save one.
+      </p>
+    </section>
+    <div class="reading-list-actions">
+      <button class="reading-list-clear" type="button" data-reading-clear hidden>
+        Clear saved items
+      </button>
+      <button class="reading-list-export" type="button" data-reading-export>Export JSON</button>
+      <label class="reading-list-import">
+        Import JSON
+        <input type="file" accept="application/json,.json" data-reading-import />
+      </label>
+    </div>
+    <p class="form-note">
+      Your list, tags, and reading status stay in this browser. They are not transmitted, published,
+      or connected to an account.
+    </p>
+  </div>
+</dialog>

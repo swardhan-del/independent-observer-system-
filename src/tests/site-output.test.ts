@@ -219,7 +219,7 @@ describe("built website", () => {
     const cards = tags(html, "article").filter((tag) => attribute(tag, "data-home-reading"));
     expect(cards).toHaveLength(3);
     expect(new Set(cards.map((tag) => attribute(tag, "data-home-reading"))).size).toBe(3);
-    expect(html).toContain("Who Deported More?");
+    expect(html).toContain("library/documents/who-deported-more/");
     expect(html).toContain("Explore all 21 paper summaries");
     expect(html).toContain(sitePathForTest("/library/"));
     expect(html).toContain("These are summaries of working papers.");
@@ -378,7 +378,7 @@ describe("built website", () => {
 
     expect(html).toContain("Public discovery map");
     expect(html).toContain("Mapped to Volume I, and Volume II in the four-volume spine.");
-    expect(html).toContain("The Wardhan Tax Doctrine");
+    expect(html).not.toContain("The Wardhan Tax Doctrine");
     expect(html).toContain("History");
     expect(html).not.toContain("One project, four connected volumes.");
     expect(html).not.toContain('class="topic-volume-map"');
@@ -867,5 +867,5 @@ it("keeps exact scholarly titles when browser titles are shortened", () => {
     schema["@graph"].find((item: { "@type": string }) => item["@type"] === "ScholarlyArticle")
       .headline,
   ).toBe(entry.title);
-  expect(html).toContain("How to Compare Deportation Statistics | Independent Observer");
+  expect(html).toContain("Who Deported More? A Guide to Comparing Deportation Statistics");
 });

@@ -10,7 +10,9 @@ test("library starts with manageable results and reveals all matching papers", a
   await expect(cards).toHaveCount(12);
   await page.getByRole("searchbox", { name: "Search papers", exact: true }).fill("deported");
   await expect(cards).toHaveCount(1);
-  await expect(cards).toContainText("How to Compare Deportation Statistics");
+  await expect(cards).toContainText(
+    "Who Deported More? A Guide to Comparing Deportation Statistics",
+  );
   await page.reload();
   await expect(cards).toHaveCount(1);
   await page.getByRole("searchbox", { name: "Search papers", exact: true }).fill("zzzzzz");
