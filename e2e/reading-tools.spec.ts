@@ -52,6 +52,6 @@ test("explanations remain readable without JavaScript", async ({ browser, baseUR
   const page = await context.newPage();
   await page.goto(`${baseURL}/reading-tools/`);
   await expect(page.locator("main .tool-card")).toHaveCount(6);
-  await expect(page.locator("main")).toContainText("Print this page to keep notes");
+  await expect(page.locator("#attention .tool-example")).toContainText("Fictional comparison");
   await context.close();
 });
