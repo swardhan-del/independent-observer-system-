@@ -4,8 +4,15 @@ import AmbientSoundControl from "../components/AmbientSoundControl.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import ReadingList from "../components/ReadingList.astro";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/700.css";
+import "@fontsource/inter/800.css";
 import "../styles/global.css";
 import { publicSitePath, sitePath } from "../lib/paths";
+import { seriesItems } from "../data/series";
+import { slugify } from "../lib/slugs";
+import { citationDate } from "../lib/citations";
 import { socialLinks } from "../data/social";
 
 type Props = {
@@ -22,6 +29,8 @@ type Props = {
     sameAs?: string;
     fingerprintSha256?: string;
     rightsNotice?: string;
+    dateModified?: string;
+    keywords?: string[];
   };
 };
 
@@ -36,7 +45,12 @@ const {
 const fallbackBuild = import.meta.env.PUBLIC_FALLBACK_BUILD === "true";
 const previewBuild = process.env.VERCEL_ENV === "preview";
 const shouldNoindex = noindex || fallbackBuild || previewBuild;
-const fullTitle = title === "Home" ? "Independent Observer" : `${title} | Independent Observer`;
+const fullTitle =
+  currentPath === "/library/documents/who-deported-more/"
+    ? title
+    : title === "Home"
+      ? "Independent Observer"
+      : `${title} | Independent Observer`;
 const publicOrigin = Astro.site ?? new URL(Astro.url.origin);
 const canonicalUrl = new URL(publicSitePath(canonicalPath), publicOrigin).href;
 const websiteUrl = new URL(publicSitePath("/"), publicOrigin).href;
@@ -59,16 +73,26 @@ const breadcrumbItems =
           item: canonicalUrl,
         },
       ];
-const parsedPublicationDate = articleMetadata?.publicationDate
-  ? new Date(articleMetadata.publicationDate)
-  : undefined;
-const publicationDateIso =
-  parsedPublicationDate && !Number.isNaN(parsedPublicationDate.getTime())
-    ? parsedPublicationDate.toISOString().slice(0, 10)
-    : undefined;
+const publicationDateIso = citationDate(articleMetadata?.publicationDate);
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
+    { "@type": "Person", "@id": `${websiteUrl}#author`, name: "Siddhartha Harsh Wardhan" },
+    {
+      "@type": "CreativeWorkSeries",
+      "@id": `${websiteUrl}#volumes`,
+      name: "Independent Observer: four-volume series",
+      hasPart: seriesItems.map((item) => ({
+        "@type": "CreativeWork",
+        name: `${item.volume}: ${item.title}`,
+        url: new URL(publicSitePath(`/series/${slugify(item.title)}/`), publicOrigin).href,
+        author: { "@id": `${websiteUrl}#author` },
+        creativeWorkStatus: item.status,
+      })),
+      url: new URL(publicSitePath("/series/"), publicOrigin).href,
+      author: { "@id": `${websiteUrl}#author` },
+      publisher: { "@id": `${websiteUrl}#organization` },
+    },
     {
       "@type": "Organization",
       "@id": `${websiteUrl}#organization`,
@@ -78,6 +102,7 @@ const structuredData = JSON.stringify({
         "@type": "ImageObject",
         url: new URL(publicSitePath("/favicon.svg"), publicOrigin).href,
       },
+      creator: { "@id": `${websiteUrl}#author` },
       sameAs: socialLinks.map((socialLink) => socialLink.href),
     },
     {
@@ -88,6 +113,7 @@ const structuredData = JSON.stringify({
       description:
         "An independent media and research project examining power, institutions, history, political economy, science, and technology.",
       inLanguage: "en",
+      creator: { "@id": `${websiteUrl}#author` },
       publisher: { "@id": `${websiteUrl}#organization` },
     },
     {
@@ -116,10 +142,13 @@ const structuredData = JSON.stringify({
             url: canonicalUrl,
             headline: articleMetadata.title ?? title,
             description,
-            author: {
-              "@type": "Person",
-              name: articleMetadata.author,
-            },
+            author:
+              articleMetadata.author === "Siddhartha Harsh Wardhan"
+                ? { "@id": `${websiteUrl}#author` }
+                : { "@type": "Person", name: articleMetadata.author },
+            mainEntityOfPage: { "@id": `${canonicalUrl}#webpage` },
+            ...(articleMetadata.dateModified ? { dateModified: articleMetadata.dateModified } : {}),
+            ...(articleMetadata.keywords ? { keywords: articleMetadata.keywords } : {}),
             publisher: { "@id": `${websiteUrl}#organization` },
             inLanguage: "en",
             isAccessibleForFree: true,
@@ -197,12 +226,6 @@ const structuredData = JSON.stringify({
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImageUrl} />
     <meta name="twitter:image:alt" content="Independent Observer social preview" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap"
-      rel="stylesheet"
-    />
     <link rel="icon" type="image/svg+xml" href={sitePath("/favicon.svg")} />
     <script type="application/ld+json" set:html={structuredData} is:inline />
     <title>{fullTitle}</title>
@@ -217,7 +240,7 @@ const structuredData = JSON.stringify({
         </div>
       )
     }
-    <main id="main-content">
+    <main id="main-content" tabindex="-1">
       <slot />
     </main>
     {

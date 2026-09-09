@@ -45,7 +45,9 @@ test("mobile contents precede article text and source tables remain in the viewp
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/library/documents/who-deported-more/");
-  await expect(page.locator("h1")).toHaveText("How to Compare Deportation Statistics");
+  await expect(page.locator("h1")).toHaveText(
+    "Who Deported More? A Guide to Comparing Deportation Statistics",
+  );
   await expect(page.locator(".reader-byline")).toContainText("Author working paper");
   const contents = page.locator(".reader-contents");
   await expect(contents).toBeVisible();

@@ -365,7 +365,7 @@ const volumeRecord = entry.volume
               <p>
                 <strong>Archive placement:</strong>{" "}
                 {placementHeld
-                  ? "Held pending owner approval; the current competing classifications are not treated as canonical."
+                  ? "Volume placement is in editorial development; current classifications are provisional."
                   : `${entry.sourceTaxonomyNote}.`}
               </p>
             )}
@@ -442,7 +442,7 @@ const volumeRecord = entry.volume
           placementHeld ? (
             <div>
               <dt>Archive placement</dt>
-              <dd>Held pending owner approval</dd>
+              <dd>In editorial development</dd>
             </div>
           ) : (
             <div>

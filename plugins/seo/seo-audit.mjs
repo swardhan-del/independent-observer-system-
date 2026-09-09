@@ -38,14 +38,29 @@ for (const pathname of htmlFiles) {
   const html = read(pathname);
   const label = relative(distDir, pathname);
 
-  for (const [name, pattern] of [
-    ["title", /<title>[^<]+<\/title>/i],
-    ["meta description", /<meta[^>]+name=["']description["'][^>]+content=/i],
-    ["canonical", /<link[^>]+rel=["']canonical["'][^>]+href=/i],
-    ["Open Graph title", /property=["']og:title["']/i],
-    ["Open Graph image", /property=["']og:image["']/i],
-    ["JSON-LD", /application\/ld\+json/i],
-  ]) {
+  // These exact on-demand fragments are utilities, not standalone research pages.
+  // They still pass the privacy scan below, and must never become indexable pages.
+  const utilityFragment = new Set([
+    "utilities/search/index.html",
+    "utilities/reading/default/index.html",
+    "utilities/reading/catalogue/index.html",
+  ]).has(label);
+  if (
+    utilityFragment &&
+    (!/<meta[^>]+name="robots"[^>]+content="noindex,follow"/.test(html) || !/<dialog\b/.test(html))
+  ) {
+    fail(label + ": utility fragment must contain a dialog and remain noindex");
+  }
+  for (const [name, pattern] of utilityFragment
+    ? []
+    : [
+        ["title", /<title>[^<]+<\/title>/i],
+        ["meta description", /<meta[^>]+name=["']description["'][^>]+content=/i],
+        ["canonical", /<link[^>]+rel=["']canonical["'][^>]+href=/i],
+        ["Open Graph title", /property=["']og:title["']/i],
+        ["Open Graph image", /property=["']og:image["']/i],
+        ["JSON-LD", /application\/ld\+json/i],
+      ]) {
     if (!pattern.test(html)) {
       fail(label + ": missing " + name);
     }

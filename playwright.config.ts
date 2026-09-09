@@ -1,6 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
 const previewPort = Number(process.env.PLAYWRIGHT_PORT ?? 4337);
-const previewUrl = `http://127.0.0.1:${previewPort}`;
+const previewUrl = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${previewPort}`;
 export default defineConfig({
   testDir: "./e2e",
   timeout: 30000,
@@ -21,10 +21,12 @@ export default defineConfig({
     { name: "desktop", use: { ...devices["Desktop Chrome"] } },
     { name: "mobile", use: { ...devices["Pixel 7"] } },
   ],
-  webServer: {
-    command: `npm run preview -- --host 127.0.0.1 --port ${previewPort} --ignore-lock`,
-    env: { ASTRO_PREVIEW_BACKGROUND: "1" },
-    url: previewUrl,
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: process.env.PLAYWRIGHT_BASE_URL
+    ? undefined
+    : {
+        command: `npm run preview -- --host 127.0.0.1 --port ${previewPort} --ignore-lock`,
+        env: { ASTRO_PREVIEW_BACKGROUND: "1" },
+        url: previewUrl,
+        reuseExistingServer: !process.env.CI,
+      },
 });

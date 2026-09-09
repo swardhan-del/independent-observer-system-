@@ -255,8 +255,7 @@ export const paperDocuments: PublicDocument[] = [
   makeDocument({
     id: "who-deported-more",
     volume: "Volume II",
-    title:
-      "Who Deported More? Measuring Removals, Returns, and Enforcement Priorities Across Presidential Administrations 2000–2025",
+    title: "Who Deported More? A Guide to Comparing Deportation Statistics",
     category: "Demography & Migration",
     description:
       "A data-defined working paper that separates removals, returns, and expulsions before comparing enforcement priorities across administrations.",
@@ -285,7 +284,7 @@ export const paperDocuments: PublicDocument[] = [
         id: "source-note-5495878",
         label: "Independent Observer",
         citation:
-          "Harsh Wardhan, Siddhartha, Who Deported More? Measuring Removals, Returns, and Enforcement Priorities Across Presidential Administrations 2000–2025 (2025).",
+          "Harsh Wardhan, Siddhartha, Who Deported More? A Guide to Comparing Deportation Statistics (2025).",
       },
     ],
     notes: [

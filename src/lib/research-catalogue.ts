@@ -72,9 +72,7 @@ const paperRecords: ResearchCatalogueRecord[] = [...paperDocuments]
     id: `paper:${paper.id}`,
     title: paper.title,
     category:
-      paper.placementDecision?.status === "held"
-        ? "Placement held · owner approval required"
-        : paper.category,
+      paper.placementDecision?.status === "held" ? "In editorial development" : paper.category,
     description: paper.description,
     status: paper.status ?? "Author paper",
     type: "Research",

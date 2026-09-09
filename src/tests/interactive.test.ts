@@ -17,10 +17,22 @@ import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
 const sourceRoot = join(process.cwd(), "src");
 const header = readFileSync(join(sourceRoot, "components/Header.astro"), "utf8");
 const ambientSound = readFileSync(join(sourceRoot, "components/AmbientSoundControl.astro"), "utf8");
-const search = readFileSync(join(sourceRoot, "components/SiteSearch.astro"), "utf8");
+const search = [
+  "components/SiteSearch.astro",
+  "pages/utilities/search.astro",
+  "lib/search-drawer.ts",
+]
+  .map((path) => readFileSync(join(sourceRoot, path), "utf8"))
+  .join("\n");
 const filter = readFileSync(join(sourceRoot, "components/ContentFilter.astro"), "utf8");
 const card = readFileSync(join(sourceRoot, "components/EditorialCard.astro"), "utf8");
-const readingList = readFileSync(join(sourceRoot, "components/ReadingList.astro"), "utf8");
+const readingList = [
+  "components/ReadingList.astro",
+  "pages/utilities/reading/[context].astro",
+  "lib/reading-drawer.ts",
+]
+  .map((path) => readFileSync(join(sourceRoot, path), "utf8"))
+  .join("\n");
 const layout = readFileSync(join(sourceRoot, "layouts/BaseLayout.astro"), "utf8");
 const series = readFileSync(join(sourceRoot, "pages/series/index.astro"), "utf8");
 const catalogue = readFileSync(join(sourceRoot, "components/PublicationCatalogue.astro"), "utf8");
@@ -224,7 +236,7 @@ describe("interactive preview tools", () => {
     expect(readerVolumeContext).toContain("without repeating their descriptions");
     expect(readerVolumeContext).toContain("Open the {entry.volume} catalogue");
     expect(readerVolumeContext).not.toContain("volumeDocuments.map");
-    expect(readerVolumeContext).toContain("human approval gates");
+    expect(readerVolumeContext).toContain("remains in editorial development");
     expect(papersSource).toContain(
       "author-paper catalogue entry connected to the Independent Observer program",
     );
@@ -339,7 +351,7 @@ describe("interactive preview tools", () => {
     expect(catalogue).toContain("Open investigative file");
     expect(catalogue).toContain("Connected public work");
     expect(catalogue.replace(/\s+/g, " ")).toContain("usage signal only");
-    expect(catalogue).toContain("human approval gates");
+    expect(catalogue).toContain("publication is pending");
     expect(catalogue).toContain("Author-controlled paper pages connected to");
     expect(catalogue).toContain("ResearchGate record ↗");
     expect(catalogue).toContain("Find a volume and its line of inquiry.");
