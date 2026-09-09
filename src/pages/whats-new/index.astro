@@ -10,13 +10,13 @@ import { sitePath } from "../../lib/paths";
 
 <BaseLayout
   title="What’s New"
-  description="A dated release log for approved Independent Observer publications."
+  description="New explanations, reading tools, revisions and work in progress from Independent Observer."
   currentPath="/whats-new/"
 >
   <PageHero
-    eyebrow="Release log"
-    title="What’s new, when it is real."
-    description="This log records owner-approved releases that have passed the publication path. Staged candidates and external preprints stay in their own status lanes."
+    eyebrow="Project updates"
+    title="What’s new."
+    description="Find new explanations, improvements to reading and listening, and revisions to existing work."
   />
   <section class="section section-white" aria-labelledby="website-updates-title">
     <div class="shell prose">
@@ -74,16 +74,13 @@ import { sitePath } from "../../lib/paths";
   <section class="section section-white" aria-labelledby="release-log-title">
     <div class="shell">
       <div class="release-log-empty" data-release-log-empty hidden={releaseLog.length > 0}>
-        <p class="eyebrow">Release desk · human approval lane</p>
+        <p class="eyebrow">Work in progress</p>
         <h2 id={releaseLog.length === 0 ? "release-log-title" : undefined}>
-          The release log is intentionally empty—for now.
+          Six essays in development
         </h2>
-        <span class="sr-only">The release log is intentionally empty.</span>
         <p>
-          The six current candidates remain awaiting human release. They are visible below so the
-          project has a clear public record of what is being prepared. Their metadata can be
-          reviewed in the controlled registry, but no item is represented here as a released
-          publication until its source, rights, quality, and human release gates are complete.
+          These six essays are still being prepared and are not released publications. You can read
+          the available working-paper summaries in the library while this work continues.
         </p>
         <ol class="release-candidate-list">
           {
@@ -91,7 +88,7 @@ import { sitePath } from "../../lib/paths";
               <li>
                 <span>{entry.volume}</span>
                 <strong>{entry.title}</strong>
-                <small>{entry.topics.join(" · ")} · awaiting human release</small>
+                <small>{entry.topics.join(" · ")} · in development</small>
               </li>
             ))
           }

@@ -209,13 +209,25 @@ const structuredData = JSON.stringify({
   </head>
   <body>
     <Header currentPath={currentPath} />
-    <div class="shell reader-toolbar">
-      <AmbientSoundControl />
-      {currentPath === "/series/" ? <ReadingList context="catalogue" /> : <ReadingList />}
-    </div>
+    {
+      currentPath !== "/" && (
+        <div class="shell reader-toolbar">
+          <AmbientSoundControl />
+          {currentPath === "/series/" ? <ReadingList context="catalogue" /> : <ReadingList />}
+        </div>
+      )
+    }
     <main id="main-content">
       <slot />
     </main>
+    {
+      currentPath === "/" && (
+        <div class="shell reader-toolbar" aria-label="Optional reading tools">
+          <AmbientSoundControl />
+          <ReadingList />
+        </div>
+      )
+    }
     <Footer />
     <AnchorOffset />
     <script is:inline>

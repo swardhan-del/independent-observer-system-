@@ -13,6 +13,13 @@ test("homepage offers bounded choices and mobile header leaves room to read", as
     readingPosition: getComputedStyle(document.querySelector(".reading-list-tools")!).position,
   }));
   expect(dimensions.overflow).toBe(false);
+  await expect(page.locator(".hero-summary")).toContainText("Siddhartha Harsh Wardhan");
+  const order = await page.evaluate(() => {
+    const content = document.querySelector("#main-content")!;
+    const tools = document.querySelector(".reader-toolbar")!;
+    return Boolean(content.compareDocumentPosition(tools) & Node.DOCUMENT_POSITION_FOLLOWING);
+  });
+  expect(order).toBe(true);
   expect(dimensions.height).toBeLessThan(isMobile ? 7500 : 4500);
   if (isMobile) expect(dimensions.header).toBeLessThan(140);
   expect(dimensions.readingPosition).toBe("static");

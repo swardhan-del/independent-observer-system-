@@ -1,5 +1,30 @@
 export const siteUpdates = [
   {
+    id: "first-visit-2026-09-09",
+    date: "2026-09-09",
+    title: "A clearer place to begin",
+    changes: [
+      {
+        what: "New here? Start with a three-minute explanation.",
+        why: "The homepage and Start Here now recommend one first read and explain what you will learn.",
+        route: "/start/",
+        label: "Start reading",
+      },
+      {
+        what: "Try a worked example of a misleading comparison.",
+        why: "Invented numbers show why counts need matching definitions. This adds no real-world statistics or new manuscript findings.",
+        route: "/library/documents/who-deported-more/#example",
+        label: "Try the example",
+      },
+      {
+        what: "Meet the author and the purpose behind the project.",
+        why: "The introduction explains who writes the work and how to explore its evidence.",
+        route: "/about/",
+        label: "About Independent Observer",
+      },
+    ],
+  },
+  {
     id: "scholarly-clarity-2026-09-06",
     date: "2026-09-06",
     title: "Trace the claim, understand the research object",
