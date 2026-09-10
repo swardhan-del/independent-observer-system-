@@ -1,0 +1,39 @@
+# Manuscript integration ledger
+
+Tracks full-text manuscript reading editions (distinct from the bounded preview-adaptation
+queue in [`release-candidate-registry.md`](./release-candidate-registry.md) and from the
+author-paper synopsis catalogue). Columns: **source/version → review decision → website route →
+GitHub release → verified live status**, kept as separate, honestly-distinct states per the
+owner's explicit instruction not to collapse them into one.
+
+**Scope note:** this ledger is maintained from a cloud session with access to this GitHub
+repository and to Vercel deployment data, but **no access to the local Dropbox volumes, the
+`Independent-Observer-Taxonomy-20260909` worktree, or `private/audit/*`** (git-ignored,
+never pushed — see `.gitignore`). Anything requiring the source manuscript text for a paper not
+already present in this repository cannot be prepared from here. That boundary is recorded
+per-row below rather than left implicit.
+
+| Manuscript                                                                            | Source / version                                                                               | Review decision                                                                                                                                                                                                                                                                                                                                                                             | Website route                                  | GitHub release                                      | Verified live status                                                        |
+| ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | --------------------------------------------------- | --------------------------------------------------------------------------- |
+| **Manifesto of a Destiny: The Independent Observer Method** (extraction idx 27, D028) | v2.0, July 2026. `sourceTextSha256: 13041ae8c3a5…` (full hash in `manuscripts.generated.json`) | **Authorized.** Owner instructed integration/launch of this specific edition; recorded in `src/data/manuscript-release-registry.ts` (dated 2026-09-10). Editorial/source review beyond that instruction was represented by the PR author, not independently re-verified by this session.                                                                                                    | `/library/manuscripts/manifesto-of-a-destiny/` | PR #48, `feat/manuscript-readers-20260910` → `main` | See "Live verification" section below — filled in after merge, not assumed. |
+| **The Security of Memory** (extraction idx 24, D025)                                  | Not accessible from this session (private/local only)                                          | **NOT INTEGRATED.** Owner-flagged: author-ID placeholders and dated/questionable factual claims; needs correction/review before release.                                                                                                                                                                                                                                                    | none                                           | none                                                | not applicable                                                              |
+| **Quiet Wealth** (extraction idx 36, D037)                                            | Not accessible from this session (private/local only)                                          | **NOT INTEGRATED.** Owner asked for an edition preserving the scholarly text with the unfilled ORCID placeholder and the submission-metadata appendix removed, with an edition note. **This session has no access to the source text** (lives in `private/audit/` or the local Dropbox worktree, neither reachable from this cloud container) and therefore could not prepare that edition. | none                                           | none                                                | not applicable                                                              |
+| **Reputation Debt** (extraction idx 31, D032)                                         | Not accessible from this session (private/local only)                                          | **NOT INTEGRATED.** Owner asked for the trailing "Distribution score" and conversational editing offer removed after the bibliography, documented as cleanup. **This session has no access to the source text** for the same reason as above.                                                                                                                                               | none                                           | none                                                | not applicable                                                              |
+
+## What this session did and did not do
+
+- Did: fix all 5 outstanding review findings on PR #48 for the one manuscript already in this
+  repository (topics, scholarly metadata, status label, family attachment, and a new fail-closed
+  release-authorization gate), verify with the full unit + e2e suite, push, reply to and resolve
+  each review thread, and (once CI and merge conditions are actually satisfied — not assumed)
+  merge and verify the live deployment.
+- Did not: touch, read, or prepare editions for Security of Memory, Quiet Wealth, or Reputation
+  Debt. Those three require access to source material that exists only in the local Dropbox
+  worktree / `private/audit/`, which this cloud session cannot reach. Preparing those editions is
+  work for the session that has that local filesystem access (per the task's own environment
+  description, that is the Claude Code session running on the Mac against the
+  `Independent-Observer-Taxonomy-20260909` worktree).
+- Did not: touch `MASTER_INTEGRATION_MAP.docx` or `START_HERE_INTEGRATION_MAP.md` — both live
+  only at `/Users/siddharthawardhan/Library/CloudStorage/Dropbox/...`, outside this repository and
+  unreachable from this session. This ledger is the in-repository, git-tracked record this session
+  can actually maintain; it complements but does not replace those two documents.

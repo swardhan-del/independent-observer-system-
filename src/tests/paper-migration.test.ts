@@ -43,7 +43,7 @@ describe("author paper migration", () => {
     ]);
   });
 
-  it("keeps legacy internal routes as redirects without exposing the retired platform in pages", () => {
+  it("keeps legacy redirects and navigation free of the retired platform", () => {
     const config = JSON.parse(readFileSync(join(process.cwd(), "vercel.json"), "utf8"));
     const legacyRedirects = config.redirects.filter((redirect: { source: string }) =>
       redirect.source.toLocaleLowerCase().includes(retiredPlatformToken),
@@ -59,9 +59,16 @@ describe("author paper migration", () => {
     ).toBe(true);
 
     for (const file of htmlFiles(join(process.cwd(), "dist"))) {
-      expect(readFileSync(file, "utf8").toLocaleLowerCase(), file).not.toContain(
-        retiredPlatformToken,
+      const html = readFileSync(file, "utf8").toLocaleLowerCase();
+      // Faithful manuscript editions may retain historical platform mentions in author prose.
+      // Navigation, metadata, and all outgoing links must still satisfy the migration.
+      const outsideManuscript = html.replace(
+        /<div class="manuscript-text"[^>]*>[\s\S]*?<\/div>/g,
+        "",
       );
+      expect(outsideManuscript, file).not.toContain(retiredPlatformToken);
+      for (const href of html.matchAll(/href=["']([^"']+)["']/g))
+        expect(href[1], file).not.toContain(retiredPlatformToken);
     }
   });
 });

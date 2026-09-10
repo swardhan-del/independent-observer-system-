@@ -1,3 +1,4 @@
+import { manuscripts, manuscriptPath } from "../../plugins/library-content/manuscripts";
 import { taxonomyEntries } from "../../plugins/library-content/taxonomy";
 import { readingTools } from "./reading-tools";
 import { displayTitle } from "./reader-presentation";
@@ -45,6 +46,21 @@ const topicsForCategory = (category: string) => {
 };
 
 export const searchItems: SearchEntry[] = [
+  ...manuscripts.map((entry) => ({
+    id: "manuscript:" + entry.slug,
+    title: entry.title,
+    description: entry.summary,
+    category: "Governance and method",
+    // A distinct, non-"Author working paper" label: readerStatus() maps that
+    // exact string to "Working-paper summary", which would mislabel this
+    // full-text edition as a summary in the search UI.
+    status: "Full working paper",
+    type: "Research" as const,
+    topics: entry.topics,
+    volume: entry.volume,
+    format: "Full working paper",
+    href: sitePath(manuscriptPath(entry)),
+  })),
   ...taxonomyEntries
     .filter((entry) => !entry.href)
     .map((entry) => ({
