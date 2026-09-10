@@ -1,3 +1,4 @@
+import { manuscripts, manuscriptPath } from "../../plugins/library-content/manuscripts";
 import { documentaryItems, researchItems, videoItems } from "./content";
 import { publicDocumentItems } from "./documents";
 import { seriesItems } from "./series";
@@ -230,6 +231,13 @@ export const canonicalRouteRegistry = [
   ...utilityRoutes,
   ...sectionRoutes,
   ...contentRoutes,
+  ...manuscripts.map((entry) => ({
+    route: manuscriptPath(entry),
+    title: entry.title,
+    type: "research" as const,
+    source: "manuscripts",
+    indexable: true,
+  })),
 ] as CanonicalRouteRecord[];
 
 assertUniqueRoutes(canonicalRouteRegistry);

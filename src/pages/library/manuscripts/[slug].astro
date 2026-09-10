@@ -1,0 +1,102 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { manuscripts, manuscriptPath } from "../../../../plugins/library-content/manuscripts";
+import { sitePath } from "../../../lib/paths";
+export function getStaticPaths() {
+  return manuscripts.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const contents = entry.blocks
+  .map((block, index) => ({ ...block, index }))
+  .filter((block) => block.kind === "heading");
+---
+
+<BaseLayout title={entry.title} description={entry.summary} currentPath={manuscriptPath(entry)}>
+  <article class="shell manuscript">
+    <p>
+      <a href={sitePath("/library/taxonomy/#" + entry.taxonomyId)}
+        >Back to the four-volume research map</a
+      >
+    </p>
+    <header>
+      <p>{entry.volume} · {entry.status}</p>
+      <h1>{entry.title}</h1><p class="subtitle">{entry.subtitle}</p>
+      <p>By {entry.author} · Version {entry.version} · {entry.sourceDate}</p>
+      {entry.frontMatter.map((line) => <p>{line}</p>)}
+      <p class="edition">{entry.editionNote}</p>
+    </header>
+    <nav aria-label="Manuscript contents">
+      <h2>Contents</h2><ol>
+        {
+          contents.map((section) => (
+            <li>
+              <a href={"#section-" + section.index}>{section.text}</a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+    <div class="manuscript-text">
+      {
+        entry.blocks.map((block, index) =>
+          block.kind === "heading" ? (
+            <h2 id={"section-" + index}>{block.text}</h2>
+          ) : (
+            <p>{block.text}</p>
+          ),
+        )
+      }
+    </div>
+    <footer>
+      <p>
+        <a href={sitePath("/library/taxonomy/#" + entry.taxonomyId)}>Return to the research map</a>
+      </p>
+    </footer>
+  </article>
+</BaseLayout>
+<style>
+  .manuscript {
+    max-width: 78ch;
+    padding-block: 2rem 5rem;
+    overflow-wrap: anywhere;
+  }
+  h1 {
+    line-height: 1.15;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+  }
+  .subtitle {
+    font-size: 1.3rem;
+  }
+  .edition {
+    padding: 1rem;
+    border-left: 3px solid currentColor;
+  }
+  nav {
+    margin-block: 2rem;
+    padding: 1rem;
+    background: var(--surface-soft, #eeeae1);
+  }
+  .manuscript-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+  .manuscript-text h2 {
+    margin-top: 2.5rem;
+    scroll-margin-top: 16rem;
+  }
+  footer {
+    margin-top: 3rem;
+  }
+  @media print {
+    nav {
+      display: none;
+    }
+    .manuscript {
+      max-width: none;
+      padding: 0;
+    }
+    .manuscript-text {
+      font-size: 11pt;
+    }
+  }
+</style>

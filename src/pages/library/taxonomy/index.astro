@@ -86,7 +86,13 @@ const branchesFor = (volume: string) => [
                     </h4>
                     <p class="entry-status">{entry.status}</p>
                     <p>{entry.summary}</p>
-                    {entry.href && <a href={sitePath(entry.href)}>Open the reading record</a>}
+                    {entry.href && (
+                      <a href={sitePath(entry.href)}>
+                        {entry.href.startsWith("/library/manuscripts/")
+                          ? "Read the full working paper"
+                          : "Open the reading record"}
+                      </a>
+                    )}
                   </article>
                 ))}
             </section>
