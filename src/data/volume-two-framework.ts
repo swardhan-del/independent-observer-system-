@@ -100,8 +100,7 @@ export const volumeTwoFramework: VolumeTwoFramework = {
           href: "/library/documents/citizens-without-a-country/",
         },
         {
-          title:
-            "Who Deported More? Measuring Removals, Returns, and Enforcement Priorities Across Presidential Administrations 2000–2025",
+          title: "Who Deported More? A Guide to Comparing Deportation Statistics",
           description:
             "Separates removals, returns, expulsions, interior enforcement, border enforcement, and expedited removal before comparing administrative priorities. The definitions-first approach shows how prosecutorial discretion, detainer policy, reporting periods, and resource allocation can change headline counts without proving a simple increase or decrease in total enforcement.",
           status: "Public paper record",

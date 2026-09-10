@@ -208,7 +208,7 @@ describe("library content blocks", () => {
     expect(siteSearch).toContain("...publicDocumentItems.map");
     expect(siteSearch).toContain("Working-paper summary");
     expect(siteSearch).toContain("ResearchGate record");
-    expect(readFileSync(join(sourceRoot, "components/SiteSearch.astro"), "utf8")).toContain(
+    expect(readFileSync(join(sourceRoot, "pages/utilities/search.astro"), "utf8")).toContain(
       "Search papers, podcast transcripts, fields, and volume guides",
     );
   });

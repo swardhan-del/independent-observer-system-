@@ -28,9 +28,9 @@ test("homepage offers bounded choices and mobile header leaves room to read", as
   await page.keyboard.press("Escape");
   if (isMobile) {
     await page.locator(".mobile-nav summary").click();
-    await page.locator(".mobile-nav").getByRole("link", { name: "Read", exact: true }).click();
+    await page.locator(".mobile-nav").getByRole("link", { name: "Library", exact: true }).click();
   } else {
-    await page.locator(".desktop-nav").getByRole("link", { name: "Read", exact: true }).click();
+    await page.locator(".desktop-nav").getByRole("link", { name: "Library", exact: true }).click();
   }
   await expect(page).toHaveURL(/\/library\/$/);
 });
@@ -70,7 +70,10 @@ test("global search preserves the catalogue's filters across reload", async ({ p
   await page.locator('[data-search-filter="status"]').selectOption("Working-paper summary");
   await expect(page.locator("[data-search-result]").first()).toBeVisible();
   expect(new URL(page.url()).searchParams.get("status")).toBe("concept preview");
-  expect(new URL(page.url()).searchParams.get("search-status")).toBe("Working-paper summary");
+  expect(new URL(page.url()).searchParams.has("search-status")).toBe(false);
+  expect(await page.evaluate(() => JSON.parse(sessionStorage.getItem("io:search")!).status)).toBe(
+    "Working-paper summary",
+  );
   await page.reload();
   await expect(activeFilter).toHaveAttribute("aria-pressed", "true");
 });

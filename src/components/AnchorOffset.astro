@@ -1,4 +1,7 @@
 <script>
+  document.querySelector<HTMLAnchorElement>(".skip-link")?.addEventListener("click", () => {
+    document.getElementById("main-content")?.focus();
+  });
   const masthead = document.querySelector<HTMLElement>(".site-header");
   if (masthead) {
     const measure = () =>

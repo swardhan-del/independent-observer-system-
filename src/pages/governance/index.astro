@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import { sitePath } from "../../lib/paths";
+---
+
+<BaseLayout
+  title="Editorial standards & privacy"
+  description="How to read Independent Observer status labels, request corrections, understand browser-local tools, and ask about reuse or disclosures."
+  currentPath="/governance/"
+>
+  <PageHero
+    eyebrow="Standards & trust"
+    title="How this work is presented."
+    description="A compact guide to editorial standards, corrections, privacy, reuse, and disclosures."
+  />
+  <section class="section section-white">
+    <div class="shell prose">
+      <h2>Editorial standards</h2>
+      <p>
+        Independent Observer separates evidence, interpretation, and proposals. Public records
+        identify sources and limitations where available. Working papers, concept previews, and
+        books in editorial development retain their status labels; availability on this site does
+        not imply peer review or a finished book.
+      </p>
+      <h2>Corrections</h2>
+      <p>
+        To question a claim or report an error, use the <a href={sitePath("/contact/")}
+          >contact page</a
+        >. Include the page address, the passage, and evidence supporting a correction. Public paper
+        revisions are listed when recorded; site changes appear in <a href={sitePath("/whats-new/")}
+          >What’s New</a
+        >. An inquiry does not guarantee a reply.
+      </p>
+      <h2>Privacy</h2>
+      <p>
+        Search runs in your browser after downloading a public index. Search queries are not
+        submitted to a search server. Reading lists, tags, and reading status use local browser
+        storage; you can clear saved items or export them. Imported reading lists are processed on
+        your device.
+      </p>
+      <p>
+        The contact page prepares an email draft or copies text for your webmail. It does not submit
+        a form to this website. Your email provider handles messages you send. Visiting the website
+        still requires ordinary network requests to its hosting provider. External links open
+        services with their own privacy practices; non-production versions may also include
+        hosting-provider review tools.
+      </p>
+      <h2>Copyright and reuse</h2>
+      <p>
+        Public access does not itself grant permission to republish material. Follow any rights or
+        licence notice attached to an item. Source material and linked third-party work may have
+        separate rights. For permission or a rights concern, identify the material and intended use
+        through the <a href={sitePath("/contact/")}>contact page</a>.
+      </p>
+      <h2>Disclosures</h2>
+      <p>
+        This is an independent research and media project. Author working papers and concepts
+        express their authors’ analysis; links to source institutions or distribution platforms do
+        not imply endorsement. Historical downloads and views are dated distribution signals, not
+        evidence of scholarly quality. Publication status is stated on each record.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

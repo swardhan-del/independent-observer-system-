@@ -142,7 +142,7 @@ export const archivePapers: ArchivePaper[] = [
   paper("detained-at-border", "Detained at the Border"),
   paper(
     "who-deported-more",
-    "Who Deported More? Measuring Removals, Returns, and Enforcement Priorities Across Presidential Administrations 2000–2025",
+    "Who Deported More? A Guide to Comparing Deportation Statistics",
     "Public author paper",
     "/library/documents/who-deported-more/",
   ),

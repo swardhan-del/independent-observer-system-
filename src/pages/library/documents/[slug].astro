@@ -3,6 +3,7 @@ import { displayTitle, summaryDescription } from "../../../data/reader-presentat
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import DocumentReader from "../../../components/DocumentReader.astro";
 import { publicDocumentItems } from "../../../data/documents";
+import { publicationRevisions } from "../../../data/publication-revisions";
 import VolumeOneSourceMap from "../../../components/VolumeOneSourceMap.astro";
 
 export function getStaticPaths() {
@@ -26,6 +27,8 @@ const documentIndex = publicDocumentItems.findIndex((candidate) => candidate.id 
     author: entry.author ?? "Independent Observer",
     publicationDate: entry.publicationDate,
     status: entry.status,
+    dateModified: publicationRevisions.find((revision) => revision.documentId === entry.id)?.date,
+    keywords: [entry.category, ...(entry.volume ? [entry.volume] : [])],
     sameAs: entry.researchGateUrl,
     fingerprintSha256: entry.sourceFingerprintSha256,
     rightsNotice: entry.rightsNotice,
