@@ -7,6 +7,7 @@ import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 import { previewGreenPublications } from "./green-publications";
 import { familyIdForKey } from "./family-registry";
+import { isManuscriptAuthorizedForRelease } from "./manuscript-release-registry";
 
 export type CanonicalRouteType =
   | "home"
@@ -236,7 +237,10 @@ export const canonicalRouteRegistry = [
     title: entry.title,
     type: "research" as const,
     source: "manuscripts",
-    indexable: true,
+    familyId: entry.familyId,
+    // Fail-closed: a manuscript route is only indexable once its edition has
+    // an explicit record in manuscriptReleaseAuthorizations.
+    indexable: isManuscriptAuthorizedForRelease(entry.slug),
   })),
 ] as CanonicalRouteRecord[];
 

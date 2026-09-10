@@ -12,6 +12,8 @@
     "summary": "A standards-based method for evaluating governance, institutional trust, and economic performance across political coalitions.",
     "sourceTextSha256": "13041ae8c3a51f12de1796980af468362a157b7b075704d0127aee3e870bee3d",
     "editionNote": "Reading edition of the author's July 2026 working paper, version 2.0. Front-matter metadata is presented above the text. The paper's arguments, references, press summary, and supplement are retained. Working-paper claims have not been independently peer reviewed.",
+    "familyId": "IO-FAMILY-INDEPENDENT-OBSERVER-METHOD",
+    "topics": ["Politics", "Law"],
     "blocks": [
       {
         "kind": "paragraph",

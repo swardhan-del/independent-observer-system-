@@ -14,6 +14,10 @@ export type Manuscript = {
   editionNote: string;
   frontMatter: string[];
   blocks: { kind: string; text: string }[];
+  /** Canonical archive family this edition belongs to (see src/data/family-registry.ts). */
+  familyId: string;
+  /** Site topic-hub names this edition should surface under in search/filtering. */
+  topics: string[];
 };
 export const manuscripts: Manuscript[] = entries;
 export const manuscriptPath = (entry: Manuscript) => `/library/manuscripts/${entry.slug}/`;

@@ -51,8 +51,12 @@ export const searchItems: SearchEntry[] = [
     title: entry.title,
     description: entry.summary,
     category: "Governance and method",
-    status: entry.status,
+    // A distinct, non-"Author working paper" label: readerStatus() maps that
+    // exact string to "Working-paper summary", which would mislabel this
+    // full-text edition as a summary in the search UI.
+    status: "Full working paper",
     type: "Research" as const,
+    topics: entry.topics,
     volume: entry.volume,
     format: "Full working paper",
     href: sitePath(manuscriptPath(entry)),
