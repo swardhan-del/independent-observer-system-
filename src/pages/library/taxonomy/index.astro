@@ -1,0 +1,201 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHero from "../../../components/PageHero.astro";
+import { taxonomyEntries, taxonomyVolumes } from "../../../../plugins/library-content/taxonomy";
+import { sitePath } from "../../../lib/paths";
+const branchesFor = (volume: string) => [
+  ...new Set(taxonomyEntries.filter((e) => e.volume === volume).map((e) => e.branch)),
+];
+---
+
+<BaseLayout
+  title="Four volume research map"
+  description="Explore the Independent Observer research programme by volume, subject and paper."
+  currentPath="/library/taxonomy/"
+>
+  <PageHero
+    eyebrow="Research map"
+    title="Explore the four volumes."
+    description="Follow the project from evidence and method through political power, economic life, science and human capability."
+  />
+  <div class="shell taxonomy" data-taxonomy>
+    <p><a href={sitePath("/library/")}>Back to the research library</a></p>
+    <p>
+      This map describes research manuscripts and their subjects. A map entry identifies work in the
+      programme; its status and reading link show what is currently available. Related revisions are
+      represented together where their identity is established.
+    </p>
+    <nav aria-label="Jump to a volume">
+      <ul class="volume-links">
+        {
+          taxonomyVolumes.map((volume, i) => (
+            <li>
+              <a href={"#volume-" + (i + 1)}>{volume}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <form role="search" class="taxonomy-controls" onsubmit="return false">
+      <label for="taxonomy-query"
+        >Find a paper or subject<input
+          id="taxonomy-query"
+          type="search"
+          placeholder="Search titles, subjects and summaries"
+        /></label
+      >
+      <label for="taxonomy-volume"
+        >Volume<select aria-label="Volume" id="taxonomy-volume"
+          ><option value="">All four volumes</option>{
+            taxonomyVolumes.map((v) => <option>{v}</option>)
+          }</select
+        ></label
+      >
+      <button type="reset">Clear filters</button>
+    </form>
+    <p id="taxonomy-count" role="status" aria-live="polite">
+      {taxonomyEntries.length} research entries
+    </p>
+    <p data-empty hidden>
+      No entries match these filters. Try a shorter phrase or choose all volumes.
+    </p>
+    {
+      taxonomyVolumes.map((volume, index) => (
+        <section id={"volume-" + (index + 1)} data-volume-section>
+          <h2>{volume}</h2>
+          {branchesFor(volume).map((branch) => (
+            <section data-branch-section class="taxonomy-branch">
+              <h3>{branch}</h3>
+              {taxonomyEntries
+                .filter((e) => e.volume === volume && e.branch === branch)
+                .map((entry) => (
+                  <article
+                    id={entry.id}
+                    data-entry
+                    data-volume={entry.volume}
+                    data-search={(
+                      entry.title +
+                      " " +
+                      entry.branch +
+                      " " +
+                      entry.summary
+                    ).toLocaleLowerCase()}
+                  >
+                    <h4>
+                      <a href={"#" + entry.id}>{entry.title}</a>
+                    </h4>
+                    <p class="entry-status">{entry.status}</p>
+                    <p>{entry.summary}</p>
+                    {entry.href && <a href={sitePath(entry.href)}>Open the reading record</a>}
+                  </article>
+                ))}
+            </section>
+          ))}
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>
+<script>
+  const root = document.querySelector<HTMLElement>("[data-taxonomy]");
+  if (root) {
+    const form = root.querySelector<HTMLFormElement>("form")!;
+    const query = root.querySelector<HTMLInputElement>("#taxonomy-query")!;
+    const volume = root.querySelector<HTMLSelectElement>("#taxonomy-volume")!;
+    const entries = [...root.querySelectorAll<HTMLElement>("[data-entry]")];
+    const update = () => {
+      const words = query.value.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
+      let shown = 0;
+      for (const entry of entries) {
+        const match =
+          (!volume.value || entry.dataset.volume === volume.value) &&
+          words.every((word) => (entry.dataset.search || "").includes(word));
+        entry.hidden = !match;
+        if (match) shown++;
+      }
+      for (const section of root.querySelectorAll<HTMLElement>(
+        "[data-branch-section], [data-volume-section]",
+      )) {
+        section.hidden = ![...section.querySelectorAll<HTMLElement>("[data-entry]")].some(
+          (e) => !e.hidden,
+        );
+      }
+      root.querySelector("#taxonomy-count")!.textContent =
+        shown + " of " + entries.length + " research entries";
+      root.querySelector<HTMLElement>("[data-empty]")!.hidden = shown !== 0;
+    };
+    query.addEventListener("input", update);
+    volume.addEventListener("change", update);
+    form.addEventListener("reset", () => {
+      query.value = "";
+      volume.value = "";
+      update();
+    });
+  }
+</script>
+<style>
+  .taxonomy {
+    max-width: 72rem;
+    padding-bottom: 5rem;
+  }
+  .taxonomy > p {
+    max-width: 75ch;
+  }
+  .volume-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 1rem;
+    list-style: none;
+  }
+  .taxonomy-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: end;
+    margin: 2rem 0;
+  }
+  .taxonomy-controls label {
+    display: grid;
+    gap: 0.5rem;
+    flex: 1 1 15rem;
+  }
+  .taxonomy-controls input,
+  .taxonomy-controls select,
+  .taxonomy-controls button {
+    font: inherit;
+    padding: 0.75rem;
+    border: 1px solid currentColor;
+    border-radius: 0.3rem;
+    min-height: 44px;
+  }
+  .taxonomy-controls button {
+    cursor: pointer;
+  }
+  .taxonomy-branch {
+    margin: 2rem 0;
+  }
+  .taxonomy article {
+    padding: 1.4rem 0;
+    border-bottom: 1px solid #d1d5db;
+    max-width: 80ch;
+    scroll-margin-top: 7rem;
+  }
+  .taxonomy h2 {
+    margin-top: 3rem;
+  }
+  .taxonomy h4 {
+    font-size: 1.15rem;
+    line-height: 1.5;
+  }
+  .taxonomy h4 a {
+    color: inherit;
+  }
+  .entry-status {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .taxonomy [hidden] {
+    display: none !important;
+  }
+</style>

@@ -32,6 +32,13 @@ export type CanonicalRouteRecord = {
 
 const sectionRoutes: CanonicalRouteRecord[] = [
   {
+    route: "/library/taxonomy/",
+    title: "Four volume research map",
+    type: "section",
+    source: "taxonomy",
+    indexable: true,
+  },
+  {
     route: "/reading-tools/",
     title: "Reading tools: test a claim",
     type: "section",

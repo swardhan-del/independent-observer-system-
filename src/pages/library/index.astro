@@ -25,6 +25,16 @@ const { areas, note, stats } = publicLibrarySnapshot;
     description="Search paper summaries on power, work, evidence and technology. Each record identifies its sources, limitations and publication status."
   />
 
+  <section class="shell" aria-labelledby="taxonomy-invitation">
+    <h2 id="taxonomy-invitation">Explore the complete research map</h2><p>
+      Browse the four volumes by subject and manuscript, with summaries and links to available
+      reading records.
+    </p><p>
+      <a class="button button-secondary" href={sitePath("/library/taxonomy/")}
+        >Open the four volume taxonomy</a
+      >
+    </p>
+  </section>
   <LibraryResearchShelf />
   <ReadingToolsInvitation />
   <details class="shell library-background">

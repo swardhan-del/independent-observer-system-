@@ -1,3 +1,4 @@
+import { taxonomyEntries } from "../../plugins/library-content/taxonomy";
 import { readingTools } from "./reading-tools";
 import { displayTitle } from "./reader-presentation";
 import { historyPodcastEpisodes } from "./podcast";
@@ -44,6 +45,20 @@ const topicsForCategory = (category: string) => {
 };
 
 export const searchItems: SearchEntry[] = [
+  ...taxonomyEntries
+    .filter((entry) => !entry.href)
+    .map((entry) => ({
+      id: `taxonomy:${entry.id}`,
+      title: entry.title,
+      description: entry.summary,
+      category: entry.branch,
+      status: entry.status,
+      type: "Research" as const,
+      topics: topicsForCategory(entry.branch),
+      volume: entry.volume,
+      format: "Research map entry",
+      href: sitePath(`/library/taxonomy/#${entry.id}`),
+    })),
   ...readingTools.map((tool) => ({
     id: `reading-tool:${tool.id}`,
     title: tool.title,
