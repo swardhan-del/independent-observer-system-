@@ -50,7 +50,14 @@ export const searchItems: SearchEntry[] = [
     id: "manuscript:" + entry.slug,
     title: entry.title,
     description: entry.summary,
-    category: "Governance and method",
+    // Carries over the manuscript's own taxonomy branch instead of a fixed
+    // category, so promoting a taxonomy entry to full text (which removes it
+    // from the taxonomy-derived entries below) doesn't drop its branch from
+    // search category matching. Falls back to a generic label only if a
+    // manuscript's taxonomyId has no matching taxonomy entry.
+    category:
+      taxonomyEntries.find((taxonomyEntry) => taxonomyEntry.id === entry.taxonomyId)?.branch ??
+      "Governance and method",
     // A distinct, non-"Author working paper" label: readerStatus() maps that
     // exact string to "Working-paper summary", which would mislabel this
     // full-text edition as a summary in the search UI.

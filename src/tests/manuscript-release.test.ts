@@ -8,6 +8,8 @@ import { canonicalRouteRegistry } from "../data/route-registry";
 import { searchItems } from "../data/search-index";
 import { archiveFamilyIds } from "../data/family-registry";
 import { topics } from "../data/content";
+import { citationDate } from "../lib/citations";
+import { taxonomyEntries } from "../../plugins/library-content/taxonomy";
 
 describe("manuscript release authorization is fail-closed", () => {
   it("treats an unrecorded manuscript slug as not authorized", () => {
@@ -79,6 +81,34 @@ describe("manuscript metadata fixes", () => {
         expect(topicNames.has(topic), `${topic} is not a recognized site topic`).toBe(true);
       }
     }
+  });
+
+  it("carries each manuscript's own taxonomy branch into search, not a fixed category", () => {
+    // Codex P2 finding on PR #51: a hardcoded category dropped a promoted
+    // manuscript out of its taxonomy branch for search-category matching.
+    const manuscriptEntries = searchItems.filter((entry) => entry.id.startsWith("manuscript:"));
+    for (const entry of manuscripts) {
+      const taxonomyEntry = taxonomyEntries.find((candidate) => candidate.id === entry.taxonomyId);
+      const searchEntry = manuscriptEntries.find(
+        (candidate) => candidate.id === `manuscript:${entry.slug}`,
+      );
+      expect(searchEntry).toBeDefined();
+      if (taxonomyEntry) {
+        expect(searchEntry?.category).toBe(taxonomyEntry.branch);
+      }
+    }
+  });
+
+  it("stores Quiet Wealth's exact source date in a format the citation parser accepts", () => {
+    // Codex P2 finding on PR #51: citationDate() only accepts YYYY-MM-DD or
+    // "D Month YYYY". Quiet Wealth's source gives an exact day ("September
+    // 28, 2025"), so that day should not be silently dropped from
+    // citation_publication_date / Schema.org datePublished. Manifesto and
+    // Reputation Debt give only a month and year in their source text (no
+    // day to preserve), so citationDate() correctly returns null for those
+    // and they are not asserted here.
+    const quietWealth = manuscripts.find((entry) => entry.slug === "quiet-wealth");
+    expect(citationDate(quietWealth?.sourceDate)).toBe("2025-09-28");
   });
 });
 
