@@ -33,6 +33,24 @@ export const manuscriptReleaseAuthorizations: ManuscriptReleaseAuthorization[] =
     authorizationNote:
       "Owner instructed integration and launch of this specific reviewed edition directly, in the session that opened PR #48, and reaffirmed the instruction when asked to finish the PR's review findings. Recorded here as the release-authorization record required before this manuscript route becomes indexable.",
   },
+  {
+    manuscriptSlug: "reputation-debt",
+    edition:
+      "Reputation Debt: How Public Contempt Creates Future Cooperation Costs in Politics and Markets (January 2026 working paper)",
+    authorizedBy: "Siddhartha Harsh Wardhan (site owner)",
+    authorizedDate: "2026-09-11",
+    authorizationNote:
+      "Owner's source-review notes instructed a reading edition of this paper with the trailing \"Distribution score\" self-rating and the informal offer to produce alternate-length versions removed from after the bibliography, and asked that the cleanup be documented. That is the existing instruction this record reflects, not a new approval requirement; it does not by itself assert independent source/editorial review beyond the owner's own review notes, or production-deployment verification, which remain separately tracked states.",
+  },
+  {
+    manuscriptSlug: "quiet-wealth",
+    edition:
+      "Quiet Wealth as Risk Management: A Conceptual Framework for Status Exposure, Envy, and Lawful Asset Protection (September 28, 2025 working paper)",
+    authorizedBy: "Siddhartha Harsh Wardhan (site owner)",
+    authorizedDate: "2026-09-11",
+    authorizationNote:
+      "Owner's source-review notes instructed a reading edition of this paper with the unfilled ORCID placeholder and the appendix the source itself labeled \"optional, not part of the scholarly text\" (suggested submission metadata for distribution platforms) removed, with an edition note documenting the change. That is the existing instruction this record reflects, not a new approval requirement; it does not by itself assert independent source/editorial review beyond the owner's own review notes, or production-deployment verification, which remain separately tracked states.",
+  },
 ];
 
 export function isManuscriptAuthorizedForRelease(slug: string): boolean {

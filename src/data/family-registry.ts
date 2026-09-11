@@ -12,6 +12,8 @@ export const archiveFamilyIds = {
   borrowedLabor: "IO-FAMILY-BORROWED-LABOR",
   democracysAchillesHeel: "IO-FAMILY-DEMOCRACYS-ACHILLES-HEEL",
   independentObserverMethod: "IO-FAMILY-INDEPENDENT-OBSERVER-METHOD",
+  reputationDebt: "IO-FAMILY-REPUTATION_DEBT",
+  quietWealth: "IO-FAMILY-QUIET_WEALTH",
 } as const;
 
 const aliasToFamilyId: Record<string, string> = {
@@ -38,6 +40,9 @@ const aliasToFamilyId: Record<string, string> = {
   "the-independent-observer-method": archiveFamilyIds.independentObserverMethod,
   "the-independent-observer-method-candidate": archiveFamilyIds.independentObserverMethod,
   "io-v1-independent-observer-method": archiveFamilyIds.independentObserverMethod,
+  "reputation-debt": archiveFamilyIds.reputationDebt,
+  "quiet-wealth": archiveFamilyIds.quietWealth,
+  "quiet-wealth-as-risk-management": archiveFamilyIds.quietWealth,
   "children-left-behind-after-a-war": "IO-FAMILY-CHILDREN-LEFT-BEHIND",
   "children-left-behind": "IO-FAMILY-CHILDREN-LEFT-BEHIND",
   "american-empire-was-never-a-democracy": "IO-FAMILY-AMERICAN-EMPIRE-NEVER-DEMOCRACY",
