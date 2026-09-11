@@ -81,3 +81,43 @@ describe("manuscript metadata fixes", () => {
     }
   });
 });
+
+describe("Quiet Wealth and Reputation Debt reading editions apply the requested cleanup", () => {
+  const quietWealth = manuscripts.find((entry) => entry.slug === "quiet-wealth");
+  const reputationDebt = manuscripts.find((entry) => entry.slug === "reputation-debt");
+
+  it("integrates both editions with their release authorizations recorded", () => {
+    expect(quietWealth).toBeDefined();
+    expect(reputationDebt).toBeDefined();
+    expect(isManuscriptAuthorizedForRelease("quiet-wealth")).toBe(true);
+    expect(isManuscriptAuthorizedForRelease("reputation-debt")).toBe(true);
+  });
+
+  it("removes the unfilled ORCID placeholder and submission-metadata appendix from Quiet Wealth", () => {
+    // Checked against the manuscript body only: the edition note legitimately
+    // names what it removed, so it is excluded from this assertion on purpose.
+    const bodyText = JSON.stringify(quietWealth?.blocks).toLocaleLowerCase();
+    const frontMatterText = JSON.stringify(quietWealth?.frontMatter).toLocaleLowerCase();
+    expect(bodyText).not.toContain("insert here");
+    expect(frontMatterText).not.toContain("insert here");
+    expect(bodyText).not.toContain("appendix a");
+    expect(bodyText).not.toContain("conflict-of-interest statement");
+    expect(quietWealth?.editionNote.length).toBeGreaterThan(20);
+  });
+
+  it("removes the trailing distribution score and editing offer from Reputation Debt", () => {
+    // Checked against the manuscript body only: the edition note legitimately
+    // names what it removed, so it is excluded from this assertion on purpose.
+    const bodyText = JSON.stringify(reputationDebt?.blocks).toLocaleLowerCase();
+    expect(bodyText).not.toContain("distribution score");
+    expect(bodyText).not.toContain("shorter ssrn-optimized");
+    expect(bodyText).not.toContain("i can also reprint");
+    expect(reputationDebt?.editionNote.length).toBeGreaterThan(20);
+  });
+
+  it("keeps a source-text fingerprint for both editions so the original extraction stays traceable", () => {
+    for (const entry of [quietWealth, reputationDebt]) {
+      expect(entry?.sourceTextSha256).toMatch(/^[0-9a-f]{64}$/);
+    }
+  });
+});
