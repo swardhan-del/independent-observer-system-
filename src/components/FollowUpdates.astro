@@ -5,15 +5,17 @@ const { id } = Astro.props;
 const updates = socialLinks.find((link) => link.label === "Substack")!;
 ---
 
-<aside id={id} class="follow-updates" aria-label="Follow Independent Observer">
-  <h2>Follow new research.</h2>
+<aside id={id} class="follow-updates" aria-label="Join Independent Observer">
+  <p class="eyebrow">The Observer Brief</p>
+  <h2>One serious idea. The evidence behind it.</h2>
   <p>
-    Get research notes and publishing updates through the Independent Observer Substack profile. You
-    choose whether to follow there. Prefer audio? Copy the podcast feed into your listening app.
+    Join the free Independent Observer reader list for research notes, new-paper alerts, and publishing
+    updates. Core public research remains free to read.
   </p>
-  <a href={updates.href} target="_blank" rel="noopener noreferrer">Follow on Substack ↗</a>
+  <a class="button" href={sitePath("/join/")}>Join free →</a>
+  <a href={updates.href} target="_blank" rel="noopener noreferrer">Current email channel: Substack ↗</a>
   <a href={sitePath("/podcast/feed.xml")}>Get the podcast feed →</a>
-  <a href={sitePath("/whats-new/")}>See what has changed →</a>
+  <a href={sitePath("/latest/")}>See the latest research →</a>
 </aside>
 <style>
   .follow-updates {
@@ -29,6 +31,8 @@ const updates = socialLinks.find((link) => link.label === "Substack")!;
   .follow-updates a {
     display: inline-block;
     margin: 8px 20px 8px 0;
+  }
+  .follow-updates a:not(.button) {
     text-decoration: underline;
   }
 </style>
