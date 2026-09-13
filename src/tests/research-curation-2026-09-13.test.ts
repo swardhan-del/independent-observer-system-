@@ -14,17 +14,25 @@ describe("13 September research curation", () => {
       const entry = publicDocumentItems.find((document) => document.id === id);
       expect(entry).toBeDefined();
       expect(entry?.status).toBe("Author working paper");
-      expect(entry?.reviewScope?.independentReview).toContain("No independent scholarly peer review");
-      expect(entry?.sections.some((section) => section.id === "publication-boundary")).toBe(true);
+      expect(entry?.reviewScope?.independentReview).toContain(
+        "No independent scholarly peer review",
+      );
+      expect(entry?.sections.some((section) => section.id === "publication-boundary")).toBe(
+        true,
+      );
     }
   });
 
   it("places the new research records in the correct volume maps", () => {
     expect(
-      volumeResearchMap.find((volume) => volume.volume === "Volume II")?.papers.map((paper) => paper.id),
+      volumeResearchMap
+        .find((volume) => volume.volume === "Volume II")
+        ?.papers.map((paper) => paper.id),
     ).toContain("history-is-not-a-moral-certificate");
     expect(
-      volumeResearchMap.find((volume) => volume.volume === "Volume III")?.papers.map((paper) => paper.id),
+      volumeResearchMap
+        .find((volume) => volume.volume === "Volume III")
+        ?.papers.map((paper) => paper.id),
     ).toContain("richer-republic-weaker-hegemon");
   });
 
@@ -39,8 +47,12 @@ describe("13 September research curation", () => {
         "headline-checklist",
       ]),
     );
-    expect(entry.sections.find((section) => section.id === "annotation-schema")?.table?.rows).toHaveLength(6);
+    expect(
+      entry.sections.find((section) => section.id === "annotation-schema")?.table?.rows,
+    ).toHaveLength(6);
     expect(entry.updatedDate).toBe("13 September 2026");
-    expect(entry.notes?.join(" ")).toContain("does not add a new dataset or an administration ranking");
+    expect(entry.notes?.join(" ")).toContain(
+      "does not add a new dataset or an administration ranking",
+    );
   });
 });
