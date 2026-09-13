@@ -13,7 +13,7 @@ test("homepage offers bounded choices and mobile header leaves room to read", as
     readingPosition: getComputedStyle(document.querySelector(".reading-list-tools")!).position,
   }));
   expect(dimensions.overflow).toBe(false);
-  await expect(page.locator(".hero-summary")).toContainText("Siddhartha Harsh Wardhan");
+  await expect(page.locator(".hero-summary")).toContainText("sources you can check");
   const order = await page.evaluate(() => {
     const content = document.querySelector("#main-content")!;
     const tools = document.querySelector(".reader-toolbar")!;
@@ -28,9 +28,9 @@ test("homepage offers bounded choices and mobile header leaves room to read", as
   await page.keyboard.press("Escape");
   if (isMobile) {
     await page.locator(".mobile-nav summary").click();
-    await page.locator(".mobile-nav").getByRole("link", { name: "Library", exact: true }).click();
+    await page.locator(".mobile-nav").getByRole("link", { name: "Read", exact: true }).click();
   } else {
-    await page.locator(".desktop-nav").getByRole("link", { name: "Library", exact: true }).click();
+    await page.locator(".desktop-nav").getByRole("link", { name: "Read", exact: true }).click();
   }
   await expect(page).toHaveURL(/\/library\/$/);
 });
@@ -52,13 +52,20 @@ test("readable search statuses filter the existing index and preserve old links"
   await expect(page.locator('[data-search-filter="status"]')).toHaveValue("");
 });
 
-test("desktop More links are clickable outside the masthead", async ({ page, isMobile }) => {
-  test.skip(isMobile, "Mobile uses the expanded menu");
+test("primary navigation stays bounded and exposes the join path", async ({ page, isMobile }) => {
   await page.goto("/");
-  await page.locator(".more-navigation > summary").click();
-  const contact = page.locator(".more-navigation-links").getByRole("link", { name: "Contact" });
-  await contact.click();
-  await expect(page).toHaveURL(/\/contact\/$/);
+  if (isMobile) {
+    await page.locator(".mobile-nav summary").click();
+    const nav = page.locator(".mobile-nav nav");
+    await expect(nav.getByRole("link")).toHaveCount(6);
+    await nav.getByRole("link", { name: "Join", exact: true }).click();
+  } else {
+    const nav = page.locator(".desktop-nav");
+    await expect(nav.getByRole("link")).toHaveCount(6);
+    await nav.getByRole("link", { name: "Join", exact: true }).click();
+  }
+  await expect(page).toHaveURL(/\/join\/$/);
+  await expect(page.getByRole("heading", { name: "Read freely. Return regularly. Support when it is useful." })).toBeVisible();
 });
 
 test("global search preserves the catalogue's filters across reload", async ({ page }) => {
