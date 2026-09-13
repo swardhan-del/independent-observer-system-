@@ -6,7 +6,9 @@ import { scholarlyIdentityFor } from "../data/scholarly-identifiers";
 type Props = { entry: PublicDocument };
 const { entry } = Astro.props as Props;
 const scholarly = scholarlyIdentityFor(entry.id);
-const hasRecord = Boolean(scholarly || entry.researchGateUrl || entry.author === authorIdentity.name);
+const hasRecord = Boolean(
+  scholarly || entry.researchGateUrl || entry.author === authorIdentity.name,
+);
 ---
 
 {
@@ -16,9 +18,9 @@ const hasRecord = Boolean(scholarly || entry.researchGateUrl || entry.author ===
         <p class="eyebrow">Research identity</p>
         <h2 id={`scholarly-record-${entry.id}`}>Underlying scholarly record</h2>
         <p>
-          This web page is a reader-facing Independent Observer record. Where a separately distributed
-          working paper has a verified scholarly identifier, that identity is shown below so the web
-          explanation and the underlying research object are not conflated.
+          This web page is a reader-facing Independent Observer record. Where a separately
+          distributed working paper has a verified scholarly identifier, that identity is shown
+          below so the web explanation and the underlying research object are not conflated.
         </p>
         <dl>
           {scholarly?.scholarlyTitle && (
@@ -37,7 +39,9 @@ const hasRecord = Boolean(scholarly || entry.researchGateUrl || entry.author ===
             <>
               <dt>ORCID</dt>
               <dd>
-                <a href={authorIdentity.orcidUrl} rel="me">{authorIdentity.orcid}</a>
+                <a href={authorIdentity.orcidUrl} rel="me">
+                  {authorIdentity.orcid}
+                </a>
               </dd>
             </>
           )}
