@@ -1,0 +1,100 @@
+---
+import { publicationRevisions } from "../../data/publication-revisions";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import { releaseLog } from "../../data/release-log";
+import { sixCandidateReleaseQueue } from "../../data/publication-registry";
+import { sitePath } from "../../lib/paths";
+
+const sortedReleases = [...releaseLog].sort((a, b) => b.date.localeCompare(a.date));
+const releasedTitles = new Set(releaseLog.map((entry) => entry.title));
+const inDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles.has(entry.title));
+---
+
+<BaseLayout
+  title="Latest"
+  description="The latest Independent Observer research releases, revisions, and public work in development."
+  currentPath="/latest/"
+>
+  <PageHero
+    eyebrow="Latest research"
+    title="New and recently revised."
+    description="A reader-facing record of new research, publication revisions, and public work currently in development."
+  />
+
+  <section class="section section-white" aria-labelledby="latest-releases-title">
+    <div class="shell">
+      <h2 id="latest-releases-title">Latest releases</h2>
+      {
+        sortedReleases.length > 0 ? (
+          <ol class="release-log">
+            {sortedReleases.map((entry) => (
+              <li>
+                <time datetime={entry.date}>{entry.date}</time>
+                <h3>
+                  <a href={sitePath(entry.route)}>{entry.title}</a>
+                </h3>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p>No new formal release is recorded in the publication log yet.</p>
+        )
+      }
+
+      {
+        inDevelopment.length > 0 && (
+          <div class="release-log-empty">
+            <p class="eyebrow">Work in progress</p>
+            <h2>Research currently in development</h2>
+            <p>
+              These public candidates are being prepared while existing working-paper summaries
+              remain available in the library.
+            </p>
+            <ol class="release-candidate-list">
+              {inDevelopment.map((entry) => (
+                <li>
+                  <span>{entry.volume}</span>
+                  <strong>{entry.title}</strong>
+                  <small>{entry.topics.join(" · ")} · in development</small>
+                </li>
+              ))}
+            </ol>
+            <a class="button button-secondary button-on-light" href={sitePath("/library/")}>
+              Explore the public library →
+            </a>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section section-white" aria-labelledby="latest-revisions-title">
+    <div class="shell prose">
+      <h2 id="latest-revisions-title">Recent paper revisions and corrections</h2>
+      {
+        publicationRevisions.length === 0 ? (
+          <p>No paper corrections have been recorded in the revision log yet.</p>
+        ) : (
+          <ol>
+            {publicationRevisions.map((entry) => (
+              <li>
+                <time datetime={entry.date}>{entry.date}</time>
+                <h3>
+                  <a href={sitePath(entry.route)}>{entry.title}</a>
+                </h3>
+                <p>{entry.change}</p>
+                <p>Reason: {entry.reason}</p>
+              </li>
+            ))}
+          </ol>
+        )
+      }
+      <p>
+        Looking for software and reader-interface changes? <a href={sitePath("/whats-new/")}
+          >View the site changelog →</a
+        >
+      </p>
+    </div>
+  </section>
+</BaseLayout>

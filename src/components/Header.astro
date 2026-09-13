@@ -4,19 +4,12 @@ import { sitePath } from "../lib/paths";
 
 const { currentPath = "/" } = Astro.props;
 const navigation = [
-  { label: "Start Here", href: "/start/" },
-  { label: "Library", href: "/library/" },
-  { label: "Listen", href: "/podcast/" },
+  { label: "Start", href: "/start/" },
+  { label: "Read", href: "/library/" },
   { label: "Topics", href: "/topics/" },
+  { label: "Watch & Listen", href: "/podcast/" },
   { label: "About", href: "/about/" },
-];
-const secondaryNavigation = [
-  { label: "Research & Essays", href: "/research/" },
-  { label: "Volumes · Catalogue", href: "/series/" },
-  { label: "Documentaries", href: "/documentaries/" },
-  { label: "Video previews", href: "/videos/" },
-  { label: "What’s New", href: "/whats-new/" },
-  { label: "Contact", href: "/contact/" },
+  { label: "Join", href: "/join/", featured: true },
 ];
 
 const isCurrent = (href: string) =>
@@ -52,37 +45,26 @@ const isCurrent = (href: string) =>
     <nav class="shell desktop-nav" aria-label="Primary navigation">
       {
         navigation.map((item) => (
-          <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
+          <a
+            class={item.featured ? "nav-follow" : undefined}
+            href={sitePath(item.href)}
+            aria-current={isCurrent(item.href) ? "page" : undefined}
+          >
             {item.label}
           </a>
         ))
       }
-      <a class="nav-follow" href={sitePath("/#follow-updates")}>Follow</a>
-      <details class="more-navigation">
-        <summary>More</summary><div class="more-navigation-links">
-          {
-            secondaryNavigation.map((item) => (
-              <a
-                href={sitePath(item.href)}
-                aria-current={isCurrent(item.href) ? "page" : undefined}
-              >
-                {item.label}
-              </a>
-            ))
-          }
-        </div>
-      </details>
     </nav>
     <details class="shell mobile-nav">
       <summary>Menu <span class="mobile-nav-icon" aria-hidden="true"></span></summary>
       <nav aria-label="Mobile navigation">
         {
-          [
-            ...navigation,
-            { label: "Follow new research", href: "/#follow-updates" },
-            ...secondaryNavigation,
-          ].map((item) => (
-            <a href={sitePath(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
+          navigation.map((item) => (
+            <a
+              class={item.featured ? "nav-follow" : undefined}
+              href={sitePath(item.href)}
+              aria-current={isCurrent(item.href) ? "page" : undefined}
+            >
               {item.label}
             </a>
           ))
@@ -91,3 +73,21 @@ const isCurrent = (href: string) =>
     </details>
   </div>
 </header>
+
+<style>
+  .desktop-nav a.nav-follow,
+  .mobile-nav a.nav-follow {
+    border-color: var(--gold);
+    background: var(--gold);
+    color: var(--navy-950);
+    font-weight: 900;
+  }
+
+  .desktop-nav a.nav-follow:hover,
+  .desktop-nav a.nav-follow:focus-visible,
+  .mobile-nav a.nav-follow:hover,
+  .mobile-nav a.nav-follow:focus-visible {
+    background: var(--gold-light);
+    color: var(--navy-950);
+  }
+</style>
