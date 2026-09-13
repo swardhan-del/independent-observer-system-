@@ -2,10 +2,10 @@
 import { displayTitle, summaryDescription } from "../../../data/reader-presentation";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import DocumentReader from "../../../components/DocumentReader.astro";
+import ScholarlyEntityGraph from "../../../components/ScholarlyEntityGraph.astro";
 import ScholarlyIdentityPanel from "../../../components/ScholarlyIdentityPanel.astro";
 import { publicDocumentItems } from "../../../data/documents";
 import { publicationRevisions } from "../../../data/publication-revisions";
-import { scholarlyIdentityFor } from "../../../data/scholarly-identifiers";
 import VolumeOneSourceMap from "../../../components/VolumeOneSourceMap.astro";
 import { citationDate } from "../../../lib/citations";
 
@@ -21,7 +21,6 @@ const currentPath = `/library/documents/${entry.id}/`;
 const documentIndex = publicDocumentItems.findIndex((candidate) => candidate.id === entry.id);
 const latestRevision = publicationRevisions.find((revision) => revision.documentId === entry.id);
 const dateModified = citationDate(latestRevision?.date ?? entry.updatedDate) ?? undefined;
-const scholarlyIdentity = scholarlyIdentityFor(entry.id);
 const keywords = [
   ...new Set([entry.category, ...(entry.volume ? [entry.volume] : []), ...(entry.keywords ?? [])]),
 ];
@@ -33,19 +32,17 @@ const keywords = [
   currentPath={currentPath}
   articleMetadata={{
     title: displayTitle(entry),
-    scholarlyTitle: scholarlyIdentity?.scholarlyTitle,
     author: entry.author ?? "Independent Observer",
     publicationDate: entry.publicationDate,
     status: entry.status,
     dateModified,
     keywords,
     sameAs: entry.researchGateUrl,
-    ssrnUrl: scholarlyIdentity?.ssrnUrl,
-    doi: scholarlyIdentity?.doi,
     fingerprintSha256: entry.sourceFingerprintSha256,
     rightsNotice: entry.rightsNotice,
   }}
 >
+  <ScholarlyEntityGraph entry={entry} />
   <DocumentReader
     entry={entry}
     relatedEntries={publicDocumentItems}
