@@ -43,6 +43,20 @@ export const volumeThreeResearchRecords: VolumeThreeResearchRecord[] = [
       "Matched public paper record · 42 downloads and 202 abstract views when last checked",
   },
   {
+    id: "richer-republic-weaker-hegemon",
+    title: "The Richer Republic, the Weaker Hegemon",
+    status: "Public reading copy",
+    publicDocumentId: "richer-republic-weaker-hegemon",
+    lenses: ["Labor markets", "Taxation and ownership", "Public visibility"],
+    summary:
+      "A public author working-paper synopsis examining how absolute prosperity can rise while a state’s relative economic and geopolitical dominance declines in a more multipolar system.",
+    whyItMatters:
+      "It gives Managed Decline a macro-level comparison between domestic prosperity and relative international power, keeping economic scale, household welfare, industrial capacity, and geopolitical influence analytically distinct.",
+    boundary:
+      "The public page is a bounded synopsis of an author working paper. It does not claim peer review, forecast a predetermined decline, or treat any single indicator as a complete measure of national power.",
+    sourceDescription: "Curated public synopsis · research package reviewed 13 September 2026",
+  },
+  {
     id: "vietnam-terry-ohio",
     title: "From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential",
     status: "Public reading copy",
