@@ -29,7 +29,9 @@ const { item } = Astro.props;
 const currentPath = `/series/${slugify(item.title)}/`;
 const allVolumeDocuments = [...paperDocuments, ...curatedResearchDocuments];
 const featuredDocuments = allVolumeDocuments.filter((entry) => entry.volume === item.volume);
-const curatedVolumeDocuments = curatedResearchDocuments.filter((entry) => entry.volume === item.volume);
+const curatedVolumeDocuments = curatedResearchDocuments.filter(
+  (entry) => entry.volume === item.volume,
+);
 const isVolumeOne = item.volume === "Volume I";
 const isVolumeTwo = item.volume === "Volume II";
 const isVolumeThree = item.volume === "Volume III";
@@ -126,8 +128,9 @@ const volumeHeroClass =
           <p class="eyebrow">New public working-paper records</p>
           <h2 id="volume-three-curated-title">Recently curated Volume III research.</h2>
           <p>
-            These are bounded author working-paper synopses that passed the website curation boundary.
-            They are public reading records, not claims of peer review or journal publication.
+            These are bounded author working-paper synopses that passed the website curation
+            boundary. They are public reading records, not claims of peer review or journal
+            publication.
           </p>
           <ul>
             {curatedVolumeDocuments.map((entry) => (
