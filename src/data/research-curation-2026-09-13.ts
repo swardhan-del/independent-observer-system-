@@ -39,13 +39,7 @@ export const curatedResearchDocuments: PublicDocument[] = [
     volumeRelevance:
       "This Volume II paper examines how historical achievements become sources of institutional legitimacy and national memory, while preserving case-specific differences.",
     updatedDate: reviewedAt,
-    keywords: [
-      "national memory",
-      "Civil War",
-      "emancipation",
-      "liberation",
-      "comparative history",
-    ],
+    keywords: ["national memory", "Civil War", "emancipation", "liberation", "comparative history"],
     availability: {
       webPage: "This page is a selected synopsis of the reviewed research package.",
       original:
