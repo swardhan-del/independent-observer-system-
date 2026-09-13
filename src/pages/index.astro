@@ -1,6 +1,7 @@
 ---
 import { displayTitle, summaryDescription } from "../data/reader-presentation";
 import FollowUpdates from "../components/FollowUpdates.astro";
+import ContinueReading from "../components/ContinueReading.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { paperDocuments } from "../data/papers";
 import { seriesItems } from "../data/series";
@@ -64,6 +65,7 @@ const questionFor = (volume: string) => {
       </aside>
     </div>
   </section>
+  <div class="shell"><ContinueReading /></div>
   <section class="section section-white" aria-labelledby="homepage-literature-title">
     <div class="shell">
       <div class="section-heading">
@@ -149,3 +151,7 @@ const questionFor = (volume: string) => {
   </section>
   <div class="shell"><FollowUpdates id="follow-updates" /></div>
 </BaseLayout>
+<script>
+  import { track } from "../lib/analytics";
+  track("homepage_view");
+</script>

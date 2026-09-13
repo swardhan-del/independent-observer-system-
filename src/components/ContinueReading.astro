@@ -1,0 +1,40 @@
+---
+// Hidden by default: this can only be populated client-side from
+// localStorage (src/lib/reading-history.ts), so there is nothing to render
+// during the static/SSR build. No account, no server round-trip.
+---
+
+<div class="continue-reading" data-continue-reading hidden>
+  <p class="eyebrow">Continue reading</p>
+  <p>
+    <a data-continue-reading-link href="/">Pick up where you left off</a>
+  </p>
+</div>
+<script>
+  import { readLastArticle } from "../lib/reading-history";
+
+  const container = document.querySelector<HTMLElement>("[data-continue-reading]");
+  const link = document.querySelector<HTMLAnchorElement>("[data-continue-reading-link]");
+  if (container && link) {
+    const last = readLastArticle(window.location.pathname);
+    if (last) {
+      link.href = last.href;
+      link.textContent = `Continue reading: ${last.title} →`;
+      container.hidden = false;
+    }
+  }
+</script>
+<style>
+  .continue-reading {
+    margin-block: 24px;
+    padding: 16px 20px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .continue-reading p {
+    margin: 0;
+  }
+  .continue-reading .eyebrow {
+    margin-bottom: 4px;
+  }
+</style>

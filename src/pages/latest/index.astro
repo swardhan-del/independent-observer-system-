@@ -30,10 +30,13 @@ const inDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles
         sortedReleases.length > 0 ? (
           <ol class="release-log">
             {sortedReleases.map((entry) => (
-              <li>
+              <li data-since-last-visit={entry.date}>
                 <time datetime={entry.date}>{entry.date}</time>
                 <h3>
                   <a href={sitePath(entry.route)}>{entry.title}</a>
+                  <span class="new-badge" data-new-badge hidden>
+                    New
+                  </span>
                 </h3>
               </li>
             ))}
@@ -79,10 +82,13 @@ const inDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles
         ) : (
           <ol>
             {publicationRevisions.map((entry) => (
-              <li>
+              <li data-since-last-visit={entry.date}>
                 <time datetime={entry.date}>{entry.date}</time>
                 <h3>
                   <a href={sitePath(entry.route)}>{entry.title}</a>
+                  <span class="new-badge" data-new-badge hidden>
+                    New
+                  </span>
                 </h3>
                 <p>{entry.change}</p>
                 <p>Reason: {entry.reason}</p>
@@ -100,3 +106,31 @@ const inDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles
   </section>
   <div class="shell"><FollowUpdates id="latest-follow-updates" /></div>
 </BaseLayout>
+<script>
+  import { isNewSinceLastVisit } from "../../lib/reading-history";
+
+  const lastVisit = window.__ioPreviousVisit;
+  if (lastVisit !== undefined) {
+    document.querySelectorAll<HTMLElement>("[data-since-last-visit]").forEach((item) => {
+      const date = item.dataset.sinceLastVisit ?? "";
+      if (isNewSinceLastVisit(date, lastVisit)) {
+        item.querySelector<HTMLElement>("[data-new-badge]")?.removeAttribute("hidden");
+      }
+    });
+  }
+</script>
+<style>
+  .new-badge {
+    display: inline-block;
+    margin-left: 0.5em;
+    padding: 0.1em 0.5em;
+    font-size: 0.7em;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--paper, #fff);
+    background: var(--accent, #b3862c);
+    border-radius: 2px;
+    vertical-align: middle;
+  }
+</style>

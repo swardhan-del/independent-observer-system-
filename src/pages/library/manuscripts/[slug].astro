@@ -60,7 +60,12 @@ const related = relatedRecords(
     fingerprintSha256: entry.sourceTextSha256,
   }}
 >
-  <article class="shell manuscript">
+  <article
+    class="shell manuscript"
+    data-manuscript-reader
+    data-reader-id={entry.slug}
+    data-reader-title={entry.title}
+  >
     <p>
       <a href={sitePath("/library/taxonomy/#" + entry.taxonomyId)}
         >Back to the four-volume research map</a
@@ -104,6 +109,16 @@ const related = relatedRecords(
   <RelatedContent records={related} title="Continue this inquiry" />
   <div class="shell"><FollowUpdates id="manuscript-follow-updates" /></div>
 </BaseLayout>
+<script>
+  import { initArticleTracking } from "../../../lib/analytics";
+  import { recordLastArticle } from "../../../lib/reading-history";
+
+  document.querySelectorAll<HTMLElement>("[data-manuscript-reader]").forEach((reader) => {
+    const id = reader.dataset.readerId ?? "manuscript";
+    initArticleTracking(id, "manuscript");
+    recordLastArticle(id, reader.dataset.readerTitle ?? id, window.location.pathname);
+  });
+</script>
 <style>
   .manuscript {
     max-width: 78ch;

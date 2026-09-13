@@ -76,6 +76,7 @@ const volumeRecord = entry.volume
     <article
       class="document-reader"
       data-document-reader
+      data-reader-id={entry.id}
       data-reader-citation={suggestedCitation}
       data-reader-title={entry.title}
     >
@@ -568,9 +569,15 @@ const volumeRecord = entry.volume
 <div class="shell"><FollowUpdates id="reader-follow-updates" /></div>
 
 <script>
+  import { initArticleTracking } from "../lib/analytics";
+  import { recordLastArticle } from "../lib/reading-history";
+
   document.querySelectorAll<HTMLElement>("[data-document-reader]").forEach((reader) => {
     const citation = reader.dataset.readerCitation ?? "";
     const title = reader.dataset.readerTitle ?? "Independent Observer";
+    const id = reader.dataset.readerId ?? title;
+    initArticleTracking(id, "document");
+    recordLastArticle(id, title, window.location.pathname);
     const progress = document.querySelector<HTMLElement>("[data-reader-progress] span");
     const sections = [...reader.querySelectorAll<HTMLElement>("[data-reader-section]")];
     const tocLinks = [...reader.querySelectorAll<HTMLAnchorElement>("[data-reader-toc-link]")];
