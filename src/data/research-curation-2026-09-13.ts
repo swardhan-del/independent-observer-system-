@@ -171,6 +171,9 @@ export const curatedResearchDocuments: PublicDocument[] = [
       {
         id: "measurement-map",
         heading: "Different measures answer different questions",
+        paragraphs: [
+          "The source audit treats economic and strategic statistics as different measurements rather than interchangeable scores. The table below shows the question each measure can help answer and the inference it cannot support by itself.",
+        ],
         table: {
           caption: "A measurement map for reading claims about prosperity and relative power",
           headers: ["Measure", "Useful for", "Does not show by itself"],
