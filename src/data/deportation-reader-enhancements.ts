@@ -4,6 +4,9 @@ const annotationSections: PublicDocumentSection[] = [
   {
     id: "annotation-schema",
     heading: "Annotation guide — six fields to mark before comparing totals",
+    paragraphs: [
+      "Treat each headline number as a labeled measurement rather than a self-explanatory total. Before comparing two figures, annotate the action, reporting period, agency scope, enforcement context, unit counted, and legal authority used by each source.",
+    ],
     table: {
       caption: "A reading key for immigration-enforcement statistics",
       headers: ["Field", "Why it matters", "Question to ask"],
