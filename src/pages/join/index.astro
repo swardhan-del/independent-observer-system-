@@ -70,7 +70,7 @@ const substack = socialLinks.find((link) => link.label === "Substack")!;
             Secure paid checkout is not enabled yet. The site will not collect payment details until
             a reviewed payment provider and privacy flow are connected.
           </p>
-          <a class="button button-secondary" href={sitePath("/contact/")}
+          <a class="button button-secondary button-on-light" href={sitePath("/contact/")}
             >Ask about supporting membership →</a
           >
         </article>
@@ -79,14 +79,16 @@ const substack = socialLinks.find((link) => link.label === "Substack")!;
   </section>
 
   <section class="section section-navy" aria-labelledby="join-principle-title">
-    <div class="shell prose">
-      <p class="eyebrow">Publishing principle</p>
-      <h2 id="join-principle-title">The research stays discoverable.</h2>
-      <p>
-        Independent Observer is building an audience through public, source-led work. Supporting
-        membership is intended to fund deeper briefings, collections, and production—not to hide the
-        evidence required to evaluate a public claim.
-      </p>
+    <div class="shell">
+      <div class="prose">
+        <p class="eyebrow">Publishing principle</p>
+        <h2 id="join-principle-title">The research stays discoverable.</h2>
+        <p>
+          Independent Observer is building an audience through public, source-led work. Supporting
+          membership is intended to fund deeper briefings, collections, and production—not to hide
+          the evidence required to evaluate a public claim.
+        </p>
+      </div>
       <p><a class="button" href={sitePath("/library/")}>Read the public library →</a></p>
     </div>
   </section>
