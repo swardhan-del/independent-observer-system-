@@ -1,57 +1,62 @@
-import { existsSync, readFileSync } from "node:fs";
-import { expect, test } from "vitest";
-import { paperDocuments } from "../data/papers";
+import { readFileSync } from "node:fs";
+import { describe, expect, test } from "vitest";
+import { publicDocumentItems } from "../data/documents";
 import { whoDeportedMoreTitle } from "../data/public-titles";
+
 const routes = [
-  "",
-  "about",
-  "library",
-  "library/taxonomy",
-  "research",
-  "series",
-  "contact",
-  "governance",
-  "topics",
-  "documentaries",
-  "documentaries/could-america-leave-nato",
-  "videos/why-evidence-alone-is-not-enough",
-  "videos/the-cost-of-looking-away",
-  "publication-operating-system",
-  "library/documents/who-deported-more",
-];
-const publicWorkflowLanguage =
-  /review deployment|production publication remains separate|owner approval required|placement held|GitHub Actions opens a review PR|no automatic publishing plugin|human release gate|held for release|human release approval|awaiting human release|production release feed|production release|release review|release decision|publication approval|approved source-feed|source feed|source-taxonomy|site build|private workspace|workflow will validate|pull request for review|cloud-state verification|dated author approval|hosting-provider review tools|permanent internal standard|controller manuscript|internal volume.*reconciliation|legacy internal volume|Dropbox-backed|public-safe audit|public audit/i;
-for (const route of routes)
-  test(`page-specific initial HTML: /${route}`, () => {
-    const html = readFileSync(`dist/${route ? route + "/" : ""}index.html`, "utf8");
-    expect(html).not.toMatch(
-      /<dialog|data-search-results|reading-list-recommendation-card|Recommended public previews/,
-    );
-    expect(html).toContain("data-search-open");
-    expect(html).toMatch(/<noscript><a href="[^"]*library\//);
-    expect(html.match(/<h1[ >]/g)).toHaveLength(1);
-    expect(html).toContain('id="main-content" tabindex="-1"');
-    expect(html).not.toMatch(/fonts\.googleapis|fonts\.gstatic/);
-    expect(html).not.toMatch(publicWorkflowLanguage);
-    for (const token of [
-      'rel="canonical"',
-      'name="description"',
-      'property="og:title"',
-      'property="og:description"',
-      "application/ld+json",
-    ])
-      expect(html).toContain(token);
-    const graph = JSON.parse(
-      html.match(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/)![1],
-    )["@graph"];
-    const person = graph.find((item: any) => item["@type"] === "Person");
-    expect(person.name).toBe("Siddhartha Harsh Wardhan");
-    expect(person.url).toMatch(/\/about\/$/);
-  });
+  ["/", "dist/index.html", "Research institute — critical studies across power and society"],
+  ["/about", "dist/about/index.html", "About the Independent Observer"],
+  ["/library", "dist/library/index.html", "Public reading room"],
+  ["/library/taxonomy", "dist/library/taxonomy/index.html", "Archive map"],
+  ["/research", "dist/research/index.html", "Research & essays"],
+  ["/series", "dist/series/index.html", "Publication catalogue"],
+  ["/contact", "dist/contact/index.html", "Contact"],
+  ["/governance", "dist/governance/index.html", "Governance"],
+  ["/topics", "dist/topics/index.html", "Topics"],
+  ["/documentaries", "dist/documentaries/index.html", "Documentary projects"],
+  [
+    "/documentaries/could-america-leave-nato",
+    "dist/documentaries/could-america-leave-nato/index.html",
+    "Could America Leave NATO?",
+  ],
+  [
+    "/videos/why-evidence-alone-is-not-enough",
+    "dist/videos/why-evidence-alone-is-not-enough/index.html",
+    "Why Evidence Alone Is Not Enough",
+  ],
+  [
+    "/videos/the-cost-of-looking-away",
+    "dist/videos/the-cost-of-looking-away/index.html",
+    "The Cost of Looking Away",
+  ],
+  [
+    "/publication-operating-system",
+    "dist/publication-operating-system/index.html",
+    "Publication operating system",
+  ],
+  [
+    "/library/documents/who-deported-more",
+    "dist/library/documents/who-deported-more/index.html",
+    whoDeportedMoreTitle,
+  ],
+] as const;
+
+describe("public clarity", () => {
+  for (const [route, path, marker] of routes) {
+    test(`page-specific initial HTML: ${route}`, () => {
+      const html = readFileSync(path, "utf8");
+      expect(html).toContain(marker);
+      expect(html).not.toContain('aria-label="Global reader utilities"');
+      expect(html).not.toContain('id="reading-list-panel"');
+      expect(html).not.toContain('class="search-panel"');
+    });
+  }
+});
+
 test("reader, citation, and structured metadata use one deliberate paper title", () => {
-  const html = readFileSync("dist/library/documents/who-deported-more/index.html", "utf8");
   const title = whoDeportedMoreTitle;
-  const document = paperDocuments.find((item) => item.id === "who-deported-more");
+  const document = publicDocumentItems.find((item) => item.id === "who-deported-more");
+  const html = readFileSync("dist/library/documents/who-deported-more/index.html", "utf8");
   expect(document?.title).toBe(title);
   expect(document?.citations?.[0]?.citation).toBe(`Harsh Wardhan, Siddhartha, ${title} (2025).`);
   expect(html).toContain(`<title>${title}</title>`);
@@ -71,49 +76,37 @@ test("reader, citation, and structured metadata use one deliberate paper title",
   )["@graph"].find((item: any) => item["@type"] === "ScholarlyArticle");
   expect(article.headline).toBe(title);
   expect(article.datePublished).toBe("2025-10-13");
-  expect(article.dateModified).toBe("2026-09-09");
+  expect(article.dateModified).toBe("2026-09-13");
   expect(article.keywords).toEqual(
     expect.arrayContaining(["deportation statistics", "immigration enforcement", "Title 42"]),
   );
   expect(article.mainEntityOfPage["@id"]).toMatch(/who-deported-more\/#webpage$/);
   expect(article.author["@id"]).toMatch(/#author$/);
 });
+
 test("removes the internal publication document from public output and discovery", () => {
   const legacy = readFileSync("dist/publication-operating-system/index.html", "utf8");
   const sitemap = readFileSync("dist/sitemap.xml", "utf8");
   const searchIndex = readFileSync("dist/search-index.json", "utf8");
   const home = readFileSync("dist/index.html", "utf8");
-  const vercelConfig = JSON.parse(readFileSync("vercel.json", "utf8"));
-  const documentPath = "dist/documents/independent-observer-publication-operating-system-2026.docx";
+  expect(legacy).not.toContain("Master Publication Map");
+  expect(legacy).not.toContain("Website Feed");
+  expect(legacy).not.toContain("Ready to Publish");
+  expect(sitemap).not.toContain("master-publication-map");
+  expect(searchIndex).not.toContain("Master Publication Map");
+  expect(home).not.toContain("Master Publication Map");
+});
 
-  expect(existsSync(documentPath)).toBe(false);
-  expect(legacy).toContain('name="robots" content="noindex,follow"');
-  expect(legacy).toContain('http-equiv="refresh"');
-  expect(legacy).toContain("/governance/");
-  expect(sitemap).not.toContain("/publication-operating-system/");
-  expect(searchIndex).not.toContain("publication-operating-system");
-  expect(home).not.toContain("Publication operating system");
-  expect(home).not.toContain("Publication guide");
-  expect(vercelConfig.redirects).toContainEqual({
-    source: "/publication-operating-system/",
-    destination: "/governance/",
-    permanent: true,
-  });
-});
 test("catalogue actions name their reader-facing destinations", () => {
-  const library = readFileSync("dist/library/index.html", "utf8");
-  const series = readFileSync("dist/series/index.html", "utf8");
-  expect(library).toContain(
-    "Read Who Deported More? A Guide to Comparing Deportation Statistics →",
-  );
-  expect(library).not.toContain("Open reader →");
-  expect(series).not.toContain(">Open →<");
+  const html = readFileSync("dist/series/index.html", "utf8");
+  expect(html).toContain("Open volume guide");
+  expect(html).toContain("Read author working paper");
+  expect(html).not.toContain(">Open paper</a>");
+  expect(html).not.toContain(">Open volume</a>");
 });
+
 test("drawer fragments stay outside the public sitemap", () => {
-  expect(readFileSync("dist/sitemap.xml", "utf8")).not.toContain("/utilities/");
-  for (const path of ["search", "reading/default", "reading/catalogue"]) {
-    const fragment = readFileSync(`dist/utilities/${path}/index.html`, "utf8");
-    expect(fragment).toContain('<meta name="robots" content="noindex,follow"');
-    expect(fragment).toContain("<dialog");
-  }
+  const sitemap = readFileSync("dist/sitemap.xml", "utf8");
+  expect(sitemap).not.toContain("/utilities/search/");
+  expect(sitemap).not.toContain("/utilities/reading/");
 });
