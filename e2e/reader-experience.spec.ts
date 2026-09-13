@@ -119,7 +119,11 @@ test("mobile contents precede article text and source tables remain in the viewp
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );
-  await expect(page.locator(".reader-table-wrap")).toHaveAttribute("tabindex", "0");
+  await expect(
+    page.getByRole("region", {
+      name: "Definitions for reading enforcement reports, not a numerical comparison",
+    }),
+  ).toHaveAttribute("tabindex", "0");
 });
 
 test("contact offers a selectable message when copying is unavailable and does not send", async ({

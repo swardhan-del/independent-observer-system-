@@ -6,6 +6,7 @@ import { seriesItems } from "../../data/series";
 import { slugify } from "../../lib/slugs";
 import { sitePath } from "../../lib/paths";
 import { paperDocuments } from "../../data/papers";
+import { curatedResearchDocuments } from "../../data/research-curation-2026-09-13";
 import {
   volumeThreeTaxDoctrineClaimMap,
   volumeThreeTaxDoctrineEvidence,
@@ -26,7 +27,8 @@ export function getStaticPaths() {
 
 const { item } = Astro.props;
 const currentPath = `/series/${slugify(item.title)}/`;
-const featuredDocuments = paperDocuments.filter((entry) => entry.volume === item.volume);
+const allVolumeDocuments = [...paperDocuments, ...curatedResearchDocuments];
+const featuredDocuments = allVolumeDocuments.filter((entry) => entry.volume === item.volume);
 const isVolumeOne = item.volume === "Volume I";
 const isVolumeTwo = item.volume === "Volume II";
 const isVolumeThree = item.volume === "Volume III";

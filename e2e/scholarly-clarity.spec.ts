@@ -14,7 +14,11 @@ test("model explanation is readable and traceable without JavaScript", async ({
       .getByText("Public explanation accompanying an author working paper", { exact: false })
       .first(),
   ).toBeVisible();
-  await expect(page.getByRole("table")).toBeVisible();
+  await expect(
+    page.getByRole("table", {
+      name: "Definitions for reading enforcement reports, not a numerical comparison",
+    }),
+  ).toBeVisible();
   await page
     .getByText("What is available: page, manuscript, data and code", { exact: true })
     .click();

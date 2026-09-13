@@ -71,7 +71,7 @@ test("reader, citation, and structured metadata use one deliberate paper title",
   )["@graph"].find((item: any) => item["@type"] === "ScholarlyArticle");
   expect(article.headline).toBe(title);
   expect(article.datePublished).toBe("2025-10-13");
-  expect(article.dateModified).toBe("2026-09-09");
+  expect(article.dateModified).toBe("2026-09-13");
   expect(article.keywords).toEqual(
     expect.arrayContaining(["deportation statistics", "immigration enforcement", "Title 42"]),
   );

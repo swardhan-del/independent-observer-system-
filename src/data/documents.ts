@@ -2,6 +2,8 @@ import { dropboxDocumentItems } from "./dropbox-content.generated";
 import { paperDocuments } from "./papers";
 import type { PlacementDecision } from "./placement-decisions";
 import { whoDeportedMoreTitle } from "./public-titles";
+import { curatedResearchDocuments } from "./research-curation-2026-09-13";
+import { enhanceDeportationReader } from "./deportation-reader-enhancements";
 
 export type PublicDocumentSection = {
   id: string;
@@ -134,6 +136,7 @@ const normalizePaperMetadata = (document: PublicDocument): PublicDocument => {
 
 export const publicDocumentItems: PublicDocument[] = [
   ...reviewedDocuments,
-  ...paperDocuments.map(normalizePaperMetadata),
+  ...paperDocuments.map(normalizePaperMetadata).map(enhanceDeportationReader),
+  ...curatedResearchDocuments,
   ...dropboxDocumentItems,
 ];
