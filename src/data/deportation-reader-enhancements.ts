@@ -8,12 +8,36 @@ const annotationSections: PublicDocumentSection[] = [
       caption: "A reading key for immigration-enforcement statistics",
       headers: ["Field", "Why it matters", "Question to ask"],
       rows: [
-        ["Action", "Removal, return, and Title 42 expulsion are different categories.", "Are both totals counting the same action?"],
-        ["Reporting period", "Federal reports commonly use fiscal years rather than calendar years.", "What exact dates belong to each total?"],
-        ["Agency coverage", "DHS, CBP, ICE, and component reports can have different scopes.", "Which agencies and transfers are included?"],
-        ["Enforcement context", "Border-related and interior activity are separate classifications.", "Does the figure describe where enforcement began or who carried out the departure?"],
-        ["Unit counted", "A table may count actions, cases, encounters, or people.", "Are the two sources using the same unit?"],
-        ["Legal authority", "Reporting categories can change when the governing authority changes.", "Does a policy or legal change interrupt the series?"],
+        [
+          "Action",
+          "Removal, return, and Title 42 expulsion are different categories.",
+          "Are both totals counting the same action?",
+        ],
+        [
+          "Reporting period",
+          "Federal reports commonly use fiscal years rather than calendar years.",
+          "What exact dates belong to each total?",
+        ],
+        [
+          "Agency coverage",
+          "DHS, CBP, ICE, and component reports can have different scopes.",
+          "Which agencies and transfers are included?",
+        ],
+        [
+          "Enforcement context",
+          "Border-related and interior activity are separate classifications.",
+          "Does the figure describe where enforcement began or who carried out the departure?",
+        ],
+        [
+          "Unit counted",
+          "A table may count actions, cases, encounters, or people.",
+          "Are the two sources using the same unit?",
+        ],
+        [
+          "Legal authority",
+          "Reporting categories can change when the governing authority changes.",
+          "Does a policy or legal change interrupt the series?",
+        ],
       ],
     },
     evidenceIds: ["ohss-definitions", "ohss-title42", "ice-reporting"],
