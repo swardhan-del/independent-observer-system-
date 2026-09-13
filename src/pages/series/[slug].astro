@@ -29,6 +29,7 @@ const { item } = Astro.props;
 const currentPath = `/series/${slugify(item.title)}/`;
 const allVolumeDocuments = [...paperDocuments, ...curatedResearchDocuments];
 const featuredDocuments = allVolumeDocuments.filter((entry) => entry.volume === item.volume);
+const curatedVolumeDocuments = curatedResearchDocuments.filter((entry) => entry.volume === item.volume);
 const isVolumeOne = item.volume === "Volume I";
 const isVolumeTwo = item.volume === "Volume II";
 const isVolumeThree = item.volume === "Volume III";
@@ -118,6 +119,28 @@ const volumeHeroClass =
           ? { ...volumeFourClaimMap }
           : undefined}
   />
+  {
+    isVolumeThree && curatedVolumeDocuments.length > 0 && (
+      <section class="section section-white" aria-labelledby="volume-three-curated-title">
+        <div class="shell prose">
+          <p class="eyebrow">New public working-paper records</p>
+          <h2 id="volume-three-curated-title">Recently curated Volume III research.</h2>
+          <p>
+            These are bounded author working-paper synopses that passed the website curation boundary.
+            They are public reading records, not claims of peer review or journal publication.
+          </p>
+          <ul>
+            {curatedVolumeDocuments.map((entry) => (
+              <li>
+                <a href={sitePath(`/library/documents/${entry.id}/`)}>{entry.title}</a>
+                <span> · {entry.status}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
   {isVolumeOne && <VolumeOneSourceMap />}
   <GreenPublicationShelf volume={item.volume} title={`${item.volume}: research previews`} />
 </BaseLayout>
