@@ -10,7 +10,7 @@
     "preview": "astro preview",
     "lint": "astro check",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format:check": "prettier --write src/components/ScholarlyEntityGraph.astro src/components/ScholarlyIdentityPanel.astro src/data/paper-collection.ts 'src/pages/series/[slug].astro' && git diff -- src/components/ScholarlyEntityGraph.astro src/components/ScholarlyIdentityPanel.astro src/data/paper-collection.ts 'src/pages/series/[slug].astro' && exit 1",
     "test": "astro check && astro build && vitest run",
     "test:built": "vitest run --exclude src/tests/site-output.test.ts --exclude src/tests/production-contract.test.ts",
     "verify:publication-boundary": "node scripts/verify-publication-boundary.mjs",
