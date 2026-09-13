@@ -49,7 +49,7 @@ const schema = JSON.stringify({
         {
           publication.productionReleased
             ? "Published article"
-            : "Draft article · awaiting release review"
+            : "Concept preview · publication pending"
         }
       </div>
       <header class="article-header">
@@ -63,9 +63,7 @@ const schema = JSON.stringify({
           <summary>About this version</summary>
           <p>
             {publication.status} · {
-              publication.productionReleased
-                ? "in the production release feed"
-                : "not in the production release feed"
+              publication.productionReleased ? "Public reference version" : "Publication pending"
             }
           </p>
           <p>

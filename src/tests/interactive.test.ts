@@ -616,7 +616,7 @@ describe("interactive preview tools", () => {
     expect(aboutVolumeAtlas).toContain("replaceState");
     expect(aboutVolumeAtlas).toContain("hashchange");
     expect(aboutVolumeAtlas).toContain("popstate");
-    expect(aboutVolumeAtlas).toContain("Nothing here announces publication approval");
+    expect(aboutVolumeAtlas).toContain("Nothing here announces a finished publication");
     expect(seriesItems.map((item) => item.volume)).toEqual(
       libraryVolumeGuides.map((guide) => guide.volume),
     );
@@ -654,7 +654,7 @@ describe("interactive preview tools", () => {
     expect(videos).toContain("A reel library for every volume.");
     expect(videos).toContain("Follow the questions between volumes.");
     expect(videos).toContain("video-preview-grid");
-    expect(videos).toContain("transcripts, rights checks, citations, and final release dates");
+    expect(videos).toContain("rights information, citations, and release dates");
     expect(videos).toContain("<VolumeReelShelf items={volumeReels} />");
     expect(videos).toContain("<ReelTreatmentShelf />");
     expect(reelTreatmentShelf).toContain("Storyboard treatment · no playable media yet");
@@ -670,7 +670,7 @@ describe("interactive preview tools", () => {
     expect(videoDetail).toContain("lookingAwayEvidence");
     expect(videoDetail).toContain("2024 EAVS report");
     expect(videoDetail).toContain("lookingAwayClaimMap");
-    expect(videoDetail).toContain("awaiting human release");
+    expect(videoDetail).toContain("in editorial development");
     expect(videoDetail).not.toContain("releaseApproved = true");
   });
 

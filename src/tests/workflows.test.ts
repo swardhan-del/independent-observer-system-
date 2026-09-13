@@ -7,6 +7,7 @@ const ci = readFileSync(join(workflowRoot, "ci.yml"), "utf8");
 const deploy = readFileSync(join(workflowRoot, "deploy.yml"), "utf8");
 const sync = readFileSync(join(workflowRoot, "sync-dropbox-content.yml"), "utf8");
 const vercelHeaders = readFileSync(join(process.cwd(), "vercel.json"), "utf8");
+const astroConfig = readFileSync(join(process.cwd(), "astro.config.mjs"), "utf8");
 
 function triggerKeys(workflow: string) {
   const triggerBlock = workflow.match(/^on:\s*\n([\s\S]*?)^permissions:/m)?.[1] ?? "";
@@ -75,8 +76,8 @@ describe("workflow publication safety", () => {
     expect(script).not.toContain("assetPath");
   });
 
-  it("checks the hosted operating standard and production dependency surface", () => {
-    expect(ci).toContain("npm run verify:operating-system");
+  it("checks the public publication boundary and production dependency surface", () => {
+    expect(ci).toContain("npm run verify:publication-boundary");
     expect(ci).toContain("npm audit --omit=dev --audit-level=high");
     expect(ci).toContain("npm run verify:preview-indexing");
   });
@@ -88,5 +89,7 @@ describe("workflow publication safety", () => {
     expect(vercelHeaders).toContain("Strict-Transport-Security");
     expect(vercelHeaders).toContain("Referrer-Policy");
     expect(vercelHeaders).toContain("Permissions-Policy");
+    expect(vercelHeaders).not.toContain("pusher.com");
+    expect(astroConfig).toContain('"process.env.VERCEL_ENV"');
   });
 });

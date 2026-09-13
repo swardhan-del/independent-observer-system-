@@ -37,7 +37,7 @@ npm run build
 npm run build:pages
 npm run verify:pages-fallback
 npm run verify:canonical-origin
-npm run verify:operating-system
+npm run verify:publication-boundary
 SEO_SITE_URL=https://independentobserver.org npm run seo:audit
 ```
 

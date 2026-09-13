@@ -19,7 +19,7 @@ const isLookingAway = item.title === "The Cost of Looking Away";
 const lookingAwayEvidence: EvidenceBlock[] = [
   {
     category: "Documented fact",
-    text: "The public-safe audit's source notes report more than 158 million counted ballots in the 2024 U.S. general election and turnout of 64.7% of the citizen voting-age population. Those figures document participation; they do not by themselves establish equal access to agenda-setting, administration, review, or correction.",
+    text: "The public source notes report more than 158 million counted ballots in the 2024 U.S. general election and turnout of 64.7% of the citizen voting-age population. Those figures document participation; they do not by themselves establish equal access to agenda-setting, administration, review, or correction.",
     source: {
       label: "U.S. Election Assistance Commission · 2024 EAVS report",
       href: "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
@@ -39,7 +39,7 @@ const lookingAwayEvidence: EvidenceBlock[] = [
   },
   {
     category: "Limitation",
-    text: "This is a Volume II concept preview. No released video, full transcript, final production dossier, completed rights package, or publication approval is asserted here.",
+    text: "This is a Volume II concept preview. No released video, full transcript, final production dossier, completed rights package, or final publication status is claimed here.",
   },
   {
     category: "Counterargument",
@@ -70,14 +70,14 @@ const lookingAwayClaimMap = {
     heroClassName="video-detail-hero"
     backLabel="Back to videos"
     backHref={sitePath("/videos/")}
-    statusNote={`Publication status: ${item.status}. This is a preview entry. A future release may include a player, transcript, citations, and platform links after publication review.`}
+    statusNote={`Publication status: ${item.status}. This is a preview entry. A future release may include a player, transcript, citations, and platform links when available.`}
     evidenceBlocks={isLookingAway ? lookingAwayEvidence : undefined}
     evidenceTitle={isLookingAway ? "Case study: The Cost of Looking Away" : undefined}
     evidenceIntro={isLookingAway
       ? "A reader-controlled map of the source record, interpretation, testable hypothesis, competing explanation, and limits. Highlighting changes emphasis, not evidentiary status."
       : undefined}
     evidenceStatusNote={isLookingAway
-      ? "Volume II concept preview; the related working paper remains awaiting human release."
+      ? "Volume II concept preview; the related working paper remains in editorial development."
       : undefined}
     evidenceSource={isLookingAway
       ? {

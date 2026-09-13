@@ -67,7 +67,7 @@ describe("reader vocabulary and evidence boundaries", () => {
     expect(rankSearchEntries(searchItems, "Title 42")[0].id).toBe(entry.id);
   });
 
-  it("shortens presentation without rewriting formal citations or release status", () => {
+  it("uses the public paper title consistently in presentation and citation exports", () => {
     const entry = paperDocuments.find((item) => item.id === "who-deported-more")!;
     expect(displayTitle(entry)).toBe(
       "Who Deported More? A Guide to Comparing Deportation Statistics",

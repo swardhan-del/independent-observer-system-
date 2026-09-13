@@ -5,6 +5,7 @@ import DocumentReader from "../../../components/DocumentReader.astro";
 import { publicDocumentItems } from "../../../data/documents";
 import { publicationRevisions } from "../../../data/publication-revisions";
 import VolumeOneSourceMap from "../../../components/VolumeOneSourceMap.astro";
+import { citationDate } from "../../../lib/citations";
 
 export function getStaticPaths() {
   return publicDocumentItems.map((entry) => ({
@@ -16,6 +17,11 @@ export function getStaticPaths() {
 const { entry } = Astro.props;
 const currentPath = `/library/documents/${entry.id}/`;
 const documentIndex = publicDocumentItems.findIndex((candidate) => candidate.id === entry.id);
+const latestRevision = publicationRevisions.find((revision) => revision.documentId === entry.id);
+const dateModified = citationDate(latestRevision?.date ?? entry.updatedDate) ?? undefined;
+const keywords = [
+  ...new Set([entry.category, ...(entry.volume ? [entry.volume] : []), ...(entry.keywords ?? [])]),
+];
 ---
 
 <BaseLayout
@@ -23,12 +29,12 @@ const documentIndex = publicDocumentItems.findIndex((candidate) => candidate.id 
   description={summaryDescription(entry)}
   currentPath={currentPath}
   articleMetadata={{
-    title: entry.title,
+    title: displayTitle(entry),
     author: entry.author ?? "Independent Observer",
     publicationDate: entry.publicationDate,
     status: entry.status,
-    dateModified: publicationRevisions.find((revision) => revision.documentId === entry.id)?.date,
-    keywords: [entry.category, ...(entry.volume ? [entry.volume] : [])],
+    dateModified,
+    keywords,
     sameAs: entry.researchGateUrl,
     fingerprintSha256: entry.sourceFingerprintSha256,
     rightsNotice: entry.rightsNotice,

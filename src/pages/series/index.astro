@@ -1,13 +1,9 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
-import EditorialCard from "../../components/EditorialCard.astro";
 import PublicationCatalogue from "../../components/PublicationCatalogue.astro";
 import VolumeVisualStrip from "../../components/VolumeVisualStrip.astro";
-import { dropboxFeedItems } from "../../data/dropbox-content.generated";
 import { sitePath } from "../../lib/paths";
-
-const automatedSeriesItems = dropboxFeedItems.filter((item) => item.kind === "series");
 ---
 
 <BaseLayout
@@ -75,39 +71,15 @@ const automatedSeriesItems = dropboxFeedItems.filter((item) => item.kind === "se
     </div>
   </section>
   <PublicationCatalogue />
-  {
-    automatedSeriesItems.length > 0 && (
-      <section class="section section-navy">
-        <div class="shell">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Approved archive feed</p>
-              <h2>New catalogue records</h2>
-            </div>
-            <p>
-              Structured updates arrive from the approved source feed only after explicit website
-              approval.
-            </p>
-          </div>
-          <div class="card-grid">
-            {automatedSeriesItems.map((item, index) => (
-              <EditorialCard item={item} index={index + 1} />
-            ))}
-          </div>
-        </div>
-      </section>
-    )
-  }
   <section class="section section-rule">
     <div class="shell page-grid">
-      <aside class="page-aside">Release standard</aside>
+      <aside class="page-aside">Publication status</aside>
       <div class="prose">
         <h2>Public promise before publication</h2>
         <p>
-          A catalogue record does not make a volume a finished publication. A released volume must
-          pass claim-level evidence review, rights and provenance checks, fairness review, rendered
-          visual QA, cloud-state verification, and dated author approval. The catalogue keeps those
-          gates visible while making the work easier to investigate.
+          A catalogue record does not make a volume a finished publication. The volumes are in
+          editorial development, and each entry uses a clear status label—such as public reference
+          version, concept preview, or publication pending—to show what readers can use today.
         </p>
         <p>
           <a href={sitePath("/research/")}>Explore the research desk</a> while the series develops.

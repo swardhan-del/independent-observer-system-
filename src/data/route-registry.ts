@@ -101,13 +101,6 @@ const sectionRoutes: CanonicalRouteRecord[] = [
   { route: "/about/", title: "About", type: "section", source: "about", indexable: true },
   { route: "/contact/", title: "Contact", type: "section", source: "contact", indexable: true },
   { route: "/start/", title: "Start Here", type: "section", source: "start", indexable: true },
-  {
-    route: "/publication-operating-system/",
-    title: "Publication Operating System",
-    type: "section",
-    source: "operating-system",
-    indexable: true,
-  },
   { route: "/topics/", title: "Topics", type: "section", source: "topics", indexable: true },
 ];
 

@@ -55,7 +55,7 @@ export const siteUpdates = [
     title: "Trace the claim, understand the research object",
     changes: [
       {
-        what: "Who Deported More? now explains enforcement categories with official source locations and a non-numerical example.",
+        what: "Who Deported More? A Guide to Comparing Deportation Statistics explains enforcement categories with official source locations and a non-numerical example.",
         why: "Distinguish what a report counts before comparing its headline total.",
         route: "/library/documents/who-deported-more/",
         label: "Read the explanation",

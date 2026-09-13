@@ -1,9 +1,9 @@
 import type { PublicDocument } from "./documents";
+import { whoDeportedMoreTitle } from "./public-titles";
 
 export const scholarlyClarity: Record<string, Partial<PublicDocument>> = {
   "who-deported-more": {
-    title:
-      "Who Deported More? Measuring Removals, Returns, and Enforcement Priorities Across Presidential Administrations 2000–2025",
+    title: whoDeportedMoreTitle,
     genre: "Public explanation accompanying an author working paper",
     description:
       "A public explanation of why removals, returns and expulsions cannot be compared without checking definitions, reporting periods and agency coverage.",
@@ -12,6 +12,13 @@ export const scholarlyClarity: Record<string, Partial<PublicDocument>> = {
       "The complete manuscript and a validated comparison dataset are not supplied here. Assess the cited official sources directly.",
     ],
     updatedDate: "9 September 2026",
+    keywords: [
+      "deportation statistics",
+      "immigration enforcement",
+      "removals",
+      "returns",
+      "Title 42",
+    ],
     availability: {
       webPage:
         "Read the definitions, example and source links here without an account. This is a public explanation, not the manuscript or a ranked comparison.",
@@ -98,7 +105,7 @@ export const scholarlyClarity: Record<string, Partial<PublicDocument>> = {
         id: "publication-boundary",
         heading: "Publication boundary",
         paragraphs: [
-          "This release adds a bounded public explanation to the existing author-paper record. The manuscript, appended draft and unverified comparison table remain outside the website build.",
+          "This public explanation accompanies the existing author-paper record. The manuscript, appended draft, and unverified comparison table are not published on this website.",
         ],
       },
     ],
@@ -133,7 +140,7 @@ export const scholarlyClarity: Record<string, Partial<PublicDocument>> = {
       },
     ],
     notes: [
-      "The existing Volume II controller was reused. No manuscript, appended prior draft, numerical comparison table, CSV or codebook was added to the public build.",
+      "This public explanation accompanies the author-paper record. It does not reproduce the manuscript, prior draft, comparison table, CSV, or codebook.",
     ],
     relatedReadingReasons: {
       "latino-irony":

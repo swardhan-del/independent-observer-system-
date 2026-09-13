@@ -42,13 +42,7 @@ export const publicLibrarySnapshot = {
       label: "Raw archive files published",
       value: "0",
       detail:
-        "No raw research, manuscript, video, or working archive file is exposed; the operating standard is separately hosted as an owner-requested reference.",
-    },
-    {
-      label: "Hosted operating standards",
-      value: "1",
-      detail:
-        "One exact owner-provided publication operating standard is hosted outside the article feed.",
+        "Public records provide summaries, source links, and stated limits rather than raw research, manuscript, video, or working files.",
     },
   ] satisfies PublicLibraryStat[],
   areas: [

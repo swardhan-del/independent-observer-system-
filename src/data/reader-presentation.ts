@@ -1,8 +1,9 @@
 import type { PublicDocument } from "./documents";
+import { whoDeportedMoreTitle } from "./public-titles";
 
 // Display copy is separate from the original manuscript title and citation metadata.
 export const documentTitles: Record<string, string> = {
-  "who-deported-more": "Who Deported More? A Guide to Comparing Deportation Statistics",
+  "who-deported-more": whoDeportedMoreTitle,
   "latino-irony": "The Latino Irony: Hispanic Support for Trump",
   "wardhan-tax-doctrine": "The Wardhan Tax Doctrine: Time and Tax Relief",
   "disconnected-hearts": "Disconnected Hearts: Technology and Intimacy",

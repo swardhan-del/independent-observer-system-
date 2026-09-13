@@ -3,6 +3,7 @@ import { scholarlyClarity } from "./scholarly-clarity";
 import type { PublicDocument, PublicDocumentSection } from "./documents";
 import { explicitRelatedFamilyIds, familyIdForKey } from "./family-registry";
 import { placementDecisionFor } from "./placement-decisions";
+import { whoDeportedMoreTitle } from "./public-titles";
 
 const author = "Siddhartha Harsh Wardhan";
 const metricsDate = "25 August 2026";
@@ -60,7 +61,7 @@ const sourceReviews: Record<string, { fingerprint: string; taxonomy: string }> =
   },
   "disconnected-hearts": {
     fingerprint: "eb982844da37f66ac593189df2c77964d955b918908338c94f1ab0cfde60e0d8",
-    taxonomy: "Volume IV submission package; internal volume label needs reconciliation",
+    taxonomy: "Volume IV submission package",
   },
   "wardhan-tax-doctrine": {
     fingerprint: "18ff5b27ed02f05c22261eff2df5987d572ac8cabe94fa7d8ba833b83cae10f1",
@@ -216,7 +217,6 @@ function makeDocument(input: PaperInput): PublicDocument {
     sourceModified: `Author-controlled source reviewed ${sourceReviewDate}`,
     sourceReviewedAt: sourceReviewDate,
     sourceFingerprintSha256: sourceReview?.fingerprint,
-    sourceTaxonomyNote: sourceReview?.taxonomy,
     rightsNotice:
       "Copyright and any paper-specific license remain with the author. This page is a selected synopsis; the complete manuscript file is not hosted here.",
     status: "Author working paper",
@@ -255,8 +255,7 @@ export const paperDocuments: PublicDocument[] = [
   makeDocument({
     id: "who-deported-more",
     volume: "Volume II",
-    title:
-      "Who Deported More? Measuring Removals, Returns, and Enforcement Priorities Across Presidential Administrations 2000–2025",
+    title: whoDeportedMoreTitle,
     category: "Demography & Migration",
     description:
       "A data-defined working paper that separates removals, returns, and expulsions before comparing enforcement priorities across administrations.",
@@ -284,8 +283,7 @@ export const paperDocuments: PublicDocument[] = [
       {
         id: "source-note-5495878",
         label: "Independent Observer",
-        citation:
-          "Harsh Wardhan, Siddhartha, Who Deported More? Measuring Removals, Returns, and Enforcement Priorities Across Presidential Administrations 2000–2025 (2025).",
+        citation: `Harsh Wardhan, Siddhartha, ${whoDeportedMoreTitle} (2025).`,
       },
     ],
     notes: [
@@ -826,7 +824,7 @@ export const paperDocuments: PublicDocument[] = [
       },
     ],
     notes: [
-      "Matched to a Volume II democracy-and-empire paper controller and its archived distribution snapshot.",
+      "Matched to the Volume II democracy-and-empire research map and its archived distribution snapshot.",
       "The public entry preserves the paper's institutional thesis without exposing a private source path or presenting the thesis as settled history.",
     ],
     limitations: [
@@ -868,7 +866,7 @@ export const paperDocuments: PublicDocument[] = [
       },
     ],
     notes: [
-      "Matched to a Volume II crisis-and-electoral-legitimacy paper controller and its archived distribution snapshot.",
+      "Matched to the Volume II crisis-and-electoral-legitimacy research map and its archived distribution snapshot.",
       "The page describes the paper's mechanism as a hypothesis to examine and does not turn historical examples into a deterministic forecast.",
     ],
     limitations: [
@@ -912,7 +910,7 @@ export const paperDocuments: PublicDocument[] = [
       },
     ],
     notes: [
-      "Matched to a Volume II geopolitics-and-industrial-policy paper controller and its archived distribution snapshot.",
+      "Matched to the Volume II geopolitics-and-industrial-policy research map and its archived distribution snapshot.",
       "The summary keeps the roadmap's policy ambition visible while labeling it as a model open to revision.",
     ],
     limitations: [

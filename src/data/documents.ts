@@ -1,6 +1,7 @@
 import { dropboxDocumentItems } from "./dropbox-content.generated";
 import { paperDocuments } from "./papers";
 import type { PlacementDecision } from "./placement-decisions";
+import { whoDeportedMoreTitle } from "./public-titles";
 
 export type PublicDocumentSection = {
   id: string;
@@ -47,6 +48,7 @@ export type PublicDocument = {
   publicationDate?: string;
   dateLabel?: string;
   updatedDate?: string;
+  keywords?: string[];
   status?: string;
   researchGateUrl?: string;
   metrics?: PublicDocumentMetrics;
@@ -118,8 +120,7 @@ const reviewedDocuments: PublicDocument[] = [
 ];
 
 const canonicalSourceCitations: Record<string, string> = {
-  "who-deported-more":
-    "Harsh Wardhan, Siddhartha, Who Deported More? Measuring Removals, Returns, and Enforcement Priorities Across Presidential Administrations 2000–2025 (2025).",
+  "who-deported-more": `Harsh Wardhan, Siddhartha, ${whoDeportedMoreTitle} (2025).`,
 };
 
 const normalizePaperMetadata = (document: PublicDocument): PublicDocument => {

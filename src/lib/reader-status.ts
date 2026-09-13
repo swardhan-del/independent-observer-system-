@@ -1,4 +1,4 @@
-/** Reader labels only: source records and publication approval remain unchanged. */
+/** Reader labels only: source records and publication data remain unchanged. */
 export function readerStatus(status: string): string {
   if (status === "Author working paper") return "Working-paper summary";
   if (status === "Preview-only bounded text adaptation") return "Draft article";

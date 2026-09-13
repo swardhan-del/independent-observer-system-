@@ -92,7 +92,7 @@ textarea {
   border-bottom: 1px solid rgb(255 255 255 / 12%);
   background: var(--navy-950);
   color: var(--slate-300);
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
@@ -123,7 +123,7 @@ textarea {
   background: transparent;
   color: var(--slate-300);
   cursor: pointer;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   line-height: 1.1;
@@ -397,7 +397,7 @@ textarea {
 
 .search-result-kind {
   color: var(--gold-ink);
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1180,7 +1180,7 @@ textarea {
 
 .card-open-link {
   color: var(--navy-700);
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 800;
   letter-spacing: 0.06em;
   text-decoration: none;
@@ -3264,7 +3264,7 @@ textarea {
 
 .footer-bottom span {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 }
 
 :focus-visible {
@@ -4153,7 +4153,7 @@ kbd {
 
 .reading-list-item-meta {
   color: var(--slate-500);
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 }
 
 .reading-list-item-controls {

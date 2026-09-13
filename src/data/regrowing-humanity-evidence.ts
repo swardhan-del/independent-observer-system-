@@ -293,7 +293,7 @@ export const evidenceLabTranscript = [
   {
     time: "00:00",
     speaker: "Guide",
-    text: "This Evidence Lab is a public map of the reviewed sources, not a reproduction of the controller manuscript.",
+    text: "This Evidence Lab is a public map of the reviewed sources, not a reproduction of a complete manuscript.",
   },
   {
     time: "00:24",
@@ -316,5 +316,5 @@ export const evidenceLabLimitations = [
   "This is a structured narrative review and evidence map, not a meta-analysis or clinical guideline.",
   "The underlying studies vary in device, interface, participant selection, follow-up, outcome measure, and setting.",
   "A source being verified means its bibliographic record and relevance were checked; it does not make every interpretation settled.",
-  "The public preview intentionally excludes the controller DOCX/PDF, private notes, raw figures, and unreviewed media.",
+  "The public preview intentionally excludes complete manuscript files, private notes, raw figures, and unreviewed media.",
 ];
