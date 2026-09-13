@@ -20,59 +20,70 @@ import { sitePath } from "../../lib/paths";
 
   <section class="section section-white" aria-labelledby="latest-releases-title">
     <div class="shell">
-      {releaseLog.length > 0 ? (
-        <ol class="release-log" aria-labelledby="latest-releases-title">
-          {releaseLog.map((entry, index) => (
-            <li>
-              <time datetime={entry.date}>{entry.date}</time>
-              <h2 id={index === 0 ? "latest-releases-title" : undefined}>
-                <a href={sitePath(entry.route)}>{entry.title}</a>
-              </h2>
-            </li>
-          ))}
-        </ol>
-      ) : (
-        <div class="release-log-empty">
-          <p class="eyebrow">Work in progress</p>
-          <h2 id="latest-releases-title">Research currently in development</h2>
-          <p>
-            No new formal release is recorded in the publication log yet. These public candidates are
-            being prepared while existing working-paper summaries remain available in the library.
-          </p>
-          <ol class="release-candidate-list">
-            {sixCandidateReleaseQueue.map((entry) => (
+      {
+        releaseLog.length > 0 ? (
+          <ol class="release-log" aria-labelledby="latest-releases-title">
+            {releaseLog.map((entry, index) => (
               <li>
-                <span>{entry.volume}</span>
-                <strong>{entry.title}</strong>
-                <small>{entry.topics.join(" · ")} · in development</small>
+                <time datetime={entry.date}>{entry.date}</time>
+                <h2 id={index === 0 ? "latest-releases-title" : undefined}>
+                  <a href={sitePath(entry.route)}>{entry.title}</a>
+                </h2>
               </li>
             ))}
           </ol>
-          <a class="button button-secondary" href={sitePath("/library/")}>Explore the public library →</a>
-        </div>
-      )}
+        ) : (
+          <div class="release-log-empty">
+            <p class="eyebrow">Work in progress</p>
+            <h2 id="latest-releases-title">Research currently in development</h2>
+            <p>
+              No new formal release is recorded in the publication log yet. These public candidates
+              are being prepared while existing working-paper summaries remain available in the
+              library.
+            </p>
+            <ol class="release-candidate-list">
+              {sixCandidateReleaseQueue.map((entry) => (
+                <li>
+                  <span>{entry.volume}</span>
+                  <strong>{entry.title}</strong>
+                  <small>{entry.topics.join(" · ")} · in development</small>
+                </li>
+              ))}
+            </ol>
+            <a class="button button-secondary" href={sitePath("/library/")}>
+              Explore the public library →
+            </a>
+          </div>
+        )
+      }
     </div>
   </section>
 
   <section class="section section-white" aria-labelledby="latest-revisions-title">
     <div class="shell prose">
       <h2 id="latest-revisions-title">Recent paper revisions and corrections</h2>
-      {publicationRevisions.length === 0 ? (
-        <p>No paper corrections have been recorded in the revision log yet.</p>
-      ) : (
-        <ol>
-          {publicationRevisions.map((entry) => (
-            <li>
-              <time datetime={entry.date}>{entry.date}</time>
-              <h3><a href={sitePath(entry.route)}>{entry.title}</a></h3>
-              <p>{entry.change}</p>
-              <p>Reason: {entry.reason}</p>
-            </li>
-          ))}
-        </ol>
-      )}
+      {
+        publicationRevisions.length === 0 ? (
+          <p>No paper corrections have been recorded in the revision log yet.</p>
+        ) : (
+          <ol>
+            {publicationRevisions.map((entry) => (
+              <li>
+                <time datetime={entry.date}>{entry.date}</time>
+                <h3>
+                  <a href={sitePath(entry.route)}>{entry.title}</a>
+                </h3>
+                <p>{entry.change}</p>
+                <p>Reason: {entry.reason}</p>
+              </li>
+            ))}
+          </ol>
+        )
+      }
       <p>
-        Looking for software and reader-interface changes? <a href={sitePath("/whats-new/")}>View the site changelog →</a>
+        Looking for software and reader-interface changes? <a href={sitePath("/whats-new/")}
+          >View the site changelog →</a
+        >
       </p>
     </div>
   </section>

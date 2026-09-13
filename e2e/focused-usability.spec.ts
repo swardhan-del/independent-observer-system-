@@ -65,7 +65,11 @@ test("primary navigation stays bounded and exposes the join path", async ({ page
     await nav.getByRole("link", { name: "Join", exact: true }).click();
   }
   await expect(page).toHaveURL(/\/join\/$/);
-  await expect(page.getByRole("heading", { name: "Read freely. Return regularly. Support when it is useful." })).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Read freely. Return regularly. Support when it is useful.",
+    }),
+  ).toBeVisible();
 });
 
 test("global search preserves the catalogue's filters across reload", async ({ page }) => {
