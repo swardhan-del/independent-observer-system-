@@ -5,6 +5,10 @@ import PageHero from "../../components/PageHero.astro";
 import { releaseLog } from "../../data/release-log";
 import { sixCandidateReleaseQueue } from "../../data/publication-registry";
 import { sitePath } from "../../lib/paths";
+
+const sortedReleases = [...releaseLog].sort((a, b) => b.date.localeCompare(a.date));
+const releasedTitles = new Set(releaseLog.map((entry) => entry.title));
+const inDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles.has(entry.title));
 ---
 
 <BaseLayout
@@ -20,29 +24,35 @@ import { sitePath } from "../../lib/paths";
 
   <section class="section section-white" aria-labelledby="latest-releases-title">
     <div class="shell">
+      <h2 id="latest-releases-title">Latest releases</h2>
       {
-        releaseLog.length > 0 ? (
-          <ol class="release-log" aria-labelledby="latest-releases-title">
-            {releaseLog.map((entry, index) => (
+        sortedReleases.length > 0 ? (
+          <ol class="release-log">
+            {sortedReleases.map((entry) => (
               <li>
                 <time datetime={entry.date}>{entry.date}</time>
-                <h2 id={index === 0 ? "latest-releases-title" : undefined}>
+                <h3>
                   <a href={sitePath(entry.route)}>{entry.title}</a>
-                </h2>
+                </h3>
               </li>
             ))}
           </ol>
         ) : (
+          <p>No new formal release is recorded in the publication log yet.</p>
+        )
+      }
+
+      {
+        inDevelopment.length > 0 && (
           <div class="release-log-empty">
             <p class="eyebrow">Work in progress</p>
-            <h2 id="latest-releases-title">Research currently in development</h2>
+            <h2>Research currently in development</h2>
             <p>
-              No new formal release is recorded in the publication log yet. These public candidates
-              are being prepared while existing working-paper summaries remain available in the
-              library.
+              These public candidates are being prepared while existing working-paper summaries
+              remain available in the library.
             </p>
             <ol class="release-candidate-list">
-              {sixCandidateReleaseQueue.map((entry) => (
+              {inDevelopment.map((entry) => (
                 <li>
                   <span>{entry.volume}</span>
                   <strong>{entry.title}</strong>
@@ -50,7 +60,7 @@ import { sitePath } from "../../lib/paths";
                 </li>
               ))}
             </ol>
-            <a class="button button-secondary" href={sitePath("/library/")}>
+            <a class="button button-secondary button-on-light" href={sitePath("/library/")}>
               Explore the public library →
             </a>
           </div>
