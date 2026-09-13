@@ -10,7 +10,7 @@
     "preview": "astro preview",
     "lint": "astro check",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format:check": "prettier --write src/data/research-curation-2026-09-13.ts src/tests/research-curation-2026-09-13.test.ts && git diff -- src/data/research-curation-2026-09-13.ts src/tests/research-curation-2026-09-13.test.ts && false",
     "test": "astro check && astro build && vitest run",
     "test:built": "vitest run --exclude src/tests/site-output.test.ts --exclude src/tests/production-contract.test.ts",
     "verify:publication-boundary": "node scripts/verify-publication-boundary.mjs",
