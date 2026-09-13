@@ -73,3 +73,21 @@ const isCurrent = (href: string) =>
     </details>
   </div>
 </header>
+
+<style>
+  .desktop-nav a.nav-follow,
+  .mobile-nav a.nav-follow {
+    border-color: var(--gold);
+    background: var(--gold);
+    color: var(--navy-950);
+    font-weight: 900;
+  }
+
+  .desktop-nav a.nav-follow:hover,
+  .desktop-nav a.nav-follow:focus-visible,
+  .mobile-nav a.nav-follow:hover,
+  .mobile-nav a.nav-follow:focus-visible {
+    background: var(--gold-light);
+    color: var(--navy-950);
+  }
+</style>
