@@ -5,6 +5,7 @@ import {
   sortReadingList,
   type ReadingStatus,
 } from "../lib/reading-list";
+import { track } from "../lib/analytics";
 
 export function initialize(root: HTMLElement) {
   const dialog = root.querySelector<HTMLDialogElement>("#reading-list-dialog");
@@ -247,7 +248,8 @@ export function initialize(root: HTMLElement) {
       const title = button.dataset.readingTitle;
       const href = button.dataset.readingHref;
       if (!id || !title || !href) return;
-      saved = saved.some((item) => item.id === id)
+      const alreadySaved = saved.some((item) => item.id === id);
+      saved = alreadySaved
         ? saved.filter((item) => item.id !== id)
         : [
             ...saved,
@@ -260,6 +262,7 @@ export function initialize(root: HTMLElement) {
               status: "unread",
             },
           ];
+      if (!alreadySaved) track("save_article", { articleId: id });
       persist();
       render();
       updateToggleButtons();

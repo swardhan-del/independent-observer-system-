@@ -27,7 +27,9 @@ const { records, title = "Related Independent Observer work" } = Astro.props as 
           <article class="related-content-card">
             <span class="status-pill">{record.status}</span>
             <h3>
-              <a href={record.href}>{record.title}</a>
+              <a href={record.href} data-related-article-link={record.id}>
+                {record.title}
+              </a>
             </h3>
             <p>{record.description}</p>
             {record.connection && (
@@ -41,3 +43,13 @@ const { records, title = "Related Independent Observer work" } = Astro.props as 
     </section>
   )
 }
+
+<script>
+  import { track } from "../lib/analytics";
+
+  document.querySelectorAll<HTMLAnchorElement>("[data-related-article-link]").forEach((link) => {
+    link.addEventListener("click", () => {
+      track("related_article_click", { articleId: link.dataset.relatedArticleLink ?? "" });
+    });
+  });
+</script>

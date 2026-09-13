@@ -1,7 +1,10 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import FollowUpdates from "../../../components/FollowUpdates.astro";
+import RelatedContent from "../../../components/RelatedContent.astro";
 import { manuscripts, manuscriptPath } from "../../../../plugins/library-content/manuscripts";
 import { isManuscriptAuthorizedForRelease } from "../../../data/manuscript-release-registry";
+import { relatedRecords } from "../../../lib/related";
 import { sitePath } from "../../../lib/paths";
 export function getStaticPaths() {
   return manuscripts.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
@@ -11,6 +14,36 @@ const contents = entry.blocks
   .map((block, index) => ({ ...block, index }))
   .filter((block) => block.kind === "heading");
 const released = isManuscriptAuthorizedForRelease(entry.slug);
+const related = relatedRecords(
+  {
+    id: entry.slug,
+    title: entry.title,
+    description: entry.summary,
+    category: "Full working paper",
+    href: manuscriptPath(entry),
+    status: entry.status,
+    topics: entry.topics,
+    familyId: entry.familyId,
+    volume: entry.volume,
+  },
+  manuscripts.map((candidate) => ({
+    id: candidate.slug,
+    title: candidate.title,
+    description: candidate.summary,
+    category: "Full working paper",
+    href: manuscriptPath(candidate),
+    status: candidate.status,
+    topics: candidate.topics,
+    familyId: candidate.familyId,
+    volume: candidate.volume,
+  })),
+  3,
+).map((item) => ({
+  ...item,
+  connection: (item.topics ?? []).some((topic) => entry.topics.includes(topic))
+    ? `Shares a topic with ${entry.title}; read on its own sources before drawing a connection.`
+    : `Another full-text Independent Observer manuscript in ${item.volume}.`,
+}));
 ---
 
 <BaseLayout
@@ -27,7 +60,12 @@ const released = isManuscriptAuthorizedForRelease(entry.slug);
     fingerprintSha256: entry.sourceTextSha256,
   }}
 >
-  <article class="shell manuscript">
+  <article
+    class="shell manuscript"
+    data-manuscript-reader
+    data-reader-id={entry.slug}
+    data-reader-title={entry.title}
+  >
     <p>
       <a href={sitePath("/library/taxonomy/#" + entry.taxonomyId)}
         >Back to the four-volume research map</a
@@ -68,7 +106,19 @@ const released = isManuscriptAuthorizedForRelease(entry.slug);
       </p>
     </footer>
   </article>
+  <RelatedContent records={related} title="Continue this inquiry" />
+  <div class="shell"><FollowUpdates id="manuscript-follow-updates" /></div>
 </BaseLayout>
+<script>
+  import { initArticleTracking } from "../../../lib/analytics";
+  import { recordLastArticle } from "../../../lib/reading-history";
+
+  document.querySelectorAll<HTMLElement>("[data-manuscript-reader]").forEach((reader) => {
+    const id = reader.dataset.readerId ?? "manuscript";
+    initArticleTracking(id, "manuscript");
+    recordLastArticle(id, reader.dataset.readerTitle ?? id, window.location.pathname);
+  });
+</script>
 <style>
   .manuscript {
     max-width: 78ch;

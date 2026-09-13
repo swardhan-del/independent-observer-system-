@@ -44,7 +44,13 @@ const substack = socialLinks.find((link) => link.label === "Substack")!;
             <li>Podcast and documentary updates</li>
             <li>Corrections and publication-status updates</li>
           </ul>
-          <a class="button" href={substack.href} target="_blank" rel="noopener noreferrer">
+          <a
+            class="button"
+            href={substack.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-email-signup-start="join-page"
+          >
             Join the current email list ↗
           </a>
           <p class="form-note">
@@ -93,3 +99,8 @@ const substack = socialLinks.find((link) => link.label === "Substack")!;
     </div>
   </section>
 </BaseLayout>
+<script>
+  import { track } from "../../lib/analytics";
+  track("join_page_view");
+  track("paid_membership_view");
+</script>

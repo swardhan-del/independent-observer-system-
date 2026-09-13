@@ -241,6 +241,24 @@ const structuredData = JSON.stringify({
     <link rel="icon" type="image/svg+xml" href={sitePath("/favicon.svg")} />
     <script type="application/ld+json" set:html={structuredData} is:inline />
     <title>{fullTitle}</title>
+    <script is:inline>
+      // Records the visitor's previous visit timestamp (before overwriting it)
+      // on window, purely client-side and local to this device, so later
+      // scripts on this same page can label content "new since your last
+      // visit" without any account or server-side session. Runs first, in
+      // <head>, so it always executes before any other page script.
+      (function () {
+        try {
+          var key = "independent-observer:last-visit:v1";
+          var previous = window.localStorage.getItem(key);
+          if (previous) window.__ioPreviousVisit = Number(previous);
+          window.localStorage.setItem(key, String(Date.now()));
+        } catch {
+          // Storage may be unavailable (private browsing, disabled storage); the
+          // repeat-reader convenience is simply skipped for this visit.
+        }
+      })();
+    </script>
   </head>
   <body>
     <Header currentPath={currentPath} />
@@ -265,6 +283,19 @@ const structuredData = JSON.stringify({
     }
     <Footer />
     <AnchorOffset />
+    <script>
+      import { track } from "../lib/analytics";
+
+      document.addEventListener("click", (event) => {
+        const target = event.target as HTMLElement;
+        const startLink = target.closest<HTMLAnchorElement>('a[href^="/start/"]');
+        if (startLink) track("start_here_click");
+        const signupLink = target.closest<HTMLElement>("[data-email-signup-start]");
+        if (signupLink) {
+          track("email_signup_started", { source: signupLink.dataset.emailSignupStart ?? "" });
+        }
+      });
+    </script>
     <script is:inline>
       (function () {
         var header = document.querySelector(".site-header");
