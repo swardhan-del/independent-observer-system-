@@ -1,6 +1,7 @@
 ---
 import { publicationRevisions } from "../../data/publication-revisions";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import FollowUpdates from "../../components/FollowUpdates.astro";
 import PageHero from "../../components/PageHero.astro";
 import { releaseLog } from "../../data/release-log";
 import { sixCandidateReleaseQueue } from "../../data/publication-registry";
@@ -97,4 +98,5 @@ const inDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles
       </p>
     </div>
   </section>
+  <div class="shell"><FollowUpdates id="latest-follow-updates" /></div>
 </BaseLayout>

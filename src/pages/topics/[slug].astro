@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import FollowUpdates from "../../components/FollowUpdates.astro";
 import PageHero from "../../components/PageHero.astro";
 import TopicReviewQueue from "../../components/TopicReviewQueue.astro";
 import { reviewQueueForTopic, topicPluginFor } from "../../../plugins/topic-discovery/catalog";
@@ -116,4 +117,5 @@ const mappedVolumeSummary =
   </section>
   <GreenPublicationShelf topic={topic.name} title={`${topic.name}: research previews`} />
   <TopicReviewQueue signals={reviewSignals} title={"In development: " + topic.name} />
+  <div class="shell"><FollowUpdates id={`topic-follow-updates-${topic.slug}`} /></div>
 </BaseLayout>
