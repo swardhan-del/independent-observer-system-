@@ -1,6 +1,7 @@
 ---
 import { sitePath } from "../lib/paths";
 import { socialLinks } from "../data/social";
+import { authorIdentity } from "../data/identity";
 ---
 
 <footer class="site-footer">
@@ -45,6 +46,9 @@ import { socialLinks } from "../data/social";
     <div>
       <h2>Publication</h2>
       <a href={sitePath("/about/")}>About</a>
+      <a href={authorIdentity.orcidUrl} target="_blank" rel="me noopener noreferrer">
+        Author ORCID · {authorIdentity.orcid}
+      </a>
       <a href={sitePath("/contact/")}>Contact</a>
       <a href={sitePath("/governance/")}>Editorial standards & privacy</a>
       <span>The site is the home base; social channels help people find the work.</span>
