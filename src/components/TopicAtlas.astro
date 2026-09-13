@@ -49,7 +49,7 @@ function volumeTags(topic: TopicHub) {
       <button type="button" data-topic-view="public" aria-pressed="false">Public preprints</button>
       <button type="button" data-topic-view="preview" aria-pressed="false">Preview map</button>
       <button type="button" data-topic-view="roadmap" aria-pressed="false">Series roadmap</button>
-      <button type="button" data-topic-view="release" aria-pressed="false">Held for release</button>
+      <button type="button" data-topic-view="release" aria-pressed="false">In development</button>
     </div>
     <p class="topic-atlas-count" data-topic-atlas-count role="status" aria-live="polite">
       {topics.length} fields shown
@@ -139,7 +139,7 @@ function volumeTags(topic: TopicHub) {
                 <strong>{roadmapCount}</strong> roadmap notes
               </span>
               <span>
-                <strong>{releaseCount}</strong> held for release
+                <strong>{releaseCount}</strong> in development
               </span>
             </div>
             <a class="topic-atlas-link" href={sitePath(`/topics/${topic.slug}/`)}>

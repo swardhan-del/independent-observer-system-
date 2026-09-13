@@ -14,7 +14,7 @@ export type VolumeReel = {
 
 /**
  * Public-safe media previews selected from the organized video archive.
- * These players are preview assets; they do not assert publication approval.
+ * These players are concept previews; they do not represent finished publications.
  */
 export const volumeReels: VolumeReel[] = [
   {
@@ -28,7 +28,7 @@ export const volumeReels: VolumeReel[] = [
     posterUrl: "/media/reels/is-this-the-life-we-want-independent-observer-poster.png",
     mediaType: "video/mp4",
     sourceLabel: "Author-created book trailer · original instrumental score",
-    sourceNote: "Preview asset · presentation overview; Volume III deck forthcoming",
+    sourceNote: "Concept preview · presentation overview; Volume III deck forthcoming",
     volumeHref: "/series/",
   },
   {
@@ -41,7 +41,7 @@ export const volumeReels: VolumeReel[] = [
     mediaUrl: "/media/reels/volume-i-evidence-and-institutional-denial.mp4",
     mediaType: "video/mp4",
     sourceLabel: "Organized video export · high-confidence subject classification",
-    sourceNote: "Preview asset · release review remains separate",
+    sourceNote: "Concept preview · publication pending",
     volumeHref: "/series/independent-observer/",
   },
   {
@@ -54,7 +54,7 @@ export const volumeReels: VolumeReel[] = [
     mediaUrl: "/media/reels/volume-i-attention-and-public-record.mp4",
     mediaType: "video/mp4",
     sourceLabel: "Organized slideshow export · high-confidence media classification",
-    sourceNote: "Preview asset · release review remains separate",
+    sourceNote: "Concept preview · publication pending",
     volumeHref: "/series/independent-observer/",
   },
   {
@@ -67,7 +67,7 @@ export const volumeReels: VolumeReel[] = [
     mediaUrl: "/media/reels/volume-i-expertise-and-independent-thought.mp4",
     mediaType: "video/mp4",
     sourceLabel: "Organized slideshow export · high-confidence knowledge classification",
-    sourceNote: "Preview asset · release review remains separate",
+    sourceNote: "Concept preview · publication pending",
     volumeHref: "/series/independent-observer/",
   },
   {
@@ -80,7 +80,7 @@ export const volumeReels: VolumeReel[] = [
     mediaUrl: "/media/reels/volume-ii-the-architects-blueprint.mp4",
     mediaType: "video/mp4",
     sourceLabel: "Organized long-form video export · institution and power classification",
-    sourceNote: "Preview asset · release review remains separate",
+    sourceNote: "Concept preview · publication pending",
     volumeHref: "/series/the-empire-beneath-democracy/",
   },
   {
@@ -93,7 +93,7 @@ export const volumeReels: VolumeReel[] = [
     mediaUrl: "/media/reels/volume-ii-ballots-and-civic-participation.mp4",
     mediaType: "video/mp4",
     sourceLabel: "Organized slideshow export · high-confidence democracy classification",
-    sourceNote: "Preview asset · release review remains separate",
+    sourceNote: "Concept preview · publication pending",
     volumeHref: "/series/the-empire-beneath-democracy/",
   },
   {
@@ -106,7 +106,7 @@ export const volumeReels: VolumeReel[] = [
     mediaUrl: "/media/reels/volume-ii-elite-control-in-us-democracy.mp4",
     mediaType: "video/mp4",
     sourceLabel: "Organized long-form video export · high-confidence democracy classification",
-    sourceNote: "Preview asset · release review remains separate",
+    sourceNote: "Concept preview · publication pending",
     volumeHref: "/series/the-empire-beneath-democracy/",
   },
   {
@@ -119,7 +119,7 @@ export const volumeReels: VolumeReel[] = [
     mediaUrl: "/media/reels/volume-ii-terry-cascade.mp4",
     mediaType: "video/mp4",
     sourceLabel: "Organized long-form video export · high-confidence carceral classification",
-    sourceNote: "Preview asset · release review remains separate",
+    sourceNote: "Concept preview · publication pending",
     volumeHref: "/series/the-empire-beneath-democracy/",
   },
   {
@@ -132,7 +132,7 @@ export const volumeReels: VolumeReel[] = [
     mediaUrl: "/media/reels/japan-betrayed.mp4",
     mediaType: "video/mp4",
     sourceLabel: "Organized long-form video export · geopolitics case-study classification",
-    sourceNote: "Preview asset · release review remains separate",
+    sourceNote: "Concept preview · publication pending",
     volumeHref: "/series/the-empire-beneath-democracy/",
   },
   {
@@ -145,7 +145,7 @@ export const volumeReels: VolumeReel[] = [
     mediaUrl: "/media/reels/volume-iii-factory-labor-and-economic-power.mp4",
     mediaType: "video/mp4",
     sourceLabel: "Organized video export · high-confidence labor classification",
-    sourceNote: "Preview asset · release review remains separate",
+    sourceNote: "Concept preview · publication pending",
     volumeHref: "/series/managed-decline/",
   },
   {
@@ -158,7 +158,7 @@ export const volumeReels: VolumeReel[] = [
     mediaUrl: "/media/reels/volume-iii-oil-money-productivity-and-labor.mp4",
     mediaType: "video/mp4",
     sourceLabel: "Organized slideshow export · high-confidence economic classification",
-    sourceNote: "Preview asset · release review remains separate",
+    sourceNote: "Concept preview · publication pending",
     volumeHref: "/series/managed-decline/",
   },
   {
@@ -171,7 +171,7 @@ export const volumeReels: VolumeReel[] = [
     mediaUrl: "/media/reels/volume-iii-dignity-trust-and-social-cooperation.mp4",
     mediaType: "video/mp4",
     sourceLabel: "Organized slideshow export · high-confidence social-psychology classification",
-    sourceNote: "Preview asset · release review remains separate",
+    sourceNote: "Concept preview · publication pending",
     volumeHref: "/series/managed-decline/",
   },
   {
@@ -185,7 +185,7 @@ export const volumeReels: VolumeReel[] = [
     mediaType: "video/mp4",
     sourceLabel:
       "Organized long-form video export · medicine and professional-power classification",
-    sourceNote: "Preview asset · release review remains separate",
+    sourceNote: "Concept preview · publication pending",
     volumeHref: "/series/the-last-human-workforce/",
   },
   {
@@ -199,7 +199,7 @@ export const volumeReels: VolumeReel[] = [
     mediaType: "video/mp4",
     sourceLabel:
       "Organized long-form video export · reviewed medicine and professional-power classification",
-    sourceNote: "Preview asset · release review remains separate",
+    sourceNote: "Concept preview · publication pending",
     volumeHref: "/series/the-last-human-workforce/",
   },
 ];

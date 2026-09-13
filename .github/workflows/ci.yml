@@ -31,8 +31,8 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Verify hosted publication operating system
-        run: npm run verify:operating-system
+      - name: Verify public publication boundary
+        run: npm run verify:publication-boundary
       - name: Verify publication manifest contract
         run: npx vitest run scripts/publication-manifest.test.mjs scripts/sync-dropbox-public-feed.test.mjs
       - name: Audit production dependencies

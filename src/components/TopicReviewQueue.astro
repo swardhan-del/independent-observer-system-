@@ -30,9 +30,7 @@ const {
             <article class="topic-review-card">
               <div class="topic-review-card-topline">
                 <span>{String(index + 1).padStart(2, "0")}</span>
-                <span class="status-pill">
-                  {signal.status === "Awaiting human release" ? "In development" : signal.status}
-                </span>
+                <span class="status-pill">{signal.status}</span>
               </div>
               <h3>{signal.title}</h3>
               <p class="topic-review-category">{signal.category}</p>

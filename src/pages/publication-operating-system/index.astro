@@ -2,110 +2,26 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { sitePath } from "../../lib/paths";
 
-const currentPath = "/publication-operating-system/";
-const downloadPath = sitePath(
-  "/documents/independent-observer-publication-operating-system-2026.docx",
-);
+const destination = sitePath("/governance/");
 ---
 
 <BaseLayout
-  title="Publication Operating System"
-  description="The Independent Observer's publication operating standard for research, approval, publication, distribution, and learning."
-  currentPath={currentPath}
+  title="Editorial standards"
+  description="The former publication guide now points readers to Independent Observer editorial standards and privacy information."
+  currentPath="/publication-operating-system/"
+  canonicalPath="/governance/"
+  noindex
 >
-  <section class="page-hero">
-    <div class="shell page-hero-inner">
-      <p class="eyebrow">Public reference document</p>
-      <h1>Publication Operating System</h1>
-      <p class="page-intro">Research → approval → publication → distribution → learning.</p>
-    </div>
-  </section>
-
-  <section class="section section-white">
-    <div class="shell page-grid">
-      <aside class="page-aside">
-        <span>Version 1.0</span>
-        <span>24 August 2026</span>
-        <span>Exact DOCX copy</span>
-      </aside>
-      <div class="prose detail-prose">
-        <p class="eyebrow">The governing standard</p>
-        <h2>From evidence to public work.</h2>
-        <p>
-          This document sets out the operating rules for Independent Observer research, archive,
-          website, video, social, documentary, and commercial reuse. It separates source material
-          from public adaptations and keeps human approval at the release gate.
-        </p>
-        <div class="operating-system-notice" role="note">
-          <strong>Public reference version</strong>
-          <p>
-            This is the hosted operating standard, not a research article. The current copy is a
-            public reference version. It describes editorial practices; it does not confer
-            publication status on research or book previews.
-          </p>
-        </div>
-        <div class="detail-actions">
-          <a class="button" href={downloadPath} download>Download the original DOCX →</a>
-        </div>
-        <dl class="operating-system-meta">
-          <div>
-            <dt>Hosted file</dt>
-            <dd>INDEPENDENT_OBSERVER_PUBLICATION_ENGINE_2026.docx</dd>
-          </div>
-          <div>
-            <dt>SHA-256</dt>
-            <dd>07984db194983a9ac7f50c244c8a4afea7b4b810602bd9abfb4d309bab1445ed</dd>
-          </div>
-        </dl>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-navy">
-    <div class="shell">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Inside the standard</p>
-          <h2>What it controls.</h2>
-        </div>
-        <p>
-          The original document remains the authoritative text. This overview helps readers find the
-          relevant operating layer before downloading it.
-        </p>
-      </div>
-      <div class="operating-system-grid">
-        <article>
-          <span>01</span>
-          <h3>Publication status</h3>
-          <p>
-            Working papers, concept previews, public reference versions, and books in editorial
-            development.
-          </p>
-        </article>
-        <article>
-          <span>02</span>
-          <h3>Editorial standards</h3>
-          <p>
-            Sources, limitations, rights, privacy, and clear distinctions between evidence and
-            interpretation.
-          </p>
-        </article>
-        <article>
-          <span>03</span>
-          <h3>Accountability</h3>
-          <p>
-            Clear authorship and a contact pathway for questions, corrections, and rights concerns.
-          </p>
-        </article>
-        <article>
-          <span>04</span>
-          <h3>Distribution</h3>
-          <p>
-            Accessible web adaptations, metadata, sitemap, video, social derivatives, and update
-            cycles.
-          </p>
-        </article>
-      </div>
+  <meta http-equiv="refresh" content={`0;url=${destination}`} />
+  <section class="section section-white redirect-page" aria-labelledby="redirect-title">
+    <div class="shell narrow-shell">
+      <p class="eyebrow">Editorial standards</p>
+      <h1 id="redirect-title">Continue to editorial standards and privacy.</h1>
+      <p>
+        This legacy address now points to the reader-facing standards, corrections, privacy, reuse,
+        and disclosures guide.
+      </p>
+      <a class="button button-primary" href={destination}>Open editorial standards →</a>
     </div>
   </section>
 </BaseLayout>

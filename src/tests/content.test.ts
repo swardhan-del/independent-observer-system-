@@ -258,14 +258,14 @@ describe("editorial preview data", () => {
     ).toEqual(
       expect.arrayContaining([
         expect.stringContaining("Democracy's Achilles' Heel"),
-        expect.stringContaining("not a released Independent Observer publication"),
+        expect.stringContaining("in editorial development"),
       ]),
     );
     expect(
       entry?.detailSections?.find((section) => section.heading === "Volume III research directions")
         ?.items,
     ).toEqual(expect.arrayContaining([expect.stringContaining("single-cause")]));
-    expect(entry?.sourceNote).toContain("Raw source files");
+    expect(entry?.sourceNote).toContain("raw source files");
     expect(entry?.status).toBe("In editorial development");
   });
 
@@ -276,7 +276,7 @@ describe("editorial preview data", () => {
     expect(entry?.description).toContain("public record");
     expect(
       entry?.detailSections?.some(
-        (section) => section.heading === "What the public-safe audit establishes",
+        (section) => section.heading === "What the public source record establishes",
       ),
     ).toBe(true);
     expect(
@@ -348,7 +348,7 @@ describe("editorial preview data", () => {
       posterUrl: "/media/reels/is-this-the-life-we-want-independent-observer-poster.png",
     });
     expect(volumeReels.every((reel) => reel.mediaType === "video/mp4")).toBe(true);
-    expect(volumeReels.every((reel) => reel.sourceNote.includes("Preview asset"))).toBe(true);
+    expect(volumeReels.every((reel) => reel.sourceNote.includes("Concept preview"))).toBe(true);
     expect(volumeReels.every((reel) => reel.description.length > 100)).toBe(true);
   });
 
@@ -448,9 +448,8 @@ describe("public library data", () => {
         ?.value,
     ).toBe("0");
     expect(
-      publicLibrarySnapshot.stats.find((stat) => stat.label === "Hosted operating standards")
-        ?.value,
-    ).toBe("1");
+      publicLibrarySnapshot.stats.find((stat) => stat.label === "Hosted operating standards"),
+    ).toBeUndefined();
     expect(
       publicLibrarySnapshot.areas.every((area) => area.privateCount.includes("private archive")),
     ).toBe(true);

@@ -71,7 +71,7 @@ export const researchItems: EditorialItem[] = [
         heading: "Volume II context",
         paragraphs: [
           "The adjacent Volume II research line, Democracy's Achilles' Heel: Institutional Incentives and Political Outcomes, examines the distance between formal political equality and the practical ability to set agendas, obtain information, participate, and secure institutional correction.",
-          "That connection helps explain why this preview asks about usable remedies rather than lawsuits alone: rights, procedures, administration, and public capacity must meet before a formal remedy changes lived conditions. The Volume II manuscript remains a working/preprint direction, not a released Independent Observer publication.",
+          "That connection helps explain why this preview asks about usable remedies rather than lawsuits alone: rights, procedures, administration, and public capacity must meet before a formal remedy changes lived conditions. The Volume II manuscript remains a working/preprint direction in editorial development.",
         ],
         items: [
           "Resource conversion and access.",
@@ -81,7 +81,7 @@ export const researchItems: EditorialItem[] = [
       },
     ],
     sourceNote:
-      "This public catalogue relationship draws on the public author paper page From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential, the audited Volume III working-paper direction Welfare, Wealthfare, and Social Control in Advanced Democracies, and the Volume II working-paper direction Democracy's Achilles' Heel: Institutional Incentives and Political Outcomes. These source reservoirs inform the research map; Raw source files, alternate drafts, private metadata, and unverified claims remain outside the website.",
+      "This public catalogue relationship draws on the public author paper page From Vietnam to Terry v. Ohio: Investing in Human Failure vs. Human Potential, the Volume III working-paper direction Welfare, Wealthfare, and Social Control in Advanced Democracies, and the Volume II working-paper direction Democracy's Achilles' Heel: Institutional Incentives and Political Outcomes. These sources inform the research map; raw source files, alternate drafts, private metadata, and unverified claims remain outside the website.",
   },
   {
     title: "The Welfare Paradox",
@@ -176,8 +176,8 @@ export const documentaryItems: EditorialItem[] = [
       {
         heading: "Phase 3 treatment boundary",
         paragraphs: [
-          "The Dropbox-backed public audit identifies this project as a documentary concept in editorial development. The website can publish a public-safe treatment outline and its research connections; it does not publish a private Phase 3 dossier, raw archive material, unreleased footage, working contacts, or an unverified production claim.",
-          "A future Phase 3 package would still need a source dossier, legal and rights review, a scene-by-scene treatment, current fact-checking, access decisions, and human release approval before it could be described as a finished documentary or a production commitment.",
+          "The public project record identifies this as a documentary concept in editorial development. This website presents a treatment outline and its research connections; it does not include unpublished production material, raw archive material, unreleased footage, working contacts, or claims of a finished production.",
+          "A future Phase 3 package would still need a source dossier, legal and rights review, a scene-by-scene treatment, current fact-checking, and access decisions before it could be described as a finished documentary or a production commitment.",
         ],
       },
       {
@@ -191,7 +191,7 @@ export const documentaryItems: EditorialItem[] = [
       },
     ],
     sourceNote:
-      "This public preview expands the existing Dropbox-backed Documentary Projects record without reproducing private production material. It is connected to the public Volume II roadmap and public paper synopsis pages; those links are reading routes, not evidence that a film has been released or that every mapped research direction is public.",
+      "This concept preview builds on the Documentary Projects public record without reproducing unpublished production material. It is connected to the public Volume II roadmap and public paper synopsis pages; those links are reading routes, not evidence that a film has been released or that every mapped research direction is public.",
     sourceLinks: [
       {
         label: "Read the Volume II public reading frame",
@@ -247,7 +247,7 @@ export const documentaryItems: EditorialItem[] = [
       {
         heading: "Publication status",
         paragraphs: [
-          "This is a concept preview connected to The Last Human Workforce, not a released film. Research, source verification, rights review, a finished treatment, production, and human release approval remain separate requirements.",
+          "This is a concept preview connected to The Last Human Workforce, not a released film. Research, source verification, rights review, a finished treatment, and production remain to be completed before any finished-film claim.",
         ],
       },
     ],
@@ -302,9 +302,9 @@ export const videoItems: EditorialItem[] = [
         ],
       },
       {
-        heading: "What the public-safe audit establishes",
+        heading: "What the public source record establishes",
         paragraphs: [
-          "The 2026-08-22 Website Publication Audit classifies Democracy’s Achilles’ Heel as a higher-standard working paper that remains B — YELLOW / REVIEW REQUIRED. Its web-ready source notes report more than 158 million counted ballots in the 2024 U.S. general election and turnout of 64.7% of the citizen voting-age population, using the U.S. Election Assistance Commission’s 2024 Election Administration and Voting Survey.",
+          "Democracy’s Achilles’ Heel is presented as a working-paper concept, not a finished publication. Its public source notes report more than 158 million counted ballots in the 2024 U.S. general election and turnout of 64.7% of the citizen voting-age population, using the U.S. Election Assistance Commission’s 2024 Election Administration and Voting Survey.",
         ],
         items: [
           "Those figures document substantial participation; they do not, by themselves, show that agenda-setting, information access, administration, or correction are equally available between elections.",
@@ -322,12 +322,12 @@ export const videoItems: EditorialItem[] = [
       {
         heading: "Publication status and release boundary",
         paragraphs: [
-          "This page is an Independent Observer concept preview, not a released video or article. The related Volume II candidate remains awaiting human release; no player, transcript, final citation package, media-rights clearance, or production release is asserted here.",
+          "This page is an Independent Observer concept preview, not a released video or article. The related Volume II candidate remains in editorial development; no player, transcript, final citation package, media-rights clearance, or finished video is claimed here.",
         ],
       },
     ],
     sourceNote:
-      "The page uses only the public-safe source notes reviewed in the 2026-08-22 Website Publication Audit. Private source paths, working-paper files, internal controller evidence, and watermarked video exports remain outside the website.",
+      "The page uses public source notes for this concept preview. Private source paths, complete working-paper files, internal research material, and watermarked video exports remain outside the website.",
     sourceLinks: [
       {
         label: "U.S. Election Assistance Commission · 2024 EAVS report",

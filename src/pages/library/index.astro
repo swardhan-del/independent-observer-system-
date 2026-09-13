@@ -4,7 +4,6 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import LibraryContentBlocks from "../../components/LibraryContentBlocks.astro";
 import LibraryResearchShelf from "../../components/LibraryResearchShelf.astro";
 import PageHero from "../../components/PageHero.astro";
-import { dropboxFeedItems } from "../../data/dropbox-content.generated";
 import { publicDocumentItems } from "../../data/documents";
 import { publicLibrarySnapshot } from "../../data/public-library";
 import { sitePath } from "../../lib/paths";
@@ -48,8 +47,9 @@ const { areas, note, stats } = publicLibrarySnapshot;
             Some older public records remain available for historical continuity but are not current
             Green publications. Empire of Distraction and When the Storm Decides remain methodology
             holds; From Vietnam to Terry v. Ohio requires source-audit rebuilding; Wardhan Tax
-            Doctrine has competing full-text versions; and Who Deported More? is a public paper
-            record whose newer manuscript remains under review.
+            Doctrine has competing full-text versions; and Who Deported More? A Guide to Comparing
+            Deportation Statistics is a public paper record whose newer manuscript remains in
+            editorial development.
           </p>
           <p>
             These labels preserve links without silently substituting newer working-archive
@@ -178,7 +178,7 @@ const { areas, note, stats } = publicLibrarySnapshot;
                     </span>
                   )}
                   <a class="card-open-link" href={sitePath(`/library/documents/${entry.id}/`)}>
-                    Open reader →
+                    Read {entry.title} →
                   </a>
                 </div>
               </article>
@@ -192,12 +192,12 @@ const { areas, note, stats } = publicLibrarySnapshot;
       <div class="shell">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Archive shape</p>
-            <h2>Research areas, not file exposure.</h2>
+            <p class="eyebrow">Catalogue map</p>
+            <h2>Research areas, organized for readers.</h2>
           </div>
           <p>
-            These broad categories make the private workspace legible while keeping source documents
-            and working material out of the public build.
+            These broad categories show how the public catalogue is organized and where to begin a
+            reading path.
           </p>
         </div>
         <div class="topics-grid">
@@ -224,14 +224,15 @@ const { areas, note, stats } = publicLibrarySnapshot;
           <h2>What remains private.</h2>
           <p>
             Raw DOCX, PDF, presentation, video, private notes, local file paths, personal records,
-            draft evidence, and unpublished claims are not published through this page. Any future
-            release must be explicitly marked public-safe and reviewed before it enters the website.
+            draft evidence, and unpublished claims do not appear in this public catalogue. Records
+            published here identify their current status and reader-facing limits.
           </p>
           <div class="principles">
             <div class="principle">
               <span>01</span><div>
                 <h3>The working archive stays private</h3><p>
-                  The website receives only approved summaries; it does not mirror the archive.
+                  The website provides selected public reference versions; it does not mirror
+                  private source material.
                 </p>
               </div>
             </div>
@@ -263,20 +264,19 @@ const { areas, note, stats } = publicLibrarySnapshot;
     <section class="section section-navy">
       <div class="shell newsletter">
         <div>
-          <p class="eyebrow">Integration status</p>
-          <h2>Structured updates stay reviewable.</h2>
+          <p class="eyebrow">Public catalogue</p>
+          <h2>Find a record or suggest a correction.</h2>
           <p>
-            Approved source-feed items currently visible in the site build:
-            <strong>{dropboxFeedItems.length}</strong>. The archive summary above is a reviewed
-            snapshot; it does not imply that the private archive is continuously or automatically
-            public.
+            The catalogue brings together public reference versions, author-paper summaries, and
+            research maps. It is not a live mirror of private research material.
           </p>
         </div>
         <div class="contact-panel">
-          <h2>Next safe step</h2>
+          <h2>Help keep the record clear</h2>
           <p>
-            Add a short, public-safe summary to the approved source feed when it is ready for
-            publication. The workflow will validate it and open a pull request for review.
+            Use the contact page to flag a correction, ask about a public record, or share a source
+            that may be relevant. A listing appears when a reader-facing reference version is
+            available.
           </p>
           <a class="button" href={sitePath("/contact/")}>Contact the project</a>
         </div>

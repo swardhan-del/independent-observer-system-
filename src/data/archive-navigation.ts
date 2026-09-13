@@ -37,7 +37,7 @@ export type ArchiveNavigationVolume = {
 const paper = (
   id: string,
   title: string,
-  status = "Archive catalogue entry · editorial review",
+  status = "Publication pending",
   href?: string,
   researchGateUrl?: string,
 ): ArchivePaper => ({
@@ -60,11 +60,7 @@ export const archivePapers: ArchivePaper[] = [
     "Independent Observer: Manifesto and Destiny",
     "Book compilation · editorial development",
   ),
-  paper(
-    "original-master-ip",
-    "Original master and IP declaration",
-    "Archive master record · not a public reading copy",
-  ),
+  paper("original-master-ip", "Original master and IP declaration", "Publication pending"),
   paper(
     "independent-observer-volume-one",
     "Independent Observer: Critical Studies in Philosophy, Politics, Economics, and History — Volume I (Foundational Manifesto)",
@@ -293,7 +289,7 @@ export const archivePapers: ArchivePaper[] = [
   paper(
     "empire-distraction",
     "The Empire of Distraction",
-    "Archive catalogue entry · verified ResearchGate record · placement held",
+    "Verified ResearchGate record · publication pending",
     undefined,
     "https://www.researchgate.net/publication/400015476_The_Empire_of_Distraction_Foreign_Agenda-Setting_Malapportionment_and_the_Managed_Myth_of_Popular_Rule_in_the_United_States",
   ),
@@ -324,7 +320,7 @@ export const archivePapers: ArchivePaper[] = [
   paper(
     "education-rational-thinking",
     "Education and Rational Thinking",
-    "Forthcoming collection · editorial review",
+    "In editorial development",
   ),
   paper("prescription-pad-power", "From Prescription Pad to Power"),
   paper("administrative-university", "The Administrative University"),

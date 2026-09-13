@@ -45,7 +45,12 @@ const base = normalizeBasePath(process.env.BASE_PATH ?? "/");
 export default defineConfig({
   output: "static",
   build: { inlineStylesheets: "never" },
-  vite: { build: { assetsInlineLimit: 0 } },
+  vite: {
+    build: { assetsInlineLimit: 0 },
+    define: {
+      "process.env.VERCEL_ENV": JSON.stringify(process.env.VERCEL_ENV ?? ""),
+    },
+  },
   site,
   base,
   trailingSlash: "always",

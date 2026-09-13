@@ -43,7 +43,7 @@ describe("library content blocks", () => {
     ).toBe(true);
   });
 
-  it("keeps the source-taxonomy research map separate from public paper records", () => {
+  it("keeps the research map separate from public paper records", () => {
     const volumeOne = libraryVolumeGuides.find((guide) => guide.volume === "Volume I");
     const volumeTwo = libraryVolumeGuides.find((guide) => guide.volume === "Volume II");
 
@@ -100,10 +100,10 @@ describe("library content blocks", () => {
     ]);
     expect(volumeFour?.importance).toContain("usable human capability");
     expect(volumeFour?.summary).toContain("advanced technology is measured");
-    expect(researchShelf).toContain("Source-taxonomy research map");
+    expect(researchShelf).toContain("Research map");
     expect(researchShelf).toContain("library-volume-shelf-research-label");
     expect(researchShelf).toContain("researchGateUrl");
-    expect(researchShelf).toMatch(/not public author paper pages or\s+publication approvals/);
+    expect(researchShelf).toMatch(/not public author paper pages or\s+finished publications/);
   });
 
   it("maps public author papers to the correct volume without changing their status", () => {

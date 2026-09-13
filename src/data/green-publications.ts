@@ -53,7 +53,7 @@ export const greenPublications: GreenPublication[] = [
     ],
     publicationType: "Research article",
     status: "Preview-only bounded text adaptation",
-    version: "Controller v1; web adaptation v1",
+    version: "Public preview v1",
     factualCutoffDate: "2026-07-30",
     publicationDate: "2026-07-30",
     lastReviewedDate: "2026-08-22",
@@ -85,7 +85,7 @@ export const greenPublications: GreenPublication[] = [
       },
     ],
     limitations:
-      "The controller describes a structured narrative review, not a preregistered systematic review or meta-analysis. Evidence is heterogeneous and often based on small cohorts or specialized programs.",
+      "This preview is a structured narrative review, not a preregistered systematic review or meta-analysis. Evidence is heterogeneous and often based on small cohorts or specialized programs.",
   },
   {
     candidateId: "IO-V1-INDEPENDENT-OBSERVER-METHOD",

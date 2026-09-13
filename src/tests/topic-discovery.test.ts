@@ -104,7 +104,7 @@ describe("topic discovery plugin", () => {
 
   it("keeps six Dropbox-derived review signals metadata-only and held for approval", () => {
     expect(reviewQueueSignals).toHaveLength(6);
-    expect(reviewQueueSignals.every((signal) => signal.status === "Awaiting human release")).toBe(
+    expect(reviewQueueSignals.every((signal) => signal.status === "In editorial development")).toBe(
       true,
     );
     expect(

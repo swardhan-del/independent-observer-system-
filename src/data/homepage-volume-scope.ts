@@ -63,7 +63,7 @@ const volumeHypotheses: Record<SeriesItem["volume"], string> = {
 };
 
 const earlyStageLimitation =
-  "This is an early-stage, ongoing research project. The map is selective, source coverage and versions can change, and each direction remains subject to further evidence review, revision, and its own public release decision.";
+  "This is an early-stage, ongoing research project. The map is selective, source coverage and versions can change, and each direction remains subject to further evidence review, revision, and its own publication status.";
 
 export const homepageVolumeScopes: HomepageVolumeScope[] = seriesItems.map((item) => ({
   volume: item.volume,

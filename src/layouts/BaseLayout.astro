@@ -56,6 +56,7 @@ const canonicalUrl = new URL(publicSitePath(canonicalPath), publicOrigin).href;
 const websiteUrl = new URL(publicSitePath("/"), publicOrigin).href;
 const socialImageUrl = new URL(publicSitePath("/og-cover.jpg"), publicOrigin).href;
 const sitemapUrl = new URL(publicSitePath("/sitemap.xml"), publicOrigin).href;
+const authorProfileUrl = new URL(publicSitePath("/about/"), publicOrigin).href;
 const breadcrumbItems =
   currentPath === "/"
     ? []
@@ -77,7 +78,12 @@ const publicationDateIso = citationDate(articleMetadata?.publicationDate);
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
-    { "@type": "Person", "@id": `${websiteUrl}#author`, name: "Siddhartha Harsh Wardhan" },
+    {
+      "@type": "Person",
+      "@id": `${websiteUrl}#author`,
+      name: "Siddhartha Harsh Wardhan",
+      url: authorProfileUrl,
+    },
     {
       "@type": "CreativeWorkSeries",
       "@id": `${websiteUrl}#volumes`,
@@ -191,6 +197,12 @@ const structuredData = JSON.stringify({
     {articleMetadata && <meta name="citation_title" content={articleMetadata.title ?? title} />}
     {articleMetadata && <meta name="citation_author" content={articleMetadata.author} />}
     {publicationDateIso && <meta name="citation_publication_date" content={publicationDateIso} />}
+    {articleMetadata && <meta name="citation_abstract_html_url" content={canonicalUrl} />}
+    {
+      articleMetadata?.keywords?.length && (
+        <meta name="citation_keywords" content={articleMetadata.keywords.join(", ")} />
+      )
+    }
     <meta name="theme-color" content="#07182d" />
     {shouldNoindex && <meta name="robots" content="noindex,follow" />}
     <link rel="canonical" href={canonicalUrl} />

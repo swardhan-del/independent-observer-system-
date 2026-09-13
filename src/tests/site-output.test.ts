@@ -264,7 +264,7 @@ describe("built website", () => {
     expect(html).not.toContain("Reserved for the eventual, reviewed thesis.");
   });
 
-  it("renders Volume I's expanded source-taxonomy research map", () => {
+  it("renders Volume I's expanded research map", () => {
     const html = readOutput("library/index.html");
 
     expect(html).toContain("From Plato to Chomsky: Democracy, Mass Manipulation");
@@ -274,7 +274,7 @@ describe("built website", () => {
     expect(html).toContain("The Security of Memory: State Funerals, Political Legacies");
     expect(html).toContain("The Silent Archivist: Lawful Documentation and Deferred Disclosure");
     expect(html).toContain("V-Dem, Worldwide Governance Indicators, aid, and administrative data");
-    expect(html).toContain("not public author paper pages or publication approvals");
+    expect(html).toContain("not public author paper pages or finished publications");
   });
 
   it("renders the History hub's research-grounded overview", () => {
@@ -303,7 +303,7 @@ describe("built website", () => {
     expect(html).toContain("Test technological change against human capability.");
     expect(html).toContain("Representative research directions");
     expect(html).toContain("research directions in development");
-    expect(html).toContain("Nothing here announces publication approval, peer review");
+    expect(html).toContain("Nothing here announces a finished publication, peer review");
     expect(tabs).toHaveLength(4);
     expect(panels).toHaveLength(4);
 
@@ -564,7 +564,7 @@ describe("built website", () => {
     expect(html).toContain("Open verified ResearchGate preprint");
     expect(html).toContain("The Perception Proxy: From Factory Collapse to Podcast Rage");
     expect(html).toContain("Provides a central Volume III bridge");
-    expect(html).toContain("not public author paper pages or publication approvals");
+    expect(html).toContain("not public author paper pages or finished publications");
   });
 
   it("renders Volume IV's interdisciplinary research map in the public library", () => {
@@ -581,7 +581,7 @@ describe("built website", () => {
     expect(html).toContain("ADHD in a Cage");
     expect(html).toContain("The Last Human Workforce: Automation, AI");
     expect(html).toContain("Neuroprosthetics and embodied capability");
-    expect(html).toContain("not public author paper pages or publication approvals");
+    expect(html).toContain("not public author paper pages or finished publications");
   });
 
   it("keeps internal archive-provider and chatbot language out of public pages", () => {
@@ -620,16 +620,15 @@ describe("built website", () => {
     expect([...atom.matchAll(/<entry>/g)]).toHaveLength(0);
   });
 
-  it("hosts the exact owner-provided operating-system DOCX", () => {
+  it("keeps the retired operating-system document out of public output", () => {
     const documentPath = join(
       distRoot,
       "documents/independent-observer-publication-operating-system-2026.docx",
     );
-    expect(existsSync(documentPath)).toBe(true);
-    expect(readFileSync(documentPath).subarray(0, 2).toString()).toBe("PK");
-    expect(readOutput("publication-operating-system/index.html")).toContain(
-      "Download the original DOCX",
-    );
+    const legacy = readOutput("publication-operating-system/index.html");
+    expect(existsSync(documentPath)).toBe(false);
+    expect(legacy).toContain('name="robots" content="noindex,follow"');
+    expect(legacy).toContain("/governance/");
   });
 
   it("keeps the legacy Start Here route out of indexing and points it to the current route", () => {
@@ -853,7 +852,7 @@ function sitePathForTest(route: string) {
   return route.replace(/^\//, "");
 }
 
-it("keeps exact scholarly titles when browser titles are shortened", () => {
+it("keeps the public paper title consistent across reader and metadata", () => {
   const entry = publicDocumentItems.find((item) => item.id === "who-deported-more")!;
   const html = readFileSync(
     join(distRoot, "library/documents/who-deported-more/index.html"),
@@ -867,5 +866,5 @@ it("keeps exact scholarly titles when browser titles are shortened", () => {
     schema["@graph"].find((item: { "@type": string }) => item["@type"] === "ScholarlyArticle")
       .headline,
   ).toBe(entry.title);
-  expect(html).toContain("Who Deported More? A Guide to Comparing Deportation Statistics");
+  expect(entry.title).toBe("Who Deported More? A Guide to Comparing Deportation Statistics");
 });

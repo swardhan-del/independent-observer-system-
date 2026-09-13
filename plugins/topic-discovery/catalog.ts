@@ -46,7 +46,7 @@ export type VolumeTopicConnection = {
 
 export type ReviewQueueSignal = {
   title: string;
-  status: "Awaiting human release";
+  status: "In editorial development";
   category: string;
   description: string;
   topicSlugs: string[];
@@ -280,7 +280,7 @@ export const topicPathways: TopicPathway[] = [
       },
       {
         kind: "Author paper",
-        label: "Who Deported More?",
+        label: "Who Deported More? A Guide to Comparing Deportation Statistics",
         path: "/library/documents/who-deported-more/",
       },
       {
@@ -344,7 +344,7 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
     contentLinks: [
       {
         kind: "Author paper",
-        label: "Who Deported More?",
+        label: "Who Deported More? A Guide to Comparing Deportation Statistics",
         path: "/library/documents/who-deported-more/",
       },
       {
@@ -436,57 +436,51 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
 };
 
 /**
- * Safe release signals only. The underlying drafts remain in Dropbox and are not linked as
- * articles here. The status is intentionally visible so a fuller archive does not look like
- * an approved publication catalogue.
+ * Public development signals distinguish planned research from available reading copies.
  */
 export const reviewQueueSignals: ReviewQueueSignal[] = [
   {
     title:
       "Regrowing Humanity: How Robotic Limbs Are Becoming Integrated Extensions of the Human Body",
-    status: "Awaiting human release",
+    status: "In editorial development",
     category: "Science & Technology",
     description:
-      "Green conversion candidate with a reviewed evidence package; author, rights, web adaptation, and final accessibility gates remain.",
+      "Concept preview in editorial development; a public research article is not yet available.",
     topicSlugs: ["science", "technology"],
   },
   {
     title: "The Independent Observer Method",
-    status: "Awaiting human release",
+    status: "In editorial development",
     category: "Method & Democratic Capacity",
-    description:
-      "Web-ready method draft held for the owner’s release decision and final publication checks.",
+    description: "Method draft in editorial development; publication pending.",
     topicSlugs: ["history", "politics", "law"],
   },
   {
     title: "The Last Human Workforce",
-    status: "Awaiting human release",
+    status: "In editorial development",
     category: "AI & Human Capability",
-    description:
-      "Web-ready research draft held while evidence, rights, controller, and publication gates are reviewed.",
+    description: "Research draft in editorial development; publication pending.",
     topicSlugs: ["technology", "economics", "science"],
   },
   {
     title: "The Server as a Furnace",
-    status: "Awaiting human release",
+    status: "In editorial development",
     category: "Technology & Energy",
-    description: "Web-ready research draft held for source, rights, and final editorial review.",
+    description: "Research draft in editorial development; publication pending.",
     topicSlugs: ["technology", "science", "economics"],
   },
   {
     title: "Borrowed Labor",
-    status: "Awaiting human release",
+    status: "In editorial development",
     category: "Labor & Political Economy",
-    description:
-      "Web-ready research draft held for evidence, overlap, provenance, and human approval checks.",
+    description: "Research draft in editorial development; publication pending.",
     topicSlugs: ["economics", "politics", "history"],
   },
   {
     title: "Democracy’s Achilles’ Heel",
-    status: "Awaiting human release",
+    status: "In editorial development",
     category: "Democracy & Institutions",
-    description:
-      "Web-ready research draft held for example, overlap, interpretive-label, rights, and human approval checks.",
+    description: "Research draft in editorial development; publication pending.",
     topicSlugs: ["politics", "law", "history"],
   },
 ];

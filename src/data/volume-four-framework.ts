@@ -91,7 +91,7 @@ export const volumeFourFramework: VolumeTwoFramework = {
           title:
             "Regrowing Humanity: How Robotic Limbs Are Becoming Integrated Extensions of the Human Body",
           description:
-            "A preview-only bounded research article reviewing the movement from passive and body-powered limbs toward myoelectric, peripheral-nerve, cortical, and bone-anchored systems. The public article separates measured control, sensory feedback, reported embodiment, everyday use, access, and policy; the linked Evidence Lab exposes the source map without publishing the controller manuscript.",
+            "A preview-only bounded research article reviewing the movement from passive and body-powered limbs toward myoelectric, peripheral-nerve, cortical, and bone-anchored systems. The public article separates measured control, sensory feedback, reported embodiment, everyday use, access, and policy; the linked Evidence Lab exposes the source map without publishing a complete manuscript.",
           status: "Preview-only bounded text adaptation",
           href: "/research/regrowing-humanity/",
         },
