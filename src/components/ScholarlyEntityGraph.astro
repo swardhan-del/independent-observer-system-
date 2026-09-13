@@ -1,0 +1,81 @@
+---
+import type { PublicDocument } from "../data/documents";
+import { authorIdentity, authorIdentityLinks } from "../data/identity";
+import { scholarlyIdentityFor } from "../data/scholarly-identifiers";
+import { publicSitePath } from "../lib/paths";
+
+type Props = { entry: PublicDocument };
+const { entry } = Astro.props as Props;
+const scholarly = scholarlyIdentityFor(entry.id);
+const publicOrigin = Astro.site ?? new URL(Astro.url.origin);
+const websiteUrl = new URL(publicSitePath("/"), publicOrigin).href;
+const canonicalUrl = new URL(publicSitePath(`/library/documents/${entry.id}/`), publicOrigin).href;
+const externalLinks = [scholarly?.ssrnUrl, entry.researchGateUrl].filter(Boolean);
+const identifiers = [
+  ...(scholarly?.doi
+    ? [
+        {
+          "@type": "PropertyValue",
+          propertyID: "DOI",
+          value: scholarly.doi,
+          url: `https://doi.org/${scholarly.doi}`,
+        },
+      ]
+    : []),
+  ...(scholarly?.ssrnAbstractId
+    ? [
+        {
+          "@type": "PropertyValue",
+          propertyID: "SSRN",
+          value: scholarly.ssrnAbstractId,
+        },
+      ]
+    : []),
+];
+const graph = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${websiteUrl}#author`,
+      name: authorIdentity.name,
+      alternateName: authorIdentity.alternateNames,
+      url: new URL(publicSitePath("/about/"), publicOrigin).href,
+      sameAs: authorIdentityLinks,
+      identifier: [
+        {
+          "@type": "PropertyValue",
+          propertyID: "ORCID",
+          value: authorIdentity.orcid,
+          url: authorIdentity.orcidUrl,
+        },
+        {
+          "@type": "PropertyValue",
+          propertyID: "SSRN Author ID",
+          value: authorIdentity.ssrnAuthorId,
+        },
+      ],
+    },
+    ...(scholarly
+      ? [
+          {
+            "@type": "ScholarlyArticle",
+            "@id": `${canonicalUrl}#article`,
+            headline: scholarly.scholarlyTitle,
+            url: scholarly.ssrnUrl ?? canonicalUrl,
+            author:
+              entry.author === authorIdentity.name
+                ? { "@id": `${websiteUrl}#author` }
+                : { "@type": "Person", name: entry.author ?? "Independent Observer" },
+            ...(externalLinks.length ? { sameAs: externalLinks } : {}),
+            ...(identifiers.length ? { identifier: identifiers } : {}),
+            isPartOf: { "@id": `${websiteUrl}#website` },
+            mainEntityOfPage: { "@id": `${canonicalUrl}#webpage` },
+          },
+        ]
+      : []),
+  ],
+}).replace(/</g, "\\u003c");
+---
+
+<script type="application/ld+json" set:html={graph} is:inline />

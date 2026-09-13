@@ -2,6 +2,8 @@
 import { displayTitle, summaryDescription } from "../../../data/reader-presentation";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import DocumentReader from "../../../components/DocumentReader.astro";
+import ScholarlyEntityGraph from "../../../components/ScholarlyEntityGraph.astro";
+import ScholarlyIdentityPanel from "../../../components/ScholarlyIdentityPanel.astro";
 import { publicDocumentItems } from "../../../data/documents";
 import { publicationRevisions } from "../../../data/publication-revisions";
 import VolumeOneSourceMap from "../../../components/VolumeOneSourceMap.astro";
@@ -40,6 +42,7 @@ const keywords = [
     rightsNotice: entry.rightsNotice,
   }}
 >
+  <ScholarlyEntityGraph entry={entry} />
   <DocumentReader
     entry={entry}
     relatedEntries={publicDocumentItems}
@@ -48,5 +51,6 @@ const keywords = [
       ? publicDocumentItems[documentIndex + 1]
       : undefined}
   />
+  <ScholarlyIdentityPanel entry={entry} />
   {entry.id === "independent-observer-volume-one" && <VolumeOneSourceMap compact />}
 </BaseLayout>

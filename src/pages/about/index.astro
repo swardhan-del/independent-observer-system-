@@ -4,6 +4,7 @@ import PageHero from "../../components/PageHero.astro";
 import AboutVolumeAtlas from "../../components/AboutVolumeAtlas.astro";
 import { sitePath } from "../../lib/paths";
 import { previewGreenPublications } from "../../data/green-publications";
+import { authorIdentity } from "../../data/identity";
 ---
 
 <BaseLayout
@@ -24,6 +25,13 @@ import { previewGreenPublications } from "../../data/green-publications";
         Siddhartha Harsh Wardhan writes and develops Independent Observer, an independent research
         and essay project about power, work, history and technology. He brings these subjects
         together to examine how public decisions affect everyday life.
+      </p>
+      <p>
+        <strong>Scholarly identity.</strong>{" "}
+        <a href={authorIdentity.orcidUrl} target="_blank" rel="me noopener noreferrer">
+          ORCID {authorIdentity.orcid} ↗
+        </a>. Public paper pages separately identify verified scholarly titles, DOI records, SSRN
+        records, and ResearchGate records when those identifiers exist.
       </p>
       <p>
         The aim is to help readers look beneath a headline: identify the source, examine what it

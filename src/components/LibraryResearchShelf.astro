@@ -3,13 +3,13 @@ import { displayTitle, summaryDescription } from "../data/reader-presentation";
 import { byReadingUsefulness, startingQuestions } from "../data/scholarly-clarity";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
 import { seriesItems } from "../data/series";
-import { paperDocuments } from "../data/papers";
+import { paperCollection } from "../data/paper-collection";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 import VolumeOneSourceMap from "./VolumeOneSourceMap.astro";
 
 const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
-const papers = [...paperDocuments].sort(byReadingUsefulness);
+const papers = [...paperCollection].sort(byReadingUsefulness);
 
 const volumeIllustrations = {
   "Volume I": {
