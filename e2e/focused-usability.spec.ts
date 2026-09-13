@@ -97,7 +97,7 @@ test("article version details open for printing and restore afterwards", async (
   await page.evaluate(() => window.dispatchEvent(new Event("beforeprint")));
   await expect(details).toHaveAttribute("open");
   await expect(details).toContainText("Factual cutoff");
-  await expect(details).toContainText("not in the production release feed");
+  await expect(details).toContainText("Publication pending");
   await page.evaluate(() => window.dispatchEvent(new Event("afterprint")));
   await expect(details).not.toHaveAttribute("open");
 });
