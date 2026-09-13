@@ -9,21 +9,26 @@ import { sitePath } from "../../lib/paths";
 ---
 
 <BaseLayout
-  title="What’s New"
-  description="New explanations, reading tools, revisions and work in progress from Independent Observer."
+  title="Site Changelog"
+  description="Technical and reader-experience changes to the Independent Observer website, with links to publication revisions and the reader-facing latest-research page."
   currentPath="/whats-new/"
 >
   <PageHero
-    eyebrow="Project updates"
-    title="What’s new."
-    description="Find new explanations, improvements to reading and listening, and revisions to existing work."
+    eyebrow="Site changelog"
+    title="Website and reader-tool changes."
+    description="This page records interface, reading, listening, and search improvements. For new research and publication updates, use the Latest page."
   />
+  <section class="section section-white">
+    <div class="shell prose">
+      <p><a class="button" href={sitePath("/latest/")}>See latest research →</a></p>
+    </div>
+  </section>
   <section class="section section-white" aria-labelledby="website-updates-title">
     <div class="shell prose">
       <h2 id="website-updates-title">Website improvements</h2>
       <p>
         Changes to reading and listening tools are recorded here. Publication releases are listed
-        separately below.
+        separately on the Latest page and in the historical release log below.
       </p>
       {
         siteUpdates.map((update) => (
