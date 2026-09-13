@@ -63,10 +63,24 @@ const sectionRoutes: CanonicalRouteRecord[] = [
   },
   { route: "/library/", title: "Library", type: "section", source: "documents", indexable: true },
   {
-    route: "/whats-new/",
-    title: "What’s New",
+    route: "/latest/",
+    title: "Latest research",
     type: "section",
     source: "release-log",
+    indexable: true,
+  },
+  {
+    route: "/join/",
+    title: "Join Independent Observer",
+    type: "section",
+    source: "reader-membership",
+    indexable: true,
+  },
+  {
+    route: "/whats-new/",
+    title: "Site Changelog",
+    type: "section",
+    source: "site-updates",
     indexable: true,
   },
   {
