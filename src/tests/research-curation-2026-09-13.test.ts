@@ -6,10 +6,7 @@ import { volumeResearchMap } from "../data/volume-research";
 describe("13 September research curation", () => {
   it("adds the two reviewed research synopses to public reading routes", () => {
     const ids = curatedResearchDocuments.map((entry) => entry.id);
-    expect(ids).toEqual([
-      "history-is-not-a-moral-certificate",
-      "richer-republic-weaker-hegemon",
-    ]);
+    expect(ids).toEqual(["history-is-not-a-moral-certificate", "richer-republic-weaker-hegemon"]);
     for (const id of ids) {
       const entry = publicDocumentItems.find((document) => document.id === id);
       expect(entry).toBeDefined();
@@ -17,9 +14,7 @@ describe("13 September research curation", () => {
       expect(entry?.reviewScope?.independentReview).toContain(
         "No independent scholarly peer review",
       );
-      expect(entry?.sections.some((section) => section.id === "publication-boundary")).toBe(
-        true,
-      );
+      expect(entry?.sections.some((section) => section.id === "publication-boundary")).toBe(true);
     }
   });
 
