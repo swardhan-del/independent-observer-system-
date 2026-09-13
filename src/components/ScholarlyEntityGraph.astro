@@ -9,10 +9,7 @@ const { entry } = Astro.props as Props;
 const scholarly = scholarlyIdentityFor(entry.id);
 const publicOrigin = Astro.site ?? new URL(Astro.url.origin);
 const websiteUrl = new URL(publicSitePath("/"), publicOrigin).href;
-const canonicalUrl = new URL(
-  publicSitePath(`/library/documents/${entry.id}/`),
-  publicOrigin,
-).href;
+const canonicalUrl = new URL(publicSitePath(`/library/documents/${entry.id}/`), publicOrigin).href;
 const externalLinks = [scholarly?.ssrnUrl, entry.researchGateUrl].filter(Boolean);
 const identifiers = [
   ...(scholarly?.doi
