@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import ResearchCatalogue from "../../components/ResearchCatalogue.astro";
+import { sitePath } from "../../lib/paths";
 ---
 
 <BaseLayout
@@ -14,6 +15,47 @@ import ResearchCatalogue from "../../components/ResearchCatalogue.astro";
     title="Research & Essays"
     description="Essays, concepts, and current work: explore the research behind the four volumes. Browse working-paper summaries and concepts in development; each entry explains what you can read now."
   />
+
+  <section class="section section-rule" aria-labelledby="anonymized-case-studies-title">
+    <div class="shell page-grid">
+      <aside class="page-aside">Anonymized case studies</aside>
+      <div class="prose">
+        <h2 id="anonymized-case-studies-title">Institutional process without identifying the university</h2>
+        <p>
+          These public adaptations preserve the analytical questions while withholding the institution
+          name, individual identities, case numbers, private contact details, direct quotations, and
+          other case-specific identifiers. The complete evidentiary record is not hosted on these pages.
+        </p>
+        <div class="principles">
+          <div class="principle">
+            <span>01</span><div>
+              <h3>
+                <a href={sitePath("/research/administrative-obstruction-medical-education/")}>
+                  Administrative Obstruction in European Medical Education
+                </a>
+              </h3>
+              <p>
+                Registration status, practical access, written rules, and effective student-remedy pathways.
+              </p>
+            </div>
+          </div>
+          <div class="principle">
+            <span>02</span><div>
+              <h3>
+                <a href={sitePath("/research/cross-border-academic-obstruction-monitoring/")}>
+                  Cross-Border Acknowledgment of Academic Obstruction
+                </a>
+              </h3>
+              <p>
+                A process study separating submission, receipt, referral, and substantive findings across oversight bodies.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <ResearchCatalogue />
   <section class="section section-rule">
     <div class="shell page-grid">
