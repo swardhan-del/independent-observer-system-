@@ -75,7 +75,7 @@ jobs:
             src/lib/research-catalogue.ts
             src/pages/latest/index.astro
             src/pages/publication-ledger/index.astro
-            src/pages/research/[slug].astro
+            src/pages/research/
           retention-days: 1
       - name: Stop formatter diagnostic
         run: exit 1
