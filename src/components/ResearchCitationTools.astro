@@ -1,0 +1,114 @@
+---
+import { publicSitePath } from "../lib/paths";
+
+const { id, title, author, publicationDate, route, status } = Astro.props as {
+  id: string;
+  title: string;
+  author: string;
+  publicationDate: string;
+  route: string;
+  status: string;
+};
+const canonicalUrl = new URL(publicSitePath(route), Astro.site ?? Astro.url.origin).href;
+const year = publicationDate.slice(0, 4);
+const key = id.replace(/[^a-z0-9-]/gi, "-");
+const citation = `${author}. “${title}.” Independent Observer, ${publicationDate}. ${canonicalUrl}`;
+const bibtex = `@misc{${key},\n  title = {${title.replace(/[{}]/g, "")}},\n  author = {${author.replace(/[{}]/g, "")}},\n  year = {${year}},\n  date = {${publicationDate}},\n  url = {${canonicalUrl}},\n  note = {${status.replace(/[{}]/g, "")}}\n}\n`;
+const ris = [
+  "TY  - GEN",
+  `TI  - ${title}`,
+  `AU  - ${author}`,
+  `PY  - ${year}`,
+  `DA  - ${publicationDate.replace(/-/g, "/")}`,
+  `UR  - ${canonicalUrl}`,
+  `N1  - ${status}`,
+  "ER  -",
+  "",
+].join("\n");
+---
+
+<section
+  class="research-citation-tools"
+  aria-labelledby={`citation-tools-${id}`}
+  data-research-citation-tools
+  data-citation={citation}
+  data-bibtex={bibtex}
+  data-ris={ris}
+  data-key={key}
+>
+  <p class="eyebrow">Canonical citation</p>
+  <h2 id={`citation-tools-${id}`}>Cite this Independent Observer version</h2>
+  <p>{citation}</p>
+  <p class="citation-boundary">
+    IndependentObserver.org is the canonical record for this web version. External-platform copies,
+    when present, are archival mirrors and are not required for citation or verification.
+  </p>
+  <div class="citation-actions">
+    <button type="button" data-copy-citation>Copy citation</button>
+    <button type="button" data-download-bibtex>Download BibTeX</button>
+    <button type="button" data-download-ris>Download RIS</button>
+  </div>
+  <p data-citation-status role="status" aria-live="polite"></p>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-research-citation-tools]").forEach((root) => {
+    const status = root.querySelector<HTMLElement>("[data-citation-status]");
+    const download = (contents: string, filename: string, type: string) => {
+      const url = URL.createObjectURL(new Blob([contents], { type }));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      root.append(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    };
+    root.querySelector("[data-copy-citation]")?.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(root.dataset.citation ?? "");
+        if (status) status.textContent = "Citation copied.";
+      } catch {
+        if (status) status.textContent = "Copy is unavailable in this browser.";
+      }
+    });
+    root.querySelector("[data-download-bibtex]")?.addEventListener("click", () => {
+      download(root.dataset.bibtex ?? "", `${root.dataset.key}.bib`, "application/x-bibtex");
+      if (status) status.textContent = "BibTeX prepared for download.";
+    });
+    root.querySelector("[data-download-ris]")?.addEventListener("click", () => {
+      download(root.dataset.ris ?? "", `${root.dataset.key}.ris`, "application/x-research-info-systems");
+      if (status) status.textContent = "RIS prepared for download.";
+    });
+  });
+</script>
+
+<style>
+  .research-citation-tools {
+    margin-block: 2rem;
+    padding: 1.25rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .research-citation-tools h2 {
+    margin-top: 0.25rem;
+  }
+  .citation-boundary {
+    color: var(--slate-700);
+    font-size: 0.95rem;
+  }
+  .citation-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  .citation-actions button {
+    min-height: 44px;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--line);
+    background: var(--white);
+    color: var(--navy-950);
+    cursor: pointer;
+  }
+</style>
