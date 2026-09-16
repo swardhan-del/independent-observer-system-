@@ -58,8 +58,27 @@ jobs:
               exit 1
               ;;
           esac
-      - name: Check formatting
-        run: npm run format:check
+      - name: Produce exact formatter output
+        run: npm run format
+      - name: Preserve formatted source bytes
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: formatter-output
+          path: |
+            src/components/AnchorOffset.astro
+            src/components/EvidenceExplorer.astro
+            src/components/GreenPublicationArticle.astro
+            src/data/curated-publications.ts
+            src/data/family-registry.ts
+            src/data/publication-ledger.ts
+            src/data/route-registry.ts
+            src/lib/research-catalogue.ts
+            src/pages/latest/index.astro
+            src/pages/publication-ledger/index.astro
+            src/pages/research/[slug].astro
+          retention-days: 1
+      - name: Stop formatter diagnostic
+        run: exit 1
       - name: Lint and type-check
         run: npm run lint
       - name: Test normal production output
