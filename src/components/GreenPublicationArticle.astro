@@ -31,6 +31,7 @@ const schema = JSON.stringify({
   url: new URL(publicSitePath(currentPath), Astro.site ?? Astro.url.origin).href,
 }).replace(/</g, "\\u003c");
 const evidence = "evidence" in publication ? publication.evidence : [];
+const sourceAudited = evidence.length > 0;
 const adaptationNote = "adaptationNote" in publication ? publication.adaptationNote : undefined;
 ---
 
@@ -54,7 +55,9 @@ const adaptationNote = "adaptationNote" in publication ? publication.adaptationN
         {
           publication.productionReleased
             ? "Published article"
-            : "Source-audited preview · formal release pending"
+            : sourceAudited
+              ? "Source-audited preview · formal release pending"
+              : "Concept preview · publication pending"
         }
       </div>
       <header class="article-header">
