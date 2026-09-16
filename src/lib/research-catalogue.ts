@@ -2,7 +2,6 @@ import { byReadingUsefulness } from "../data/scholarly-clarity";
 import { researchItems, topics } from "../data/content";
 import { seriesItems } from "../data/series";
 import { paperDocuments } from "../data/papers";
-import { curatedResearchDocuments } from "../data/research-curation-2026-09-13";
 import { volumeResearchMap } from "../data/volume-research";
 import { sitePath } from "./paths";
 import { slugify } from "./slugs";
@@ -28,7 +27,6 @@ export type ResearchCatalogueRecord = SearchEntry & {
 };
 
 const topicNames = topics.map((topic) => topic.name);
-const publicPaperDocuments = [...paperDocuments, ...curatedResearchDocuments];
 
 function topicsForRecord(category: string, volume?: string): string[] {
   const value = `${category} ${volume ?? ""}`.toLocaleLowerCase();
@@ -68,7 +66,7 @@ const volumeRecords: ResearchCatalogueRecord[] = volumeResearchMap.map((volume) 
   paperCount: volume.papers.length,
 }));
 
-const paperRecords: ResearchCatalogueRecord[] = [...publicPaperDocuments]
+const paperRecords: ResearchCatalogueRecord[] = [...paperDocuments]
   .sort(byReadingUsefulness)
   .map((paper) => ({
     id: `paper:${paper.id}`,

@@ -20,7 +20,7 @@ Discovery:
 - RSS: https://independentobserver.org/feed.xml
 - Atom: https://independentobserver.org/feed.atom.xml
 
-Research records should be interpreted according to the publication status, source notes, limitations, correction information, and external scholarly identifiers shown on each page. Reader-facing explanations may use shorter titles than the underlying scholarly working papers; when verified, the exact scholarly title, DOI, SSRN record, and ResearchGate record are shown separately.
+IndependentObserver.org is the canonical public record for reader-facing pages. Research records should be interpreted according to the publication status, source notes, limitations, correction information, and first-party provenance shown on each page. External platform references, where retained elsewhere for historical context, are not required validation authorities or publication destinations.
 `;
 
 export const GET: APIRoute = () =>

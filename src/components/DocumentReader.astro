@@ -4,7 +4,7 @@ import { byReadingUsefulness } from "../data/scholarly-clarity";
 import { publicationRevisions } from "../data/publication-revisions";
 import { exportCitation } from "../lib/citations";
 import type { PublicDocument } from "../data/documents";
-import { paperCollection } from "../data/paper-collection";
+import { paperDocuments } from "../data/papers";
 import { seriesItems } from "../data/series";
 import FollowUpdates from "./FollowUpdates.astro";
 import PageHero from "./PageHero.astro";
@@ -49,7 +49,7 @@ const related = relatedRecords(
 );
 const volumeDocuments =
   entry.volume && !placementHeld
-    ? paperCollection
+    ? paperDocuments
         .filter((document) => document.volume === entry.volume)
         .sort(byReadingUsefulness)
     : [];
