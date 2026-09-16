@@ -205,13 +205,17 @@ describe("built website", () => {
     expect(html).toContain("what futures people can actually govern");
   });
 
-  it("keeps the release log empty while preview candidates await approval", () => {
-    const html = readOutput("whats-new/index.html");
-    expect(html).toContain("Six essays in development");
-    expect(html).toContain("not released publications");
-    expect(html).toContain("Regrowing Humanity");
-    expect(html).toContain("Democracy’s Achilles’ Heel");
-    expect(html).not.toContain('class="release-log"');
+  it("keeps unreleased candidates on Latest while publication approval is pending", () => {
+    const latestHtml = readOutput("latest/index.html");
+    const changelogHtml = readOutput("whats-new/index.html");
+
+    expect(latestHtml).toContain("No new formal release is recorded in the publication log yet.");
+    expect(latestHtml).toContain("Research currently in development");
+    expect(latestHtml).toContain("Regrowing Humanity");
+    expect(latestHtml).toContain("Democracy’s Achilles’ Heel");
+    expect(latestHtml).toContain("in development");
+    expect(changelogHtml).toContain("Website improvements");
+    expect(changelogHtml).not.toContain("Regrowing Humanity");
   });
 
   it("offers three unique summaries and a route to the complete library", () => {

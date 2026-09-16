@@ -1,29 +1,31 @@
 ---
-import { publicationRevisions } from "../../data/publication-revisions";
 import { siteUpdates } from "../../data/site-updates";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
-import { releaseLog } from "../../data/release-log";
-import { sixCandidateReleaseQueue } from "../../data/publication-registry";
 import { sitePath } from "../../lib/paths";
 ---
 
 <BaseLayout
-  title="What’s New"
-  description="New explanations, reading tools, revisions and work in progress from Independent Observer."
+  title="Site Changelog"
+  description="Technical and reader-experience changes to the Independent Observer website. Research releases and publication revisions are listed separately on the Latest page."
   currentPath="/whats-new/"
 >
   <PageHero
-    eyebrow="Project updates"
-    title="What’s new."
-    description="Find new explanations, improvements to reading and listening, and revisions to existing work."
+    eyebrow="Site changelog"
+    title="Website and reader-tool changes."
+    description="This page records interface, reading, listening, and search improvements. For new research and publication updates, use the Latest page."
   />
+  <section class="section section-white">
+    <div class="shell prose">
+      <p><a class="button" href={sitePath("/latest/")}>See latest research →</a></p>
+    </div>
+  </section>
   <section class="section section-white" aria-labelledby="website-updates-title">
     <div class="shell prose">
       <h2 id="website-updates-title">Website improvements</h2>
       <p>
-        Changes to reading and listening tools are recorded here. Publication releases are listed
-        separately below.
+        This log is limited to website and reader-tool changes. Research releases, corrections, and
+        work in development are maintained on the separate Latest page.
       </p>
       {
         siteUpdates.map((update) => (
@@ -45,72 +47,9 @@ import { sitePath } from "../../lib/paths";
           </article>
         ))
       }
-    </div>
-  </section>
-  <section class="section section-white" aria-labelledby="paper-corrections-title">
-    <div class="shell prose">
-      <h2 id="paper-corrections-title">Paper revisions and corrections</h2>
-      {
-        publicationRevisions.length === 0 ? (
-          <p>No paper corrections have been recorded in this log yet.</p>
-        ) : (
-          <ol>
-            {publicationRevisions.map((entry) => (
-              <li>
-                <time datetime={entry.date}>{entry.date}</time>
-                <h3>
-                  <a href={sitePath(entry.route)}>{entry.title}</a>
-                </h3>
-                <p>{entry.change}</p>
-                <p>Reason: {entry.reason}</p>
-              </li>
-            ))}
-          </ol>
-        )
-      }
-      <a href={sitePath("/contact/")}>Suggest a correction →</a>
-    </div>
-  </section>
-  <section class="section section-white" aria-labelledby="release-log-title">
-    <div class="shell">
-      <div class="release-log-empty" data-release-log-empty hidden={releaseLog.length > 0}>
-        <p class="eyebrow">Work in progress</p>
-        <h2 id={releaseLog.length === 0 ? "release-log-title" : undefined}>
-          Six essays in development
-        </h2>
-        <p>
-          These six essays are still being prepared and are not released publications. You can read
-          the available working-paper summaries in the library while this work continues.
-        </p>
-        <ol class="release-candidate-list">
-          {
-            sixCandidateReleaseQueue.map((entry) => (
-              <li>
-                <span>{entry.volume}</span>
-                <strong>{entry.title}</strong>
-                <small>{entry.topics.join(" · ")} · in development</small>
-              </li>
-            ))
-          }
-        </ol>
-        <a class="button button-secondary" href={sitePath("/library/")}
-          >Explore the public library →</a
-        >
-      </div>
-      {
-        releaseLog.length > 0 && (
-          <ol class="release-log" aria-labelledby="release-log-title">
-            {releaseLog.map((entry, index) => (
-              <li>
-                <time datetime={entry.date}>{entry.date}</time>
-                <h2 id={index === 0 ? "release-log-title" : undefined}>
-                  <a href={sitePath(entry.route)}>{entry.title}</a>
-                </h2>
-              </li>
-            ))}
-          </ol>
-        )
-      }
+      <p>
+        <a href={sitePath("/contact/")}>Report a website issue →</a>
+      </p>
     </div>
   </section>
 </BaseLayout>

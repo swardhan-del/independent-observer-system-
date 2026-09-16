@@ -1,0 +1,95 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import { socialLinks } from "../../data/social";
+import { sitePath } from "../../lib/paths";
+
+const substack = socialLinks.find((link) => link.label === "Substack")!;
+---
+
+<BaseLayout
+  title="Join"
+  description="Join the Independent Observer reader list and learn how supporting membership will help fund public research."
+  currentPath="/join/"
+>
+  <PageHero
+    eyebrow="Join Independent Observer"
+    title="Read freely. Return regularly. Support when it is useful."
+    description="Core public research remains free. Join the reader list for new-paper alerts and research notes; a supporting membership tier is being prepared for readers who want to fund the work."
+  />
+
+  <section class="section section-white" aria-labelledby="join-options-title">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Reader relationship</p>
+          <h2 id="join-options-title">Two clear ways to participate.</h2>
+        </div>
+        <p>
+          No hard paywall. No invented checkout. Public research remains available to read and cite.
+        </p>
+      </div>
+
+      <div class="focused-reading-grid">
+        <article class="editorial-card">
+          <p class="eyebrow">Free reader · $0</p>
+          <h3>The Observer Brief</h3>
+          <p>
+            Receive research notes, new-paper alerts, publication updates, and selected reading
+            paths.
+          </p>
+          <ul>
+            <li>Public essays and working-paper summaries</li>
+            <li>New research notifications</li>
+            <li>Podcast and documentary updates</li>
+            <li>Corrections and publication-status updates</li>
+          </ul>
+          <a class="button" href={substack.href} target="_blank" rel="noopener noreferrer">
+            Join the current email list ↗
+          </a>
+          <p class="form-note">
+            Email delivery currently uses the Independent Observer Substack channel while a
+            first-party signup endpoint is evaluated.
+          </p>
+        </article>
+
+        <article class="editorial-card">
+          <p class="eyebrow">Supporting member · planned $5/month</p>
+          <h3>Support independent research.</h3>
+          <p>
+            The supporting tier is being designed for readers who want to fund the publication
+            without putting the core research behind a hard paywall.
+          </p>
+          <ul>
+            <li>Extended monthly Observer Brief</li>
+            <li>Downloadable research and source collections</li>
+            <li>Early access to selected audio, documentary, and paper releases</li>
+            <li>Periodic member research briefings and Q&amp;A</li>
+          </ul>
+          <p>
+            Secure paid checkout is not enabled yet. The site will not collect payment details until
+            a reviewed payment provider and privacy flow are connected.
+          </p>
+          <a class="button button-secondary button-on-light" href={sitePath("/contact/")}
+            >Ask about supporting membership →</a
+          >
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-navy" aria-labelledby="join-principle-title">
+    <div class="shell">
+      <div class="prose">
+        <p class="eyebrow">Publishing principle</p>
+        <h2 id="join-principle-title">The research stays discoverable.</h2>
+        <p>
+          Independent Observer is building an audience through public, source-led work. Supporting
+          membership is intended to fund deeper briefings, collections, and production—not to hide
+          the evidence required to evaluate a public claim.
+        </p>
+      </div>
+      <p><a class="button" href={sitePath("/library/")}>Read the public library →</a></p>
+    </div>
+  </section>
+</BaseLayout>
