@@ -59,23 +59,21 @@ jobs:
               ;;
           esac
       - name: Produce exact formatter output
-        run: npm run format
+        run: |
+          npm run format
+          mkdir -p formatter-output
+          git diff --name-only -z | while IFS= read -r -d '' file; do
+            if [ -f "$file" ]; then
+              mkdir -p "formatter-output/$(dirname "$file")"
+              cp "$file" "formatter-output/$file"
+            fi
+          done
       - name: Preserve formatted source bytes
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: formatter-output
-          path: |
-            src/components/AnchorOffset.astro
-            src/components/EvidenceExplorer.astro
-            src/components/GreenPublicationArticle.astro
-            src/data/curated-publications.ts
-            src/data/family-registry.ts
-            src/data/publication-ledger.ts
-            src/data/route-registry.ts
-            src/lib/research-catalogue.ts
-            src/pages/latest/index.astro
-            src/pages/publication-ledger/index.astro
-            src/pages/research/
+          path: formatter-output/
+          if-no-files-found: error
           retention-days: 1
       - name: Stop formatter diagnostic
         run: exit 1
