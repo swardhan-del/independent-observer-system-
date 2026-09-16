@@ -1,12 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import EvidenceExplorer from "./EvidenceExplorer.astro";
-import {
-  greenPublicationById,
-  greenPublicationByFamilyId,
-  greenPublicationBySlug,
-} from "../data/green-publications";
+import ResearchCitationTools from "./ResearchCitationTools.astro";
+import { previewGreenPublications } from "../data/green-publications";
 import type { GreenPublication } from "../data/green-publications";
+import { curatedPublications } from "../data/curated-publications";
 import type { CuratedPublication } from "../data/curated-publications";
 import { publicSitePath, sitePath } from "../lib/paths";
 
@@ -14,10 +12,16 @@ const { publication } = Astro.props as { publication: GreenPublication | Curated
 const currentPath = `/research/${publication.slug}/`;
 const wordCount = publication.paragraphs.join(" ").trim().split(/\s+/).filter(Boolean).length;
 const readingMinutes = Math.max(1, Math.ceil(wordCount / 220));
+const allResearchPublications = [...previewGreenPublications, ...curatedPublications];
+const publicationByFamily = new Map(allResearchPublications.map((item) => [item.familyId, item]));
+const publicationByCandidate = new Map(
+  allResearchPublications.map((item) => [item.candidateId, item]),
+);
 const related = publication.relatedPublicationIds
-  .map((id) => greenPublicationByFamilyId.get(id) ?? greenPublicationById.get(id))
-  .filter((item): item is GreenPublication => Boolean(item))
-  .filter((item) => greenPublicationBySlug.has(item.slug));
+  .map((id) => publicationByFamily.get(id) ?? publicationByCandidate.get(id))
+  .filter((item): item is GreenPublication | CuratedPublication => Boolean(item))
+  .filter((item) => item.candidateId !== publication.candidateId);
+const canonicalUrl = new URL(publicSitePath(currentPath), Astro.site ?? Astro.url.origin).href;
 const schema = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "ScholarlyArticle",
@@ -28,11 +32,15 @@ const schema = JSON.stringify({
   version: publication.version,
   isAccessibleForFree: true,
   license: publication.license,
-  url: new URL(publicSitePath(currentPath), Astro.site ?? Astro.url.origin).href,
+  url: canonicalUrl,
+  mainEntityOfPage: canonicalUrl,
 }).replace(/</g, "\\u003c");
 const evidence = "evidence" in publication ? publication.evidence : [];
 const sourceAudited = evidence.length > 0;
 const adaptationNote = "adaptationNote" in publication ? publication.adaptationNote : undefined;
+const citationStatus = publication.productionReleased
+  ? `Published Independent Observer version · ${publication.version}`
+  : `${sourceAudited ? "Source-audited" : "Concept"} preview · formal release pending · ${publication.version}`;
 ---
 
 <BaseLayout
@@ -77,6 +85,7 @@ const adaptationNote = "adaptationNote" in publication ? publication.adaptationN
             {publication.lastReviewedDate}
           </p>
           <p>{publication.topics.join(" · ")}</p>
+          <p>Canonical web record: {canonicalUrl}</p>
           {adaptationNote && <p>{adaptationNote}</p>}
         </details>
       </header>
@@ -97,6 +106,14 @@ const adaptationNote = "adaptationNote" in publication ? publication.adaptationN
             }
           </ul>
         </section>
+        <ResearchCitationTools
+          id={publication.candidateId}
+          title={publication.title}
+          author={publication.author}
+          publicationDate={publication.publicationDate}
+          route={currentPath}
+          status={citationStatus}
+        />
         <section aria-labelledby="article-limitations">
           <h2 id="article-limitations">Limitations</h2>
           <p>{publication.limitations}</p>
@@ -116,7 +133,7 @@ const adaptationNote = "adaptationNote" in publication ? publication.adaptationN
         related.length > 0 && (
           <aside class="article-related" aria-labelledby="article-related-title">
             <>
-              <h2 id="article-related-title">Continue reading</h2>
+              <h2 id="article-related-title">Continue this inquiry</h2>
               <ul>
                 {related.map((item) => (
                   <li>
