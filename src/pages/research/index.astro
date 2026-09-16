@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import ResearchCatalogue from "../../components/ResearchCatalogue.astro";
+import { sitePath } from "../../lib/paths";
 ---
 
 <BaseLayout
@@ -14,6 +15,27 @@ import ResearchCatalogue from "../../components/ResearchCatalogue.astro";
     title="Research & Essays"
     description="Essays, concepts, and current work: explore the research behind the four volumes. Browse working-paper summaries and concepts in development; each entry explains what you can read now."
   />
+  <section class="section section-white" aria-labelledby="research-status-title">
+    <div class="shell page-grid">
+      <aside class="page-aside">Publication status</aside>
+      <div class="prose">
+        <h2 id="research-status-title">Know what kind of record you are reading.</h2>
+        <p>
+          A paper synopsis documents an author-controlled research family. A source-audited preview
+          is a bounded web adaptation with evidence roles and limitations, but it is not yet a formal
+          release. Formal releases enter the release log only after the publication gate is approved.
+        </p>
+        <p>
+          IndependentObserver.org is the canonical record for web versions. External-platform copies,
+          when linked, are archival mirrors rather than prerequisites for access, citation, or
+          verification.
+        </p>
+        <a class="button button-secondary button-on-light" href={sitePath("/publication-ledger/")}
+          >Open the publication and review ledger →</a
+        >
+      </div>
+    </div>
+  </section>
   <ResearchCatalogue />
   <section class="section section-rule">
     <div class="shell page-grid">
