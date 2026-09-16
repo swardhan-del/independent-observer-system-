@@ -1,0 +1,182 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import { publicationLedger, publicationLedgerSummary } from "../../data/publication-ledger";
+import { sitePath } from "../../lib/paths";
+---
+
+<BaseLayout
+  title="Publication ledger"
+  description="A status ledger for Independent Observer research pages, source-audited previews, formal releases, and corrections."
+  currentPath="/publication-ledger/"
+>
+  <PageHero
+    eyebrow="Publication record"
+    title="What is published, what is under review, and what changed."
+    description="A fail-closed status ledger for the public research programme. Preview pages can be read and reviewed without being represented as formal releases."
+  />
+
+  <section class="section section-white" aria-labelledby="publication-ledger-title">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Current state</p>
+          <h2 id="publication-ledger-title">Publication and review ledger</h2>
+        </div>
+        <p>
+          Formal release status is separate from editorial visibility. Only owner-released records
+          are eligible for the release feed; source-audited previews remain clearly labeled and are
+          not treated as published findings.
+        </p>
+      </div>
+
+      <dl class="publication-ledger-summary" aria-label="Publication ledger summary">
+        <div><dt>Total tracked research pages</dt><dd>{publicationLedgerSummary.total}</dd></div>
+        <div><dt>Formal releases</dt><dd>{publicationLedgerSummary.published}</dd></div>
+        <div><dt>Source-audited previews</dt><dd>{publicationLedgerSummary.sourceAudited}</dd></div>
+        <div><dt>Other previews in development</dt><dd>{publicationLedgerSummary.inDevelopment}</dd></div>
+      </dl>
+
+      <p class="publication-ledger-boundary">
+        A source-audited preview means that a bounded web adaptation has been checked against a
+        controlled research family and public sources. It does not mean peer review, publication
+        acceptance, legal clearance for every underlying manuscript, or owner approval for formal
+        release.
+      </p>
+
+      <ol class="publication-ledger-list">
+        {
+          publicationLedger.map((entry) => (
+            <li>
+              <article>
+                <div class="publication-ledger-topline">
+                  <span>{entry.volume}</span>
+                  <span>{entry.status}</span>
+                </div>
+                <h3><a href={sitePath(entry.route)}>{entry.title}</a></h3>
+                <dl>
+                  <div><dt>Version</dt><dd>{entry.version}</dd></div>
+                  <div><dt>Source date</dt><dd>{entry.publicationDate}</dd></div>
+                  <div><dt>Factual cutoff</dt><dd>{entry.factualCutoffDate}</dd></div>
+                  <div><dt>Last reviewed</dt><dd>{entry.reviewedDate}</dd></div>
+                  <div><dt>Corrections</dt><dd>{entry.correctionStatus}</dd></div>
+                </dl>
+                <p>{entry.topics.join(" · ")}</p>
+              </article>
+            </li>
+          ))
+        }
+      </ol>
+
+      <p>
+        Approved paper corrections are recorded separately from software changes. Current approved
+        correction entries: <strong>{publicationLedgerSummary.approvedCorrections}</strong>. See <a
+          href={sitePath("/latest/")}>Latest research</a
+        > for reader-facing release and revision updates.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .publication-ledger-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    padding: 1px;
+    margin: 0 0 1.5rem;
+    background: var(--line);
+  }
+  .publication-ledger-summary div {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background: var(--paper);
+  }
+  .publication-ledger-summary dt,
+  .publication-ledger-topline,
+  .publication-ledger-list dt {
+    color: var(--gold-ink);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+  .publication-ledger-summary dd {
+    margin: 0;
+    color: var(--navy-900);
+    font-family: var(--serif);
+    font-size: 2.4rem;
+  }
+  .publication-ledger-boundary {
+    padding: 1rem 1.25rem;
+    border-left: 4px solid var(--gold);
+    background: var(--paper-warm);
+    color: var(--slate-700);
+  }
+  .publication-ledger-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    padding: 1px;
+    margin: 2rem 0;
+    background: var(--line);
+    list-style: none;
+  }
+  .publication-ledger-list > li {
+    min-width: 0;
+    background: var(--white);
+  }
+  .publication-ledger-list article {
+    height: 100%;
+    padding: 1.5rem;
+  }
+  .publication-ledger-topline {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .publication-ledger-list h3 {
+    margin: 1.5rem 0 1rem;
+    color: var(--navy-900);
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 1.08;
+  }
+  .publication-ledger-list h3 a {
+    color: inherit;
+  }
+  .publication-ledger-list dl {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0;
+  }
+  .publication-ledger-list dl div {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+  .publication-ledger-list dd {
+    margin: 0;
+    color: var(--slate-700);
+    font-size: 0.82rem;
+  }
+  .publication-ledger-list article > p {
+    margin: 1.25rem 0 0;
+    color: var(--slate-500);
+    font-size: 0.78rem;
+  }
+  @media (max-width: 850px) {
+    .publication-ledger-summary,
+    .publication-ledger-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 560px) {
+    .publication-ledger-summary,
+    .publication-ledger-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
