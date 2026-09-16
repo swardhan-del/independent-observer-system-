@@ -62,12 +62,23 @@ const externalLinks = record.researchGateUrl;
       )
     }
     {
-      record.kind === "Author paper" && record.metrics && (
+      record.kind === "Author paper" && (
         <p class="research-catalogue-card-signal">
-          Archived signal: {record.metrics.downloads ?? "—"} downloads ·{" "}
-          {record.metrics.abstractViews ?? "—"} abstract views; archived snapshot checked{" "}
-          {record.metrics.checkedAt}. The originating platform is not used for access.
+          Canonical record: this Independent Observer page. External-platform copies, when linked,
+          are archival mirrors rather than publication authorities.
         </p>
+      )
+    }
+    {
+      record.kind === "Author paper" && record.metrics && (
+        <details class="research-catalogue-card-signal">
+          <summary>Archived external usage snapshot</summary>
+          <p>
+            {record.metrics.downloads ?? "—"} downloads ·{" "}
+            {record.metrics.abstractViews ?? "—"} abstract views; snapshot checked{" "}
+            {record.metrics.checkedAt}. These figures are historical discovery signals, not ratings.
+          </p>
+        </details>
       )
     }
     <div class="research-catalogue-card-footer">
@@ -84,7 +95,7 @@ const externalLinks = record.researchGateUrl;
       <a class="card-open-link" href={record.href}>
         {
           record.kind === "Author paper"
-            ? "Open paper synopsis"
+            ? "Open canonical synopsis"
             : record.kind === "Volume record"
               ? "Open volume record"
               : "Open research concept"
@@ -95,7 +106,7 @@ const externalLinks = record.researchGateUrl;
           <span class="research-catalogue-card-external">
             {record.researchGateUrl && (
               <a href={record.researchGateUrl} target="_blank" rel="noreferrer">
-                ResearchGate ↗
+                Archived external mirror ↗
               </a>
             )}
           </span>
