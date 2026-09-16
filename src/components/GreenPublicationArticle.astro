@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import EvidenceExplorer from "./EvidenceExplorer.astro";
 import {
   greenPublicationById,
   greenPublicationByFamilyId,
@@ -7,9 +8,10 @@ import {
   readingTimeMinutes,
 } from "../data/green-publications";
 import type { GreenPublication } from "../data/green-publications";
+import type { CuratedPublication } from "../data/curated-publications";
 import { publicSitePath, sitePath } from "../lib/paths";
 
-const { publication } = Astro.props as { publication: GreenPublication };
+const { publication } = Astro.props as { publication: GreenPublication | CuratedPublication };
 const currentPath = `/research/${publication.slug}/`;
 const related = publication.relatedPublicationIds
   .map((id) => greenPublicationByFamilyId.get(id) ?? greenPublicationById.get(id))
@@ -27,6 +29,8 @@ const schema = JSON.stringify({
   license: publication.license,
   url: new URL(publicSitePath(currentPath), Astro.site ?? Astro.url.origin).href,
 }).replace(/</g, "\\u003c");
+const evidence = "evidence" in publication ? publication.evidence : [];
+const adaptationNote = "adaptationNote" in publication ? publication.adaptationNote : undefined;
 ---
 
 <BaseLayout
@@ -49,7 +53,7 @@ const schema = JSON.stringify({
         {
           publication.productionReleased
             ? "Published article"
-            : "Concept preview · publication pending"
+            : "Source-audited preview · formal release pending"
         }
       </div>
       <header class="article-header">
@@ -71,10 +75,12 @@ const schema = JSON.stringify({
             {publication.lastReviewedDate}
           </p>
           <p>{publication.topics.join(" · ")}</p>
+          {adaptationNote && <p>{adaptationNote}</p>}
         </details>
       </header>
       <div class="article-body prose">
         {publication.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+        {evidence.length > 0 && <EvidenceExplorer evidence={evidence} />}
         <section aria-labelledby="article-sources">
           <h2 id="article-sources">Sources and notes</h2>
           <ul>
