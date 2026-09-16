@@ -13,7 +13,9 @@ const updates = socialLinks.find((link) => link.label === "Substack")!;
     publishing updates. Core public research remains free to read.
   </p>
   <a class="button" href={sitePath("/join/")}>Join free →</a>
-  <a href={updates.href} target="_blank" rel="noopener noreferrer">Follow on Substack</a>
+  <a href={updates.href} target="_blank" rel="noopener noreferrer" data-email-signup-start={id}>
+    Follow on Substack
+  </a>
   <a href={sitePath("/podcast/feed.xml")}>Get the podcast feed →</a>
   <a href={sitePath("/latest/")}>See the latest research →</a>
 </aside>

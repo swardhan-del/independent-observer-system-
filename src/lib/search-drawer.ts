@@ -1,4 +1,5 @@
 import { readerStatus } from "../lib/reader-status";
+import { track } from "../lib/analytics";
 import {
   highlightTokens,
   rankSearchEntries,
@@ -196,7 +197,17 @@ export function initialize(root: HTMLElement) {
   dialog.addEventListener("click", (event) => {
     if (event.target === dialog) close();
   });
-  input.addEventListener("input", () => render());
+  let searchUsedTracked = false;
+  input.addEventListener("input", () => {
+    // Fires once per drawer session, with no query text, per this module's
+    // "search runs in your browser, your query is processed on this device"
+    // privacy note -- only that search was used is recorded, never what for.
+    if (!searchUsedTracked && input.value.trim().length > 0) {
+      searchUsedTracked = true;
+      track("search_used");
+    }
+    render();
+  });
   filterControls.forEach((control) => control.addEventListener("change", () => render()));
   root.addEventListener("click", (event) => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-search-query]");
