@@ -5,7 +5,6 @@ import {
   greenPublicationById,
   greenPublicationByFamilyId,
   greenPublicationBySlug,
-  readingTimeMinutes,
 } from "../data/green-publications";
 import type { GreenPublication } from "../data/green-publications";
 import type { CuratedPublication } from "../data/curated-publications";
@@ -13,6 +12,8 @@ import { publicSitePath, sitePath } from "../lib/paths";
 
 const { publication } = Astro.props as { publication: GreenPublication | CuratedPublication };
 const currentPath = `/research/${publication.slug}/`;
+const wordCount = publication.paragraphs.join(" ").trim().split(/\s+/).filter(Boolean).length;
+const readingMinutes = Math.max(1, Math.ceil(wordCount / 220));
 const related = publication.relatedPublicationIds
   .map((id) => greenPublicationByFamilyId.get(id) ?? greenPublicationById.get(id))
   .filter((item): item is GreenPublication => Boolean(item))
@@ -60,9 +61,7 @@ const adaptationNote = "adaptationNote" in publication ? publication.adaptationN
         <p class="eyebrow">{publication.volume} · {publication.publicationType}</p>
         <h1>{publication.title}</h1>
         <p class="article-standfirst">{publication.standfirst}</p>
-        <p class="article-byline">
-          By {publication.author} · {readingTimeMinutes(publication)} min read
-        </p>
+        <p class="article-byline">By {publication.author} · {readingMinutes} min read</p>
         <details class="article-version">
           <summary>About this version</summary>
           <p>
