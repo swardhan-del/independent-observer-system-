@@ -78,7 +78,8 @@ export const curatedPublications: CuratedPublication[] = [
         claim:
           "V-Dem separately measures electoral, liberal, egalitarian, participatory, and deliberative dimensions rather than treating elections as the whole of democracy.",
         sourceLabel: "V-Dem Democracy Report 2026",
-        sourceHref: "https://www.v-dem.net/documents/75/V-Dem_Institute_Democracy_Report_2026_lowres.pdf",
+        sourceHref:
+          "https://www.v-dem.net/documents/75/V-Dem_Institute_Democracy_Report_2026_lowres.pdf",
       },
       {
         kind: "documented",
@@ -118,7 +119,13 @@ export const curatedPublications: CuratedPublication[] = [
       "Difficulty can become educational only when it is intelligible, supported, reflective, fair, and recoverable; suffering itself is neither virtue nor proof of merit.",
     author,
     volume: "Volume I",
-    topics: ["Education", "Human capability", "Artificial intelligence", "Assessment", "Institutional design"],
+    topics: [
+      "Education",
+      "Human capability",
+      "Artificial intelligence",
+      "Assessment",
+      "Institutional design",
+    ],
     publicationType: "Research article",
     status: previewStatus,
     version: "Web adaptation v1",
@@ -130,7 +137,10 @@ export const curatedPublications: CuratedPublication[] = [
     rightsReviewed: false,
     accessibilityReviewed: true,
     productionReleased: false,
-    relatedPublicationIds: [archiveFamilyIds.independentObserverMethod, archiveFamilyIds.lastHumanWorkforce],
+    relatedPublicationIds: [
+      archiveFamilyIds.independentObserverMethod,
+      archiveFamilyIds.lastHumanWorkforce,
+    ],
     paragraphs: [
       "Education needs standards, credentials, and demonstrations of competence, but those instruments can become misleading when a temporary performance is treated as a complete measure of a person. Formation Through Struggle distinguishes achievement, merit, learning, status, and longer-term human formation instead of treating them as interchangeable.",
       "The paper’s central claim is deliberately conditional: struggle becomes educational when resistance or failure is converted through reflection, inquiry, disciplined action, support, and public reasoning into expanded capability. Pain does not certify virtue. Arbitrary exclusion, humiliation, violence, illness, or inaccessible assessment may destroy agency rather than develop it.",
@@ -163,7 +173,8 @@ export const curatedPublications: CuratedPublication[] = [
         claim:
           "UNESCO and tertiary-education guidance treat generative AI as a reason to reconsider pedagogy, assessment, human agency, privacy, and verification rather than simply ignore the technology.",
         sourceLabel: "UNESCO GenAI guidance",
-        sourceHref: "https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research?hub=253682",
+        sourceHref:
+          "https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research?hub=253682",
       },
       {
         kind: "interpretation",
@@ -363,7 +374,13 @@ export const curatedPublications: CuratedPublication[] = [
       "The familiar ‘party switch’ shorthand captures a real directional transformation but obscures the different timelines of voter coalitions, regions, officeholders, ideology, and party identification.",
     author,
     volume: "Volume II",
-    topics: ["Party systems", "Political development", "Polarization", "Civil rights", "Democratic inclusion"],
+    topics: [
+      "Party systems",
+      "Political development",
+      "Polarization",
+      "Civil rights",
+      "Democratic inclusion",
+    ],
     publicationType: "Research article",
     status: previewStatus,
     version: "Web adaptation v1",
@@ -407,7 +424,8 @@ export const curatedPublications: CuratedPublication[] = [
         claim:
           "Pew’s multi-decade registered-voter series documents substantial changes in the demographic and educational composition of both party coalitions while overall partisan identification remains closely divided.",
         sourceLabel: "Pew Research Center",
-        sourceHref: "https://www.pewresearch.org/politics/2024/04/09/changing-partisan-coalitions-in-a-politically-divided-nation/",
+        sourceHref:
+          "https://www.pewresearch.org/politics/2024/04/09/changing-partisan-coalitions-in-a-politically-divided-nation/",
       },
       {
         kind: "documented",

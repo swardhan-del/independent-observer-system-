@@ -34,7 +34,9 @@ import { sitePath } from "../../lib/paths";
         <div><dt>Total tracked research pages</dt><dd>{publicationLedgerSummary.total}</dd></div>
         <div><dt>Formal releases</dt><dd>{publicationLedgerSummary.published}</dd></div>
         <div><dt>Source-audited previews</dt><dd>{publicationLedgerSummary.sourceAudited}</dd></div>
-        <div><dt>Other previews in development</dt><dd>{publicationLedgerSummary.inDevelopment}</dd></div>
+        <div>
+          <dt>Other previews in development</dt><dd>{publicationLedgerSummary.inDevelopment}</dd>
+        </div>
       </dl>
 
       <p class="publication-ledger-boundary">
@@ -53,13 +55,40 @@ import { sitePath } from "../../lib/paths";
                   <span>{entry.volume}</span>
                   <span>{entry.status}</span>
                 </div>
-                <h3><a href={sitePath(entry.route)}>{entry.title}</a></h3>
+                <h3>
+                  <a href={sitePath(entry.route)}>{entry.title}</a>
+                </h3>
                 <dl>
-                  <div><dt>Version</dt><dd>{entry.version}</dd></div>
-                  <div><dt>Source date</dt><dd>{entry.publicationDate}</dd></div>
-                  <div><dt>Factual cutoff</dt><dd>{entry.factualCutoffDate}</dd></div>
-                  <div><dt>Last reviewed</dt><dd>{entry.reviewedDate}</dd></div>
-                  <div><dt>Corrections</dt><dd>{entry.correctionStatus}</dd></div>
+                  <div>
+                    <>
+                      <dt>Version</dt>
+                      <dd>{entry.version}</dd>
+                    </>
+                  </div>
+                  <div>
+                    <>
+                      <dt>Source date</dt>
+                      <dd>{entry.publicationDate}</dd>
+                    </>
+                  </div>
+                  <div>
+                    <>
+                      <dt>Factual cutoff</dt>
+                      <dd>{entry.factualCutoffDate}</dd>
+                    </>
+                  </div>
+                  <div>
+                    <>
+                      <dt>Last reviewed</dt>
+                      <dd>{entry.reviewedDate}</dd>
+                    </>
+                  </div>
+                  <div>
+                    <>
+                      <dt>Corrections</dt>
+                      <dd>{entry.correctionStatus}</dd>
+                    </>
+                  </div>
                 </dl>
                 <p>{entry.topics.join(" · ")}</p>
               </article>

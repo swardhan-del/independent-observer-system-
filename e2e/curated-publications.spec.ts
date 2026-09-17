@@ -39,15 +39,21 @@ test("research citation tools export the first-party canonical record", async ({
   await page.getByRole("button", { name: "Download BibTeX" }).click();
   const download = await downloadEvent;
   const contents = await readFile((await download.path())!, "utf8");
-  expect(contents).toContain("https://independentobserver.org/research/from-plato-to-chomsky-civic-capacity/");
+  expect(contents).toContain(
+    "https://independentobserver.org/research/from-plato-to-chomsky-civic-capacity/",
+  );
   expect(contents).toContain("formal release pending");
   expect(contents).not.toContain("ResearchGate");
 });
 
 test("research catalogue treats external platforms as archival mirrors", async ({ page }) => {
   await page.goto("/research/");
-  await expect(page.getByText(/Canonical record: this Independent Observer page/).first()).toBeVisible();
-  await expect(page.getByRole("link", { name: "Archived external mirror ↗" }).first()).toBeVisible();
+  await expect(
+    page.getByText(/Canonical record: this Independent Observer page/).first(),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Archived external mirror ↗" }).first(),
+  ).toBeVisible();
 });
 
 test("publication ledger distinguishes source-audited previews from releases", async ({ page }) => {

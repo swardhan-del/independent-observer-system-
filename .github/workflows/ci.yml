@@ -58,7 +58,7 @@ jobs:
               exit 1
               ;;
           esac
-      - name: Produce exact formatter output
+      - name: Check formatting and capture differences
         run: |
           npm run format
           mkdir -p formatter-output
@@ -69,14 +69,15 @@ jobs:
             fi
           done
       - name: Preserve formatted source bytes
+        if: hashFiles('formatter-output/**') != ''
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: formatter-output
           path: formatter-output/
           if-no-files-found: error
           retention-days: 1
-      - name: Stop formatter diagnostic
-        run: exit 1
+      - name: Require committed formatter output
+        run: git diff --exit-code
       - name: Lint and type-check
         run: npm run lint
       - name: Test normal production output

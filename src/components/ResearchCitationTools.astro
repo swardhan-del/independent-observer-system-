@@ -77,7 +77,11 @@ const ris = [
       if (status) status.textContent = "BibTeX prepared for download.";
     });
     root.querySelector("[data-download-ris]")?.addEventListener("click", () => {
-      download(root.dataset.ris ?? "", `${root.dataset.key}.ris`, "application/x-research-info-systems");
+      download(
+        root.dataset.ris ?? "",
+        `${root.dataset.key}.ris`,
+        "application/x-research-info-systems",
+      );
       if (status) status.textContent = "RIS prepared for download.";
     });
   });

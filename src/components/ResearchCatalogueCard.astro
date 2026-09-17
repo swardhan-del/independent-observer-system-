@@ -74,9 +74,9 @@ const externalLinks = record.researchGateUrl;
         <details class="research-catalogue-card-signal">
           <summary>Archived external usage snapshot</summary>
           <p>
-            {record.metrics.downloads ?? "—"} downloads ·{" "}
-            {record.metrics.abstractViews ?? "—"} abstract views; snapshot checked{" "}
-            {record.metrics.checkedAt}. These figures are historical discovery signals, not ratings.
+            {record.metrics.downloads ?? "—"} downloads · {record.metrics.abstractViews ?? "—"}{" "}
+            abstract views; snapshot checked {record.metrics.checkedAt}. These figures are
+            historical discovery signals, not ratings.
           </p>
         </details>
       )

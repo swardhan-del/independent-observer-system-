@@ -2,7 +2,8 @@ import { greenPublications } from "./green-publications";
 import { curatedPublications } from "./curated-publications";
 import { publicationRevisions } from "./publication-revisions";
 
-export type PublicationLedgerStatus = "Published" | "Source-audited preview" | "Preview in development";
+export type PublicationLedgerStatus =
+  "Published" | "Source-audited preview" | "Preview in development";
 
 export type PublicationLedgerEntry = {
   id: string;
@@ -51,7 +52,9 @@ export const publicationLedger: PublicationLedgerEntry[] = currentPublications
 export const publicationLedgerSummary = {
   total: publicationLedger.length,
   published: publicationLedger.filter((entry) => entry.status === "Published").length,
-  sourceAudited: publicationLedger.filter((entry) => entry.status === "Source-audited preview").length,
-  inDevelopment: publicationLedger.filter((entry) => entry.status === "Preview in development").length,
+  sourceAudited: publicationLedger.filter((entry) => entry.status === "Source-audited preview")
+    .length,
+  inDevelopment: publicationLedger.filter((entry) => entry.status === "Preview in development")
+    .length,
   approvedCorrections: publicationRevisions.length,
 };

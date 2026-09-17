@@ -29,7 +29,13 @@ const kinds: EvidenceKind[] = ["documented", "interpretation", "proposition", "l
   </div>
   <div class="evidence-explorer-controls" data-evidence-controls hidden>
     <button type="button" data-evidence-filter="all" aria-pressed="true">All</button>
-    {kinds.map((kind) => <button type="button" data-evidence-filter={kind}>{labels[kind]}</button>)}
+    {
+      kinds.map((kind) => (
+        <button type="button" data-evidence-filter={kind}>
+          {labels[kind]}
+        </button>
+      ))
+    }
   </div>
   <p class="evidence-explorer-status" data-evidence-status role="status" aria-live="polite">
     Showing {evidence.length} evidence notes.

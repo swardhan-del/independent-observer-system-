@@ -10,7 +10,9 @@ import { sitePath } from "../../lib/paths";
 
 const sortedReleases = [...releaseLog].sort((a, b) => b.date.localeCompare(a.date));
 const releasedTitles = new Set(releaseLog.map((entry) => entry.title));
-const existingDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles.has(entry.title));
+const existingDevelopment = sixCandidateReleaseQueue.filter(
+  (entry) => !releasedTitles.has(entry.title),
+);
 const curatedDevelopment = curatedPublications
   .filter((entry) => !entry.productionReleased && !releasedTitles.has(entry.title))
   .map((entry) => ({ title: entry.title, volume: entry.volume, topics: entry.topics }));
@@ -58,7 +60,8 @@ const inDevelopment = [...existingDevelopment, ...curatedDevelopment];
             <h2>Research currently in development</h2>
             <p>
               These public candidates are being prepared while existing working-paper summaries
-              remain available in the library. Source-audited previews are still not formal releases.
+              remain available in the library. Source-audited previews are still not formal
+              releases.
             </p>
             <ol class="release-candidate-list">
               {inDevelopment.map((entry) => (
@@ -73,7 +76,10 @@ const inDevelopment = [...existingDevelopment, ...curatedDevelopment];
               <a class="button button-secondary button-on-light" href={sitePath("/library/")}>
                 Explore the public library →
               </a>
-              <a class="button button-secondary button-on-light" href={sitePath("/publication-ledger/")}>
+              <a
+                class="button button-secondary button-on-light"
+                href={sitePath("/publication-ledger/")}
+              >
                 Open the publication ledger →
               </a>
             </div>
@@ -108,7 +114,8 @@ const inDevelopment = [...existingDevelopment, ...curatedDevelopment];
         )
       }
       <p>
-        Publication status, source dates, factual cutoffs, and release boundaries are recorded in the
+        Publication status, source dates, factual cutoffs, and release boundaries are recorded in
+        the
         <a href={sitePath("/publication-ledger/")}>publication ledger</a>. Looking for software and
         reader-interface changes? <a href={sitePath("/whats-new/")}>View the site changelog →</a>
       </p>
