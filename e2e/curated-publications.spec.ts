@@ -60,5 +60,5 @@ test("publication ledger distinguishes source-audited previews from releases", a
   await page.goto("/publication-ledger/");
   await expect(page.getByRole("heading", { name: "Publication and review ledger" })).toBeVisible();
   await expect(page.getByText("Source-audited preview", { exact: true })).toHaveCount(5);
-  await expect(page.getByText("Formal releases").locator("..")).toContainText("0");
+  await expect(page.locator('dt:text-is("Formal releases")').locator("..")).toContainText("0");
 });
