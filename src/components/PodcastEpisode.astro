@@ -388,7 +388,10 @@ const cues = (podcastCues as Record<string, { starts: number[] }>)[
     root
       .querySelector<HTMLSelectElement>("[data-podcast-speed]")!
       .addEventListener("change", (event) => {
-        audio.playbackRate = Number((event.target as HTMLSelectElement).value);
+        const speed = Number((event.target as HTMLSelectElement).value);
+        // Loading media for the first seek restores playbackRate from this default.
+        audio.defaultPlaybackRate = speed;
+        audio.playbackRate = speed;
       });
     root.querySelectorAll<HTMLButtonElement>("[data-transcript-seek]").forEach((button) => {
       button.hidden = false;
