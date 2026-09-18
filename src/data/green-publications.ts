@@ -11,7 +11,7 @@ export type GreenPublication = {
   volume: "Volume I" | "Volume II" | "Volume III" | "Volume IV";
   topics: string[];
   publicationType: "Research article";
-  status: "Preview-only bounded text adaptation";
+  status: "Preview-only bounded text adaptation" | "Published bounded text adaptation";
   version: string;
   factualCutoffDate: string;
   publicationDate: string;
@@ -105,35 +105,46 @@ export const greenPublications: GreenPublication[] = [
       "Correction and accountability",
     ],
     publicationType: "Research article",
-    status: "Preview-only bounded text adaptation",
-    version: "Web adaptation v1",
+    status: "Published bounded text adaptation",
+    version: "Web adaptation v2",
     factualCutoffDate: "2026-07-30",
-    publicationDate: "2026-07-30",
-    lastReviewedDate: "2026-08-22",
+    publicationDate: "2026-09-18",
+    lastReviewedDate: "2026-09-18",
     license: "CC BY-NC-ND 4.0",
     controllerSha256: "76d5d011f1e012788bfa748e876395c4f10b7a3552ca7a580a758655d0d2fe3f",
     sourceVerified: true,
     rightsReviewed: true,
     accessibilityReviewed: true,
-    productionReleased: false,
+    productionReleased: true,
     relatedPublicationIds: [archiveFamilyIds.democracysAchillesHeel],
     paragraphs: [
-      "Independence is not the same as centrism. It is a rule for handling evidence: state the standard before the conclusion, apply it across coalitions, distinguish facts from interpretations, and correct the record when evidence changes.",
-      "The method asks four questions: what mechanism could produce the outcome; what would we expect to observe; which levers could change it; and what tradeoffs or new risks would those levers create? This structure does not promise neutrality or a single political programme. It makes disagreement more useful by forcing a claim to show its moving parts.",
-      "A correctable publication gives claims a version, source note, and revision history. Disagreement should be answered by clarifying, narrowing, adding evidence, or withdrawing a proposition—not by quietly changing the standard.",
-      "The goal is an institutional posture in miniature: broad enough for different subjects, disciplined enough to resist partisan conversion, and transparent enough to be corrected in public.",
+      "Independence is often confused with centrism. The two are not the same.",
+      "Centrism is a position on an ideological spectrum. Independence is a rule for handling evidence: state the standard before the conclusion, apply it across coalitions, distinguish facts from interpretations, and correct the record when the evidence changes.",
+      "The Independent Observer Method is built around four questions:",
+      "What mechanism could produce the outcome? What would we expect to observe if that mechanism were operating? Which levers could change it? What tradeoffs or new risks would those levers create?",
+      "This structure is deliberately modest. It does not promise neutrality, omniscience, or a single correct political program. It makes disagreement more useful by forcing a claim to show its moving parts.",
+      "The public context makes that discipline valuable. Gallup reported that 45% of U.S. adults identified as political independents in 2025. Pew Research Center reported that 17% trusted the federal government to do what is right “just about always” or “most of the time” in September 2025. Those numbers do not prove that everyone wants the same kind of publication. They do show a measurable environment of weak party attachment and low institutional trust.",
+      "The method’s central thesis is that institutional trust can function like infrastructure. North’s institutional-economics work connects rules and institutions to transaction costs and economic performance. The Independent Observer does not convert that institutional perspective into a universal “trust causes growth” formula. It uses this perspective as a reason to ask practical questions: Are rules predictable? Are decisions explainable? Can a person appeal? Can an outsider verify what happened? Are enforcement standards applied consistently?",
+      "A publication that wants to be independent must also be correctable. A claim should have a version, a source note, and a revision history. A disagreement should be answered by clarifying the proposition, narrowing it, adding evidence, or withdrawing it—not by quietly changing the standard after the fact.",
+      "That is why this method is not a promise to avoid judgment. It is a promise to make judgment inspectable. A paper may conclude that a policy is unjust, inefficient, or dangerous. But the conclusion should identify the evidence, the mechanism, the uncertainty, and the cost of the proposed alternative.",
+      "The goal is an institutional posture in miniature: broad enough to be used across subjects, disciplined enough to resist partisan conversion, and transparent enough to be corrected in public.",
     ],
     sourceNotes: [
       {
-        label: "Douglass C. North, institutions and transaction costs",
-        href: "https://doi.org/10.1111/j.1465-7295.1987.tb00750.x",
+        label: "Gallup, political identification in 2025 (12 January 2026)",
+        href: "https://news.gallup.com/poll/700499/new-high-identify-political-independents.aspx",
       },
       {
-        label: "Knack & Keefer (1997), trust and economic performance",
-        href: "https://doi.org/10.1162/003355300555475",
+        label: "Pew Research Center, Public Trust in Government: 1958–2025",
+        href: "https://www.pewresearch.org/politics/2025/12/04/public-trust-in-government-1958-2025/",
+      },
+      {
+        label: "Douglass C. North (1987), Institutions, Transaction Costs and Economic Growth",
+        href: "https://doi.org/10.1111/j.1465-7295.1987.tb00750.x",
       },
     ],
-    limitations: sharedLimitations,
+    limitations:
+      "This is an author-written, bounded public adaptation, not an independently peer-reviewed study. Polling figures describe their stated periods and do not establish demand for this publication. Institutional and policy passages are the author’s analysis; associations are not presented as universal causal laws.",
   },
   {
     candidateId: "IO-V4-LAST-HUMAN-WORKFORCE",
@@ -298,26 +309,33 @@ export const greenPublications: GreenPublication[] = [
       "Accountability",
     ],
     publicationType: "Research article",
-    status: "Preview-only bounded text adaptation",
-    version: "Web adaptation v1",
+    status: "Published bounded text adaptation",
+    version: "Web adaptation v2",
     factualCutoffDate: "2026-08-16",
-    publicationDate: "2026-08-16",
-    lastReviewedDate: "2026-08-22",
+    publicationDate: "2026-09-18",
+    lastReviewedDate: "2026-09-18",
     license: "CC BY-NC-ND 4.0",
     controllerSha256: "e18478ee1676f1720abf7e766f7314c665ef501445120188ef1433177c8cada7",
     sourceVerified: true,
     rightsReviewed: true,
     accessibilityReviewed: true,
-    productionReleased: false,
+    productionReleased: true,
     relatedPublicationIds: [
       archiveFamilyIds.independentObserverMethod,
       archiveFamilyIds.borrowedLabor,
     ],
     paragraphs: [
-      "Democracy’s formal promise is necessary but incomplete. Citizens also need information, organization, access to institutions, understandable rules, and a meaningful correction when a decision is wrong.",
-      "The framework follows five channels: resource conversion; administrative access; information pluralism; partisan tolerance; and institutional referees. None is a complete theory of democratic failure, and each can have legitimate functions. The question is whether a rule’s necessity, implementation, and review are proportionate to the burden it creates.",
-      "The U.S. Election Assistance Commission reported more than 158 million counted ballots in the 2024 general election and turnout equal to 64.7% of the citizen voting-age population. Those figures show substantial participation; they do not settle whether access, agenda-setting, or correction are equal between elections.",
-      "The practical test is contestability: can an opposition realistically win, obtain information and competent administration, exercise rights without partisan identity as the price of entry, and obtain review? This is a discipline for inquiry, not proof of a single ideology or a universal causal claim.",
+      "Democracy’s formal promise is simple: citizens possess equal political standing, ballots are counted, and public power can be contested peacefully.",
+      "That promise is necessary. It is not the whole system.",
+      "A citizen must also be able to obtain information, organize, reach the relevant institution, understand the rules, withstand administrative burdens, and obtain a meaningful correction when a decision is wrong. The gap between formal equality and practical responsiveness is this article’s central concern.",
+      "The scale of voting in the United States is one reason the argument should not be confused with fatalism. The U.S. Election Assistance Commission reports that the 2024 general election produced more than 158 million counted ballots, with turnout equal to 64.7% of the citizen voting-age population. Those figures are evidence of substantial participation. They do not, by themselves, answer whether agenda-setting, access, information, or administrative correction are equally available between elections.",
+      "The working framework identifies five channels:",
+      "Resource conversion: money, expertise, organization, and time can become sustained political access. Administrative access: registration, identification, polling, mail, disability access, language access, and correction procedures can impose different practical costs. Information pluralism: citizens need multiple independent ways to discover, contest, and correct public claims. Partisan tolerance: voters and institutions may excuse rule-breaking when the preferred side benefits. Institutional referees: courts, election administrators, auditors, regulators, and professional civil services need both independence and accountability.",
+      "None of these channels is a complete theory of democratic failure. Each can also have legitimate functions. Identification rules can protect accurate administration; courts can protect minorities; professional expertise can improve decisions; and constitutional veto points can slow harmful majorities. The question is whether a rule’s necessity, implementation, and review are proportionate to the burden it creates.",
+      "This is why the article rejects universal formulas. A single percentage about media ownership, a single turnout comparison, or a single scandal cannot stand in for a defined market, jurisdiction, period, and mechanism. Good analysis names what is being measured and what the evidence cannot show.",
+      "The practical test is contestability. Can an opposition realistically win? Can it obtain information and competent administration? Can rights be exercised without partisan identity becoming the price of entry? Can an adverse decision be reviewed? Can a temporary advantage be reversed without first dismantling the system?",
+      "These questions do not produce a single ideology. They produce a publication discipline. State the mechanism. Identify the observable implication. Name plausible confounders. Separate documented fact from interpretation. Then evaluate reform not only by the problem it targets, but also by the new veto points or capture opportunities it might create.",
+      "Democracy’s vulnerability is therefore not that citizens are always powerless or that institutions are always corrupt. It is that advantages can compound while correction becomes harder to access. The remedy is not a romantic return to an imagined past. It is continuous institutional engineering: clearer rules, lower avoidable burdens, plural information, accountable expertise, and visible routes for correction.",
     ],
     sourceNotes: [
       {

@@ -33,8 +33,11 @@ describe("central green publication registry", () => {
         (item) => item.sourceVerified && item.rightsReviewed && item.accessibilityReviewed,
       ),
     ).toBe(true);
-    expect(greenPublications.every((item) => item.productionReleased === false)).toBe(true);
-    expect(releasedGreenPublications).toHaveLength(0);
+    expect(releasedGreenPublications.map((item) => item.slug)).toEqual([
+      "the-independent-observer-method",
+      "democracys-achilles-heel",
+    ]);
+    expect(greenPublications.filter((item) => !item.productionReleased)).toHaveLength(4);
     const publicRecord = publicGreenPublication(greenPublications[0]);
     expect(publicRecord).not.toHaveProperty("controllerSha256");
     expect(JSON.stringify(publicRecord)).not.toMatch(
@@ -47,8 +50,8 @@ describe("central green publication registry", () => {
       expect(readingTimeMinutes(item)).toBeGreaterThanOrEqual(1);
   });
 
-  it("keeps all six bounded records in the non-release preview layer", () => {
+  it("keeps all six bounded records available without releasing the other four", () => {
     expect(previewGreenPublications).toHaveLength(6);
-    expect(previewGreenPublications.every((item) => !item.productionReleased)).toBe(true);
+    expect(previewGreenPublications.filter((item) => !item.productionReleased)).toHaveLength(4);
   });
 });
