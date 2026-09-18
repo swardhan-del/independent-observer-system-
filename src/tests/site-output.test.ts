@@ -42,11 +42,9 @@ const routes = [
 const sitemapRoutes = indexableRouteRegistry.map(({ route }) => route);
 const greenPreviewRoutes = [
   "/research/regrowing-humanity/",
-  "/research/the-independent-observer-method/",
   "/research/the-last-human-workforce/",
   "/research/the-server-as-a-furnace/",
   "/research/borrowed-labor/",
-  "/research/democracys-achilles-heel/",
 ] as const;
 
 function readOutput(relativePath: string) {
@@ -209,7 +207,11 @@ describe("built website", () => {
     const latestHtml = readOutput("latest/index.html");
     const changelogHtml = readOutput("whats-new/index.html");
 
-    expect(latestHtml).toContain("No new formal release is recorded in the publication log yet.");
+    expect(latestHtml).not.toContain(
+      "No new formal release is recorded in the publication log yet.",
+    );
+    expect(latestHtml).toContain('href="/research/the-independent-observer-method/"');
+    expect(latestHtml).toContain('href="/research/democracys-achilles-heel/"');
     expect(latestHtml).toContain("Research currently in development");
     expect(latestHtml).toContain("Regrowing Humanity");
     expect(latestHtml).toContain("Democracy’s Achilles’ Heel");
@@ -602,7 +604,7 @@ describe("built website", () => {
     expect(readOutput("feed.xml")).not.toContain("/review/regrowing-humanity/");
   });
 
-  it("keeps all six curated research previews noindex and outside release discovery", () => {
+  it("keeps the four unreleased curated research previews noindex and outside release discovery", () => {
     const sitemap = readOutput("sitemap.xml");
     const atom = readOutput("feed.atom.xml");
     const rss = readOutput("feed.xml");
@@ -616,12 +618,33 @@ describe("built website", () => {
     }
   });
 
+  it("publishes only the two reviewed editions in search, sitemap and feeds", () => {
+    for (const slug of ["the-independent-observer-method", "democracys-achilles-heel"]) {
+      const route = `/research/${slug}/`;
+      const html = readOutput(`research/${slug}/index.html`);
+      expect(metaContent(html, "name", "robots")).not.toBe("noindex,follow");
+      expect(html).toContain("Published article");
+      expect(html).toContain("Web adaptation v2");
+      expect(html).toContain("2026-09-18");
+      for (const file of ["sitemap.xml", "feed.xml", "feed.atom.xml", "search-index.json"])
+        expect(readOutput(file)).toContain(route);
+    }
+    for (const slug of [
+      "administrative-obstruction-medical-education",
+      "cross-border-academic-obstruction-monitoring",
+    ]) {
+      expect(existsSync(join(distRoot, `research/${slug}/index.html`))).toBe(false);
+      expect(readOutput("sitemap.xml")).not.toContain(slug);
+      expect(readOutput("feed.xml")).not.toContain(slug);
+    }
+  });
+
   it("keeps preview candidates out of Atom until release approval", () => {
     const atom = readOutput("feed.atom.xml");
     expect(atom).toContain('<feed xmlns="http://www.w3.org/2005/Atom">');
     expect(atom).toMatch(/<updated>\d{4}-\d{2}-\d{2}T00:00:00Z<\/updated>/);
     expect(atom).toContain("<author><name>Independent Observer</name></author>");
-    expect([...atom.matchAll(/<entry>/g)]).toHaveLength(0);
+    expect([...atom.matchAll(/<entry>/g)]).toHaveLength(2);
   });
 
   it("keeps the retired operating-system document out of public output", () => {
@@ -710,7 +733,7 @@ describe("built website", () => {
     const feed = readOutput("feed.xml");
     const itemBlocks = [...feed.matchAll(/<item>[\s\S]*?<\/item>/g)].map((match) => match[0]);
 
-    expect(itemBlocks).toHaveLength(0);
+    expect(itemBlocks).toHaveLength(2);
     expect(feed).toContain('<rss version="2.0">');
     expect(feed).not.toContain("Status: ");
   });

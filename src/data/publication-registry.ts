@@ -11,7 +11,7 @@ export type ControlledPublicationStatus =
   | "rights_unclear"
   | "duplicate_or_superseded";
 
-export type ReleaseDecision = "external_record_only" | "awaiting_human_release";
+export type ReleaseDecision = "external_record_only" | "awaiting_human_release" | "owner_released";
 
 export type PublicationRegistryRecord = {
   id: string;
@@ -62,14 +62,14 @@ export const sixCandidateReleaseQueue: PublicationRegistryRecord[] = [
     contentType: "research",
     volume: "Volume I",
     topics: ["History", "Law", "Politics", "Evidence"],
-    status: "public_preview",
+    status: "approved_article",
     rightsDecision: "reviewed_public_safe_text",
     externalVerification: "not_applicable",
     provenanceFingerprint: "audit-2026-08-22-independent-observer-method",
     verifiedExternalUrl: null,
-    releaseDecision: "awaiting_human_release",
-    canonicalRoute: null,
-    lastVerificationDate: registryDate,
+    releaseDecision: "owner_released",
+    canonicalRoute: "/research/the-independent-observer-method/",
+    lastVerificationDate: "2026-09-18",
   },
   {
     id: "the-last-human-workforce-candidate",
@@ -126,14 +126,14 @@ export const sixCandidateReleaseQueue: PublicationRegistryRecord[] = [
     contentType: "research",
     volume: "Volume II",
     topics: ["Politics", "Law", "Institutions", "Democracy"],
-    status: "public_preview",
+    status: "approved_article",
     rightsDecision: "reviewed_public_safe_text",
     externalVerification: "not_applicable",
     provenanceFingerprint: "audit-2026-08-22-democracys-achilles-heel",
     verifiedExternalUrl: null,
-    releaseDecision: "awaiting_human_release",
-    canonicalRoute: null,
-    lastVerificationDate: registryDate,
+    releaseDecision: "owner_released",
+    canonicalRoute: "/research/democracys-achilles-heel/",
+    lastVerificationDate: "2026-09-18",
   },
 ];
 

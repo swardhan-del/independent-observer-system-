@@ -4,7 +4,7 @@ import { publicPublicationRegistry, sixCandidateReleaseQueue } from "../data/pub
 import { regrowingHumanitySources } from "../data/regrowing-humanity-evidence";
 
 describe("publication release safety", () => {
-  it("keeps exactly six candidates awaiting human release", () => {
+  it("releases only the two reviewed editions and keeps four candidates pending", () => {
     expect(sixCandidateReleaseQueue).toHaveLength(6);
     expect(sixCandidateReleaseQueue.map((record) => record.id)).toEqual([
       "regrowing-humanity",
@@ -15,14 +15,21 @@ describe("publication release safety", () => {
       "democracys-achilles-heel-candidate",
     ]);
     expect(
-      sixCandidateReleaseQueue.every(
-        (record) =>
-          record.status === "public_preview" &&
-          record.releaseDecision === "awaiting_human_release" &&
-          record.canonicalRoute === null &&
-          record.verifiedExternalUrl === null &&
-          !("releaseApproved" in record),
-      ),
+      sixCandidateReleaseQueue
+        .filter((record) => record.releaseDecision === "owner_released")
+        .map((record) => record.id),
+    ).toEqual(["the-independent-observer-method-candidate", "democracys-achilles-heel-candidate"]);
+    expect(
+      sixCandidateReleaseQueue
+        .filter((record) => record.releaseDecision !== "owner_released")
+        .every(
+          (record) =>
+            record.status === "public_preview" &&
+            record.releaseDecision === "awaiting_human_release" &&
+            record.canonicalRoute === null &&
+            record.verifiedExternalUrl === null &&
+            !("releaseApproved" in record),
+        ),
     ).toBe(true);
   });
 

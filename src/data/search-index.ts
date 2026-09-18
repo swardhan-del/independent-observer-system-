@@ -118,7 +118,9 @@ export const searchItems: SearchEntry[] = [
     type: "Research" as const,
     topics: item.topics,
     volume: item.volume,
-    format: "bounded text-only preview article",
+    format: item.productionReleased
+      ? "Published text adaptation"
+      : "bounded text-only preview article",
     href: sitePath(`/research/${item.slug}/`),
   })),
   ...researchItems.map((item) => ({

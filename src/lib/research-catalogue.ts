@@ -115,7 +115,7 @@ const greenRecords: ResearchCatalogueRecord[] = previewGreenPublications.map((it
   description: item.standfirst,
   status: item.status,
   type: "Research",
-  format: "Bounded text-only preview",
+  format: item.productionReleased ? "Published text adaptation" : "Bounded text-only preview",
   href: sitePath(`/research/${item.slug}/`),
   topics: item.topics,
   volume: item.volume,
