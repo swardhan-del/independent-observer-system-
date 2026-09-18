@@ -4,6 +4,7 @@ import type { PlacementDecision } from "./placement-decisions";
 import { whoDeportedMoreTitle } from "./public-titles";
 import { curatedResearchDocuments } from "./research-curation-2026-09-13";
 import { enhanceDeportationReader } from "./deportation-reader-enhancements";
+import { websiteFeedReadingDocuments } from "./website-feed-reading-2026-09-18";
 
 export type PublicDocumentSection = {
   id: string;
@@ -138,5 +139,6 @@ export const publicDocumentItems: PublicDocument[] = [
   ...reviewedDocuments,
   ...paperDocuments.map(normalizePaperMetadata).map(enhanceDeportationReader),
   ...curatedResearchDocuments,
+  ...websiteFeedReadingDocuments,
   ...dropboxDocumentItems,
 ];

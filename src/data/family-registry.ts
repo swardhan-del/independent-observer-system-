@@ -17,6 +17,9 @@ export const archiveFamilyIds = {
 } as const;
 
 const aliasToFamilyId: Record<string, string> = {
+  "empire-s-mirror": "IO-FAMILY-EMPIRES_MIRROR",
+  "empires-mirror": "IO-FAMILY-EMPIRES_MIRROR",
+  "quantum-computing-antimatter-and-the-next-energy-revolution": "IO-FAMILY-QUANTUM-ANTIMATTER",
   "the-illusion-of-equality": archiveFamilyIds.illusionOfEquality,
   "illusion-of-equality": archiveFamilyIds.illusionOfEquality,
   "the-empire-of-distraction": archiveFamilyIds.empireOfDistraction,

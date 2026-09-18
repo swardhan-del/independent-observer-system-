@@ -1,5 +1,18 @@
 export const siteUpdates = [
   {
+    id: "six-reading-pages-2026-09-18",
+    date: "2026-09-18",
+    title: "Six research-map entries now have bounded reading pages",
+    changes: [
+      {
+        what: "Read selected arguments on institutional influence, threat perception, capital, strategic mobilization, medical technology and frontier science.",
+        why: "Existing research families gain source-linked explanations and visible limitations. Full manuscripts and outstanding specialist-review decisions remain separate.",
+        route: "/library/taxonomy/",
+        label: "Explore the research map",
+      },
+    ],
+  },
+  {
     id: "curated-tools-2026-09-09",
     date: "2026-09-09",
     title: "Put the research into practice",

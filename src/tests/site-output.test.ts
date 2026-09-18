@@ -235,7 +235,7 @@ describe("built website", () => {
   it("makes the expanded public research index discoverable without exposing source files", () => {
     const html = readOutput("research/index.html");
 
-    expect(html).toContain("<strong>21</strong>");
+    expect(html).toContain("<strong>27</strong>");
     expect(html).toContain("matched paper records");
     expect(html).toContain("Newer public records, ready to follow.");
     expect(html).toContain("Citizens Without a Country");
