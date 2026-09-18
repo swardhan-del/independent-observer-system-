@@ -6,6 +6,7 @@ import { topicHubs } from "./topics";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 import { previewGreenPublications } from "./green-publications";
+import { curatedPublications } from "./curated-publications";
 import { familyIdForKey } from "./family-registry";
 import { isManuscriptAuthorizedForRelease } from "./manuscript-release-registry";
 
@@ -67,6 +68,13 @@ const sectionRoutes: CanonicalRouteRecord[] = [
     title: "Latest research",
     type: "section",
     source: "release-log",
+    indexable: true,
+  },
+  {
+    route: "/publication-ledger/",
+    title: "Publication ledger",
+    type: "section",
+    source: "publication-ledger",
     indexable: true,
   },
   {
@@ -155,6 +163,14 @@ const contentRoutes: CanonicalRouteRecord[] = [
     title: item.title,
     type: "research" as const,
     source: "publication-registry",
+    familyId: item.familyId,
+    indexable: item.productionReleased,
+  })),
+  ...curatedPublications.map((item) => ({
+    route: `/research/${item.slug}/`,
+    title: item.title,
+    type: "research" as const,
+    source: "curated-publication-registry",
     familyId: item.familyId,
     indexable: item.productionReleased,
   })),

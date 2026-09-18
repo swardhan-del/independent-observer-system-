@@ -7,6 +7,7 @@ import { sitePath } from "./paths";
 import { slugify } from "./slugs";
 import type { SearchEntry } from "./search";
 import { previewGreenPublications } from "../data/green-publications";
+import { curatedPublications } from "../data/curated-publications";
 
 export type ResearchCatalogueKind =
   "Volume record" | "Author paper" | "Research concept" | "Current research article";
@@ -107,7 +108,8 @@ const conceptRecords: ResearchCatalogueRecord[] = researchItems.map((item) => ({
   kind: "Research concept",
 }));
 
-const greenRecords: ResearchCatalogueRecord[] = previewGreenPublications.map((item) => ({
+const currentResearch = [...previewGreenPublications, ...curatedPublications];
+const greenRecords: ResearchCatalogueRecord[] = currentResearch.map((item) => ({
   id: `green:${item.candidateId}`,
   familyId: item.familyId,
   title: item.title,

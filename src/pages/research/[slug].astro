@@ -7,13 +7,14 @@ import { slugify } from "../../lib/slugs";
 import { sitePath } from "../../lib/paths";
 import GreenPublicationArticle from "../../components/GreenPublicationArticle.astro";
 import { previewGreenPublications } from "../../data/green-publications";
+import { curatedPublications } from "../../data/curated-publications";
 
 export function getStaticPaths() {
   const concepts = researchItems.map((item) => ({
     params: { slug: slugify(item.title) },
     props: { item },
   }));
-  const green = previewGreenPublications.map((publication) => ({
+  const green = [...previewGreenPublications, ...curatedPublications].map((publication) => ({
     params: { slug: publication.slug },
     props: { publication },
   }));
