@@ -229,7 +229,7 @@ describe("interactive preview tools", () => {
   });
 
   it("connects public document readers to their volume without repeating every paper", () => {
-    expect(reader).toContain("paperDocuments");
+    expect(reader).toContain("publicVolumeDocuments");
     expect(reader).toContain('section.id === "publication-boundary"');
     expect(reader).toContain("<ReaderVolumeContext");
     expect(readerVolumeContext).toContain("public author-paper records");
@@ -490,14 +490,14 @@ describe("interactive preview tools", () => {
     expect(researchCatalogue).toContain("rankSearchEntries");
     expect(researchCatalogue).toContain("Recently matched");
     expect(researchCatalogue).toContain("Private source paths");
-    expect(researchCatalogueRecords).toHaveLength(34);
+    expect(researchCatalogueRecords).toHaveLength(40);
     expect(researchCatalogueVolumes).toEqual(["Volume I", "Volume II", "Volume III", "Volume IV"]);
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "Volume record"),
     ).toHaveLength(4);
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "Author paper"),
-    ).toHaveLength(21);
+    ).toHaveLength(27);
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "Research concept"),
     ).toHaveLength(3);
