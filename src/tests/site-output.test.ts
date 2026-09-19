@@ -276,6 +276,17 @@ describe("built website", () => {
     expect(html).not.toContain("Draft previews, volume guides and editorial context</summary>");
   });
 
+  it("keeps the public-document catalogue compact while retaining every record in the page", () => {
+    const html = readOutput("library/index.html");
+    const publicDocumentCards = tags(html, "article").filter((tag) =>
+      tag.includes("data-public-document-card"),
+    );
+
+    expect(publicDocumentCards).toHaveLength(publicDocumentItems.length);
+    expect(html).toContain("Show more public records");
+    expect(html).toContain("data-public-document-more");
+  });
+
   it("makes the expanded public research index discoverable without exposing source files", () => {
     const html = readOutput("research/index.html");
 
