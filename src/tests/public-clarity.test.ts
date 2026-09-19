@@ -103,7 +103,13 @@ test("removes the internal publication document from public output and discovery
 test("catalogue actions name their reader-facing destinations", () => {
   const library = readFileSync("dist/library/index.html", "utf8");
   const series = readFileSync("dist/series/index.html", "utf8");
-  expect(library).toContain(
+  expect(library).toMatch(
+    /href="[^"]*\/library\/documents\/who-deported-more\/"[^>]*>Who Deported More\? A Guide to Comparing Deportation Statistics/,
+  );
+  expect(library).toMatch(
+    /href="[^"]*\/library\/documents\/who-deported-more\/"[^>]*>Read the public synopsis →/,
+  );
+  expect(library).not.toContain(
     "Read Who Deported More? A Guide to Comparing Deportation Statistics →",
   );
   expect(library).not.toContain("Open reader →");

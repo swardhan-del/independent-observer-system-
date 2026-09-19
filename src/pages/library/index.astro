@@ -5,11 +5,17 @@ import LibraryContentBlocks from "../../components/LibraryContentBlocks.astro";
 import LibraryResearchShelf from "../../components/LibraryResearchShelf.astro";
 import PageHero from "../../components/PageHero.astro";
 import { publicDocumentItems } from "../../data/documents";
+import { paperDocuments } from "../../data/papers";
 import { publicLibrarySnapshot } from "../../data/public-library";
 import { sitePath } from "../../lib/paths";
 import GreenPublicationShelf from "../../components/GreenPublicationShelf.astro";
+import PublicDocumentShelf from "../../components/PublicDocumentShelf.astro";
 
 const { areas, note, stats } = publicLibrarySnapshot;
+const paperDocumentIds = new Set(paperDocuments.map((document) => document.id));
+const otherPublicDocuments = publicDocumentItems.filter(
+  (document) => !paperDocumentIds.has(document.id),
+);
 ---
 
 <BaseLayout
@@ -152,50 +158,12 @@ const { areas, note, stats } = publicLibrarySnapshot;
 
     <LibraryContentBlocks />
 
-    <section class="section section-white">
-      <div class="shell">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Public documents</p>
-            <h2>Read the reviewed material.</h2>
-          </div>
-          <p>
-            These reading copies make approved public-safe material easy to find without opening the
-            private working archive to the web.
-          </p>
-        </div>
-        <div class="card-grid">
-          {
-            publicDocumentItems.map((entry, index) => (
-              <article class="editorial-card">
-                <div class="card-meta">
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <span>{entry.category}</span>
-                </div>
-                <h3>
-                  <a class="card-title-link" href={sitePath(`/library/documents/${entry.id}/`)}>
-                    {entry.title}
-                  </a>
-                </h3>
-                <p>{entry.description}</p>
-                <div class="card-footer">
-                  <span class="status-pill">{entry.status ?? "Reviewed public copy"}</span>
-                  {entry.metrics && (
-                    <span>
-                      Archived snapshot: {entry.metrics.downloads ?? "—"} downloads ·{" "}
-                      {entry.metrics.abstractViews ?? "—"} views · checked {entry.metrics.checkedAt}
-                    </span>
-                  )}
-                  <a class="card-open-link" href={sitePath(`/library/documents/${entry.id}/`)}>
-                    Read {entry.title} →
-                  </a>
-                </div>
-              </article>
-            ))
-          }
-        </div>
-      </div>
-    </section>
+    <PublicDocumentShelf
+      entries={otherPublicDocuments}
+      eyebrow="Other public records"
+      title="Read the additional reviewed material."
+      description="Paper records are searchable above. These are the remaining approved public-safe reading copies, kept separate so the catalogue does not repeat itself."
+    />
 
     <section class="section section-rule">
       <div class="shell">
