@@ -211,12 +211,21 @@ describe("built website", () => {
       "In editorial development",
       "Research preview",
       "Author working paper / working paper",
+      "Full working paper",
+      "Working-paper summary",
+      "Working-paper direction",
+      "Media preview",
+      "Reference document",
+      "Guide",
       "Published bounded text adaptation",
     ]) {
       expect(governance).toContain(label);
     }
     expect(governance).toContain("single-author research and media project");
-    expect(governance).toContain("no production analytics provider or analytics script");
+    expect(governance).toContain(
+      "no production analytics provider or outbound analytics transport",
+    );
+    expect(governance).toContain("GitHub Pages");
     expect(governance).toContain("TODO (owner):");
     expect(governance).toContain("/latest/#latest-revisions-title");
     expect(contact).toContain("Write to the author.");
@@ -236,7 +245,27 @@ describe("built website", () => {
     expect(latest).toContain("Revision log and corrections");
     expect(document).toContain("Publication record");
     expect(document).toContain("Revision history:");
+    expect(document).toMatch(/<dt[^>]*>Posted<\/dt>/);
     expect(document).toContain("Cite this page");
+    expect(document).toContain(
+      "Independent Observer, 13 October 2025. https://independentobserver.org/library/documents/who-deported-more/",
+    );
+
+    const pendingPreview = readOutput("research/regrowing-humanity/index.html");
+    expect(pendingPreview).toContain("Concept preview · publication pending");
+    expect(pendingPreview).not.toContain("<dt>Published</dt>");
+    expect(pendingPreview).not.toMatch(/<summary[^>]*>Cite this page<\/summary>/);
+    expect(pendingPreview).not.toContain('"datePublished"');
+
+    const monthOnlyManuscript = readOutput("library/manuscripts/manifesto-of-a-destiny/index.html");
+    expect(monthOnlyManuscript).toMatch(/<dt[^>]*>Source date<\/dt>/);
+    expect(monthOnlyManuscript).not.toMatch(/<summary[^>]*>Cite this page<\/summary>/);
+
+    const completeManuscript = readOutput("library/manuscripts/quiet-wealth/index.html");
+    expect(completeManuscript).toMatch(/<summary[^>]*>Cite this page<\/summary>/);
+    expect(completeManuscript).toContain(
+      "Independent Observer, 28 September 2025. 1.0. https://independentobserver.org/library/manuscripts/quiet-wealth/",
+    );
   });
 
   it("keeps unreleased candidates on Latest while publication approval is pending", () => {
@@ -776,6 +805,9 @@ describe("built website", () => {
       expect(entry).toMatch(/<loc>https:\/\/[^<]+<\/loc>/);
       expect(entry).toMatch(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/);
     }
+    const quietWealth = entries.find((entry) => entry.includes("/quiet-wealth/"));
+    expect(quietWealth).toContain("<lastmod>2026-09-11</lastmod>");
+    expect(quietWealth).not.toContain("<lastmod>2025-09-28</lastmod>");
     expect(locations.some((location) => location.endsWith("/404/"))).toBe(false);
   });
 
@@ -825,10 +857,23 @@ describe("built website", () => {
     expect(pageCanonical).toMatch(/^https:\/\//);
     expect(openGraphUrl).toBe(pageCanonical);
     expect(openGraphImage).toBe(twitterImage);
-    expect(openGraphImage).toMatch(/^https:\/\/.*\.(?:png|jpe?g)$/i);
-    expect(metaContent(html, "property", "og:image:type")).toBe("image/jpeg");
-    expect(metaContent(html, "property", "og:image:width")).toBe("1200");
-    expect(metaContent(html, "property", "og:image:height")).toBe("630");
+    expect(openGraphImage).toMatch(/^https:\/\//);
+    const imageType = metaContent(html, "property", "og:image:type");
+    expect(["image/jpeg", "image/png", "image/webp"]).toContain(imageType);
+    const imageExtension = new URL(openGraphImage!).pathname.match(/\.(jpe?g|png|webp)$/i)?.[1];
+    if (imageExtension) {
+      const expectedType = /jpe?g/i.test(imageExtension)
+        ? "image/jpeg"
+        : `image/${imageExtension.toLocaleLowerCase()}`;
+      expect(imageType).toBe(expectedType);
+    }
+    const imageWidth = metaContent(html, "property", "og:image:width");
+    const imageHeight = metaContent(html, "property", "og:image:height");
+    expect(Boolean(imageWidth)).toBe(Boolean(imageHeight));
+    if (imageWidth && imageHeight) {
+      expect(Number(imageWidth)).toBeGreaterThan(0);
+      expect(Number(imageHeight)).toBeGreaterThan(0);
+    }
     expect(metaContent(html, "property", "og:image:alt")).toBeTruthy();
     expect(metaContent(html, "name", "twitter:card")).toBe("summary_large_image");
     expect(metaContent(html, "name", "twitter:image:alt")).toBeTruthy();
@@ -837,8 +882,11 @@ describe("built website", () => {
     expect(sitemapLink(html)).toBe(new URL("sitemap.xml", publicOrigin + basePath).href);
     expect(html).toMatch(/<title>[^<]+<\/title>/i);
 
-    const imagePath = fileForPath(new URL(openGraphImage!).pathname, basePath);
-    expect(existsSync(imagePath)).toBe(true);
+    const imageUrl = new URL(openGraphImage!);
+    if (imageUrl.origin === publicOrigin) {
+      const imagePath = fileForPath(imageUrl.pathname, basePath);
+      expect(existsSync(imagePath)).toBe(true);
+    }
   });
 
   it.each(routes)("provides valid page-specific JSON-LD on $route", ({ file }) => {

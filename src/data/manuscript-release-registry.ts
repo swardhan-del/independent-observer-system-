@@ -56,3 +56,9 @@ export const manuscriptReleaseAuthorizations: ManuscriptReleaseAuthorization[] =
 export function isManuscriptAuthorizedForRelease(slug: string): boolean {
   return manuscriptReleaseAuthorizations.some((record) => record.manuscriptSlug === slug);
 }
+
+export function manuscriptReleaseAuthorizationFor(
+  slug: string,
+): ManuscriptReleaseAuthorization | undefined {
+  return manuscriptReleaseAuthorizations.find((record) => record.manuscriptSlug === slug);
+}

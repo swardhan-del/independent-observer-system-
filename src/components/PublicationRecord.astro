@@ -1,11 +1,13 @@
 ---
-import { sitePath } from "../lib/paths";
+import { citationDate } from "../lib/citations";
+import { publicSitePath, sitePath } from "../lib/paths";
 
 type Props = {
   title: string;
   author: string;
   status: string;
   publicationDate?: string;
+  dateLabel?: string;
   lastReviewedDate?: string;
   version?: string;
   revisionCount?: number;
@@ -18,6 +20,7 @@ const {
   author,
   status,
   publicationDate,
+  dateLabel = "Published",
   lastReviewedDate,
   version,
   revisionCount = 0,
@@ -25,8 +28,11 @@ const {
   reuseNotice,
 } = Astro.props as Props;
 
-const suggestedCitation = publicationDate
-  ? `${author}. “${title}.” Independent Observer, ${publicationDate}.`
+const citationPublicationDate = citationDate(publicationDate);
+const canonicalPageUrl = new URL(publicSitePath(Astro.url.pathname), Astro.site ?? Astro.url.origin)
+  .href;
+const suggestedCitation = citationPublicationDate
+  ? `${author}. “${title}.” Independent Observer, ${publicationDate}.${version ? ` ${version}.` : ""} ${canonicalPageUrl}`
   : undefined;
 const revisionLabel =
   revisionCount === 1 ? "1 recorded revision" : `${revisionCount} recorded revisions`;
@@ -41,7 +47,7 @@ const revisionLabel =
       publicationDate && (
         <div>
           <>
-            <dt>Published</dt>
+            <dt>{dateLabel}</dt>
             <dd>{publicationDate}</dd>
           </>
         </div>
@@ -85,7 +91,7 @@ const revisionLabel =
       </details>
     ) : (
       <p class="publication-record-note">
-        A suggested citation is withheld until publication-date metadata is recorded.
+        A suggested citation is withheld until a complete publication date is recorded.
       </p>
     )
   }
