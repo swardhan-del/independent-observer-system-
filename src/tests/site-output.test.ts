@@ -297,6 +297,14 @@ describe("built website", () => {
     expect(html).not.toContain("/Independent Observer desktop/");
   });
 
+  it("keeps public library context visible without requiring a disclosure control", () => {
+    const html = readOutput("library/index.html");
+
+    expect(html).toContain("Previews, volume guides and publication boundaries.");
+    expect(html).toContain("These reader-facing records are public.");
+    expect(html).not.toContain("Draft previews, volume guides and editorial context</summary>");
+  });
+
   it("makes the expanded public research index discoverable without exposing source files", () => {
     const html = readOutput("research/index.html");
 
