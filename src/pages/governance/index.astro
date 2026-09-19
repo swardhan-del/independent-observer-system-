@@ -5,17 +5,18 @@ import { sitePath } from "../../lib/paths";
 ---
 
 <BaseLayout
-  title="Editorial standards & privacy"
+  title="Editorial standards, corrections & privacy"
   description="How to read Independent Observer status labels, request corrections, understand browser-local tools, and ask about reuse or disclosures."
   currentPath="/governance/"
 >
   <PageHero
     eyebrow="Standards & trust"
-    title="How this work is presented."
+    title="Editorial standards, corrections & privacy"
     description="A compact guide to editorial standards, corrections, privacy, reuse, and disclosures."
   />
   <section class="section section-white">
     <div class="shell prose">
+      <p class="review-date"><strong>Last reviewed:</strong> 19 September 2026</p>
       <h2>Editorial standards</h2>
       <p>
         Independent Observer separates evidence, interpretation, and proposals. Public records
@@ -23,14 +24,72 @@ import { sitePath } from "../../lib/paths";
         books in editorial development retain their status labels; availability on this site does
         not imply peer review or a finished book.
       </p>
+      <h2>Status labels</h2>
+      <p>
+        Status labels describe what a reader can use now; they do not grade the quality of an idea
+        or substitute for independent review.
+      </p>
+      <dl class="status-definitions">
+        <dt>Concept preview</dt>
+        <dd>
+          A short public outline introduces an idea that has not yet become a finished paper or
+          publication.
+        </dd>
+        <dt>In editorial development</dt>
+        <dd>
+          The author is still developing, checking, structuring, or placing the work before release.
+        </dd>
+        <dt>Research preview</dt>
+        <dd>
+          A public research map presents a question, mechanism, or evidence boundary without
+          claiming a completed study.
+        </dd>
+        <dt>Author working paper / working paper</dt>
+        <dd>
+          A dated author manuscript is available as work in progress and has not been externally
+          peer reviewed.
+        </dd>
+        <dt>Public author paper / public paper record</dt>
+        <dd>
+          A public record points to an author paper and its available metadata without implying
+          independent validation.
+        </dd>
+        <dt>Public reading copy</dt>
+        <dd>
+          A readable site edition presents public material while preserving the source, status, and
+          stated limitations.
+        </dd>
+        <dt>Mapped research direction / research-map entry</dt>
+        <dd>
+          A catalogue entry shows where a proposed line of inquiry belongs, but it is not itself a
+          released paper.
+        </dd>
+        <dt>Preview-only bounded text adaptation</dt>
+        <dd>
+          A limited text adaptation is available for review or preview and is not included in the
+          formal release feed.
+        </dd>
+        <dt>Published bounded text adaptation</dt>
+        <dd>
+          A limited, source-bounded text adaptation has passed the site’s recorded release checks
+          and is publicly listed.
+        </dd>
+        <dt>Publication pending</dt>
+        <dd>The referenced item is not yet released for public reading on this site.</dd>
+      </dl>
       <h2>Corrections</h2>
       <p>
         To question a claim or report an error, use the <a href={sitePath("/contact/")}
           >contact page</a
         >. Include the page address, the passage, and evidence supporting a correction. Public paper
-        revisions are listed when recorded; site changes appear in <a href={sitePath("/whats-new/")}
-          >What’s New</a
-        >. An inquiry does not guarantee a reply.
+        revisions are listed when recorded. An approved correction is marked in the affected page’s <strong
+          >Revision history</strong
+        > with its date, change, reason, and a link to the affected section. The same paper correction
+        also appears in the <a href={sitePath("/latest/#latest-revisions-title")}>revision log</a>;
+        software and interface changes appear in <a href={sitePath("/whats-new/")}>What’s New</a>.
+      </p>
+      <p class="todo-notice">
+        <strong>TODO (owner):</strong> choose and publish a correction-inquiry response-time commitment.
       </p>
       <h2>Privacy</h2>
       <p>
@@ -45,6 +104,22 @@ import { sitePath } from "../../lib/paths";
         still requires ordinary network requests to its hosting provider. External links open
         services with their own privacy practices.
       </p>
+      <h3>Reader list and hosting</h3>
+      <p>
+        The reader-list links currently lead to Substack. This site does not collect the email
+        address itself; Substack handles any subscription under its own privacy practices. The site
+        is hosted on Vercel, so ordinary page requests are processed through Vercel’s hosting
+        infrastructure.
+      </p>
+      <h3>Analytics, cookies, and browser storage</h3>
+      <p>
+        The repository contains no production analytics provider or analytics script. Its production
+        event adapter is a no-op, so the site does not send analytics events. The site code does not
+        set cookies. It does use local storage for reader-controlled conveniences such as saved
+        reading, listening progress, and “new since your last visit,” plus session storage for the
+        current search state. External services reached through links may use their own analytics,
+        cookies, or storage.
+      </p>
       <h2>Copyright and reuse</h2>
       <p>
         Public access does not itself grant permission to republish material. Follow any rights or
@@ -52,13 +127,56 @@ import { sitePath } from "../../lib/paths";
         separate rights. For permission or a rights concern, identify the material and intended use
         through the <a href={sitePath("/contact/")}>contact page</a>.
       </p>
+      <p class="todo-notice">
+        <strong>TODO (owner):</strong> choose the default licence for site-authored material; until then,
+        no additional default reuse licence is granted beyond any item-specific notice.
+      </p>
       <h2>Disclosures</h2>
+      <h3>Authorship</h3>
       <p>
-        This is an independent research and media project. Author working papers and concepts
-        express their authors’ analysis; links to source institutions or distribution platforms do
-        not imply endorsement. Historical downloads and views are dated distribution signals, not
-        evidence of scholarly quality. Publication status is stated on each record.
+        Independent Observer is a single-author research and media project by Siddhartha Harsh
+        Wardhan. The site’s papers, previews, and adaptations have no external peer review unless a
+        specific page explicitly records otherwise.
+      </p>
+      <h3>Funding</h3>
+      <p class="todo-notice"><strong>TODO (owner):</strong> disclose how the project is funded.</p>
+      <h3>Revenue</h3>
+      <p class="todo-notice">
+        <strong>TODO (owner):</strong> disclose current and planned revenue sources.
+      </p>
+      <h3>Conflicts of interest</h3>
+      <p class="todo-notice">
+        <strong>TODO (owner):</strong> publish a conflicts-of-interest statement.
+      </p>
+      <h3>Use of AI tools</h3>
+      <p class="todo-notice">
+        <strong>TODO (owner):</strong> disclose which AI tools, if any, are used and how their output
+        is reviewed before publication.
+      </p>
+      <p>
+        Links to source institutions or distribution platforms do not imply endorsement. Historical
+        downloads and views are dated distribution signals, not evidence of scholarly quality.
+        Publication status is stated on each record.
       </p>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .review-date {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .status-definitions dt {
+    margin-top: 1rem;
+    font-weight: 800;
+  }
+  .status-definitions dd {
+    margin: 0.25rem 0 0;
+  }
+  .todo-notice {
+    padding: 0.9rem 1rem;
+    border-left: 4px solid var(--gold);
+    background: var(--paper-muted, #f4f1e8);
+  }
+</style>

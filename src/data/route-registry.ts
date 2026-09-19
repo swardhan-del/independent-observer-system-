@@ -42,7 +42,7 @@ const sectionRoutes: CanonicalRouteRecord[] = [
   },
   {
     route: "/governance/",
-    title: "Editorial standards & privacy",
+    title: "Editorial standards, corrections & privacy",
     type: "section",
     source: "governance",
     indexable: true,
