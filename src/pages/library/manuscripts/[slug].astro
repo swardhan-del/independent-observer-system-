@@ -6,6 +6,7 @@ import { manuscripts, manuscriptPath } from "../../../../plugins/library-content
 import { isManuscriptAuthorizedForRelease } from "../../../data/manuscript-release-registry";
 import { relatedRecords } from "../../../lib/related";
 import { sitePath } from "../../../lib/paths";
+import PublicationRecord from "../../../components/PublicationRecord.astro";
 export function getStaticPaths() {
   return manuscripts.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
 }
@@ -78,6 +79,14 @@ const related = relatedRecords(
       {entry.frontMatter.map((line) => <p>{line}</p>)}
       <p class="edition">{entry.editionNote}</p>
     </header>
+    <PublicationRecord
+      title={entry.title}
+      author={entry.author}
+      status={entry.status}
+      publicationDate={entry.sourceDate}
+      dateLabel="Source date"
+      version={entry.version}
+    />
     <nav aria-label="Manuscript contents">
       <h2>Contents</h2><ol>
         {
