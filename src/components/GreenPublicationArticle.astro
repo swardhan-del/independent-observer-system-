@@ -21,7 +21,7 @@ const schema = JSON.stringify({
   "@type": "ScholarlyArticle",
   headline: publication.title,
   author: { "@type": "Person", name: publication.author },
-  datePublished: publication.publicationDate,
+  ...(publication.productionReleased ? { datePublished: publication.publicationDate } : {}),
   dateModified: publication.lastReviewedDate,
   version: publication.version,
   isAccessibleForFree: true,
@@ -78,7 +78,7 @@ const schema = JSON.stringify({
         title={publication.title}
         author={publication.author}
         status={publication.status}
-        publicationDate={publication.publicationDate}
+        publicationDate={publication.productionReleased ? publication.publicationDate : undefined}
         lastReviewedDate={publication.lastReviewedDate}
         version={publication.version}
         reuseNotice={publication.license}
