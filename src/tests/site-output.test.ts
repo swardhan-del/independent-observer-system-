@@ -23,6 +23,7 @@ const routes = [
   { route: "/videos/", file: "videos/index.html" },
   { route: "/about/", file: "about/index.html" },
   { route: "/contact/", file: "contact/index.html" },
+  { route: "/how-to-use-this-site/", file: "how-to-use-this-site/index.html" },
   { route: "/start/", file: "start/index.html" },
   { route: "/start-here/", file: "start-here/index.html" },
   { route: "/publication-operating-system/", file: "publication-operating-system/index.html" },
@@ -221,6 +222,21 @@ describe("built website", () => {
     expect(contact).toContain("Write to the author.");
     expect(contact).toContain("role address on independentobserver.org");
     expect(contact).not.toContain("research desk");
+  });
+
+  it("makes publication records, revision boundaries, and the reader guide discoverable", () => {
+    const guide = readOutput("how-to-use-this-site/index.html");
+    const latest = readOutput("latest/index.html");
+    const document = readOutput("library/documents/who-deported-more/index.html");
+
+    expect(guide).toContain("Start with the publication record");
+    expect(guide).toContain("Read the status before the argument");
+    expect(guide).toContain("Cite the public record accurately");
+    expect(latest).toContain("Read the record, not only the headline");
+    expect(latest).toContain("Revision log and corrections");
+    expect(document).toContain("Publication record");
+    expect(document).toContain("Revision history:");
+    expect(document).toContain("Cite this page");
   });
 
   it("keeps unreleased candidates on Latest while publication approval is pending", () => {

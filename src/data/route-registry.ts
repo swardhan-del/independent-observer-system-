@@ -71,6 +71,14 @@ const sectionRoutes: CanonicalRouteRecord[] = [
     lastModified: SITE_AUDIT_DATE,
   },
   {
+    route: "/how-to-use-this-site/",
+    title: "How to use this site",
+    type: "section",
+    source: "reader-guide",
+    indexable: true,
+    lastModified: SITE_AUDIT_DATE,
+  },
+  {
     route: "/reading-tools/",
     title: "Reading tools: test a claim",
     type: "section",

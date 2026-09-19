@@ -8,6 +8,7 @@ import {
 } from "../data/green-publications";
 import type { GreenPublication } from "../data/green-publications";
 import { publicSitePath, sitePath } from "../lib/paths";
+import PublicationRecord from "./PublicationRecord.astro";
 
 const { publication } = Astro.props as { publication: GreenPublication };
 const currentPath = `/research/${publication.slug}/`;
@@ -73,6 +74,15 @@ const schema = JSON.stringify({
           <p>{publication.topics.join(" · ")}</p>
         </details>
       </header>
+      <PublicationRecord
+        title={publication.title}
+        author={publication.author}
+        status={publication.status}
+        publicationDate={publication.publicationDate}
+        lastReviewedDate={publication.lastReviewedDate}
+        version={publication.version}
+        reuseNotice={publication.license}
+      />
       <div class="article-body prose">
         {publication.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
         <section aria-labelledby="article-sources">
