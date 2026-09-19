@@ -190,17 +190,37 @@ describe("built website", () => {
     expect(html).toContain("visible release boundaries");
   });
 
-  it("explains the connected four-volume arc in the site footer", () => {
+  it("keeps the repeated site-footer introduction concise", () => {
     const html = readOutput("index.html");
 
-    expect(html).toContain("connected four-volume inquiry into how public life is made");
-    expect(html).toContain("Volume I establishes the method");
-    expect(html).toContain("Volume II follows that method into sovereignty");
-    expect(html).toContain("Volume III asks who carries the cost of work");
     expect(html).toContain(
-      "Volume IV tests whether science, infrastructure, and artificial intelligence",
+      "A single-author, four-volume inquiry into evidence, institutions, political economy, science, and technology.",
     );
-    expect(html).toContain("what futures people can actually govern");
+    expect(html).not.toContain("Volume I establishes the method");
+  });
+
+  it("publishes the audited governance disclosures and single-author contact wording", () => {
+    const governance = readOutput("governance/index.html");
+    const contact = readOutput("contact/index.html");
+
+    expect(governance).toContain("Editorial standards, corrections &amp; privacy");
+    expect(governance).toContain("Last reviewed:");
+    for (const label of [
+      "Concept preview",
+      "In editorial development",
+      "Research preview",
+      "Author working paper / working paper",
+      "Published bounded text adaptation",
+    ]) {
+      expect(governance).toContain(label);
+    }
+    expect(governance).toContain("single-author research and media project");
+    expect(governance).toContain("no production analytics provider or analytics script");
+    expect(governance).toContain("TODO (owner):");
+    expect(governance).toContain("/latest/#latest-revisions-title");
+    expect(contact).toContain("Write to the author.");
+    expect(contact).toContain("role address on independentobserver.org");
+    expect(contact).not.toContain("research desk");
   });
 
   it("keeps unreleased candidates on Latest while publication approval is pending", () => {
