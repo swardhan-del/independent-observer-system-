@@ -86,6 +86,7 @@ const volumeRecord = entry.volume
         author={entry.author ?? "Independent Observer"}
         status={status}
         publicationDate={entry.publicationDate}
+        dateLabel={entry.dateLabel ?? "Published"}
         lastReviewedDate={entry.updatedDate ?? entry.sourceReviewedAt}
         revisionCount={revisionHistory.length}
         revisionHistoryHref={revisionHistory.length > 0

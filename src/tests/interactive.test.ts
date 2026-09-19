@@ -86,8 +86,19 @@ const researchCatalogue = readFileSync(
   join(sourceRoot, "components/ResearchCatalogue.astro"),
   "utf8",
 );
+const publicDocumentShelf = readFileSync(
+  join(sourceRoot, "components/PublicDocumentShelf.astro"),
+  "utf8",
+);
 
 describe("interactive preview tools", () => {
+  it("keeps the public document shelf complete before progressive enhancement", () => {
+    expect(publicDocumentShelf).not.toContain("hidden={index >= 6}");
+    expect(publicDocumentShelf).toContain("data-public-document-more hidden");
+    expect(publicDocumentShelf).toContain("card.hidden = index >= limit");
+    expect(publicDocumentShelf).toContain("more.hidden = cards.length <= limit");
+  });
+
   it("keeps ambient sound opt-in and browser-local", () => {
     expect(layout).toContain("<AmbientSoundControl />");
     expect(ambientSound).toContain("data-ambient-sound-toggle");

@@ -49,6 +49,21 @@ import { sitePath } from "../../lib/paths";
           A dated author manuscript is available as work in progress and has not been externally
           peer reviewed.
         </dd>
+        <dt>Full working paper</dt>
+        <dd>
+          The complete site reading edition of an authorized working paper is available, rather than
+          only its catalogue summary.
+        </dd>
+        <dt>Working-paper summary</dt>
+        <dd>
+          A reader-facing summary points to an author working paper without reproducing or
+          relabelling the complete paper.
+        </dd>
+        <dt>Working-paper direction</dt>
+        <dd>
+          A proposed research direction is mapped to a volume but has not become a released working
+          paper.
+        </dd>
         <dt>Public author paper / public paper record</dt>
         <dd>
           A public record points to an author paper and its available metadata without implying
@@ -109,6 +124,21 @@ import { sitePath } from "../../lib/paths";
           An author-produced media or editorial item is available as a preview while further work
           may continue.
         </dd>
+        <dt>Media preview</dt>
+        <dd>
+          A shorter interface label for an editorial preview or preview asset whose production may
+          continue.
+        </dd>
+        <dt>Reference document</dt>
+        <dd>
+          A public document supplies source, archive, or contextual material and is not presented as
+          a research finding.
+        </dd>
+        <dt>Guide</dt>
+        <dd>
+          A shorter interface label for an editorial framework or public summary that helps readers
+          navigate the project.
+        </dd>
         <dt>Publication pending</dt>
         <dd>The referenced item is not yet released for public reading on this site.</dd>
       </dl>
@@ -142,18 +172,20 @@ import { sitePath } from "../../lib/paths";
       <h3>Reader list and hosting</h3>
       <p>
         The reader-list links currently lead to Substack. This site does not collect the email
-        address itself; Substack handles any subscription under its own privacy practices. The site
-        is hosted on Vercel, so ordinary page requests are processed through Vercel’s hosting
-        infrastructure.
+        address itself; Substack handles any subscription under its own privacy practices. The
+        primary site is hosted on Vercel, so ordinary requests to that deployment are processed
+        through Vercel’s infrastructure. A public, noindex fallback is also deployed through GitHub
+        Pages; requests to that fallback are processed through GitHub’s infrastructure.
       </p>
       <h3>Analytics, cookies, and browser storage</h3>
       <p>
-        The repository contains no production analytics provider or analytics script. Its production
-        event adapter is a no-op, so the site does not send analytics events. The site code does not
-        set cookies. It does use local storage for reader-controlled conveniences such as saved
-        reading, listening progress, and “new since your last visit,” plus session storage for the
-        current search state. External services reached through links may use their own analytics,
-        cookies, or storage.
+        The site ships browser-side event and article-scroll instrumentation, but it has no
+        production analytics provider or outbound analytics transport. Its production event adapter
+        is a no-op, so analytics events do not leave the browser. The site code does not set
+        cookies. It does use local storage for reader-controlled conveniences such as saved reading,
+        listening progress, and “new since your last visit,” plus session storage for the current
+        search state. External services reached through links may use their own analytics, cookies,
+        or storage.
       </p>
       <h2 id="copyright-and-reuse">Copyright and reuse</h2>
       <p>

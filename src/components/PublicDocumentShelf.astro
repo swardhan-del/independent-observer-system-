@@ -33,12 +33,12 @@ const {
         role="status"
         aria-live="polite"
       >
-        Showing the first 6 of {entries.length} public records
+        Showing all {entries.length} public records
       </p>
       <div class="card-grid">
         {
           entries.map((entry, index) => (
-            <article class="editorial-card" data-public-document-card hidden={index >= 6}>
+            <article class="editorial-card" data-public-document-card>
               <div class="card-meta">
                 <span>{String(index + 1).padStart(2, "0")}</span>
                 <span>{entry.category}</span>
@@ -67,7 +67,7 @@ const {
       </div>
       {
         entries.length > 6 && (
-          <button type="button" data-public-document-more>
+          <button type="button" data-public-document-more hidden>
             Show more public records
           </button>
         )
@@ -83,6 +83,13 @@ const {
     const more = shelf.querySelector<HTMLButtonElement>("[data-public-document-more]");
     const status = shelf.querySelector<HTMLElement>("[data-public-document-status]");
     let limit = 6;
+
+    cards.forEach((card, index) => {
+      card.hidden = index >= limit;
+    });
+    if (status)
+      status.textContent = `Showing ${Math.min(limit, cards.length)} of ${cards.length} public records`;
+    if (more) more.hidden = cards.length <= limit;
 
     more?.addEventListener("click", () => {
       limit += 6;
