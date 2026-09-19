@@ -726,6 +726,12 @@ describe("built website", () => {
       expect(url).toMatch(/^https:\/\//);
       expect(locations.filter((location) => location === url)).toHaveLength(1);
     }
+    const entries = [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((match) => match[1]);
+    expect(entries).toHaveLength(expected.length);
+    for (const entry of entries) {
+      expect(entry).toMatch(/<loc>https:\/\/[^<]+<\/loc>/);
+      expect(entry).toMatch(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/);
+    }
     expect(locations.some((location) => location.endsWith("/404/"))).toBe(false);
   });
 
@@ -783,6 +789,7 @@ describe("built website", () => {
     expect(metaContent(html, "name", "twitter:card")).toBe("summary_large_image");
     expect(metaContent(html, "name", "twitter:image:alt")).toBeTruthy();
     expect(metaContent(html, "name", "description")).toBeTruthy();
+    expect(html).not.toMatch(/<meta\s+name=["']keywords["']/i);
     expect(sitemapLink(html)).toBe(new URL("sitemap.xml", publicOrigin + basePath).href);
     expect(html).toMatch(/<title>[^<]+<\/title>/i);
 
