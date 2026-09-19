@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { publicDocumentItems } from "../data/documents";
+import { paperDocuments } from "../data/papers";
 import { seriesItems } from "../data/series";
 import { volumeReels } from "../data/video-reels";
 import { slugify } from "../lib/slugs";
@@ -282,9 +283,17 @@ describe("built website", () => {
       tag.includes("data-public-document-card"),
     );
 
-    expect(publicDocumentCards).toHaveLength(publicDocumentItems.length);
-    expect(html).toContain("Show more public records");
-    expect(html).toContain("data-public-document-more");
+    const paperDocumentIds = new Set(paperDocuments.map((document) => document.id));
+    const otherPublicDocumentCount = publicDocumentItems.filter(
+      (document) => !paperDocumentIds.has(document.id),
+    ).length;
+
+    expect(publicDocumentCards).toHaveLength(otherPublicDocumentCount);
+    if (otherPublicDocumentCount > 6) {
+      expect(html).toContain("Show more public records");
+      expect(html).toContain("data-public-document-more");
+    }
+    expect(html).toContain("Paper records are searchable above.");
   });
 
   it("makes the expanded public research index discoverable without exposing source files", () => {

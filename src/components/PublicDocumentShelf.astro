@@ -4,22 +4,27 @@ import { sitePath } from "../lib/paths";
 
 interface Props {
   entries: PublicDocument[];
+  eyebrow?: string;
+  title?: string;
+  description?: string;
 }
 
-const { entries } = Astro.props;
+const {
+  entries,
+  eyebrow = "Public documents",
+  title = "Read the reviewed material.",
+  description = "These reading copies make approved public-safe material easy to find without opening the private working archive to the web.",
+} = Astro.props;
 ---
 
 <section class="section section-white" aria-labelledby="public-documents-title">
   <div class="shell">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">Public documents</p>
-        <h2 id="public-documents-title">Read the reviewed material.</h2>
+        <p class="eyebrow">{eyebrow}</p>
+        <h2 id="public-documents-title">{title}</h2>
       </div>
-      <p>
-        These reading copies make approved public-safe material easy to find without opening the
-        private working archive to the web.
-      </p>
+      <p>{description}</p>
     </div>
     <div class="public-document-shelf" data-public-document-shelf>
       <p

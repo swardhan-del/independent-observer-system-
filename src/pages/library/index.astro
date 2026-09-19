@@ -5,12 +5,17 @@ import LibraryContentBlocks from "../../components/LibraryContentBlocks.astro";
 import LibraryResearchShelf from "../../components/LibraryResearchShelf.astro";
 import PageHero from "../../components/PageHero.astro";
 import { publicDocumentItems } from "../../data/documents";
+import { paperDocuments } from "../../data/papers";
 import { publicLibrarySnapshot } from "../../data/public-library";
 import { sitePath } from "../../lib/paths";
 import GreenPublicationShelf from "../../components/GreenPublicationShelf.astro";
 import PublicDocumentShelf from "../../components/PublicDocumentShelf.astro";
 
 const { areas, note, stats } = publicLibrarySnapshot;
+const paperDocumentIds = new Set(paperDocuments.map((document) => document.id));
+const otherPublicDocuments = publicDocumentItems.filter(
+  (document) => !paperDocumentIds.has(document.id),
+);
 ---
 
 <BaseLayout
@@ -153,7 +158,12 @@ const { areas, note, stats } = publicLibrarySnapshot;
 
     <LibraryContentBlocks />
 
-    <PublicDocumentShelf entries={publicDocumentItems} />
+    <PublicDocumentShelf
+      entries={otherPublicDocuments}
+      eyebrow="Other public records"
+      title="Read the additional reviewed material."
+      description="Paper records are searchable above. These are the remaining approved public-safe reading copies, kept separate so the catalogue does not repeat itself."
+    />
 
     <section class="section section-rule">
       <div class="shell">
