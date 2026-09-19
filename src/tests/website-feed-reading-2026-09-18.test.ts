@@ -9,6 +9,7 @@ import { familyIdForKey } from "../data/family-registry";
 import { taxonomyEntries } from "../../plugins/library-content/taxonomy";
 import { volumeResearchMap } from "../data/volume-research";
 import { researchCatalogueRecords } from "../lib/research-catalogue";
+import { archivePaperById } from "../data/archive-navigation";
 
 describe("six curated Website Feed reading pages", () => {
   it("expands exactly six existing taxonomy entries without creating duplicate families", () => {
@@ -31,6 +32,33 @@ describe("six curated Website Feed reading pages", () => {
       familyIdForKey("quantum-antimatter"),
     );
     expect(familyIdForKey("empire-s-mirror")).toBe(familyIdForKey("empires-mirror"));
+    expect(familyIdForKey("the-fear-circuit")).toBe(familyIdForKey("fear-circuit"));
+    expect(familyIdForKey("sanctioned-capital-and-the-american-opportunity-myth")).toBe(
+      familyIdForKey("sanctioned-capital"),
+    );
+    expect(familyIdForKey("how-command-states-finance-power")).toBe(
+      familyIdForKey("command-economies"),
+    );
+  });
+
+  it("keeps every bounded reading discoverable across archive, library and topic filters", () => {
+    const archiveIds = [
+      "empires-mirror",
+      "fear-circuit",
+      "sanctioned-capital",
+      "command-economies",
+      "when-real-science-fiction",
+      "quantum-antimatter",
+    ];
+    for (const id of archiveIds) {
+      expect(archivePaperById.get(id)?.href).toMatch(/^\/library\/documents\//);
+      expect(archivePaperById.get(id)?.status).not.toBe("Publication pending");
+    }
+    const quantum = researchCatalogueRecords.find(
+      (record) => record.id === "paper:quantum-computing-antimatter-and-the-next-energy-revolution",
+    );
+    expect(quantum?.topics).toContain("Science");
+    expect(quantum?.topics).toContain("Technology");
   });
 
   it("keeps evidence anchors, honest review boundaries and private-source exclusions", () => {
@@ -61,6 +89,7 @@ describe("six curated Website Feed reading pages", () => {
     const search = readFileSync("dist/search-index.json", "utf8");
     const sitemap = readFileSync("dist/sitemap.xml", "utf8");
     const taxonomy = readFileSync("dist/library/taxonomy/index.html", "utf8");
+    const library = readFileSync("dist/library/index.html", "utf8");
     for (const doc of websiteFeedReadingDocuments) {
       const route = `/library/documents/${doc.id}/`;
       const html = readFileSync(`dist${route}index.html`, "utf8");
@@ -70,6 +99,7 @@ describe("six curated Website Feed reading pages", () => {
       expect(search).toContain(route);
       expect(sitemap).toContain(route);
       expect(taxonomy).toContain(route);
+      expect(library).toContain(route);
     }
   });
 });

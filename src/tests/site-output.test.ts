@@ -681,7 +681,7 @@ describe("built website", () => {
     expect(html).toContain("Volume III publication context");
     expect(html).toContain("Volume III · Managed Decline");
     expect(html).toContain("Managed Decline");
-    expect(html).toContain("one of 3 public author-paper records mapped to Volume III");
+    expect(html).toContain("one of 4 public author-paper records mapped to Volume III");
     expect(html).toContain("without repeating their descriptions here");
     expect(html).toContain("Open the Volume III catalogue");
     expect(html).toContain("The Wardhan Tax Doctrine");

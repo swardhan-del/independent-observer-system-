@@ -9,7 +9,7 @@ export type VolumeResearchItem = SeriesItem & {
   papers: PublicDocument[];
 };
 
-const publicVolumeDocuments = [
+export const publicVolumeDocuments = [
   ...paperDocuments,
   ...curatedResearchDocuments,
   ...websiteFeedReadingDocuments,

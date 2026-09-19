@@ -229,7 +229,7 @@ describe("interactive preview tools", () => {
   });
 
   it("connects public document readers to their volume without repeating every paper", () => {
-    expect(reader).toContain("paperDocuments");
+    expect(reader).toContain("publicVolumeDocuments");
     expect(reader).toContain('section.id === "publication-boundary"');
     expect(reader).toContain("<ReaderVolumeContext");
     expect(readerVolumeContext).toContain("public author-paper records");

@@ -44,7 +44,8 @@ function topicsForRecord(category: string, volume?: string): string[] {
       return /history|geopolit|colon|demograph|method|sovereign/.test(value);
     }
     if (name === "law") return /law|legal|tax|institution|enforcement/.test(value);
-    if (name === "science") return /science|human capability|intimacy/.test(value);
+    if (name === "science")
+      return /science|scientific|quantum|physics|human capability|intimacy/.test(value);
     if (name === "technology") return /technology|comput|ai|automation|intimacy/.test(value);
     return false;
   });
