@@ -7,7 +7,10 @@ import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 import { previewGreenPublications } from "./green-publications";
 import { familyIdForKey } from "./family-registry";
-import { isManuscriptAuthorizedForRelease } from "./manuscript-release-registry";
+import {
+  isManuscriptAuthorizedForRelease,
+  manuscriptReleaseAuthorizationFor,
+} from "./manuscript-release-registry";
 import { citationDate } from "../lib/citations";
 
 const SITE_AUDIT_DATE = "2026-09-19";
@@ -345,7 +348,13 @@ export const canonicalRouteRegistry = [
     // Fail-closed: a manuscript route is only indexable once its edition has
     // an explicit record in manuscriptReleaseAuthorizations.
     indexable: isManuscriptAuthorizedForRelease(entry.slug),
-    lastModified: normalizedLastModified(entry.sourceDate),
+    // Sitemap dates describe the web edition, not the underlying manuscript.
+    // Authorized editions use the recorded site-release date; unauthorized
+    // routes remain on the site audit date while excluded from the sitemap.
+    lastModified: normalizedLastModified(
+      manuscriptReleaseAuthorizationFor(entry.slug)?.authorizedDate,
+      SITE_AUDIT_DATE,
+    ),
   })),
 ] as CanonicalRouteRecord[];
 
