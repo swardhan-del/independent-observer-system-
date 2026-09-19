@@ -15,8 +15,8 @@ export const GET: APIRoute = ({ site }) => {
   const publicOrigin = site ?? new URL("http://localhost");
   const entries = indexableRouteRegistry
     .map(
-      ({ route }) =>
-        `  <url><loc>${escapeXml(new URL(publicSitePath(route), publicOrigin).href)}</loc></url>`,
+      ({ route, lastModified }) =>
+        `  <url><loc>${escapeXml(new URL(publicSitePath(route), publicOrigin).href)}</loc><lastmod>${lastModified}</lastmod></url>`,
     )
     .join("\n");
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries}\n</urlset>\n`;
