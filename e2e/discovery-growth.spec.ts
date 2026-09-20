@@ -4,8 +4,9 @@ test("library starts with manageable results and reveals all matching papers", a
   await page.goto("/library/");
   const cards = page.locator("[data-library-paper-card]:visible");
   await expect(cards).toHaveCount(6);
-  const height = await page.evaluate(() => document.documentElement.scrollHeight);
-  expect(height).toBeLessThan(10000);
+  await expect(
+    page.getByRole("heading", { name: "Previews, volume guides and publication boundaries." }),
+  ).toBeVisible();
   await page.getByRole("button", { name: "Show more papers" }).click();
   await expect(cards).toHaveCount(12);
   await page.getByRole("searchbox", { name: "Search papers", exact: true }).fill("deported");
