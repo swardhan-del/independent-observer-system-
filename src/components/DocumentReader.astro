@@ -81,19 +81,6 @@ const volumeRecord = entry.volume
       data-reader-citation={suggestedCitation}
       data-reader-title={entry.title}
     >
-      <PublicationRecord
-        title={entry.title}
-        author={entry.author ?? "Independent Observer"}
-        status={status}
-        publicationDate={entry.publicationDate}
-        dateLabel={entry.dateLabel ?? "Published"}
-        lastReviewedDate={entry.updatedDate ?? entry.sourceReviewedAt}
-        revisionCount={revisionHistory.length}
-        revisionHistoryHref={revisionHistory.length > 0
-          ? "#paper-revision-history-title"
-          : undefined}
-        reuseNotice={entry.rightsNotice}
-      />
       <details class="reader-contents reader-details">
         <summary>On this page</summary>
         <nav aria-label="Article contents">
