@@ -7,7 +7,30 @@ import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 import { previewGreenPublications } from "./green-publications";
 import { familyIdForKey } from "./family-registry";
-import { isManuscriptAuthorizedForRelease } from "./manuscript-release-registry";
+import {
+  isManuscriptAuthorizedForRelease,
+  manuscriptReleaseAuthorizationFor,
+} from "./manuscript-release-registry";
+import { citationDate } from "../lib/citations";
+
+const SITE_AUDIT_DATE = "2026-09-19";
+
+function normalizedLastModified(...candidates: Array<string | undefined>) {
+  for (const candidate of candidates) {
+    if (!candidate) continue;
+    const direct = citationDate(candidate);
+    if (direct) return direct;
+    const dayFirst = candidate.match(/(\d{1,2}\s+[A-Za-z]+\s+\d{4})/);
+    const normalizedDayFirst = citationDate(dayFirst?.[1]);
+    if (normalizedDayFirst) return normalizedDayFirst;
+    const monthFirst = candidate.match(/([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})/);
+    const normalizedMonthFirst = citationDate(
+      monthFirst ? `${monthFirst[2]} ${monthFirst[1]} ${monthFirst[3]}` : undefined,
+    );
+    if (normalizedMonthFirst) return normalizedMonthFirst;
+  }
+  return SITE_AUDIT_DATE;
+}
 
 export type CanonicalRouteType =
   | "home"
@@ -30,6 +53,7 @@ export type CanonicalRouteRecord = {
   familyId?: string;
   indexable: boolean;
   canonicalRoute?: string;
+  lastModified: string;
 };
 
 const sectionRoutes: CanonicalRouteRecord[] = [
@@ -39,13 +63,15 @@ const sectionRoutes: CanonicalRouteRecord[] = [
     type: "section",
     source: "taxonomy",
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   },
   {
     route: "/governance/",
-    title: "Editorial standards & privacy",
+    title: "Editorial standards, corrections & privacy",
     type: "section",
     source: "governance",
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   },
   {
     route: "/reading-tools/",
@@ -53,6 +79,7 @@ const sectionRoutes: CanonicalRouteRecord[] = [
     type: "section",
     source: "reading-tools",
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   },
   {
     route: "/series/",
@@ -60,14 +87,23 @@ const sectionRoutes: CanonicalRouteRecord[] = [
     type: "section",
     source: "series",
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   },
-  { route: "/library/", title: "Library", type: "section", source: "documents", indexable: true },
+  {
+    route: "/library/",
+    title: "Library",
+    type: "section",
+    source: "documents",
+    indexable: true,
+    lastModified: SITE_AUDIT_DATE,
+  },
   {
     route: "/latest/",
     title: "Latest research",
     type: "section",
     source: "release-log",
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   },
   {
     route: "/join/",
@@ -75,6 +111,7 @@ const sectionRoutes: CanonicalRouteRecord[] = [
     type: "section",
     source: "reader-membership",
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   },
   {
     route: "/whats-new/",
@@ -82,6 +119,7 @@ const sectionRoutes: CanonicalRouteRecord[] = [
     type: "section",
     source: "site-updates",
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   },
   {
     route: "/research/",
@@ -89,6 +127,7 @@ const sectionRoutes: CanonicalRouteRecord[] = [
     type: "section",
     source: "research",
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   },
   {
     route: "/prompts/",
@@ -96,6 +135,7 @@ const sectionRoutes: CanonicalRouteRecord[] = [
     type: "section",
     source: "prompts",
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   },
   {
     route: "/documentaries/",
@@ -103,19 +143,56 @@ const sectionRoutes: CanonicalRouteRecord[] = [
     type: "section",
     source: "documentary",
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   },
-  { route: "/videos/", title: "Videos", type: "section", source: "video", indexable: true },
+  {
+    route: "/videos/",
+    title: "Videos",
+    type: "section",
+    source: "video",
+    indexable: true,
+    lastModified: SITE_AUDIT_DATE,
+  },
   {
     route: "/podcast/",
     title: "History Across the Volumes",
     type: "section",
     source: "podcast",
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   },
-  { route: "/about/", title: "About", type: "section", source: "about", indexable: true },
-  { route: "/contact/", title: "Contact", type: "section", source: "contact", indexable: true },
-  { route: "/start/", title: "Start Here", type: "section", source: "start", indexable: true },
-  { route: "/topics/", title: "Topics", type: "section", source: "topics", indexable: true },
+  {
+    route: "/about/",
+    title: "About",
+    type: "section",
+    source: "about",
+    indexable: true,
+    lastModified: SITE_AUDIT_DATE,
+  },
+  {
+    route: "/contact/",
+    title: "Contact",
+    type: "section",
+    source: "contact",
+    indexable: true,
+    lastModified: SITE_AUDIT_DATE,
+  },
+  {
+    route: "/start/",
+    title: "Start Here",
+    type: "section",
+    source: "start",
+    indexable: true,
+    lastModified: SITE_AUDIT_DATE,
+  },
+  {
+    route: "/topics/",
+    title: "Topics",
+    type: "section",
+    source: "topics",
+    indexable: true,
+    lastModified: SITE_AUDIT_DATE,
+  },
 ];
 
 const contentRoutes: CanonicalRouteRecord[] = [
@@ -126,6 +203,7 @@ const contentRoutes: CanonicalRouteRecord[] = [
     source: "series",
     familyId: familyIdForKey(item.title),
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   })),
   ...topicHubs.map((topic) => ({
     route: `/topics/${topic.slug}/`,
@@ -133,6 +211,7 @@ const contentRoutes: CanonicalRouteRecord[] = [
     type: "topic" as const,
     source: "topics",
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   })),
   ...publicDocumentItems.map((item) => ({
     route: `/library/documents/${item.id}/`,
@@ -141,6 +220,12 @@ const contentRoutes: CanonicalRouteRecord[] = [
     source: "documents",
     familyId: item.familyId,
     indexable: true,
+    lastModified: normalizedLastModified(
+      item.updatedDate,
+      item.sourceReviewedAt,
+      item.sourceModified,
+      item.publicationDate,
+    ),
   })),
   ...researchItems.map((item) => ({
     route: `/research/${slugify(item.title)}/`,
@@ -149,6 +234,7 @@ const contentRoutes: CanonicalRouteRecord[] = [
     source: "content",
     familyId: familyIdForKey(item.title),
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   })),
   ...previewGreenPublications.map((item) => ({
     route: `/research/${item.slug}/`,
@@ -157,6 +243,7 @@ const contentRoutes: CanonicalRouteRecord[] = [
     source: "publication-registry",
     familyId: item.familyId,
     indexable: item.productionReleased,
+    lastModified: normalizedLastModified(item.lastReviewedDate, item.publicationDate),
   })),
   ...documentaryItems.map((item) => ({
     route: `/documentaries/${slugify(item.title)}/`,
@@ -164,6 +251,7 @@ const contentRoutes: CanonicalRouteRecord[] = [
     type: "documentary" as const,
     source: "content",
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   })),
   ...videoItems.map((item) => ({
     route: `/videos/${slugify(item.title)}/`,
@@ -171,6 +259,7 @@ const contentRoutes: CanonicalRouteRecord[] = [
     type: "video" as const,
     source: "content",
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   })),
 ];
 
@@ -181,6 +270,7 @@ const utilityRoutes: CanonicalRouteRecord[] = [
     type: "home",
     source: "home",
     indexable: true,
+    lastModified: SITE_AUDIT_DATE,
   },
   {
     route: "/start-here/",
@@ -189,6 +279,7 @@ const utilityRoutes: CanonicalRouteRecord[] = [
     source: "start-here",
     indexable: false,
     canonicalRoute: "/start/",
+    lastModified: SITE_AUDIT_DATE,
   },
   {
     route: "/build-info.json",
@@ -196,6 +287,7 @@ const utilityRoutes: CanonicalRouteRecord[] = [
     type: "utility",
     source: "build",
     indexable: false,
+    lastModified: SITE_AUDIT_DATE,
   },
 ];
 
@@ -248,6 +340,13 @@ export const canonicalRouteRegistry = [
     // Fail-closed: a manuscript route is only indexable once its edition has
     // an explicit record in manuscriptReleaseAuthorizations.
     indexable: isManuscriptAuthorizedForRelease(entry.slug),
+    // Sitemap dates describe the web edition, not the underlying manuscript.
+    // Authorized editions use the recorded site-release date; unauthorized
+    // routes remain on the site audit date while excluded from the sitemap.
+    lastModified: normalizedLastModified(
+      manuscriptReleaseAuthorizationFor(entry.slug)?.authorizedDate,
+      SITE_AUDIT_DATE,
+    ),
   })),
 ] as CanonicalRouteRecord[];
 

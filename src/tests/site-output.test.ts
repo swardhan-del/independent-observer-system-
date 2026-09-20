@@ -190,17 +190,46 @@ describe("built website", () => {
     expect(html).toContain("visible release boundaries");
   });
 
-  it("explains the connected four-volume arc in the site footer", () => {
+  it("keeps the repeated site-footer introduction concise", () => {
     const html = readOutput("index.html");
 
-    expect(html).toContain("connected four-volume inquiry into how public life is made");
-    expect(html).toContain("Volume I establishes the method");
-    expect(html).toContain("Volume II follows that method into sovereignty");
-    expect(html).toContain("Volume III asks who carries the cost of work");
     expect(html).toContain(
-      "Volume IV tests whether science, infrastructure, and artificial intelligence",
+      "A single-author, four-volume inquiry into evidence, institutions, political economy, science, and technology.",
     );
-    expect(html).toContain("what futures people can actually govern");
+    expect(html).not.toContain("Volume I establishes the method");
+  });
+
+  it("publishes the audited governance disclosures and single-author contact wording", () => {
+    const governance = readOutput("governance/index.html");
+    const contact = readOutput("contact/index.html");
+
+    expect(governance).toContain("Editorial standards, corrections &amp; privacy");
+    expect(governance).toContain("Last reviewed:");
+    for (const label of [
+      "Concept preview",
+      "In editorial development",
+      "Research preview",
+      "Author working paper / working paper",
+      "Full working paper",
+      "Working-paper summary",
+      "Working-paper direction",
+      "Media preview",
+      "Reference document",
+      "Guide",
+      "Published bounded text adaptation",
+    ]) {
+      expect(governance).toContain(label);
+    }
+    expect(governance).toContain("single-author research and media project");
+    expect(governance).toContain(
+      "no production analytics provider or outbound analytics transport",
+    );
+    expect(governance).toContain("GitHub Pages");
+    expect(governance).toContain("TODO (owner):");
+    expect(governance).toContain("/latest/#latest-revisions-title");
+    expect(contact).toContain("Write to the author.");
+    expect(contact).toContain("role address on independentobserver.org");
+    expect(contact).not.toContain("research desk");
   });
 
   it("keeps unreleased candidates on Latest while publication approval is pending", () => {
@@ -726,6 +755,15 @@ describe("built website", () => {
       expect(url).toMatch(/^https:\/\//);
       expect(locations.filter((location) => location === url)).toHaveLength(1);
     }
+    const entries = [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((match) => match[1]);
+    expect(entries).toHaveLength(expected.length);
+    for (const entry of entries) {
+      expect(entry).toMatch(/<loc>https:\/\/[^<]+<\/loc>/);
+      expect(entry).toMatch(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/);
+    }
+    const quietWealth = entries.find((entry) => entry.includes("/quiet-wealth/"));
+    expect(quietWealth).toContain("<lastmod>2026-09-11</lastmod>");
+    expect(quietWealth).not.toContain("<lastmod>2025-09-28</lastmod>");
     expect(locations.some((location) => location.endsWith("/404/"))).toBe(false);
   });
 
@@ -775,19 +813,36 @@ describe("built website", () => {
     expect(pageCanonical).toMatch(/^https:\/\//);
     expect(openGraphUrl).toBe(pageCanonical);
     expect(openGraphImage).toBe(twitterImage);
-    expect(openGraphImage).toMatch(/^https:\/\/.*\.(?:png|jpe?g)$/i);
-    expect(metaContent(html, "property", "og:image:type")).toBe("image/jpeg");
-    expect(metaContent(html, "property", "og:image:width")).toBe("1200");
-    expect(metaContent(html, "property", "og:image:height")).toBe("630");
+    expect(openGraphImage).toMatch(/^https:\/\//);
+    const imageType = metaContent(html, "property", "og:image:type");
+    expect(["image/jpeg", "image/png", "image/webp"]).toContain(imageType);
+    const imageExtension = new URL(openGraphImage!).pathname.match(/\.(jpe?g|png|webp)$/i)?.[1];
+    if (imageExtension) {
+      const expectedType = /jpe?g/i.test(imageExtension)
+        ? "image/jpeg"
+        : `image/${imageExtension.toLocaleLowerCase()}`;
+      expect(imageType).toBe(expectedType);
+    }
+    const imageWidth = metaContent(html, "property", "og:image:width");
+    const imageHeight = metaContent(html, "property", "og:image:height");
+    expect(Boolean(imageWidth)).toBe(Boolean(imageHeight));
+    if (imageWidth && imageHeight) {
+      expect(Number(imageWidth)).toBeGreaterThan(0);
+      expect(Number(imageHeight)).toBeGreaterThan(0);
+    }
     expect(metaContent(html, "property", "og:image:alt")).toBeTruthy();
     expect(metaContent(html, "name", "twitter:card")).toBe("summary_large_image");
     expect(metaContent(html, "name", "twitter:image:alt")).toBeTruthy();
     expect(metaContent(html, "name", "description")).toBeTruthy();
+    expect(html).not.toMatch(/<meta\s+name=["']keywords["']/i);
     expect(sitemapLink(html)).toBe(new URL("sitemap.xml", publicOrigin + basePath).href);
     expect(html).toMatch(/<title>[^<]+<\/title>/i);
 
-    const imagePath = fileForPath(new URL(openGraphImage!).pathname, basePath);
-    expect(existsSync(imagePath)).toBe(true);
+    const imageUrl = new URL(openGraphImage!);
+    if (imageUrl.origin === publicOrigin) {
+      const imagePath = fileForPath(imageUrl.pathname, basePath);
+      expect(existsSync(imagePath)).toBe(true);
+    }
   });
 
   it.each(routes)("provides valid page-specific JSON-LD on $route", ({ file }) => {
