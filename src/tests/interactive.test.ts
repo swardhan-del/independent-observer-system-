@@ -490,7 +490,7 @@ describe("interactive preview tools", () => {
     expect(researchCatalogue).toContain("rankSearchEntries");
     expect(researchCatalogue).toContain("Recently matched");
     expect(researchCatalogue).toContain("Private source paths");
-    expect(researchCatalogueRecords).toHaveLength(34);
+    expect(researchCatalogueRecords).toHaveLength(39);
     expect(researchCatalogueVolumes).toEqual(["Volume I", "Volume II", "Volume III", "Volume IV"]);
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "Volume record"),
@@ -501,6 +501,9 @@ describe("interactive preview tools", () => {
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "Research concept"),
     ).toHaveLength(3);
+    expect(
+      researchCatalogueRecords.filter((record) => record.kind === "Current research article"),
+    ).toHaveLength(11);
     expect(
       researchCatalogueRecords
         .filter((record) => record.kind === "Author paper")

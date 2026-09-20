@@ -5,11 +5,18 @@ import FollowUpdates from "../../components/FollowUpdates.astro";
 import PageHero from "../../components/PageHero.astro";
 import { releaseLog } from "../../data/release-log";
 import { sixCandidateReleaseQueue } from "../../data/publication-registry";
+import { curatedPublications } from "../../data/curated-publications";
 import { sitePath } from "../../lib/paths";
 
 const sortedReleases = [...releaseLog].sort((a, b) => b.date.localeCompare(a.date));
 const releasedTitles = new Set(releaseLog.map((entry) => entry.title));
-const inDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles.has(entry.title));
+const existingDevelopment = sixCandidateReleaseQueue.filter(
+  (entry) => !releasedTitles.has(entry.title),
+);
+const curatedDevelopment = curatedPublications
+  .filter((entry) => !entry.productionReleased && !releasedTitles.has(entry.title))
+  .map((entry) => ({ title: entry.title, volume: entry.volume, topics: entry.topics }));
+const inDevelopment = [...existingDevelopment, ...curatedDevelopment];
 ---
 
 <BaseLayout
@@ -67,7 +74,8 @@ const inDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles
             <h2>Research currently in development</h2>
             <p>
               These public candidates are being prepared while existing working-paper summaries
-              remain available in the library.
+              remain available in the library. Source-audited previews are still not formal
+              releases.
             </p>
             <ol class="release-candidate-list">
               {inDevelopment.map((entry) => (
@@ -78,9 +86,17 @@ const inDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles
                 </li>
               ))}
             </ol>
-            <a class="button button-secondary button-on-light" href={sitePath("/library/")}>
-              Explore the public library →
-            </a>
+            <div class="latest-actions">
+              <a class="button button-secondary button-on-light" href={sitePath("/library/")}>
+                Explore the public library →
+              </a>
+              <a
+                class="button button-secondary button-on-light"
+                href={sitePath("/publication-ledger/")}
+              >
+                Open the publication ledger →
+              </a>
+            </div>
           </div>
         )
       }
@@ -115,9 +131,10 @@ const inDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles
         )
       }
       <p>
-        Looking for software and reader-interface changes? <a href={sitePath("/whats-new/")}
-          >View the site changelog →</a
-        >
+        Publication status, source dates, factual cutoffs, and release boundaries are recorded in
+        the
+        <a href={sitePath("/publication-ledger/")}>publication ledger</a>. Looking for software and
+        reader-interface changes? <a href={sitePath("/whats-new/")}>View the site changelog →</a>
       </p>
     </div>
   </section>
@@ -149,5 +166,11 @@ const inDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles
     background: var(--accent, #b3862c);
     border-radius: 2px;
     vertical-align: middle;
+  }
+  .latest-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
   }
 </style>
