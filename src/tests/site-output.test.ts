@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { publicDocumentItems } from "../data/documents";
+import { paperDocuments } from "../data/papers";
 import { seriesItems } from "../data/series";
 import { volumeReels } from "../data/video-reels";
 import { slugify } from "../lib/slugs";
@@ -303,6 +304,29 @@ describe("built website", () => {
     expect(html).toContain("Previews, volume guides and publication boundaries.");
     expect(html).toContain("These reader-facing records are public.");
     expect(html).not.toContain("Draft previews, volume guides and editorial context</summary>");
+  });
+
+  it("keeps the public-document catalogue compact while retaining every record in the page", () => {
+    const html = readOutput("library/index.html");
+    const publicDocumentCards = tags(html, "article").filter((tag) =>
+      tag.includes("data-public-document-card"),
+    );
+
+    const paperDocumentIds = new Set(paperDocuments.map((document) => document.id));
+    const otherPublicDocumentCount = publicDocumentItems.filter(
+      (document) => !paperDocumentIds.has(document.id),
+    ).length;
+
+    expect(publicDocumentCards).toHaveLength(otherPublicDocumentCount);
+    expect(publicDocumentCards.every((card) => !/\shidden(?:\s|>|=)/.test(card))).toBe(true);
+    if (otherPublicDocumentCount > 6) {
+      const showMore = tags(html, "button").find((tag) =>
+        tag.includes("data-public-document-more"),
+      );
+      expect(html).toContain("Show more public records");
+      expect(showMore).toMatch(/\shidden(?:\s|>|=)/);
+    }
+    expect(html).toContain("Paper records are searchable above.");
   });
 
   it("makes the expanded public research index discoverable without exposing source files", () => {
