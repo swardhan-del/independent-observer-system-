@@ -4,11 +4,12 @@ import PageHero from "../../components/PageHero.astro";
 import AboutVolumeAtlas from "../../components/AboutVolumeAtlas.astro";
 import { sitePath } from "../../lib/paths";
 import { previewGreenPublications } from "../../data/green-publications";
+import { authorIdentity } from "../../data/identity";
 ---
 
 <BaseLayout
   title="About"
-  description="Meet Siddhartha Harsh Wardhan and explore Independent Observer’s approach to evidence, interpretation and correction across four research volumes."
+  description={`Meet ${authorIdentity.name} and explore Independent Observer’s approach to evidence, interpretation and correction across four research volumes.`}
   currentPath="/about/"
 >
   <PageHero
@@ -19,11 +20,11 @@ import { previewGreenPublications } from "../../data/green-publications";
   />
   <section class="section section-white" aria-labelledby="author-title">
     <div class="shell prose">
-      <p class="eyebrow">The author</p><h2 id="author-title">Siddhartha Harsh Wardhan</h2>
+      <p class="eyebrow">The author</p><h2 id="author-title">{authorIdentity.name}</h2>
       <p>
-        Siddhartha Harsh Wardhan writes and develops Independent Observer, an independent research
-        and essay project about power, work, history and technology. He brings these subjects
-        together to examine how public decisions affect everyday life.
+        {authorIdentity.name} writes and develops Independent Observer, an independent research and essay
+        project about power, work, history and technology. He brings these subjects together to examine
+        how public decisions affect everyday life.
       </p>
       <p>
         The aim is to help readers look beneath a headline: identify the source, examine what it
@@ -34,6 +35,9 @@ import { previewGreenPublications } from "../../data/green-publications";
         <a href={sitePath("/library/documents/who-deported-more/")}
           >See the approach in a three-minute explanation →</a
         >
+      </p>
+      <p>
+        ORCID: <a href={authorIdentity.orcidUrl} rel="me">{authorIdentity.orcid}</a>
       </p>
       <p>
         Public paper records distinguish working research from released material. A catalogue entry

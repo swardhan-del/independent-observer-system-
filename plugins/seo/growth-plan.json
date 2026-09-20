@@ -32,8 +32,8 @@
     },
     {
       "id": "measurement",
-      "status": "needs-access",
-      "action": "Inspect existing analytics before adding tracking. Distinguish follow clicks from subscriptions and podcast playback from page views."
+      "status": "infra-ready-needs-provider",
+      "action": "Funnel-event vocabulary, scroll-depth tracking and a real (env-var-gated) analytics transport now exist (src/lib/analytics.ts, PUBLIC_ANALYTICS_ENDPOINT). Bing Webmaster verification support was added alongside the existing Google Search Console tag (PUBLIC_BING_SITE_VERIFICATION). Remaining: an owner decision on an analytics provider/collector and on submitting the site to Bing Webmaster Tools; neither is implemented by this repository."
     },
     {
       "id": "scholarly-clarity",

@@ -1,20 +1,23 @@
 /**
  * Provider-agnostic, privacy-conscious funnel-event adapter.
  *
- * Current state: no analytics framework exists anywhere in this repository
- * (verified: no Plausible/Fathom/GA/PostHog/Segment/Mixpanel script or
- * dependency, no related environment variable). This module does NOT add one.
- * By default, `track()` only reports to `console.debug` in development and is
- * a genuine no-op in production -- no request leaves the browser, no third
- * party receives anything, until an owner explicitly configures a provider
- * (see docs/subscriber-funnel-architecture.md for the setup checklist).
+ * Current state: no analytics *provider* is connected anywhere in this
+ * repository (verified: no Plausible/Fathom/GA/PostHog/Segment/Mixpanel
+ * script or dependency). The transport below is real, working code -- it is
+ * not a placeholder -- but it stays a genuine no-op, with no request ever
+ * leaving the browser, unless the deployment owner sets the
+ * `PUBLIC_ANALYTICS_ENDPOINT` environment variable to a collection endpoint
+ * they control (see docs/subscriber-funnel-architecture.md for the setup
+ * checklist). Until that variable is set, production behaves exactly as it
+ * did before this transport existed.
  *
  * The point of shipping this now, rather than waiting for a provider
  * decision, is that the call sites (the actual UX moments worth measuring)
- * are the part that requires touching many pages/components; the transport
- * is a one-line swap once a provider is chosen. Call sites should import
- * `track` and call it at the moment described by the event name below --
- * they should never need to change when the transport changes.
+ * are the part that requires touching many pages/components; turning the
+ * transport on is then a one-line environment-variable change, not a code
+ * change. Call sites should import `track` and call it at the moment
+ * described by the event name below -- they should never need to change
+ * when the transport changes.
  *
  * PRIVACY CONTRACT (do not violate when adding new call sites):
  * - Never pass manuscript/article body text, search query text, saved
@@ -55,13 +58,47 @@ const devTransport: AnalyticsTransport = (name, properties) => {
 };
 
 /**
- * No-op in production until an owner-configured provider is wired in here.
- * Swap this for a real transport (e.g. a fetch() to a privacy-respecting
- * provider's collect endpoint, reading its site id from a PUBLIC_ env var)
- * once one is chosen. Never point this at a provider without updating the
- * privacy contract above and docs/subscriber-funnel-architecture.md.
+ * Sends an event to `PUBLIC_ANALYTICS_ENDPOINT` when the owner has set one
+ * (e.g. a serverless collector they control, or a self-hosted/privacy-first
+ * provider's own event endpoint). No endpoint configured -> no request is
+ * made, matching the no-op behaviour this module has always documented.
+ *
+ * The payload is limited to what `FunnelEventProperties` already allows
+ * (see the privacy contract above) plus the current path and referrer, both
+ * already visible to any server the browser talks to. `sendBeacon` is
+ * preferred so the event survives page navigation; `fetch(..., {keepalive:
+ * true})` is the fallback for browsers without it.
  */
-const prodTransport: AnalyticsTransport = () => {};
+const prodTransport: AnalyticsTransport = (name, properties) => {
+  if (typeof window === "undefined") return;
+  const endpoint = import.meta.env.PUBLIC_ANALYTICS_ENDPOINT as string | undefined;
+  if (!endpoint) return;
+  let payload: string;
+  try {
+    payload = JSON.stringify({
+      name,
+      properties,
+      path: window.location.pathname,
+      referrer: document.referrer || undefined,
+    });
+  } catch {
+    return;
+  }
+  try {
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(endpoint, new Blob([payload], { type: "application/json" }));
+    } else {
+      fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+        keepalive: true,
+      }).catch(() => {});
+    }
+  } catch {
+    // Best-effort only; a tracking call must never throw or block the UI.
+  }
+};
 
 function currentTransport(): AnalyticsTransport {
   if (typeof window !== "undefined" && window.location.hostname === "localhost") {

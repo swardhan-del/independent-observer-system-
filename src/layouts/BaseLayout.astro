@@ -14,6 +14,7 @@ import { seriesItems } from "../data/series";
 import { slugify } from "../lib/slugs";
 import { citationDate } from "../lib/citations";
 import { socialLinks } from "../data/social";
+import { authorIdentity, authorIdentityLinks } from "../data/identity";
 
 type Props = {
   title: string;
@@ -75,14 +76,17 @@ const breadcrumbItems =
         },
       ];
 const publicationDateIso = citationDate(articleMetadata?.publicationDate);
+const bingSiteVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION as string | undefined;
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "Person",
       "@id": `${websiteUrl}#author`,
-      name: "Siddhartha Harsh Wardhan",
+      name: authorIdentity.name,
+      alternateName: [...authorIdentity.alternateNames],
       url: authorProfileUrl,
+      sameAs: [...authorIdentityLinks],
     },
     {
       "@type": "CreativeWorkSeries",
@@ -149,7 +153,7 @@ const structuredData = JSON.stringify({
             headline: articleMetadata.title ?? title,
             description,
             author:
-              articleMetadata.author === "Siddhartha Harsh Wardhan"
+              articleMetadata.author === authorIdentity.name
                 ? { "@id": `${websiteUrl}#author` }
                 : { "@type": "Person", name: articleMetadata.author },
             mainEntityOfPage: { "@id": `${canonicalUrl}#webpage` },
@@ -183,6 +187,11 @@ const structuredData = JSON.stringify({
           name="google-site-verification"
           content="h9n2JK0QDIRl9KrBpQMYsy-OECkmR3D5fkCBKdGLLW8"
         />
+      )
+    }
+    {
+      currentPath === "/" && bingSiteVerification && (
+        <meta name="msvalidate.01" content={bingSiteVerification} />
       )
     }
     <meta charset="UTF-8" />

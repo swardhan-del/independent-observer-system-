@@ -118,6 +118,23 @@ Then use URL Inspection for the home page and the first genuinely published arti
 does not use an autonomous content-generation or SEO-autopilot service; all public content remains
 approved and human-reviewed.
 
+The homepage already carries a `google-site-verification` meta tag from a prior Search Console
+verification. To add [Bing Webmaster Tools](https://www.bing.com/webmasters) alongside it, add the
+site there, choose the HTML meta tag verification method, and set the resulting value as the
+`PUBLIC_BING_SITE_VERIFICATION` environment variable on the deployment; `BaseLayout.astro` then
+renders the corresponding `msvalidate.01` meta tag on the homepage automatically. Leaving the
+variable unset (the current state) omits the tag entirely -- it is not a placeholder.
+
+## Analytics
+
+No analytics provider is connected. `src/lib/analytics.ts` implements a real, working
+`sendBeacon`/`fetch` transport for the reader funnel events described in
+[`docs/subscriber-funnel-architecture.md`](docs/subscriber-funnel-architecture.md#2-analytics), but
+it only sends anywhere once the deployment owner sets `PUBLIC_ANALYTICS_ENDPOINT` to a collection
+endpoint they control (a privacy-respecting provider such as Plausible or Fathom, or a self-hosted
+collector). Unset, production behaves exactly as it did before this transport existed: events are
+computed but nothing leaves the browser.
+
 ## Canonical production and fallback deployment
 
 The canonical public origin is `https://independentobserver.org`, served by the existing Vercel

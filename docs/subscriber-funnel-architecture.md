@@ -63,8 +63,10 @@ remains the only working subscribe path.**
 ## 2. Analytics
 
 **Status: implemented as a real, working, privacy-constrained event
-system. No data currently leaves the visitor's browser** -- the production
-transport is intentionally a no-op until a provider is chosen.
+system, including a real (not placeholder) transport. No data currently
+leaves the visitor's browser** -- the transport only sends anywhere once
+the deployment owner sets `PUBLIC_ANALYTICS_ENDPOINT`; unset, production
+is a no-op exactly as before.
 
 - `src/lib/analytics.ts` exports `track(name, properties)` and the full
   documented 14-event vocabulary (`FunnelEventName`): `homepage_view`,
@@ -75,10 +77,14 @@ transport is intentionally a no-op until a provider is chosen.
   `paid_checkout_started`, `paid_membership_completed`.
 - **Transport**: on `localhost`, events are logged to `console.debug` only
   (for local development/QA). Everywhere else (including production),
-  `track()` currently calls a no-op transport -- events are computed but
-  never sent anywhere. This is deliberate: there is no analytics
-  provider account or endpoint configured in this repository, and the
-  task requires not inserting a placeholder that looks functional.
+  `track()` calls `prodTransport`, which reads `PUBLIC_ANALYTICS_ENDPOINT`
+  (a `PUBLIC_`-prefixed Vite/Astro env var, so it is safe to expose
+  client-side) and, only if it is set, sends `{name, properties, path,
+referrer}` to that URL via `navigator.sendBeacon` (falling back to
+  `fetch(..., {keepalive: true})`). No environment currently sets that
+  variable, so no request leaves the browser in practice today -- but the
+  code path is real, not a placeholder, and turning it on is a
+  configuration change, not a code change.
 - **Privacy contract** (enforced by the type signature and documented at
   the top of `analytics.ts`): `FunnelEventProperties` only accepts
   `string | number | boolean | undefined` values, and every call site
@@ -107,13 +113,15 @@ transport is intentionally a no-op until a provider is chosen.
     `paid_membership_completed` -- **not yet fired anywhere**, since no
     first-party signup form or checkout exists yet to complete
 
-**To wire in a real analytics provider:**
+**To turn on a real analytics provider:**
 
 1. Choose a privacy-conscious provider (e.g. Plausible, Fathom, or a
-   self-hosted option) consistent with the no-PII contract above.
-2. Replace `prodTransport` in `analytics.ts` with a call to that
-   provider's event API, gated behind a Vercel environment variable (e.g.
-   `PUBLIC_ANALYTICS_ENDPOINT`) so the transport stays a no-op if unset.
+   self-hosted option) consistent with the no-PII contract above, or stand
+   up a small serverless collector you control that forwards to one.
+2. Set `PUBLIC_ANALYTICS_ENDPOINT` (a Vercel environment variable) to that
+   collector's URL. `prodTransport` in `analytics.ts` already POSTs every
+   event there once the variable is set -- no code change is required for
+   this step.
 3. Do not add fields to `FunnelEventProperties` that would carry
    manuscript text, query strings, emails, or IP addresses.
 4. **Retention**: whatever the provider's default retention window is,
@@ -122,9 +130,9 @@ transport is intentionally a no-op until a provider is chosen.
    connected, no subscriber-funnel event data exists outside the visitor's
    own `console.debug` output on localhost, and no retention question
    currently applies.
-5. If any provider requires a client-side script tag, load it only on
-   pages that need it and keep it out of the critical render path
-   (performance budget).
+5. If any provider additionally requires a client-side script tag (e.g. to
+   read `window.plausible`), load it only on pages that need it and keep
+   it out of the critical render path (performance budget).
 
 ## 3. Repeat-reader system (local-only, no account)
 
