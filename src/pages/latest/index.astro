@@ -23,6 +23,20 @@ const inDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles
     description="A reader-facing record of new research, publication revisions, and public work currently in development."
   />
 
+  <section
+    class="section section-white latest-reader-guide"
+    aria-labelledby="latest-reader-guide-title"
+  >
+    <div class="shell prose">
+      <h2 id="latest-reader-guide-title">Read the record, not only the headline</h2>
+      <p>
+        Each release or revision should be read with its status, source boundary, limitations, and
+        revision history. A public listing does not by itself indicate external peer review.
+      </p>
+      <p><a href={sitePath("/how-to-use-this-site/")}>How to use publication records →</a></p>
+    </div>
+  </section>
+
   <section class="section section-white" aria-labelledby="latest-releases-title">
     <div class="shell">
       <h2 id="latest-releases-title">Latest releases</h2>
@@ -75,10 +89,13 @@ const inDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles
 
   <section class="section section-white" aria-labelledby="latest-revisions-title">
     <div class="shell prose">
-      <h2 id="latest-revisions-title">Recent paper revisions and corrections</h2>
+      <h2 id="latest-revisions-title">Revision log and corrections</h2>
       {
         publicationRevisions.length === 0 ? (
-          <p>No paper corrections have been recorded in the revision log yet.</p>
+          <p>
+            No paper corrections have been recorded in the revision log yet. A page may still show
+            its version and last-reviewed date where that metadata is available.
+          </p>
         ) : (
           <ol>
             {publicationRevisions.map((entry) => (

@@ -23,6 +23,7 @@ const routes = [
   { route: "/videos/", file: "videos/index.html" },
   { route: "/about/", file: "about/index.html" },
   { route: "/contact/", file: "contact/index.html" },
+  { route: "/how-to-use-this-site/", file: "how-to-use-this-site/index.html" },
   { route: "/start/", file: "start/index.html" },
   { route: "/start-here/", file: "start-here/index.html" },
   { route: "/publication-operating-system/", file: "publication-operating-system/index.html" },
@@ -230,6 +231,41 @@ describe("built website", () => {
     expect(contact).toContain("Write to the author.");
     expect(contact).toContain("role address on independentobserver.org");
     expect(contact).not.toContain("research desk");
+  });
+
+  it("makes publication records, revision boundaries, and the reader guide discoverable", () => {
+    const guide = readOutput("how-to-use-this-site/index.html");
+    const latest = readOutput("latest/index.html");
+    const document = readOutput("library/documents/who-deported-more/index.html");
+
+    expect(guide).toContain("Start with the publication record");
+    expect(guide).toContain("Read the status before the argument");
+    expect(guide).toContain("Cite the public record accurately");
+    expect(latest).toContain("Read the record, not only the headline");
+    expect(latest).toContain("Revision log and corrections");
+    expect(document).toContain("Publication record");
+    expect(document).toContain("Revision history:");
+    expect(document).toMatch(/<dt[^>]*>Posted<\/dt>/);
+    expect(document).toContain("Cite this page");
+    expect(document).toContain(
+      "Independent Observer, 13 October 2025. https://independentobserver.org/library/documents/who-deported-more/",
+    );
+
+    const pendingPreview = readOutput("research/regrowing-humanity/index.html");
+    expect(pendingPreview).toContain("Concept preview · publication pending");
+    expect(pendingPreview).not.toContain("<dt>Published</dt>");
+    expect(pendingPreview).not.toMatch(/<summary[^>]*>Cite this page<\/summary>/);
+    expect(pendingPreview).not.toContain('"datePublished"');
+
+    const monthOnlyManuscript = readOutput("library/manuscripts/manifesto-of-a-destiny/index.html");
+    expect(monthOnlyManuscript).toMatch(/<dt[^>]*>Source date<\/dt>/);
+    expect(monthOnlyManuscript).not.toMatch(/<summary[^>]*>Cite this page<\/summary>/);
+
+    const completeManuscript = readOutput("library/manuscripts/quiet-wealth/index.html");
+    expect(completeManuscript).toMatch(/<summary[^>]*>Cite this page<\/summary>/);
+    expect(completeManuscript).toContain(
+      "Independent Observer, 28 September 2025. 1.0. https://independentobserver.org/library/manuscripts/quiet-wealth/",
+    );
   });
 
   it("keeps unreleased candidates on Latest while publication approval is pending", () => {

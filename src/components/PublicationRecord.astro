@@ -1,0 +1,144 @@
+---
+import { citationDate } from "../lib/citations";
+import { publicSitePath, sitePath } from "../lib/paths";
+
+type Props = {
+  title: string;
+  author: string;
+  status: string;
+  publicationDate?: string;
+  dateLabel?: string;
+  lastReviewedDate?: string;
+  version?: string;
+  revisionCount?: number;
+  revisionHistoryHref?: string;
+  reuseNotice?: string;
+};
+
+const {
+  title,
+  author,
+  status,
+  publicationDate,
+  dateLabel = "Published",
+  lastReviewedDate,
+  version,
+  revisionCount = 0,
+  revisionHistoryHref,
+  reuseNotice,
+} = Astro.props as Props;
+
+const citationPublicationDate = citationDate(publicationDate);
+const buildBasePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+const canonicalPathname =
+  buildBasePath && Astro.url.pathname.startsWith(`${buildBasePath}/`)
+    ? Astro.url.pathname.slice(buildBasePath.length)
+    : Astro.url.pathname;
+const canonicalPageUrl = new URL(publicSitePath(canonicalPathname), Astro.site ?? Astro.url.origin)
+  .href;
+const suggestedCitation = citationPublicationDate
+  ? `${author}. “${title}.” Independent Observer, ${publicationDate}.${version ? ` ${version}.` : ""} ${canonicalPageUrl}`
+  : undefined;
+const revisionLabel =
+  revisionCount === 1 ? "1 recorded revision" : `${revisionCount} recorded revisions`;
+---
+
+<aside class="publication-record" aria-label="Publication record">
+  <p class="eyebrow">Publication record</p>
+  <dl>
+    <div><dt>Status</dt><dd>{status}</dd></div>
+    <div><dt>Author</dt><dd>{author}</dd></div>
+    {
+      publicationDate && (
+        <div>
+          <>
+            <dt>{dateLabel}</dt>
+            <dd>{publicationDate}</dd>
+          </>
+        </div>
+      )
+    }
+    {
+      lastReviewedDate && (
+        <div>
+          <>
+            <dt>Last reviewed</dt>
+            <dd>{lastReviewedDate}</dd>
+          </>
+        </div>
+      )
+    }
+    {
+      version && (
+        <div>
+          <>
+            <dt>Version</dt>
+            <dd>{version}</dd>
+          </>
+        </div>
+      )
+    }
+  </dl>
+  <p>
+    <a href={revisionHistoryHref ?? sitePath("/latest/#latest-revisions-title")}>
+      Revision history: {revisionLabel} →
+    </a>
+  </p>
+  <p>
+    {reuseNotice ?? "Reuse follows the item-specific notice where one is provided."} Read the{" "}
+    <a href={sitePath("/governance/#copyright-and-reuse")}>reuse policy</a>.
+  </p>
+  {
+    suggestedCitation ? (
+      <details>
+        <summary>Cite this page</summary>
+        <p>{suggestedCitation}</p>
+      </details>
+    ) : (
+      <p class="publication-record-note">
+        A suggested citation is withheld until a complete publication date is recorded.
+      </p>
+    )
+  }
+</aside>
+
+<style>
+  .publication-record {
+    margin: 1.5rem 0 2rem;
+    padding: 1.15rem 1.25rem;
+    border: 1px solid var(--line, #d9d3c6);
+    border-left: 4px solid var(--gold, #b3862c);
+    background: var(--paper-muted, #f4f1e8);
+  }
+  .publication-record .eyebrow {
+    margin: 0 0 0.75rem;
+  }
+  .publication-record dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 0.8rem 1.25rem;
+    margin: 0;
+  }
+  .publication-record dt {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .publication-record dd {
+    margin: 0.18rem 0 0;
+  }
+  .publication-record p {
+    margin: 0.9rem 0 0;
+  }
+  .publication-record details {
+    margin-top: 0.9rem;
+  }
+  .publication-record summary {
+    cursor: pointer;
+    font-weight: 700;
+  }
+  .publication-record-note {
+    font-size: 0.92rem;
+  }
+</style>
