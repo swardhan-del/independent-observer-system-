@@ -36,8 +36,17 @@ const { areas, note, stats } = publicLibrarySnapshot;
   </section>
   <LibraryResearchShelf />
   <ReadingToolsInvitation />
-  <details class="shell library-background">
-    <summary>Draft previews, volume guides and editorial context</summary>
+  <section class="library-background" aria-labelledby="library-background-title">
+    <div class="shell">
+      <div class="library-background-heading">
+        <p class="eyebrow">Catalogue context</p>
+        <h2 id="library-background-title">Previews, volume guides and publication boundaries.</h2>
+        <p>
+          These reader-facing records are public. Their status labels, limitations, and release
+          boundaries remain visible alongside the catalogue.
+        </p>
+      </div>
+    </div>
     <GreenPublicationShelf title="Research previews" />
     <section class="section section-rule" aria-labelledby="library-review-boundaries-title">
       <div class="shell page-grid">
@@ -282,17 +291,17 @@ const { areas, note, stats } = publicLibrarySnapshot;
         </div>
       </div>
     </section>
-  </details>
+  </section>
 </BaseLayout>
 
 <style>
   .library-background {
     margin-block: 24px;
   }
-  .library-background > summary {
-    cursor: pointer;
-    padding: 20px;
-    border: 1px solid var(--line);
-    font-weight: 700;
+  .library-background-heading {
+    padding: 1.25rem 0;
+  }
+  .library-background-heading > :last-child {
+    max-width: 68ch;
   }
 </style>
