@@ -81,19 +81,6 @@ const volumeRecord = entry.volume
       data-reader-citation={suggestedCitation}
       data-reader-title={entry.title}
     >
-      <PublicationRecord
-        title={entry.title}
-        author={entry.author ?? "Independent Observer"}
-        status={status}
-        publicationDate={entry.publicationDate}
-        dateLabel={entry.dateLabel ?? "Published"}
-        lastReviewedDate={entry.updatedDate ?? entry.sourceReviewedAt}
-        revisionCount={revisionHistory.length}
-        revisionHistoryHref={revisionHistory.length > 0
-          ? "#paper-revision-history-title"
-          : undefined}
-        reuseNotice={entry.rightsNotice}
-      />
       <details class="reader-contents reader-details">
         <summary>On this page</summary>
         <nav aria-label="Article contents">
@@ -384,6 +371,765 @@ const volumeRecord = entry.volume
                 entry={entry}
                 volumeRecord={volumeRecord}
                 volumeDocuments={volumeDocuments}
+---
+import { displayTitle, readingMinutes } from "../data/reader-presentation";
+import { byReadingUsefulness } from "../data/scholarly-clarity";
+import { publicationRevisions } from "../data/publication-revisions";
+import { exportCitation } from "../lib/citations";
+import type { PublicDocument } from "../data/documents";
+import { paperDocuments } from "../data/papers";
+import { seriesItems } from "../data/series";
+import FollowUpdates from "./FollowUpdates.astro";
+import PageHero from "./PageHero.astro";
+import RelatedContent from "./RelatedContent.astro";
+import ReaderVolumeContext from "./ReaderVolumeContext.astro";
+import PublicationRecord from "./PublicationRecord.astro";
+import { sitePath } from "../lib/paths";
+import { relatedRecords } from "../lib/related";
+
+type Props = {
+  entry: PublicDocument;
+  relatedEntries?: PublicDocument[];
+  previous?: PublicDocument;
+  next?: PublicDocument;
+};
+
+const { entry, relatedEntries = [], previous, next } = Astro.props as Props;
+const visibleSections = entry.sections.filter(
+  (section) => !entry.sourceFingerprintSha256 || section.id !== "publication-boundary",
+);
+const publicationBoundary = entry.sections.find((section) => section.id === "publication-boundary");
+const estimatedMinutes = readingMinutes(entry);
+const revisionHistory = publicationRevisions.filter((revision) => revision.documentId === entry.id);
+const status = entry.status ?? "Reviewed public copy";
+const placementHeld = entry.placementDecision?.status === "held";
+const citationComplete = Boolean(exportCitation(entry, "bib"));
+const suggestedCitation = citationComplete
+  ? `${entry.author}. “${entry.title}.” Independent Observer, ${entry.publicationDate}.`
+  : `Independent Observer. “${entry.title}.” ${entry.sourceLabel}. Reviewed public copy.`;
+const related = relatedRecords(
+  {
+    ...entry,
+    relatedIds: [...(entry.relatedIds ?? []), ...Object.keys(entry.relatedReadingReasons ?? {})],
+    href: sitePath(`/library/documents/${entry.id}/`),
+    status,
+  },
+  relatedEntries.map((candidate) => ({
+    ...candidate,
+    href: sitePath(`/library/documents/${candidate.id}/`),
+    status: candidate.status ?? "Reviewed public copy",
+  })),
+  3,
+);
+const volumeDocuments =
+  entry.volume && !placementHeld
+    ? paperDocuments
+        .filter((document) => document.volume === entry.volume)
+        .sort(byReadingUsefulness)
+    : [];
+const volumeRecord = entry.volume
+  ? seriesItems.find((volume) => volume.volume === entry.volume)
+  : undefined;
+---
+
+<PageHero
+  eyebrow="Author paper catalogue"
+  title={displayTitle(entry)}
+  description={entry.description}
+  className="document-reader-hero"
+>
+  <p class="reader-byline">
+    {entry.author ?? "Independent Observer"} · {status} · About {estimatedMinutes} min read
+  </p>
+  {entry.updatedDate && <p class="reader-updated">Updated {entry.updatedDate}</p>}
+</PageHero>
+
+<div class="reader-progress" data-reader-progress aria-hidden="true"><span></span></div>
+<section class="section section-white reader-shell">
+  <div class="shell reader-layout">
+    <article
+      class="document-reader"
+      data-document-reader
+      data-reader-id={entry.id}
+      data-reader-citation={suggestedCitation}
+      data-reader-title={entry.title}
+    >
+      <details class="reader-contents reader-details">
+        <summary>On this page</summary>
+        <nav aria-label="Article contents">
+          <ol>
+            {
+              visibleSections.map((section) => (
+                <li>
+                  <a href={`#${section.id}`}>{section.heading}</a>
+                </li>
+              ))
+            }
+          </ol>
+        </nav>
+      </details>
+      {
+        entry.genre && (
+          <p class="reader-object">
+            <strong>This page:</strong> {entry.genre}.
+          </p>
+        )
+      }
+      {
+        entry.availability && (
+          <details class="reader-details">
+            <>
+              <summary>What is available: page, manuscript, data and code</summary>
+              <dl>
+                <>
+                  <dt>This web page</dt>
+                  <dd>{entry.availability.webPage}</dd>
+                </>
+                <>
+                  <dt>Original paper</dt>
+                  <dd>{entry.availability.original}</dd>
+                </>
+                <>
+                  <dt>Data and codebook</dt>
+                  <dd>{entry.availability.data}</dd>
+                </>
+                <>
+                  <dt>Code</dt>
+                  <dd>{entry.availability.code}</dd>
+                </>
+              </dl>
+            </>
+          </details>
+        )
+      }
+      {
+        visibleSections.map((section) => (
+          <section
+            class="reader-section"
+            id={section.id}
+            data-reader-section
+            data-section-title={section.heading}
+          >
+            <div class="reader-section-heading">
+              <h2>{section.heading}</h2>
+              <button type="button" class="section-link-button" data-copy-section-link={section.id}>
+                Copy section link
+              </button>
+            </div>
+            {section.paragraphs?.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+            {section.table && (
+              <div
+                class="reader-table-wrap"
+                tabindex="0"
+                role="region"
+                aria-label={section.table.caption}
+              >
+                <table>
+                  <caption>{section.table.caption}</caption>
+                  <thead>
+                    <tr>
+                      {section.table.headers.map((header) => (
+                        <th scope="col">{header}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {section.table.rows.map((row) => (
+                      <tr>
+                        {row.map((cell, index) =>
+                          index === 0 ? <th scope="row">{cell}</th> : <td>{cell}</td>,
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+            {section.evidenceIds && (
+              <p class="reader-evidence-links">
+                Supporting sources:{" "}
+                {section.evidenceIds.map((id, index) => (
+                  <>
+                    <span>{index > 0 ? " · " : ""}</span>
+                    <a href={`#${id}`}>
+                      {entry.summaryEvidence?.find((source) => source.id === id)?.label}
+                    </a>
+                  </>
+                ))}
+              </p>
+            )}
+            {section.items && (
+              <ul>
+                {section.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            )}
+            {section.id === "publication-boundary" &&
+              entry.volume &&
+              volumeDocuments.length > 0 && (
+                <ReaderVolumeContext
+                  entry={entry}
+                  volumeRecord={volumeRecord}
+                  volumeDocuments={volumeDocuments}
+                />
+              )}
+          </section>
+        ))
+      }
+      <PublicationRecord
+        title={entry.title}
+        author={entry.author ?? "Independent Observer"}
+        status={status}
+        publicationDate={entry.publicationDate}
+        dateLabel={entry.dateLabel ?? "Published"}
+        lastReviewedDate={entry.updatedDate ?? entry.sourceReviewedAt}
+        revisionCount={revisionHistory.length}
+        revisionHistoryHref={revisionHistory.length > 0
+          ? "#paper-revision-history-title"
+          : undefined}
+        reuseNotice={entry.rightsNotice}
+      />
+      <div class="reader-actions" aria-label="Reader actions">
+        <button type="button" data-reader-copy-link>Copy page link</button>
+        <button type="button" data-reader-share>Share</button>
+        <button type="button" data-reader-print>Print</button>
+        <button type="button" data-reader-copy-citation>Copy citation</button>
+        {
+          citationComplete && (
+            <>
+              <a href={sitePath(`/citations/${entry.id}.bib`)} download>
+                Download BibTeX
+              </a>
+              <a href={sitePath(`/citations/${entry.id}.ris`)} download>
+                Download RIS
+              </a>
+            </>
+          )
+        }
+        <a
+          data-reader-correction
+          href={sitePath(`/contact/?page=${encodeURIComponent(`/library/documents/${entry.id}/`)}`)}
+          >Suggest a correction</a
+        >
+
+        {
+          citationComplete && (
+            <button type="button" data-reader-download-citation>
+              Download citation
+            </button>
+          )
+        }
+        {
+          entry.researchGateUrl && (
+            <a
+              class="reader-external-link"
+              href={entry.researchGateUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open verified ResearchGate record ↗
+            </a>
+          )
+        }
+      </div>
+      <p class="reader-action-status" data-reader-action-status role="status" aria-live="polite">
+      </p>
+
+      {
+        entry.summaryEvidence?.length && (
+          <section class="reader-references" aria-labelledby="explanation-sources">
+            <>
+              <h2 id="explanation-sources">Sources supporting this explanation</h2>
+              <ol>
+                {entry.summaryEvidence.map((source) => (
+                  <li id={source.id}>
+                    <strong>{source.label}.</strong> {source.citation}{" "}
+                    {source.url && <a href={source.url}>Read supporting source ↗</a>}
+                  </li>
+                ))}
+              </ol>
+            </>
+          </section>
+        )
+      }
+      {
+        entry.reviewScope && (
+          <section class="reader-review">
+            <>
+              <h2>What was reviewed</h2>
+              <dl>
+                {entry.reviewScope.sourceChecking && (
+                  <>
+                    <dt>Source checking</dt>
+                    <dd>{entry.reviewScope.sourceChecking}</dd>
+                  </>
+                )}
+                {entry.reviewScope.editorialReview && (
+                  <>
+                    <dt>Editorial scope</dt>
+                    <dd>{entry.reviewScope.editorialReview}</dd>
+                  </>
+                )}
+                {entry.reviewScope.independentReview && (
+                  <>
+                    <dt>Independent scholarly review</dt>
+                    <dd>{entry.reviewScope.independentReview}</dd>
+                  </>
+                )}
+              </dl>
+            </>
+          </section>
+        )
+      }
+      {
+        entry.citations && entry.citations.length > 0 && (
+          <section class="reader-references" aria-labelledby="reader-references-title">
+            <h2 id="reader-references-title">
+              {entry.researchGateUrl || entry.sourceFingerprintSha256
+                ? "Original paper record"
+                : "References"}
+            </h2>
+            <ol>
+              {entry.citations.map((citation) => (
+                <li id={citation.id}>
+                  <span class="citation-label">{citation.label}</span> {citation.citation}
+                  {citation.url && (
+                    <a href={citation.url} target="_blank" rel="noopener noreferrer">
+                      Open source ↗
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </section>
+        )
+      }
+      {
+        entry.notes && entry.notes.length > 0 && (
+          <details class="reader-details">
+            <summary>Source notes</summary>
+            <ul>
+              {entry.notes.map((note) => (
+                <li>{note}</li>
+              ))}
+            </ul>
+          </details>
+        )
+      }
+      {
+        entry.limitations && entry.limitations.length > 0 && (
+          <details class="reader-details reader-limitations" open>
+            <summary>Limitations and unresolved boundaries</summary>
+            <ul>
+              {entry.limitations.map((limitation) => (
+                <li>{limitation}</li>
+              ))}
+            </ul>
+          </details>
+        )
+      }
+
+      {
+        entry.sourceFingerprintSha256 && (
+          <details id="publication-boundary" class="reader-provenance reader-details">
+            <summary>Publication and technical provenance</summary>
+            {publicationBoundary?.paragraphs?.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+            {entry.volume && volumeDocuments.length > 0 && (
+              <ReaderVolumeContext
+                entry={entry}
+                volumeRecord={volumeRecord}
+                volumeDocuments={volumeDocuments}
+              />
+            )}
+            <p class="eyebrow">Author-source provenance</p>
+
+            {(entry.sourceTaxonomyNote || placementHeld) && (
+              <p>
+                <strong>Archive placement:</strong>{" "}
+                {placementHeld
+                  ? "Volume placement is in editorial development; current classifications are provisional."
+                  : `${entry.sourceTaxonomyNote}.`}
+              </p>
+            )}
+            <p class="reader-fingerprint">
+              <strong>Source fingerprint (SHA-256):</strong>{" "}
+              <code>{entry.sourceFingerprintSha256}</code>
+            </p>
+            {entry.rightsNotice && <p>{entry.rightsNotice}</p>}
+            {!entry.researchGateUrl && (
+              <p>
+                No outbound paper-platform link is published because an exact, content-consistent
+                ResearchGate record has not been verified.
+              </p>
+            )}
+          </details>
+        )
+      }
+
+      {
+        revisionHistory.length > 0 && (
+          <section aria-labelledby="paper-revision-history-title">
+            <h2 id="paper-revision-history-title">Revision history</h2>
+            <ol>
+              {revisionHistory.map((revision) => (
+                <li>
+                  <time datetime={revision.date}>{revision.date}</time>
+                  <p>{revision.change}</p>
+                  <p>Reason: {revision.reason}</p>
+                  <a href={`#${revision.affectedSection}`}>Read the affected section</a>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )
+      }
+      <div class="reader-citation-box">
+        <p class="eyebrow">Suggested citation</p>
+        <p data-reader-citation>{suggestedCitation}</p>
+        <button type="button" data-reader-copy-citation>Copy citation</button>
+        {
+          !citationComplete && (
+            <small>
+              Download is withheld until author and publication-date metadata are complete.
+            </small>
+          )
+        }
+      </div>
+      <div class="reader-next-actions">
+        {
+          previous && (
+            <a class="reader-sequence-link" href={sitePath(`/library/documents/${previous.id}/`)}>
+              ← Previous document
+            </a>
+          )
+        }
+        {
+          next && (
+            <a class="reader-sequence-link" href={sitePath(`/library/documents/${next.id}/`)}>
+              Next document →
+            </a>
+          )
+        }
+        <a class="button" href={sitePath("/library/")}>Back to public library →</a>
+        <a class="button button-secondary button-on-light" href={sitePath("/research/")}
+          >Explore research previews</a
+        >
+      </div>
+    </article>
+    <aside class="reader-sidebar">
+      <p class="eyebrow">Document details</p>
+      <dl class="reader-meta">
+        <div><dt>Status</dt><dd>{status}</dd></div>
+        {
+          placementHeld ? (
+            <div>
+              <dt>Archive placement</dt>
+              <dd>In editorial development</dd>
+            </div>
+          ) : (
+            <div>
+              <dt>Volume</dt>
+              <dd>
+                {entry.volume}
+                {volumeRecord ? ` · ${volumeRecord.title}` : ""}
+              </dd>
+            </div>
+          )
+        }
+        {
+          !placementHeld && (
+            <div>
+              <>
+                <dt>Desk</dt>
+                <dd>{entry.category}</dd>
+              </>
+            </div>
+          )
+        }
+        <div><dt>Source</dt><dd>{entry.sourceLabel}</dd></div>
+        {
+          entry.author && (
+            <div>
+              <>
+                <dt>Author</dt>
+                <dd>{entry.author}</dd>
+              </>
+            </div>
+          )
+        }
+        {
+          entry.publicationDate && (
+            <div>
+              <>
+                <dt>{entry.dateLabel ?? "Published"}</dt>
+                <dd>{entry.publicationDate}</dd>
+              </>
+            </div>
+          )
+        }
+        {
+          entry.metrics && (
+            <div class="reader-metrics">
+              <dt>Archived distribution</dt>
+              <dd>
+                <details>
+                  <summary>Historic usage snapshot</summary>
+                  {entry.metrics.downloads ?? "—"} downloads · {entry.metrics.abstractViews ?? "—"}{" "}
+                  views
+                  <>
+                    <br />
+                    <small>
+                      Snapshot checked {entry.metrics.checkedAt}. These historic counts are retained
+                      for context; the originating platform is not used for access.
+                    </small>
+                  </>
+                </details>
+              </dd>
+            </div>
+          )
+        }
+        {
+          entry.updatedDate && (
+            <div>
+              <>
+                <dt>Updated</dt>
+                <dd>{entry.updatedDate}</dd>
+              </>
+            </div>
+          )
+        }
+        {
+          entry.sourceModified && (
+            <div>
+              <>
+                <dt>Source checked</dt>
+                <dd>{entry.sourceModified}</dd>
+              </>
+            </div>
+          )
+        }
+        <div><dt>Reading time</dt><dd>About {estimatedMinutes} min</dd></div>
+      </dl>
+      <nav aria-label="Document sections" class="reader-toc-nav">
+        <p class="reader-nav-label">On this page</p>
+        <ol class="reader-toc">
+          {
+            visibleSections.map((section, index) => (
+              <li>
+                <a href={`#${section.id}`} data-reader-toc-link>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {section.heading}
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+      <a class="reader-back-link" href={sitePath("/library/")}>← Back to public library</a>
+    </aside>
+  </div>
+  <div class="shell reader-top-link"><a href="#main-content">↑ Back to top</a></div>
+</section>
+<RelatedContent
+  records={related.map((item) => ({
+    id: item.id,
+    title: item.title,
+    description: item.description,
+    category: item.category,
+    href: sitePath(`/library/documents/${item.id}/`),
+    status: item.status ?? "Reviewed public copy",
+    familyId: item.familyId,
+    volume: item.volume,
+    relatedIds: item.relatedIds,
+    connection:
+      entry.relatedReadingReasons?.[item.id] ??
+      (entry.category === item.category
+        ? `Shares the ${entry.category} subject area; this is a separate argument, not supporting evidence for this page.`
+        : `Adjacent work in ${item.volume ?? "the archive"}; use its own sources and limitations to assess the connection.`),
+  }))}
+/>
+<div class="shell"><FollowUpdates id="reader-follow-updates" /></div>
+
+<script>
+  import { initArticleTracking } from "../lib/analytics";
+  import { recordLastArticle } from "../lib/reading-history";
+
+  document.querySelectorAll<HTMLElement>("[data-document-reader]").forEach((reader) => {
+    const citation = reader.dataset.readerCitation ?? "";
+    const title = reader.dataset.readerTitle ?? "Independent Observer";
+    const id = reader.dataset.readerId ?? title;
+    initArticleTracking(id, "document");
+    recordLastArticle(id, title, window.location.pathname);
+    const progress = document.querySelector<HTMLElement>("[data-reader-progress] span");
+    const sections = [...reader.querySelectorAll<HTMLElement>("[data-reader-section]")];
+    const tocLinks = [...reader.querySelectorAll<HTMLAnchorElement>("[data-reader-toc-link]")];
+    const actionStatus = reader.querySelector<HTMLElement>("[data-reader-action-status]");
+    const announce = (message: string) => {
+      if (actionStatus) actionStatus.textContent = message;
+    };
+    const pageUrl = () => window.location.href;
+    const copy = async (value: string, message: string) => {
+      try {
+        await navigator.clipboard.writeText(value);
+        announce(message);
+      } catch {
+        announce("Copy is unavailable here. Select and copy the text manually.");
+      }
+    };
+    const updateProgress = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      if (progress)
+        progress.style.width = `${max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0}%`;
+    };
+    const observer =
+      "IntersectionObserver" in window
+        ? new IntersectionObserver(
+            (entries) => {
+              const active = entries
+                .filter((entry) => entry.isIntersecting)
+                .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+              if (!active) return;
+              tocLinks.forEach((link) =>
+                link.classList.toggle(
+                  "is-active",
+                  link.hash === `#${(active.target as HTMLElement).id}`,
+                ),
+              );
+            },
+            { rootMargin: "-18% 0px -65% 0px", threshold: [0, 0.25, 0.75] },
+          )
+        : null;
+    sections.forEach((section) => observer?.observe(section));
+    const correctionLink = reader.querySelector<HTMLAnchorElement>("[data-reader-correction]");
+    const updateCorrectionLink = () => {
+      if (!correctionLink) return;
+      const active = sections.find((section) => section.getBoundingClientRect().bottom > 150);
+      const target = new URL(correctionLink.href);
+      if (active)
+        target.searchParams.set(
+          "section",
+          active.querySelector("h2, h3")?.textContent ?? active.id,
+        );
+      correctionLink.href = target.href;
+    };
+    correctionLink?.addEventListener("focus", updateCorrectionLink);
+    correctionLink?.addEventListener("pointerenter", updateCorrectionLink);
+
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    updateProgress();
+    reader.querySelectorAll<HTMLButtonElement>("[data-copy-section-link]").forEach((button) => {
+      button.addEventListener("click", () =>
+        copy(
+          `${pageUrl().split("#")[0]}#${button.dataset.copySectionLink}`,
+          "Section link copied.",
+        ),
+      );
+    });
+    reader
+      .querySelectorAll<HTMLButtonElement>("[data-reader-copy-link]")
+      .forEach((button) =>
+        button.addEventListener("click", () => copy(pageUrl(), "Page link copied.")),
+      );
+    reader
+      .querySelectorAll<HTMLButtonElement>("[data-reader-copy-citation]")
+      .forEach((button) =>
+        button.addEventListener("click", () => copy(citation, "Citation copied.")),
+      );
+    reader
+      .querySelector<HTMLButtonElement>("[data-reader-print]")
+      ?.addEventListener("click", () => window.print());
+    reader
+      .querySelector<HTMLButtonElement>("[data-reader-share]")
+      ?.addEventListener("click", async () => {
+        if (navigator.share) {
+          try {
+            await navigator.share({ title, text: citation, url: pageUrl() });
+            announce("Share sheet opened.");
+          } catch {
+            announce("Sharing was cancelled.");
+          }
+        } else copy(pageUrl(), "Page link copied; native sharing is unavailable.");
+      });
+    reader
+      .querySelector<HTMLButtonElement>("[data-reader-download-citation]")
+      ?.addEventListener("click", () => {
+        const blob = new Blob([citation + "\n"], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${title.toLocaleLowerCase().replace(/[^a-z0-9]+/g, "-")}-citation.txt`;
+        link.click();
+        URL.revokeObjectURL(url);
+        announce("Citation downloaded.");
+      });
+  });
+</script>
+
+<style>
+  .reader-table-wrap {
+    overflow-x: auto;
+  }
+  .reader-section,
+  .reader-references li[id] {
+    scroll-margin-top: var(--site-header-offset, 240px);
+  }
+  th:first-child {
+    width: 25%;
+  }
+  table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.95rem;
+  }
+  th,
+  td {
+    padding: 0.75rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+    overflow-wrap: anywhere;
+  }
+  caption {
+    text-align: left;
+    margin-bottom: 0.75rem;
+  }
+  .reader-object {
+    font-size: 1rem;
+  }
+  .reader-review dt {
+    font-weight: 700;
+    margin-top: 0.75rem;
+  }
+  dd {
+    margin-left: 0;
+  }
+
+  .reader-layout {
+    grid-template-areas: "details content";
+  }
+  .document-reader {
+    grid-area: content;
+  }
+  .reader-sidebar {
+    grid-area: details;
+  }
+  @media (max-width: 900px) {
+    .reader-section,
+    .reader-references li[id] {
+      scroll-margin-top: var(--site-header-offset, 125px);
+    }
+
+    .reader-layout {
+      grid-template-areas: "content" "details";
+    }
+  }
+</style>
               />
             )}
             <p class="eyebrow">Author-source provenance</p>
