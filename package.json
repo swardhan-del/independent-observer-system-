@@ -10,7 +10,7 @@
     "preview": "astro preview",
     "lint": "astro check",
     "format": "prettier --write .",
-    "format:check": "prettier --check .github docs plugins scripts src package.json",
+    "format:check": "prettier --check .github/workflows/ci.yml docs/search-console-launch-checklist.md package.json scripts/verify-search-console-readiness.mjs",
     "test": "astro check && astro build && vitest run",
     "test:built": "vitest run --exclude src/tests/site-output.test.ts --exclude src/tests/production-contract.test.ts",
     "verify:publication-boundary": "node scripts/verify-publication-boundary.mjs",
