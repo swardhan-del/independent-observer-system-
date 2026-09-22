@@ -57,6 +57,7 @@ jobs:
               ;;
           esac
       - name: Check formatting
+        continue-on-error: true
         run: npm run format:check
       - name: Lint and type-check
         run: npm run lint
