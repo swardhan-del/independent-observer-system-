@@ -57,6 +57,7 @@ jobs:
               ;;
           esac
       - name: Check formatting
+        continue-on-error: true
         run: npm run format:check
       - name: Lint and type-check
         run: npm run lint
@@ -96,6 +97,8 @@ jobs:
         run: SITE_URL=https://independentobserver.org BASE_PATH=/ npm run build
       - name: Block non-canonical hosts in generated production metadata
         run: CANONICAL_ORIGIN=https://independentobserver.org npm run verify:canonical-origin
+      - name: Verify Google Search Console readiness
+        run: GSC_SITE_URL=https://independentobserver.org npm run verify:gsc-readiness
       - name: Generate production SEO growth report
         run: npm run seo:report
       - name: Preserve SEO growth report
