@@ -2,10 +2,13 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join, relative } from "node:path";
 
 const dist = process.env.GSC_DIST_DIR || "dist";
-const siteUrl = new URL(process.env.GSC_SITE_URL || "https://independentobserver.org");
+const siteUrl = new URL(
+  process.env.GSC_SITE_URL || "https://independentobserver.org",
+);
 const origin = siteUrl.origin;
 const expectedVerificationToken =
-  process.env.GSC_VERIFICATION_TOKEN || "h9n2JK0QDIRl9KrBpQMYsy-OECkmR3D5fkCBKdGLLW8";
+  process.env.GSC_VERIFICATION_TOKEN ||
+  "h9n2JK0QDIRl9KrBpQMYsy-OECkmR3D5fkCBKdGLLW8";
 const failures = [];
 
 function fail(message) {
@@ -20,24 +23,36 @@ function htmlFiles(directory) {
   if (!existsSync(directory)) return [];
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const pathname = join(directory, entry.name);
-    return entry.isDirectory() ? htmlFiles(pathname) : pathname.endsWith(".html") ? [pathname] : [];
+    return entry.isDirectory()
+      ? htmlFiles(pathname)
+      : pathname.endsWith(".html")
+        ? [pathname]
+        : [];
   });
 }
 
 function attribute(tag, name) {
-  return tag.match(new RegExp(name + "=[\\"']([^\\"']*)", "i"))?.[1] ?? "";
+  return tag.match(new RegExp(name + "=[\"']([^\"']*)", "i"))?.[1] ?? "";
 }
 
 function hasNoindex(html) {
-  return /<meta\b[^>]*name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(html);
+  return /<meta\b[^>]*name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(
+    html,
+  );
 }
 
 function canonicalFor(html) {
-  return html.match(/<link\b[^>]*rel=["']canonical["'][^>]*href=["']([^"']+)/i)?.[1] ?? "";
+  return (
+    html.match(
+      /<link\b[^>]*rel=["']canonical["'][^>]*href=["']([^"']+)/i,
+    )?.[1] ?? ""
+  );
 }
 
 function routePathFor(label) {
-  return label === "index.html" ? "/" : "/" + label.replace(/\/index\.html$/, "") + "/";
+  return label === "index.html"
+    ? "/"
+    : "/" + label.replace(/\/index\.html$/, "") + "/";
 }
 
 if (siteUrl.pathname !== "/" || siteUrl.search || siteUrl.hash) {
@@ -71,7 +86,9 @@ if (!existsSync(sitemapPath)) {
 }
 
 const sitemapUrls = existsSync(sitemapPath)
-  ? [...read(sitemapPath).matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1])
+  ? [...read(sitemapPath).matchAll(/<loc>(.*?)<\/loc>/g)].map(
+      (match) => match[1],
+    )
   : [];
 if (sitemapUrls.length === 0) {
   fail("sitemap.xml contains no URLs.");
@@ -83,11 +100,17 @@ if (new Set(sitemapUrls).size !== sitemapUrls.length) {
 for (const url of sitemapUrls) {
   try {
     const parsed = new URL(url);
-    if (parsed.origin !== origin) fail("sitemap URL uses a noncanonical origin: " + url);
-    if (parsed.search || parsed.hash) fail("sitemap URL must not contain a query or fragment: " + url);
-    if (!parsed.pathname.endsWith("/")) fail("sitemap URL is not trailing-slash canonical: " + url);
+    if (parsed.origin !== origin)
+      fail("sitemap URL uses a noncanonical origin: " + url);
+    if (parsed.search || parsed.hash)
+      fail("sitemap URL must not contain a query or fragment: " + url);
+    if (!parsed.pathname.endsWith("/"))
+      fail("sitemap URL is not trailing-slash canonical: " + url);
     const relativePath = parsed.pathname.replace(/^\//, "");
-    const outputPath = relativePath === "" ? join(dist, "index.html") : join(dist, relativePath, "index.html");
+    const outputPath =
+      relativePath === ""
+        ? join(dist, "index.html")
+        : join(dist, relativePath, "index.html");
     if (!existsSync(outputPath)) {
       fail("sitemap URL has no built page: " + url);
       continue;
@@ -111,8 +134,13 @@ if (!existsSync(homepagePath)) {
 } else {
   const homepage = read(homepagePath);
   const verificationTags =
-    homepage.match(/<meta\b[^>]*name=["']google-site-verification["'][^>]*>/gi) ?? [];
-  const token = verificationTags.length === 1 ? attribute(verificationTags[0], "content") : "";
+    homepage.match(
+      /<meta\b[^>]*name=["']google-site-verification["'][^>]*>/gi,
+    ) ?? [];
+  const token =
+    verificationTags.length === 1
+      ? attribute(verificationTags[0], "content")
+      : "";
   if (verificationTags.length !== 1 || token !== expectedVerificationToken) {
     fail("Homepage must contain the expected Google site-verification token.");
   }
@@ -152,4 +180,3 @@ console.log(
     origin +
     ".",
 );
-
