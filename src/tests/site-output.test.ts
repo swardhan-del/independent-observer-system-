@@ -332,7 +332,7 @@ describe("built website", () => {
   it("makes the expanded public research index discoverable without exposing source files", () => {
     const html = readOutput("research/index.html");
 
-    expect(html).toContain("<strong>21</strong>");
+    expect(html).toContain("<strong>27</strong>");
     expect(html).toContain("matched paper records");
     expect(html).toContain("Newer public records, ready to follow.");
     expect(html).toContain("Citizens Without a Country");
@@ -778,7 +778,7 @@ describe("built website", () => {
     expect(html).toContain("Volume III publication context");
     expect(html).toContain("Volume III · Managed Decline");
     expect(html).toContain("Managed Decline");
-    expect(html).toContain("one of 3 public author-paper records mapped to Volume III");
+    expect(html).toContain("one of 4 public author-paper records mapped to Volume III");
     expect(html).toContain("without repeating their descriptions here");
     expect(html).toContain("Open the Volume III catalogue");
     expect(html).toContain("The Wardhan Tax Doctrine");

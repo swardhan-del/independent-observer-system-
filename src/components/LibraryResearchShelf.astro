@@ -4,12 +4,13 @@ import { byReadingUsefulness, startingQuestions } from "../data/scholarly-clarit
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
 import { seriesItems } from "../data/series";
 import { paperDocuments } from "../data/papers";
+import { websiteFeedReadingDocuments } from "../data/website-feed-reading-2026-09-18";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 import VolumeOneSourceMap from "./VolumeOneSourceMap.astro";
 
 const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
-const papers = [...paperDocuments].sort(byReadingUsefulness);
+const papers = [...paperDocuments, ...websiteFeedReadingDocuments].sort(byReadingUsefulness);
 
 const volumeIllustrations = {
   "Volume I": {
