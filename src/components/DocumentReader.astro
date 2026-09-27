@@ -96,7 +96,6 @@ const volumeRecord = entry.volume
           </ol>
         </nav>
       </details>
-      <ReaderEvidencePanel entry={entry} status={status} />
       {
         entry.genre && (
           <p class="reader-object">
@@ -208,6 +207,7 @@ const volumeRecord = entry.volume
           </section>
         ))
       }
+      <ReaderEvidencePanel entry={entry} status={status} />
       <PublicationRecord
         title={entry.title}
         author={entry.author ?? "Independent Observer"}
