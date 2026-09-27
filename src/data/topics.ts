@@ -98,6 +98,7 @@ const topicMatches: Record<string, string[]> = {
     "The Autonomous Illusion",
     "The Work Behind the Machine",
     "The Last Human Workforce",
+    "Entanglement, No-Signalling, and the Real Path to Quantum Advantage: A Systems-Level Primer for Practitioners and Policymakers",
     "Disconnected Hearts — The Tech Revolution of Intimacy",
   ],
 };
