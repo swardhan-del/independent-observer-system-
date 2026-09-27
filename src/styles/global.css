@@ -12276,3 +12276,42 @@ kbd {
   margin-top: 20px;
   padding-top: 16px;
 }
+
+/* Keep the trust path beside the first reading choice on all screen sizes. */
+.hero-assessment {
+  max-width: 680px;
+  margin-top: 22px;
+  padding: 16px 18px;
+  border: 1px solid rgb(255 255 255 / 22%);
+  background: rgb(255 255 255 / 5%);
+}
+.hero-assessment h2 {
+  margin: 0 0 10px;
+  color: var(--white);
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+.hero-assessment ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--slate-300);
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+.hero-assessment a {
+  color: var(--gold-light);
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+.hero-assessment a:focus-visible {
+  outline: 2px solid var(--gold-light);
+  outline-offset: 3px;
+}
+@media (max-width: 620px) {
+  .hero-assessment {
+    padding: 12px 14px;
+  }
+}

@@ -88,7 +88,7 @@ export function enhanceDeportationReader(document: PublicDocument): PublicDocume
   return {
     ...document,
     description:
-      "An annotated public guide to comparing immigration-enforcement totals only after categories, periods, agency coverage, units, and enforcement context are aligned.",
+      "What does a deportation total count? Compare removals, returns and Title 42 expulsions using official sources. Learn the limits; this guide does not rank presidents.",
     updatedDate: "13 September 2026",
     sections,
     notes: [
