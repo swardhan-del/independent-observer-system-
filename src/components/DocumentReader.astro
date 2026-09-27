@@ -11,6 +11,7 @@ import PageHero from "./PageHero.astro";
 import RelatedContent from "./RelatedContent.astro";
 import ReaderVolumeContext from "./ReaderVolumeContext.astro";
 import PublicationRecord from "./PublicationRecord.astro";
+import ReaderEvidencePanel from "./ReaderEvidencePanel.astro";
 import { sitePath } from "../lib/paths";
 import { relatedRecords } from "../lib/related";
 
@@ -95,6 +96,7 @@ const volumeRecord = entry.volume
           </ol>
         </nav>
       </details>
+      <ReaderEvidencePanel entry={entry} status={status} />
       {
         entry.genre && (
           <p class="reader-object">
@@ -104,7 +106,7 @@ const volumeRecord = entry.volume
       }
       {
         entry.availability && (
-          <details class="reader-details">
+          <details id="material-availability" class="reader-details">
             <>
               <summary>What is available: page, manuscript, data and code</summary>
               <dl>
