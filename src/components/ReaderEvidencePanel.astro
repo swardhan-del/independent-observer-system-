@@ -11,6 +11,8 @@ type Props = {
 const { entry, status } = Astro.props as Props;
 const sourceCount = entry.summaryEvidence?.length ?? 0;
 const reviewedDate = entry.updatedDate ?? entry.sourceReviewedAt;
+const authorName = entry.author ?? authorIdentity.name;
+const isSiteAuthor = authorName === authorIdentity.name;
 ---
 
 <aside class="reader-evidence-panel" aria-labelledby="evidence-at-a-glance-title">
@@ -48,9 +50,15 @@ const reviewedDate = entry.updatedDate ?? entry.sourceReviewedAt;
     )
   }
   <p class="reader-evidence-panel-author">
-    <strong>About the author.</strong> Independently authored by {entry.author ?? authorIdentity.name}.
-    <a href={sitePath("/about/")}> Author profile</a> ·
-    <a href={authorIdentity.orcidUrl} target="_blank" rel="noopener noreferrer"> ORCID ↗</a>
+    <strong>About the author.</strong> Independently authored by {authorName}.
+    {
+      isSiteAuthor && (
+        <>
+          <a href={sitePath("/about/")}> Author profile</a> ·
+          <a href={authorIdentity.orcidUrl} target="_blank" rel="noopener noreferrer"> ORCID ↗</a>
+        </>
+      )
+    }
   </p>
   <p class="reader-evidence-panel-note">
     <a href={sitePath("/governance/")}>Read the editorial standards and corrections policy →</a>
