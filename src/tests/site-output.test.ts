@@ -1017,5 +1017,8 @@ it("keeps the public paper title consistent across reader and metadata", () => {
     schema["@graph"].find((item: { "@type": string }) => item["@type"] === "ScholarlyArticle")
       .headline,
   ).toBe(entry.title);
+  expect(html).toContain("Evidence at a glance");
+  expect(html).toContain("Sources cited");
+  expect(html).toContain("About the author");
   expect(entry.title).toBe("Who Deported More? A Guide to Comparing Deportation Statistics");
 });

@@ -1,0 +1,105 @@
+---
+import type { PublicDocument } from "../data/documents";
+import { authorIdentity } from "../data/identity";
+import { sitePath } from "../lib/paths";
+
+type Props = {
+  entry: PublicDocument;
+  status: string;
+};
+
+const { entry, status } = Astro.props as Props;
+const sourceCount = entry.summaryEvidence?.length ?? 0;
+const reviewedDate = entry.updatedDate ?? entry.sourceReviewedAt;
+const authorName = entry.author ?? authorIdentity.name;
+const isSiteAuthor = authorName === authorIdentity.name;
+---
+
+<aside class="reader-evidence-panel" aria-labelledby="evidence-at-a-glance-title">
+  <p class="eyebrow">Reader record</p>
+  <h2 id="evidence-at-a-glance-title">Evidence at a glance</h2>
+  <dl>
+    <div><dt>Status</dt><dd>{status}</dd></div>
+    <div>
+      <dt>Sources cited</dt>
+      <dd>
+        {
+          sourceCount > 0
+            ? `${sourceCount} supporting source ${sourceCount === 1 ? "record" : "records"} listed on this page.`
+            : "No supporting source records are listed on this page."
+        }
+      </dd>
+    </div>
+    <div><dt>Last reviewed</dt><dd>{reviewedDate ?? "No review date is recorded."}</dd></div>
+    {
+      entry.reviewScope?.independentReview && (
+        <div><dt>Independent review</dt><dd>{entry.reviewScope.independentReview}</dd></div>
+      )
+    }
+  </dl>
+  {
+    entry.availability && (
+      <p>
+        <a href="#material-availability">Check manuscript, data, and code availability →</a>
+      </p>
+    )
+  }
+  {
+    sourceCount > 0 && (
+      <p><a href="#explanation-sources">Read the cited sources →</a></p>
+    )
+  }
+  <p class="reader-evidence-panel-author">
+    <strong>About the author.</strong> Independently authored by {authorName}.
+    {
+      isSiteAuthor && (
+        <>
+          <a href={sitePath("/about/")}> Author profile</a> ·
+          <a href={authorIdentity.orcidUrl} target="_blank" rel="noopener noreferrer"> ORCID ↗</a>
+        </>
+      )
+    }
+  </p>
+  <p class="reader-evidence-panel-note">
+    <a href={sitePath("/governance/")}>Read the editorial standards and corrections policy →</a>
+  </p>
+</aside>
+
+<style>
+  .reader-evidence-panel {
+    margin: 1.25rem 0 1.75rem;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid var(--line, #d9d3c6);
+    border-left: 4px solid var(--gold, #b3862c);
+    background: var(--paper-muted, #f4f1e8);
+  }
+  .reader-evidence-panel .eyebrow,
+  .reader-evidence-panel h2 {
+    margin-top: 0;
+  }
+  .reader-evidence-panel h2 {
+    font-size: 1.2rem;
+  }
+  .reader-evidence-panel dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 0.8rem 1.25rem;
+    margin: 0;
+  }
+  .reader-evidence-panel dt {
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .reader-evidence-panel dd {
+    margin: 0.2rem 0 0;
+  }
+  .reader-evidence-panel p {
+    margin: 0.8rem 0 0;
+  }
+  .reader-evidence-panel-author,
+  .reader-evidence-panel-note {
+    font-size: 0.94rem;
+  }
+</style>
