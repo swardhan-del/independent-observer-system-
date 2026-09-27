@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { publicDocumentItems } from "../data/documents";
+import { authorIdentity } from "../data/identity";
 import { paperDocuments } from "../data/papers";
 import { seriesItems } from "../data/series";
 import { volumeReels } from "../data/video-reels";
