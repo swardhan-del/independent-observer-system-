@@ -73,6 +73,11 @@ describe("topic discovery plugin", () => {
           type: "Documentary preview",
           title: "The Work Behind the Machine",
         }),
+        expect.objectContaining({
+          type: "Author paper",
+          title:
+            "Entanglement, No-Signalling, and the Real Path to Quantum Advantage: A Systems-Level Primer for Practitioners and Policymakers",
+        }),
       ]),
     );
     expect(topicHubs.find((topic) => topic.slug === "science")?.related).toEqual(
