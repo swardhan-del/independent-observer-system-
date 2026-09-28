@@ -118,10 +118,17 @@ export const archivePapers: ArchivePaper[] = [
   paper(
     "empires-mirror",
     "Empire’s Mirror: Foreign Lobbying, Concentrated Wealth, and Imperial Self-Understanding",
+    "Author working paper · bounded reading available",
+    "/library/documents/empires-mirror/",
   ),
   paper("thermostat-musk", "The Thermostat, Elon Musk, and Managed Democracy"),
   paper("floyd-kirk", "Floyd, Kirk, and the Politics of Public Outrage"),
-  paper("fear-circuit", "The Fear Circuit"),
+  paper(
+    "fear-circuit",
+    "The Fear Circuit",
+    "Research hypothesis · bounded reading available · scientific review outstanding",
+    "/library/documents/the-fear-circuit/",
+  ),
   paper(
     "when-the-storm-decides",
     "When the Storm Decides",
@@ -168,7 +175,12 @@ export const archivePapers: ArchivePaper[] = [
     "mitchell-to-barr",
     "From Mitchell to Barr: The Attorney General’s Legal Boundaries in Times of Crisis",
   ),
-  paper("sanctioned-capital", "Sanctioned Capital: The American Opportunity Myth"),
+  paper(
+    "sanctioned-capital",
+    "Sanctioned Capital: The American Opportunity Myth",
+    "Author working paper · bounded reading available",
+    "/library/documents/sanctioned-capital-and-the-american-opportunity-myth/",
+  ),
   paper(
     "from-colonization-to-china",
     "From Colonization to China’s Rise: How Historical Power Shifts Still Shape Global Politics and Democracy",
@@ -208,6 +220,8 @@ export const archivePapers: ArchivePaper[] = [
   paper(
     "command-economies",
     "How Command States Finance Power: Militarization and Technological Mobilization",
+    "Author working paper · bounded reading available",
+    "/library/documents/how-command-states-finance-power/",
   ),
   paper("moral-exceptionalism", "Moral Exceptionalism, War, and National Memory"),
 
@@ -337,7 +351,12 @@ export const archivePapers: ArchivePaper[] = [
   ),
   paper("rival-west-built", "The Rival the West Built"),
   paper("programmable-gene-silencing", "Programmable Gene Silencing Governance"),
-  paper("when-real-science-fiction", "When Real Science Becomes Science Fiction"),
+  paper(
+    "when-real-science-fiction",
+    "When Real Science Becomes Science Fiction",
+    "Author working paper · bounded reading available",
+    "/library/documents/when-real-science-becomes-science-fiction/",
+  ),
   paper("mindhive-horizons", "MindHive Horizons"),
   paper("ai-learning", "Independent Observer Volume IV: AI Learning"),
   paper(
@@ -352,7 +371,12 @@ export const archivePapers: ArchivePaper[] = [
     "Public author paper",
     "/library/documents/entanglement-foundations/",
   ),
-  paper("quantum-antimatter", "Quantum Computing, Antimatter, and the Next Energy Revolution"),
+  paper(
+    "quantum-antimatter",
+    "Quantum Computing, Antimatter, and the Next Energy Revolution",
+    "Author working paper · bounded reading available",
+    "/library/documents/quantum-computing-antimatter-and-the-next-energy-revolution/",
+  ),
   paper("adhd-cage", "ADHD in a Cage"),
   paper("flesh-trap", "The Flesh Trap"),
   paper(
