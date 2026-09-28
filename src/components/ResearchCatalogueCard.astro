@@ -1,5 +1,6 @@
 ---
 import { normalizeSearchText } from "../lib/search";
+import { readerStatus } from "../lib/reader-status";
 import type { ResearchCatalogueRecord } from "../lib/research-catalogue";
 
 type Props = {
@@ -35,7 +36,7 @@ const externalLinks = record.researchGateUrl;
       >
     </div>
     <div class="research-catalogue-card-heading">
-      <span class={`status-pill${statusClass}`}>{record.status}</span>
+      <span class={`status-pill${statusClass}`}>{readerStatus(record.status)}</span>
       <span>{record.kind}</span>
     </div>
     <h3 id={`research-record-${index}`}><a href={record.href}>{record.title}</a></h3>
