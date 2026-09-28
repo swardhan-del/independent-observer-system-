@@ -89,11 +89,11 @@ const inDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles
 
   <section class="section section-white" aria-labelledby="latest-revisions-title">
     <div class="shell prose">
-      <h2 id="latest-revisions-title">Revision log and corrections</h2>
+      <h2 id="latest-revisions-title">Recent correction activity</h2>
       {
         publicationRevisions.length === 0 ? (
           <p>
-            No paper corrections have been recorded in the revision log yet. A page may still show
+            No approved research corrections have been recorded yet. A page may still show
             its version and last-reviewed date where that metadata is available.
           </p>
         ) : (
@@ -114,6 +114,7 @@ const inDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles
           </ol>
         )
       }
+      <p><a href={sitePath("/corrections/")}>Open the permanent corrections registry →</a></p>
       <p>
         Looking for software and reader-interface changes? <a href={sitePath("/whats-new/")}
           >View the site changelog →</a
