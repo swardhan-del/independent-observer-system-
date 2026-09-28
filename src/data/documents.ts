@@ -64,6 +64,7 @@ export type PublicDocument = {
   reviewScope?: { sourceChecking?: string; editorialReview?: string; independentReview?: string };
   summaryEvidence?: PublicCitation[];
   sourceEvidenceNote?: string;
+  publicationChecklistVersion?: "v1";
   relatedReadingReasons?: Record<string, string>;
   placementDecision?: PlacementDecision;
   sections: PublicDocumentSection[];
@@ -84,6 +85,7 @@ const reviewedDocuments: PublicDocument[] = [
     publicationDate: "28 September 2026",
     dateLabel: "Published",
     status: "Public learning exercise",
+    publicationChecklistVersion: "v1",
     genre: "Bounded public explanation; not tax advice and not a release of the related working paper",
     availability: {
       webPage: "This source-led reading guide is available here.",
