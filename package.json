@@ -19,6 +19,8 @@
     "verify:pages-fallback": "node scripts/verify-pages-fallback.mjs",
     "verify:preview-indexing": "node scripts/verify-preview-indexing.mjs",
     "verify:production": "node scripts/verify-production-contract.mjs",
+    "verify:sources": "tsx scripts/verify-source-integrity.ts",
+    "verify:publication-checklist": "tsx scripts/verify-publication-checklist.ts",
     "seo:audit": "node plugins/seo/seo-audit.mjs",
     "domain:preflight": "node plugins/hosting/custom-domain-preflight.mjs",
     "dashboard": "tsx scripts/publishing-dashboard.ts",

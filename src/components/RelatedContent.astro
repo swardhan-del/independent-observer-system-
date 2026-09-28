@@ -1,5 +1,6 @@
 ---
 import type { RelatedRecord } from "../lib/related";
+import { readerStatus } from "../lib/reader-status";
 
 type Props = {
   records: RelatedRecord[];
@@ -25,7 +26,7 @@ const { records, title = "Related Independent Observer work" } = Astro.props as 
       <div class="related-content-grid">
         {records.map((record) => (
           <article class="related-content-card">
-            <span class="status-pill">{record.status}</span>
+            <span class="status-pill">{readerStatus(record.status)}</span>
             <h3>
               <a href={record.href} data-related-article-link={record.id}>
                 {record.title}

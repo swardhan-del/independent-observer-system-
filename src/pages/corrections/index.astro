@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import { publicationRevisions } from "../../data/publication-revisions";
+import { sitePath } from "../../lib/paths";
+---
+<BaseLayout title="Corrections registry" description="Permanent records of approved corrections, clarifications, and withdrawals affecting Independent Observer research pages." currentPath="/corrections/">
+  <PageHero eyebrow="Research record" title="Corrections registry" description="A permanent, linkable log for approved changes to research content. Website and interface changes are kept separately in What’s New." />
+  <section class="section section-white"><div class="shell prose">
+    <h2>How this registry works</h2>
+    <p>Each approved record identifies the affected page, date, category, change, reason, and section. A registry entry documents a correction to published research content; it does not turn a working paper into peer-reviewed or independently validated work.</p>
+    <p>To report a possible error, use the <a href={sitePath("/contact/")}>contact page</a> and include the page address, passage, and supporting evidence. Site software and design changes appear in <a href={sitePath("/whats-new/")}>What’s New</a>.</p>
+    <h2 id="registry">Recorded corrections</h2>
+    {publicationRevisions.length === 0 ? <p>No approved research corrections, clarifications, or withdrawals have been recorded yet.</p> : <ol>{publicationRevisions.map((entry) => <li id={entry.id}><h3>{entry.id} · {entry.classification}</h3><p><time datetime={entry.date}>{entry.date}</time> · <a href={sitePath(entry.route)}>{entry.title}</a></p><p>{entry.change}</p><p>Reason: {entry.reason}</p><p><a href={sitePath(entry.route)}>Affected section →</a></p></li>)}</ol>}
+  </div></section>
+</BaseLayout>

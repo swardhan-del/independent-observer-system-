@@ -35,6 +35,8 @@ jobs:
         run: npm run verify:publication-boundary
       - name: Verify publication manifest contract
         run: npx vitest run scripts/publication-manifest.test.mjs scripts/sync-dropbox-public-feed.test.mjs
+      - name: Enforce publication checklist
+        run: npm run verify:publication-checklist
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
       - name: Audit build and test dependencies
