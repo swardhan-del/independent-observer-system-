@@ -178,6 +178,14 @@ const sectionRoutes: CanonicalRouteRecord[] = [
     lastModified: SITE_AUDIT_DATE,
   },
   {
+    route: "/corrections/",
+    title: "Corrections registry",
+    type: "section",
+    source: "corrections",
+    indexable: true,
+    lastModified: SITE_AUDIT_DATE,
+  },
+  {
     route: "/contact/",
     title: "Contact",
     type: "section",
