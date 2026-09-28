@@ -12,7 +12,7 @@ const revisions: PublicationRevision[] = [];
 export function reviewedRevisions(entries: PublicationRevision[]) {
   return entries.filter((entry) => entry.approved).map((entry) => {
     const document = publicDocumentItems.find((item) => item.id === entry.documentId);
-    if (!/^IO-(COR|CLR|WDR)-\d{8}-[A-Z0-9-]+$/.test(entry.id) || !document || !citationDate(entry.date) || !entry.change.trim() || !entry.reason.trim() || !document.sections.some((section) => section.id === entry.affectedSection)) {
+    if ((entry.id.startsWith("IO-") && !/^IO-(COR|CLR|WDR)-\d{8}-[A-Z0-9-]+$/.test(entry.id)) || !document || !citationDate(entry.date) || !entry.change.trim() || !entry.reason.trim() || !document.sections.some((section) => section.id === entry.affectedSection)) {
       throw new Error(`Invalid publication correction record: ${entry.id}`);
     }
     return { ...entry, classification: entry.classification ?? "correction", title: document.title, route: `/library/documents/${document.id}/#${entry.affectedSection}`, permanentRoute: `/corrections/#${entry.id}` };
