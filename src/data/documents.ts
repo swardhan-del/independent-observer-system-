@@ -118,6 +118,7 @@ const reviewedDocuments: PublicDocument[] = [
   },
   {
     id: "bls-ai-projections-reading-guide",
+    publicationChecklistVersion: "v1",
     familyId: "IO-FAMILY-BLS-AI-PROJECTIONS-READING-GUIDE",
     title: "What BLS Employment Projections Say About AI—and What They Do Not",
     volume: "Volume IV",
