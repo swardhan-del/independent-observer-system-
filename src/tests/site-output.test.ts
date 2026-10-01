@@ -186,11 +186,9 @@ describe("built website", () => {
 
   it("explains what each catalogue volume represents", () => {
     const html = readOutput("series/index.html");
-    expect(html).toContain("Volume I is the method foundation");
-    expect(html).toContain("Volume II is the power inquiry");
-    expect(html).toContain("Volume III is the social-citizenship inquiry");
-    expect(html).toContain("Volume IV is the capability inquiry");
-    expect(html).toContain("visible release boundaries");
+    expect(html).toContain("Four connected volumes explore evidence, power, work and technology");
+    expect(html).toContain("Browse available reading");
+    expect(html).toContain("An entry marked publication pending is not a released paper");
   });
 
   it("keeps the repeated site-footer introduction concise", () => {
@@ -209,17 +207,13 @@ describe("built website", () => {
     expect(governance).toContain("Editorial standards, corrections &amp; privacy");
     expect(governance).toContain("Last reviewed:");
     for (const label of [
-      "Concept preview",
-      "In editorial development",
-      "Research preview",
-      "Author working paper / working paper",
-      "Full working paper",
       "Working-paper summary",
-      "Working-paper direction",
-      "Media preview",
-      "Reference document",
-      "Guide",
-      "Published bounded text adaptation",
+      "Full working paper",
+      "Published article / published document",
+      "Research preview / media preview",
+      "In editorial development / publication pending",
+      "Reference document / guide",
+      "Public learning exercise",
     ]) {
       expect(governance).toContain(label);
     }
@@ -228,10 +222,10 @@ describe("built website", () => {
       "no production analytics provider or outbound analytics transport",
     );
     expect(governance).toContain("GitHub Pages");
-    expect(governance).toContain("TODO (owner):");
+    expect(governance).not.toContain("TODO (owner):");
     expect(governance).toContain("/latest/#latest-revisions-title");
     expect(contact).toContain("Write to the author.");
-    expect(contact).toContain("role address on independentobserver.org");
+    expect(contact).not.toContain("TODO (owner):");
     expect(contact).not.toContain("research desk");
   });
 
@@ -599,9 +593,9 @@ describe("built website", () => {
 
     expect(seriesHtml).toContain("Four questions. One connected program.");
     expect(seriesHtml).toContain("volume-visual-strip");
-    expect(startHtml).toContain("See how the four volumes connect.");
-    expect(startHtml).toContain("topic-volume-concept-map");
-    expect(startHtml).toContain("observe · connect · correct");
+    expect(startHtml).toContain("Start with a question.");
+    expect(startHtml).toContain("reading-journeys");
+    expect(startHtml).toContain("Explore the four-volume research roadmap");
     expect(startHtml).not.toContain("public author paper pages");
   });
 
