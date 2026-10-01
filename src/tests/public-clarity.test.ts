@@ -5,6 +5,10 @@ import { whoDeportedMoreTitle } from "../data/public-titles";
 const routes = [
   "",
   "about",
+  "start",
+  "join",
+  "videos",
+  "podcast",
   "library",
   "library/taxonomy",
   "research",
@@ -20,7 +24,7 @@ const routes = [
   "library/documents/who-deported-more",
 ];
 const publicWorkflowLanguage =
-  /review deployment|production publication remains separate|owner approval required|placement held|GitHub Actions opens a review PR|no automatic publishing plugin|human release gate|held for release|human release approval|awaiting human release|production release feed|production release|release review|release decision|publication approval|approved source-feed|source feed|source-taxonomy|site build|private workspace|workflow will validate|pull request for review|cloud-state verification|dated author approval|hosting-provider review tools|permanent internal standard|controller manuscript|internal volume.*reconciliation|legacy internal volume|Dropbox-backed|public-safe audit|public audit/i;
+  /TODO \(owner\)|No invented checkout|first-party signup endpoint|high-confidence .*classification|Organized (?:long-form )?(?:video|slideshow) export|review deployment|production publication remains separate|owner approval required|placement held|GitHub Actions opens a review PR|no automatic publishing plugin|human release gate|held for release|human release approval|awaiting human release|production release feed|production release|release review|release decision|publication approval|approved source-feed|source feed|source-taxonomy|site build|private workspace|workflow will validate|pull request for review|cloud-state verification|dated author approval|hosting-provider review tools|permanent internal standard|controller manuscript|internal volume.*reconciliation|legacy internal volume|Dropbox-backed|public-safe audit|public audit/i;
 for (const route of routes)
   test(`page-specific initial HTML: /${route}`, () => {
     const html = readFileSync(`dist/${route ? route + "/" : ""}index.html`, "utf8");

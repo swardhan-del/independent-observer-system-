@@ -182,25 +182,13 @@ describe("topic discovery plugin", () => {
     expect(topicPathwaysComponent).toContain("Follow the work");
     expect(topicPathwaysComponent).toContain("Relevant volumes");
     expect(topicPathwaysComponent).toContain("slugify(volume.title)");
-    expect(startIndex).toContain("<TopicVolumeMap />");
+    expect(startIndex).toContain("<ReadingJourneys />");
     expect(startIndex).toContain("Start with a question.");
-    expect(startIndex).toContain("Siddhartha Harsh Wardhan");
-    expect(startIndex).toContain("Research for independent judgment.");
-    expect(startIndex).toContain("sources and references");
-    expect(startIndex).toContain("Research in progress");
-    expect(startIndex).not.toContain("public author paper pages");
+    expect(startIndex).toContain("Meet the author");
+    expect(startIndex).toContain("Browse available reading");
+    expect(startIndex).toContain("Explore the four-volume research roadmap");
+    expect(startIndex).not.toContain("<TopicVolumeMap />");
     expect(startIndex).not.toContain("private working archive");
-    expect(startIndex).toContain("Understand Volume I’s method");
-    expect(startIndex).toContain("Explore Volume IV: AI and labor");
-    expect(startIndex).toContain("Connect democracy to Volume IV capacity");
-    expect(startIndex).toContain("Explore Volume IV: science and capability");
-    expect(startIndex).toContain("Explore Volumes II–III: migration and political economy");
-    expect(startIndex).toContain("time, resources, distance, and economic position");
-    expect(startIndex).toContain("The Autonomous Illusion");
-    expect(startIndex.indexOf("<TopicVolumeMap />")).toBeLessThan(
-      startIndex.indexOf('<section class="section section-white">'),
-    );
-    expect(startIndex).toContain("topic-pathway-method");
     expect(topicVolumeMap).toContain("Public entry points");
     expect(topicVolumeMap).toContain("connection.coreIdeas");
     expect(topicVolumeMap).toContain("connection.contentLinks");

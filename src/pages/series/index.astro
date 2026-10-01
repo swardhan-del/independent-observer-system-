@@ -8,13 +8,13 @@ import { sitePath } from "../../lib/paths";
 
 <BaseLayout
   title="Publication Catalogue"
-  description="The official public-safe catalogue of the four-volume Independent Observer research program."
+  description="Explore the four-volume research roadmap, with links to available reading and clear labels for work in development."
   currentPath="/series/"
 >
   <PageHero
     eyebrow="Publication catalogue"
     title="One series. Four volumes."
-    description="Volumes is the publication catalogue: four connected book roadmaps in editorial development. Four lines of inquiry, one for each Independent Observer volume. Volume I is the method foundation: it represents observation, evidence, public memory, and democratic capacity, and is meant to show how a conclusion is formed before it is accepted. Volume II is the power inquiry: it represents sovereignty, institutions, history, migration, markets, and enforcement, and is meant to trace how authority is distributed and exercised. Volume III is the social-citizenship inquiry: it represents work, time, taxation, welfare, licensing, health, and economic security, and is meant to ask who carries the cost of change and who can access public capacity. Volume IV is the capability inquiry: it represents AI, infrastructure, science, labor, intimacy, and adaptation, and is meant to test how technological change can become human capability. Together, they form the official public-safe catalogue, with linked reading copies, research maps, and visible release boundaries."
+    description="Four connected volumes explore evidence, power, work and technology. This roadmap includes available reading and planned research; the books remain in development."
     className="catalogue-hero"
   >
     <figure class="catalogue-hero-visual">
@@ -68,6 +68,17 @@ import { sitePath } from "../../lib/paths";
         </p>
       </div>
       <VolumeVisualStrip />
+    </div>
+  </section>
+  <section class="section section-white">
+    <div class="shell prose">
+      <h2>Read now or explore what is planned.</h2>
+      <p>
+        The <a href={sitePath("/library/")}>public library</a> contains available paper summaries and
+        reading copies. The larger catalogue below also includes planned manuscripts and book projects.
+        An entry marked publication pending is not a released paper.
+      </p>
+      <a class="button" href={sitePath("/library/")}>Browse available reading →</a>
     </div>
   </section>
   <PublicationCatalogue />

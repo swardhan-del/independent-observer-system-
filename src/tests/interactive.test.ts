@@ -346,7 +346,7 @@ describe("interactive preview tools", () => {
   it("presents the series as an official catalogue without collapsing editorial status", () => {
     expect(series).toContain('title="Publication Catalogue"');
     expect(series).toContain('title="One series. Four volumes."');
-    expect(series).toContain("Four lines of inquiry, one for each Independent Observer volume");
+    expect(series).toContain("Four connected volumes explore evidence, power, work and technology");
     expect(series).not.toContain("review roadmap, not a publication catalogue");
     expect(series).toContain("catalogue record does not make a volume a finished publication");
     expect(catalogue).toContain("Official catalogue");

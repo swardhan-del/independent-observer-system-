@@ -30,17 +30,17 @@ const otherPublicDocuments = publicDocumentItems.filter(
     description="The complete public catalogue of papers and records. Search paper summaries on power, work, evidence and technology. Each record identifies its sources, limitations and publication status."
   />
 
+  <LibraryResearchShelf />
   <section class="shell" aria-labelledby="taxonomy-invitation">
-    <h2 id="taxonomy-invitation">Explore the complete research map</h2><p>
-      Browse the four volumes by subject and manuscript, with summaries and links to available
-      reading records.
+    <h2 id="taxonomy-invitation">Explore planned research</h2><p>
+      The roadmap includes planned manuscripts and book projects as well as links to available
+      reading. Entries marked publication pending are not released papers.
     </p><p>
       <a class="button button-secondary" href={sitePath("/library/taxonomy/")}
-        >Open the four volume taxonomy</a
+        >Open the research roadmap</a
       >
     </p>
   </section>
-  <LibraryResearchShelf />
   <ReadingToolsInvitation />
   <section class="library-background" aria-labelledby="library-background-title">
     <div class="shell">
@@ -162,7 +162,7 @@ const otherPublicDocuments = publicDocumentItems.filter(
       entries={otherPublicDocuments}
       eyebrow="Other public records"
       title="Read the additional reviewed material."
-      description="Paper records are searchable above. These are the remaining approved public-safe reading copies, kept separate so the catalogue does not repeat itself."
+      description="Paper records are searchable above. These are the additional reading copies, kept separate so the catalogue does not repeat itself."
     />
 
     <section class="section section-rule">
