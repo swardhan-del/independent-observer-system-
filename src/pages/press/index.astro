@@ -1,0 +1,96 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import { sitePath } from "../../lib/paths";
+---
+
+<BaseLayout
+  title="Press & enquiries"
+  description="Practical information for organizers, editors, and researchers who need to understand Independent Observer, its public work, and its reporting enquiries."
+  currentPath="/press/"
+>
+  <PageHero
+    eyebrow="Press & enquiries"
+    title="A factual starting point for media and research enquiries."
+    description="Independent Observer is a single-author research and media project by Siddhartha Harsh Wardhan. This page explains what can be verified today, how to request coverage, and where to find the project’s public standards."
+  />
+  <section class="section section-white">
+    <div class="shell page-grid">
+      <aside class="page-aside">At a glance</aside>
+      <div class="prose">
+        <h2>Project profile</h2>
+        <p>
+          Independent Observer examines power, institutions, history, political economy, science,
+          and technology through public research, documentary work, and editorial development. The
+          four-volume series and its individual records use visible status labels so readers can
+          distinguish a public reading copy, a working paper, a concept preview, and work still in
+          development.
+        </p>
+        <p>
+          The project does not claim institutional affiliation, external peer review, universal press
+          access, or a completed reporting credential merely because a page appears on this site.
+          Organizers and public bodies retain their own accreditation and security rules.
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="section section-rule">
+    <div class="shell page-grid">
+      <aside class="page-aside">Coverage requests</aside>
+      <div class="prose">
+        <h2>Request coverage or an interview</h2>
+        <p>
+          For a specific event, identify the subject, date, location, access requirements, intended
+          publication, and the proposed public-interest question. Include any organizer deadline and
+          a direct accreditation link where one exists. Requests are considered case by case; an
+          enquiry does not guarantee attendance, publication, an interview, or accreditation.
+        </p>
+        <p>
+          Use the contact route and choose <strong>Press, media, or coverage request</strong> so the
+          enquiry can be distinguished from a correction or general research question.
+        </p>
+        <p>
+          <a class="button button-on-light" href={sitePath("/contact/")}>Open the contact page →</a>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="section section-white">
+    <div class="shell page-grid">
+      <aside class="page-aside">Verification</aside>
+      <div class="prose">
+        <h2>Public material for a credentials review</h2>
+        <ul>
+          <li><a href={sitePath("/about/")}>Project and author information</a></li>
+          <li><a href={sitePath("/governance/")}>Editorial standards, corrections, privacy, and disclosures</a></li>
+          <li><a href={sitePath("/library/")}>Public library and reading copies</a></li>
+          <li><a href={sitePath("/research/")}>Research catalogue and visible status labels</a></li>
+          <li><a href={sitePath("/latest/")}>Latest releases and revision log</a></li>
+        </ul>
+        <p>
+          These public records are intended to make the project easier to evaluate. They are not a
+          substitute for an organizer’s application form, assignment letter, visa, permit, security
+          screening, or local law.
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="section section-rule">
+    <div class="shell page-grid">
+      <aside class="page-aside">Editorial practice</aside>
+      <div class="prose">
+        <h2>What readers and organizers can expect</h2>
+        <ul>
+          <li>Clear labels separating released material from previews and work in development.</li>
+          <li>Correction requests assessed against the cited passage and supporting evidence.</li>
+          <li>Disclosure of relevant direct connections to a subject where they materially affect a piece.</li>
+          <li>Respect for location rules, consent, privacy, and restrictions applicable to a particular event.</li>
+        </ul>
+        <p>
+          More detailed standards, including the correction process and the current privacy approach,
+          are maintained on the <a href={sitePath("/governance/")}>governance page</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
