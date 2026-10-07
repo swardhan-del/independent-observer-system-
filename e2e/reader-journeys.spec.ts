@@ -140,6 +140,7 @@ test("reading journey heading clears the sticky masthead", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("link", { name: "Start with a question" }).click();
   await expect(page).toHaveURL(/start\/#reading-journeys/);
+  await expect(page.locator("#reading-journeys-title")).toBeVisible();
   await expect
     .poll(async () =>
       page.evaluate(() => {
