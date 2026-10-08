@@ -164,8 +164,8 @@ describe("library content blocks", () => {
     expect(researchShelf).toContain("paperVolume");
     expect(researchShelf).toContain("paperQ");
     expect(researchShelf).toMatch(/rankSearchEntries\(\s*searchEntries/);
-    expect(researchShelf).toContain("Open ResearchGate record");
-    expect(researchShelf).toContain("ResearchGate record");
+    expect(researchShelf).toContain("View external manuscript record");
+    expect(researchShelf).toContain("Read the summary →");
     expect(researchShelf).not.toContain("releaseApproved = true");
   });
 

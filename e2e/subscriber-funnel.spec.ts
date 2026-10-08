@@ -3,9 +3,9 @@ import { test, expect } from "@playwright/test";
 test("Join page presents both tiers honestly, with no fake checkout", async ({ page }) => {
   await page.goto("/join/");
   await expect(page.getByText("Free reader · $0")).toBeVisible();
-  await expect(page.getByText("Supporting member · planned $5/month")).toBeVisible();
-  await expect(page.getByText("Secure paid checkout is not enabled yet")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Join the current email list ↗" })).toHaveAttribute(
+  await expect(page.getByText("Supporting membership · planned")).toBeVisible();
+  await expect(page.getByText("Supporting membership is not available yet")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Subscribe free on Substack ↗" })).toHaveAttribute(
     "href",
     /substack\.com/,
   );

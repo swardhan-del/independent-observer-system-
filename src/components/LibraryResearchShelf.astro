@@ -81,6 +81,11 @@ const volumeIllustrations = {
           }
         </div>
       </div>
+      <p class="form-note">
+        These pages contain working-paper summaries or explanations. Full texts and external
+        manuscript records are identified on each page. Archived usage counts are historical
+        distribution figures, not quality ratings.
+      </p>
       <div class="library-paper-grid">
         {
           papers.map((paper) => (
@@ -111,17 +116,21 @@ const volumeIllustrations = {
                   <strong>Why it contributes.</strong> {paper.volumeRelevance}
                 </p>
               )}
+              <p>
+                <a class="text-link" href={sitePath(`/library/documents/${paper.id}/`)}>
+                  Read the summary →
+                </a>
+              </p>
               <div class="library-paper-card-footer">
                 <details>
                   <summary>Archived usage</summary>
                   {paper.metrics?.downloads ?? "—"} downloads ·{" "}
-                  {paper.metrics?.abstractViews ?? "—"} views. Historical counts are not quality
-                  ratings.
+                  {paper.metrics?.abstractViews ?? "—"} views.
                 </details>
                 <div class="library-external-links">
                   {paper.researchGateUrl && (
                     <a href={paper.researchGateUrl} target="_blank" rel="noopener noreferrer">
-                      ResearchGate record ↗
+                      View external manuscript record ↗
                     </a>
                   )}
                 </div>
@@ -325,7 +334,7 @@ const volumeIllustrations = {
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            Open ResearchGate record ↗
+                            View external manuscript record ↗
                           </a>
                         )}
                       </div>
