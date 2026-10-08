@@ -230,7 +230,7 @@ export const greenPublications: GreenPublication[] = [
       },
       {
         label: "U.S. Department of Energy, data-center design guide",
-        href: "https://www.energy.gov/sites/default/files/2024-07/best-practice-guide-data-center-design.pdf",
+        href: "https://www.energy.gov/sites/default/files/2024-07/best-practice-guide-data-center-design_0.pdf",
       },
       {
         label: "ASHRAE AI data-center framework",

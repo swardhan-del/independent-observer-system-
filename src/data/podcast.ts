@@ -60,7 +60,7 @@ export const historyPodcast = {
         },
       ],
       boundary:
-        "The audio condenses public-safe synopses. The linked records remain the source of detail, citations, metrics, and limitations; neither the episode nor the papers are presented as peer-reviewed conclusions.",
+        "The audio condenses paper summaries. The linked records remain the source of detail, citations, metrics, and limitations; neither the episode nor the papers are presented as peer-reviewed conclusions.",
     },
     {
       number: 2,
