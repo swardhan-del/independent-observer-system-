@@ -8,7 +8,7 @@ import { seriesItems } from "../data/series";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 import { historyPodcast } from "../data/podcast";
-const selectedIds = ["disconnected-hearts", "double-tax-on-time", "wardhan-tax-doctrine"];
+const selectedIds = ["entanglement-primer", "disconnected-hearts", "wardhan-tax-doctrine"];
 const readings = selectedIds.map((id) => {
   const paper = paperDocuments.find((paper) => paper.id === id);
   if (!paper) throw new Error(`Homepage selection is missing its public paper record: ${id}`);
@@ -41,46 +41,23 @@ const questionFor = (volume: string) => {
           Independent research that tests public claims about institutions, technology, work, and
           political power—with sources you can check and limits clearly stated.
         </p>
-        <section class="hero-assessment" aria-labelledby="hero-assessment-title">
-          <h2 id="hero-assessment-title">How to assess this work</h2>
-          <ul>
-            <li>
-              <a href={sitePath("/library/documents/who-deported-more/")}>Check the sources.</a>
-              Follow citations and source notes in a public explanation.
-            </li>
-            <li>
-              <a href={sitePath("/governance/#status-labels")}>Know the status.</a>
-              Working papers, public copies, and material in development carry status labels.
-            </li>
-            <li>
-              <a href={sitePath("/research/the-independent-observer-method/")}>Follow the reasoning.</a>
-              The method separates evidence, interpretation, proposals, and limitations.
-            </li>
-            <li>
-              <a href={sitePath("/contact/")}>Question a claim.</a>
-              Send the page and supporting evidence; see <a href={sitePath("/latest/#latest-revisions-title")}>recorded paper revisions</a>.
-            </li>
-          </ul>
-        </section>
-        <div class="hero-actions">
-          <a class="button" href={sitePath("/library/documents/who-deported-more/")}
-            >Start reading · 3 min</a
-          >
-          <a class="button button-secondary" href={sitePath("/join/")}>Join free</a>
-        </div>
+        <p class="form-note">
+          <a href={sitePath("/governance/")}>Sources, editorial standards and corrections →</a>
+        </p>
+
         <p class="form-note">
           New here? <a href={sitePath("/start/#reading-journeys")}>Start with a question →</a>
         </p>
       </div>
       <aside class="hero-note" aria-labelledby="hero-note-title">
-        <p class="eyebrow">New here? Start with this · 3 min read</p>
+        <p class="eyebrow">Featured explanation · 4 min read</p>
         <h2 id="hero-note-title">What does a deportation number actually count?</h2>
         <p>
           Learn why two deportation totals can tell different stories. Try a worked example, then
           follow the official sources.
         </p>
         <a class="button" href={sitePath("/library/documents/who-deported-more/")}
-          >Read the explanation →</a
+          >Start reading · 4 min →</a
         >
         <p class="form-note">Free explanation · no account needed</p>
       </aside>
@@ -108,6 +85,7 @@ const questionFor = (volume: string) => {
                   <a href={sitePath(`/library/documents/${paper.id}/`)}>{displayTitle(paper)}</a>
                 </h3>
                 <p>{summaryDescription(paper)}</p>
+                {paper.updatedDate && <p class="form-note">Updated {paper.updatedDate}</p>}
                 <a class="text-link" href={sitePath(`/library/documents/${paper.id}/`)}>
                   Read the summary →
                 </a>
@@ -168,6 +146,18 @@ const questionFor = (volume: string) => {
           >About the author and the observing method →</a
         >
       </p>
+    </div>
+  </section>
+  <section class="section section-white" aria-labelledby="homepage-author-title">
+    <div class="shell prose">
+      <p class="eyebrow">The author</p>
+      <h2 id="homepage-author-title">Siddhartha Harsh Wardhan</h2>
+      <p>
+        A single-author research and essay project examining how institutions, work and technology
+        shape everyday life. Each reading page identifies its sources and limitations.
+      </p>
+      <p><a href={sitePath("/about/")}>Meet the author and explore the method →</a></p>
+      <p><a href={sitePath("/latest/")}>See new and recently revised research →</a></p>
     </div>
   </section>
   <div class="shell"><FollowUpdates id="follow-updates" /></div>

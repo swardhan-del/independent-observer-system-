@@ -1,5 +1,36 @@
 export const siteUpdates = [
   {
+    id: "reader-clarity-2026-10-08",
+    date: "2026-10-08",
+    title: "Clearer pages and reading choices",
+    changes: [
+      {
+        what: "Shorter introductions and a single featured first read.",
+        why: "Start reading sooner, with author information and dates beside featured summaries.",
+        route: "/",
+        label: "Explore the homepage",
+      },
+      {
+        what: "Available reading is distinct from the research roadmap.",
+        why: "Find summaries and external manuscript records without mistaking planned work for released papers.",
+        route: "/library/",
+        label: "Browse available reading",
+      },
+      {
+        what: "Released articles and draft previews have distinct reading links; podcast speed survives the first transcript seek.",
+        why: "Recognize publication status and keep the listening pace you selected.",
+        route: "/library/",
+        label: "Explore articles and previews",
+      },
+      {
+        what: "Simpler signup and editorial information.",
+        why: "See where to subscribe and what is available today, with clear research status and privacy information.",
+        route: "/join/",
+        label: "Get research updates",
+      },
+    ],
+  },
+  {
     id: "curated-tools-2026-09-09",
     date: "2026-09-09",
     title: "Put the research into practice",
