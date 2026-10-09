@@ -8,6 +8,8 @@ export function validatePublications(
   registry: PublicationRegistryRecord[],
 ) {
   const slugs = new Set<string>();
+  const families = new Set<string>();
+  const candidates = new Set<string>();
   const reservedIds = [
     "article-sources",
     "article-limitations",
@@ -21,6 +23,10 @@ export function validatePublications(
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(article.slug) || slugs.has(article.slug))
       fail("invalid or duplicate slug");
     slugs.add(article.slug);
+    if (families.has(article.familyId) || candidates.has(article.candidateId))
+      fail("duplicate publication family or candidate");
+    families.add(article.familyId);
+    candidates.add(article.candidateId);
     if (
       ![
         article.title,

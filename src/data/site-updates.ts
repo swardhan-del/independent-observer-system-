@@ -1,5 +1,29 @@
 export const siteUpdates = [
   {
+    id: "six-reading-pages-2026-10-09",
+    date: "2026-10-09",
+    title: "Six research-map entries now have bounded reading pages",
+    changes: [{
+      what: "Read source-linked explanations of influence, threat perception, capital, resource mobilization, medical technology and frontier science.",
+      why: "Existing work families now have readable synopses with evidence limits and no duplicate research-map entries.",
+      route: "/library/taxonomy/",
+      label: "Explore the research map",
+    }],
+  },
+  {
+    id: "reshoring-analysis-2026-10-09",
+    date: "2026-10-09",
+    title: "Test the promise of bringing industry home",
+    changes: [
+      {
+        what: "A new analysis connects reshoring, immigration restrictions, automation and ownership.",
+        why: "Compare productive capacity with sustained work and real compensation, using dated sources and explicit counterarguments.",
+        route: "/research/factories-return-but-do-the-jobs/",
+        label: "Read the policy analysis",
+      },
+    ],
+  },
+  {
     id: "approved-articles-2026-10-09",
     date: "2026-10-09",
     title: "Source-linked articles and a guided reading collection",

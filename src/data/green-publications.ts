@@ -1,3 +1,4 @@
+import { factoriesReturnArticle } from "./factories-return";
 import { archiveFamilyIds, familyIdForKey } from "./family-registry";
 
 export type GreenPublication = {
@@ -176,7 +177,11 @@ export const greenPublications: GreenPublication[] = [
     rightsReviewed: true,
     accessibilityReviewed: true,
     productionReleased: true,
-    relatedPublicationIds: [archiveFamilyIds.serverAsFurnace, archiveFamilyIds.regrowingHumanity],
+    relatedPublicationIds: [
+      archiveFamilyIds.serverAsFurnace,
+      archiveFamilyIds.regrowingHumanity,
+      "IO-FAMILY-FACTORIES-RETURN-JOBS",
+    ],
     paragraphs: [
       "The most misleading question about artificial intelligence and work is: “Which jobs will disappear?”",
       "A better question is: “Which tasks will move, which tasks will be redesigned, and who will control the transition?”",
@@ -467,6 +472,7 @@ export const greenPublications: GreenPublication[] = [
     limitations:
       "The article preserves methodological limits: unequal outcomes do not by themselves prove capture, suppression, or bad faith; propositions are not presented as proven causal findings.",
   },
+  factoriesReturnArticle,
 ];
 
 export const releasedGreenPublications = greenPublications.filter(

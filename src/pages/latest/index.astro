@@ -4,11 +4,11 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import FollowUpdates from "../../components/FollowUpdates.astro";
 import PageHero from "../../components/PageHero.astro";
 import { releaseLog } from "../../data/release-log";
-import { sixCandidateReleaseQueue } from "../../data/publication-registry";
+import { researchReleaseQueue } from "../../data/publication-registry";
 import { sitePath } from "../../lib/paths";
 
 const sortedReleases = [...releaseLog].sort((a, b) => b.date.localeCompare(a.date));
-const inDevelopment = sixCandidateReleaseQueue.filter(
+const inDevelopment = researchReleaseQueue.filter(
   (entry) => entry.releaseDecision !== "owner_released",
 );
 ---

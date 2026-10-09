@@ -37,7 +37,7 @@ const author = "Siddhartha Harsh Wardhan";
  * Metadata-only release queue. These records intentionally do not contain
  * manuscript text, Dropbox paths, private identifiers, or release flags.
  */
-export const sixCandidateReleaseQueue: PublicationRegistryRecord[] = [
+export const researchReleaseQueue: PublicationRegistryRecord[] = [
   {
     id: "regrowing-humanity",
     title:
@@ -135,6 +135,22 @@ export const sixCandidateReleaseQueue: PublicationRegistryRecord[] = [
     canonicalRoute: "/research/democracys-achilles-heel/",
     lastVerificationDate: "2026-09-18",
   },
+  {
+    id: "factories-return-jobs-candidate",
+    title: "Factories Return but Do the Jobs",
+    author,
+    contentType: "research",
+    volume: "Volume IV",
+    topics: ["Technology", "Economics", "Labor", "Migration", "Ownership"],
+    status: "approved_article",
+    rightsDecision: "reviewed_public_safe_text",
+    externalVerification: "not_applicable",
+    provenanceFingerprint: "author-revision-2-2026-10-09-factories-return",
+    verifiedExternalUrl: null,
+    releaseDecision: "owner_released",
+    canonicalRoute: "/research/factories-return-but-do-the-jobs/",
+    lastVerificationDate: "2026-10-09",
+  },
 ];
 
 const authorPaperRecords: PublicationRegistryRecord[] = paperDocuments.map((document) => {
@@ -163,5 +179,5 @@ const authorPaperRecords: PublicationRegistryRecord[] = paperDocuments.map((docu
 
 export const publicPublicationRegistry: PublicationRegistryRecord[] = [
   ...authorPaperRecords,
-  ...sixCandidateReleaseQueue,
+  ...researchReleaseQueue,
 ];

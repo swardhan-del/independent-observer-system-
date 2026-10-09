@@ -2,6 +2,7 @@ import { byReadingUsefulness } from "../data/scholarly-clarity";
 import { researchItems, topics } from "../data/content";
 import { seriesItems } from "../data/series";
 import { paperDocuments } from "../data/papers";
+import { websiteFeedReadingDocuments } from "../data/website-feed-reading-2026-09-18";
 import { volumeResearchMap } from "../data/volume-research";
 import { sitePath } from "./paths";
 import { slugify } from "./slugs";
@@ -43,7 +44,8 @@ function topicsForRecord(category: string, volume?: string): string[] {
       return /history|geopolit|colon|demograph|method|sovereign/.test(value);
     }
     if (name === "law") return /law|legal|tax|institution|enforcement/.test(value);
-    if (name === "science") return /science|human capability|intimacy/.test(value);
+    if (name === "science")
+      return /science|scientific|quantum|physics|human capability|intimacy/.test(value);
     if (name === "technology") return /technology|comput|ai|automation|intimacy/.test(value);
     return false;
   });
@@ -66,7 +68,7 @@ const volumeRecords: ResearchCatalogueRecord[] = volumeResearchMap.map((volume) 
   paperCount: volume.papers.length,
 }));
 
-const paperRecords: ResearchCatalogueRecord[] = [...paperDocuments]
+const paperRecords: ResearchCatalogueRecord[] = [...paperDocuments, ...websiteFeedReadingDocuments]
   .sort(byReadingUsefulness)
   .map((paper) => ({
     id: `paper:${paper.id}`,
