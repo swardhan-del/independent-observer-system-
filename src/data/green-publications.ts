@@ -26,11 +26,14 @@ export type GreenPublication = {
   paragraphs: string[];
   sourceNotes: { label: string; href: string }[];
   limitations: string;
+  editorialType?: "Analysis" | "Method";
+  citations?: { paragraph: number; sources: number[] }[];
+  sectionHeadings?: { beforeParagraph: number; id: string; title: string }[];
+  revisionNotes?: { date: string; change: string }[];
+  adaptationDisclosure?: string;
 };
 
 const author = "Siddhartha Harsh Wardhan";
-const sharedLimitations =
-  "This is a bounded text-only preview adaptation. It is not peer reviewed, legal or medical advice, a technical deployment plan, or a substitute for the cited sources. Interpretive and policy passages are the author’s analysis.";
 
 export const greenPublications: GreenPublication[] = [
   {
@@ -116,6 +119,11 @@ export const greenPublications: GreenPublication[] = [
     rightsReviewed: true,
     accessibilityReviewed: true,
     productionReleased: true,
+    editorialType: "Method",
+    citations: [
+      { paragraph: 5, sources: [0, 1] },
+      { paragraph: 6, sources: [2] },
+    ],
     relatedPublicationIds: [archiveFamilyIds.democracysAchillesHeel],
     paragraphs: [
       "Independence is often confused with centrism. The two are not the same.",
@@ -157,35 +165,80 @@ export const greenPublications: GreenPublication[] = [
     volume: "Volume IV",
     topics: ["Automation", "Artificial intelligence", "Labor", "Education", "Human capability"],
     publicationType: "Research article",
-    status: "Preview-only bounded text adaptation",
-    version: "Web adaptation v1",
-    factualCutoffDate: "2026-07-30",
-    publicationDate: "2026-07-30",
-    lastReviewedDate: "2026-08-22",
+    status: "Published bounded text adaptation",
+    version: "Web adaptation v2",
+    factualCutoffDate: "2026-10-09",
+    publicationDate: "2026-10-09",
+    lastReviewedDate: "2026-10-09",
     license: "CC BY-NC-ND 4.0",
     controllerSha256: "31f921f6e7f52949687ed0b096bc783945752452aebfa29a1ded0856b84dc30d",
     sourceVerified: true,
     rightsReviewed: true,
     accessibilityReviewed: true,
-    productionReleased: false,
+    productionReleased: true,
     relatedPublicationIds: [archiveFamilyIds.serverAsFurnace, archiveFamilyIds.regrowingHumanity],
     paragraphs: [
-      "The most misleading question about artificial intelligence and work is which jobs will disappear. A better question is which tasks will move, which tasks will be redesigned, and who will control the transition.",
-      "Economic production is made of task bundles. Automation can displace labor from tasks it takes over, while new tasks can create demand elsewhere. Job titles may survive while the work inside them changes; the distribution of training, monitoring, and bargaining power determines who benefits.",
-      "A study of 5,179 customer-support agents reported a 14% average increase in issues resolved per hour with a generative-AI assistant, including a 34% improvement for novice and lower-skilled agents. The specific workplace finding does not prove that AI raises productivity in every occupation.",
-      "The policy lesson is transition design: track tasks, measure outcomes, disclose uncertainty, teach verification, and give workers a real path to learn and move. The phrase last human workforce names a struggle over the social arrangement around work, not a prophecy that humans become irrelevant.",
+      "The most misleading question about artificial intelligence and work is: “Which jobs will disappear?”",
+      "A better question is: “Which tasks will move, which tasks will be redesigned, and who will control the transition?”",
+      "Economic production is made of task bundles. Automation can move tasks from workers to machines. But technology can also create new tasks in which people retain a comparative advantage. Acemoglu and Restrepo describe this tension as the interaction between displacement and reinstatement: automation can reduce labor demand in tasks it takes over, while new tasks can create demand for labor elsewhere. The result is not a simple story of machines replacing everyone or technology helping everyone equally.",
+      "That distinction matters because job titles can survive while the work inside them changes. A customer-support representative may still hold the same title while receiving automated suggestions, summaries, routing, and quality checks. A researcher may still write, but spend more time designing questions, checking sources, and deciding what deserves publication. A teacher may still teach, while routine practice and feedback are partly automated. These are analytical possibilities, not universal predictions; the institutional question is who receives training and who is left with only the most monitored or precarious tasks.",
+      "One field study gives the argument a useful boundary. In the final 2025 journal publication, Brynjolfsson, Li, and Raymond studied 5,172 customer-support agents during the introduction of a generative-AI conversational assistant. They reported an average 15% increase in issues resolved per hour. Less experienced and lower-skilled agents benefited more, while the most experienced and highest-skilled agents saw small speed gains and small quality declines. The finding is important precisely because it is specific: it describes one customer-support setting, not a guaranteed productivity gain in every occupation.",
+      "The policy lesson is therefore neither prohibition nor surrender. It is transition design.",
+      "Workers need enough domain knowledge to recognize a wrong answer, enough tool literacy to use assistance productively, and enough bargaining power to benefit from productivity gains rather than absorb all of the adjustment cost. Employers that deploy AI can be asked to disclose where tasks are changing, provide training, and evaluate workers on outcomes rather than on an obsolete performance ritual. Schools and public institutions can teach source verification, process documentation, and practical demonstration alongside foundational knowledge.",
+      "The phrase “last human workforce” should not be read as a prophecy that humans become economically irrelevant. It names a struggle over the last workforce arrangement in which a job title, a credential, and a stable social position were expected to line up automatically. That arrangement was never universal, and it was never equally accessible. But its erosion creates a public question: will AI widen the distance between owners of systems and people who perform fragmented tasks, or will institutions use it to expand capability?",
+      "The evidence does not decide that question in advance. It does establish a disciplined starting point: track tasks, measure outcomes, disclose uncertainty, and give workers a real path to learn and move.",
     ],
     sourceNotes: [
       {
-        label: "Acemoglu & Restrepo (2019), automation and new tasks",
+        label:
+          "Acemoglu and Restrepo (2019), Automation and New Tasks: How Technology Displaces and Reinstates Labor, Journal of Economic Perspectives 33(2), 3–30",
         href: "https://www.aeaweb.org/articles?id=10.1257/jep.33.2.3",
       },
       {
-        label: "Brynjolfsson, Li & Raymond (2023), customer support field study",
-        href: "https://www.nber.org/papers/w31161",
+        label:
+          "Brynjolfsson, Li, and Raymond (2025), Generative AI at Work, Quarterly Journal of Economics 140(2), 889–942, abstract; DOI 10.1093/qje/qjae044",
+        href: "https://doi.org/10.1093/qje/qjae044",
       },
     ],
-    limitations: sharedLimitations,
+    limitations:
+      "This is an author’s analysis, not an independently peer-reviewed study or a forecast of employment. The cited field study concerns one customer-support setting; its results do not establish effects in every occupation. Examples of changing research and teaching tasks are analytical possibilities. Training and bargaining proposals are the author’s policy interpretation.",
+    editorialType: "Analysis",
+    citations: [
+      {
+        paragraph: 2,
+        sources: [0],
+      },
+      {
+        paragraph: 4,
+        sources: [1],
+      },
+    ],
+    sectionHeadings: [
+      {
+        beforeParagraph: 0,
+        id: "tasks-before-titles",
+        title: "Start with tasks, not job titles",
+      },
+      {
+        beforeParagraph: 4,
+        id: "workplace-evidence",
+        title: "What one workplace study shows",
+      },
+      {
+        beforeParagraph: 5,
+        id: "transition-design",
+        title: "Transition design is a public choice",
+      },
+    ],
+    revisionNotes: [
+      {
+        date: "2026-10-09",
+        change:
+          "First released web edition, expanded from the short preview. The customer-support evidence now cites the final 2025 journal publication (5,172 agents; 15% average productivity gain), replacing the 2023 working-paper figures (5,179; 14%; 34% subgroup gain).",
+      },
+    ],
+    adaptationDisclosure:
+      "This web edition was prepared with AI assistance for editing, source checking, and website implementation. The argument is the author’s; no independent peer review is claimed. Funding and conflict-of-interest declarations have not been supplied.",
   },
   {
     candidateId: "IO-V3-SERVER-AS-FURNACE",
@@ -205,44 +258,107 @@ export const greenPublications: GreenPublication[] = [
       "Regional development",
     ],
     publicationType: "Research article",
-    status: "Preview-only bounded text adaptation",
-    version: "Web adaptation v1",
-    factualCutoffDate: "2026-07-18",
-    publicationDate: "2026-07-18",
-    lastReviewedDate: "2026-08-22",
+    status: "Published bounded text adaptation",
+    version: "Web adaptation v2",
+    factualCutoffDate: "2026-10-09",
+    publicationDate: "2026-10-09",
+    lastReviewedDate: "2026-10-09",
     license: "CC BY-NC-ND 4.0",
     controllerSha256: "e4e8bda82c77dae4695a9b78c6446fbc98fb4e332566f535e106b4899fb3d5fe0",
     sourceVerified: true,
     rightsReviewed: true,
     accessibilityReviewed: true,
-    productionReleased: false,
+    productionReleased: true,
     relatedPublicationIds: [archiveFamilyIds.lastHumanWorkforce],
     paragraphs: [
-      "Artificial intelligence is often discussed as if it were weightless. A data center is an electrical load, cooling plant, fiber node, secured building, water user or water-avoidance system, and site that makes demands on local infrastructure.",
-      "The phrase server as a furnace is a physical reminder, not a promise of free energy. A plausible heat-reuse chain needs compatible temperature, proximity, pipe economics, aligned load profiles, and redundant cooling when the host cannot accept heat.",
-      "Water claims must specify the loop, climate, operating condition, and backup system. Likewise, construction jobs are not permanent jobs and a tax concession is not automatically a community benefit. Public support should be tied to measurable resource reporting, training, noise controls, and enforceable commitments.",
-      "This is a conceptual screening and governance framework, not licensed engineering advice or proof that a particular site is feasible. A region can ask whether a new electrical load leaves behind useful heat, trained people, accountable procurement, and infrastructure that survives a software cycle.",
+      "Artificial intelligence is often discussed as if it were weightless: models, tokens, clouds, and intelligence moving through a network.",
+      "The physical system is different. A data center is an electrical load, a cooling plant, a fiber node, a secured building, a water user or water-avoidance system, and a site that makes demands on local infrastructure. Lawrence Berkeley National Laboratory’s 2024 report treats data-center electricity use as a national planning issue while emphasizing that future demand remains scenario-dependent.",
+      "The phrase “the server as a furnace” is a physical reminder, not a promise of free energy. Electricity delivered to computing equipment ultimately becomes heat. The practical question is whether that heat is rejected as a liability or captured at a useful temperature for a nearby demand.",
+      "The most credible pathway is a chain of ordinary components: liquid cooling close to the chip, a coolant-distribution unit or heat exchanger, a separated facility loop, a heat pump where temperature lift is necessary, insulated distribution, and a heat host such as a building, campus, industrial process, or district loop. The Department of Energy’s data-center design guidance emphasizes the importance of a nearby heat host, a compatible temperature level, and redundant cooling when the host cannot accept heat. ASHRAE’s AI data-center framework similarly identifies direct-to-chip and warm-water loops as potential enablers of higher-grade heat reuse.",
+      "That conditional language matters. A data center cannot heat a neighborhood merely because it produces heat. The host must be close enough, the temperature must be useful, the pipe route must be affordable, the load profile must align, and the cooling system must remain reliable when the network is unavailable. Some buildings, parcels, and industrial sites will fail these tests.",
+      "The same discipline applies to water. A closed technology loop can move heat without putting sensitive IT equipment directly in an open facility-water system, but the overall site still has to account for heat rejection, makeup water, treatment, and drought conditions. “Water-free” is not a universal label; it is a design claim that must specify which loop, climate, operating condition, and backup system it describes.",
+      "The public bargain is equally important. A locality should not treat a large computing load as a factory simply because a project carries an industrial aesthetic. Construction jobs are not permanent jobs. A tax concession is not automatically a community benefit. A site should earn public support through measurable commitments: resource reporting, reliable heat-reuse performance where feasible, paid apprenticeships, local training, noise and diesel controls, affordable heat or public-building connections where appropriate, and restoration obligations if the facility closes.",
+      "This is the proposed Rust Belt AI–Thermal Redevelopment District: not a promise that every vacant mall or factory can become a data center, but a screening and governance framework for projects that connect computing to grid upgrades, thermal networks, skilled trades, repair, and enforceable public claims.",
+      "The larger point is modest. AI infrastructure will not recreate the employment density or civic institutions of a mid-century steel plant by itself. But a region can still ask whether a new electrical load leaves behind more than servers: a stronger grid, useful heat, trained people, accountable procurement, and infrastructure that remains valuable after the software cycle changes.",
     ],
     sourceNotes: [
       {
-        label: "Lawrence Berkeley National Laboratory, 2024 data-center energy report",
+        label:
+          "Lawrence Berkeley National Laboratory (2024), United States Data Center Energy Usage Report",
         href: "https://eta-publications.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report",
       },
       {
-        label: "U.S. Department of Energy, data-center design guide",
+        label:
+          "U.S. Department of Energy (July 2024), Best Practices Guide for Energy-Efficient Data Center Design, sections 5.6 and 7.1",
         href: "https://www.energy.gov/sites/default/files/2024-07/best-practice-guide-data-center-design_0.pdf",
       },
       {
-        label: "ASHRAE AI data-center framework",
-        href: "https://www.ashrae.org/technical-resources/ai-data-center-framework/energy-and-thermal-efficiency",
+        label:
+          "PNNL/ASHRAE/NEMA, AI Data Center Energy Performance Framework: Energy and Thermal Efficiency, heat reuse and technology cooling systems",
+        href: "https://www.ashrae.org/technical-resources/topics-and-initiatives/ai-data-center/energy-and-thermal-efficiency",
       },
       {
-        label: "Author’s ResearchGate record",
-        href: "https://www.researchgate.net/publication/411789776_The_Server_as_a_Furnace_Rust_Belt_AI_Thermal_Infrastructure",
+        label:
+          "U.S. Department of Energy, Cooling Water Efficiency Opportunities for Federal Data Centers",
+        href: "https://www.energy.gov/cmei/femp/cooling-water-efficiency-opportunities-federal-data-centers",
       },
     ],
     limitations:
-      "Conceptual engineering analysis only; no site-specific design, feasibility finding, safety certification, or professional engineering advice.",
+      "This is an author’s infrastructure and policy analysis, not a peer-reviewed study, a site-specific feasibility assessment, or professional engineering advice. Heat reuse depends on local design and demand; the proposed redevelopment district and community-benefit conditions are the author’s proposals, not documented project outcomes.",
+    editorialType: "Analysis",
+    citations: [
+      {
+        paragraph: 1,
+        sources: [0],
+      },
+      {
+        paragraph: 2,
+        sources: [1],
+      },
+      {
+        paragraph: 3,
+        sources: [1, 2],
+      },
+      {
+        paragraph: 4,
+        sources: [1],
+      },
+      {
+        paragraph: 5,
+        sources: [2, 3],
+      },
+    ],
+    sectionHeadings: [
+      {
+        beforeParagraph: 0,
+        id: "physical-infrastructure",
+        title: "AI has a physical footprint",
+      },
+      {
+        beforeParagraph: 2,
+        id: "useful-heat",
+        title: "When waste heat becomes useful",
+      },
+      {
+        beforeParagraph: 5,
+        id: "water-and-reliability",
+        title: "Water claims need a boundary",
+      },
+      {
+        beforeParagraph: 6,
+        id: "public-bargain",
+        title: "What should a community receive?",
+      },
+    ],
+    revisionNotes: [
+      {
+        date: "2026-10-09",
+        change:
+          "First released web edition, expanded from the short preview. Technical sources were checked, the DOE and ASHRAE citation destinations corrected, and design conditions separated from the author’s redevelopment proposal.",
+      },
+    ],
+    adaptationDisclosure:
+      "This web edition was prepared with AI assistance for editing, source checking, and website implementation. The argument is the author’s; no independent peer review is claimed. Funding and conflict-of-interest declarations have not been supplied.",
   },
   {
     candidateId: "IO-V2-BORROWED-LABOR",
@@ -320,6 +436,7 @@ export const greenPublications: GreenPublication[] = [
     rightsReviewed: true,
     accessibilityReviewed: true,
     productionReleased: true,
+    citations: [{ paragraph: 3, sources: [0, 1] }],
     relatedPublicationIds: [
       archiveFamilyIds.independentObserverMethod,
       archiveFamilyIds.borrowedLabor,

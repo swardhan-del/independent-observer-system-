@@ -29,6 +29,7 @@ type Props = {
     width?: number;
     height?: number;
   };
+  ogType?: "website" | "article";
   articleMetadata?: {
     title?: string;
     author: string;
@@ -49,6 +50,7 @@ const {
   noindex = false,
   canonicalPath = currentPath,
   ogImage,
+  ogType = "website",
   articleMetadata,
 } = Astro.props;
 const fallbackBuild = import.meta.env.PUBLIC_FALLBACK_BUILD === "true";
@@ -242,7 +244,7 @@ const structuredData = JSON.stringify({
       title="Independent Observer release feed"
       href={new URL(publicSitePath("/feed.atom.xml"), publicOrigin).href}
     />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="en_GB" />
     <meta property="og:site_name" content="Independent Observer" />

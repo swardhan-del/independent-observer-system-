@@ -13,6 +13,10 @@ Use this alongside the existing publication manifest, Dropbox feed contract, rel
 
 ## Publication checklist
 
+Existing authorization in the task conversation satisfies the editorial decision for the specifically approved batch; do not ask for the same decision again. Technical checks remain necessary. For the 2026-10-09 two-article batch, see [the release and claim-review record](approved-articles-2026-10-09.md).
+
+Run `npm run verify:editorial` before publishing bounded article editions. Keep numbered paragraph/source references, section anchors, dated edition notes and the metadata release registry aligned. Production builds and CI run the validator, but factual and rights checks require source review.
+
 - [ ] Correct project, clean/understood working tree, repository instructions followed.
 - [ ] Source read, version reconciled, originals preserved; no confidential content in Git.
 - [ ] Claims checked against appropriate sources; interpretation and scenarios labeled.

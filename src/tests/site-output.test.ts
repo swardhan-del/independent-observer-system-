@@ -43,12 +43,7 @@ const routes = [
   })),
 ] as const;
 const sitemapRoutes = indexableRouteRegistry.map(({ route }) => route);
-const greenPreviewRoutes = [
-  "/research/regrowing-humanity/",
-  "/research/the-last-human-workforce/",
-  "/research/the-server-as-a-furnace/",
-  "/research/borrowed-labor/",
-] as const;
+const greenPreviewRoutes = ["/research/regrowing-humanity/", "/research/borrowed-labor/"] as const;
 
 function readOutput(relativePath: string) {
   return readFileSync(join(distRoot, relativePath), "utf8");
@@ -710,14 +705,23 @@ describe("built website", () => {
     }
   });
 
-  it("publishes only the two reviewed editions in search, sitemap and feeds", () => {
-    for (const slug of ["the-independent-observer-method", "democracys-achilles-heel"]) {
+  it("publishes the four reviewed editions in search, sitemap and feeds", () => {
+    for (const slug of [
+      "the-independent-observer-method",
+      "democracys-achilles-heel",
+      "the-last-human-workforce",
+      "the-server-as-a-furnace",
+    ]) {
       const route = `/research/${slug}/`;
       const html = readOutput(`research/${slug}/index.html`);
       expect(metaContent(html, "name", "robots")).not.toBe("noindex,follow");
       expect(html).toContain("Published article");
       expect(html).toContain("Web adaptation v2");
-      expect(html).toContain("2026-09-18");
+      expect(html).toContain(
+        ["the-last-human-workforce", "the-server-as-a-furnace"].includes(slug)
+          ? "2026-10-09"
+          : "2026-09-18",
+      );
       for (const file of ["sitemap.xml", "feed.xml", "feed.atom.xml", "search-index.json"])
         expect(readOutput(file)).toContain(route);
     }
@@ -736,7 +740,7 @@ describe("built website", () => {
     expect(atom).toContain('<feed xmlns="http://www.w3.org/2005/Atom">');
     expect(atom).toMatch(/<updated>\d{4}-\d{2}-\d{2}T00:00:00Z<\/updated>/);
     expect(atom).toContain("<author><name>Independent Observer</name></author>");
-    expect([...atom.matchAll(/<entry>/g)]).toHaveLength(2);
+    expect([...atom.matchAll(/<entry>/g)]).toHaveLength(4);
   });
 
   it("keeps the retired operating-system document out of public output", () => {
@@ -834,7 +838,7 @@ describe("built website", () => {
     const feed = readOutput("feed.xml");
     const itemBlocks = [...feed.matchAll(/<item>[\s\S]*?<\/item>/g)].map((match) => match[0]);
 
-    expect(itemBlocks).toHaveLength(2);
+    expect(itemBlocks).toHaveLength(4);
     expect(feed).toContain('<rss version="2.0">');
     expect(feed).not.toContain("Status: ");
   });

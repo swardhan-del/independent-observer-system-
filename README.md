@@ -6,7 +6,7 @@ Repository provenance: this project was initialized as `independent-observer-sys
 
 ## Status
 
-`https://independentobserver.org` is the canonical production origin and GitHub Pages is retained as a secondary fallback deployment. The known-good production deployment is preserved for rollback; a read-only audit found that its Vercel deployment metadata does not carry a Git commit, so this review branch is the traceable integration candidate and production provenance must be re-established from reviewed `main` before release. Sample cards are explicitly labeled **Concept preview** or **In editorial development**. The site does not claim that candidate work has been published, peer reviewed, or institutionally affiliated.
+`https://independentobserver.org` is the canonical production origin and GitHub Pages is retained as a secondary fallback deployment. Releases use reviewed `main` commits, Vercel previews and `build-info.json` for commit verification; preserve the preceding production deployment for rollback. The bounded article registry now contains four released editions and two research previews. Previews remain explicitly labeled and excluded from indexing and release feeds. The site does not claim independent peer review or institutional affiliation. See [the two-article release record](docs/approved-articles-2026-10-09.md).
 
 ## Requirements
 
@@ -38,6 +38,7 @@ npm run build:pages
 npm run verify:pages-fallback
 npm run verify:canonical-origin
 npm run verify:publication-boundary
+npm run verify:editorial
 SEO_SITE_URL=https://independentobserver.org npm run seo:audit
 ```
 
@@ -133,7 +134,7 @@ The public indexing policy is deliberate:
   until they contain finished, review-cleared publications.
 - `feed.xml` contains only owner-approved releases. Preview cards, external records, private
   material, and unpublished Dropbox artifacts are excluded until a release is real.
-- `feed.atom.xml` remains empty until an owner-approved release is recorded in the release log.
+- `feed.atom.xml` contains only the owner-approved editions recorded in the release log.
 
 ## GitHub Pages fallback deployment
 
@@ -183,9 +184,9 @@ into `public/` and never deploys directly. The sequence is:
 
 The review branch also carries a sanitized metadata registry in
 `src/data/publication-registry.ts` and a metadata-only next-clearance queue in
-`src/data/clearance-queue.ts`. The six first-wave candidates remain `public_preview` records awaiting
-human release. The site may render bounded, noindex preview routes for visual and editorial review,
-but those routes have no release-feed or sitemap eligibility and contain no controller manuscript.
+`src/data/clearance-queue.ts`. Four first-wave web editions have recorded owner-approved release
+state; two remain public previews. The remaining noindex preview routes have no release-feed or
+sitemap eligibility and contain no controller manuscript.
 A local ignored audit manifest may hold source-level checksums and reviewer notes for release
 management, but it is never committed or included in the build.
 

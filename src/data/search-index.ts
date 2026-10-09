@@ -14,6 +14,7 @@ import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 import type { SearchEntry } from "../lib/search";
 import { previewGreenPublications } from "./green-publications";
+import { aiReadingCollection } from "./reading-collections";
 
 const topicNames = topics.map((topic) => topic.name);
 const feedHref: Record<string, string> = {
@@ -46,6 +47,17 @@ const topicsForCategory = (category: string) => {
 };
 
 export const searchItems: SearchEntry[] = [
+  {
+    id: "collection:ai-work-and-infrastructure",
+    title: aiReadingCollection.title,
+    description: aiReadingCollection.description,
+    category: "Guided reading",
+    status: "Published reading collection",
+    type: "Research" as const,
+    topics: ["Technology", "Economics", "Science"],
+    format: "Reading collection",
+    href: sitePath(aiReadingCollection.route),
+  },
   ...manuscripts.map((entry) => ({
     id: "manuscript:" + entry.slug,
     title: entry.title,

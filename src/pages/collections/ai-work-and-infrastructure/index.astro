@@ -1,0 +1,86 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHero from "../../../components/PageHero.astro";
+import FollowUpdates from "../../../components/FollowUpdates.astro";
+import { aiReadingCollection, aiCollectionArticles } from "../../../data/reading-collections";
+import { readingTimeMinutes } from "../../../data/green-publications";
+import { sitePath } from "../../../lib/paths";
+---
+
+<BaseLayout
+  title={aiReadingCollection.title}
+  description={aiReadingCollection.description}
+  currentPath={aiReadingCollection.route}
+>
+  <PageHero
+    eyebrow="A guided reading collection"
+    title="AI changes places as well as jobs."
+    description="Start with the physical infrastructure behind AI. Then ask how its tools change the work people do, and who benefits from the transition."
+  />
+  <section class="section section-white" aria-labelledby="collection-reading-title">
+    <div class="shell narrow-shell">
+      <h2 id="collection-reading-title">Two questions, one connected reading path</h2>
+      <p>
+        For readers, students and independent researchers who want an evidence-led introduction.
+        Both articles are free to read and distinguish published findings from the author’s policy
+        proposals.
+      </p>
+      <ol class="collection-reading">
+        {
+          aiCollectionArticles.map((article, index) => (
+            <li>
+              <p class="eyebrow">
+                {index === 0 ? "First: follow the infrastructure" : "Next: follow the tasks"} ·
+                Analysis · {readingTimeMinutes(article)} min read
+              </p>
+              <h3>
+                <a href={sitePath(`/research/${article.slug}/`)}>{article.title}</a>
+              </h3>
+              <p>{article.standfirst}</p>
+              <p>
+                {index === 0
+                  ? "Learn when data-center heat can be reused and what a community could require in return for public support."
+                  : "Understand why job titles are an incomplete guide to automation, and what one workplace study can—and cannot—show."}
+              </p>
+              <a class="button" href={sitePath(`/research/${article.slug}/`)}>
+                Read article →
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+      <h2>Read with a common test</h2>
+      <p>
+        What is the mechanism? Which source supports it? Where does the evidence stop and the
+        proposal begin? Use these questions to compare the two articles without treating either as a
+        forecast.
+      </p>
+      <p>
+        <a href={sitePath("/research/the-independent-observer-method/")}
+          >Read the Independent Observer Method →</a>
+      </p>
+      <p>
+        Collection reviewed <time datetime={aiReadingCollection.reviewedDate}
+          >{aiReadingCollection.reviewedDate}</time
+        >. Each article includes source notes, limitations and an edition record.
+      </p>
+      <FollowUpdates id="collection-follow-updates" />
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .collection-reading {
+    padding-left: 1.5rem;
+  }
+  .collection-reading li {
+    padding-block: 1.25rem 2rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .collection-reading h3 {
+    font-size: 1.6rem;
+    line-height: 1.3;
+  }
+  .collection-reading p {
+    line-height: 1.7;
+  }
+</style>

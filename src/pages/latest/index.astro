@@ -8,8 +8,9 @@ import { sixCandidateReleaseQueue } from "../../data/publication-registry";
 import { sitePath } from "../../lib/paths";
 
 const sortedReleases = [...releaseLog].sort((a, b) => b.date.localeCompare(a.date));
-const releasedTitles = new Set(releaseLog.map((entry) => entry.title));
-const inDevelopment = sixCandidateReleaseQueue.filter((entry) => !releasedTitles.has(entry.title));
+const inDevelopment = sixCandidateReleaseQueue.filter(
+  (entry) => entry.releaseDecision !== "owner_released",
+);
 ---
 
 <BaseLayout

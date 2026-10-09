@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build",
+    "build": "npm run verify:editorial && astro check && astro build",
     "build:pages": "PUBLIC_FALLBACK_BUILD=true SITE_URL=https://independentobserver.org BASE_PATH=/independent-observer-system- astro check && PUBLIC_FALLBACK_BUILD=true SITE_URL=https://independentobserver.org BASE_PATH=/independent-observer-system- astro build",
     "preview": "astro preview",
     "lint": "astro check",
@@ -14,6 +14,7 @@
     "test": "astro check && astro build && vitest run",
     "test:built": "vitest run --exclude src/tests/site-output.test.ts --exclude src/tests/production-contract.test.ts",
     "verify:publication-boundary": "node scripts/verify-publication-boundary.mjs",
+    "verify:editorial": "node --import tsx scripts/verify-editorial-publications.ts",
     "verify:canonical-origin": "node scripts/verify-canonical-origin.mjs",
     "verify:gsc-readiness": "node scripts/verify-search-console-readiness.mjs",
     "verify:pages-fallback": "node scripts/verify-pages-fallback.mjs",

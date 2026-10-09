@@ -3,15 +3,15 @@ import { test, expect } from "@playwright/test";
 test("released articles and draft previews have distinct reading actions", async ({ page }) => {
   await page.goto("/library/");
   const shelf = page.locator('section[aria-labelledby="green-publications-title"]');
-  await expect(shelf).toContainText("2 released articles and 4 research previews");
+  await expect(shelf).toContainText("4 released articles and 2 research previews");
   const released = shelf.locator("article").filter({ hasText: "Released article" });
-  await expect(released).toHaveCount(2);
+  await expect(released).toHaveCount(4);
   for (const card of await released.all()) {
     await expect(card.getByRole("link", { name: "Read article →", exact: true })).toBeAttached();
     await expect(card.getByRole("link", { name: "Read preview →", exact: true })).toHaveCount(0);
   }
   const previews = shelf.locator("article").filter({ hasText: "Preview-only article" });
-  await expect(previews).toHaveCount(4);
+  await expect(previews).toHaveCount(2);
   for (const card of await previews.all()) {
     await expect(card.getByRole("link", { name: "Read preview →", exact: true })).toBeAttached();
   }

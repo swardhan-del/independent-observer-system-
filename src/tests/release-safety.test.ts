@@ -4,7 +4,7 @@ import { publicPublicationRegistry, sixCandidateReleaseQueue } from "../data/pub
 import { regrowingHumanitySources } from "../data/regrowing-humanity-evidence";
 
 describe("publication release safety", () => {
-  it("releases only the two reviewed editions and keeps four candidates pending", () => {
+  it("releases only the four reviewed editions and keeps two candidates pending", () => {
     expect(sixCandidateReleaseQueue).toHaveLength(6);
     expect(sixCandidateReleaseQueue.map((record) => record.id)).toEqual([
       "regrowing-humanity",
@@ -18,7 +18,12 @@ describe("publication release safety", () => {
       sixCandidateReleaseQueue
         .filter((record) => record.releaseDecision === "owner_released")
         .map((record) => record.id),
-    ).toEqual(["the-independent-observer-method-candidate", "democracys-achilles-heel-candidate"]);
+    ).toEqual([
+      "the-independent-observer-method-candidate",
+      "the-last-human-workforce-candidate",
+      "the-server-as-a-furnace-candidate",
+      "democracys-achilles-heel-candidate",
+    ]);
     expect(
       sixCandidateReleaseQueue
         .filter((record) => record.releaseDecision !== "owner_released")

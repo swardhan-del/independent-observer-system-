@@ -35,9 +35,11 @@ describe("central green publication registry", () => {
     ).toBe(true);
     expect(releasedGreenPublications.map((item) => item.slug)).toEqual([
       "the-independent-observer-method",
+      "the-last-human-workforce",
+      "the-server-as-a-furnace",
       "democracys-achilles-heel",
     ]);
-    expect(greenPublications.filter((item) => !item.productionReleased)).toHaveLength(4);
+    expect(greenPublications.filter((item) => !item.productionReleased)).toHaveLength(2);
     const publicRecord = publicGreenPublication(greenPublications[0]);
     expect(publicRecord).not.toHaveProperty("controllerSha256");
     expect(JSON.stringify(publicRecord)).not.toMatch(
@@ -50,8 +52,8 @@ describe("central green publication registry", () => {
       expect(readingTimeMinutes(item)).toBeGreaterThanOrEqual(1);
   });
 
-  it("keeps all six bounded records available without releasing the other four", () => {
+  it("keeps all six bounded records available without releasing the remaining two", () => {
     expect(previewGreenPublications).toHaveLength(6);
-    expect(previewGreenPublications.filter((item) => !item.productionReleased)).toHaveLength(4);
+    expect(previewGreenPublications.filter((item) => !item.productionReleased)).toHaveLength(2);
   });
 });
