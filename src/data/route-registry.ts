@@ -365,7 +365,21 @@ export const canonicalRouteRegistry = [
       SITE_AUDIT_DATE,
     ),
   })),
-] as CanonicalRouteRecord[];
+].map((record) => ({
+  ...record,
+  lastModified: [
+    "/",
+    "/start/",
+    "/latest/",
+    "/whats-new/",
+    "/library/",
+    "/topics/technology/",
+    "/topics/economics/",
+    "/topics/science/",
+  ].includes(record.route)
+    ? aiReadingCollection.reviewedDate
+    : record.lastModified,
+})) as CanonicalRouteRecord[];
 
 assertUniqueRoutes(canonicalRouteRegistry);
 assertUniquePublicTitles(canonicalRouteRegistry);

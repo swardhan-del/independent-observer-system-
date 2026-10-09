@@ -2,10 +2,10 @@ export const siteUpdates = [
   {
     id: "approved-articles-2026-10-09",
     date: "2026-10-09",
-    title: "Two new analyses of AI, infrastructure and work",
+    title: "Source-linked articles and a guided reading collection",
     changes: [
       {
-        what: "The Server as a Furnace and The Last Human Workforce now have complete web editions.",
+        what: "A guided reading collection connects articles about AI infrastructure and work.",
         why: "Read the evidence, distinguish policy proposals from findings, and follow citations beside the claims they support.",
         route: "/collections/ai-work-and-infrastructure/",
         label: "Explore the reading collection",

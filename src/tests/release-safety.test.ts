@@ -1,9 +1,32 @@
 import { describe, expect, it } from "vitest";
 import { nextClearanceQueue } from "../data/clearance-queue";
 import { publicPublicationRegistry, sixCandidateReleaseQueue } from "../data/publication-registry";
+import { releaseLog } from "../data/release-log";
+import { canonicalRouteFor } from "../data/route-registry";
 import { regrowingHumanitySources } from "../data/regrowing-humanity-evidence";
 
 describe("publication release safety", () => {
+  it("places current releases first for RSS and Atom readers", () => {
+    expect(releaseLog.slice(0, 2).map((entry) => entry.date)).toEqual(["2026-10-09", "2026-10-09"]);
+    expect(
+      releaseLog.every((entry, index) => index === 0 || releaseLog[index - 1].date >= entry.date),
+    ).toBe(true);
+  });
+
+  it("dates revised discovery pages without redating untouched topics", () => {
+    for (const route of [
+      "/",
+      "/start/",
+      "/latest/",
+      "/whats-new/",
+      "/topics/technology/",
+      "/topics/economics/",
+      "/topics/science/",
+    ]) {
+      expect(canonicalRouteFor(route)?.lastModified).toBe("2026-10-09");
+    }
+    expect(canonicalRouteFor("/topics/history/")?.lastModified).toBe("2026-09-19");
+  });
   it("releases only the four reviewed editions and keeps two candidates pending", () => {
     expect(sixCandidateReleaseQueue).toHaveLength(6);
     expect(sixCandidateReleaseQueue.map((record) => record.id)).toEqual([
