@@ -45,7 +45,7 @@ test("published article metadata and citation destinations describe the final ed
     "href",
     "https://doi.org/10.1093/qje/qjae044",
   );
-  await expect(page.locator("#article-disclosures")).toContainText("AI assistance");
+  await expect(page.locator("#article-disclosures + p")).toContainText("AI assistance");
   const article = await page
     .locator('script[type="application/ld+json"]')
     .evaluateAll((scripts) =>
