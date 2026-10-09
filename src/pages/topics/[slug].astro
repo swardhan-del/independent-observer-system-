@@ -35,6 +35,24 @@ const mappedVolumeSummary =
   currentPath={"/topics/" + topic.slug + "/"}
 >
   <PageHero eyebrow="Topic hub" title={topic.name} description={topic.description} />
+  {
+    ["technology", "economics", "science"].includes(topic.slug) && (
+      <section class="section section-white">
+        <div class="shell prose">
+          <>
+            <h2>AI, work and infrastructure</h2>
+            <p>
+              Read two connected analyses of computing’s physical demands and changing work, with
+              sources and clear limits.
+            </p>
+            <a class="button" href={sitePath("/collections/ai-work-and-infrastructure/")}>
+              Open the reading collection →
+            </a>
+          </>
+        </div>
+      </section>
+    )
+  }
   <section class="section section-white">
     <div class="shell">
       <div class="topic-hub-status">

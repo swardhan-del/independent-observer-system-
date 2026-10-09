@@ -12,6 +12,7 @@ import {
   manuscriptReleaseAuthorizationFor,
 } from "./manuscript-release-registry";
 import { citationDate } from "../lib/citations";
+import { aiReadingCollection } from "./reading-collections";
 
 const SITE_AUDIT_DATE = "2026-09-19";
 
@@ -57,6 +58,14 @@ export type CanonicalRouteRecord = {
 };
 
 const sectionRoutes: CanonicalRouteRecord[] = [
+  {
+    route: aiReadingCollection.route,
+    title: aiReadingCollection.title,
+    type: "section",
+    source: "reading-collections",
+    indexable: true,
+    lastModified: aiReadingCollection.reviewedDate,
+  },
   {
     route: "/library/taxonomy/",
     title: "Four volume research map",
@@ -356,7 +365,21 @@ export const canonicalRouteRegistry = [
       SITE_AUDIT_DATE,
     ),
   })),
-] as CanonicalRouteRecord[];
+].map((record) => ({
+  ...record,
+  lastModified: [
+    "/",
+    "/start/",
+    "/latest/",
+    "/whats-new/",
+    "/library/",
+    "/topics/technology/",
+    "/topics/economics/",
+    "/topics/science/",
+  ].includes(record.route)
+    ? aiReadingCollection.reviewedDate
+    : record.lastModified,
+})) as CanonicalRouteRecord[];
 
 assertUniqueRoutes(canonicalRouteRegistry);
 assertUniquePublicTitles(canonicalRouteRegistry);

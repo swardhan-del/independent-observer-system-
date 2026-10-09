@@ -108,7 +108,7 @@ describe("redundancy and provenance controls", () => {
       "The Last Human Workforce: Task Bundles, Automation, and Transition Design";
     expect(seriesHtml).toContain("<h1>The Last Human Workforce</h1>");
     expect(researchHtml).toContain(`<title>${disambiguatedTitle} | Independent Observer</title>`);
-    expect(researchHtml).toContain(`<h1>${disambiguatedTitle}</h1>`);
+    expect(researchHtml).toMatch(new RegExp(`<h1\\b[^>]*>${disambiguatedTitle}</h1>`));
     expect(researchHtml).toContain(`property="og:title" content="${disambiguatedTitle}`);
     expect(researchHtml).toContain(`name="twitter:title" content="${disambiguatedTitle}`);
     expect(researchHtml).toContain(`"headline":"${disambiguatedTitle}"`);

@@ -1,5 +1,24 @@
 export const siteUpdates = [
   {
+    id: "approved-articles-2026-10-09",
+    date: "2026-10-09",
+    title: "Source-linked articles and a guided reading collection",
+    changes: [
+      {
+        what: "A guided reading collection connects articles about AI infrastructure and work.",
+        why: "Read the evidence, distinguish policy proposals from findings, and follow citations beside the claims they support.",
+        route: "/collections/ai-work-and-infrastructure/",
+        label: "Explore the reading collection",
+      },
+      {
+        what: "Article pages include linked source notes, section navigation and edition records.",
+        why: "Inspect the sources, see what changed and continue reading comfortably on a phone.",
+        route: "/research/the-last-human-workforce/",
+        label: "Read the workforce analysis",
+      },
+    ],
+  },
+  {
     id: "reader-clarity-2026-10-08",
     date: "2026-10-08",
     title: "Clearer pages and reading choices",

@@ -33,6 +33,8 @@ jobs:
         run: npm ci
       - name: Verify public publication boundary
         run: npm run verify:publication-boundary
+      - name: Verify approved article metadata and citation references
+        run: npm run verify:editorial
       - name: Verify publication manifest contract
         run: npx vitest run scripts/publication-manifest.test.mjs scripts/sync-dropbox-public-feed.test.mjs
       - name: Audit production dependencies

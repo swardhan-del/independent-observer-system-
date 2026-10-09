@@ -6,22 +6,25 @@ homepage and Start Here shelves, volume shelves, topic shelves, and contextual r
 
 ## Release boundary
 
-The records are bounded, text-only preview adaptations. `PUBLICATION_PREVIEW=true` (or a Vercel
-Preview build) enables their routes and discovery cards. They remain `noindex`, are excluded from
-the sitemap and release feeds, and carry no manuscript, PDF, figure, media, local path, or private
-source identifier. A normal production build excludes the six records until a separate owner-
-approved release change updates the release state.
+The records are bounded, text-only web adaptations. All six routes are available for reading;
+`productionReleased` determines whether an edition is indexable and eligible for release feeds.
+Four editions are released: Method, Democracy, Workforce and Server. Regrowing Humanity and
+Borrowed Labor remain noindex previews outside the sitemap and release feeds. Vercel preview
+builds and GitHub Pages fallback builds remain noindex for all pages, including released editions.
+These records carry no raw manuscript, PDF, figure, local path or private source identifier.
 
-The existing manifest validator remains the fail-closed authority for any future approved-feed
-ingestion. This change does not populate `Website Feed/approved`, What’s New, RSS, Atom, or a
-production deployment.
+The existing manifest validator remains the fail-closed authority for approved-feed ingestion.
+The hand-curated article registry is separately checked by `npm run verify:editorial`; release
+changes must also update `src/data/publication-registry.ts`. Release-log, search, sitemap, RSS and
+Atom output derive from these reviewed records. Do not manually edit generated Dropbox data.
 
 ## Adding a future approved publication
 
 Add one typed record, source-verified bounded body, source notes, limitations, rights/accessibility
-state, and verified related IDs. Run the production build and preview build. The preview build
-must show the route with `noindex`; the production build must not include it until the owner has
-approved the exact record and SHA through the release process.
+state, verified related IDs, claim-linked citations and dated edition notes. Run the production
+and preview builds. The preview build must show the route with `noindex`; the production edition
+must remain noindex and outside release feeds until the owner-approved release is recorded.
+Existing explicit approval for a defined batch does not require another confirmation.
 
 ## Rollback
 
