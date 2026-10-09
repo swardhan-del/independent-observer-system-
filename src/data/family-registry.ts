@@ -17,6 +17,15 @@ export const archiveFamilyIds = {
 } as const;
 
 const aliasToFamilyId: Record<string, string> = {
+  "empire-s-mirror": "IO-FAMILY-EMPIRES_MIRROR",
+  "empires-mirror": "IO-FAMILY-EMPIRES_MIRROR",
+  "the-fear-circuit": "IO-FAMILY-FEAR_CIRCUIT",
+  "fear-circuit": "IO-FAMILY-FEAR_CIRCUIT",
+  "sanctioned-capital-and-the-american-opportunity-myth": "IO-FAMILY-SANCTIONED_CAPITAL",
+  "sanctioned-capital": "IO-FAMILY-SANCTIONED_CAPITAL",
+  "how-command-states-finance-power": "IO-FAMILY-COMMAND_ECONOMIES",
+  "command-economies": "IO-FAMILY-COMMAND_ECONOMIES",
+  "quantum-computing-antimatter-and-the-next-energy-revolution": "IO-FAMILY-QUANTUM-ANTIMATTER",
   "the-illusion-of-equality": archiveFamilyIds.illusionOfEquality,
   "illusion-of-equality": archiveFamilyIds.illusionOfEquality,
   "the-empire-of-distraction": archiveFamilyIds.empireOfDistraction,

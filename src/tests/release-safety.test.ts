@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { nextClearanceQueue } from "../data/clearance-queue";
-import { publicPublicationRegistry, sixCandidateReleaseQueue } from "../data/publication-registry";
+import { publicPublicationRegistry, researchReleaseQueue } from "../data/publication-registry";
 import { releaseLog } from "../data/release-log";
 import { canonicalRouteFor } from "../data/route-registry";
 import { regrowingHumanitySources } from "../data/regrowing-humanity-evidence";
@@ -27,18 +27,19 @@ describe("publication release safety", () => {
     }
     expect(canonicalRouteFor("/topics/history/")?.lastModified).toBe("2026-09-19");
   });
-  it("releases only the four reviewed editions and keeps two candidates pending", () => {
-    expect(sixCandidateReleaseQueue).toHaveLength(6);
-    expect(sixCandidateReleaseQueue.map((record) => record.id)).toEqual([
+  it("releases only the five reviewed editions and keeps two candidates pending", () => {
+    expect(researchReleaseQueue).toHaveLength(7);
+    expect(researchReleaseQueue.map((record) => record.id)).toEqual([
       "regrowing-humanity",
       "the-independent-observer-method-candidate",
       "the-last-human-workforce-candidate",
       "the-server-as-a-furnace-candidate",
       "borrowed-labor-candidate",
       "democracys-achilles-heel-candidate",
+      "factories-return-jobs-candidate",
     ]);
     expect(
-      sixCandidateReleaseQueue
+      researchReleaseQueue
         .filter((record) => record.releaseDecision === "owner_released")
         .map((record) => record.id),
     ).toEqual([
@@ -46,9 +47,10 @@ describe("publication release safety", () => {
       "the-last-human-workforce-candidate",
       "the-server-as-a-furnace-candidate",
       "democracys-achilles-heel-candidate",
+      "factories-return-jobs-candidate",
     ]);
     expect(
-      sixCandidateReleaseQueue
+      researchReleaseQueue
         .filter((record) => record.releaseDecision !== "owner_released")
         .every(
           (record) =>

@@ -12,7 +12,7 @@ export type ManuscriptReleaseAuthorization = {
  * only when its slug has a matching record here; this is a fail-closed gate,
  * not a default-on flag (see isManuscriptAuthorizedForRelease below).
  *
- * This registry is deliberately separate from sixCandidateReleaseQueue in
+ * This registry is deliberately separate from researchReleaseQueue in
  * publication-registry.ts. That queue tracks a different artifact (bounded
  * preview adaptations) and its own test locks every entry to
  * releaseDecision: "awaiting_human_release" — this file must never be used to

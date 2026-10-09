@@ -322,7 +322,7 @@ describe("built website", () => {
   it("makes the expanded public research index discoverable without exposing source files", () => {
     const html = readOutput("research/index.html");
 
-    expect(html).toContain("<strong>21</strong>");
+    expect(html).toContain("<strong>27</strong>");
     expect(html).toContain("matched paper records");
     expect(html).toContain("Newer public records, ready to follow.");
     expect(html).toContain("Citizens Without a Country");
@@ -740,7 +740,7 @@ describe("built website", () => {
     expect(atom).toContain('<feed xmlns="http://www.w3.org/2005/Atom">');
     expect(atom).toMatch(/<updated>\d{4}-\d{2}-\d{2}T00:00:00Z<\/updated>/);
     expect(atom).toContain("<author><name>Independent Observer</name></author>");
-    expect([...atom.matchAll(/<entry>/g)]).toHaveLength(4);
+    expect([...atom.matchAll(/<entry>/g)]).toHaveLength(5);
   });
 
   it("keeps the retired operating-system document out of public output", () => {
@@ -777,7 +777,7 @@ describe("built website", () => {
     expect(html).toContain("Volume III publication context");
     expect(html).toContain("Volume III · Managed Decline");
     expect(html).toContain("Managed Decline");
-    expect(html).toContain("one of 3 public author-paper records mapped to Volume III");
+    expect(html).toContain("one of 4 public author-paper records mapped to Volume III");
     expect(html).toContain("without repeating their descriptions here");
     expect(html).toContain("Open the Volume III catalogue");
     expect(html).toContain("The Wardhan Tax Doctrine");
@@ -838,7 +838,7 @@ describe("built website", () => {
     const feed = readOutput("feed.xml");
     const itemBlocks = [...feed.matchAll(/<item>[\s\S]*?<\/item>/g)].map((match) => match[0]);
 
-    expect(itemBlocks).toHaveLength(4);
+    expect(itemBlocks).toHaveLength(5);
     expect(feed).toContain('<rss version="2.0">');
     expect(feed).not.toContain("Status: ");
   });

@@ -15,14 +15,14 @@ import { sitePath } from "../../../lib/paths";
   <PageHero
     eyebrow="A guided reading collection"
     title="AI changes places as well as jobs."
-    description="Start with the physical infrastructure behind AI. Then ask how its tools change the work people do, and who benefits from the transition."
+    description="Start with the physical infrastructure behind AI. Then follow the changing tasks and test whether bringing industry home improves workers’ position."
   />
   <section class="section section-white" aria-labelledby="collection-reading-title">
     <div class="shell narrow-shell">
-      <h2 id="collection-reading-title">Two questions, one connected reading path</h2>
+      <h2 id="collection-reading-title">Three questions, one connected reading path</h2>
       <p>
-        For readers, students and independent researchers who want an evidence-led introduction.
-        Both articles are free to read and distinguish published findings from the author’s policy
+        For readers, students and independent researchers who want an evidence-led introduction. All
+        three articles are free to read and distinguish published findings from the author’s policy
         proposals.
       </p>
       <ol class="collection-reading">
@@ -30,8 +30,14 @@ import { sitePath } from "../../../lib/paths";
           aiCollectionArticles.map((article, index) => (
             <li>
               <p class="eyebrow">
-                {index === 0 ? "First: follow the infrastructure" : "Next: follow the tasks"} ·
-                Analysis · {readingTimeMinutes(article)} min read
+                {
+                  [
+                    "First: follow the infrastructure",
+                    "Next: follow the tasks",
+                    "Then: test the jobs promise",
+                  ][index]
+                }{" "}
+                · Analysis · {readingTimeMinutes(article)} min read
               </p>
               <h3>
                 <a href={sitePath(`/research/${article.slug}/`)}>{article.title}</a>
@@ -40,7 +46,9 @@ import { sitePath } from "../../../lib/paths";
               <p>
                 {index === 0
                   ? "Learn when data-center heat can be reused and what a community could require in return for public support."
-                  : "Understand why job titles are an incomplete guide to automation, and what one workplace study can—and cannot—show."}
+                  : index === 1
+                    ? "Understand why job titles are an incomplete guide to automation, and what one workplace study can—and cannot—show."
+                    : "Compare domestic capacity with durable employment, real compensation and who captures productivity gains."}
               </p>
               <a class="button" href={sitePath(`/research/${article.slug}/`)}>
                 Read article →
@@ -52,12 +60,13 @@ import { sitePath } from "../../../lib/paths";
       <h2>Read with a common test</h2>
       <p>
         What is the mechanism? Which source supports it? Where does the evidence stop and the
-        proposal begin? Use these questions to compare the two articles without treating either as a
+        proposal begin? Use these questions to compare the articles without treating either as a
         forecast.
       </p>
       <p>
         <a href={sitePath("/research/the-independent-observer-method/")}
-          >Read the Independent Observer Method →</a>
+          >Read the Independent Observer Method →</a
+        >
       </p>
       <p>
         Collection reviewed <time datetime={aiReadingCollection.reviewedDate}

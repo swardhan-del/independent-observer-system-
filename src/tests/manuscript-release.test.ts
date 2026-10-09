@@ -38,7 +38,7 @@ describe("manuscript release authorization is fail-closed", () => {
   });
 
   it("keeps the release-approval gate independent of the unrelated candidate preview queue", () => {
-    // This registry must never share a mechanism with sixCandidateReleaseQueue
+    // This registry must never share a mechanism with researchReleaseQueue
     // in publication-registry.ts, whose own test locks every record to
     // releaseDecision: "awaiting_human_release".
     expect(manuscriptReleaseAuthorizations.every((record) => !("releaseDecision" in record))).toBe(

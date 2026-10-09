@@ -14,17 +14,18 @@ const expected = [
   ["IO-V3-SERVER-AS-FURNACE", "the-server-as-a-furnace", "Volume III"],
   ["IO-V2-BORROWED-LABOR", "borrowed-labor", "Volume II"],
   ["IO-V2-DEMOCRACYS-ACHILLES-HEEL", "democracys-achilles-heel", "Volume II"],
+  ["IO-V4-FACTORIES-RETURN-JOBS", "factories-return-but-do-the-jobs", "Volume IV"],
 ] as const;
 
 describe("central green publication registry", () => {
-  it("contains the six exact candidate identities and unique routes", () => {
-    expect(greenPublications).toHaveLength(6);
+  it("contains the seven exact candidate identities and unique routes", () => {
+    expect(greenPublications).toHaveLength(7);
     expect(greenPublications.map((item) => item.candidateId)).toEqual(
       expected.map((item) => item[0]),
     );
     expect(greenPublications.map((item) => item.slug)).toEqual(expected.map((item) => item[1]));
     expect(greenPublications.map((item) => item.volume)).toEqual(expected.map((item) => item[2]));
-    expect(new Set(greenPublications.map((item) => item.slug)).size).toBe(6);
+    expect(new Set(greenPublications.map((item) => item.slug)).size).toBe(7);
   });
 
   it("is fail-closed for production and strips controller hashes from public data", () => {
@@ -38,6 +39,7 @@ describe("central green publication registry", () => {
       "the-last-human-workforce",
       "the-server-as-a-furnace",
       "democracys-achilles-heel",
+      "factories-return-but-do-the-jobs",
     ]);
     expect(greenPublications.filter((item) => !item.productionReleased)).toHaveLength(2);
     const publicRecord = publicGreenPublication(greenPublications[0]);
@@ -52,8 +54,8 @@ describe("central green publication registry", () => {
       expect(readingTimeMinutes(item)).toBeGreaterThanOrEqual(1);
   });
 
-  it("keeps all six bounded records available without releasing the remaining two", () => {
-    expect(previewGreenPublications).toHaveLength(6);
+  it("keeps all seven bounded records available without releasing the remaining two", () => {
+    expect(previewGreenPublications).toHaveLength(7);
     expect(previewGreenPublications.filter((item) => !item.productionReleased)).toHaveLength(2);
   });
 });
