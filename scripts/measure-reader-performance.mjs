@@ -1,12 +1,13 @@
 import { readFileSync, statSync } from "node:fs";
 const homepage = readFileSync("dist/index.html", "utf8");
-const index = readFileSync("dist/search-index.json", "utf8");
+const index = readFileSync("dist/search-index-v1.json", "utf8");
 const cues = JSON.parse(readFileSync("src/data/podcast-cues.json", "utf8"));
 const report = {
   homepageBytes: Buffer.byteLength(homepage),
   searchIndexBytes: Buffer.byteLength(index),
+  legacySearchIndexBytes: statSync("dist/search-index.json").size,
   searchIndexEmbedded: homepage.includes('data-index="'),
-  searchEntries: JSON.parse(index).length,
+  searchEntries: JSON.parse(index).rows.length,
   originalMapBytes: statSync("public/independent-observer-four-volume-map-v2.png").size,
   desktopMapBytes: statSync("public/independent-observer-four-volume-map-v2-1280.webp").size,
   mobileMapBytes: statSync("public/independent-observer-four-volume-map-v2-640.webp").size,
@@ -16,6 +17,7 @@ const report = {
 console.log(JSON.stringify(report, null, 2));
 if (
   report.searchIndexEmbedded ||
+  !homepage.includes("/search-index-v1.json") ||
   report.homepageBytes > 250000 ||
   report.searchIndexBytes > 200000 ||
   report.desktopMapBytes > 120000 ||
