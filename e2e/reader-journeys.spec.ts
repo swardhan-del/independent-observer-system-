@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 test("search downloads once on demand and finds podcast transcript passages", async ({ page }) => {
   const indexRequests: string[] = [];
   page.on("request", (request) => {
-    if (request.url().includes("search-index.json")) indexRequests.push(request.url());
+    if (/search-index(?:-v1)?\.json/.test(request.url())) indexRequests.push(request.url());
   });
   await page.goto("/");
   await expect(page.locator("h1")).toBeVisible();
@@ -24,17 +24,41 @@ test("search downloads once on demand and finds podcast transcript passages", as
   await expect(page).toHaveURL(/podcast\/#episode-01/);
 });
 test("search failure is recoverable", async ({ page }) => {
-  await page.route("**/search-index.json", (route) =>
+  await page.route("**/search-index-v1.json", (route) =>
     route.fulfill({ status: 503, body: "Unavailable" }),
   );
   await page.goto("/");
   await page.locator("[data-search-open]").click();
   await expect(page.locator("[data-search-status]")).toContainText("could not load");
   await page.locator("[data-search-close]").click();
-  await page.unroute("**/search-index.json");
+  await page.unroute("**/search-index-v1.json");
   await page.locator("[data-search-open]").click();
   await page.locator("[data-search-input]").fill("Managed Decline");
   await expect(page.locator("[data-search-result]").first()).toBeVisible();
+});
+test("invalid packed search can be retried and older page endpoints still work", async ({
+  page,
+}) => {
+  await page.route("**/search-index-v1.json", (route) =>
+    route.fulfill({ json: { version: 99, strings: [], rows: [] } }),
+  );
+  await page.goto("/");
+  await page.locator("[data-search-open]").click();
+  await expect(page.locator("[data-search-status]")).toContainText("could not load");
+  await page.locator("[data-search-close]").click();
+  await page.unroute("**/search-index-v1.json");
+  await page.locator("[data-search-open]").click();
+  await page.locator("[data-search-input]").fill("Factories Return but Do the Jobs");
+  await expect(page.locator("[data-search-result]").first()).toContainText("Factories Return");
+  await page.reload();
+  await page.locator("[data-site-search]").evaluate((root) => {
+    root.setAttribute("data-index-url", "/search-index.json");
+  });
+  await page.locator("[data-search-open]").click();
+  await page.locator("[data-search-input]").fill("A timeline is not yet an explanation");
+  await expect(page.locator("[data-search-result]").first()).toContainText(
+    "Observation Before Judgment",
+  );
 });
 test("reading journey, citations and contextual correction work", async ({ page }) => {
   await page.goto("/start/#reading-journeys");

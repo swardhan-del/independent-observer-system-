@@ -722,7 +722,13 @@ describe("built website", () => {
           ? "2026-10-09"
           : "2026-09-18",
       );
-      for (const file of ["sitemap.xml", "feed.xml", "feed.atom.xml", "search-index.json"])
+      for (const file of [
+        "sitemap.xml",
+        "feed.xml",
+        "feed.atom.xml",
+        "search-index.json",
+        "search-index-v1.json",
+      ])
         expect(readOutput(file)).toContain(route);
     }
     for (const slug of [

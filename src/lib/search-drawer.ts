@@ -1,5 +1,6 @@
 import { readerStatus } from "../lib/reader-status";
 import { track } from "../lib/analytics";
+import { decodeSearchIndex } from "./search-payload";
 import {
   highlightTokens,
   rankSearchEntries,
@@ -24,8 +25,7 @@ export function initialize(root: HTMLElement) {
         const response = await fetch(root.dataset.indexUrl!, { credentials: "same-origin" });
         if (!response.ok) throw new Error("Search unavailable");
         const entries: unknown = await response.json();
-        if (!Array.isArray(entries)) throw new Error("Invalid search index");
-        index = (entries as SearchEntry[]).map((entry) => ({
+        index = decodeSearchIndex(entries).map((entry) => ({
           ...entry,
           status: readerStatus(entry.status),
         }));
