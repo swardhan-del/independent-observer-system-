@@ -10,6 +10,7 @@ import { slugify } from "../lib/slugs";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
 import { volumeTopicConnections } from "../../plugins/topic-discovery/catalog";
 import { indexableRouteRegistry } from "../data/route-registry";
+import { socialPreviewCards } from "../data/social-preview-cards";
 
 const distRoot = join(process.cwd(), "dist");
 const routes = [
@@ -930,6 +931,23 @@ describe("built website", () => {
       expect(existsSync(imagePath)).toBe(true);
     }
   });
+
+  it.each(Object.entries(socialPreviewCards))(
+    "uses a lightweight, page-specific social image on %s",
+    (route, card) => {
+      const html = readFileSync(fileForPath(route, basePath), "utf8");
+      const expectedImage = new URL(card.src, publicOrigin + basePath).href;
+      const imageFile = join(distRoot, card.src.replace(/^\//, ""));
+      const dimensions = jpegDimensions(readFileSync(imageFile));
+
+      expect(metaContent(html, "property", "og:image")).toBe(expectedImage);
+      expect(metaContent(html, "name", "twitter:image")).toBe(expectedImage);
+      expect(metaContent(html, "property", "og:image:alt")).toBe(card.alt);
+      expect(metaContent(html, "name", "twitter:image:alt")).toBe(card.alt);
+      expect(dimensions).toEqual({ width: 1200, height: 630 });
+      expect(readFileSync(imageFile).byteLength).toBeLessThan(250_000);
+    },
+  );
 
   it.each(routes)("provides valid page-specific JSON-LD on $route", ({ file }) => {
     const html = readOutput(file);
