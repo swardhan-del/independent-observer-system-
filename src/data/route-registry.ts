@@ -195,6 +195,14 @@ const sectionRoutes: CanonicalRouteRecord[] = [
     lastModified: SITE_AUDIT_DATE,
   },
   {
+    route: "/press/",
+    title: "Press & collaboration",
+    type: "section",
+    source: "press",
+    indexable: true,
+    lastModified: "2026-10-21",
+  },
+  {
     route: "/start/",
     title: "Start Here",
     type: "section",

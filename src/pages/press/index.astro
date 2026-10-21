@@ -1,0 +1,162 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import { authorIdentity } from "../../data/identity";
+import { sitePath } from "../../lib/paths";
+
+const contactAddress = "swardhan1@icloud.com";
+const inquirySubject = encodeURIComponent("Independent Observer media or collaboration inquiry");
+---
+
+<BaseLayout
+  title="Press & collaboration"
+  description="Biography, research themes, selected work, interview topics, and contact information for Independent Observer and Siddhartha Harsh Wardhan."
+  currentPath="/press/"
+>
+  <PageHero
+    eyebrow="Press & collaboration"
+    title="A practical briefing page for journalists, researchers, and hosts."
+    description="Independent Observer is a source-led research and media project by Siddhartha Harsh Wardhan. This page provides a concise biography, discussion themes, selected work, and a direct inquiry route."
+  />
+
+  <section class="section section-white" aria-labelledby="press-biography-title">
+    <div class="shell page-grid">
+      <aside class="page-aside">
+        <span>Independent research</span>
+        <span>Evidence before reaction</span>
+        <span>Public correction</span>
+      </aside>
+      <div class="prose">
+        <p class="eyebrow">Short biography</p>
+        <h2 id="press-biography-title">Siddhartha Harsh Wardhan</h2>
+        <p>
+          Siddhartha Harsh Wardhan is the author and editor of Independent Observer, an independent
+          research and media project examining evidence, institutions, political economy, work,
+          science, and technology. The project publishes public explanations, research records,
+          audio essays, and a four-volume inquiry in development.
+        </p>
+        <p>
+          The editorial method separates evidence from interpretation, states methodological limits,
+          links readers to source trails, and maintains a visible correction process. A catalogue
+          entry is not presented as peer review, and working research is labeled by its actual
+          publication status.
+        </p>
+        <p>
+          Author identifier: <a
+            href={authorIdentity.orcidUrl}
+            target="_blank"
+            rel="me noopener noreferrer">ORCID {authorIdentity.orcid} ↗</a
+          >
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-navy" aria-labelledby="press-themes-title">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Conversation areas</p>
+          <h2 id="press-themes-title">Interview and discussion themes</h2>
+        </div>
+        <p>
+          The strongest conversations begin with a defined question, a source boundary, and room for
+          disagreement.
+        </p>
+      </div>
+      <div class="focused-reading-grid">
+        <article class="editorial-card">
+          <p class="eyebrow">Institutions & evidence</p>
+          <h3>How public claims become credible.</h3>
+          <p>
+            Evidence trails, correction systems, administrative capacity, public accountability, and
+            the difference between a measured fact and a political interpretation.
+          </p>
+        </article>
+        <article class="editorial-card">
+          <p class="eyebrow">Work & political economy</p>
+          <h3>Who carries the cost of economic change.</h3>
+          <p>
+            Labor, taxation, licensing, care, social citizenship, automation, and how institutional
+            rules distribute time, security, and bargaining power.
+          </p>
+        </article>
+        <article class="editorial-card">
+          <p class="eyebrow">Science & capability</p>
+          <h3>What technology can do—and what it cannot prove.</h3>
+          <p>
+            AI, infrastructure, energy, scientific literacy, and the governance questions that
+            appear when technical capability outpaces public understanding.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-white" aria-labelledby="press-selected-title">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Starting points</p>
+          <h2 id="press-selected-title">Selected work</h2>
+        </div>
+        <p>Reader-facing pages with sources, limitations, and clear publication-status labels.</p>
+      </div>
+      <div class="focused-reading-grid">
+        <article class="editorial-card">
+          <p class="eyebrow">Method</p>
+          <h3>The Independent Observer Method</h3>
+          <p>
+            A bounded statement of the project’s evidence, interpretation, and correction method.
+          </p>
+          <a href={sitePath("/research/the-independent-observer-method/")}>Read the method →</a>
+        </article>
+        <article class="editorial-card">
+          <p class="eyebrow">Public explanation</p>
+          <h3>What does a deportation number actually count?</h3>
+          <p>
+            A source-led guide to definitions, time periods, removals, returns, and comparison
+            limits in immigration-enforcement statistics.
+          </p>
+          <a href={sitePath("/library/documents/who-deported-more/")}>Read the explanation →</a>
+        </article>
+        <article class="editorial-card">
+          <p class="eyebrow">Reading collection</p>
+          <h3>AI, work & infrastructure</h3>
+          <p>
+            A curated path through public Independent Observer work on automation, labor, energy,
+            infrastructure, and human capability.
+          </p>
+          <a href={sitePath("/collections/ai-work-and-infrastructure/")}>Open the collection →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-rule" aria-labelledby="press-inquiry-title">
+    <div class="shell page-grid">
+      <aside class="page-aside">Media and collaboration inquiries</aside>
+      <div class="prose">
+        <h2 id="press-inquiry-title">Propose a specific conversation.</h2>
+        <p>
+          Journalists, podcast hosts, newsletter editors, researchers, and event organizers can send
+          a concise inquiry describing the outlet or project, proposed subject, format, deadline,
+          and intended publication date. An inquiry does not guarantee participation.
+        </p>
+        <p>
+          <a
+            class="button button-on-light"
+            href={`mailto:${contactAddress}?subject=${inquirySubject}`}>Email a media inquiry →</a
+          >
+          <a class="button button-secondary button-on-light" href={sitePath("/contact/")}
+            >Use the contact guide →</a
+          >
+        </p>
+        <p>
+          A downloadable press image is not currently published. Request a current approved image if
+          one is required for an article, programme, or event listing.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
