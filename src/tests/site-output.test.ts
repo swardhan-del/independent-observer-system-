@@ -25,6 +25,7 @@ const routes = [
   { route: "/videos/", file: "videos/index.html" },
   { route: "/about/", file: "about/index.html" },
   { route: "/contact/", file: "contact/index.html" },
+  { route: "/press/", file: "press/index.html" },
   { route: "/how-to-use-this-site/", file: "how-to-use-this-site/index.html" },
   { route: "/start/", file: "start/index.html" },
   { route: "/start-here/", file: "start-here/index.html" },
@@ -137,6 +138,18 @@ describe("built website", () => {
     expect(html).toContain("Choose a volume to enter the research");
     expect(html).toContain('aria-label="Explore the four volumes"');
     expect(html).toContain("hero-volume-link");
+  });
+
+  it("publishes a practical press and collaboration page", () => {
+    const html = readOutput("press/index.html");
+
+    expect(html).toContain("Press &amp; collaboration");
+    expect(html).toContain("Siddhartha Harsh Wardhan");
+    expect(html).toContain("Interview and discussion themes");
+    expect(html).toContain("Selected work");
+    expect(html).toContain("Media and collaboration inquiries");
+    expect(html).toContain("0009-0005-4228-1124");
+    expect(html).toContain("/library/documents/who-deported-more/");
   });
 
   it("keeps the homepage volume map compact and links each existing volume", () => {

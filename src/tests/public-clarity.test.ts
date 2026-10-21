@@ -14,6 +14,7 @@ const routes = [
   "research",
   "series",
   "contact",
+  "press",
   "governance",
   "topics",
   "documentaries",
