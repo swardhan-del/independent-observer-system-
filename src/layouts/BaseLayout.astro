@@ -15,6 +15,7 @@ import { slugify } from "../lib/slugs";
 import { citationDate } from "../lib/citations";
 import { socialLinks } from "../data/social";
 import { authorIdentity } from "../data/identity";
+import { socialPreviewCardForPath } from "../data/social-preview-cards";
 
 type Props = {
   title: string;
@@ -65,13 +66,14 @@ const fullTitle =
 const publicOrigin = Astro.site ?? new URL(Astro.url.origin);
 const canonicalUrl = new URL(publicSitePath(canonicalPath), publicOrigin).href;
 const websiteUrl = new URL(publicSitePath("/"), publicOrigin).href;
-const socialImage = ogImage ?? {
-  src: "/og-cover.jpg",
-  alt: "Independent Observer social preview",
-  type: "image/jpeg",
-  width: 1200,
-  height: 630,
-};
+const socialImage = ogImage ??
+  socialPreviewCardForPath(currentPath) ?? {
+    src: "/og-cover.jpg",
+    alt: "Independent Observer social preview",
+    type: "image/jpeg",
+    width: 1200,
+    height: 630,
+  };
 const socialImageSource = /^https?:\/\//i.test(socialImage.src)
   ? socialImage.src
   : publicSitePath(socialImage.src);

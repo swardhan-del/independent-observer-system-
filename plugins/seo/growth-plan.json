@@ -1,5 +1,5 @@
 {
-  "reviewedAt": "2026-09-06",
+  "reviewedAt": "2026-10-21",
   "objective": "Help readers find a useful answer, follow the project and discover canonical public pages in search.",
   "priorityPaths": [
     "/",
@@ -29,6 +29,11 @@
       "id": "distribution",
       "status": "planned",
       "action": "Prepare a short question-led summary and one verified figure for each completed explanation. Link back to its canonical page. External posts require authorization to send."
+    },
+    {
+      "id": "social-preview-cards",
+      "status": "implemented",
+      "action": "Added nine page-specific 1200x630 social preview images for the homepage, guided entry, public library, about and press pages, podcast, the deportation-statistics explainer, and two released research analyses. Track referral sessions and any available social preview metrics after the next measurement baseline; these metadata and asset changes alone do not establish a traffic increase."
     },
     {
       "id": "measurement",
