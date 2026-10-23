@@ -1,5 +1,5 @@
 {
-  "reviewedAt": "2026-09-06",
+  "reviewedAt": "2026-09-07",
   "objective": "Help readers find a useful answer, follow the project and discover canonical public pages in search.",
   "priorityPaths": [
     "/",
@@ -12,13 +12,13 @@
   "nextActions": [
     {
       "id": "search-baseline",
-      "status": "verified-prior-release-monitoring",
-      "action": "Prior release evidence records Google ownership verification, sitemap submission and homepage indexing. Use the existing weekly audit to record impressions, clicks and priority URL indexing when accessible. Do not infer traffic growth from technical checks."
+      "status": "setup-verified-baseline-pending-access",
+      "action": "Ownership verification, successful sitemap processing with 54 discovered pages, homepage indexing and an accepted recrawl request were observed on 2026-09-06. Do not repeat setup unless evidence warrants it. Collect the available 28-day query/page baseline and inspect priority landing pages when access returns; record dates and missing data. The 2026-09-07 browser check was blocked by the locked Mac, and GSC Wizard still required a subscription. Current traffic and indexing of other pages remain unknown."
     },
     {
       "id": "reader-discovery",
-      "status": "released-prior-release",
-      "action": "Compact library and paper-first reading were deployed in 949c190. Recheck their desktop/mobile behavior with scholarly clarity changes."
+      "status": "released-verified",
+      "action": "PR 40 introduced compact library browsing and paper-first reading in 949c190. PR 41 extends it with scholarly clarity at production commit de3a2a5855b77f9c19d79c1b79356e82929485af, verified on the custom domain on 2026-09-07. Mobile library search and Start Here discovery were rechecked during this weekly audit. Measure reader outcomes; do not repeat the completed redesign."
     },
     {
       "id": "editorial-cadence",
