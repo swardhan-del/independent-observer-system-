@@ -1,0 +1,146 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { sitePath } from "../../lib/paths";
+
+const title = "Administrative Obstruction in European Medical Education";
+const description =
+  "An anonymized case study of registration, practical-laboratory access, procedural ambiguity, and student-remedy pathways at a Central European medical institution.";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  currentPath="/research/administrative-obstruction-medical-education/"
+>
+  <article class="section section-white research-article">
+    <div class="shell article-shell">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href={sitePath("/research/")}>Research &amp; Essays</a><span aria-hidden="true">/</span
+        ><span>Administrative Obstruction in Medical Education</span>
+      </nav>
+
+      <div class="article-status" role="status">
+        Anonymized case study · public analytical adaptation
+      </div>
+
+      <header class="article-header">
+        <p class="eyebrow">Volume III · Education, medicine &amp; institutional governance</p>
+        <h1>
+          Administrative Obstruction in European Medical Education: A Case Study from a Central
+          European Institution
+        </h1>
+        <p class="article-standfirst">
+          A source-bounded examination of what happens when registration status, practical access,
+          departmental practice, and student-remedy procedures do not align.
+        </p>
+        <details class="article-version">
+          <summary>About this version</summary>
+          <p>Public anonymized adaptation v1 · reviewed 14 September 2026.</p>
+          <p>
+            The institution name, individual identities, case numbers, private contact details,
+            direct quotations, and other identifying details have been intentionally withheld.
+          </p>
+        </details>
+      </header>
+
+      <div class="article-body prose">
+        <section aria-labelledby="case-scope">
+          <h2 id="case-scope">Case scope</h2>
+          <p>
+            The underlying archive describes a dispute at a Central European medical institution in
+            which a registered student reported being denied access to required practical laboratory
+            activity despite maintaining an active academic status. The public question is narrower
+            than the private dispute: when institutional rules, registration systems, and
+            departmental practice diverge, what procedure should identify the controlling rule,
+            explain the restriction, and provide a timely review?
+          </p>
+          <p>
+            The source materials document repeated attempts to obtain a written policy basis and to
+            use internal and external complaint channels. This page does not reproduce the private
+            correspondence or evidentiary archive and does not ask readers to infer the identity of
+            the institution or any individual involved.
+          </p>
+        </section>
+
+        <section aria-labelledby="framework">
+          <h2 id="framework">Reference framework</h2>
+          <p>
+            The case is analyzed against general principles found in national higher-education law,
+            whistleblower-protection rules, the Charter of Fundamental Rights of the European Union,
+            and European quality-assurance standards. Those frameworks do not decide an individual
+            dispute by themselves. They provide reference points for equal treatment, transparent
+            procedure, adequate educational resources, and access to an effective remedy.
+          </p>
+          <ul>
+            <li>
+              National higher-education legislation governing student status and institutional
+              duties.
+            </li>
+            <li>
+              National whistleblower-protection legislation governing protected reporting and
+              retaliation safeguards.
+            </li>
+            <li>EU Charter principles concerning equal treatment and effective remedy.</li>
+            <li>
+              European higher-education quality-assurance expectations for transparent assessment
+              and adequate learning resources.
+            </li>
+          </ul>
+        </section>
+
+        <section aria-labelledby="governance-findings">
+          <h2 id="governance-findings">Governance questions raised by the record</h2>
+          <p>
+            The archive raises four institutional-design questions. First, repeat-course or
+            examination-only statuses should have explicit rules for laboratory access rather than
+            relying on unwritten departmental practice. Second, attendance and registration systems
+            should not create contradictory signals about whether a student may participate. Third,
+            a restriction should identify the decision-maker, the governing rule, and the factual
+            basis for applying it. Fourth, review should not depend entirely on the same unit that
+            made the disputed decision.
+          </p>
+          <p>
+            These are governance propositions, not findings of legal liability. The source archive
+            records allegations, correspondence, and procedural steps; this public adaptation does
+            not represent that an external authority adjudicated every disputed factual or legal
+            claim in the student's favor.
+          </p>
+        </section>
+
+        <section aria-labelledby="policy-lessons">
+          <h2 id="policy-lessons">Policy lessons</h2>
+          <p>
+            A defensible medical-education system should publish the consequences of each
+            registration category, define access to required practical teaching, maintain reliable
+            attendance records, and provide a written route for challenging an adverse
+            academic-access decision. The objective is not to remove academic discretion. It is to
+            make discretion traceable, reviewable, and consistent with the institution's own rules.
+          </p>
+          <p>
+            Where practical resources are capacity-constrained, the institution should disclose that
+            constraint before registration and specify how access will be allocated. Administrative
+            ambiguity should not become a substitute for an explicit educational policy.
+          </p>
+        </section>
+
+        <section aria-labelledby="publication-boundary">
+          <h2 id="publication-boundary">Publication boundary</h2>
+          <p>
+            This is an anonymized analytical adaptation of author-held case materials. It does not
+            identify the institution or individuals, does not reproduce the underlying evidentiary
+            record, and does not establish misconduct, legal liability, or the merits of any pending
+            or historical proceeding. Statements about the dispute are presented as claims
+            documented in the source archive unless expressly characterized as general legal or
+            policy analysis.
+          </p>
+          <p>
+            The complete original record remains outside the public website. Corrections or requests
+            to clarify the public text can be submitted through the <a href={sitePath("/contact/")}
+              >contact page</a
+            >.
+          </p>
+        </section>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
