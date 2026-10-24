@@ -31,6 +31,13 @@ fast-uri to 3.1.9, undici to 8.12.3 and Zod to 4.6.7. Related dependency graph
 changes are retained in the lockfile. Application content, publication flags,
 routes, CI gates and deployment settings are unchanged.
 
+The first recovery PR run passed both dependency audits, then stopped because
+the cached CI runtime was Node 22.23.3 and Astro requires at least 22.23.4.
+The four existing workflows now use Node 24, matching the already-configured
+Vercel runtime and the successful local test environment. Workflow permissions,
+publication gates and deployment triggers are preserved. The README records the
+minimum supported version and the shared CI and production runtime.
+
 ## Local verification
 
 - npm audit --audit-level=moderate: zero vulnerabilities reported.
