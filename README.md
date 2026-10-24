@@ -10,7 +10,7 @@ Repository provenance: this project was initialized as `independent-observer-sys
 
 ## Requirements
 
-- Node.js 22 or newer
+- Node.js 22.23.4 or newer; CI and Vercel use Node.js 24
 - npm 10 or newer
 
 ## Install
