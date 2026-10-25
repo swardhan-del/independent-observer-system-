@@ -526,14 +526,41 @@ describe("built website", () => {
     expect(html).toContain("Technical capability becomes political through procurement");
   });
 
-  it("keeps the science release-review placeholder intentionally empty", () => {
+  it("renders all topic-volume cells and verifies every curated internal destination", () => {
+    const html = readOutput("topics/index.html");
+    const cells = tags(html, "button").filter((tag) => tag.includes("data-matrix-cell"));
+    const connected = cells.filter((tag) => attribute(tag, "data-matrix-connected") === "true");
+
+    expect(cells).toHaveLength(24);
+    expect(connected).toHaveLength(18);
+    expect(html).toContain("Volume IV");
+    expect(html).toContain("The Last Human Workforce");
+
+    for (const cell of connected) {
+      const serializedLinks = attribute(cell, "data-matrix-links")
+        ?.replaceAll("&quot;", '"')
+        .replaceAll("&amp;", "&")
+        .replaceAll("&#39;", "'");
+      const links = JSON.parse(serializedLinks ?? "[]") as Array<{ path: string; label: string }>;
+      expect(links.length).toBeGreaterThan(0);
+      for (const link of links) {
+        const pathname = new URL(link.path, "https://independentobserver.org").pathname;
+        const outputPath = join(distRoot, pathname.replace(/^\//, ""), "index.html");
+        expect(existsSync(outputPath), `${link.label} should resolve to ${pathname}`).toBe(true);
+      }
+    }
+  });
+
+  it("shows accurate availability for work that remains in editorial development", () => {
     const html = readOutput("topics/science/index.html");
 
     expect(html).toContain(
       "Regrowing Humanity: How Robotic Limbs Are Becoming Integrated Extensions of the Human Body",
     );
     expect(html).toContain("topic-review-grid");
-    expect(html).toContain("Project outline · not a published article");
+    expect(html).toContain("Public preview available");
+    expect(html).toContain("A selected research article and the Volume IV roadmap are public");
+    expect(html).not.toContain("Project outline · not a published article");
   });
 
   it("renders the Volume II shelf with method, contribution, and public-safe papers", () => {

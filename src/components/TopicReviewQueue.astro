@@ -10,7 +10,7 @@ type Props = {
 const {
   signals,
   title = "In development",
-  intro = "These projects are not available as completed articles. Their titles describe the planned work; publication dates have not been announced.",
+  intro = "This section tracks work still in development. Some projects already have a bounded preview or related public article; each card shows what is available.",
 } = Astro.props as Props;
 ---
 
@@ -34,7 +34,8 @@ const {
               </div>
               <h3>{signal.title}</h3>
               <p class="topic-review-category">{signal.category}</p>
-              <p class="topic-review-note">Project outline · not a published article</p>
+              <p>{signal.description}</p>
+              <p class="topic-review-note">{signal.publicState}</p>
             </article>
           ))}
         </div>

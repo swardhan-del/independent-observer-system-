@@ -28,9 +28,11 @@ export type TopicPathway = {
 export type PathwayContentLink = {
   kind:
     | "Series roadmap"
+    | "Published article"
     | "Author paper"
     | "Cross-volume author paper"
     | "Research preview"
+    | "Concept preview"
     | "Documentary preview"
     | "Video preview";
   label: string;
@@ -42,6 +44,14 @@ export type VolumeTopicConnection = {
   topicSlugs: string[];
   coreIdeas: string[];
   contentLinks: PathwayContentLink[];
+  /** Curated public entry points for a specific topic-volume relationship. */
+  topicConnections: Partial<Record<string, TopicVolumeCellConnection>>;
+};
+
+export type TopicVolumeCellConnection = {
+  lens: string;
+  coreIdeas: string[];
+  contentLinks: PathwayContentLink[];
 };
 
 export type ReviewQueueSignal = {
@@ -49,6 +59,7 @@ export type ReviewQueueSignal = {
   status: "In editorial development";
   category: string;
   description: string;
+  publicState: "Public preview available" | "Related public work available";
   topicSlugs: string[];
 };
 
@@ -124,7 +135,7 @@ export const topicPathways: TopicPathway[] = [
         path: "/library/documents/independent-observer-volume-one/",
       },
       {
-        kind: "Research preview",
+        kind: "Concept preview",
         label: "Lawsuits Are Illusions",
         path: "/research/lawsuits-are-illusions-where-institutional-power-actually-resides/",
       },
@@ -157,7 +168,7 @@ export const topicPathways: TopicPathway[] = [
         path: "/series/the-last-human-workforce/",
       },
       {
-        kind: "Research preview",
+        kind: "Concept preview",
         label: "The Autonomous Illusion",
         path: "/research/the-autonomous-illusion/",
       },
@@ -215,7 +226,7 @@ export const topicPathways: TopicPathway[] = [
         path: "/series/the-last-human-workforce/",
       },
       {
-        kind: "Research preview",
+        kind: "Concept preview",
         label: "The Autonomous Illusion",
         path: "/research/the-autonomous-illusion/",
       },
@@ -242,7 +253,7 @@ export const topicPathways: TopicPathway[] = [
         path: "/series/the-last-human-workforce/",
       },
       {
-        kind: "Research preview",
+        kind: "Concept preview",
         label: "The Autonomous Illusion",
         path: "/research/the-autonomous-illusion/",
       },
@@ -309,7 +320,7 @@ export const topicPathways: TopicPathway[] = [
 export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
   "Volume I": {
     lens: "Foundation, evidence, and democratic capacity",
-    topicSlugs: ["history", "politics", "law"],
+    topicSlugs: ["history", "politics", "economics", "law", "technology"],
     coreIdeas: [
       "Method before conclusion: define evidence, interpretation, and uncertainty.",
       "Democratic capacity depends on usable institutions, not only formal legitimacy.",
@@ -322,7 +333,7 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
         path: "/library/documents/independent-observer-volume-one/",
       },
       {
-        kind: "Research preview",
+        kind: "Concept preview",
         label: "Lawsuits Are Illusions",
         path: "/research/lawsuits-are-illusions-where-institutional-power-actually-resides/",
       },
@@ -332,10 +343,112 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
         path: "/videos/why-evidence-alone-is-not-enough/",
       },
     ],
+    topicConnections: {
+      history: {
+        lens: "Method, memory, and historical context",
+        coreIdeas: [
+          "Place public claims in historical context before drawing conclusions.",
+          "Keep evidence, interpretation, and uncertainty visible across time.",
+        ],
+        contentLinks: [
+          {
+            kind: "Published article",
+            label: "The Independent Observer Method",
+            path: "/research/the-independent-observer-method/",
+          },
+          {
+            kind: "Author paper",
+            label: "Independent Observer: Volume I foundational manifesto",
+            path: "/library/documents/independent-observer-volume-one/",
+          },
+        ],
+      },
+      politics: {
+        lens: "Democratic capacity and public reasoning",
+        coreIdeas: [
+          "Assess whether people can use and correct institutions in practice.",
+          "Separate formal legitimacy from the capacity that makes public authority usable.",
+        ],
+        contentLinks: [
+          {
+            kind: "Published article",
+            label: "The Independent Observer Method",
+            path: "/research/the-independent-observer-method/",
+          },
+          {
+            kind: "Author paper",
+            label: "Independent Observer: Volume I foundational manifesto",
+            path: "/library/documents/independent-observer-volume-one/",
+          },
+          {
+            kind: "Video preview",
+            label: "Why Evidence Alone Is Not Enough",
+            path: "/videos/why-evidence-alone-is-not-enough/",
+          },
+        ],
+      },
+      law: {
+        lens: "Procedure, evidence, and remedy",
+        coreIdeas: [
+          "Trace how a documented claim moves through procedure to review.",
+          "Distinguish formal legal remedies from practical access to them.",
+        ],
+        contentLinks: [
+          {
+            kind: "Author paper",
+            label: "Independent Observer: Volume I foundational manifesto",
+            path: "/library/documents/independent-observer-volume-one/",
+          },
+          {
+            kind: "Author paper",
+            label: "The Illusion of Equality",
+            path: "/library/documents/the-illusion-of-equality/",
+          },
+          {
+            kind: "Concept preview",
+            label: "Lawsuits Are Illusions",
+            path: "/research/lawsuits-are-illusions-where-institutional-power-actually-resides/",
+          },
+        ],
+      },
+      economics: {
+        lens: "Equality, ownership, and political economy",
+        coreIdeas: [
+          "Compare formal equality with the legal and economic structures distributing power.",
+          "Read labor, automation, and incarceration as connected institutional questions.",
+        ],
+        contentLinks: [
+          {
+            kind: "Author paper",
+            label: "The Illusion of Equality",
+            path: "/library/documents/the-illusion-of-equality/",
+          },
+          {
+            kind: "Author paper",
+            label: "A Systems-Centered Manifesto on Automation, Education, and the Carceral State",
+            path: "/library/documents/a-systems-centered-manifesto/",
+          },
+        ],
+      },
+      technology: {
+        lens: "Automation, labor, and democratic capacity",
+        coreIdeas: [
+          "Treat automation as a labor and institutional transition, not only a software feature.",
+          "Connect skill development and reentry to how communities adapt to industrial change.",
+        ],
+        contentLinks: [
+          {
+            kind: "Author paper",
+            label: "A Systems-Centered Manifesto on Automation, Education, and the Carceral State",
+            path: "/library/documents/a-systems-centered-manifesto/",
+          },
+        ],
+      },
+    },
   },
   "Volume II": {
     lens: "Sovereignty, institutions, and public power",
-    topicSlugs: ["history", "politics", "economics"],
+    topicSlugs: ["history", "politics", "economics", "law"],
     coreIdeas: [
       "Sovereignty is shaped by constitutional design, enforcement, alliances, and markets.",
       "Historical power shifts remain active in present political arrangements.",
@@ -363,10 +476,113 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
         path: "/documentaries/could-america-leave-nato/",
       },
     ],
+    topicConnections: {
+      history: {
+        lens: "Historical power and political memory",
+        coreIdeas: [
+          "Trace how historical power shifts shape present institutions.",
+          "Compare migration and enforcement claims using defined categories and time periods.",
+        ],
+        contentLinks: [
+          {
+            kind: "Author paper",
+            label: "From Colonization to China’s Rise",
+            path: "/library/documents/from-colonization-to-chinas-rise/",
+          },
+          {
+            kind: "Author paper",
+            label: "Who Deported More? A Guide to Comparing Deportation Statistics",
+            path: "/library/documents/who-deported-more/",
+          },
+        ],
+      },
+      politics: {
+        lens: "Sovereignty, authority, and membership",
+        coreIdeas: [
+          "Follow how institutions define membership and exercise public power.",
+          "Read alliances and enforcement through constitutional and institutional arrangements.",
+        ],
+        contentLinks: [
+          {
+            kind: "Published article",
+            label: "Democracy’s Achilles Heel",
+            path: "/research/democracys-achilles-heel/",
+          },
+          {
+            kind: "Author paper",
+            label: "Who Deported More? A Guide to Comparing Deportation Statistics",
+            path: "/library/documents/who-deported-more/",
+          },
+          {
+            kind: "Author paper",
+            label: "The Latino Irony",
+            path: "/library/documents/latino-irony/",
+          },
+          {
+            kind: "Author paper",
+            label: "From Colonization to China’s Rise",
+            path: "/library/documents/from-colonization-to-chinas-rise/",
+          },
+          {
+            kind: "Documentary preview",
+            label: "Could America Leave NATO?",
+            path: "/documentaries/could-america-leave-nato/",
+          },
+        ],
+      },
+      economics: {
+        lens: "Migration, enforcement, and distribution",
+        coreIdeas: [
+          "Define removals and returns before comparing enforcement patterns.",
+          "Connect migration policy to labor, distribution, and institutional incentives.",
+        ],
+        contentLinks: [
+          {
+            kind: "Author paper",
+            label: "Who Deported More? A Guide to Comparing Deportation Statistics",
+            path: "/library/documents/who-deported-more/",
+          },
+          {
+            kind: "Author paper",
+            label: "The Latino Irony",
+            path: "/library/documents/latino-irony/",
+          },
+          {
+            kind: "Author paper",
+            label: "Two Masks, One Face",
+            path: "/library/documents/two-masks-one-face/",
+          },
+          {
+            kind: "Author paper",
+            label: "The Geography of Enslaved Wealth",
+            path: "/library/documents/geography-of-enslaved-wealth/",
+          },
+        ],
+      },
+      law: {
+        lens: "Citizenship, voting, and legal membership",
+        coreIdeas: [
+          "Examine how law defines membership and political voice across borders.",
+          "Connect enforcement statistics to the legal categories and institutional rules behind them.",
+        ],
+        contentLinks: [
+          {
+            kind: "Author paper",
+            label: "Citizens Without a Country",
+            path: "/library/documents/citizens-without-a-country/",
+          },
+          {
+            kind: "Author paper",
+            label: "Who Deported More? A Guide to Comparing Deportation Statistics",
+            path: "/library/documents/who-deported-more/",
+          },
+        ],
+      },
+    },
   },
   "Volume III": {
     lens: "Work, social citizenship, and economic insecurity",
-    topicSlugs: ["history", "economics", "law", "politics"],
+    topicSlugs: ["history", "economics", "law", "politics", "technology"],
     coreIdeas: [
       "Work is shaped by licensing, welfare, taxation, health systems, and public visibility.",
       "Economic insecurity is institutional, not only individual.",
@@ -385,16 +601,113 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
         path: "/library/documents/children-left-behind-after-a-war/",
       },
       {
-        kind: "Research preview",
-        label: "The Welfare Paradox",
-        path: "/research/the-welfare-paradox/",
-      },
-      {
         kind: "Series roadmap",
         label: "Managed Decline",
         path: "/series/managed-decline/",
       },
     ],
+    topicConnections: {
+      history: {
+        lens: "Industrial change, war, and institutional memory",
+        coreIdeas: [
+          "Connect industrial change and war to the institutions distributing risk.",
+          "Treat public memory as part of how systems record and respond to social costs.",
+        ],
+        contentLinks: [
+          {
+            kind: "Author paper",
+            label: "Children Left Behind After a War",
+            path: "/library/documents/children-left-behind-after-a-war/",
+          },
+          {
+            kind: "Series roadmap",
+            label: "Managed Decline",
+            path: "/series/managed-decline/",
+          },
+        ],
+      },
+      economics: {
+        lens: "Labor, taxation, welfare, and economic security",
+        coreIdeas: [
+          "Follow who carries the costs of work, taxation, and economic change.",
+          "Evaluate policy proposals alongside eligibility, reporting, and administrative design.",
+        ],
+        contentLinks: [
+          {
+            kind: "Author paper",
+            label: "The Wardhan Tax Doctrine",
+            path: "/library/documents/wardhan-tax-doctrine/",
+          },
+          {
+            kind: "Series roadmap",
+            label: "Managed Decline",
+            path: "/series/managed-decline/",
+          },
+        ],
+      },
+      law: {
+        lens: "Policing, constitutional exposure, and practical remedy",
+        coreIdeas: [
+          "Study discretionary policing alongside work, welfare, and institutional response.",
+          "Keep constitutional doctrine distinct from claims about downstream social effects.",
+        ],
+        contentLinks: [
+          {
+            kind: "Author paper",
+            label: "From Vietnam to Terry v. Ohio",
+            path: "/library/documents/from-vietnam-to-terry-ohio/",
+          },
+          {
+            kind: "Concept preview",
+            label: "Lawsuits Are Illusions",
+            path: "/research/lawsuits-are-illusions-where-institutional-power-actually-resides/",
+          },
+        ],
+      },
+      politics: {
+        lens: "Public systems and social citizenship",
+        coreIdeas: [
+          "Ask how public institutions distribute security, risk, and access.",
+          "Read welfare and labor arrangements as questions of public capacity and accountability.",
+        ],
+        contentLinks: [
+          {
+            kind: "Author paper",
+            label: "Children Left Behind After a War",
+            path: "/library/documents/children-left-behind-after-a-war/",
+          },
+          {
+            kind: "Series roadmap",
+            label: "Managed Decline",
+            path: "/series/managed-decline/",
+          },
+        ],
+      },
+      technology: {
+        lens: "Industrial technology, energy, and changing work",
+        coreIdeas: [
+          "Trace how industrial systems reshape jobs, infrastructure, and local economies.",
+          "Connect technical capacity to energy use, maintenance, and the distribution of work.",
+        ],
+        contentLinks: [
+          {
+            kind: "Published article",
+            label: "The Server as a Furnace",
+            path: "/research/the-server-as-a-furnace/",
+          },
+          {
+            kind: "Published article",
+            label: "Factories Return but Do the Jobs?",
+            path: "/research/factories-return-but-do-the-jobs/",
+          },
+          {
+            kind: "Series roadmap",
+            label: "Managed Decline",
+            path: "/series/managed-decline/",
+          },
+        ],
+      },
+    },
   },
   "Volume IV": {
     lens: "AI, science, infrastructure, and human capability",
@@ -407,7 +720,7 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
     ],
     contentLinks: [
       {
-        kind: "Research preview",
+        kind: "Concept preview",
         label: "The Autonomous Illusion",
         path: "/research/the-autonomous-illusion/",
       },
@@ -432,8 +745,149 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
         path: "/documentaries/the-martian-illusion/",
       },
     ],
+    topicConnections: {
+      technology: {
+        lens: "Automation, infrastructure, and human work",
+        coreIdeas: [
+          "Follow the compute, data, energy, maintenance, and labor behind automation.",
+          "Separate task substitution from augmentation and hidden human work.",
+        ],
+        contentLinks: [
+          {
+            kind: "Published article",
+            label: "The Last Human Workforce",
+            path: "/research/the-last-human-workforce/",
+          },
+          {
+            kind: "Concept preview",
+            label: "The Autonomous Illusion",
+            path: "/research/the-autonomous-illusion/",
+          },
+          {
+            kind: "Author paper",
+            label: "Disconnected Hearts — The Tech Revolution of Intimacy",
+            path: "/library/documents/disconnected-hearts/",
+          },
+          {
+            kind: "Documentary preview",
+            label: "The Martian Illusion",
+            path: "/documentaries/the-martian-illusion/",
+          },
+        ],
+      },
+      science: {
+        lens: "Evidence, human capability, and uncertainty",
+        coreIdeas: [
+          "Show what evidence supports a capability claim and where uncertainty remains.",
+          "Connect medical and technical possibilities to human limits and release boundaries.",
+        ],
+        contentLinks: [
+          {
+            kind: "Concept preview",
+            label: "The Autonomous Illusion",
+            path: "/research/the-autonomous-illusion/",
+          },
+          {
+            kind: "Research preview",
+            label: "Regrowing Humanity",
+            path: "/research/regrowing-humanity/",
+          },
+          {
+            kind: "Documentary preview",
+            label: "The Martian Illusion",
+            path: "/documentaries/the-martian-illusion/",
+          },
+          {
+            kind: "Author paper",
+            label: "Entanglement, No-Signalling, and the Real Path to Quantum Advantage",
+            path: "/library/documents/entanglement-primer/",
+          },
+          {
+            kind: "Author paper",
+            label: "When Real Science Becomes Science Fiction",
+            path: "/library/documents/when-real-science-becomes-science-fiction/",
+          },
+        ],
+      },
+      economics: {
+        lens: "Task change, labor, and the distribution of gains",
+        coreIdeas: [
+          "Distinguish job-task exposure from claims about whole occupations disappearing.",
+          "Track who captures productivity gains and who bears transition costs.",
+        ],
+        contentLinks: [
+          {
+            kind: "Concept preview",
+            label: "The Autonomous Illusion",
+            path: "/research/the-autonomous-illusion/",
+          },
+          {
+            kind: "Author paper",
+            label: "The Double Tax on Time",
+            path: "/library/documents/double-tax-on-time/",
+          },
+          {
+            kind: "Author paper",
+            label: "The Lottery of Luck",
+            path: "/library/documents/lottery-of-luck/",
+          },
+          {
+            kind: "Published article",
+            label: "The Last Human Workforce",
+            path: "/research/the-last-human-workforce/",
+          },
+          {
+            kind: "Series roadmap",
+            label: "The Last Human Workforce · Volume IV",
+            path: "/series/the-last-human-workforce/",
+          },
+        ],
+      },
+      politics: {
+        lens: "Technical capability and public power",
+        coreIdeas: [
+          "Read procurement, standards, lobbying, and public investment as political choices.",
+          "Ask who governs opaque systems and who can review their consequences.",
+        ],
+        contentLinks: [
+          {
+            kind: "Cross-volume author paper",
+            label: "The Empire of Distraction",
+            path: "/library/documents/empire-of-distraction/",
+          },
+          {
+            kind: "Concept preview",
+            label: "The Autonomous Illusion",
+            path: "/research/the-autonomous-illusion/",
+          },
+          {
+            kind: "Published article",
+            label: "The Last Human Workforce",
+            path: "/research/the-last-human-workforce/",
+          },
+          {
+            kind: "Series roadmap",
+            label: "The Last Human Workforce · Volume IV",
+            path: "/series/the-last-human-workforce/",
+          },
+        ],
+      },
+    },
   },
 };
+
+export function topicVolumeConnectionFor(volume: string, topicSlug: string) {
+  const volumeConnection = volumeTopicConnections[volume];
+  const detail = volumeConnection?.topicConnections[topicSlug];
+  const connected = Boolean(volumeConnection?.topicSlugs.includes(topicSlug));
+
+  return {
+    connected,
+    lens: detail?.lens ?? volumeConnection?.lens ?? "Research connection",
+    coreIdeas: connected ? (detail?.coreIdeas ?? volumeConnection?.coreIdeas ?? []) : [],
+    contentLinks: connected ? (detail?.contentLinks ?? []) : [],
+  };
+}
 
 /**
  * Public development signals distinguish planned research from available reading copies.
@@ -445,43 +899,36 @@ export const reviewQueueSignals: ReviewQueueSignal[] = [
     status: "In editorial development",
     category: "Science & Technology",
     description:
-      "Concept preview in editorial development; a public research article is not yet available.",
+      "A bounded public preview is available. An expanded adaptation still needs owner-release, accessibility, and web QA review.",
+    publicState: "Public preview available",
     topicSlugs: ["science", "technology"],
   },
   {
-    title: "The Independent Observer Method",
+    title: "Independent Observer · Volume I manuscript",
     status: "In editorial development",
     category: "Method & Democratic Capacity",
-    description: "Method draft in editorial development; publication pending.",
+    description:
+      "The method article and foundational paper are public; the book-length Volume I project remains in editorial development.",
+    publicState: "Related public work available",
     topicSlugs: ["history", "politics", "law"],
   },
   {
-    title: "The Last Human Workforce",
+    title: "The Last Human Workforce · Volume IV manuscript",
     status: "In editorial development",
     category: "AI & Human Capability",
-    description: "Research draft in editorial development; publication pending.",
+    description:
+      "A selected research article and the Volume IV roadmap are public; the book-length manuscript remains in editorial development.",
+    publicState: "Related public work available",
     topicSlugs: ["technology", "economics", "science"],
-  },
-  {
-    title: "The Server as a Furnace",
-    status: "In editorial development",
-    category: "Technology & Energy",
-    description: "Research draft in editorial development; publication pending.",
-    topicSlugs: ["technology", "science", "economics"],
   },
   {
     title: "Borrowed Labor",
     status: "In editorial development",
     category: "Labor & Political Economy",
-    description: "Research draft in editorial development; publication pending.",
+    description:
+      "A public preview is available. A fuller adaptation remains in development pending current-data and rights review.",
+    publicState: "Public preview available",
     topicSlugs: ["economics", "politics", "history"],
-  },
-  {
-    title: "Democracy’s Achilles’ Heel",
-    status: "In editorial development",
-    category: "Democracy & Institutions",
-    description: "Research draft in editorial development; publication pending.",
-    topicSlugs: ["politics", "law", "history"],
   },
 ];
 

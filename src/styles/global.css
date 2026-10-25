@@ -5531,6 +5531,67 @@ kbd {
 }
 
 @media print {
+  @page topic-matrix {
+    size: landscape;
+    margin: 0.35in;
+  }
+
+  .topic-volume-matrix {
+    page: topic-matrix;
+    break-before: page;
+  }
+
+  .topic-matrix-wrap {
+    overflow: visible;
+    border: 0;
+  }
+
+  .topic-matrix {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+    font-size: 8pt;
+  }
+
+  .topic-matrix caption {
+    position: static;
+    width: auto;
+    height: auto;
+    margin-bottom: 6pt;
+    overflow: visible;
+    clip: auto;
+    color: #17263b;
+    font-size: 10pt;
+    font-weight: 700;
+    text-align: left;
+    white-space: normal;
+  }
+
+  .topic-matrix th,
+  .topic-matrix td {
+    padding: 5pt;
+    break-inside: avoid;
+  }
+
+  .topic-matrix thead th,
+  .topic-matrix tbody th {
+    min-width: 0;
+  }
+
+  .topic-matrix-cell {
+    min-height: 0;
+    padding: 5pt;
+    font-size: 7pt;
+  }
+
+  .topic-matrix-cell small {
+    font-size: 6.5pt;
+  }
+
+  .topic-matrix-detail {
+    display: none;
+  }
+
   .site-header,
   .site-footer,
   .reading-list-tools,

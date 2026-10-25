@@ -6,6 +6,7 @@ import {
   reviewQueueSignals,
   topicPathways,
   topicPluginDefinitions,
+  topicVolumeConnectionFor,
   volumeTopicConnections,
 } from "../../plugins/topic-discovery/catalog";
 import { topicHubs } from "../data/topics";
@@ -107,15 +108,28 @@ describe("topic discovery plugin", () => {
     expect(history?.reviewIntro).toContain("underlying drafts remain unlinked and unpublished");
   });
 
-  it("keeps six Dropbox-derived review signals metadata-only and held for approval", () => {
-    expect(reviewQueueSignals).toHaveLength(6);
+  it("keeps the editorial queue aligned with public releases and previews", () => {
+    expect(reviewQueueSignals).toHaveLength(4);
     expect(reviewQueueSignals.every((signal) => signal.status === "In editorial development")).toBe(
       true,
+    );
+    expect(reviewQueueSignals.every((signal) => signal.publicState.length > 0)).toBe(true);
+    expect(reviewQueueSignals.map((signal) => signal.title)).toEqual(
+      expect.arrayContaining([
+        "Independent Observer · Volume I manuscript",
+        "The Last Human Workforce · Volume IV manuscript",
+      ]),
+    );
+    expect(reviewQueueSignals.map((signal) => signal.title)).not.toContain(
+      "The Server as a Furnace",
+    );
+    expect(reviewQueueSignals.map((signal) => signal.title)).not.toContain(
+      "Democracy’s Achilles’ Heel",
     );
     expect(
       reviewQueueSignals.every((signal) => !signal.description.includes("Dropbox/approved")),
     ).toBe(true);
-    expect(reviewQueueForTopic("science")).toHaveLength(3);
+    expect(reviewQueueForTopic("science")).toHaveLength(2);
     expect(reviewQueueForTopic("law").length).toBeGreaterThan(0);
   });
 
@@ -162,7 +176,8 @@ describe("topic discovery plugin", () => {
     expect(topicVolumeMatrix).toContain("data-matrix-links");
     expect(topicVolumeMatrix).toContain("replaceState");
     expect(topicReviewQueue).toContain("signal.status");
-    expect(topicReviewQueue).toContain("Project outline · not a published article");
+    expect(topicReviewQueue).toContain("signal.description");
+    expect(topicReviewQueue).toContain("signal.publicState");
     expect(topicReviewQueue).toContain("intro");
     expect(topicSpineNavigator).toContain(
       'aria-label="Explore the Independent Observer research spine"',
@@ -239,5 +254,82 @@ describe("topic discovery plugin", () => {
         }),
       ]),
     );
+  });
+
+  it("gives every connected field-volume cell its own source-backed entry points", () => {
+    const connectedCells = Object.entries(volumeTopicConnections).flatMap(
+      ([volume, connection]) => {
+        expect(Object.keys(connection.topicConnections).sort()).toEqual(
+          [...connection.topicSlugs].sort(),
+        );
+        return connection.topicSlugs.map((topicSlug) => {
+          const cell = topicVolumeConnectionFor(volume, topicSlug);
+          const paths = cell.contentLinks.map((link) => link.path);
+          expect(cell.connected).toBe(true);
+          expect(cell.lens.length).toBeGreaterThan(0);
+          expect(cell.coreIdeas.length).toBeGreaterThan(0);
+          expect(paths.length).toBeGreaterThan(0);
+          expect(new Set(paths).size).toBe(paths.length);
+          expect(paths.every((path) => path.startsWith("/"))).toBe(true);
+          return `${volume}:${topicSlug}`;
+        });
+      },
+    );
+
+    expect(connectedCells).toHaveLength(18);
+  });
+
+  it("keeps unsupported cells link-free and maps law and Terry work to their supported volumes", () => {
+    const volumeTwoTechnology = topicVolumeConnectionFor("Volume II", "technology");
+    expect(volumeTwoTechnology.connected).toBe(false);
+    expect(volumeTwoTechnology.contentLinks).toEqual([]);
+
+    const volumeTwoLaw = topicVolumeConnectionFor("Volume II", "law");
+    expect(volumeTwoLaw.connected).toBe(true);
+    expect(volumeTwoLaw.contentLinks).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: "Citizens Without a Country",
+          path: "/library/documents/citizens-without-a-country/",
+        }),
+      ]),
+    );
+
+    const volumeThreeLaw = topicVolumeConnectionFor("Volume III", "law");
+    expect(volumeThreeLaw.contentLinks).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: "From Vietnam to Terry v. Ohio",
+          path: "/library/documents/from-vietnam-to-terry-ohio/",
+        }),
+      ]),
+    );
+    expect(volumeThreeLaw.coreIdeas.join(" ")).toContain("constitutional doctrine");
+
+    const volumeThreeTechnology = topicVolumeConnectionFor("Volume III", "technology");
+    expect(volumeThreeTechnology.contentLinks).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: "The Server as a Furnace",
+          kind: "Published article",
+          path: "/research/the-server-as-a-furnace/",
+        }),
+      ]),
+    );
+  });
+
+  it("shows the fourth volume and every topic row when the matrix is printed", () => {
+    const styles = readFileSync(join(process.cwd(), "src/styles/global.css"), "utf8");
+    const printStart = styles.indexOf("@media print");
+    const printRules = styles.slice(
+      printStart,
+      styles.indexOf("@media (max-width: 900px)", printStart),
+    );
+    expect(printRules).toContain("@page topic-matrix");
+    expect(printRules).toContain("size: landscape");
+    expect(printRules).toContain(".topic-matrix-wrap {\n    overflow: visible;");
+    expect(printRules).toContain("min-width: 0;");
+    expect(printRules).toContain("table-layout: fixed;");
+    expect(printRules).toContain(".topic-matrix-detail {\n    display: none;");
   });
 });

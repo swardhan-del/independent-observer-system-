@@ -1,7 +1,7 @@
 ---
 import {
   topicPluginDefinitions,
-  volumeTopicConnections,
+  topicVolumeConnectionFor,
 } from "../../plugins/topic-discovery/catalog";
 import { seriesItems } from "../data/series";
 import { sitePath } from "../lib/paths";
@@ -9,7 +9,7 @@ import { slugify } from "../lib/slugs";
 
 const defaultTopic = topicPluginDefinitions[0];
 const defaultVolume = seriesItems[0];
-const defaultConnection = volumeTopicConnections[defaultVolume.volume];
+const defaultCellConnection = topicVolumeConnectionFor(defaultVolume.volume, defaultTopic.slug);
 ---
 
 <section
@@ -60,9 +60,8 @@ const defaultConnection = volumeTopicConnections[defaultVolume.volume];
                   <span>{topic.kicker}</span>
                 </th>
                 {seriesItems.map((volume) => {
-                  const connection = volumeTopicConnections[volume.volume];
-                  const connected = connection.topicSlugs.includes(topic.slug);
-                  const publicLinks = connection.contentLinks.map((content) => ({
+                  const cellConnection = topicVolumeConnectionFor(volume.volume, topic.slug);
+                  const publicLinks = cellConnection.contentLinks.map((content) => ({
                     ...content,
                     path: sitePath(content.path),
                   }));
@@ -70,7 +69,10 @@ const defaultConnection = volumeTopicConnections[defaultVolume.volume];
                     <td>
                       <button
                         type="button"
-                        class:list={{ "topic-matrix-cell": true, "is-connected": connected }}
+                        class:list={{
+                          "topic-matrix-cell": true,
+                          "is-connected": cellConnection.connected,
+                        }}
                         data-matrix-cell
                         data-matrix-topic={topic.slug}
                         data-matrix-volume={volume.volume}
@@ -78,18 +80,20 @@ const defaultConnection = volumeTopicConnections[defaultVolume.volume];
                         data-matrix-volume-title={volume.title}
                         data-matrix-volume-href={sitePath(`/series/${slugify(volume.title)}/`)}
                         data-matrix-topic-href={sitePath(`/topics/${topic.slug}/`)}
-                        data-matrix-lens={connection.lens}
-                        data-matrix-connected={String(connected)}
-                        data-matrix-ideas={connection.coreIdeas.join("||")}
+                        data-matrix-lens={cellConnection.lens}
+                        data-matrix-connected={String(cellConnection.connected)}
+                        data-matrix-ideas={cellConnection.coreIdeas.join("||")}
                         data-matrix-links={JSON.stringify(publicLinks)}
                         aria-pressed={
                           topic === defaultTopic && volume === defaultVolume ? "true" : "false"
                         }
-                        aria-label={`${topic.name}, ${volume.volume}: ${connected ? "connected" : "no dedicated public entry point"}`}
+                        aria-label={`${topic.name}, ${volume.volume}: ${cellConnection.connected ? "connected" : "no dedicated public entry point"}`}
                       >
-                        <span>{connected ? "Connected" : "Not mapped"}</span>
+                        <span>{cellConnection.connected ? "Connected" : "Not mapped"}</span>
                         <small>
-                          {connected ? connection.lens : "No dedicated public entry point"}
+                          {cellConnection.connected
+                            ? cellConnection.lens
+                            : "No dedicated public entry point"}
                         </small>
                       </button>
                     </td>
@@ -106,7 +110,7 @@ const defaultConnection = volumeTopicConnections[defaultVolume.volume];
       <div>
         <p class="eyebrow">Selected connection</p>
         <h3 data-matrix-detail-title>{defaultTopic.name} · {defaultVolume.volume}</h3>
-        <p data-matrix-detail-state>{defaultConnection.lens}</p>
+        <p data-matrix-detail-state>{defaultCellConnection.lens}</p>
       </div>
       <div>
         <p data-matrix-detail-description>
@@ -115,7 +119,7 @@ const defaultConnection = volumeTopicConnections[defaultVolume.volume];
         </p>
         <p class="topic-matrix-detail-label">Core ideas</p>
         <ul data-matrix-detail-ideas>
-          {defaultConnection.coreIdeas.map((idea) => <li>{idea}</li>)}
+          {defaultCellConnection.coreIdeas.map((idea) => <li>{idea}</li>)}
         </ul>
         <div class="topic-matrix-detail-actions">
           <a
@@ -133,7 +137,7 @@ const defaultConnection = volumeTopicConnections[defaultVolume.volume];
         <div class="topic-matrix-detail-links" data-matrix-detail-links>
           <p class="topic-matrix-detail-label">Public entry points</p>
           {
-            defaultConnection.contentLinks.map((content) => (
+            defaultCellConnection.contentLinks.map((content) => (
               <a href={sitePath(content.path)}>
                 <span>{content.kind}</span>
                 {content.label} →
