@@ -320,7 +320,7 @@ describe("topic discovery plugin", () => {
 
   it("shows the fourth volume and every topic row when the matrix is printed", () => {
     const styles = readFileSync(join(process.cwd(), "src/styles/global.css"), "utf8");
-    const printStart = styles.indexOf("@media print");
+    const printStart = styles.lastIndexOf("@media print");
     const printRules = styles.slice(
       printStart,
       styles.indexOf("@media (max-width: 900px)", printStart),
