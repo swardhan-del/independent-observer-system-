@@ -10,6 +10,7 @@ import { rankSearchEntries } from "../lib/search";
 import { readingJourneys } from "../data/reading-journeys";
 import { historyPodcastEpisodes } from "../data/podcast";
 import cues from "../data/podcast-cues.json";
+import { canonicalRouteRegistry } from "../data/route-registry";
 describe("reader journeys and data boundaries", () => {
   it("only publishes approved revisions linked to real paper sections", () => {
     const document = publicDocumentItems[0];
@@ -50,6 +51,10 @@ describe("reader journeys and data boundaries", () => {
       expect(journey.papers).toHaveLength(3);
       expect(new Set(journey.papers.map((p) => p.id)).size).toBe(3);
       expect(historyPodcastEpisodes.some((e) => e.number === journey.episode)).toBe(true);
+      for (const reading of journey.continuations) {
+        expect(canonicalRouteRegistry.some((route) => route.route === reading.href)).toBe(true);
+        expect(reading.format).toBeTruthy();
+      }
     }
   });
   it("keeps original audio and provides smaller streaming derivatives with monotonic approximate cues", () => {
