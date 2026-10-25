@@ -34,6 +34,18 @@ import { sitePath } from "../lib/paths";
                 </li>
               ))}
             </ol>
+            <p>
+              <strong>Continue the question</strong>
+            </p>
+            <ul>
+              {journey.continuations.map((reading) => (
+                <li>
+                  <a href={sitePath(reading.href)}>{reading.label}</a>
+                  <br />
+                  <small>{reading.format}</small>
+                </li>
+              ))}
+            </ul>
           </article>
         ))
       }

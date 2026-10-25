@@ -77,15 +77,15 @@ export const greenPublications: GreenPublication[] = [
     sourceNotes: [
       {
         label: "Collinger et al. (2013), cortical robotic control",
-        href: "https://doi.org/10.1038/nbt.2653",
+        href: "https://doi.org/10.1016/S0140-6736(12)61816-9",
       },
       {
         label: "Raspopovic et al. (2014), sensory feedback",
-        href: "https://doi.org/10.1038/nn.3832",
+        href: "https://doi.org/10.1126/scitranslmed.3006820",
       },
       {
         label: "Makin & Flor (2020), body representation review",
-        href: "https://doi.org/10.1016/j.cub.2020.04.064",
+        href: "https://doi.org/10.1016/j.neuroimage.2020.116943",
       },
     ],
     limitations:
