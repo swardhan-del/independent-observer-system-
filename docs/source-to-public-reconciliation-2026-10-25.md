@@ -155,3 +155,63 @@ own hosted checks and review; no preview readiness is asserted here.
 Exact changed path: `docs/source-to-public-reconciliation-2026-10-25.md`.
 No public pages changed. This note records existing identities and gates without
 copying manuscripts or creating competing routes.
+
+## Revalidation on 31 October 2026
+
+This is a follow-up to the Week 1 audit, using the Europe/Budapest local date.
+Week 2 is scheduled for 1 November; later weekly work has not been completed by
+this recheck. PR #83 remains an open draft. Its earlier implementation and
+validation limitations remain dated history rather than completed release gates.
+
+Current `main` and production `/build-info.json` both identify
+`b60abd090c7c306915d448b586faec7f4a25a196`, built at
+`2026-10-25T18:15:31.673Z`. PR #84's existing reading continuations and preview
+bibliography repairs are therefore already live. They must not be recreated as
+new Week 2 or Week 3 work. Those repairs did not clear a manuscript expansion.
+
+The three directory-routing records, October curation audit and two ledgers,
+five Review Ready files and 17 blocked notes were downloaded from the source
+connector. All 28 files matched their local copies byte for byte and passed the
+reported Dropbox content-hash comparison. The reconciled ledger still contains
+41 families. This verifies the selected artifacts, not their claims or rights.
+
+All 21 public identities linked in the table above returned HTTP 200 with the
+expected canonical URL. The existing Vietnam/Terry synopsis, reading tools and
+Start page also passed these checks: 24 selected routes in total. Borrowed Labor
+and Regrowing retain `noindex,follow`. Regrowing still states narrative-review
+and small-cohort limitations and does not supply funding, conflict or AI-use
+disclosures. Its version-specific disclosure reconciliation remains blocked.
+
+Fifteen open PRs were inspected: #28, #29, #30, #32, #33, #37, #38, #42, #58,
+#59, #61, #71, #72, #73 and #83. PR #59 still identifies head
+`54a4e7410452422c578f7b40a492bcffdf3b3cf6`; each of its five civic adaptations
+retains `rightsReviewed: false` and `productionReleased: false`. These candidates
+remain queued with release blocked. The six PR #61-related synopsis identities
+remain live; the open PR is not evidence that those pages are missing.
+
+The four stale Review Ready release descriptions remain historical staging
+records. Factories Return's volume-placement conflict, the policing and Pockets
+source/legal review, Volume III controller and figure-rights questions, and the
+17 blocked-note gates carry forward. No candidate was newly certified safe for
+public release. Only this audit note changes; no public pages or source records
+change, and no merge, deployment or domain operation is performed.
+
+Follow-up validation: dependency installation and the configured formatting check
+passed. Lint/type-check passed with zero errors and two existing hints. The
+production build generated 85 pages; all 553 tests in 37 files passed, including
+the route, metadata, sitemap and publication contracts. The publication-boundary
+and editorial checks passed separately: five released articles and two previews.
+SEO and canonical-origin checks passed; the Search Console readiness check
+validated 77 sitemap URLs and 85 HTML files without establishing indexing.
+The audit retained 41 unique map rows and passed private-path/ID/link exclusion
+and whitespace checks. The optional whole-document Prettier check also flags the
+unchanged original note; this pre-existing formatting issue was not rewritten.
+
+An initial build attempt ran before the isolated checkout had materialized its
+podcast assets and stopped with an absent-file error. The complete checkout then
+passed the build and test suite above. This was an environment failure, not an
+established repository defect. The earlier proxy failure is historical; source
+and validation access succeeded on this follow-up. Browser interaction and a
+fresh preview smoke test were not run locally. Keep PR #83 draft for review of
+the updated audit and its exact-commit hosted results. Only this documentation
+delta is safe to prepare for review; it does not close any content release gate.
