@@ -1,0 +1,89 @@
+---
+import { taxonomyEntries } from "../../plugins/library-content/taxonomy";
+import { sitePath } from "../lib/paths";
+
+const policing = taxonomyEntries.find(
+  (entry) => entry.id === "paper-human-rights-policing-doctrine-and-hidden-taxation",
+);
+const pockets = taxonomyEntries.find((entry) => entry.id === "paper-from-pockets-to-portfolios");
+if (!policing || !pockets || policing.href || pockets.href) {
+  throw new Error("Review the justice reading path when its research-map availability changes.");
+}
+---
+
+<section
+  class="section section-white"
+  id="justice-to-capacity"
+  aria-labelledby="justice-path-title"
+>
+  <div class="shell prose">
+    <p class="eyebrow">A reading path across Volumes I, II and III</p>
+    <h2 id="justice-path-title">Law, time and public capacity</h2>
+    <p>
+      How do legal authority, the costs of everyday encounters and investment in people fit
+      together? Start with the Method, follow two research-map entries, then read the Vietnam/Terry
+      synopsis. The map entries describe work in the programme; they do not offer full reading
+      copies.
+    </p>
+    <ol aria-label="Justice-to-capacity reading order">
+      <li>
+        <a href={sitePath("/research/the-independent-observer-method/")}
+          >The Independent Observer Method</a
+        >
+        <p>
+          <strong>Published bounded article.</strong> Begin by separating evidence, interpretation and
+          proposed reform.
+        </p>
+      </li>
+      <li>
+        <a href={sitePath(`/library/taxonomy/#${policing.id}`)}>{policing.title}</a>
+        <p>
+          <strong>{policing.volume} · {policing.status}.</strong> Follow the policing and institutional-power
+          direction. A public reading copy is not available for this entry.
+        </p>
+      </li>
+      <li>
+        <a href={sitePath(`/library/taxonomy/#${pockets.id}`)}>{pockets.title}</a>
+        <p>
+          <strong>{pockets.volume} · {pockets.status}.</strong> Continue into working-class time, legal
+          exposure, wage taxation and ownership. A public reading copy is not available for this entry.
+        </p>
+      </li>
+      <li>
+        <a href={sitePath("/library/documents/from-vietnam-to-terry-ohio/")}
+          >From Vietnam to Terry v. Ohio: Public Investment</a
+        >
+        <p>
+          <strong>Author working-paper synopsis.</strong> Read the historical interpretation and human-capital
+          proposal with their stated fiscal, legal and empirical limitations.
+        </p>
+      </li>
+    </ol>
+    <h3>Keep four kinds of statement separate</h3>
+    <ul>
+      <li>
+        <strong>Legal doctrine.</strong> Check the court's holding, jurisdiction and date. A stop, a protective
+        frisk and the extension of a traffic stop raise distinct questions. Start with{" "}
+        <a href="https://www.govinfo.gov/content/pkg/USREPORTS-392/pdf/USREPORTS-392-1.pdf"
+          >Terry v. Ohio (1968, official opinion PDF)</a
+        >{" "}and{" "}
+        <a href="https://www.govinfo.gov/content/pkg/USREPORTS-575/pdf/USREPORTS-575-348.pdf"
+          >Rodriguez v. United States (2015, official opinion PDF)</a
+        >; these primary decisions do not establish the papers' wider social claims.
+      </li>
+      <li>
+        <strong>Historical interpretation.</strong> Connecting veterans' reintegration, policing and welfare
+        is an argument to examine, not proof that one decision caused mass incarceration.
+      </li>
+      <li>
+        <strong>Empirical claim.</strong> Claims about lost work time, debt, confinement or fiscal effects
+        need their own data, population, period and method. A proposed chain of effects is not a measured
+        national estimate.
+      </li>
+      <li>
+        <strong>Policy proposal.</strong> The tax and human-capital models are proposals, not enacted
+        rules or independently established fiscal returns.
+      </li>
+    </ul>
+  </div>
+</section>
