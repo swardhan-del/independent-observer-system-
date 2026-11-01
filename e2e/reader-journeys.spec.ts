@@ -1,4 +1,71 @@
 import { test, expect } from "@playwright/test";
+for (const javaScriptEnabled of [true, false]) {
+  test(`justice reading path preserves availability with JavaScript ${javaScriptEnabled ? "on" : "off"}`, async ({
+    browser,
+    baseURL,
+    viewport,
+  }, testInfo) => {
+    const context = await browser.newContext({ javaScriptEnabled, viewport });
+    const page = await context.newPage();
+    await page.goto(`${baseURL}/start/#justice-to-capacity`);
+    const path = page.locator("#justice-to-capacity");
+    await expect(
+      path.getByRole("heading", { name: "Law, time and public capacity" }),
+    ).toBeVisible();
+    await expect(path.locator("ol > li")).toHaveCount(4);
+    await expect(path).toContainText("not a measured national estimate");
+    await expect(path).toContainText("Start with Terry v. Ohio");
+    await expect(path).toContainText("PDF) and Rodriguez v. United States");
+    await expect
+      .poll(() =>
+        page.locator("#justice-path-title").evaluate((heading) => {
+          const header = document.querySelector(".site-header");
+          return (
+            heading.getBoundingClientRect().top >= (header?.getBoundingClientRect().bottom ?? 0)
+          );
+        }),
+      )
+      .toBe(true);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(
+      true,
+    );
+    const links = await path
+      .locator("ol a")
+      .evaluateAll((items) => items.map((item) => (item as HTMLAnchorElement).href));
+    if (javaScriptEnabled) {
+      await path.screenshot({
+        path: testInfo.outputPath("justice-path.png"),
+        animations: "disabled",
+      });
+    }
+    await path.locator("ol a").first().focus();
+    await page.keyboard.press("Enter");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      "Independent Observer Method",
+    );
+    for (const [index, id, volume] of [
+      [1, "paper-human-rights-policing-doctrine-and-hidden-taxation", "Volume II"],
+      [2, "paper-from-pockets-to-portfolios", "Volume III"],
+    ] as const) {
+      await page.goto(links[index]);
+      const record = page.locator(`#${id}`);
+      await expect(record).toBeVisible();
+      await expect(record).toHaveAttribute("data-volume", volume);
+      await expect(record.locator(".entry-status")).toHaveText("Research-map entry");
+      await expect(
+        record.locator('a[href*="/library/documents/"], a[href*="/library/manuscripts/"]'),
+      ).toHaveCount(0);
+    }
+    await page.goto(links[3]);
+    await expect(page.locator("[data-document-reader]")).toBeVisible();
+    await expect(page.locator("main")).toContainText("The paper is a policy proposal");
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(
+      true,
+    );
+    await context.close();
+  });
+}
+
 test("search downloads once on demand and finds podcast transcript passages", async ({ page }) => {
   const indexRequests: string[] = [];
   page.on("request", (request) => {
