@@ -34,13 +34,27 @@ institutional proposals remain explicitly the author's recommendations.
 
 The same template supplies the contents navigation, source/back-to-paragraph
 links, reader tools, print behavior, related reading and contact/correction link.
-No framework, component, route, styling, dependency or reader-tool implementation
-is replaced. Existing related links retain Workforce and Server as contextual
+No framework, route, dependency or reader-tool implementation is replaced. Existing related links retain Workforce and Server as contextual
 author reading, not biomedical evidence.
 
 The version becomes `Web preview v2`; the preparation/review date is 1 November 2026. The factual cutoff stays 30 July 2026. The new edition-history entry says
 that an expansion was prepared; it does not invent a correction or publication.
 The limited wording review does not claim independent clinical peer review.
+
+## Native keyboard navigation
+
+Repeated mobile checks with JavaScript disabled exposed focus loss during native
+source/paragraph jumps. The existing template now gives heading, paragraph and
+source destinations `tabindex="-1"` so fragment navigation can move focus to the
+destination without adding tab stops. A scoped scroll-margin rule reuses the
+existing masthead-offset variable, with a no-JavaScript fallback. No new script
+or reader-tool replacement is introduced. The fix also benefits the other six
+articles using this template without changing their prose or release status.
+
+The regression keeps native Enter activation and strict destination focus and
+viewport assertions. Test-driver setup waits for fonts and establishes visible
+focus without overlapping smooth-scroll requests; it does not scroll the target
+into view or weaken the navigation assertions.
 
 ## Controller, rights and privacy review
 

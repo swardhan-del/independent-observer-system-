@@ -138,9 +138,11 @@ const schema = JSON.stringify({
               {headings
                 .filter((heading) => heading.beforeParagraph === index)
                 .map((heading) => (
-                  <h2 id={heading.id}>{heading.title}</h2>
+                  <h2 id={heading.id} tabindex="-1">
+                    {heading.title}
+                  </h2>
                 ))}
-              <p id={`paragraph-${index + 1}`}>
+              <p id={`paragraph-${index + 1}`} tabindex="-1">
                 {paragraph}
                 {(
                   publication.citations?.find((citation) => citation.paragraph === index)
@@ -162,11 +164,11 @@ const schema = JSON.stringify({
           ))
         }
         <section aria-labelledby="article-sources">
-          <h2 id="article-sources">Sources and notes</h2>
+          <h2 id="article-sources" tabindex="-1">Sources and notes</h2>
           <ol>
             {
               publication.sourceNotes.map((source, sourceIndex) => (
-                <li id={`source-${sourceIndex + 1}`}>
+                <li id={`source-${sourceIndex + 1}`} tabindex="-1">
                   <a href={source.href} target="_blank" rel="noopener noreferrer">
                     {source.label} ↗
                   </a>
@@ -186,11 +188,11 @@ const schema = JSON.stringify({
           </ol>
         </section>
         <section aria-labelledby="article-limitations">
-          <h2 id="article-limitations">Limitations</h2>
+          <h2 id="article-limitations" tabindex="-1">Limitations</h2>
           <p>{publication.limitations}</p>
         </section>
         <section aria-labelledby="article-disclosures">
-          <h2 id="article-disclosures">Disclosure</h2>
+          <h2 id="article-disclosures" tabindex="-1">Disclosure</h2>
           <p>
             {
               publication.adaptationDisclosure ?? (
@@ -207,7 +209,9 @@ const schema = JSON.stringify({
           revisions.length > 0 && (
             <section aria-labelledby="revision-history">
               <>
-                <h2 id="revision-history">Edition history</h2>
+                <h2 id="revision-history" tabindex="-1">
+                  Edition history
+                </h2>
                 <ol>
                   {revisions.map((revision) => (
                     <li>
@@ -335,6 +339,9 @@ const schema = JSON.stringify({
   .article-body :target {
     outline: 2px solid var(--gold);
     outline-offset: 6px;
+  }
+  .article-body :is(h2[id], p[id], li[id]) {
+    scroll-margin-top: var(--site-header-offset, 240px);
   }
   @media print {
     .article-contents,
