@@ -273,6 +273,27 @@ describe("built website", () => {
     );
   });
 
+  it("keeps the expanded Regrowing preview navigable without declaring a release", () => {
+    const html = readOutput("research/regrowing-humanity/index.html");
+    expect(metaContent(html, "name", "robots")).toBe("noindex,follow");
+    expect(html).toContain("Concept preview · publication pending");
+    expect(html).toContain("Web preview v2");
+    expect(html).toContain('href="#evidence-setting"');
+    expect(html).toContain('id="evidence-setting"');
+    expect(html).toContain('aria-label="Source 1 for paragraph 5"');
+    expect(html).toContain('href="#paragraph-5"');
+    expect(html).toContain("https://doi.org/10.1016/S0140-6736(12)61816-9");
+    expect(html).toContain("https://doi.org/10.1126/scitranslmed.3006820");
+    expect(html).toContain("small cohorts or specialized programs");
+    expect(html).toContain("not a preregistered systematic review or meta-analysis");
+    expect(html).toContain("AI assistance was used");
+    expect(html).toContain("source edition");
+    expect(html).not.toContain('"datePublished"');
+    expect(html).not.toMatch(/<summary[^>]*>Cite this page<\/summary>/);
+    for (const output of ["sitemap.xml", "feed.xml", "feed.atom.xml"])
+      expect(readOutput(output)).not.toContain("/research/regrowing-humanity/");
+  });
+
   it("keeps unreleased candidates on Latest while publication approval is pending", () => {
     const latestHtml = readOutput("latest/index.html");
     const changelogHtml = readOutput("whats-new/index.html");

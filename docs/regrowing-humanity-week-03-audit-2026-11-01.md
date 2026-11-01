@@ -1,122 +1,105 @@
-# Regrowing Humanity Week 3 audit — 1 November 2026
+# Week 3 Regrowing Humanity preview expansion — 1 November 2026
 
-Week 3 was brought forward from 8 November at the owner's request after Week 2
-PR [#85](https://github.com/swardhan-del/independent-observer-system-/pull/85)
-was merged and verified in production. This pass completes the bounded audit;
-the proposed expansion remains **blocked pending edition-specific clearance**.
-It does not mark any earlier blocked pass as completed or authorize release.
+This change expands the existing Regrowing Humanity preview in place, using the
+verified 30 July 2026 manuscript and the subsequently prepared text-only review
+draft. The owner explicitly requested implementation and a commit after checks.
+The change is prepared on the existing Week 3 PR; it grants no merge, deployment
+or final publication release.
 
-## Current identity and baseline
+## Existing identity and preserved boundary
 
-- Main and production build identity: `821c5d4913ba66de84f89fe2d5f42e9838bb2a10`.
-- Production build timestamp: `2026-11-01T13:08:51.977Z`.
-- Family: `IO-FAMILY-REGROWING-HUMANITY`, Volume IV; existing adaptation
-  candidate: `IO-V4-REGROWING-HUMANITY`.
-- Existing reading identity: [/research/regrowing-humanity/](https://independentobserver.org/research/regrowing-humanity/).
-  It returns HTTP 200, identifies itself canonically at that route and retains
-  `noindex,follow`. It is a bounded preview, not a released full manuscript.
-- `green-publications.ts` retains `productionReleased: false`; the release queue
-  retains `public_preview`, `pending_final_rights_review`,
-  `awaiting_human_release` and a null canonical release route.
-- Open PRs were checked before preparation. No open PR already implements this
-  Week 3 expansion. Week 1 PR #83 remains separate and unmerged.
+- Family: `IO-FAMILY-REGROWING-HUMANITY`, Volume IV.
+- Candidate: `IO-V4-REGROWING-HUMANITY`.
+- Only reading route: `/research/regrowing-humanity/`.
+- Preflight main/production: `821c5d4913ba66de84f89fe2d5f42e9838bb2a10`;
+  production build timestamp `2026-11-01T13:08:51.977Z`.
+- Existing Week 3 audit head: `5c4c8f7d75822ebfee22fa9d0eb4b93072fa9961`.
+  Open PRs were checked; this implementation continues PR #86 rather than adding
+  a competing publication or PR. Week 1 PR #83 remains separate.
 
-Historical documentation mentions a staged Evidence Lab. The current main has
-no corresponding route, and `/review/regrowing-humanity/` returns 404. An
-unrouted evidence-data module is not a released edition or a second publication
-identity. This audit creates neither route.
+`productionReleased: false`, the preview status, pending final rights decision,
+null canonical release route and `awaiting_human_release` remain unchanged. The
+reading route remains self-canonical and noindex, with no publication date in
+Article schema and no publication citation widget. Sitemap, RSS, Atom and release
+log exclusions remain. No Evidence Lab, second article, raw manuscript or source
+asset is added.
 
-## Source controller and curation records
+## Implementation
 
-The 30 July 2026 Volume IV **Regrowing Humanity v1** manuscript is the controller
-identified by the reconciled 16 October ledger. Its freshly downloaded bytes
-have SHA-256
-`7c65698141490d6aa51ff544f3532d946cdb289fd4c6e4c32d58b259b916af96`,
-matching the controller fingerprint already stored with the preview. The source
-is therefore identified; the remaining hold is not a missing manuscript.
+The existing article record now contains 11 bounded paragraphs, four section
+headings and claim-linked citations using the shared article template. The
+expansion distinguishes muscle/nerve signal strategies from bone attachment,
+then distinguishes two historical experiments by population and setting. The
+institutional proposals remain explicitly the author's recommendations.
 
-The September candidate ledger still lists owner release, rights, accessibility
-and web QA. The October reconciled ledger classifies the family `LIVE_PREVIEW`
-and recommends expanding the existing identity while preserving small-cohort
-and availability limitations. The Website Feed blocker explicitly says the
-separately prepared clean web adaptation was not found and prohibits replacing
-it with the manuscript, SSRN PDF, generated output or an older draft. This pass
-did not locate that adaptation within the inspected package and curation
-records; it makes no claim that it is absent from every Dropbox location.
+The same template supplies the contents navigation, source/back-to-paragraph
+links, reader tools, print behavior, related reading and contact/correction link.
+No framework, component, route, styling, dependency or reader-tool implementation
+is replaced. Existing related links retain Workforce and Server as contextual
+author reading, not biomedical evidence.
 
-Twelve selected source and curation files were downloaded and checked against
-Dropbox content hashes and local synced bytes. Exact private paths and the
-verification manifest belong in the owner's private weekly reports. No raw
-source, figure, private path or extracted manuscript is added to the repository.
-The organized manuscript copy in the current directory hub is a routing aid;
-it does not supersede the ledger's identified controller or grant release.
+The version becomes `Web preview v2`; the preparation/review date is 1 November 2026. The factual cutoff stays 30 July 2026. The new edition-history entry says
+that an expansion was prepared; it does not invent a correction or publication.
+The limited wording review does not claim independent clinical peer review.
 
-## Disclosure reconciliation
+## Controller, rights and privacy review
 
-The controlled v1 manuscript and its accompanying metadata contain the author's
-declaration of no competing interests. The preview currently uses the shared
-absence-of-disclosures paragraph for funding, conflicts and AI use. These are
-different editions: a declaration in the manuscript is not evidence that the
-preview has its own complete disclosure statement. The current paragraph must
-not be read as proof that the underlying manuscript lacks a declaration.
+The identified controller is the 30 July 2026 Regrowing Humanity v1 manuscript,
+SHA-256 `7c65698141490d6aa51ff544f3532d946cdb289fd4c6e4c32d58b259b916af96`.
+Its metadata and verified source copy were rechecked. The October reconciled
+ledger identifies the same controller and existing live preview. The older
+Website Feed note prohibits automatically substituting manuscript/PDF/generated
+output for its missing clean adaptation. Subsequent owner instructions authorize
+preparing the private adaptation, then this bounded implementation for review;
+they do not promote the source package or the complete manuscript to release.
 
-A future reviewed adaptation should attribute the competing-interest declaration
-specifically to the dated source edition and separately resolve funding and AI
-disclosures for the web edition. It must not invent a no-funding statement, an
-AI-use declaration, independent verification of the author's declaration, or
-new author consent. No disclosure field or public review date is changed here.
+Only original paraphrased text and public scholarly links are used. No source
+figures, tables, screenshots, internal prompts, individual medical records,
+private paths or unpublished companion manuscripts enter GitHub or page output.
+The existing source license notice is preserved; its presence is not treated as
+blanket derivative permission. Final publication rights/privacy and human release
+remain distinct from this bounded review preparation. Exact private paths,
+source fingerprints, approval scope and delivery receipts belong in the private
+weekly progress report and change ledger.
 
-## Scientific review boundary
+## Claim review and disclosure
 
-The existing preview already says it is a structured narrative review, not a
-preregistered systematic review or meta-analysis, and preserves heterogeneous
-evidence and small-cohort/specialized-program limitations. Its factual cutoff
-remains 30 July 2026; this audit is not a new clinical evidence review.
+The exact technical descriptions and illustrative study findings were checked
+against the controller and selected original records:
 
-The three bibliography identities were spot-checked against public primary
-publication records: [Collinger et al.](https://pubmed.ncbi.nlm.nih.gov/23253623/),
-[Raspopovic et al.](https://pubmed.ncbi.nlm.nih.gov/24500407/) and
-[Makin and Flor](https://pubmed.ncbi.nlm.nih.gov/32428706/).
-The Collinger direct PubMed page presented a browser challenge; its indexed
-record supplied bibliographic identity only. This limited check does not repeat
-the package's historical 30-record citation audit, validate all 36 sources,
-establish treatment suitability, or verify current device availability and
-regulatory status. The package's July QA claims remain attributed historical
-records rather than results newly certified by this audit.
+- [Kuiken et al. (2009)](https://pubmed.ncbi.nlm.nih.gov/19211469/): TMR control-signal definition.
+- [Vu et al. (2020)](https://pubmed.ncbi.nlm.nih.gov/32132217/): reinnervation and biological signal amplification. No graft-construction detail or numerical stability claim is imported.
+- [Ortiz-Catalan et al. (2014)](https://pubmed.ncbi.nlm.nih.gov/25298322/): combined bone-anchored/signal interface, with no generalized outcome or current approval claim.
+- [Collinger et al. (2013)](https://pubmed.ncbi.nlm.nih.gov/23253623/) and its [author manuscript](https://pmc.ncbi.nlm.nih.gov/articles/PMC3641862/): one participant with tetraplegia controlling an external research robot; not a worn replacement limb after amputation.
+- [Raspopovic et al. (2014)](https://pubmed.ncbi.nlm.nih.gov/24500407/): one participant and a specific sensory-feedback/grasp task; no general restoration claim.
+- [Makin and Flor (2020)](https://pubmed.ncbi.nlm.nih.gov/32428706/): retained background review for body representation, not a new trial or diagnosis.
 
-Any future expansion must keep laboratory control, clinical use, sensory
-feedback, reported embodiment and institutional interpretation distinct. It
-must retain rehabilitation, maintenance, selection and follow-up limitations.
-Device-specific authorization cannot establish class-wide safety or superiority.
-No medical recommendation or new current regulatory claim is prepared here.
+The source's no-competing-interests declaration is now attributed to its exact
+dated edition. The adaptation does not invent a funding declaration or infer the
+source manuscript's AI history. It accurately discloses AI assistance in this
+adaptation and selected-record checking, with independent clinical review and
+final publication release still pending.
 
-## Expansion gates
+The narrative-review, non-systematic/non-meta-analysis, heterogeneous evidence,
+small-cohort/specialized-program, limited-follow-up and availability boundaries
+remain explicit. This is not an exhaustive November evidence update or a repeat
+of the package's historical 36-source review. The 2020 Ortiz-Catalan cohort claims
+were omitted because the associated correction text was not verified. No pain,
+complication, employment, regulatory or biological-regeneration claims are added.
 
-| Gate                        | Evidence observed                                                     | Remaining requirement                                                                                                                         |
-| --------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| Canonical source controller | Exact v1 bytes match the preview fingerprint                          | Bind any proposed web edition to this controller and its own version                                                                          |
-| Public-safe adaptation      | Existing bounded preview is already live                              | Locate the clean adaptation or obtain an explicit instruction resolving the staging hold before preparing replacement prose                   |
-| Factual and citation review | Historical source audits and three bibliography identities inspected  | Review the exact added claims, study context, currentness and citations; do not inherit a blanket QA pass                                     |
-| Rights and privacy          | Preview has existing review flags; manuscript carries CC BY-NC-ND 4.0 | Record edition-specific adaptation/figure rights and privacy clearance; existing flags and license text do not clear a new derivative edition |
-| Disclosures and limitations | Source declaration and preview disclaimer distinguished               | Resolve web-edition funding, competing-interest attribution and AI-use wording; retain narrative-review and small-cohort limits               |
-| Accessibility and metadata  | Existing route remains usable as a preview                            | Review the exact proposed web copy, headings, citations, print/mobile output and edition metadata                                             |
-| Owner release               | Existing release queue remains held                                   | Record item-level authorization for the exact reviewed edition; this weekend audit request is not production release                          |
+## Verification and rollback
 
-The candidate is **already live as a preview** and **blocked for expansion or
-release**. CI success cannot supply any missing editorial gate. No new public
-delta passes all gates in this pass, so the only proposed change is this audit.
-The blocked expansion carries forward to the release-gate review rather than
-being recreated on another route or counted as a completed publication.
+Regression coverage checks the built preview's source links, navigation,
+disclosures and continued release exclusions. Browser coverage exercises keyboard
+contents/source/return navigation, print disclosures and viewport fit on desktop
+and mobile, with JavaScript enabled and disabled. Normal repository lint, build,
+unit, metadata, sitemap and publication-boundary checks must pass, along with
+hosted CI on the final commit. Actual results and any failures or unrun checks
+are recorded in the PR and private reports.
 
-## Validation and rollback
-
-Run the repository's normal lint/build/unit checks, publication and editorial
-boundary checks, canonical/metadata/sitemap checks and hosted CI on the exact
-audit commit. Record actual outcomes, pre-existing hints, and unrun checks in
-the PR and private reports; do not infer success from this checklist.
-
-This PR changes one documentation file only. It does not change site content,
-routes, feed generation, assets, publication status, production or Dropbox
-originals. Before merge, close the PR to abandon it. If later merged, revert its
-single audit commit through a reviewed PR, preserving subsequent work. No
-production rollback or source restoration is required for this audit-only pass.
+Before merge, close the PR to abandon the proposal. To remove only the expansion
+while keeping the earlier audit, revert the implementation commit on its branch
+through a reviewed change. If later merged and a rollback is authorized, revert
+that same implementation commit from current main, validate and use the normal
+review/release process. Preserve later work and shared history. No source
+restoration or production rollback is required by this unmerged preparation.
