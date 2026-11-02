@@ -16,6 +16,8 @@ export function initialize(root: HTMLElement) {
   const input = root.querySelector<HTMLInputElement>("[data-search-input]");
   const status = root.querySelector<HTMLElement>("[data-search-status]");
   const results = root.querySelector<HTMLUListElement>("[data-search-results]");
+  const filterPanel = root.querySelector<HTMLDetailsElement>("[data-search-filters]");
+  const filterCount = root.querySelector<HTMLElement>("[data-search-filter-count]");
   let index: SearchEntry[] = [];
   let indexLoaded = false;
   let indexRequest: Promise<void> | undefined;
@@ -41,6 +43,7 @@ export function initialize(root: HTMLElement) {
   let lastFocused: HTMLElement | null = null;
 
   if (!dialog || !openButton || !closeButton || !input || !status || !results) return;
+  if (filterPanel) filterPanel.open = !window.matchMedia("(max-width: 620px)").matches;
 
   const pageOwnsLegacyFilters = Boolean(
     document.querySelector(
@@ -72,6 +75,8 @@ export function initialize(root: HTMLElement) {
   ];
 
   const render = () => {
+    const activeFilters = Object.keys(filters()).length;
+    if (filterCount) filterCount.textContent = activeFilters ? `· ${activeFilters} active` : "";
     if (!indexLoaded) return;
     const query = input.value.trim();
     const url = new URL(location.href);
@@ -242,8 +247,8 @@ export function initialize(root: HTMLElement) {
     }
     if (event.key === "Tab") {
       const focusable = [
-        ...dialog.querySelectorAll<HTMLElement>("button, input, select, a[href]"),
-      ].filter((element) => !element.hidden);
+        ...dialog.querySelectorAll<HTMLElement>("button, input, select, a[href], summary"),
+      ].filter((element) => element.getClientRects().length > 0 && !element.matches(":disabled"));
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
       if (event.shiftKey && document.activeElement === first) {
@@ -285,6 +290,7 @@ export function initialize(root: HTMLElement) {
       const value = searchParam(control.dataset.searchFilter ?? "");
       control.value = control.dataset.searchFilter === "status" ? readerStatus(value) : value;
     });
+    if (filterPanel && Object.keys(filters()).length) filterPanel.open = true;
     render();
   };
   window.addEventListener("popstate", restoreUrl);

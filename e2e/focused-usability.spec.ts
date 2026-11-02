@@ -78,6 +78,9 @@ test("global search preserves the catalogue's filters across reload", async ({ p
   await expect(activeFilter).toHaveAttribute("aria-pressed", "true");
   await page.locator("[data-search-open]").click();
   await page.locator("[data-search-input]").fill("Who Deported More");
+  const filters = page.locator("[data-search-filters]");
+  if (!(await filters.evaluate((element) => (element as HTMLDetailsElement).open)))
+    await filters.locator("summary").click();
   await page.locator('[data-search-filter="status"]').selectOption("Working-paper summary");
   await expect(page.locator("[data-search-result]").first()).toBeVisible();
   expect(new URL(page.url()).searchParams.get("status")).toBe("concept preview");
