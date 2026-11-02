@@ -1,16 +1,15 @@
 ---
-import { displayTitle, summaryDescription } from "../data/reader-presentation";
-import { byReadingUsefulness, startingQuestions } from "../data/scholarly-clarity";
+import { displayTitle, summaryDescription, readingMinutes } from "../data/reader-presentation";
 import { libraryVolumeGuides } from "../../plugins/library-content/catalog";
 import { seriesItems } from "../data/series";
-import { paperDocuments } from "../data/papers";
-import { websiteFeedReadingDocuments } from "../data/website-feed-reading-2026-09-18";
+import { publicPaperCatalogue, paperQuestions } from "../data/reader-catalogue";
+import ReaderCardContent from "./ReaderCardContent.astro";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 import VolumeOneSourceMap from "./VolumeOneSourceMap.astro";
 
 const seriesByVolume = new Map(seriesItems.map((item) => [item.volume, item]));
-const papers = [...paperDocuments, ...websiteFeedReadingDocuments].sort(byReadingUsefulness);
+const papers = publicPaperCatalogue;
 
 const volumeIllustrations = {
   "Volume I": {
@@ -47,14 +46,14 @@ const volumeIllustrations = {
 <section
   class="section section-white library-research-shelf"
   id="research-shelf"
-  aria-labelledby="research-shelf-title"
+  aria-labelledby="paper-browser-title"
 >
   <div class="shell">
     <div class="library-paper-browser" data-library-paper-shelf>
       <div class="library-paper-browser-heading">
         <div>
           <p class="eyebrow">Public paper index</p>
-          <h2>Search the linked records.</h2>
+          <h2 id="paper-browser-title">Browse working-paper summaries.</h2>
         </div>
         <p data-library-paper-status role="status" aria-live="polite">
           Showing all {papers.length} author paper pages
@@ -91,37 +90,24 @@ const volumeIllustrations = {
         {
           papers.map((paper) => (
             <article
-              class="library-paper-card"
+              class="library-paper-card reader-card"
               data-library-paper-card
               data-paper-id={paper.id}
+              data-reading-minutes={readingMinutes(paper)}
               data-paper-title={paper.title}
               data-paper-volume={paper.volume ?? "Unassigned"}
-              data-paper-search={`${paper.title} ${displayTitle(paper)} ${startingQuestions[paper.id] ?? ""} ${paper.category} ${paper.description} ${paper.volume ?? ""} author paper ${paper.researchGateUrl ? "ResearchGate" : ""}`}
+              data-paper-search={`${paper.title} ${displayTitle(paper)} ${paperQuestions[paper.id] ?? ""} ${paper.category} ${paper.description} ${paper.volume ?? ""} author paper ${paper.researchGateUrl ? "ResearchGate" : ""}`}
             >
-              <div class="card-meta">
-                <span>{paper.volume ?? "Independent Observer"}</span>
-                <span>{paper.category}</span>
-              </div>
-              <span class="library-paper-status">{paper.status}</span>
-              <h3>
-                <a href={sitePath(`/library/documents/${paper.id}/`)}>{displayTitle(paper)}</a>
-              </h3>
-              {startingQuestions[paper.id] && (
-                <p>
-                  <strong>{startingQuestions[paper.id]}</strong>
-                </p>
-              )}
-              <p>{summaryDescription(paper)}</p>
-              {paper.volumeRelevance && (
-                <p class="library-paper-contribution">
-                  <strong>Why it contributes.</strong> {paper.volumeRelevance}
-                </p>
-              )}
-              <p>
-                <a class="text-link" href={sitePath(`/library/documents/${paper.id}/`)}>
-                  Read the summary →
-                </a>
-              </p>
+              <ReaderCardContent
+                title={displayTitle(paper)}
+                question={paperQuestions[paper.id]}
+                description={summaryDescription(paper)}
+                href={`/library/documents/${paper.id}/`}
+                volume={paper.volume}
+                status="Working-paper summary"
+                minutes={readingMinutes(paper)}
+                action="Read the summary"
+              />
               <div class="library-paper-card-footer">
                 <details>
                   <summary>Archived usage</summary>
@@ -395,6 +381,7 @@ const volumeIllustrations = {
 </section>
 
 <script>
+  import { readingMode, matchesReadingMode } from "../lib/reading-filter";
   import { rankSearchEntries, type SearchEntry } from "../lib/search";
   const shelf = document.querySelector<HTMLElement>("[data-library-paper-shelf]");
   if (shelf) {
@@ -447,7 +434,12 @@ const volumeIllustrations = {
       ordered.forEach((card) => grid.append(card));
       let visible = 0;
       ordered.forEach((card) => {
-        const show = ranks.has(card.dataset.paperId!);
+        const show =
+          ranks.has(card.dataset.paperId!) &&
+          matchesReadingMode(
+            Number(card.dataset.readingMinutes),
+            readingMode(new URLSearchParams(location.search).get("reading")),
+          );
         if (show) visible += 1;
         card.hidden = !show || visible > limit;
       });
@@ -488,6 +480,10 @@ const volumeIllustrations = {
       if (query) query.value = selectedQuery;
       render(false);
     };
+    document.addEventListener("reading-mode-change", () => {
+      limit = 6;
+      render(false);
+    });
     window.addEventListener("popstate", restoreUrl);
     window.addEventListener("pageshow", restoreUrl);
     restoreUrl();

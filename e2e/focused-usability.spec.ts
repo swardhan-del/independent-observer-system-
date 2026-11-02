@@ -67,7 +67,7 @@ test("primary navigation stays bounded and exposes the join path", async ({ page
   await expect(page).toHaveURL(/\/join\/$/);
   await expect(
     page.getByRole("heading", {
-      name: "Read freely. Return regularly. Support when it is useful.",
+      name: "Good questions. Sources you can follow.",
     }),
   ).toBeVisible();
 });

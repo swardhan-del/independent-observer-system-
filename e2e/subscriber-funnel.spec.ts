@@ -3,11 +3,11 @@ import { test, expect } from "@playwright/test";
 test("Join page presents both tiers honestly, with no fake checkout", async ({ page }) => {
   await page.goto("/join/");
   await expect(page.getByText("Free reader · $0")).toBeVisible();
-  await expect(page.getByText("Supporting membership · planned")).toBeVisible();
+  await page.getByText("Supporting membership is planned", { exact: true }).click();
   await expect(page.getByText("Supporting membership is not available yet")).toBeVisible();
   await expect(page.getByRole("link", { name: "Subscribe free on Substack ↗" })).toHaveAttribute(
     "href",
-    /substack\.com/,
+    "https://independentobserver.substack.com/subscribe?simple=true",
   );
   // No on-site email input exists yet -- only the Substack link-out.
   await expect(page.locator("form")).toHaveCount(0);
@@ -67,7 +67,7 @@ test("mobile Join route is reachable and readable", async ({ page, isMobile }) =
   await page.goto("/join/");
   await expect(
     page.getByRole("heading", {
-      name: "Read freely. Return regularly. Support when it is useful.",
+      name: "Good questions. Sources you can follow.",
     }),
   ).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);

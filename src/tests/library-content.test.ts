@@ -157,7 +157,7 @@ describe("library content blocks", () => {
     expect(researchShelf).toContain("not a quality score");
     expect(researchShelf).toContain("How the power inquiry is assembled.");
     expect(researchShelf).toContain("Contribution to {guide.volume}.");
-    expect(researchShelf).toContain("Why it contributes.");
+    expect(researchShelf).toContain("<ReaderCardContent");
     expect(researchShelf).toContain("Public paper index");
     expect(researchShelf).toContain("data-library-paper-filter");
     expect(researchShelf).toContain("data-library-paper-query");
@@ -165,7 +165,7 @@ describe("library content blocks", () => {
     expect(researchShelf).toContain("paperQ");
     expect(researchShelf).toMatch(/rankSearchEntries\(\s*searchEntries/);
     expect(researchShelf).toContain("View external manuscript record");
-    expect(researchShelf).toContain("Read the summary →");
+    expect(researchShelf).toContain('action="Read the summary"');
     expect(researchShelf).not.toContain("releaseApproved = true");
   });
 

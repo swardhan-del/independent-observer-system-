@@ -1,3 +1,4 @@
+import { publicPaperCatalogue } from "../data/reader-catalogue";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -296,7 +297,7 @@ describe("built website", () => {
     expect(cards).toHaveLength(3);
     expect(new Set(cards.map((tag) => attribute(tag, "data-home-reading"))).size).toBe(3);
     expect(html).toContain("library/documents/who-deported-more/");
-    expect(html).toContain("Explore all 21 paper summaries");
+    expect(html).toContain(`Explore all ${publicPaperCatalogue.length} author paper pages`);
     expect(html).toContain(sitePathForTest("/library/"));
     expect(html).toContain("These are summaries of working papers.");
     expect(html).not.toContain("/Independent Observer desktop/");
@@ -316,7 +317,7 @@ describe("built website", () => {
       tag.includes("data-public-document-card"),
     );
 
-    const paperDocumentIds = new Set(paperDocuments.map((document) => document.id));
+    const paperDocumentIds = new Set(publicPaperCatalogue.map((document) => document.id));
     const otherPublicDocumentCount = publicDocumentItems.filter(
       (document) => !paperDocumentIds.has(document.id),
     ).length;
@@ -569,7 +570,7 @@ describe("built website", () => {
     expect(html).toContain("Volume II: make power legible.");
     expect(html).toContain("How the power inquiry is assembled.");
     expect(html).toContain("Contribution to Volume II.");
-    expect(html).toContain("Why it contributes.");
+    expect(html).toContain("Working-paper summary");
     expect(html).toContain("Two Masks, One Face: State Capitalism");
     expect(html).toContain("The Geography of Enslaved Wealth");
     expect(html).toContain("volume-ii-sovereignty.jpg");

@@ -648,7 +648,7 @@ describe("interactive preview tools", () => {
   });
 
   it("uses existing public records for a concise homepage", () => {
-    expect(homepage).toContain("paperDocuments");
+    expect(homepage).toContain("publicPaperCatalogue");
     expect(homepage).toContain("seriesItems.map");
     expect(homepage).toContain("/library/documents/who-deported-more/");
     expect(homepage).toContain("The volumes remain in development.");
