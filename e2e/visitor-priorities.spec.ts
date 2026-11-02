@@ -81,10 +81,16 @@ test("all reading remains available without JavaScript and previews stay separat
 });
 
 test("join foregrounds free signup and labels the sample honestly", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/join/");
   await expect(
     page.getByRole("link", { name: "Subscribe free on Substack ↗", exact: true }),
   ).toHaveAttribute("href", "https://independentobserver.substack.com/subscribe?simple=true");
+  const signupBox = await page
+    .getByRole("link", { name: "Subscribe free on Substack ↗", exact: true })
+    .boundingBox();
+  expect(signupBox).not.toBeNull();
+  expect(signupBox!.y + signupBox!.height).toBeLessThan(844);
   await expect(page.getByText("An illustrative reading selection", { exact: false })).toBeVisible();
   await expect(page.locator(".join-supporting")).not.toHaveAttribute("open");
   await expect(page.locator(".sample-brief-list li")).toHaveCount(3);

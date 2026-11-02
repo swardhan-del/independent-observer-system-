@@ -24,7 +24,20 @@ const sampleArticles = recentArticles.filter((item) =>
     eyebrow="Join Independent Observer"
     title="Good questions. Sources you can follow."
     description="Join the free reader list for research notes and publication updates. Explore a sample reading brief below."
-  />
+  >
+    <a
+      class="button"
+      href={substackSubscribeUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-email-signup-start="join-page"
+    >
+      Subscribe free on Substack ↗
+    </a>
+    <p class="form-note">
+      Substack handles your subscription and email address under its own privacy policy.
+    </p>
+  </PageHero>
 
   <section class="section section-white" aria-labelledby="join-options-title">
     <div class="shell">
@@ -45,18 +58,6 @@ const sampleArticles = recentArticles.filter((item) =>
             paths.
           </p>
 
-          <a
-            class="button"
-            href={substackSubscribeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-email-signup-start="join-page"
-          >
-            Subscribe free on Substack ↗
-          </a>
-          <p class="form-note">
-            Substack handles your subscription and email address under its own privacy policy.
-          </p>
           <ul>
             <li>Public essays and working-paper summaries</li>
             <li>New research notifications</li>
