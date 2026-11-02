@@ -4021,11 +4021,33 @@ kbd {
   overflow: auto;
 }
 
+.search-filter-panel {
+  margin-top: 16px;
+}
+
+.search-filter-panel summary {
+  min-height: 44px;
+  padding-block: 12px;
+  color: var(--ink);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.search-filter-panel summary:focus-visible {
+  outline: 2px solid var(--gold-ink);
+  outline-offset: 3px;
+}
+
+.search-filter-panel [data-search-filter-count] {
+  color: var(--slate-700);
+  font-size: 0.85em;
+}
+
 .search-filters {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 6px;
 }
 
 .search-filters label,

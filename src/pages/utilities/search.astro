@@ -41,36 +41,39 @@ export const partial = true;
       <button type="button" data-search-query="AI">AI</button>
       <button type="button" data-search-query="archive">Archive</button>
     </div>
-    <div class="search-filters" aria-label="Search filters">
-      <label
-        >Type<select data-search-filter="type"
-          ><option value="">All types</option>{
-            types.map((type) => <option value={type}>{type}</option>)
-          }</select
-        ></label
-      >
-      <label
-        >Topic<select data-search-filter="topic"
-          ><option value="">All topics</option>{
-            topicNames.map((topic) => <option value={topic}>{topic}</option>)
-          }</select
-        ></label
-      >
-      <label
-        >Status<select data-search-filter="status"
-          ><option value="">All statuses</option>{
-            statuses.map((status) => <option value={status}>{status}</option>)
-          }</select
-        ></label
-      >
-      <label
-        >Volume<select data-search-filter="volume"
-          ><option value="">All volumes</option>{
-            volumes.map((volume) => <option value={volume}>{volume}</option>)
-          }</select
-        ></label
-      >
-    </div>
+    <details class="search-filter-panel" data-search-filters open>
+      <summary>Filters <span data-search-filter-count></span></summary>
+      <div class="search-filters" aria-label="Search filters">
+        <label
+          >Type<select data-search-filter="type"
+            ><option value="">All types</option>{
+              types.map((type) => <option value={type}>{type}</option>)
+            }</select
+          ></label
+        >
+        <label
+          >Topic<select data-search-filter="topic"
+            ><option value="">All topics</option>{
+              topicNames.map((topic) => <option value={topic}>{topic}</option>)
+            }</select
+          ></label
+        >
+        <label
+          >Status<select data-search-filter="status"
+            ><option value="">All statuses</option>{
+              statuses.map((status) => <option value={status}>{status}</option>)
+            }</select
+          ></label
+        >
+        <label
+          >Volume<select data-search-filter="volume"
+            ><option value="">All volumes</option>{
+              volumes.map((volume) => <option value={volume}>{volume}</option>)
+            }</select
+          ></label
+        >
+      </div>
+    </details>
     <p
       class="search-status"
       id="site-search-status"

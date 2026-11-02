@@ -15,6 +15,9 @@ test("reader vocabulary, keyboard links, filters and history preserve discovery"
   await expect(page.locator("[data-search-open]")).toBeFocused();
   await page.locator("[data-search-open]").click();
   await expect(input).toHaveValue("deportation");
+  const filters = page.locator("[data-search-filters]");
+  if (!(await filters.evaluate((element) => (element as HTMLDetailsElement).open)))
+    await filters.locator("summary").click();
   await page.locator('[data-search-filter="type"]').selectOption("Topic");
   await input.fill("Who Deported More");
   await expect(page.getByRole("button", { name: "Clear filters", exact: true })).toBeVisible();
