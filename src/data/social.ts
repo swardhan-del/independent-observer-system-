@@ -10,3 +10,7 @@ export const socialLinks = [
     href: "https://substack.com/@independentobserver",
   },
 ] as const;
+
+// Verified against the publication's Subscribe button on 2 November 2026.
+export const substackSubscribeUrl =
+  "https://independentobserver.substack.com/subscribe?simple=true";

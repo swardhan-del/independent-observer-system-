@@ -31,7 +31,7 @@ test("mobile readers reach substance before metadata and citation controls", asy
   expect(positions.paragraph).toBeLessThan(positions.actions);
   expect(positions.paragraph).toBeLessThan(positions.details);
   expect(positions.paragraph).toBeLessThan(1200);
-  await expect(page.getByRole("link", { name: "Follow on Substack" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Subscribe free on Substack ↗" })).toBeVisible();
 });
 
 test("library links remain accessible without JavaScript", async ({ browser, baseURL }) => {

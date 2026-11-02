@@ -1,0 +1,35 @@
+---
+import { sitePath } from "../lib/paths";
+import { publicationDateLabel } from "../data/reader-catalogue";
+interface Props {
+  title: string;
+  question?: string;
+  description: string;
+  href: string;
+  volume?: string;
+  status: string;
+  minutes: number;
+  date?: string;
+  action: string;
+}
+const { title, question, description, href, volume, status, minutes, date, action } = Astro.props;
+---
+
+<p class="eyebrow">{volume}</p>
+<h3><a class="card-title-link" href={sitePath(href)}>{question ?? title}</a></h3>
+{question && <p class="reader-card-title">{title}</p>}
+<p>{description}</p>
+<div class="reader-card-footer">
+  <p class="reader-card-meta">
+    <span class="status-pill">{status}</span>
+    <span>{minutes} min read</span>
+  </p>
+  {
+    date && (
+      <p class="form-note">
+        Published <time datetime={date}>{publicationDateLabel(date)}</time>
+      </p>
+    )
+  }
+  <a class="text-link card-open-link" href={sitePath(href)}>{action} →</a>
+</div>

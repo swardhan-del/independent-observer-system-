@@ -1,0 +1,48 @@
+---
+import { recentArticles, articleQuestions } from "../data/reader-catalogue";
+import { readingTimeMinutes } from "../data/green-publications";
+import ReaderCardContent from "./ReaderCardContent.astro";
+import { sitePath } from "../lib/paths";
+---
+
+<section class="section section-white home-recent" aria-labelledby="recent-articles-title">
+  <div class="shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Recently published</p><h2 id="recent-articles-title">
+          The latest released articles.
+        </h2>
+      </div><a class="text-link" href={sitePath("/latest/")}>All releases and revisions →</a>
+    </div>
+    <div class="focused-reading-grid">
+      {
+        recentArticles.slice(0, 3).map((item) => (
+          <article class="editorial-card reader-card" data-recent-article={item.slug}>
+            <ReaderCardContent
+              title={item.shortTitle}
+              question={articleQuestions[item.slug]}
+              description={item.standfirst}
+              href={`/research/${item.slug}/`}
+              volume={item.volume}
+              status="Released article"
+              minutes={readingTimeMinutes(item)}
+              date={item.publicationDate}
+              action="Read article"
+            />
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .home-recent {
+    padding-block: 48px;
+  }
+  @media (max-width: 900px) {
+    .home-recent {
+      padding-block: 32px;
+    }
+  }
+</style>

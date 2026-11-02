@@ -2,17 +2,18 @@
 import ReadingToolsInvitation from "../../components/ReadingToolsInvitation.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import LibraryContentBlocks from "../../components/LibraryContentBlocks.astro";
+import LibraryReadingDiscovery from "../../components/LibraryReadingDiscovery.astro";
 import LibraryResearchShelf from "../../components/LibraryResearchShelf.astro";
 import PageHero from "../../components/PageHero.astro";
 import { publicDocumentItems } from "../../data/documents";
-import { paperDocuments } from "../../data/papers";
+import { publicPaperCatalogue } from "../../data/reader-catalogue";
 import { publicLibrarySnapshot } from "../../data/public-library";
 import { sitePath } from "../../lib/paths";
 import GreenPublicationShelf from "../../components/GreenPublicationShelf.astro";
 import PublicDocumentShelf from "../../components/PublicDocumentShelf.astro";
 
 const { areas, note, stats } = publicLibrarySnapshot;
-const paperDocumentIds = new Set(paperDocuments.map((document) => document.id));
+const paperDocumentIds = new Set(publicPaperCatalogue.map((document) => document.id));
 const otherPublicDocuments = publicDocumentItems.filter(
   (document) => !paperDocumentIds.has(document.id),
 );
@@ -30,6 +31,7 @@ const otherPublicDocuments = publicDocumentItems.filter(
     description="The complete public catalogue of papers and records. Search paper summaries on power, work, evidence and technology. Each record identifies its sources, limitations and publication status."
   />
 
+  <LibraryReadingDiscovery />
   <LibraryResearchShelf />
   <section class="shell" aria-labelledby="taxonomy-invitation">
     <h2 id="taxonomy-invitation">Explore planned research</h2><p>
@@ -53,7 +55,7 @@ const otherPublicDocuments = publicDocumentItems.filter(
         </p>
       </div>
     </div>
-    <GreenPublicationShelf />
+    <GreenPublicationShelf mode="previews" title="Research previews: still in development." />
     <section class="section section-rule" aria-labelledby="library-review-boundaries-title">
       <div class="shell page-grid">
         <aside class="page-aside">Editorial status</aside><div class="prose">

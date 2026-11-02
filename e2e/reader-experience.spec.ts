@@ -184,6 +184,6 @@ test("homepage distinguishes listening, playable reels and following", async ({ 
   await page.goto("/#follow-updates");
   await expect(page.locator("#follow-updates")).toBeVisible();
   await expect(
-    page.locator("#follow-updates").getByRole("link", { name: "Follow on Substack" }),
-  ).toHaveAttribute("href", "https://substack.com/@independentobserver");
+    page.locator("#follow-updates").getByRole("link", { name: "Subscribe free on Substack ↗" }),
+  ).toHaveAttribute("href", "https://independentobserver.substack.com/subscribe?simple=true");
 });

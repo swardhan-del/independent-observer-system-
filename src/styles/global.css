@@ -12400,3 +12400,44 @@ kbd {
     padding: 12px 14px;
   }
 }
+
+/* Shared reading cards keep the question and next action easy to scan. */
+.reader-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.reader-card[hidden],
+.library-research-shelf[hidden] {
+  display: none;
+}
+.reader-card h3 {
+  margin: 16px 0 12px;
+}
+.reader-card .reader-card-title {
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  color: var(--slate-600);
+  margin-top: 0;
+}
+.reader-card-footer {
+  margin-top: auto;
+  padding-top: 20px;
+}
+.reader-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  font-size: 0.85rem;
+}
+.reader-card-footer .text-link {
+  display: inline-block;
+  margin-top: 8px;
+}
+@media (min-width: 901px) {
+  .site-header .masthead {
+    padding-block: 18px;
+    align-items: center;
+  }
+}

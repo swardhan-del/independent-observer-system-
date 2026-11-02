@@ -1,0 +1,174 @@
+---
+import { recentArticles, articleQuestions } from "../data/reader-catalogue";
+import { readingTimeMinutes } from "../data/green-publications";
+import { historyPodcast } from "../data/podcast";
+import { sitePath } from "../lib/paths";
+import ReaderCardContent from "./ReaderCardContent.astro";
+---
+
+<section
+  class="section section-white library-reading-discovery"
+  aria-labelledby="reading-discovery-title"
+>
+  <div class="shell">
+    <div class="reading-discovery-controls" data-reading-controls hidden>
+      <h2 id="reading-discovery-title">How much time do you have?</h2>
+      <div class="library-paper-filters" role="group" aria-label="Choose reading time or audio">
+        <button type="button" data-reading-mode="all" aria-pressed="true">All reads</button>
+        <button type="button" data-reading-mode="short" aria-pressed="false">Under 5 minutes</button
+        >
+        <button type="button" data-reading-mode="long" aria-pressed="false">Longer reads</button>
+        <button type="button" data-reading-mode="listen" aria-pressed="false">Listen</button>
+      </div>
+      <p class="form-note">
+        Reading times estimate the text on this website, not the full manuscripts. Longer reads take
+        5 minutes or more. Paper search and volume filters apply to the summaries below.
+      </p>
+      <p role="status" aria-live="polite" data-reading-status></p>
+    </div>
+    <div data-released-reading>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Read now</p><h2 id="released-reading-title">
+            Start with a released article.
+          </h2>
+        </div><p>
+          {recentArticles.length} released articles. Paper summaries follow; research previews are listed
+          separately below.
+        </p>
+      </div>
+      <div class="focused-reading-grid">
+        {
+          recentArticles.map((item) => (
+            <article
+              class="editorial-card reader-card"
+              data-released-card={item.slug}
+              data-reading-minutes={readingTimeMinutes(item)}
+            >
+              <ReaderCardContent
+                title={item.shortTitle}
+                question={articleQuestions[item.slug]}
+                description={item.standfirst}
+                href={`/research/${item.slug}/`}
+                volume={item.volume}
+                status="Released article"
+                minutes={readingTimeMinutes(item)}
+                date={item.publicationDate}
+                action="Read article"
+              />
+            </article>
+          ))
+        }
+      </div>
+      <p data-released-empty hidden>
+        No released article matches this reading time. Browse the matching paper summaries below, or
+        choose All reads.
+      </p>
+    </div>
+    <details class="library-listen" data-listening-shelf>
+      <summary>Prefer audio? Listen with a transcript</summary>
+      <p>
+        {historyPodcast.status}. Each episode includes a full transcript, source links and its
+        limitations.
+      </p>
+      <div class="focused-reading-grid">
+        {
+          historyPodcast.episodes.map((episode) => (
+            <article class="editorial-card reader-card" data-listening-card>
+              <p class="eyebrow">
+                {episode.volume} · Episode {episode.number}
+              </p>
+              <>
+                <h3>{episode.title}</h3>
+                <p>{episode.summary}</p>
+              </>
+              <div class="reader-card-footer">
+                <p class="reader-card-meta">
+                  <>
+                    <span class="status-pill">Audio essay · editorial preview</span>
+                    <span>{episode.duration}</span>
+                  </>
+                </p>
+                <a
+                  class="text-link"
+                  href={sitePath(`/podcast/#episode-${String(episode.number).padStart(2, "0")}`)}
+                >
+                  Listen or read transcript →
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </details>
+  </div>
+</section>
+<script>
+  import { readingMode, matchesReadingMode } from "../lib/reading-filter";
+  const controls = document.querySelector<HTMLElement>("[data-reading-controls]");
+  if (controls) {
+    const buttons = [...controls.querySelectorAll<HTMLButtonElement>("[data-reading-mode]")];
+    const articles = [...document.querySelectorAll<HTMLElement>("[data-released-card]")];
+    const papers = document.querySelector<HTMLElement>(".library-research-shelf");
+    const released = document.querySelector<HTMLElement>("[data-released-reading]")!;
+    const audio = document.querySelector<HTMLDetailsElement>("[data-listening-shelf]")!;
+    const render = () => {
+      const mode = readingMode(new URLSearchParams(location.search).get("reading"));
+      buttons.forEach((button) =>
+        button.setAttribute("aria-pressed", String(button.dataset.readingMode === mode)),
+      );
+      articles.forEach(
+        (card) => (card.hidden = !matchesReadingMode(Number(card.dataset.readingMinutes), mode)),
+      );
+      released.hidden = mode === "listen";
+      if (papers) papers.hidden = mode === "listen";
+      audio.open = mode === "listen";
+      const count = articles.filter((card) => !card.hidden).length;
+      document.querySelector<HTMLElement>("[data-released-empty]")!.hidden = count > 0;
+      controls.querySelector<HTMLElement>("[data-reading-status]")!.textContent =
+        mode === "listen"
+          ? `${document.querySelectorAll("[data-listening-card]").length} audio essays with transcripts`
+          : `${count} released ${count === 1 ? "article" : "articles"}; matching paper summaries below`;
+      document.dispatchEvent(new Event("reading-mode-change"));
+    };
+    buttons.forEach((button) =>
+      button.addEventListener("click", () => {
+        const url = new URL(location.href);
+        const mode = readingMode(button.dataset.readingMode ?? null);
+        if (mode === "all") url.searchParams.delete("reading");
+        else url.searchParams.set("reading", mode);
+        history.pushState(null, "", url.pathname + url.search + url.hash);
+        render();
+      }),
+    );
+    controls.hidden = false;
+    window.addEventListener("popstate", render);
+    window.addEventListener("pageshow", render);
+    render();
+  }
+</script>
+<style>
+  .library-reading-discovery {
+    padding-block: 28px;
+  }
+  .reading-discovery-controls {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .reading-discovery-controls h2 {
+    font-size: 1.4rem;
+  }
+  .library-listen {
+    margin-top: 28px;
+  }
+  .library-listen > summary {
+    padding: 16px;
+    border: 1px solid var(--line);
+    cursor: pointer;
+    font-weight: 700;
+  }
+  .library-listen[open] > summary {
+    margin-bottom: 20px;
+  }
+</style>
