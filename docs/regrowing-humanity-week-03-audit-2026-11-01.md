@@ -132,3 +132,11 @@ Production still serves preview v1; the expanded v2 remains on the PR preview.
 The source controller and final publication holds remain unchanged. This
 continuation corrects the rollback instructions and carries the existing work
 forward for review without adding another article or changing its release state.
+
+The continuation's hosted run `41645745636` reproduced the shallow-checkout
+failure already diagnosed in Week 1 PR #83: the feed guard could not resolve its
+required base commit and stopped before website tests. This PR reuses the exact
+checkout-history correction from `f237bdf0cea178e71822af994016d3908b9049ea`
+(`fetch-depth: 0`). The publication guard, permissions and protected release
+process remain intact; this is not a generated-feed edit or a completed Week 1
+release. Fresh hosted validation must pass on the resulting head.
