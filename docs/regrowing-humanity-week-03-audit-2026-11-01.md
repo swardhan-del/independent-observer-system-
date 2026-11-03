@@ -111,9 +111,24 @@ unit, metadata, sitemap and publication-boundary checks must pass, along with
 hosted CI on the final commit. Actual results and any failures or unrun checks
 are recorded in the PR and private reports.
 
-Before merge, close the PR to abandon the proposal. To remove only the expansion
-while keeping the earlier audit, revert the implementation commit on its branch
-through a reviewed change. If later merged and a rollback is authorized, revert
-that same implementation commit from current main, validate and use the normal
-review/release process. Preserve later work and shared history. No source
-restoration or production rollback is required by this unmerged preparation.
+Before merge, close the PR to abandon the proposal. To remove both implementation
+changes while keeping the earlier audit, revert the focus fix
+`46453472b1a967354d19c3d609ed273d27957403` first, then the article expansion
+`4d2252412060f593a733b749ee5bd5329e641f38`, through a reviewed branch change. If
+only the article expansion is withdrawn, revert the latter commit and explicitly
+review whether the shared navigation fix should remain. If later merged and a
+rollback is authorized, apply the same reviewed reverts from current main,
+validate and use the normal review/release process. Preserve later work and
+shared history; do not reset or force-push main. No source restoration or
+production rollback is required by this unmerged preparation.
+
+## Continuation checkpoint — 3 November 2026
+
+The existing expansion is queued in PR #86, not missing work to recreate.
+Preflight confirmed its implementation head above and successful hosted CI run
+`41356910318`; its Vercel preview is ready. Main and the actual production build
+have advanced independently to `4274de7ee15292d25d0652f1a23cc1eb392a4d93`.
+Production still serves preview v1; the expanded v2 remains on the PR preview.
+The source controller and final publication holds remain unchanged. This
+continuation corrects the rollback instructions and carries the existing work
+forward for review without adding another article or changing its release state.
