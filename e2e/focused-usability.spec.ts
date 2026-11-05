@@ -5,7 +5,7 @@ test("homepage offers bounded choices and mobile header leaves room to read", as
   isMobile,
 }) => {
   await page.goto("/");
-  await expect(page.locator("[data-home-reading]")).toHaveCount(3);
+  await expect(page.locator("[data-featured-investigation]")).toHaveCount(4);
   const dimensions = await page.evaluate(() => ({
     height: document.documentElement.scrollHeight,
     overflow: document.documentElement.scrollWidth > innerWidth,
@@ -13,7 +13,7 @@ test("homepage offers bounded choices and mobile header leaves room to read", as
     readingPosition: getComputedStyle(document.querySelector(".reading-list-tools")!).position,
   }));
   expect(dimensions.overflow).toBe(false);
-  await expect(page.locator(".hero-summary")).toContainText("sources you can check");
+  await expect(page.locator(".hero-summary")).toContainText("Independent research and analysis");
   const order = await page.evaluate(() => {
     const content = document.querySelector("#main-content")!;
     const tools = document.querySelector(".reader-toolbar")!;
@@ -67,7 +67,7 @@ test("primary navigation stays bounded and exposes the join path", async ({ page
   await expect(page).toHaveURL(/\/join\/$/);
   await expect(
     page.getByRole("heading", {
-      name: "Good questions. Sources you can follow.",
+      name: "The Observer Brief",
     }),
   ).toBeVisible();
 });

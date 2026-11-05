@@ -5,6 +5,7 @@ import ReadingJourneys from "../../components/ReadingJourneys.astro";
 import JusticeCapacityPath from "../../components/JusticeCapacityPath.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
+import { editorialThemes } from "../../data/editorial-discovery";
 import { sitePath } from "../../lib/paths";
 ---
 
@@ -15,9 +16,9 @@ import { sitePath } from "../../lib/paths";
 >
   <PageHero
     className="discovery-hero"
-    eyebrow="Independent Observer volumes"
+    eyebrow="New to The Independent Observer?"
     title="Start with a question."
-    description="Guided entry points for new readers. Choose a question about evidence, power or work. Start with a short summary, then follow the sources at your own pace."
+    description="Choose a subject or begin with a four-minute example. Follow a claim back to its sources, then explore the four-volume research archive at your own pace."
   />
   <section class="section section-white" aria-labelledby="first-read-title">
     <div class="shell prose">
@@ -47,6 +48,23 @@ import { sitePath } from "../../lib/paths";
       >
     </div>
   </section>
+  <section class="section section-white" aria-labelledby="start-topics-title">
+    <div class="shell prose">
+      <h2 id="start-topics-title">Find a subject you want to understand</h2>
+      <ul class="start-themes">
+        {
+          editorialThemes.map((theme) => (
+            <li>
+              <>
+                <a href={sitePath(theme.href)}>{theme.label}</a>
+                <span>{theme.description}</span>
+              </>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
   <ReadingJourneys />
   <JusticeCapacityPath />
   <ReadingToolsInvitation />
@@ -66,3 +84,18 @@ import { sitePath } from "../../lib/paths";
   </section>
   <div class="shell"><FollowUpdates /></div>
 </BaseLayout>
+
+<style>
+  .start-themes {
+    padding-inline-start: 1.25em;
+  }
+  .start-themes li + li {
+    margin-top: 12px;
+  }
+  .start-themes span {
+    display: block;
+  }
+  .start-themes a {
+    font-weight: 700;
+  }
+</style>

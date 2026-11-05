@@ -291,15 +291,15 @@ describe("built website", () => {
     expect(changelogHtml).not.toContain("Regrowing Humanity");
   });
 
-  it("offers three unique summaries and a route to the complete library", () => {
+  it("offers four distinct released features and a route to the complete library", () => {
     const html = readOutput("index.html");
-    const cards = tags(html, "article").filter((tag) => attribute(tag, "data-home-reading"));
-    expect(cards).toHaveLength(3);
-    expect(new Set(cards.map((tag) => attribute(tag, "data-home-reading"))).size).toBe(3);
+    const cards = tags(html, "article").filter((tag) => attribute(tag, "data-featured-investigation"));
+    expect(cards).toHaveLength(4);
+    expect(new Set(cards.map((tag) => attribute(tag, "data-featured-investigation"))).size).toBe(4);
     expect(html).toContain("library/documents/who-deported-more/");
     expect(html).toContain(`Explore all ${publicPaperCatalogue.length} author paper pages`);
     expect(html).toContain(sitePathForTest("/library/"));
-    expect(html).toContain("These are summaries of working papers.");
+    expect(html).toContain("Featured investigations");
     expect(html).not.toContain("/Independent Observer desktop/");
   });
 
@@ -467,7 +467,7 @@ describe("built website", () => {
   it("renders the About page's concise project message before the detailed atlas", () => {
     const html = readOutput("about/index.html");
 
-    expect(html).toContain("<h1>Independent Observer</h1>");
+    expect(html).toContain("<h1>The Independent Observer</h1>");
     expect(html).toContain("One project. Four volumes.");
     expect(html).toContain('class="section section-navy about-program"');
     expect(html).toContain("Read the program as a sequence");
@@ -908,7 +908,7 @@ describe("built website", () => {
       /<a\b[^>]*class=["'][^"']*skip-link[^"']*["'][^>]*href=["']#main-content["']/i,
     );
     expect(tags(html, "nav").filter((tag) => Boolean(attribute(tag, "aria-label")))).toHaveLength(
-      route.startsWith("/library/documents/") ? 4 : route === "/" || route === "/topics/" ? 3 : 2,
+      route.startsWith("/library/documents/") || route === "/" ? 4 : route === "/topics/" ? 3 : 2,
     );
     expect(new Set(pageIds).size).toBe(pageIds.length);
     expect(headings[0]).toBe(1);

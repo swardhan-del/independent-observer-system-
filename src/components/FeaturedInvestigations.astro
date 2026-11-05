@@ -1,0 +1,85 @@
+---
+import { featuredInvestigations } from "../data/editorial-discovery";
+import { articleQuestions } from "../data/reader-catalogue";
+import { readingTimeMinutes } from "../data/green-publications";
+import ReaderCardContent from "./ReaderCardContent.astro";
+import { sitePath } from "../lib/paths";
+---
+
+<section class="section section-white featured" aria-labelledby="recent-articles-title">
+  <div class="shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">From the research desk</p>
+        <h2 id="recent-articles-title">Featured investigations</h2>
+      </div>
+      <a class="text-link" href={sitePath("/latest/")}>All releases and revisions →</a>
+    </div>
+    <div class="feature-grid">
+      {
+        featuredInvestigations.map(({ publication, theme, cover, hook }) => (
+          <article
+            class="editorial-card reader-card"
+            data-featured-investigation={publication.slug}
+          >
+            <img
+              class="feature-cover"
+              src={sitePath(`/editorial-covers/${cover}.svg`)}
+              alt=""
+              width="480"
+              height="120"
+              loading="lazy"
+              decoding="async"
+            />
+            <p class="feature-theme">{theme}</p>
+            <ReaderCardContent
+              title={publication.shortTitle}
+              question={articleQuestions[publication.slug]}
+              description={hook}
+              href={`/research/${publication.slug}/`}
+              volume={publication.volume}
+              status="Released article"
+              minutes={readingTimeMinutes(publication)}
+              date={publication.publicationDate}
+              action="Read article"
+            />
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .featured {
+    padding-block: 40px;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .feature-cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-bottom: 14px;
+  }
+  .feature-theme {
+    margin: 0;
+    color: var(--navy-950);
+    font-weight: 700;
+  }
+  @media (max-width: 680px) {
+    .featured {
+      padding-block: 28px;
+    }
+    .section-heading {
+      grid-template-columns: minmax(0, 1fr);
+      overflow-wrap: anywhere;
+    }
+    .feature-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

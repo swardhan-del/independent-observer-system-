@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import AboutVolumeAtlas from "../../components/AboutVolumeAtlas.astro";
+import { editorialMission } from "../../data/editorial-discovery";
 import { sitePath } from "../../lib/paths";
 import { previewGreenPublications } from "../../data/green-publications";
 ---
@@ -13,17 +14,17 @@ import { previewGreenPublications } from "../../data/green-publications";
 >
   <PageHero
     eyebrow="About the project"
-    title="Independent Observer"
-    description="A public research project about how evidence, institutions, history, work, science, and technology shape what people can know, contest, and change."
+    title="The Independent Observer"
+    description={editorialMission}
     className="about-hero"
   />
   <section class="section section-white" aria-labelledby="author-title">
     <div class="shell prose">
       <p class="eyebrow">The author</p><h2 id="author-title">Siddhartha Harsh Wardhan</h2>
       <p>
-        Siddhartha Harsh Wardhan writes and develops Independent Observer, an independent research
-        and essay project about power, work, history and technology. He brings these subjects
-        together to examine how public decisions affect everyday life.
+        Siddhartha Harsh Wardhan writes and edits The Independent Observer. The publication brings
+        history, political economy, work, science, and technology together to examine how public
+        decisions affect everyday life.
       </p>
       <p>
         The aim is to help readers look beneath a headline: identify the source, examine what it

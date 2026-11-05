@@ -16,13 +16,13 @@ const sampleArticles = recentArticles.filter((item) =>
 
 <BaseLayout
   title="Join"
-  description="Join the Independent Observer reader list and learn how supporting membership will help fund public research."
+  description="Subscribe free to The Observer Brief for new Independent Observer research, source notes, and selected reading."
   currentPath="/join/"
 >
   <PageHero
     className="discovery-hero"
-    eyebrow="Join Independent Observer"
-    title="Good questions. Sources you can follow."
+    eyebrow="The Independent Observer newsletter"
+    title="The Observer Brief"
     description="Join the free reader list for research notes and publication updates. Explore a sample reading brief below."
   >
     <a
@@ -52,7 +52,7 @@ const sampleArticles = recentArticles.filter((item) =>
       <div class="join-reader-grid">
         <article class="editorial-card">
           <p class="eyebrow">Free reader · $0</p>
-          <h3>The Observer Brief</h3>
+          <h3>What you’ll receive</h3>
           <p>
             Receive research notes, new-paper alerts, publication updates, and selected reading
             paths.
@@ -90,12 +90,6 @@ const sampleArticles = recentArticles.filter((item) =>
           >
         </article>
       </div>
-      <details class="join-supporting">
-        <summary>Supporting membership is planned</summary><p>
-          Supporting membership is not available yet. Details and pricing will be published when it
-          opens. Core public research remains free.
-        </p><a href={sitePath("/contact/")}>Ask about supporting membership →</a>
-      </details>
     </div>
   </section>
 
@@ -105,9 +99,8 @@ const sampleArticles = recentArticles.filter((item) =>
         <p class="eyebrow">Publishing principle</p>
         <h2 id="join-principle-title">The research stays discoverable.</h2>
         <p>
-          Independent Observer is building an audience through public, source-led work. Supporting
-          membership is intended to fund deeper briefings, collections, and production—not to hide
-          the evidence required to evaluate a public claim.
+          The library, article sources, and correction notes are open to everyone. The Observer
+          Brief is an optional way to hear about new work.
         </p>
       </div>
       <p><a class="button" href={sitePath("/library/")}>Read the public library →</a></p>
@@ -128,14 +121,7 @@ const sampleArticles = recentArticles.filter((item) =>
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
     gap: 28px;
     align-items: start;
-  }
-  .join-supporting {
-    margin-top: 28px;
-    border-top: 1px solid var(--line);
-    padding-top: 20px;
-  }
-  .join-supporting summary {
-    cursor: pointer;
+    overflow-wrap: anywhere;
   }
   .sample-brief-list {
     padding-left: 24px;
@@ -148,7 +134,7 @@ const sampleArticles = recentArticles.filter((item) =>
   }
   @media (max-width: 900px) {
     .join-reader-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 </style>

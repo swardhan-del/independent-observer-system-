@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" preserveAspectRatio="xMidYMid slice">
+  <rect width="1600" height="900" fill="#101e33"/>
+  <path d="M80 186h1440M80 714h1440M1048 232v436" fill="none" stroke="#536579" stroke-width="2"/>
+  <path d="M80 186h126" fill="none" stroke="#e0bc7b" stroke-width="6"/>
+  <g transform="translate(1056 405) scale(.96)">
+    <rect x="1" y="1" width="478" height="118" fill="#101e33" stroke="#536579" stroke-width="2"/>
+    {{MOTIF}}
+  </g>
+  <text x="88" y="151" fill="#f5f1e8" font-family="Georgia, serif" font-size="42">The Independent Observer</text>
+  <text x="88" y="299" fill="#e0bc7b" font-family="Arial, sans-serif" font-size="26" letter-spacing="3" font-weight="bold">{{DESK}}</text>
+  <text x="88" y="424" fill="#f5f1e8" font-family="Georgia, serif" font-size="80">
+    <tspan x="88">{{TITLE_ONE}}</tspan>
+    <tspan x="88" dy="100">{{TITLE_TWO}}</tspan>
+  </text>
+  <text x="88" y="637" fill="#d6dfeb" font-family="Arial, sans-serif" font-size="31">{{DECK}}</text>
+  <text x="88" y="773" fill="#d6dfeb" font-family="Arial, sans-serif" font-size="25">independentobserver.org</text>
+</svg>

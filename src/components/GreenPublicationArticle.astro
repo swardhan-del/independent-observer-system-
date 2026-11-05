@@ -10,10 +10,12 @@ import type { GreenPublication } from "../data/green-publications";
 import { publicSitePath, sitePath } from "../lib/paths";
 import PublicationRecord from "./PublicationRecord.astro";
 import FollowUpdates from "./FollowUpdates.astro";
+import { featuredInvestigations } from "../data/editorial-discovery";
 import { aiReadingCollection } from "../data/reading-collections";
 
 const { publication } = Astro.props as { publication: GreenPublication };
 const currentPath = `/research/${publication.slug}/`;
+const readerGuide = featuredInvestigations.find((item) => item.slug === publication.slug);
 const collectionMember = aiReadingCollection.slugs.includes(publication.slug);
 const headings = publication.sectionHeadings ?? [];
 const revisions = publication.revisionNotes ?? [];
@@ -101,6 +103,21 @@ const schema = JSON.stringify({
           <p>{publication.topics.join(" · ")}</p>
         </details>
       </header>
+      {
+        readerGuide && (
+          <details class="reader-introduction">
+            <summary>Read a short introduction</summary>
+            <p>{readerGuide.introduction}</p>
+            <ul aria-label="Sources for the introduction">
+              {readerGuide.sources.map((index) => (
+                <li>
+                  <a href={`#source-${index}`}>{publication.sourceNotes[index - 1].label}</a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        )
+      }
       <PublicationRecord
         title={publication.title}
         author={publication.author}
@@ -342,5 +359,22 @@ const schema = JSON.stringify({
     :global(.follow-updates) {
       display: none;
     }
+  }
+</style>
+
+<style>
+  .reader-introduction {
+    margin-block: 0 24px;
+    padding: 14px 18px;
+    border-inline-start: 3px solid var(--navy-950);
+    background: var(--paper);
+    overflow-wrap: anywhere;
+  }
+  .reader-introduction summary {
+    cursor: pointer;
+    font-weight: 700;
+  }
+  .reader-introduction ul {
+    padding-inline-start: 1.25em;
   }
 </style>

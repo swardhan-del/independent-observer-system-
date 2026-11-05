@@ -560,9 +560,9 @@ describe("interactive preview tools", () => {
   });
 
   it("connects the About page to the Volume I method and public reading copy", () => {
-    expect(about).toContain('title="Independent Observer"');
+    expect(about).toContain('title="The Independent Observer"');
     expect(about).toContain('className="about-hero"');
-    expect(about).toContain("A public research project about how evidence");
+    expect(about).toContain("description={editorialMission}");
     expect(about).toContain("One project. Four volumes.");
     expect(about).toContain("The four Independent Observer volumes");
     expect(about).toContain('class="section section-navy about-program"');
