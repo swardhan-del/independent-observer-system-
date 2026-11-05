@@ -115,7 +115,7 @@ const revisionLabel =
   }
   .publication-record dl {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(11rem, 100%), 1fr));
     gap: 0.8rem 1.25rem;
     margin: 0;
   }
@@ -127,6 +127,7 @@ const revisionLabel =
   }
   .publication-record dd {
     margin: 0.18rem 0 0;
+    overflow-wrap: anywhere;
   }
   .publication-record p {
     margin: 0.9rem 0 0;

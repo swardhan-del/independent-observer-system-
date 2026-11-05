@@ -1,5 +1,30 @@
 export const siteUpdates = [
   {
+    id: "reader-entry-and-observer-brief-2026-11-05",
+    date: "2026-11-05",
+    title: "New ways into the research",
+    changes: [
+      {
+        what: "The homepage highlights four released articles and links directly to five research themes.",
+        why: "Find a useful article before learning how the four volumes are organised.",
+        route: "/",
+        label: "Explore featured investigations",
+      },
+      {
+        what: "Four selected analyses have optional reading introductions that link to the original sources.",
+        why: "Get oriented before reading the full analysis.",
+        route: "/research/the-last-human-workforce/",
+        label: "Try an article introduction",
+      },
+      {
+        what: "The Observer Brief has one free subscription action through Substack.",
+        why: "See what email updates contain and read a sample before subscribing.",
+        route: "/join/",
+        label: "Explore The Observer Brief",
+      },
+    ],
+  },
+  {
     id: "six-reading-pages-2026-10-09",
     date: "2026-10-09",
     title: "Six research-map entries now have bounded reading pages",

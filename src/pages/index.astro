@@ -1,22 +1,14 @@
 ---
-import { displayTitle, summaryDescription, readingMinutes } from "../data/reader-presentation";
 import FollowUpdates from "../components/FollowUpdates.astro";
 import ContinueReading from "../components/ContinueReading.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { publicPaperCatalogue } from "../data/reader-catalogue";
-import { startingQuestions } from "../data/scholarly-clarity";
-import ReaderCardContent from "../components/ReaderCardContent.astro";
-import RecentArticles from "../components/RecentArticles.astro";
+import FeaturedInvestigations from "../components/FeaturedInvestigations.astro";
+import { editorialMission, editorialThemes } from "../data/editorial-discovery";
 import { seriesItems } from "../data/series";
 import { sitePath } from "../lib/paths";
 import { slugify } from "../lib/slugs";
 import { historyPodcast } from "../data/podcast";
-const selectedIds = ["entanglement-primer", "disconnected-hearts", "wardhan-tax-doctrine"];
-const readings = selectedIds.map((id) => {
-  const paper = publicPaperCatalogue.find((paper) => paper.id === id);
-  if (!paper) throw new Error(`Homepage selection is missing its public paper record: ${id}`);
-  return paper;
-});
 const volumeQuestions: Record<string, string> = {
   "Volume I": "How do we know what to believe?",
   "Volume II": "Where does public power reside?",
@@ -32,24 +24,24 @@ const questionFor = (volume: string) => {
 
 <BaseLayout
   title="Independent Research on Institutions, Work and Technology"
-  description="Independent research tests public claims about institutions, technology, work, and political power across four volumes, with sources and stated limits."
+  description={editorialMission}
   currentPath="/"
 >
   <section class="hero focused-home-hero">
     <div class="shell hero-inner">
       <div>
-        <h1>Observe the system.<br /><em>Question the frame.</em></h1>
-        <p class="hero-summary">
-          Research on power, work and technology—with sources you can check and limits clearly
-          stated.
+        <h1>Follow the evidence.</h1>
+        <p class="hero-summary">{editorialMission}</p>
+        <p class="hero-purpose">
+          Follow sources you can check, compare explanations, and see where the evidence ends.
         </p>
-        <p class="form-note hero-entry-links">
-          <a href={sitePath("/start/#reading-journeys")}>Choose a question →</a>
-          <a href={sitePath("/governance/")}>Sources and editorial standards →</a>
-        </p>
+        <div class="hero-actions">
+          <a class="button" href={sitePath("/library/")}>Browse the research library →</a>
+          <a class="button button-secondary" href={sitePath("/start/")}>Start here</a>
+        </div>
       </div>
       <aside class="hero-note" aria-labelledby="hero-note-title">
-        <p class="eyebrow">Featured explanation · 4 min read</p>
+        <p class="eyebrow">Start here · 4 min read</p>
         <h2 id="hero-note-title">What does a deportation number actually count?</h2>
         <p>
           Learn why two deportation totals can tell different stories. Try a worked example, then
@@ -58,48 +50,41 @@ const questionFor = (volume: string) => {
         <a class="button" href={sitePath("/library/documents/who-deported-more/")}
           >Start reading · 4 min →</a
         >
-        <p class="form-note">Free explanation · no account needed</p>
+        <p class="form-note">
+          <a href={sitePath("/start/#reading-journeys")}>Choose a question →</a>
+        </p>
       </aside>
     </div>
   </section>
   <div class="shell"><ContinueReading /></div>
-  <RecentArticles />
+  <FeaturedInvestigations />
   <section class="section section-white" aria-labelledby="homepage-literature-title">
     <div class="shell">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Selected reading</p><h2 id="homepage-literature-title">
-            Three places to begin.
-          </h2>
-        </div><p>
-          These are summaries of working papers. Each page explains its sources and limitations.
-        </p>
+          <p class="eyebrow">Research themes</p>
+          <h2 id="homepage-literature-title">Explore by topic</h2>
+        </div>
+        <a class="text-link" href={sitePath("/topics/")}>All topic guides →</a>
       </div>
-      <div class="focused-reading-grid">
-        {
-          readings.map((paper) => (
-            <article class="editorial-card reader-card" data-home-reading={paper.id}>
-              <ReaderCardContent
-                title={displayTitle(paper)}
-                question={startingQuestions[paper.id]}
-                description={summaryDescription(paper)}
-                href={`/library/documents/${paper.id}/`}
-                volume={paper.volume}
-                status="Working-paper summary"
-                minutes={readingMinutes(paper)}
-                action="Read the summary"
-              />
-            </article>
-          ))
-        }
-      </div>
+      <nav aria-label="Explore by topic">
+        <ul class="theme-links">
+          {
+            editorialThemes.map((theme) => (
+              <li>
+                <a href={sitePath(theme.href)}>{theme.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
       <p>
         <a class="text-link" href={sitePath("/library/")}
-          >Explore all {publicPaperCatalogue.length} author paper pages and the full library →</a
-        >
+          >Explore all {publicPaperCatalogue.length} author paper pages and the full library →</a>
       </p>
     </div>
   </section>
+  <div class="shell"><FollowUpdates id="follow-updates" compact /></div>
   <section class="section section-navy" aria-labelledby="homepage-podcast-title">
     <div class="shell focused-podcast">
       <div>
@@ -152,14 +137,23 @@ const questionFor = (volume: string) => {
       <p class="eyebrow">The author</p>
       <h2 id="homepage-author-title">Siddhartha Harsh Wardhan</h2>
       <p>
-        A single-author research and essay project examining how institutions, work and technology
-        shape everyday life. Each reading page identifies its sources and limitations.
+        The Independent Observer is written by Siddhartha Harsh Wardhan. Read the method to see how
+        an argument is tested, what counts as evidence, and how to flag an error.
       </p>
-      <p><a href={sitePath("/about/")}>Meet the author and explore the method →</a></p>
-      <p><a href={sitePath("/latest/")}>See new and recently revised research →</a></p>
+      <ul>
+        <li><a href={sitePath("/about/")}>About the author</a></li>
+        <li>
+          <a href={sitePath("/research/the-independent-observer-method/")}
+            >The Independent Observer Method</a>
+        </li>
+        <li>
+          <a href={sitePath("/governance/#editorial-standards")}
+            >Sourcing and editorial standards</a>
+        </li>
+        <li><a href={sitePath("/governance/#corrections")}>Corrections policy</a></li>
+      </ul>
     </div>
   </section>
-  <div class="shell"><FollowUpdates id="follow-updates" /></div>
 </BaseLayout>
 <script>
   import { track } from "../lib/analytics";
@@ -185,10 +179,26 @@ const questionFor = (volume: string) => {
   .focused-home-hero .hero-summary {
     margin-top: 16px;
   }
-  .hero-entry-links {
+  .hero-purpose {
+    max-width: 48ch;
+    color: var(--white);
+  }
+  .theme-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px 24px;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .theme-links a {
+    display: inline-block;
+    padding: 9px 14px;
+    border: 1px solid var(--line);
+    color: var(--navy-950);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.16em;
   }
   .home-author {
     padding-block: 32px;

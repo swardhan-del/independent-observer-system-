@@ -8,8 +8,8 @@ type SocialPreviewCard = {
 
 const socialPreviewCards: Record<string, SocialPreviewCard> = {
   "/": {
-    src: "/social-cards/home.jpg",
-    alt: "Independent Observer: Observe the system. Question the frame.",
+    src: "/social-cards/brand-home.jpg",
+    alt: "The Independent Observer: Independent research and analysis of institutions, economics, and technology.",
     type: "image/jpeg",
     width: 1200,
     height: 630,
@@ -50,15 +50,29 @@ const socialPreviewCards: Record<string, SocialPreviewCard> = {
     height: 630,
   },
   "/research/the-last-human-workforce/": {
-    src: "/social-cards/last-human-workforce.jpg",
+    src: "/social-cards/brand-workforce.jpg",
     alt: "The Last Human Workforce: Task Bundles, Automation, and Transition Design.",
     type: "image/jpeg",
     width: 1200,
     height: 630,
   },
   "/research/factories-return-but-do-the-jobs/": {
-    src: "/social-cards/factories-return.jpg",
+    src: "/social-cards/brand-factories.jpg",
     alt: "Factories Return but Do the Jobs: reshoring, work, wages and ownership.",
+    type: "image/jpeg",
+    width: 1200,
+    height: 630,
+  },
+  "/research/democracys-achilles-heel/": {
+    src: "/social-cards/brand-democracy.jpg",
+    alt: "Democracy’s Achilles’ Heel: access, information, and review after ballots are counted.",
+    type: "image/jpeg",
+    width: 1200,
+    height: 630,
+  },
+  "/research/the-server-as-a-furnace/": {
+    src: "/social-cards/brand-furnace.jpg",
+    alt: "The Server as a Furnace: what makes data centre heat recovery useful.",
     type: "image/jpeg",
     width: 1200,
     height: 630,
