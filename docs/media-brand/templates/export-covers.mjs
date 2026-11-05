@@ -18,14 +18,52 @@ if (videoDir) {
 }
 
 const templates = [
-  ["brand-home", "review", "INDEPENDENT RESEARCH & ANALYSIS", "Follow the", "evidence.", "Institutions, economics, and technology"],
-  ["brand-workforce", "tasks", "AI & EMPLOYMENT", "When AI changes", "the work", "Tasks, evidence, and who gains"],
-  ["brand-factories", "industry", "LABOUR & OWNERSHIP", "The factory is back.", "Are the jobs?", "Output, wages, and ownership"],
-  ["brand-democracy", "review", "INSTITUTIONS & ACCOUNTABILITY", "After the ballot", "is counted", "Access, information, and review"],
-  ["brand-furnace", "thermal", "SCIENCE & INFRASTRUCTURE", "Where does the", "server heat go?", "What makes heat recovery useful"],
+  [
+    "brand-home",
+    "review",
+    "INDEPENDENT RESEARCH & ANALYSIS",
+    "Follow the",
+    "evidence.",
+    "Institutions, economics, and technology",
+  ],
+  [
+    "brand-workforce",
+    "tasks",
+    "AI & EMPLOYMENT",
+    "When AI changes",
+    "the work",
+    "Tasks, evidence, and who gains",
+  ],
+  [
+    "brand-factories",
+    "industry",
+    "LABOUR & OWNERSHIP",
+    "The factory is back.",
+    "Are the jobs?",
+    "Output, wages, and ownership",
+  ],
+  [
+    "brand-democracy",
+    "review",
+    "INSTITUTIONS & ACCOUNTABILITY",
+    "After the ballot",
+    "is counted",
+    "Access, information, and review",
+  ],
+  [
+    "brand-furnace",
+    "thermal",
+    "SCIENCE & INFRASTRUCTURE",
+    "Where does the",
+    "server heat go?",
+    "What makes heat recovery useful",
+  ],
 ];
 
-const svg = await readFile(fileURLToPath(new URL("./editorial-cover.svg", import.meta.url)), "utf8");
+const svg = await readFile(
+  fileURLToPath(new URL("./editorial-cover.svg", import.meta.url)),
+  "utf8",
+);
 const escape = (s) => s.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 const browser = await chromium.launch();
 try {
@@ -42,7 +80,9 @@ try {
       .replace("{{DECK}}", escape(deck));
     const render = async (width, height, path) => {
       await page.setViewportSize({ width, height });
-      await page.setContent(`<style>body{margin:0}svg{display:block;width:100vw;height:100vh}</style>${contents}`);
+      await page.setContent(
+        `<style>body{margin:0}svg{display:block;width:100vw;height:100vh}</style>${contents}`,
+      );
       await page.screenshot({ path, quality: 90 });
     };
     await render(1200, 630, `public/social-cards/${name}.jpg`);
