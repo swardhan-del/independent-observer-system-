@@ -30,6 +30,8 @@ The four original articles stay on their existing routes. A short, optional intr
 
 ## A weekly rhythm, when approved
 
+The [9 November roadmap](ROADMAP.md) sets the current capacity target: one substantial investigation or update every two weeks, one video/narration when feasible, two to four useful clips per investigation, and a weekly Brief only when there is substantive material. The daily slots below are optional production slots, not a promise of weekly investigations or videos. Evaluate the existing four packages before making more versions.
+
 Use one source at a time. Tuesday and Thursday are alternate production slots when capacity is limited. A short or reading recommendation can substitute for a weekly episode; do not rush factual review to meet a day.
 
 | Day       | Editorial action                                          | Done when                                                          |

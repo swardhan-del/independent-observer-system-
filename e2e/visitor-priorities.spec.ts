@@ -123,8 +123,8 @@ test("home routes first-time readers to themes and keeps one working signup dest
 }) => {
   await page.goto("/");
   await expect(
-    page.getByRole("navigation", { name: "Explore by topic" }).getByRole("link"),
-  ).toHaveCount(5);
+    page.getByRole("navigation", { name: "Choose an investigation" }).locator("li"),
+  ).toHaveCount(3);
   const brief = page.locator("#follow-updates");
   await expect(brief.getByRole("link")).toHaveCount(1);
   await expect(brief.getByRole("link")).toHaveAttribute(

@@ -1,0 +1,63 @@
+---
+import { editorialEntryPoints } from "../data/editorial-discovery";
+import { articleQuestions } from "../data/reader-catalogue";
+import { readingTimeMinutes } from "../data/green-publications";
+import { sitePath } from "../lib/paths";
+---
+
+<nav aria-label="Choose an investigation" class="editorial-entry-points">
+  <ul>
+    {
+      editorialEntryPoints.map(({ label, href, action, publication }) => (
+        <li>
+          <strong>{label}</strong>
+          <a href={sitePath(`/research/${publication.slug}/`)}>
+            {articleQuestions[publication.slug]} →
+          </a>
+          <span>Released article · {readingTimeMinutes(publication)} min read</span>
+          <a class="entry-topic" href={sitePath(href)}>
+            {action} →
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  li + li {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid currentColor;
+  }
+  strong,
+  a,
+  span {
+    display: block;
+  }
+  strong {
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+  }
+  a {
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.16em;
+  }
+  span,
+  .entry-topic {
+    font-size: 0.85rem;
+    margin-top: 5px;
+  }
+  .entry-topic {
+    font-weight: 400;
+  }
+  li {
+    overflow-wrap: anywhere;
+  }
+</style>

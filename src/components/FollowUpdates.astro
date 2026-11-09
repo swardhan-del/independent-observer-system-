@@ -10,7 +10,10 @@ const { id, compact = false } = Astro.props;
     compact ? (
       <>
         <h2>Get new research by email</h2>
-        <p>The free Observer Brief brings you new analyses, sources, and selected reading.</p>
+        <p>
+          New original investigations, evidence and source notes, important corrections and updates,
+          and selected related reading. Free through The Observer Brief.
+        </p>
         <a
           class="button"
           href={substackSubscribeUrl}
@@ -25,8 +28,9 @@ const { id, compact = false } = Astro.props;
       <>
         <h2>One serious idea. The evidence behind it.</h2>
         <p>
-          Join the free Independent Observer reader list for research notes, new-paper alerts, and
-          publishing updates. Core public research remains free to read.
+          The free Observer Brief brings you new original investigations, evidence and source notes,
+          important corrections and updates, and selected related reading. Core public research
+          remains free to read.
         </p>
         <a class="button" href={sitePath("/join/")}>
           Join free →

@@ -149,7 +149,7 @@ describe("topic discovery plugin", () => {
     expect(topicDetail).not.toContain("<TopicVolumeMap />");
     expect(topicDetail).toContain("publicOutputItems");
     expect(topicDetail).toContain("Public outputs in this map");
-    expect(topicDetail).toMatch(/Each link explains what is\s+available/);
+    expect(topicDetail).toContain("Use the publication status on each page");
     expect(topicDetail.indexOf("<GreenPublicationShelf")).toBeLessThan(
       topicDetail.indexOf("<TopicReviewQueue"),
     );

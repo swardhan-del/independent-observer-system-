@@ -293,10 +293,13 @@ describe("built website", () => {
 
   it("offers four distinct released features and a route to the complete library", () => {
     const html = readOutput("index.html");
-    const cards = tags(html, "article").filter((tag) => attribute(tag, "data-featured-investigation"));
+    const cards = tags(html, "article").filter((tag) =>
+      attribute(tag, "data-featured-investigation"),
+    );
     expect(cards).toHaveLength(4);
     expect(new Set(cards.map((tag) => attribute(tag, "data-featured-investigation"))).size).toBe(4);
-    expect(html).toContain("library/documents/who-deported-more/");
+    expect(html).toContain('aria-label="Choose an investigation"');
+    expect(readOutput("start/index.html")).toContain("library/documents/who-deported-more/");
     expect(html).toContain(`Explore all ${publicPaperCatalogue.length} author paper pages`);
     expect(html).toContain(sitePathForTest("/library/"));
     expect(html).toContain("Featured investigations");
@@ -495,14 +498,14 @@ describe("built website", () => {
   it("shows Politics public outputs while preserving the standalone release boundary", () => {
     const html = readOutput("topics/politics/index.html");
 
-    expect(html).toContain("Start with a working-paper summary");
+    expect(html).toContain("Use the publication status on each page");
     expect(html).toContain("Public outputs in this map");
     expect(html).toContain("Could America Leave NATO?");
     expect(html).toContain("The Latino Irony: Why Many Hispanic Americans Support Donald Trump");
     expect(html).toContain(
       "From Colonization to China’s Rise: How Historical Power Shifts Still Shape Global Politics and Democracy",
     );
-    expect(html).toContain("Each link explains what is available");
+    expect(html).toContain("summaries and project previews");
     expect(html).not.toContain("has no released article in this field at present");
   });
 
@@ -908,7 +911,11 @@ describe("built website", () => {
       /<a\b[^>]*class=["'][^"']*skip-link[^"']*["'][^>]*href=["']#main-content["']/i,
     );
     expect(tags(html, "nav").filter((tag) => Boolean(attribute(tag, "aria-label")))).toHaveLength(
-      route.startsWith("/library/documents/") || route === "/" ? 4 : route === "/topics/" ? 3 : 2,
+      route.startsWith("/library/documents/") || route === "/"
+        ? 4
+        : ["/topics/", "/start/"].includes(route)
+          ? 3
+          : 2,
     );
     expect(new Set(pageIds).size).toBe(pageIds.length);
     expect(headings[0]).toBe(1);

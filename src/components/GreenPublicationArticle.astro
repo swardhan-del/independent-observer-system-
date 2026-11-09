@@ -12,6 +12,7 @@ import PublicationRecord from "./PublicationRecord.astro";
 import FollowUpdates from "./FollowUpdates.astro";
 import { featuredInvestigations } from "../data/editorial-discovery";
 import { aiReadingCollection } from "../data/reading-collections";
+import { articleQuestions } from "../data/reader-catalogue";
 
 const { publication } = Astro.props as { publication: GreenPublication };
 const currentPath = `/research/${publication.slug}/`;
@@ -73,12 +74,38 @@ const schema = JSON.stringify({
       <header class="article-header">
         <p class="eyebrow">{publication.volume} · {publication.editorialType ?? "Analysis"}</p>
         <h1>{publication.title}</h1>
+        {
+          articleQuestions[publication.slug] && (
+            <p class="article-question">
+              <strong>The question:</strong> {articleQuestions[publication.slug]}
+            </p>
+          )
+        }
         <p class="article-standfirst">{publication.standfirst}</p>
         <p class="article-byline">
           By <a href={sitePath("/about/")}>{publication.author}</a> · {
             readingTimeMinutes(publication)
           } min read
         </p>
+        {
+          publication.productionReleased && (
+            <p>
+              <button
+                class="card-save"
+                type="button"
+                data-reading-toggle
+                data-reading-id={`route:${sitePath(currentPath)}`}
+                data-reading-title={publication.title}
+                data-reading-href={sitePath(currentPath)}
+                data-reading-type="Released article"
+                aria-pressed="false"
+              >
+                Save
+              </button>
+              <span class="form-note"> Keep this article in your reading list on this device.</span>
+            </p>
+          )
+        }
         {
           publication.productionReleased && (
             <p class="article-dates">
@@ -130,7 +157,7 @@ const schema = JSON.stringify({
         reuseNotice={publication.license}
       />
       {
-        headings.length > 0 && (
+        (
           <nav class="article-contents" aria-label="On this page">
             <>
               <h2>On this page</h2>
@@ -143,6 +170,17 @@ const schema = JSON.stringify({
                 <li>
                   <a href="#article-sources">Sources and notes</a>
                 </li>
+                <li>
+                  <a href="#article-limitations">Limitations</a>
+                </li>
+                <li>
+                  <a href="#article-disclosures">Disclosures and corrections</a>
+                </li>
+                {revisions.length > 0 && (
+                  <li>
+                    <a href="#revision-history">Edition history</a>
+                  </li>
+                )}
               </ul>
             </>
           </nav>
@@ -273,6 +311,17 @@ const schema = JSON.stringify({
 </BaseLayout>
 
 <script>
+  import { recordLastArticle } from "../lib/reading-history";
+  const releasedArticle = document.querySelector<HTMLElement>(
+    ".research-article [data-reading-toggle]",
+  );
+  if (releasedArticle) {
+    recordLastArticle(
+      releasedArticle.dataset.readingId!,
+      releasedArticle.dataset.readingTitle!,
+      window.location.pathname,
+    );
+  }
   // Preserve provenance in print, then restore the reader's disclosure state.
   const versionDetails = document.querySelector<HTMLDetailsElement>(".article-version");
   let wasOpen = false;
