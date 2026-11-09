@@ -35,6 +35,11 @@ const mappedVolumeSummary =
   currentPath={"/topics/" + topic.slug + "/"}
 >
   <PageHero eyebrow="Topic hub" title={topic.name} description={topic.description} />
+  <GreenPublicationShelf
+    topic={topic.name}
+    title={`${topic.name}: released articles`}
+    mode="released"
+  />
   {
     ["technology", "economics", "science"].includes(topic.slug) && (
       <section class="section section-white">
@@ -61,8 +66,8 @@ const mappedVolumeSummary =
         <p>{plugin.method}</p>
         {topic.reviewIntro && <p>{topic.reviewIntro}</p>}
         <p>
-          Start with a working-paper summary or a project preview. Each link explains what is
-          available and what remains in development.
+          Use the publication status on each page to distinguish released articles, working-paper
+          summaries and project previews.
         </p>
         {
           publicOutputItems.length > 0 && (
@@ -133,7 +138,11 @@ const mappedVolumeSummary =
       </div>
     </div>
   </section>
-  <GreenPublicationShelf topic={topic.name} title={`${topic.name}: research previews`} />
+  <GreenPublicationShelf
+    topic={topic.name}
+    title={`${topic.name}: research previews`}
+    mode="previews"
+  />
   <TopicReviewQueue signals={reviewSignals} title={"In development: " + topic.name} />
   <div class="shell"><FollowUpdates id={`topic-follow-updates-${topic.slug}`} /></div>
 </BaseLayout>

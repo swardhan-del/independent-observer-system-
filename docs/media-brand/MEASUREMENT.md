@@ -2,6 +2,23 @@
 
 ## Baseline
 
+### 9 November 2026 access checkpoint
+
+The current production build identifies `a2b9150feaba24a81cfba380d181a9c20effe0dd`; Vercel lists the same SHA on its ready production deployment. GSC Wizard `list_sites` again returned `payment_required / subscription_required`, so no Search Console metrics or inspection results were obtained. Direct Search Console browser access also failed because the browser connection timed out; property permissions remain unverified. An active GSC Wizard plan/trial or working direct owner access is needed; no purchase or access change was made.
+
+Use 10 October–6 November 2026 inclusive as the first proposed 28-day search reporting window, with 12 September–9 October as its comparator. This leaves two recent days outside the extract; check the provider's actual completeness and timezone before accepting those windows. These are empty reporting windows, not measured totals. Preserve the search-result snapshot as dated discovery evidence only: the search service still showed the older “Observe the system” homepage, while a fresh fetch and the production browser showed “Follow the evidence.” Without URL Inspection's last crawl and canonical information, the cause and Google's current indexed state are unknown.
+
+| Requested baseline                            | Current result | Required evidence                                                                                                                                                                |
+| --------------------------------------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Monthly active website readers                | unavailable    | A provider must genuinely support a defined 28-day active-reader measure; pageviews or daily uniques cannot be added to infer people. No such collection is enabled.             |
+| Organic clicks and impressions                | unavailable    | Authorized Search Console export for the exact complete dates, search type and canonical property.                                                                               |
+| Article pageviews and engaged reading         | unavailable    | Approved aggregate provider, bot/preview exclusions and a documented engagement definition. Existing page-scroll hooks are a no-op and do not establish engaged reading.         |
+| Returning-reader activity                     | unavailable    | A lawful, documented provider measure. Local saved reading/resume data are excluded from measurement.                                                                            |
+| Confirmed newsletter signups and unsubscribes | unavailable    | Authorized Substack aggregate export. The public subscribe URL returned HTTP 200 on 9 November; this verifies a destination, not delivery, confirmation or unsubscribe handling. |
+| Video/social/external-publication referrals   | unavailable    | Matched platform exports and approved aggregate landings with attribution limits. No campaign parameters or tracking provider were enabled.                                      |
+
+The historical baseline notes below describe the November 5 release audit; the older Vercel analytics 404 is not a new November 9 count. Current connector project metadata does not expose a usable audience baseline. The code's production adapter remains a no-op. Neither missing data nor disabled collection is reported as zero.
+
 The production event adapter in `src/lib/analytics.ts` is a no-op. Browser checks on sampled production routes observed no external analytics requests. Vercel's project-scoped Web Analytics count returned `404: Web Analytics not found`; that is no accessible measurement source, not a count of zero. Ordinary hosting requests still occur. Local saved reading, listening progress and last-visit storage support reader conveniences and must not become analytics identifiers.
 
 The canonical sitemap and robots rules pass the technical contract. The GSC Wizard connector refused Search Console access because its plan/trial was inactive. Use the verified property directly in [Google Search Console](https://search.google.com/search-console/) if the publisher has access. An indexable route and a submitted sitemap do not prove indexing. No live traffic, subscribers, returning readers, or conversions are reported here.

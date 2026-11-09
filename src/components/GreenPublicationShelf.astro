@@ -2,12 +2,21 @@
 import { previewGreenPublications, readingTimeMinutes } from "../data/green-publications";
 import ReaderCardContent from "./ReaderCardContent.astro";
 import { articleQuestions } from "../data/reader-catalogue";
+import { researchReleaseQueue } from "../data/publication-registry";
 const { volume, topic, title = "Articles and research previews", mode = "all" } = Astro.props;
+const headingId =
+  mode === "released" ? "green-publications-released-title" : "green-publications-title";
 const records = previewGreenPublications.filter(
   (item) =>
     (!volume || item.volume === volume) &&
-    (!topic || item.topics.includes(topic)) &&
-    (mode !== "previews" || !item.productionReleased),
+    (!topic ||
+      item.topics.includes(topic) ||
+      researchReleaseQueue.some(
+        (record) =>
+          record.canonicalRoute === `/research/${item.slug}/` && record.topics.includes(topic),
+      )) &&
+    (mode !== "previews" || !item.productionReleased) &&
+    (mode !== "released" || item.productionReleased),
 );
 const recordCount = records.length;
 const releasedCount = records.filter((item) => item.productionReleased).length;
@@ -15,19 +24,25 @@ const previewCount = recordCount - releasedCount;
 const recordDescription =
   mode === "previews"
     ? `${previewCount} research previews. These are drafts, not released articles; each page identifies its sources and limitations.`
-    : `${releasedCount} released ${releasedCount === 1 ? "article" : "articles"} and ${previewCount} research ${previewCount === 1 ? "preview" : "previews"} available${volume ? ` for ${volume}` : ""}. Previews are drafts; each page identifies its sources and limitations.`;
+    : mode === "released"
+      ? `${releasedCount} released ${releasedCount === 1 ? "article" : "articles"}. Each article includes its evidence, limitations and publication record.`
+      : `${releasedCount} released ${releasedCount === 1 ? "article" : "articles"} and ${previewCount} research ${previewCount === 1 ? "preview" : "previews"} available${volume ? ` for ${volume}` : ""}. Previews are drafts; each page identifies its sources and limitations.`;
 ---
 
 {
   records.length > 0 && (
-    <section class="section section-white" aria-labelledby="green-publications-title">
+    <section class="section section-white" aria-labelledby={headingId}>
       <div class="shell">
         <div class="section-heading green-publication-shelf-heading">
           <div>
             <p class="eyebrow">
-              {mode === "previews" ? "In development · drafts" : "Read now · articles and previews"}
+              {mode === "previews"
+                ? "In development · drafts"
+                : mode === "released"
+                  ? "Read now · released articles"
+                  : "Read now · articles and previews"}
             </p>
-            <h2 id="green-publications-title">{title}</h2>
+            <h2 id={headingId}>{title}</h2>
           </div>
           <p>{recordDescription}</p>
         </div>
