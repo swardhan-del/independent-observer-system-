@@ -26,6 +26,15 @@ describe("reader vocabulary and evidence boundaries", () => {
     ).toContain(id);
   });
 
+  it("gives broad AI searches a published reading path while preserving exact-title matches", () => {
+    expect(rankSearchEntries(searchItems, "AI")[0].id).toBe(
+      "collection:ai-work-and-infrastructure",
+    );
+    const preview = searchItems.find((entry) => entry.href.includes("/ai-and-the-first-rung/"))!;
+    expect(rankSearchEntries(searchItems, preview.title)[0].id).toBe(preview.id);
+    expect(rankSearchEntries(searchItems, "AI", { status: preview.status })[0].id).toBe(preview.id);
+  });
+
   it("ranks an exact title over incidental body matches and honors combined filters", () => {
     const base: SearchEntry = {
       id: "title",

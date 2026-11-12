@@ -4,7 +4,7 @@ test("released articles and draft previews have distinct reading actions", async
   await page.goto("/library/");
   const shelf = page.locator('section[aria-labelledby="green-publications-title"]');
   await expect(shelf).toContainText("2 research previews");
-  await expect(page.locator("[data-released-reading]")).toContainText("5 released articles");
+  await expect(page.locator("[data-reading-status]")).toHaveText("5 released articles");
   const released = page.locator("[data-released-card]");
   await expect(released).toHaveCount(5);
   for (const card of await released.all()) {

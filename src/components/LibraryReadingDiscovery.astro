@@ -32,10 +32,8 @@ import ReaderCardContent from "./ReaderCardContent.astro";
           <p class="eyebrow">Read now</p><h2 id="released-reading-title">
             Start with a released article.
           </h2>
-        </div><p>
-          {recentArticles.length} released articles. Paper summaries follow; research previews are listed
-          separately below.
-        </p>
+        </div>
+        <p>Paper summaries follow. Research previews are listed separately below.</p>
       </div>
       <div class="focused-reading-grid">
         {
@@ -125,10 +123,14 @@ import ReaderCardContent from "./ReaderCardContent.astro";
       audio.open = mode === "listen";
       const count = articles.filter((card) => !card.hidden).length;
       document.querySelector<HTMLElement>("[data-released-empty]")!.hidden = count > 0;
+      const releasedLabel = articles.length === 1 ? "released article" : "released articles";
+      const releasedTotal = `${articles.length} ${releasedLabel}`;
       controls.querySelector<HTMLElement>("[data-reading-status]")!.textContent =
         mode === "listen"
           ? `${document.querySelectorAll("[data-listening-card]").length} audio essays with transcripts`
-          : `${count} released ${count === 1 ? "article" : "articles"}; matching paper summaries below`;
+          : mode === "all"
+            ? releasedTotal
+            : `${count} of ${releasedTotal} match`;
       document.dispatchEvent(new Event("reading-mode-change"));
     };
     buttons.forEach((button) =>

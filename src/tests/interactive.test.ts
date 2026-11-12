@@ -652,7 +652,8 @@ describe("interactive preview tools", () => {
   it("uses existing public records for a concise homepage", () => {
     expect(homepage).toContain("publicPaperCatalogue");
     expect(homepage).toContain("seriesItems.map");
-    expect(homepage).toContain("/library/documents/who-deported-more/");
+    expect(homepage).toContain("<EditorialEntryPoints compact />");
+    expect(homepage).toContain("Choose your first read");
     expect(homepage).toContain("The volumes remain in development.");
     expect(homepage).not.toContain("<HomepageVolumeGuide");
     expect(homepage).not.toContain("<HomepageLiteratureShelf");

@@ -4,6 +4,7 @@ import ContinueReading from "../components/ContinueReading.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { publicPaperCatalogue } from "../data/reader-catalogue";
 import FeaturedInvestigations from "../components/FeaturedInvestigations.astro";
+import EditorialEntryPoints from "../components/EditorialEntryPoints.astro";
 import { editorialMission, editorialThemes } from "../data/editorial-discovery";
 import { seriesItems } from "../data/series";
 import { sitePath } from "../lib/paths";
@@ -35,24 +36,17 @@ const questionFor = (volume: string) => {
         <p class="hero-purpose">
           Follow sources you can check, compare explanations, and see where the evidence ends.
         </p>
+        <p class="hero-author">By <a href={sitePath("/about/")}>Siddhartha Harsh Wardhan</a></p>
         <div class="hero-actions">
-          <a class="button" href={sitePath("/library/")}>Browse the research library →</a>
-          <a class="button button-secondary" href={sitePath("/start/")}>Start here</a>
+          <a class="button" href={sitePath("/start/")}>Choose your first read →</a>
+          <a class="button button-secondary" href={sitePath("/library/")}
+            >Browse the research library →</a
+          >
         </div>
       </div>
       <aside class="hero-note" aria-labelledby="hero-note-title">
-        <p class="eyebrow">Start here · 4 min read</p>
-        <h2 id="hero-note-title">What does a deportation number actually count?</h2>
-        <p>
-          Learn why two deportation totals can tell different stories. Try a worked example, then
-          follow the official sources.
-        </p>
-        <a class="button" href={sitePath("/library/documents/who-deported-more/")}
-          >Start reading · 4 min →</a
-        >
-        <p class="form-note">
-          <a href={sitePath("/start/#reading-journeys")}>Choose a question →</a>
-        </p>
+        <h2 id="hero-note-title">Start with a released article</h2>
+        <EditorialEntryPoints compact />
       </aside>
     </div>
   </section>
@@ -65,7 +59,10 @@ const questionFor = (volume: string) => {
           <p class="eyebrow">Research themes</p>
           <h2 id="homepage-literature-title">Explore by topic</h2>
         </div>
-        <a class="text-link" href={sitePath("/topics/")}>All topic guides →</a>
+        <div class="theme-guide-links">
+          <a class="text-link" href={sitePath("/topics/")}>All topic guides →</a>
+          <a class="text-link" href={sitePath("/start/#reading-journeys")}>Choose a question →</a>
+        </div>
       </div>
       <nav aria-label="Explore by topic">
         <ul class="theme-links">
@@ -183,6 +180,19 @@ const questionFor = (volume: string) => {
     max-width: 48ch;
     color: var(--white);
   }
+  .focused-home-hero .hero-note h2 {
+    margin-top: 0;
+  }
+  .hero-author a {
+    color: var(--gold-light);
+    text-decoration: underline;
+    text-underline-offset: 0.16em;
+  }
+  .theme-guide-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+  }
   .theme-links {
     display: flex;
     flex-wrap: wrap;
@@ -220,9 +230,6 @@ const questionFor = (volume: string) => {
     }
     .focused-home-hero .hero-note h2 {
       font-size: 1.5rem;
-    }
-    .focused-home-hero .hero-note .eyebrow {
-      margin-bottom: 12px;
     }
   }
 </style>
