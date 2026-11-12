@@ -13,5 +13,6 @@
     <tspan x="88" dy="100">{{TITLE_TWO}}</tspan>
   </text>
   <text x="88" y="637" fill="#d6dfeb" font-family="Arial, sans-serif" font-size="31">{{DECK}}</text>
-  <text x="88" y="773" fill="#d6dfeb" font-family="Arial, sans-serif" font-size="25">independentobserver.org</text>
+  <text x="88" y="773" fill="#d6dfeb" font-family="Arial, sans-serif" font-size="25">{{SOURCE}}</text>
+  <text x="1510" y="773" text-anchor="end" fill="#e0bc7b" font-family="Arial, sans-serif" font-size="23">{{STATUS}}</text>
 </svg>
