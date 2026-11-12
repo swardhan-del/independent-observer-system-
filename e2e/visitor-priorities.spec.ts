@@ -73,6 +73,39 @@ test("reading filters combine with paper search and survive reload and history",
   await expect(page.locator("[data-library-paper-card]:visible")).toHaveCount(1);
 });
 
+test("the reading controls reserve their space before the filter script loads", async ({
+  page,
+}) => {
+  let releaseScript!: () => void;
+  const scriptGate = new Promise<void>((resolve) => {
+    releaseScript = resolve;
+  });
+  await page.route(/\/_astro\/LibraryReadingDiscovery[^/]+\.js$/, async (route) => {
+    await scriptGate;
+    await route.continue();
+  });
+
+  try {
+    await page.goto("/library/", { waitUntil: "commit" });
+    const controls = page.locator("[data-reading-controls]");
+    const shelf = page.locator("[data-released-reading]");
+    await expect(controls).toBeVisible();
+    await expect(controls).toHaveAttribute("inert", "");
+    await expect(page.locator("[data-reading-status]")).toHaveText("5 released articles");
+    await page.evaluate(() => document.fonts.ready);
+    const before = await shelf.boundingBox();
+    expect(before).not.toBeNull();
+
+    releaseScript();
+    await expect(controls).not.toHaveAttribute("inert", "");
+    const after = await shelf.boundingBox();
+    expect(after).not.toBeNull();
+    expect(Math.abs(after!.y - before!.y)).toBeLessThan(1);
+  } finally {
+    releaseScript();
+  }
+});
+
 test("all reading remains available without JavaScript and previews stay separate", async ({
   browser,
   baseURL,

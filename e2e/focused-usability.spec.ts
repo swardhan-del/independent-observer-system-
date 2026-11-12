@@ -28,9 +28,9 @@ test("homepage offers bounded choices and mobile header leaves room to read", as
   await page.keyboard.press("Escape");
   if (isMobile) {
     await page.locator(".mobile-nav summary").click();
-    await page.locator(".mobile-nav").getByRole("link", { name: "Read", exact: true }).click();
+    await page.locator(".mobile-nav").getByRole("link", { name: "Library", exact: true }).click();
   } else {
-    await page.locator(".desktop-nav").getByRole("link", { name: "Read", exact: true }).click();
+    await page.locator(".desktop-nav").getByRole("link", { name: "Library", exact: true }).click();
   }
   await expect(page).toHaveURL(/\/library\/$/);
 });
