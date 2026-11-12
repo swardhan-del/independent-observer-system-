@@ -64,8 +64,17 @@ certify manuscript claims or rights.
 
 Desktop/mobile and JavaScript-disabled browser tests are added, including the
 updated justice reading path. Local system Chromium could not start because the
-runtime denied its process-singleton socket. Hosted CI must establish the browser
-results before production deployment; a passing build alone is not a browser pass.
+runtime denied its process-singleton socket. Hosted preview checks independently confirmed the exact commit, keyboard navigation,
+search, lens filtering, empty-state recovery and the preview layout. GitHub CI must
+establish the full desktop/mobile results before production deployment; a passing
+build alone is not a browser pass.
+
+The first hosted run passed 143 browser checks, including all preview routes on
+desktop/mobile. Two JavaScript-disabled pointer tests stalled in animation-frame
+stability polling. The no-script test now exercises native keyboard activation;
+script-enabled tests retain pointer coverage. Long research-map jumps now settle
+immediately and map/dossier anchors use the masthead offset with a no-script
+fallback. Article-shelf counts are explicitly scoped to that shelf.
 
 Deployment uses the existing confirmed Vercel project and team from the reviewed
 branch, with no merge to main. Confirm the exact deployed commit through

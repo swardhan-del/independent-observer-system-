@@ -142,6 +142,10 @@ const branchesFor = (volume: string) => [
   }
 </script>
 <style>
+  :global(html) {
+    /* Long catalogue jumps should settle immediately, including without scripts. */
+    scroll-behavior: auto;
+  }
   .taxonomy {
     max-width: 72rem;
     padding-bottom: 5rem;
@@ -187,7 +191,7 @@ const branchesFor = (volume: string) => [
     padding: 1.4rem 0;
     border-bottom: 1px solid #d1d5db;
     max-width: 80ch;
-    scroll-margin-top: 7rem;
+    scroll-margin-top: var(--site-header-offset, 240px);
   }
   .taxonomy h2 {
     margin-top: 3rem;

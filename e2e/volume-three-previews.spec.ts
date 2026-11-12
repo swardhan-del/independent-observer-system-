@@ -39,10 +39,13 @@ test("previews remain navigable without JavaScript", async ({ browser, baseURL, 
   const context = await browser.newContext({ javaScriptEnabled: false, viewport });
   const page = await context.newPage();
   await page.goto(`${baseURL}/library/taxonomy/#paper-the-economics-of-color`);
-  await page
+  const link = page
     .locator("#paper-the-economics-of-color")
-    .getByRole("link", { name: "Open the research preview" })
-    .click();
+    .getByRole("link", { name: "Open the research preview" });
+  // Exercise the native keyboard link with scripts disabled, including focus
+  // and navigation, without relying on animation-frame click stability polling.
+  await link.focus();
+  await link.press("Enter");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("The Economics of Color");
   await expect(page.locator("main")).toContainText("The manuscript remains under review");
   await context.close();

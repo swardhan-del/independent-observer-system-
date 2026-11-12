@@ -81,6 +81,8 @@ describe("Volume III linked research previews", () => {
     const dossier = htmlFor("/series/managed-decline/");
     const taxonomy = htmlFor("/library/taxonomy/");
     expect((dossier.match(/data-volume-dossier-card/g) ?? []).length).toBe(30);
+    expect(dossier).toContain("0 article previews on this shelf for Volume III");
+    expect(dossier).not.toContain("0 research previews available for Volume III");
     for (const entry of volumeThreePreviews) {
       const html = htmlFor(entry.href);
       const text = textOf(html);
