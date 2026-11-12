@@ -15,7 +15,7 @@ const previewCount = recordCount - releasedCount;
 const recordDescription =
   mode === "previews"
     ? `${previewCount} research previews. These are drafts, not released articles; each page identifies its sources and limitations.`
-    : `${releasedCount} released ${releasedCount === 1 ? "article" : "articles"} and ${previewCount} research ${previewCount === 1 ? "preview" : "previews"} available${volume ? ` for ${volume}` : ""}. Previews are drafts; each page identifies its sources and limitations.`;
+    : `${releasedCount} released ${releasedCount === 1 ? "article" : "articles"} and ${previewCount} article ${previewCount === 1 ? "preview" : "previews"} on this shelf${volume ? ` for ${volume}` : ""}. Article previews are drafts; each page identifies its sources and limitations.`;
 ---
 
 {

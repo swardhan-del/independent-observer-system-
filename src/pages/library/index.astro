@@ -11,6 +11,7 @@ import { publicLibrarySnapshot } from "../../data/public-library";
 import { sitePath } from "../../lib/paths";
 import GreenPublicationShelf from "../../components/GreenPublicationShelf.astro";
 import PublicDocumentShelf from "../../components/PublicDocumentShelf.astro";
+import { volumeThreePreviews } from "../../data/volume-three-previews";
 
 const { areas, note, stats } = publicLibrarySnapshot;
 const paperDocumentIds = new Set(publicPaperCatalogue.map((document) => document.id));
@@ -37,6 +38,22 @@ const otherPublicDocuments = publicDocumentItems.filter(
     <h2 id="taxonomy-invitation">Explore planned research</h2><p>
       The roadmap includes planned manuscripts and book projects as well as links to available
       reading. Entries marked publication pending are not released papers.
+    </p><p>
+      Volume III now connects {volumeThreePreviews.length} research previews on work, welfare, taxation
+      and social citizenship. Each identifies its research question and evidence limits while the manuscript
+      remains under review.
+      <a href={sitePath("/series/managed-decline/#volume-three-research")}
+        >Explore the Volume III research dossier</a
+      >.
+    </p><p>
+      New research previews explore political independence, electoral mandates, civic belonging,
+      comparative institutions and wartime cooperation in
+      <a href={sitePath("/series/the-empire-beneath-democracy/#recent-research-directions")}
+        >Volume II</a
+      >, and AI’s effects on the first step into work in
+      <a href={sitePath("/series/the-last-human-workforce/#recent-research-directions")}
+        >Volume IV</a
+      >. These six directions remain under source review.
     </p><p>
       <a class="button button-secondary" href={sitePath("/library/taxonomy/")}
         >Open the research roadmap</a

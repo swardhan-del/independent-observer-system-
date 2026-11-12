@@ -1,0 +1,157 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { researchPreviews } from "../../../data/research-previews";
+import type { ResearchPreview } from "../../../data/research-preview-types";
+import { sitePath } from "../../../lib/paths";
+
+export function getStaticPaths() {
+  return researchPreviews.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+interface Props {
+  entry: ResearchPreview;
+}
+const { entry } = Astro.props;
+const previewDate = new Date(`${entry.updatedDate}T12:00:00Z`).toLocaleDateString("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
+---
+
+<BaseLayout title={entry.title} description={entry.summary} currentPath={entry.href} noindex={true}>
+  <article class="shell research-preview" data-research-preview={entry.id}>
+    <nav aria-label="Research preview navigation">
+      <a href={sitePath(entry.backHref)}>Back to {entry.contextVolume} research</a>
+      <a href={sitePath(`/library/taxonomy/#${entry.taxonomyId}`)}>View in the four-volume map</a>
+    </nav>
+    <header>
+      <p class="eyebrow">
+        {entry.volume} · {entry.contextTitle}
+      </p>
+      <h1>{entry.title}</h1>
+      <p class="preview-status">{entry.status}</p>
+      <p class="standfirst">{entry.summary}</p>
+      <p>
+        Research programme: Siddhartha Harsh Wardhan · Preview updated <time
+          datetime={entry.updatedDate}>{previewDate}</time
+        >
+      </p>
+      {entry.sourceNote && <p class="source-note">{entry.sourceNote}</p>}
+    </header>
+    <aside aria-label="Availability" class="preview-boundary">
+      <strong>Research direction, not a full paper.</strong>
+      <p>
+        This page introduces a question and the evidence needed to investigate it. The manuscript
+        remains under review. No external publication, peer review or approval of the full
+        manuscript is implied.
+      </p>
+    </aside>
+    <section aria-labelledby="question">
+      <h2 id="question">The research question</h2><p>{entry.question}</p>
+    </section>
+    <section aria-labelledby="contribution">
+      <h2 id="contribution">How it connects to {entry.contextVolume}</h2><p>{entry.contribution}</p>
+    </section>
+    <section aria-labelledby="evidence">
+      <h2 id="evidence">Evidence and limits</h2><p>{entry.evidenceNeeded}</p>
+    </section>
+    <section aria-labelledby="continue">
+      <h2 id="continue">Continue the inquiry</h2>
+      <ul>
+        {
+          entry.relatedLinks.map((item) => (
+            <li>
+              <a href={sitePath(item.href)}>{item.title}</a> <span>— {item.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+      {
+        entry.id === "from-pockets-to-portfolios" && (
+          <p>
+            Public reading copy:{" "}
+            <a href={sitePath("/library/documents/from-vietnam-to-terry-ohio/")}>
+              From Vietnam to Terry v. Ohio
+            </a>
+            .
+          </p>
+        )
+      }
+      {
+        entry.id === "illiterate-voters-corrupt-leaders" && (
+          <p>
+            Related published article:{" "}
+            <a href={sitePath("/research/democracys-achilles-heel/")}>Democracy’s Achilles’ Heel</a>
+            . That article is a separate web edition; it does not release the expanded manuscript or
+            its figure.
+          </p>
+        )
+      }
+      <p>
+        Explore related topic hubs:
+        {
+          entry.topics.map((topic, index) => (
+            <>
+              {index > 0 ? " · " : " "}
+              <a href={sitePath(`/topics/${topic.toLowerCase()}/`)}>{topic}</a>
+            </>
+          ))
+        }.
+      </p>
+    </section>
+    <footer>
+      <p>
+        Questions or corrections: <a href={sitePath("/contact/")}>contact Independent Observer</a>.
+      </p>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .research-preview {
+    max-width: 52rem;
+    padding-top: 2rem;
+    padding-bottom: 5rem;
+    overflow-wrap: anywhere;
+  }
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    margin-bottom: 2.5rem;
+  }
+  nav a {
+    padding-block: 0.6rem;
+  }
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    line-height: 1.15;
+  }
+  .standfirst {
+    font-size: 1.2rem;
+  }
+  .preview-status {
+    font-weight: 700;
+  }
+  .preview-boundary {
+    border: 1px solid currentColor;
+    border-left-width: 0.3rem;
+    padding: 1.2rem;
+    margin-block: 2rem;
+  }
+  section {
+    margin-block: 2.5rem;
+  }
+  p,
+  li {
+    line-height: 1.8;
+  }
+  li {
+    margin-block: 0.75rem;
+  }
+  footer {
+    border-top: 1px solid currentColor;
+    margin-top: 3rem;
+  }
+</style>

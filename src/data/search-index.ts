@@ -81,7 +81,7 @@ export const searchItems: SearchEntry[] = [
     href: sitePath(manuscriptPath(entry)),
   })),
   ...taxonomyEntries
-    .filter((entry) => !entry.href)
+    .filter((entry) => !entry.href || entry.href.startsWith("/library/research/"))
     .map((entry) => ({
       id: `taxonomy:${entry.id}`,
       title: entry.title,
@@ -91,8 +91,8 @@ export const searchItems: SearchEntry[] = [
       type: "Research" as const,
       topics: topicsForCategory(entry.branch),
       volume: entry.volume,
-      format: "Research map entry",
-      href: sitePath(`/library/taxonomy/#${entry.id}`),
+      format: entry.href ? "Research preview" : "Research map entry",
+      href: sitePath(entry.href ?? `/library/taxonomy/#${entry.id}`),
     })),
   ...readingTools.map((tool) => ({
     id: `reading-tool:${tool.id}`,
