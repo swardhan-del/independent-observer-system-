@@ -90,7 +90,9 @@ const branchesFor = (volume: string) => [
                       <a href={sitePath(entry.href)}>
                         {entry.href.startsWith("/library/manuscripts/")
                           ? "Read the full working paper"
-                          : "Open the reading record"}
+                          : entry.href.startsWith("/library/research/")
+                            ? "Open the research preview"
+                            : "Open the reading record"}
                       </a>
                     )}
                   </article>

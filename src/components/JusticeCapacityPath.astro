@@ -6,7 +6,7 @@ const policing = taxonomyEntries.find(
   (entry) => entry.id === "paper-human-rights-policing-doctrine-and-hidden-taxation",
 );
 const pockets = taxonomyEntries.find((entry) => entry.id === "paper-from-pockets-to-portfolios");
-if (!policing || !pockets || policing.href || pockets.href) {
+if (!policing || !pockets || policing.href || !pockets.href?.startsWith("/library/research/")) {
   throw new Error("Review the justice reading path when its research-map availability changes.");
 }
 ---
@@ -21,9 +21,9 @@ if (!policing || !pockets || policing.href || pockets.href) {
     <h2 id="justice-path-title">Law, time and public capacity</h2>
     <p>
       How do legal authority, the costs of everyday encounters and investment in people fit
-      together? Start with the Method, follow two research-map entries, then read the Vietnam/Terry
-      synopsis. The map entries describe work in the programme; they do not offer full reading
-      copies.
+      together? Start with the Method, follow the policing research map and the Pockets research
+      preview, then read the Vietnam/Terry synopsis. Research previews introduce questions and
+      evidence requirements while manuscripts remain under review.
     </p>
     <ol aria-label="Justice-to-capacity reading order">
       <li>
@@ -43,10 +43,11 @@ if (!policing || !pockets || policing.href || pockets.href) {
         </p>
       </li>
       <li>
-        <a href={sitePath(`/library/taxonomy/#${pockets.id}`)}>{pockets.title}</a>
+        <a href={sitePath(pockets.href)}>{pockets.title}</a>
         <p>
           <strong>{pockets.volume} · {pockets.status}.</strong> Continue into working-class time, legal
-          exposure, wage taxation and ownership. A public reading copy is not available for this entry.
+          exposure, wage taxation and ownership. Open the research preview for its question and limits;
+          the full manuscript remains under review.
         </p>
       </li>
       <li>
