@@ -297,7 +297,7 @@ describe("interactive preview tools", () => {
     expect(volumeResearchDossier).toContain("data-dossier-clear-lens");
     expect(volumeResearchDossier).toContain("The filters work together");
     expect(volumeResearchDossier).not.toMatch(/fetch\s*\(/);
-    expect(volumeThreeResearchRecords).toHaveLength(7);
+    expect(volumeThreeResearchRecords).toHaveLength(30);
     expect(volumeThreeResearchLenses).toEqual([
       "Labor markets",
       "Licensing and access",
@@ -311,14 +311,16 @@ describe("interactive preview tools", () => {
       publicDocumentId: "wardhan-tax-doctrine",
     });
     expect(
-      volumeThreeResearchRecords.filter((record) => record.status === "Working-paper direction"),
-    ).toHaveLength(5);
+      volumeThreeResearchRecords.filter(
+        (record) => record.status === "Research preview · manuscript under review",
+      ),
+    ).toHaveLength(28);
     expect(volumeThreeResearchRecords).toContainEqual(
       expect.objectContaining({
         id: "social-class-and-welfare",
         title: "Social Class and Welfare",
         lenses: expect.arrayContaining(["Taxation and ownership"]),
-        summary: expect.stringContaining("welfare socialism"),
+        whyItMatters: expect.stringContaining("welfare socialism"),
       }),
     );
     expect(
@@ -501,7 +503,7 @@ describe("interactive preview tools", () => {
     expect(researchCatalogue).toContain("rankSearchEntries");
     expect(researchCatalogue).toContain("Recently matched");
     expect(researchCatalogue).toContain("Private source paths");
-    expect(researchCatalogueRecords).toHaveLength(41);
+    expect(researchCatalogueRecords).toHaveLength(69);
     expect(researchCatalogueVolumes).toEqual(["Volume I", "Volume II", "Volume III", "Volume IV"]);
     expect(
       researchCatalogueRecords.filter((record) => record.kind === "Volume record"),

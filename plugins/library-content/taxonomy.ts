@@ -1,5 +1,6 @@
 import entries from "./taxonomy.generated.json";
 import { websiteFeedReadingLinks } from "../../src/data/website-feed-reading-2026-09-18";
+import { volumeThreePreviews } from "../../src/data/volume-three-previews";
 export type TaxonomyEntry = {
   id: string;
   title: string;
@@ -10,6 +11,8 @@ export type TaxonomyEntry = {
   href?: string;
 };
 export const taxonomyEntries: TaxonomyEntry[] = entries.map((entry) => {
+  const preview = volumeThreePreviews.find((item) => item.taxonomyId === entry.id);
+  if (preview) return { ...entry, status: preview.status, href: preview.href };
   const reading = websiteFeedReadingLinks.find((item) => item.taxonomyId === entry.id);
   return reading
     ? {

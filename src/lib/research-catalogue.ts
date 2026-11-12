@@ -8,9 +8,14 @@ import { sitePath } from "./paths";
 import { slugify } from "./slugs";
 import type { SearchEntry } from "./search";
 import { previewGreenPublications } from "../data/green-publications";
+import { volumeThreePreviews } from "../data/volume-three-previews";
 
 export type ResearchCatalogueKind =
-  "Volume record" | "Author paper" | "Research concept" | "Current research article";
+  | "Volume record"
+  | "Author paper"
+  | "Research concept"
+  | "Current research article"
+  | "Research preview";
 
 export type ResearchCatalogueRecord = SearchEntry & {
   kind: ResearchCatalogueKind;
@@ -134,6 +139,20 @@ export const researchCatalogueRecords: ResearchCatalogueRecord[] = [
   ...paperRecords,
   ...conceptRecords,
   ...greenRecords,
+  ...volumeThreePreviews.map((entry): ResearchCatalogueRecord => ({
+    id: `taxonomy:${entry.taxonomyId}`,
+    familyId: entry.familyId,
+    title: entry.title,
+    category: entry.branch,
+    description: entry.summary,
+    status: entry.status,
+    type: "Research",
+    format: "Research preview",
+    href: sitePath(entry.href),
+    topics: entry.topics,
+    volume: entry.volume,
+    kind: "Research preview",
+  })),
 ];
 
 export const researchCatalogueKinds: ResearchCatalogueKind[] = [
@@ -141,6 +160,7 @@ export const researchCatalogueKinds: ResearchCatalogueKind[] = [
   "Author paper",
   "Research concept",
   "Current research article",
+  "Research preview",
 ];
 
 export const researchCatalogueTopics = topicNames;
