@@ -1,37 +1,43 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { volumeThreePreviews, volumeThreePreviewDate } from "../../../data/volume-three-previews";
+import { researchPreviews } from "../../../data/research-previews";
+import type { ResearchPreview } from "../../../data/research-preview-types";
 import { sitePath } from "../../../lib/paths";
 
 export function getStaticPaths() {
-  return volumeThreePreviews.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  return researchPreviews.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+interface Props {
+  entry: ResearchPreview;
 }
 const { entry } = Astro.props;
-const related = entry.related.map((id) => volumeThreePreviews.find((item) => item.id === id)!);
+const previewDate = new Date(`${entry.updatedDate}T12:00:00Z`).toLocaleDateString("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
 ---
 
 <BaseLayout title={entry.title} description={entry.summary} currentPath={entry.href} noindex={true}>
   <article class="shell research-preview" data-research-preview={entry.id}>
     <nav aria-label="Research preview navigation">
-      <a href={sitePath(`/series/managed-decline/#research-${entry.id}`)}
-        >Back to Volume III research</a
-      >
+      <a href={sitePath(entry.backHref)}>Back to {entry.contextVolume} research</a>
       <a href={sitePath(`/library/taxonomy/#${entry.taxonomyId}`)}>View in the four-volume map</a>
     </nav>
     <header>
       <p class="eyebrow">
-        {entry.volume}{
-          entry.volume !== "Volume III" ? " · Connected to Volume III" : " · Managed Decline"
-        }
+        {entry.volume} · {entry.contextTitle}
       </p>
       <h1>{entry.title}</h1>
       <p class="preview-status">{entry.status}</p>
       <p class="standfirst">{entry.summary}</p>
       <p>
         Research programme: Siddhartha Harsh Wardhan · Preview updated <time
-          datetime={volumeThreePreviewDate}>12 November 2026</time
+          datetime={entry.updatedDate}>{previewDate}</time
         >
       </p>
+      {entry.sourceNote && <p class="source-note">{entry.sourceNote}</p>}
     </header>
     <aside aria-label="Availability" class="preview-boundary">
       <strong>Research direction, not a full paper.</strong>
@@ -45,7 +51,7 @@ const related = entry.related.map((id) => volumeThreePreviews.find((item) => ite
       <h2 id="question">The research question</h2><p>{entry.question}</p>
     </section>
     <section aria-labelledby="contribution">
-      <h2 id="contribution">How it connects to Volume III</h2><p>{entry.contribution}</p>
+      <h2 id="contribution">How it connects to {entry.contextVolume}</h2><p>{entry.contribution}</p>
     </section>
     <section aria-labelledby="evidence">
       <h2 id="evidence">Evidence and limits</h2><p>{entry.evidenceNeeded}</p>
@@ -54,9 +60,9 @@ const related = entry.related.map((id) => volumeThreePreviews.find((item) => ite
       <h2 id="continue">Continue the inquiry</h2>
       <ul>
         {
-          related.map((item) => (
+          entry.relatedLinks.map((item) => (
             <li>
-              <a href={sitePath(item.href)}>{item.title}</a> <span>— Research preview</span>
+              <a href={sitePath(item.href)}>{item.title}</a> <span>— {item.label}</span>
             </li>
           ))
         }
@@ -83,9 +89,15 @@ const related = entry.related.map((id) => volumeThreePreviews.find((item) => ite
         )
       }
       <p>
-        Explore the <a href={sitePath("/topics/economics/")}>Economics</a> and <a
-          href={sitePath("/topics/politics/")}>Politics</a
-        > topic hubs.
+        Explore related topic hubs:
+        {
+          entry.topics.map((topic, index) => (
+            <>
+              {index > 0 ? " · " : " "}
+              <a href={sitePath(`/topics/${topic.toLowerCase()}/`)}>{topic}</a>
+            </>
+          ))
+        }.
       </p>
     </section>
     <footer>

@@ -13,7 +13,7 @@ import {
 } from "./manuscript-release-registry";
 import { citationDate } from "../lib/citations";
 import { aiReadingCollection } from "./reading-collections";
-import { volumeThreePreviews, volumeThreePreviewDate } from "./volume-three-previews";
+import { researchPreviews } from "./research-previews";
 
 const SITE_AUDIT_DATE = "2026-09-19";
 
@@ -222,14 +222,14 @@ const sectionRoutes: CanonicalRouteRecord[] = [
 ];
 
 const contentRoutes: CanonicalRouteRecord[] = [
-  ...volumeThreePreviews.map((entry) => ({
+  ...researchPreviews.map((entry) => ({
     route: entry.href,
     title: entry.title,
     type: "research" as const,
-    source: "volume-three-previews",
+    source: "research-previews",
     familyId: entry.familyId,
     indexable: false,
-    lastModified: volumeThreePreviewDate,
+    lastModified: entry.updatedDate,
   })),
   ...seriesItems.map((item) => ({
     route: `/series/${slugify(item.title)}/`,

@@ -8,7 +8,7 @@ import { sitePath } from "./paths";
 import { slugify } from "./slugs";
 import type { SearchEntry } from "./search";
 import { previewGreenPublications } from "../data/green-publications";
-import { volumeThreePreviews } from "../data/volume-three-previews";
+import { researchPreviews } from "../data/research-previews";
 
 export type ResearchCatalogueKind =
   | "Volume record"
@@ -139,7 +139,7 @@ export const researchCatalogueRecords: ResearchCatalogueRecord[] = [
   ...paperRecords,
   ...conceptRecords,
   ...greenRecords,
-  ...volumeThreePreviews.map((entry): ResearchCatalogueRecord => ({
+  ...researchPreviews.map((entry): ResearchCatalogueRecord => ({
     id: `taxonomy:${entry.taxonomyId}`,
     familyId: entry.familyId,
     title: entry.title,

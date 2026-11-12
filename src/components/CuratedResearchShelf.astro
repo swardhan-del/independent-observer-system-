@@ -1,0 +1,82 @@
+---
+import { curatedResearchPreviews } from "../data/curated-research-previews";
+import { sitePath } from "../lib/paths";
+interface Props {
+  volume: string;
+}
+const { volume } = Astro.props;
+const entries = curatedResearchPreviews.filter((entry) => entry.volume === volume);
+---
+
+{
+  entries.length > 0 && (
+    <section
+      class="shell curated-directions"
+      id="recent-research-directions"
+      aria-labelledby="curated-directions-title"
+    >
+      <p class="eyebrow">{volume} · Research in development</p>
+      <h2 id="curated-directions-title">New questions in this volume</h2>
+      <p>
+        {entries.length} research{" "}
+        {entries.length === 1
+          ? "preview introduces a recently reviewed source direction"
+          : "previews introduce recently reviewed source directions"}
+        . Each page explains the question, its connection to the volume and the evidence still
+        needed. Full source texts remain under review.
+      </p>
+      <ul>
+        {entries.map((entry) => (
+          <li id={`research-${entry.id}`} data-curated-research-card>
+            <p class="eyebrow">{entry.status}</p>
+            <h3>
+              <a href={sitePath(entry.href)}>{entry.title}</a>
+            </h3>
+            <p>{entry.summary}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .curated-directions {
+    padding-block: 3rem;
+    scroll-margin-top: var(--site-header-offset, 14rem);
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  li {
+    border-top: 1px solid var(--line, #c7c1b6);
+    padding-top: 1.25rem;
+    overflow-wrap: anywhere;
+    scroll-margin-top: var(--site-header-offset, 14rem);
+  }
+  h2 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+  }
+  h3 {
+    font-size: 1.4rem;
+    line-height: 1.3;
+    margin-block: 0.75rem;
+  }
+  h3 a {
+    display: inline-block;
+    padding-block: 0.3rem;
+  }
+  p {
+    max-width: 75ch;
+    line-height: 1.7;
+  }
+  @media (max-width: 45rem) {
+    ul {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

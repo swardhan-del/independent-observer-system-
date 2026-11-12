@@ -1,6 +1,7 @@
 import entries from "./taxonomy.generated.json";
 import { websiteFeedReadingLinks } from "../../src/data/website-feed-reading-2026-09-18";
 import { volumeThreePreviews } from "../../src/data/volume-three-previews";
+import { curatedResearchPreviews } from "../../src/data/curated-research-previews";
 export type TaxonomyEntry = {
   id: string;
   title: string;
@@ -10,7 +11,7 @@ export type TaxonomyEntry = {
   status: string;
   href?: string;
 };
-export const taxonomyEntries: TaxonomyEntry[] = entries.map((entry) => {
+const existingEntries: TaxonomyEntry[] = entries.map((entry) => {
   const preview = volumeThreePreviews.find((item) => item.taxonomyId === entry.id);
   if (preview) return { ...entry, status: preview.status, href: preview.href };
   const reading = websiteFeedReadingLinks.find((item) => item.taxonomyId === entry.id);
@@ -25,5 +26,17 @@ export const taxonomyEntries: TaxonomyEntry[] = entries.map((entry) => {
       }
     : entry;
 });
+export const taxonomyEntries: TaxonomyEntry[] = [
+  ...existingEntries,
+  ...curatedResearchPreviews.map((entry) => ({
+    id: entry.taxonomyId,
+    title: entry.title,
+    volume: entry.volume,
+    branch: entry.branch,
+    summary: entry.summary,
+    status: entry.status,
+    href: entry.href,
+  })),
+];
 export const taxonomyVolumes = ["Volume I", "Volume II", "Volume III", "Volume IV"] as const;
 export const taxonomyBranches = [...new Set(taxonomyEntries.map((entry) => entry.branch))].sort();
