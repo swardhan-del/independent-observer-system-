@@ -293,7 +293,9 @@ describe("built website", () => {
 
   it("offers four distinct released features and a route to the complete library", () => {
     const html = readOutput("index.html");
-    const cards = tags(html, "article").filter((tag) => attribute(tag, "data-featured-investigation"));
+    const cards = tags(html, "article").filter((tag) =>
+      attribute(tag, "data-featured-investigation"),
+    );
     expect(cards).toHaveLength(4);
     expect(new Set(cards.map((tag) => attribute(tag, "data-featured-investigation"))).size).toBe(4);
     expect(html).toContain("Choose your first read");
@@ -750,21 +752,19 @@ describe("built website", () => {
   });
 
   it("publishes the four reviewed editions in search, sitemap and feeds", () => {
-    for (const slug of [
-      "the-independent-observer-method",
-      "democracys-achilles-heel",
-      "the-last-human-workforce",
-      "the-server-as-a-furnace",
+    for (const [slug, version, publicationDate] of [
+      ["the-independent-observer-method", "v2", "2026-09-18"],
+      ["democracys-achilles-heel", "v3", "2026-09-18"],
+      ["the-last-human-workforce", "v3", "2026-10-09"],
+      ["the-server-as-a-furnace", "v2", "2026-10-09"],
     ]) {
       const route = `/research/${slug}/`;
       const html = readOutput(`research/${slug}/index.html`);
       expect(metaContent(html, "name", "robots")).not.toBe("noindex,follow");
       expect(html).toContain("Published article");
-      expect(html).toContain("Web adaptation v2");
+      expect(html).toContain(`Web adaptation ${version}`);
       expect(html).toContain(
-        ["the-last-human-workforce", "the-server-as-a-furnace"].includes(slug)
-          ? "2026-10-09"
-          : "2026-09-18",
+        `Published <time datetime="${publicationDate}">${publicationDate}</time>`,
       );
       for (const file of [
         "sitemap.xml",
