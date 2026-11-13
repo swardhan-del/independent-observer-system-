@@ -1,3 +1,4 @@
+import { researchReadingCopies } from "./research-reading-copies";
 import { manuscripts, manuscriptPath } from "../../plugins/library-content/manuscripts";
 import { taxonomyEntries } from "../../plugins/library-content/taxonomy";
 import { readingTools } from "./reading-tools";
@@ -85,7 +86,16 @@ export const searchItems: SearchEntry[] = [
     .map((entry) => ({
       id: `taxonomy:${entry.id}`,
       title: entry.title,
-      description: entry.summary,
+      description:
+        entry.summary +
+        (entry.href && researchReadingCopies[entry.href.split("/").filter(Boolean).at(-1)!]
+          ? " Includes a complete public reading copy of the working web essay."
+          : ""),
+      searchText: entry.href
+        ? researchReadingCopies[entry.href.split("/").filter(Boolean).at(-1)!]?.sections
+            .flatMap((s) => [s.title, ...s.paragraphs])
+            .join(" ")
+        : undefined,
       category: entry.branch,
       status: entry.status,
       type: "Research" as const,

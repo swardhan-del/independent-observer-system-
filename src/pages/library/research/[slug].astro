@@ -1,4 +1,6 @@
 ---
+import ResearchReadingCopy from "../../../components/ResearchReadingCopy.astro";
+import { researchReadingCopies, readingCopyMinutes } from "../../../data/research-reading-copies";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { researchPreviews } from "../../../data/research-previews";
 import type { ResearchPreview } from "../../../data/research-preview-types";
@@ -11,6 +13,7 @@ interface Props {
   entry: ResearchPreview;
 }
 const { entry } = Astro.props;
+const readingCopy = researchReadingCopies[entry.id];
 const previewDate = new Date(`${entry.updatedDate}T12:00:00Z`).toLocaleDateString("en-GB", {
   day: "numeric",
   month: "long",
@@ -39,12 +42,31 @@ const previewDate = new Date(`${entry.updatedDate}T12:00:00Z`).toLocaleDateStrin
       </p>
       {entry.sourceNote && <p class="source-note">{entry.sourceNote}</p>}
     </header>
+    {
+      readingCopy && (
+        <p class="reading-copy-action">
+          <>
+            <a href="#reading-copy">
+              Read the complete web essay · {readingCopyMinutes(readingCopy)} min
+            </a>
+            <br />
+            <span>Public reading copy · working essay · version {readingCopy.version}</span>
+          </>
+        </p>
+      )
+    }
     <aside aria-label="Availability" class="preview-boundary">
-      <strong>Research direction, not a full paper.</strong>
+      <strong
+        >{
+          readingCopy
+            ? "Research direction with a complete working web essay."
+            : "Research direction, not a full paper."
+        }</strong
+      >
       <p>
-        This page introduces a question and the evidence needed to investigate it. The manuscript
-        remains under review. No external publication, peer review or approval of the full
-        manuscript is implied.
+        This page introduces a question and the evidence needed to investigate it. The source
+        manuscript remains under review. No external publication, peer review or approval of the
+        full manuscript is implied.
       </p>
     </aside>
     <section aria-labelledby="question">
@@ -73,6 +95,7 @@ const previewDate = new Date(`${entry.updatedDate}T12:00:00Z`).toLocaleDateStrin
         </section>
       )
     }
+    {readingCopy && <ResearchReadingCopy copy={readingCopy} />}
     <section aria-labelledby="continue">
       <h2 id="continue">Continue the inquiry</h2>
       <ul>
@@ -144,6 +167,18 @@ const previewDate = new Date(`${entry.updatedDate}T12:00:00Z`).toLocaleDateStrin
   h1 {
     font-size: clamp(2rem, 5vw, 3.4rem);
     line-height: 1.15;
+  }
+  .reading-copy-action {
+    border: 1px solid var(--line);
+    padding: 1rem;
+  }
+  .reading-copy-action a {
+    display: inline-block;
+    padding-block: 0.5rem;
+    font-weight: 700;
+  }
+  section {
+    scroll-margin-top: var(--site-header-offset, 14rem);
   }
   .standfirst {
     font-size: 1.2rem;

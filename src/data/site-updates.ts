@@ -1,5 +1,30 @@
 export const siteUpdates = [
   {
+    id: "reading-copies-and-volume-navigation-2026-11-13",
+    date: "2026-11-13",
+    title: "Recent research, clearer volume navigation and two complete web essays",
+    changes: [
+      {
+        what: "Latest now lists dated reading copies and research previews from the shared catalogue.",
+        why: "Returning readers can find new work without mistaking it for a formal paper release.",
+        route: "/latest/#recent-research",
+        label: "See recent additions",
+      },
+      {
+        what: "Every volume has section links and a volume switcher; the detailed About atlas has wider, stacked explanations.",
+        why: "Reach a research section quickly and read it comfortably on a narrow screen.",
+        route: "/series/the-empire-beneath-democracy/",
+        label: "Explore Volume II",
+      },
+      {
+        what: "Political Independence and AI and the First Rung include complete working web essays with sources, counterarguments and limitations.",
+        why: "Read a developed argument while the source manuscripts retain their separate review status.",
+        route: "/library/research/the-cost-of-political-independence/#reading-copy",
+        label: "Read the web essay",
+      },
+    ],
+  },
+  {
     id: "reader-entry-and-observer-brief-2026-11-05",
     date: "2026-11-05",
     title: "New ways into the research",
@@ -28,12 +53,14 @@ export const siteUpdates = [
     id: "six-reading-pages-2026-10-09",
     date: "2026-10-09",
     title: "Six research-map entries now have bounded reading pages",
-    changes: [{
-      what: "Read source-linked explanations of influence, threat perception, capital, resource mobilization, medical technology and frontier science.",
-      why: "Existing work families now have readable synopses with evidence limits and no duplicate research-map entries.",
-      route: "/library/taxonomy/",
-      label: "Explore the research map",
-    }],
+    changes: [
+      {
+        what: "Read source-linked explanations of influence, threat perception, capital, resource mobilization, medical technology and frontier science.",
+        why: "Existing work families now have readable synopses with evidence limits and no duplicate research-map entries.",
+        route: "/library/taxonomy/",
+        label: "Explore the research map",
+      },
+    ],
   },
   {
     id: "reshoring-analysis-2026-10-09",

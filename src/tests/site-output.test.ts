@@ -293,7 +293,9 @@ describe("built website", () => {
 
   it("offers four distinct released features and a route to the complete library", () => {
     const html = readOutput("index.html");
-    const cards = tags(html, "article").filter((tag) => attribute(tag, "data-featured-investigation"));
+    const cards = tags(html, "article").filter((tag) =>
+      attribute(tag, "data-featured-investigation"),
+    );
     expect(cards).toHaveLength(4);
     expect(new Set(cards.map((tag) => attribute(tag, "data-featured-investigation"))).size).toBe(4);
     expect(html).toContain("Choose your first read");
@@ -909,7 +911,12 @@ describe("built website", () => {
     expect(html).toMatch(
       /<a\b[^>]*class=["'][^"']*skip-link[^"']*["'][^>]*href=["']#main-content["']/i,
     );
-    const namedNavCounts: Record<string, number> = { "/": 5, "/start/": 3, "/topics/": 3 };
+    const namedNavCounts: Record<string, number> = {
+      "/": 5,
+      "/start/": 3,
+      "/topics/": 3,
+      ...Object.fromEntries(seriesItems.map((item) => [`/series/${slugify(item.title)}/`, 4])),
+    };
     const namedNavCount =
       namedNavCounts[route] ?? (route.startsWith("/library/documents/") ? 4 : 2);
     expect(tags(html, "nav").filter((tag) => Boolean(attribute(tag, "aria-label")))).toHaveLength(

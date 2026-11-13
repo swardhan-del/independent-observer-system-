@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import originalTaxonomy from "../../plugins/library-content/taxonomy.generated.json";
 import { taxonomyEntries } from "../../plugins/library-content/taxonomy";
 import { curatedResearchPreviews, curationPreviewStatus } from "../data/curated-research-previews";
+import { researchReadingCopies } from "../data/research-reading-copies";
 import { researchPreviews } from "../data/research-previews";
 import { familyIdForKey } from "../data/family-registry";
 import { researchCatalogueRecords } from "../lib/research-catalogue";
@@ -78,7 +79,11 @@ describe("12 November curation across other volumes", () => {
       expect(text).toContain(entry.sourceNote);
       expect(text).toContain(`How it connects to ${entry.volume}`);
       expect(text).toContain(`Back to ${entry.volume} research`);
-      expect(text).toContain("Research direction, not a full paper.");
+      expect(text).toContain(
+        researchReadingCopies[entry.id]
+          ? "Research direction with a complete working web essay."
+          : "Research direction, not a full paper.",
+      );
       expect(html).toMatch(/name="robots" content="noindex,follow"/);
       expect(html).not.toMatch(
         /"@type":"ScholarlyArticle"|citation_pdf_url|citation_publication_date|dropbox\.com|ns:\d+|CloudStorage|\/Users\/|\.docx|ssrn\.com/i,

@@ -2,6 +2,7 @@
 import { publicationRevisions } from "../../data/publication-revisions";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import FollowUpdates from "../../components/FollowUpdates.astro";
+import RecentResearch from "../../components/RecentResearch.astro";
 import PageHero from "../../components/PageHero.astro";
 import { releaseLog } from "../../data/release-log";
 import { researchReleaseQueue } from "../../data/publication-registry";
@@ -23,6 +24,8 @@ const inDevelopment = researchReleaseQueue.filter(
     title="New and recently revised."
     description="A reader-facing record of new research, publication revisions, and public work currently in development."
   />
+
+  <RecentResearch />
 
   <section
     class="section section-white latest-reader-guide"

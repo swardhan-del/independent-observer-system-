@@ -2308,6 +2308,19 @@ textarea {
   color: var(--navy-900);
 }
 
+.about-atlas-details > summary {
+  padding-block: 1rem;
+  cursor: pointer;
+}
+
+.about-volume-atlas {
+  padding-block: 2rem;
+}
+.about-volume-atlas > .shell {
+  width: 100%;
+  padding-inline: 0;
+}
+
 .about-volume-atlas .section-heading {
   margin-bottom: 32px;
 }
@@ -2464,7 +2477,7 @@ textarea {
 
 .about-volume-facts {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 1px;
   margin: 0 0 20px;
   border: 1px solid var(--slate-300);
@@ -2488,14 +2501,14 @@ textarea {
 .about-volume-facts dd {
   margin: 0;
   color: var(--navy-700);
-  font-size: 0.82rem;
-  font-weight: 700;
-  line-height: 1.4;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.6;
 }
 
 .about-volume-panel-grid {
   display: grid;
-  grid-template-columns: minmax(170px, 0.36fr) minmax(0, 0.64fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 32px;
   margin-top: 34px;
   padding-top: 28px;

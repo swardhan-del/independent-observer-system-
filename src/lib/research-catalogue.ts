@@ -8,6 +8,7 @@ import { sitePath } from "./paths";
 import { slugify } from "./slugs";
 import type { SearchEntry } from "./search";
 import { previewGreenPublications } from "../data/green-publications";
+import { researchReadingCopies } from "../data/research-reading-copies";
 import { researchPreviews } from "../data/research-previews";
 
 export type ResearchCatalogueKind =
@@ -144,10 +145,16 @@ export const researchCatalogueRecords: ResearchCatalogueRecord[] = [
     familyId: entry.familyId,
     title: entry.title,
     category: entry.branch,
-    description: entry.summary,
+    description:
+      entry.summary +
+      (researchReadingCopies[entry.id]
+        ? " Includes a complete public reading copy of the working web essay."
+        : ""),
     status: entry.status,
     type: "Research",
-    format: "Research preview",
+    format: researchReadingCopies[entry.id]
+      ? "Research preview with public reading copy"
+      : "Research preview",
     href: sitePath(entry.href),
     topics: entry.topics,
     volume: entry.volume,
