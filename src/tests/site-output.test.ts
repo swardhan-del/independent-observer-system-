@@ -293,10 +293,14 @@ describe("built website", () => {
 
   it("offers four distinct released features and a route to the complete library", () => {
     const html = readOutput("index.html");
-    const cards = tags(html, "article").filter((tag) => attribute(tag, "data-featured-investigation"));
+    const cards = tags(html, "article").filter((tag) =>
+      attribute(tag, "data-featured-investigation"),
+    );
     expect(cards).toHaveLength(4);
     expect(new Set(cards.map((tag) => attribute(tag, "data-featured-investigation"))).size).toBe(4);
-    expect(html).toContain("library/documents/who-deported-more/");
+    expect(html).toContain("Choose your first read");
+    expect(html).toContain('aria-label="Choose an investigation"');
+    expect(readOutput("start/index.html")).toContain("library/documents/who-deported-more/");
     expect(html).toContain(`Explore all ${publicPaperCatalogue.length} author paper pages`);
     expect(html).toContain(sitePathForTest("/library/"));
     expect(html).toContain("Featured investigations");
@@ -907,8 +911,16 @@ describe("built website", () => {
     expect(html).toMatch(
       /<a\b[^>]*class=["'][^"']*skip-link[^"']*["'][^>]*href=["']#main-content["']/i,
     );
+    const namedNavCounts: Record<string, number> = {
+      "/": 5,
+      "/start/": 3,
+      "/topics/": 3,
+      ...Object.fromEntries(seriesItems.map((item) => [`/series/${slugify(item.title)}/`, 4])),
+    };
+    const namedNavCount =
+      namedNavCounts[route] ?? (route.startsWith("/library/documents/") ? 4 : 2);
     expect(tags(html, "nav").filter((tag) => Boolean(attribute(tag, "aria-label")))).toHaveLength(
-      route.startsWith("/library/documents/") || route === "/" ? 4 : route === "/topics/" ? 3 : 2,
+      namedNavCount,
     );
     expect(new Set(pageIds).size).toBe(pageIds.length);
     expect(headings[0]).toBe(1);

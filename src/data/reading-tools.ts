@@ -116,6 +116,60 @@ export const readingTools: ReadingTool[] = [
     ],
   },
   {
+    id: "mindhive-continuity",
+    title: "Could another operator restore a digital service?",
+    volume: "Volume IV",
+    topics: ["Science", "Technology"],
+    introduction:
+      "A service can have a backup and still be hard to restore. This MindHive reading exercise asks what evidence would show that someone else can recover and run a service when the original operator is unavailable.",
+    headers: ["What to check", "Record to ask for", "Question to answer"],
+    rows: [
+      [
+        "Backup",
+        "Inventory and date of the most recent usable copy",
+        "What state could be recovered?",
+      ],
+      [
+        "Dependencies",
+        "List of software, services and authorized access needed",
+        "Could the replacement environment run it?",
+      ],
+      [
+        "Test",
+        "Results from a restore drill in a separate environment",
+        "Did the recovered service pass its checks?",
+      ],
+      [
+        "Authority",
+        "Documented recovery roles and permissions",
+        "Who can authorize and carry out the restore?",
+      ],
+      [
+        "Successor",
+        "A handover plan with a named team or provider",
+        "Who would run the service after recovery?",
+      ],
+    ],
+    example:
+      "A fictional host shuts down. Its customer has an off-site copy, but the host was the only team that had tested the restore. Ask for the recovery procedure, the dependencies and a drill run by the successor. A successful test would show what worked in that environment and how long it took.",
+    limit:
+      "The exercise concerns continuity for a fictional service. MindHive’s scenario about digital persons remains speculative. The NIST guidance addresses information systems.",
+    related: "/reading-tools/#mindhive",
+    relatedLabel: "Try the separate computing-energy exercise",
+    prompts: [
+      "Which missing record would you ask for first, and why?",
+      "What would count as a successful restore in this scenario?",
+    ],
+    sources: [
+      {
+        title: "NIST SP 800-34 Rev. 1: Contingency Planning Guide for Federal Information Systems",
+        url: "https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final",
+        scope:
+          "Sections 3.4 and 3.5 describe recovery strategies, roles, and testing. The successor scenario is an original exercise.",
+      },
+    ],
+  },
+  {
     id: "housing",
     title: "Are housing programs measuring durable outcomes?",
     volume: "Volume III",

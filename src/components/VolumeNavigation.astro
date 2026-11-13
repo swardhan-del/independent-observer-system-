@@ -1,0 +1,79 @@
+---
+import { seriesItems } from "../data/series";
+import { curatedResearchPreviews } from "../data/curated-research-previews";
+import { sitePath } from "../lib/paths";
+import { slugify } from "../lib/slugs";
+interface Props {
+  volume: string;
+}
+const { volume } = Astro.props;
+const hasRecent = curatedResearchPreviews.some((entry) => entry.volume === volume);
+const researchAnchor =
+  volume === "Volume I"
+    ? "volume-one-source-map"
+    : volume === "Volume III"
+      ? "volume-three-research"
+      : "volume-research-map";
+---
+
+<div class="shell volume-navigation" id="volume-navigation">
+  <nav aria-label="Choose a research volume" class="volume-switcher">
+    {
+      seriesItems.map((item) => (
+        <a
+          href={sitePath(`/series/${slugify(item.title)}/`)}
+          aria-current={volume === item.volume ? "page" : undefined}
+        >
+          {item.volume}
+        </a>
+      ))
+    }
+  </nav>
+  <nav aria-label={`${volume} page sections`} class="section-links">
+    <strong>On this page</strong>
+    {hasRecent && <a href="#recent-research-directions">New reading and previews</a>}
+    <a href="#volume-overview">Volume overview</a>
+    <a href={`#${researchAnchor}`}>Browse the research</a>
+    <a href="#green-publications-title">Articles and article previews</a>
+    <a href={sitePath(`/about/#about-volume-panel-${slugify(volume)}`)}>Open the volume atlas</a>
+  </nav>
+</div>
+<style>
+  .volume-navigation {
+    padding-block: 1.5rem;
+    scroll-margin-top: var(--site-header-offset, 14rem);
+  }
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1.25rem;
+  }
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--line);
+    overflow-wrap: anywhere;
+  }
+  a[aria-current] {
+    background: var(--navy-900);
+    color: var(--white);
+  }
+  .section-links {
+    margin-top: 1rem;
+  }
+  .section-links strong {
+    width: 100%;
+  }
+  @media (max-width: 35rem) {
+    .volume-switcher {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .section-links a {
+      width: 100%;
+    }
+  }
+</style>

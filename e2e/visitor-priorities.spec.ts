@@ -1,8 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("home features released articles, one catalogue count and a first-screen library action", async ({
-  page,
-}) => {
+test("home names the author and leads with a first-reading action", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
   await expect(page.locator("[data-featured-investigation]")).toHaveCount(4);
@@ -13,7 +11,12 @@ test("home features released articles, one catalogue count and a first-screen li
   await expect(
     page.getByRole("link", { name: /Explore all 29 author paper pages/ }),
   ).toBeAttached();
-  const action = page.getByRole("link", { name: "Browse the research library →", exact: true });
+  await expect(page.locator(".hero-author")).toHaveText("By Siddhartha Harsh Wardhan");
+  await expect(page.locator(".hero-author a")).toHaveAttribute("href", "/about/");
+  const choices = page.getByRole("navigation", { name: "Choose an investigation" });
+  await expect(choices.getByRole("link")).toHaveCount(3);
+  const action = page.getByRole("link", { name: "Choose your first read →", exact: true });
+  await expect(action).toHaveAttribute("href", "/start/");
   const box = await action.boundingBox();
   expect(box).not.toBeNull();
   expect(box!.y + box!.height).toBeLessThan(844);
@@ -33,7 +36,11 @@ test("reading filters combine with paper search and survive reload and history",
       Node.DOCUMENT_POSITION_FOLLOWING,
   );
   expect(before).toBeTruthy();
+  const readingStatus = page.locator("[data-reading-status]");
+  await expect(readingStatus).toHaveText("5 released articles");
   await page.getByRole("button", { name: "Under 5 minutes", exact: true }).click();
+  await expect(readingStatus).toHaveText("4 of 5 released articles match");
+  await expect(page.locator("[data-released-card]:visible")).toHaveCount(4);
   const times = await page
     .locator("[data-reading-minutes]:visible")
     .evaluateAll((nodes) => nodes.map((n) => Number(n.getAttribute("data-reading-minutes"))));
@@ -44,6 +51,7 @@ test("reading filters combine with paper search and survive reload and history",
   await page.getByRole("button", { name: "Longer reads", exact: true }).click();
   await expect(page.locator("[data-library-paper-empty]")).toBeVisible();
   await page.reload();
+  await expect(readingStatus).toHaveText("1 of 5 released articles match");
   await expect(page.getByRole("button", { name: "Longer reads", exact: true })).toHaveAttribute(
     "aria-pressed",
     "true",
@@ -63,6 +71,39 @@ test("reading filters combine with paper search and survive reload and history",
   );
   await page.getByRole("button", { name: "All reads", exact: true }).click();
   await expect(page.locator("[data-library-paper-card]:visible")).toHaveCount(1);
+});
+
+test("the reading controls reserve their space before the filter script loads", async ({
+  page,
+}) => {
+  let releaseScript!: () => void;
+  const scriptGate = new Promise<void>((resolve) => {
+    releaseScript = resolve;
+  });
+  await page.route(/\/_astro\/LibraryReadingDiscovery[^/]+\.js$/, async (route) => {
+    await scriptGate;
+    await route.continue();
+  });
+
+  try {
+    await page.goto("/library/", { waitUntil: "commit" });
+    const controls = page.locator("[data-reading-controls]");
+    const shelf = page.locator("[data-released-reading]");
+    await expect(controls).toBeVisible();
+    await expect(controls).toHaveAttribute("inert", "");
+    await expect(page.locator("[data-reading-status]")).toHaveText("5 released articles");
+    await page.evaluate(() => document.fonts.ready);
+    const before = await shelf.boundingBox();
+    expect(before).not.toBeNull();
+
+    releaseScript();
+    await expect(controls).not.toHaveAttribute("inert", "");
+    const after = await shelf.boundingBox();
+    expect(after).not.toBeNull();
+    expect(Math.abs(after!.y - before!.y)).toBeLessThan(1);
+  } finally {
+    releaseScript();
+  }
 });
 
 test("all reading remains available without JavaScript and previews stay separate", async ({
@@ -133,8 +174,11 @@ test("home routes first-time readers to themes and keeps one working signup dest
   );
   await page
     .locator(".hero-actions")
-    .getByRole("link", { name: "Start here", exact: true })
+    .getByRole("link", { name: "Choose your first read →", exact: true })
     .click();
+  const choices = page.getByRole("navigation", { name: "Choose an investigation" });
+  await expect(choices.locator("li")).toHaveCount(3);
+  await expect(choices.locator("li").first()).toContainText("Released article");
   await expect(
     page.getByRole("heading", { name: "Find a subject you want to understand" }),
   ).toBeVisible();

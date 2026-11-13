@@ -17,6 +17,8 @@ import { volumeFourFramework } from "../../data/volume-four-framework";
 import { volumeFourClaimMap, volumeFourEvidence } from "../../data/volume-four-evidence";
 import VolumeOneSourceMap from "../../components/VolumeOneSourceMap.astro";
 import GreenPublicationShelf from "../../components/GreenPublicationShelf.astro";
+import VolumeNavigation from "../../components/VolumeNavigation.astro";
+import CuratedResearchShelf from "../../components/CuratedResearchShelf.astro";
 
 export function getStaticPaths() {
   return seriesItems.map((item) => ({
@@ -117,7 +119,15 @@ const volumeHeroClass =
         : isVolumeFour
           ? { ...volumeFourClaimMap }
           : undefined}
-  />
+  >
+    <Fragment slot="after-hero">
+      <VolumeNavigation volume={item.volume} />
+      <CuratedResearchShelf volume={item.volume} />
+    </Fragment>
+  </EditorialDetail>
   {isVolumeOne && <VolumeOneSourceMap />}
-  <GreenPublicationShelf volume={item.volume} title={`${item.volume}: research previews`} />
+  <GreenPublicationShelf
+    volume={item.volume}
+    title={`${item.volume}: articles and article previews`}
+  />
 </BaseLayout>

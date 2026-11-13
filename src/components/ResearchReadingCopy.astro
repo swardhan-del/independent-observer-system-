@@ -1,0 +1,133 @@
+---
+import type { ResearchReadingCopy } from "../data/research-reading-copies";
+import { readingCopyMinutes } from "../data/research-reading-copies";
+interface Props {
+  copy: ResearchReadingCopy;
+}
+const { copy } = Astro.props;
+---
+
+<section
+  class="reading-copy"
+  id="reading-copy"
+  aria-labelledby="reading-copy-title"
+  data-reading-copy
+>
+  <header>
+    <p class="eyebrow">Public reading copy · working essay</p>
+    <h2 id="reading-copy-title">Read the complete web essay</h2>
+    <p>
+      Version {copy.version} · {readingCopyMinutes(copy)} min read · Updated <time
+        datetime={copy.updatedDate}>{copy.updatedDate}</time
+      >
+    </p>
+    <p>{copy.introduction}</p>
+  </header>
+  <nav aria-label="Reading copy sections">
+    <ol>
+      {
+        copy.sections.map((s) => (
+          <li>
+            <a href={`#reading-${s.id}`}>{s.title}</a>
+          </li>
+        ))
+      }
+    </ol>
+    <a href="#reading-sources">Sources and review scope</a>
+  </nav>
+  {
+    copy.sections.map((section) => (
+      <section id={`reading-${section.id}`} aria-labelledby={`reading-${section.id}-title`}>
+        <h3 id={`reading-${section.id}-title`}>{section.title}</h3>
+        {section.paragraphs.map((p) => (
+          <p>{p}</p>
+        ))}
+        {section.sourceIds && (
+          <p class="source-links">
+            Sources for this section:{" "}
+            {section.sourceIds.map((id, i) => (
+              <>
+                {i > 0 && " · "}
+                <a href={`#reading-source-${id}`}>{copy.sources.find((s) => s.id === id)!.title}</a>
+              </>
+            ))}
+          </p>
+        )}
+      </section>
+    ))
+  }
+  <section id="reading-sources" aria-labelledby="reading-sources-title">
+    <h3 id="reading-sources-title">Sources and review scope</h3>
+    <p>
+      Sources support the claims identified above. The hypothetical examples and proposed evaluation
+      framework are the author’s analysis. This web essay has not been externally peer reviewed.
+    </p>
+    <ol>
+      {
+        copy.sources.map((source) => (
+          <li id={`reading-source-${source.id}`}>
+            <>
+              <a href={source.url}>{source.title}</a>
+              <p>{source.scope}</p>
+            </>
+          </li>
+        ))
+      }
+    </ol>
+    <p><a href="#reading-copy">Back to the reading copy contents ↑</a></p>
+  </section>
+</section>
+<style>
+  .reading-copy {
+    border-top: 3px solid var(--gold-ink);
+    padding-top: 2rem;
+  }
+  section,
+  li[id] {
+    scroll-margin-top: var(--site-header-offset, 14rem);
+  }
+  section {
+    margin-block: 2.5rem;
+  }
+  nav {
+    border-block: 1px solid var(--line);
+    padding-block: 1rem;
+  }
+  nav ol {
+    margin-top: 0;
+  }
+  nav a {
+    display: inline-block;
+    padding-block: 0.5rem;
+  }
+  h2 {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+  }
+  h3 {
+    font-size: 1.45rem;
+    line-height: 1.3;
+  }
+  p,
+  li {
+    line-height: 1.8;
+  }
+  li {
+    margin-block: 0.5rem;
+  }
+  .source-links {
+    font-size: 0.9rem;
+    border-left: 3px solid var(--gold-ink);
+    padding-left: 1rem;
+  }
+  @media print {
+    nav {
+      display: none;
+    }
+    a {
+      color: inherit;
+    }
+    h3 {
+      break-after: avoid;
+    }
+  }
+</style>

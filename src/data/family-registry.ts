@@ -17,6 +17,9 @@ export const archiveFamilyIds = {
 } as const;
 
 const aliasToFamilyId: Record<string, string> = {
+  "the-two-year-pendulum": "IO-FAMILY-THE_ILLUSION_OF_PERMANENCE",
+  "america-for-americans": "IO-FAMILY-WHO_IS_AMERICA_FOR",
+  "ai-and-the-first-rung-of-economic-opportunity": "IO-FAMILY-AI_AND_THE_FIRST_RUNG",
   "empire-s-mirror": "IO-FAMILY-EMPIRES_MIRROR",
   "empires-mirror": "IO-FAMILY-EMPIRES_MIRROR",
   "the-fear-circuit": "IO-FAMILY-FEAR_CIRCUIT",

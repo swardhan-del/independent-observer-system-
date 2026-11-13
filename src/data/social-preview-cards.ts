@@ -8,8 +8,8 @@ type SocialPreviewCard = {
 
 const socialPreviewCards: Record<string, SocialPreviewCard> = {
   "/": {
-    src: "/social-cards/brand-home.jpg",
-    alt: "The Independent Observer: Independent research and analysis of institutions, economics, and technology.",
+    src: "/social-cards/brand-home-v2.jpg",
+    alt: "Follow the evidence. — Institutions, economics, and technology. A civic building and a check mark represent public review.",
     type: "image/jpeg",
     width: 1200,
     height: 630,
@@ -50,29 +50,29 @@ const socialPreviewCards: Record<string, SocialPreviewCard> = {
     height: 630,
   },
   "/research/the-last-human-workforce/": {
-    src: "/social-cards/brand-workforce.jpg",
-    alt: "The Last Human Workforce: Task Bundles, Automation, and Transition Design.",
+    src: "/social-cards/brand-workforce-v2.jpg",
+    alt: "When AI changes the work — Tasks, evidence, and who gains. Connected task cards show a workflow with separate review paths.",
     type: "image/jpeg",
     width: 1200,
     height: 630,
   },
   "/research/factories-return-but-do-the-jobs/": {
-    src: "/social-cards/brand-factories.jpg",
-    alt: "Factories Return but Do the Jobs: reshoring, work, wages and ownership.",
+    src: "/social-cards/brand-factories-v2.jpg",
+    alt: "The factory is back. Are the jobs? — Output, wages, and ownership. An outline of a factory illustrates the question about jobs.",
     type: "image/jpeg",
     width: 1200,
     height: 630,
   },
   "/research/democracys-achilles-heel/": {
-    src: "/social-cards/brand-democracy.jpg",
-    alt: "Democracy’s Achilles’ Heel: access, information, and review after ballots are counted.",
+    src: "/social-cards/brand-democracy-v2.jpg",
+    alt: "After the ballot is counted — Access, information, and review. A civic building and a check mark represent a route to review.",
     type: "image/jpeg",
     width: 1200,
     height: 630,
   },
   "/research/the-server-as-a-furnace/": {
-    src: "/social-cards/brand-furnace.jpg",
-    alt: "The Server as a Furnace: what makes data centre heat recovery useful.",
+    src: "/social-cards/brand-furnace-v2.jpg",
+    alt: "Where does the server heat go? — What makes heat recovery useful. Curved lines represent separate paths for moving heat.",
     type: "image/jpeg",
     width: 1200,
     height: 630,

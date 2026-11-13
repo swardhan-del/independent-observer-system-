@@ -34,6 +34,25 @@ test("model explanation is readable and traceable without JavaScript", async ({
   );
   await context.close();
 });
+test("the short answer is reachable from the first screen at 320 pixels without JavaScript", async ({
+  browser,
+  baseURL,
+}) => {
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    viewport: { width: 320, height: 757 },
+  });
+  const page = await context.newPage();
+  await page.goto(`${baseURL}/library/documents/who-deported-more/`);
+  await expect(page.locator(".reader-byline")).toContainText("Author working paper");
+  const answerLink = page.getByRole("link", { name: "Jump to the short answer ↓", exact: true });
+  await expect(answerLink).toBeInViewport();
+  await answerLink.click();
+  await expect(page).toHaveURL(/#abstract$/);
+  await expect(page.getByRole("heading", { name: "The short answer" })).toBeInViewport();
+  await context.close();
+});
+
 test("disclosures support keyboard access and the exact scholarly title remains visible", async ({
   page,
 }) => {
