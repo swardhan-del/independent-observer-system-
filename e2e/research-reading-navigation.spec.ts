@@ -11,6 +11,7 @@ test("Latest exposes dated additions and complete reading copies", async ({ page
     .press("Enter");
   await expect(page.locator("#reading-copy")).toBeVisible();
   await expect(page).toHaveURL(/#reading-copy$/);
+  await expect(page.locator("#reading-copy-title")).toBeInViewport();
   await page.getByRole("link", { name: "Sources and review scope", exact: true }).press("Enter");
   await expect(page.locator("#reading-sources")).toBeInViewport();
   await expect(page.locator("#reading-sources li")).toHaveCount(4);
@@ -70,6 +71,8 @@ test("atlas uses the wider reading area and preserves keyboard deep links", asyn
   );
   await page.reload();
   await expect(page.locator("#about-volume-panel-volume-iv")).toBeVisible();
+  await expect(page.locator(".about-atlas-details")).toHaveJSProperty("open", true);
+  await expect(page.locator(".mission-volume-role").first()).toHaveCSS("color", "rgb(63, 77, 92)");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(
     true,
   );

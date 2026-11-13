@@ -2277,7 +2277,7 @@ textarea {
   color: var(--gold-ink);
 }
 
-.about-volume-overview .mission-volume-role {
+.about-volume-overview .mission-volume .mission-volume-role {
   margin: 0 0 12px;
   color: var(--slate-700);
   font-size: 0.75rem;

@@ -47,6 +47,6 @@ test("previews remain navigable without JavaScript", async ({ browser, baseURL, 
   await link.focus();
   await link.press("Enter");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("The Economics of Color");
-  await expect(page.locator("main")).toContainText("The manuscript remains under review");
+  await expect(page.locator("main")).toContainText("The source manuscript remains under review");
   await context.close();
 });

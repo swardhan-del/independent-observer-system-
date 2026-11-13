@@ -194,6 +194,15 @@ const volumeRoles: Record<string, string> = {
       options: { updateHash?: boolean; historyMode?: "push" | "replace" } = {},
     ) => {
       const { updateHash = true, historyMode = "replace" } = options;
+      // A hash can target a panel before the browser has revealed its enclosing
+      // disclosure. Open it explicitly on deep links and user activation.
+      if (updateHash || keyFromHash() === key) {
+        let disclosure = root.closest("details");
+        while (disclosure) {
+          disclosure.open = true;
+          disclosure = disclosure.parentElement?.closest("details") ?? null;
+        }
+      }
       tabs.forEach((tab) => {
         const active = tab.dataset.aboutVolumeTab === key;
         tab.setAttribute("aria-selected", String(active));

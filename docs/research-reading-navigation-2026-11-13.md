@@ -8,6 +8,8 @@ Built on production commit `2b41a01f1bd84ace6d8b71472ae5121f2d3551de`, including
 - Every volume has a volume switcher, current-volume indication, section links and an atlas deep link.
 - New Volume II and IV research appears before the lengthy overview.
 - The detailed About atlas uses the full content width, stacked facts and a single column for extended text. Existing keyboard tab and deep-link behavior is retained.
+- Volume role labels retain dark text on light cards instead of inheriting the surrounding dark section's pale text.
+- Atlas deep links explicitly open their containing disclosure, including after keyboard selection and reload.
 - Search includes the full text of the two new web essays without duplicating their existing catalogue entries.
 
 ## Complete web reading copies
