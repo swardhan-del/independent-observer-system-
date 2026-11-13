@@ -56,6 +56,23 @@ const previewDate = new Date(`${entry.updatedDate}T12:00:00Z`).toLocaleDateStrin
     <section aria-labelledby="evidence">
       <h2 id="evidence">Evidence and limits</h2><p>{entry.evidenceNeeded}</p>
     </section>
+    {
+      entry.example && (
+        <section aria-labelledby={entry.example.id}>
+          <h2 id={entry.example.id}>{entry.example.heading}</h2>
+          {entry.example.paragraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+          <ul aria-label="Sources for the worked example">
+            {entry.example.sources.map((source) => (
+              <li>
+                <a href={source.url}>{source.title}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
     <section aria-labelledby="continue">
       <h2 id="continue">Continue the inquiry</h2>
       <ul>

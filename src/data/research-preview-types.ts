@@ -1,3 +1,10 @@
+export type ResearchPreviewExample = {
+  id: string;
+  heading: string;
+  paragraphs: string[];
+  sources: { title: string; url: string }[];
+};
+
 export type ResearchPreview = {
   id: string;
   taxonomyId: string;
@@ -18,5 +25,6 @@ export type ResearchPreview = {
   backHref: string;
   updatedDate: string;
   sourceNote?: string;
+  example?: ResearchPreviewExample;
   relatedLinks: { title: string; href: string; label: string }[];
 };
