@@ -763,9 +763,12 @@ describe("built website", () => {
       expect(metaContent(html, "name", "robots")).not.toBe("noindex,follow");
       expect(html).toContain("Published article");
       expect(html).toContain(`Web adaptation ${version}`);
-      expect(html).toContain(
-        `Published <time datetime="${publicationDate}">${publicationDate}</time>`,
+      const publishedTime = tags(html, "time").find((tag) =>
+        html
+          .slice(html.indexOf(tag) - "Published ".length, html.indexOf(tag))
+          .endsWith("Published "),
       );
+      expect(publishedTime && attribute(publishedTime, "datetime")).toBe(publicationDate);
       for (const file of [
         "sitemap.xml",
         "feed.xml",
