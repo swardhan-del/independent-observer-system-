@@ -167,10 +167,10 @@ export const greenPublications: GreenPublication[] = [
     topics: ["Automation", "Artificial intelligence", "Labor", "Education", "Human capability"],
     publicationType: "Research article",
     status: "Published bounded text adaptation",
-    version: "Web adaptation v2",
+    version: "Web adaptation v3",
     factualCutoffDate: "2026-10-09",
     publicationDate: "2026-10-09",
-    lastReviewedDate: "2026-10-09",
+    lastReviewedDate: "2026-11-13",
     license: "CC BY-NC-ND 4.0",
     controllerSha256: "31f921f6e7f52949687ed0b096bc783945752452aebfa29a1ded0856b84dc30d",
     sourceVerified: true,
@@ -192,6 +192,8 @@ export const greenPublications: GreenPublication[] = [
       "Workers need enough domain knowledge to recognize a wrong answer, enough tool literacy to use assistance productively, and enough bargaining power to benefit from productivity gains rather than absorb all of the adjustment cost. Employers that deploy AI can be asked to disclose where tasks are changing, provide training, and evaluate workers on outcomes rather than on an obsolete performance ritual. Schools and public institutions can teach source verification, process documentation, and practical demonstration alongside foundational knowledge.",
       "The phrase “last human workforce” should not be read as a prophecy that humans become economically irrelevant. It names a struggle over the last workforce arrangement in which a job title, a credential, and a stable social position were expected to line up automatically. That arrangement was never universal, and it was never equally accessible. But its erosion creates a public question: will AI widen the distance between owners of systems and people who perform fragmented tasks, or will institutions use it to expand capability?",
       "The evidence does not decide that question in advance. It does establish a disciplined starting point: track tasks, measure outcomes, disclose uncertainty, and give workers a real path to learn and move.",
+      "The customer-support study used occasional software outages to ask what happened when the assistant stopped giving suggestions. After several months of access, agents handled individual chats faster during outages than they had before getting the tool. This part of the study measured chat duration. The outages were rare, and the mix of customer questions may have differed, so the results suggest that some learning carried over when the tool was unavailable.",
+      "The related First Rung research preview asks whether employers will still give newcomers enough chances to gain experience. A training evaluation could measure how well workers handle unfamiliar cases without the tool. A hiring study would need separate evidence on entry-level openings, who was hired, and how those patterns changed after adoption.",
     ],
     sourceNotes: [
       {
@@ -201,8 +203,12 @@ export const greenPublications: GreenPublication[] = [
       },
       {
         label:
-          "Brynjolfsson, Li, and Raymond (2025), Generative AI at Work, Quarterly Journal of Economics 140(2), 889–942, abstract; DOI 10.1093/qje/qjae044",
+          "Brynjolfsson, Li, and Raymond (2025), Generative AI at Work, Quarterly Journal of Economics 140(2), 889–942. See the abstract and section VI.B, Worker Learning (Figure VII).",
         href: "https://doi.org/10.1093/qje/qjae044",
+      },
+      {
+        label: "AI and the First Rung of Economic Opportunity (related research preview)",
+        href: "https://independentobserver.org/library/research/ai-and-the-first-rung/",
       },
     ],
     limitations:
@@ -217,6 +223,8 @@ export const greenPublications: GreenPublication[] = [
         paragraph: 4,
         sources: [1],
       },
+      { paragraph: 9, sources: [1] },
+      { paragraph: 10, sources: [2] },
     ],
     sectionHeadings: [
       {
@@ -234,12 +242,22 @@ export const greenPublications: GreenPublication[] = [
         id: "transition-design",
         title: "Transition design is a public choice",
       },
+      {
+        beforeParagraph: 9,
+        id: "learning-during-ai-outages",
+        title: "What did workers learn from the AI?",
+      },
     ],
     revisionNotes: [
       {
         date: "2026-10-09",
         change:
           "First released web edition, expanded from the short preview. The customer-support evidence now cites the final 2025 journal publication (5,172 agents; 15% average productivity gain), replacing the 2023 working-paper figures (5,179; 14%; 34% subgroup gain).",
+      },
+      {
+        date: "2026-11-13",
+        change:
+          "Added the study’s outage analysis, explained the chat-duration measure, and linked the separate question of entry-level hiring.",
       },
     ],
     adaptationDisclosure:
@@ -431,17 +449,20 @@ export const greenPublications: GreenPublication[] = [
     ],
     publicationType: "Research article",
     status: "Published bounded text adaptation",
-    version: "Web adaptation v2",
+    version: "Web adaptation v3",
     factualCutoffDate: "2026-08-16",
     publicationDate: "2026-09-18",
-    lastReviewedDate: "2026-09-18",
+    lastReviewedDate: "2026-11-13",
     license: "CC BY-NC-ND 4.0",
     controllerSha256: "e18478ee1676f1720abf7e766f7314c665ef501445120188ef1433177c8cada7",
     sourceVerified: true,
     rightsReviewed: true,
     accessibilityReviewed: true,
     productionReleased: true,
-    citations: [{ paragraph: 3, sources: [0, 1] }],
+    citations: [
+      { paragraph: 3, sources: [0, 1] },
+      { paragraph: 11, sources: [2] },
+    ],
     relatedPublicationIds: [
       archiveFamilyIds.independentObserverMethod,
       archiveFamilyIds.borrowedLabor,
@@ -458,6 +479,8 @@ export const greenPublications: GreenPublication[] = [
       "The practical test is contestability. Can an opposition realistically win? Can it obtain information and competent administration? Can rights be exercised without partisan identity becoming the price of entry? Can an adverse decision be reviewed? Can a temporary advantage be reversed without first dismantling the system?",
       "These questions do not produce a single ideology. They produce a publication discipline. State the mechanism. Identify the observable implication. Name plausible confounders. Separate documented fact from interpretation. Then evaluate reform not only by the problem it targets, but also by the new veto points or capture opportunities it might create.",
       "Democracy’s vulnerability is therefore not that citizens are always powerless or that institutions are always corrupt. It is that advantages can compound while correction becomes harder to access. The remedy is not a romantic return to an imagined past. It is continuous institutional engineering: clearer rules, lower avoidable burdens, plural information, accountable expertise, and visible routes for correction.",
+      "Imagine a trade association meets a city committee about a proposed rule. A calendar entry establishes access. To investigate influence, compare the request with dated changes to the draft and check whether staff or another group had already proposed the same wording. To test dependence, look for comparable cases where the committee made decisions without the association’s resources. A claim of control would require stronger evidence, such as records showing who gave directions, who followed them, and what happened to credible alternatives.",
+      "This is a fictional example. A meeting followed by a matching change is a reason to investigate. An earlier staff draft with the same wording would make the claim that the meeting caused the change less persuasive.",
     ],
     sourceNotes: [
       {
@@ -467,6 +490,31 @@ export const greenPublications: GreenPublication[] = [
       {
         label: "U.S. Election Assistance Commission release",
         href: "https://www.eac.gov/news/2025/06/30/us-election-assistance-commission-releases-2024-election-administration-and-voting",
+      },
+      {
+        label: "Empire’s Mirror, evidence framework for access, influence, dependence, and control",
+        href: "https://independentobserver.org/library/documents/empires-mirror/#inference",
+      },
+    ],
+    sectionHeadings: [
+      {
+        beforeParagraph: 0,
+        id: "political-equality",
+        title: "Formal equality and practical access",
+      },
+      { beforeParagraph: 4, id: "five-channels", title: "Five channels to investigate" },
+      { beforeParagraph: 8, id: "contestability", title: "Can people challenge a decision?" },
+      {
+        beforeParagraph: 11,
+        id: "from-access-to-control",
+        title: "What does a meeting record prove?",
+      },
+    ],
+    revisionNotes: [
+      {
+        date: "2026-11-13",
+        change:
+          "Added a fictional committee example using the evidence framework from Empire’s Mirror and added section links.",
       },
     ],
     limitations:
