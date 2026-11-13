@@ -9,7 +9,7 @@ export const researchPreviews: ResearchPreview[] = [
     contextVolume: "Volume III",
     contextTitle: entry.volume === "Volume III" ? "Managed Decline" : "Connected to Volume III",
     backHref: `/series/managed-decline/#research-${entry.id}`,
-    updatedDate: volumeThreePreviewDate,
+    updatedDate: entry.updatedDate ?? volumeThreePreviewDate,
     relatedLinks: entry.related.map((id) => {
       const related = volumeThreePreviews.find((item) => item.id === id)!;
       return { title: related.title, href: related.href, label: "Research preview" };

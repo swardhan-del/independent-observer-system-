@@ -1,5 +1,6 @@
 import taxonomy from "../../plugins/library-content/taxonomy.generated.json" with { type: "json" };
 import { familyIdForKey } from "./family-registry";
+import type { ResearchPreviewExample } from "./research-preview-types";
 
 /** Public research questions only. Neither a manuscript controller nor a release approval. */
 type PreviewNote = {
@@ -10,6 +11,8 @@ type PreviewNote = {
   contribution: string;
   evidenceNeeded: string;
   related: string[];
+  example?: ResearchPreviewExample;
+  updatedDate?: string;
 };
 
 export const volumeThreePreviewStatus = "Research preview · manuscript under review";
@@ -213,6 +216,26 @@ const notes: PreviewNote[] = [
     evidenceNeeded:
       "Separate legal authority, program financing and measured outcomes. Proposed institutional incentives require evidence; this preview does not attribute misconduct or offer treatment advice.",
     related: ["homelessness-manufacture", "from-pockets-to-portfolios"],
+    updatedDate: "2026-11-13",
+    example: {
+      id: "measuring-recovery",
+      heading: "Do supervision records tell us whether people recover?",
+      paragraphs: [
+        "Imagine a program reports 120 check-ins and the amount it collected in supervision fees. The check-ins count activity. The fees describe a financial burden or a revenue stream, depending on whose records you are reading. Neither tells you how many people had stable housing or remained connected to care after supervision ended.",
+        "Start with everyone who entered the program, including people who left early. Use the same follow-up rule for each person, such as six months after leaving. Define housing stability and continuity of care before collecting the data, and report how many people could not be reached. To study whether the program made a difference, compare with a similar group and account for differences in eligibility, local services and starting circumstances.",
+        "A 2011 evaluation funded by the National Institute of Justice found that participants in the adult drug courts it studied reported less drug use and offending than a comparison group. Those outcomes matter alongside housing and access to care. SAMHSA describes recovery more broadly, including health, a stable home, meaningful activity and supportive relationships. The fictional example makes no claim about the effect of fees on any of these outcomes.",
+      ],
+      sources: [
+        {
+          title: "Multisite Adult Drug Court Evaluation, volume 4: impact study",
+          url: "https://www.ojp.gov/library/publications/multi-site-adult-drug-court-evaluation-impact-drug-courts-volume-4",
+        },
+        {
+          title: "SAMHSA, Treatment Improvement Protocol 65: What Is Recovery?",
+          url: "https://www.ncbi.nlm.nih.gov/books/NBK601486/",
+        },
+      ],
+    },
   },
   {
     key: "the-plate-they-deny",
