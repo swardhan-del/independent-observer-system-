@@ -12,8 +12,10 @@ import PublicationRecord from "./PublicationRecord.astro";
 import FollowUpdates from "./FollowUpdates.astro";
 import { featuredInvestigations } from "../data/editorial-discovery";
 import { aiReadingCollection } from "../data/reading-collections";
+import { publicationReuse } from "../lib/publication-reuse";
 
 const { publication } = Astro.props as { publication: GreenPublication };
+const reuse = publicationReuse(publication);
 const currentPath = `/research/${publication.slug}/`;
 const readerGuide = featuredInvestigations.find((item) => item.slug === publication.slug);
 const collectionMember = aiReadingCollection.slugs.includes(publication.slug);
@@ -41,7 +43,7 @@ const schema = JSON.stringify({
   dateModified: publication.lastReviewedDate,
   version: publication.version,
   isAccessibleForFree: true,
-  license: publication.license,
+  license: reuse.schemaLicense,
   url: new URL(publicSitePath(currentPath), Astro.site ?? Astro.url.origin).href,
 }).replace(/</g, "\\u003c");
 ---
@@ -127,7 +129,7 @@ const schema = JSON.stringify({
         version={publication.version}
         revisionCount={revisions.length}
         revisionHistoryHref={revisions.length ? "#revision-history" : undefined}
-        reuseNotice={publication.license}
+        reuseNotice={reuse.reuseNotice}
       />
       {
         headings.length > 0 && (
