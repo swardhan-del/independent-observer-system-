@@ -25,6 +25,15 @@ Article metadata for every existing article. Full repository CI must pass before
 the PR is ready for review. Private source comparison, fingerprints, outstanding
 rights decisions and delivery evidence remain in the private weekly reports.
 
+The first hosted run exposed an existing Astro dependency-audit failure. The
+follow-up raises the minimum Astro version from 7.3.2 to 7.4.7 and refreshes its
+dependency lock to address GHSA-mh32-jxcr-mh9f and GHSA-r3h5-4585-7x3w. The static
+site does not use the Node adapter described by the latter advisory; this is a
+dependency-gate fix, not a claim of an observed production exploit. CI thresholds
+and checks remain unchanged, and the updated build requires full validation.
+
 Before merge, closing this PR withdraws the proposal. If later merged, revert its
-single implementation commit through a reviewed branch and revalidate; preserve
-later work and do not reset shared history. No source originals need restoring.
+reuse-rights implementation commit through a reviewed branch and revalidate;
+preserve later work and do not reset shared history. Assess the separate security
+dependency update independently before any reversal, because restoring the old
+lock reintroduces the known audit failure. No source originals need restoring.
