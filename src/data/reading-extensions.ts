@@ -54,7 +54,31 @@ export const readingExtensions: Record<string, PublicDocumentSection[]> = {
       ],
     },
   ],
+  "double-tax-on-time": [
+    {
+      id: "measuring-unpaid-care",
+      heading: "How much of a day goes to unpaid care?",
+      paragraphs: [
+        "The UN’s Sustainable Development Goal indicator 5.4.1 expresses average time spent on unpaid domestic and care work as a percentage of a 24-hour day. The average covers the relevant population, including people who report zero time in those activities.",
+        "Suppose four people report 0, 0, 2 and 6 hours of unpaid domestic and care work in a day. Together they report 8 hours. Across all four people, that averages 2 hours per person, or about 8.3% of the day. Across the two who report doing the work, the average is 4 hours. Each answer describes a different group.",
+        "Before comparing published figures, check the survey year, who was included, which activities counted and whether people kept a diary or recalled their time. A main-activity measure can miss care done alongside another activity, such as supervising a child while cooking. These four observations are invented. The calculation explains the indicator and leaves the effect of any policy on work or pay open.",
+      ],
+      table: {
+        caption: "Unpaid domestic and care work in a fictional four-person example",
+        headers: ["Who is counted", "Average hours per person", "Share of a 24-hour day"],
+        rows: [
+          ["All four people", "8 ÷ 4 = 2", "8.3%"],
+          ["Two people reporting this work", "8 ÷ 2 = 4", "16.7%"],
+        ],
+      },
+      evidenceIds: ["un-sdg-unpaid-care"],
+    },
+  ],
 };
+export const readingExtensionDates: Record<string, string> = {
+  "double-tax-on-time": "13 November 2026",
+};
+
 export const extensionEvidence: Record<string, PublicCitation[]> = {
   "entanglement-primer": [
     {
@@ -63,6 +87,15 @@ export const extensionEvidence: Record<string, PublicCitation[]> = {
       citation:
         "Quantum teleportation: introduction and Protocol. Shared entanglement plus two classical bits; the receiver's conditional corrections. Checked 9 September 2026. The I/X table is an original illustration, not IBM experimental data.",
       url: "https://quantum.cloud.ibm.com/learning/en/courses/basics-of-quantum-information/entanglement-in-action/quantum-teleportation",
+    },
+  ],
+  "double-tax-on-time": [
+    {
+      id: "un-sdg-unpaid-care",
+      label: "United Nations Statistics Division, SDG indicator 5.4.1",
+      citation:
+        "Indicator metadata, updated 27 March 2026. See the comments and limitations and the method of computation.",
+      url: "https://unstats.un.org/sdgs/metadata/files/Metadata-05-04-01.pdf",
     },
   ],
 };

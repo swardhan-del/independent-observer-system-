@@ -69,6 +69,13 @@ const volumeRecord = entry.volume
   <p class="reader-byline">
     {entry.author ?? "Independent Observer"} · {status} · About {estimatedMinutes} min read
   </p>
+  {
+    entry.id === "who-deported-more" && (
+      <a class="reader-answer-link" href="#abstract">
+        Jump to the short answer ↓
+      </a>
+    )
+  }
   {entry.updatedDate && <p class="reader-updated">Updated {entry.updatedDate}</p>}
 </PageHero>
 
@@ -700,6 +707,15 @@ const volumeRecord = entry.volume
 </script>
 
 <style>
+  .reader-answer-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: var(--gold-light);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.16em;
+  }
+
   .reader-table-wrap {
     overflow-x: auto;
   }

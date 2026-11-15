@@ -1,4 +1,4 @@
-import { readingExtensions, extensionEvidence } from "./reading-extensions";
+import { readingExtensions, extensionEvidence, readingExtensionDates } from "./reading-extensions";
 import { scholarlyClarity } from "./scholarly-clarity";
 import type { PublicDocument, PublicDocumentSection } from "./documents";
 import { explicitRelatedFamilyIds, familyIdForKey } from "./family-registry";
@@ -199,7 +199,7 @@ function makeDocument(input: PaperInput): PublicDocument {
     ...scholarlyClarity[document.id],
     ...(readingExtensions[document.id]
       ? {
-          updatedDate: "9 September 2026",
+          updatedDate: readingExtensionDates[document.id] ?? "9 September 2026",
           sections: (scholarlyClarity[document.id]?.sections ?? document.sections).flatMap(
             (section) =>
               section.id === "publication-boundary"

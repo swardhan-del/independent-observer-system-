@@ -25,13 +25,14 @@
     "dashboard": "tsx scripts/publishing-dashboard.ts",
     "test:e2e": "playwright test",
     "perf:check": "node scripts/measure-reader-performance.mjs",
+    "media:export": "node --import tsx docs/media-brand/templates/export-covers.mjs",
     "seo:report": "node plugins/seo/growth-report.mjs"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@playwright/test": "^1.63.0",
     "@types/node": "^22.0.0",
-    "astro": "^7.3.2",
+    "astro": "^7.4.7",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
     "tsx": "^4.23.13",

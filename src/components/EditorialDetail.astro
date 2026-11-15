@@ -126,7 +126,9 @@ const frameworkRelevanceLabel =
   className={heroClassName}
 />
 
-<section class="section section-white">
+<slot name="after-hero" />
+
+<section class="section section-white" id="volume-overview">
   <div class="shell page-grid">
     <aside class="page-aside">
       <span>{item.volume ?? item.category}</span>

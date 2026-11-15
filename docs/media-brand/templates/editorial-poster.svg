@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="1080" height="1920">
+  <rect width="1080" height="1920" fill="#101e33"/>
+  <path d="M96 294h768M96 1196h768" fill="none" stroke="#536579" stroke-width="3"/>
+  <path d="M96 294h126" fill="none" stroke="#e0bc7b" stroke-width="7"/>
+  <text x="96" y="246" fill="#f5f1e8" font-family="Georgia, serif" font-size="45">The Independent Observer</text>
+  <text x="96" y="403" fill="#e0bc7b" font-family="Arial, sans-serif" font-size="27" letter-spacing="2.5" font-weight="bold">{{DESK}}</text>
+  <text x="96" y="541" fill="#f5f1e8" font-family="Georgia, serif" font-size="80">
+    <tspan x="96">{{TITLE_ONE}}</tspan>
+    <tspan x="96" dy="100">{{TITLE_TWO}}</tspan>
+  </text>
+  <text x="96" y="748" fill="#d6dfeb" font-family="Arial, sans-serif" font-size="37">{{DECK}}</text>
+  <g transform="translate(96 864) scale(1.6)">
+    <rect x="1" y="1" width="478" height="118" fill="none" stroke="#536579" stroke-width="2"/>
+    {{MOTIF}}
+  </g>
+  <text x="96" y="1282" fill="#e0bc7b" font-family="Arial, sans-serif" font-size="29" font-weight="bold">{{STATUS}}</text>
+  <text x="96" y="1360" fill="#f5f1e8" font-family="Arial, sans-serif" font-size="31">independentobserver.org</text>
+  <text x="96" y="1404" fill="#d6dfeb" font-family="Arial, sans-serif" font-size="24">{{SOURCE_PATH}}</text>
+</svg>

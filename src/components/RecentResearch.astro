@@ -1,0 +1,114 @@
+---
+import { recentResearch } from "../data/recent-research";
+import { sitePath } from "../lib/paths";
+const first = recentResearch.slice(0, 8);
+const older = recentResearch.slice(8);
+---
+
+<section
+  class="section section-white recent-research"
+  id="recent-research"
+  aria-labelledby="recent-research-title"
+>
+  <div class="shell">
+    <p class="eyebrow">New and updated research</p>
+    <h2 id="recent-research-title">Recent reading copies and previews</h2>
+    <p>
+      Follow the latest additions to the four-volume inquiry. Dates show updates to these web pages.
+      Research previews remain in development; selected entries also include a complete working web
+      essay.
+    </p>
+    <ul class="recent-list">
+      {
+        first.map((entry) => (
+          <li data-recent-research={entry.id}>
+            <p class="eyebrow">
+              {entry.volume} · Updated <time datetime={entry.updatedDate}>{entry.updatedDate}</time>
+            </p>
+            <h3>
+              <a href={sitePath(entry.href + (entry.readingCopy ? "#reading-copy" : ""))}>
+                {entry.title}
+              </a>
+            </h3>
+            <p>{entry.summary}</p>
+            <p class="status">
+              {entry.readingCopy
+                ? "Includes a complete public reading copy · working essay"
+                : entry.status}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+    {
+      older.length > 0 && (
+        <details>
+          <summary>Browse {older.length} more research previews</summary>
+          <ul class="older-list">
+            {older.map((entry) => (
+              <li data-recent-research={entry.id}>
+                <a href={sitePath(entry.href)}>{entry.title}</a>
+                <br />
+                <small>
+                  {entry.volume} · Updated{" "}
+                  <time datetime={entry.updatedDate}>{entry.updatedDate}</time> · {entry.status}
+                </small>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )
+    }
+  </div>
+</section>
+<style>
+  .recent-research {
+    scroll-margin-top: var(--site-header-offset, 14rem);
+  }
+  h2 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+  }
+  h3 {
+    font-size: 1.35rem;
+    line-height: 1.35;
+  }
+  p {
+    max-width: 75ch;
+    line-height: 1.7;
+  }
+  .recent-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+  }
+  li {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .recent-list li {
+    border-top: 1px solid var(--line);
+    padding-block: 1rem;
+  }
+  .status {
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+  .older-list li {
+    margin-block: 1rem;
+  }
+  summary {
+    padding-block: 1rem;
+    cursor: pointer;
+  }
+  a {
+    display: inline-block;
+    padding-block: 0.35rem;
+  }
+  @media (max-width: 45rem) {
+    .recent-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

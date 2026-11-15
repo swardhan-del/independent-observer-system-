@@ -90,7 +90,9 @@ const branchesFor = (volume: string) => [
                       <a href={sitePath(entry.href)}>
                         {entry.href.startsWith("/library/manuscripts/")
                           ? "Read the full working paper"
-                          : "Open the reading record"}
+                          : entry.href.startsWith("/library/research/")
+                            ? "Open the research preview"
+                            : "Open the reading record"}
                       </a>
                     )}
                   </article>
@@ -140,6 +142,10 @@ const branchesFor = (volume: string) => [
   }
 </script>
 <style>
+  :global(html) {
+    /* Long catalogue jumps should settle immediately, including without scripts. */
+    scroll-behavior: auto;
+  }
   .taxonomy {
     max-width: 72rem;
     padding-bottom: 5rem;
@@ -185,7 +191,7 @@ const branchesFor = (volume: string) => [
     padding: 1.4rem 0;
     border-bottom: 1px solid #d1d5db;
     max-width: 80ch;
-    scroll-margin-top: 7rem;
+    scroll-margin-top: var(--site-header-offset, 240px);
   }
   .taxonomy h2 {
     margin-top: 3rem;

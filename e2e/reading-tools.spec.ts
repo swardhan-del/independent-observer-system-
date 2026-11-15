@@ -3,7 +3,7 @@ test("reading exercises, energy validation, notes and downloads", async ({ page 
   await page.goto("/reading-tools/");
   const main = page.locator("main");
   await expect(main.getByRole("heading", { level: 1 })).toHaveText("Put an argument to work.");
-  await expect(main.locator(".tool-card")).toHaveCount(6);
+  await expect(main.locator(".tool-card")).toHaveCount(7);
   const workload = main.getByRole("spinbutton", { name: "Number of workloads" });
   await workload.fill("2000");
   await main.getByRole("button", { name: "Calculate hypothetical energy" }).click();
@@ -51,7 +51,15 @@ test("explanations remain readable without JavaScript", async ({ browser, baseUR
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto(`${baseURL}/reading-tools/`);
-  await expect(page.locator("main .tool-card")).toHaveCount(6);
+  await expect(page.locator("main .tool-card")).toHaveCount(7);
   await expect(page.locator("#attention .tool-example")).toContainText("Fictional comparison");
+  const continuity = page.locator("#mindhive-continuity");
+  await expect(continuity.getByRole("row", { name: /successor/i }).last()).toBeVisible();
+  await expect(continuity.locator("#energy-form")).toHaveCount(0);
+  await page.getByRole("link", { name: "How much of a day goes to unpaid care?" }).click();
+  await expect(page).toHaveURL(/\/double-tax-on-time\/#measuring-unpaid-care$/);
+  const care = page.locator("#measuring-unpaid-care");
+  await expect(care.getByRole("row", { name: /all four people/i })).toContainText("8.3%");
+  await expect(care.getByRole("row", { name: /two people reporting/i })).toContainText("16.7%");
   await context.close();
 });

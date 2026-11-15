@@ -6,8 +6,10 @@ test("reader vocabulary, keyboard links, filters and history preserve discovery"
   await page.goto("/");
   await page.locator("[data-search-open]").click();
   const input = page.locator("[data-search-input]");
-  await input.fill("deportation");
   const first = page.locator("[data-search-result]").first();
+  await input.fill("AI");
+  await expect(first).toHaveAttribute("href", /collections\/ai-work-and-infrastructure\/$/);
+  await input.fill("deportation");
   await expect(first).toHaveAttribute("href", /who-deported-more/);
   await input.press("ArrowDown");
   await expect(first).toBeFocused();

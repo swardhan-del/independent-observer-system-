@@ -87,7 +87,9 @@ const externalLinks = record.researchGateUrl;
             ? "Open paper synopsis"
             : record.kind === "Volume record"
               ? "Open volume record"
-              : "Open research concept"
+              : record.kind === "Research preview"
+                ? "Open research preview"
+                : "Open research concept"
         } →
       </a>
       {

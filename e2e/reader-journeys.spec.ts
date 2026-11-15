@@ -45,7 +45,6 @@ for (const javaScriptEnabled of [true, false]) {
     );
     for (const [index, id, volume] of [
       [1, "paper-human-rights-policing-doctrine-and-hidden-taxation", "Volume II"],
-      [2, "paper-from-pockets-to-portfolios", "Volume III"],
     ] as const) {
       await page.goto(links[index]);
       const record = page.locator(`#${id}`);
@@ -56,6 +55,12 @@ for (const javaScriptEnabled of [true, false]) {
         record.locator('a[href*="/library/documents/"], a[href*="/library/manuscripts/"]'),
       ).toHaveCount(0);
     }
+    await page.goto(links[2]);
+    await expect(
+      page.locator('[data-research-preview="from-pockets-to-portfolios"]'),
+    ).toBeVisible();
+    await expect(page.locator("main")).toContainText("Research preview · manuscript under review");
+    await expect(page.locator("main")).toContainText("Evidence and limits");
     await page.goto(links[3]);
     await expect(page.locator("[data-document-reader]")).toBeVisible();
     await expect(page.locator("main")).toContainText("The paper is a policy proposal");

@@ -4,15 +4,17 @@ import { readingTimeMinutes } from "../data/green-publications";
 import { historyPodcast } from "../data/podcast";
 import { sitePath } from "../lib/paths";
 import ReaderCardContent from "./ReaderCardContent.astro";
+
+const releasedTotal = `${recentArticles.length} released ${recentArticles.length === 1 ? "article" : "articles"}`;
 ---
 
 <section
   class="section section-white library-reading-discovery"
-  aria-labelledby="reading-discovery-title"
+  aria-label="Released articles and audio"
 >
   <div class="shell">
-    <div class="reading-discovery-controls" data-reading-controls hidden>
-      <h2 id="reading-discovery-title">How much time do you have?</h2>
+    <div class="reading-discovery-controls" data-reading-controls inert>
+      <h2>How much time do you have?</h2>
       <div class="library-paper-filters" role="group" aria-label="Choose reading time or audio">
         <button type="button" data-reading-mode="all" aria-pressed="true">All reads</button>
         <button type="button" data-reading-mode="short" aria-pressed="false">Under 5 minutes</button
@@ -24,7 +26,7 @@ import ReaderCardContent from "./ReaderCardContent.astro";
         Reading times estimate the text on this website, not the full manuscripts. Longer reads take
         5 minutes or more. Paper search and volume filters apply to the summaries below.
       </p>
-      <p role="status" aria-live="polite" data-reading-status></p>
+      <p role="status" aria-live="polite" data-reading-status>{releasedTotal}</p>
     </div>
     <div data-released-reading>
       <div class="section-heading">
@@ -32,10 +34,8 @@ import ReaderCardContent from "./ReaderCardContent.astro";
           <p class="eyebrow">Read now</p><h2 id="released-reading-title">
             Start with a released article.
           </h2>
-        </div><p>
-          {recentArticles.length} released articles. Paper summaries follow; research previews are listed
-          separately below.
-        </p>
+        </div>
+        <p>Paper summaries follow. Research previews are listed separately below.</p>
       </div>
       <div class="focused-reading-grid">
         {
@@ -109,6 +109,8 @@ import ReaderCardContent from "./ReaderCardContent.astro";
   if (controls) {
     const buttons = [...controls.querySelectorAll<HTMLButtonElement>("[data-reading-mode]")];
     const articles = [...document.querySelectorAll<HTMLElement>("[data-released-card]")];
+    const status = controls.querySelector<HTMLElement>("[data-reading-status]")!;
+    const releasedTotal = status.textContent?.trim() ?? "";
     const papers = document.querySelector<HTMLElement>(".library-research-shelf");
     const released = document.querySelector<HTMLElement>("[data-released-reading]")!;
     const audio = document.querySelector<HTMLDetailsElement>("[data-listening-shelf]")!;
@@ -125,10 +127,12 @@ import ReaderCardContent from "./ReaderCardContent.astro";
       audio.open = mode === "listen";
       const count = articles.filter((card) => !card.hidden).length;
       document.querySelector<HTMLElement>("[data-released-empty]")!.hidden = count > 0;
-      controls.querySelector<HTMLElement>("[data-reading-status]")!.textContent =
+      status.textContent =
         mode === "listen"
           ? `${document.querySelectorAll("[data-listening-card]").length} audio essays with transcripts`
-          : `${count} released ${count === 1 ? "article" : "articles"}; matching paper summaries below`;
+          : mode === "all"
+            ? releasedTotal
+            : `${count} of ${releasedTotal} match`;
       document.dispatchEvent(new Event("reading-mode-change"));
     };
     buttons.forEach((button) =>
@@ -141,10 +145,10 @@ import ReaderCardContent from "./ReaderCardContent.astro";
         render();
       }),
     );
-    controls.hidden = false;
     window.addEventListener("popstate", render);
     window.addEventListener("pageshow", render);
     render();
+    controls.removeAttribute("inert");
   }
 </script>
 <style>
@@ -155,6 +159,14 @@ import ReaderCardContent from "./ReaderCardContent.astro";
     margin-bottom: 28px;
     padding-bottom: 20px;
     border-bottom: 1px solid var(--line);
+  }
+  .reading-discovery-controls[inert] {
+    display: none;
+  }
+  @media (scripting: enabled) {
+    .reading-discovery-controls[inert] {
+      display: block;
+    }
   }
   .reading-discovery-controls h2 {
     font-size: 1.4rem;

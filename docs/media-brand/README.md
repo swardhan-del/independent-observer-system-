@@ -11,6 +11,18 @@ The site is the canonical place to read the research and its references. This di
 
 The four original articles stay on their existing routes. A short, optional introduction on each route is part of the website update. The longer production copy is held for channel review. No script, post, video or email in these packages has been released through a distribution channel.
 
+## Export the pilot graphics
+
+The exporter uses the four released articles in the table above and their existing motifs. It produces a 1200×630 share card, a 1600×900 thumbnail, and a 1080×1920 poster for each article. A full export also includes the homepage share card. The manifest records the article's canonical URL, edition, date, citations, and license alongside each image's dimensions, alt text, and SHA-256 fingerprint.
+
+From the repository root with npm dependencies and Playwright Chromium installed, choose a new output directory with an existing parent outside the checkout:
+
+```sh
+npm run media:export -- --output "/path/to/media-review/observer-pilot"
+```
+
+For a one-topic review, add `--pilot 01-ai-and-work` (or `02-reshoring-and-ownership`, `03-contestable-institutions`, `04-computing-and-heat`). If using an installed Chrome browser, set `PLAYWRIGHT_EXECUTABLE_PATH` to its executable. The export completes with `manifest.json`. Review the images with each package's existing `formats.md` and `episode.md` before using the channel release checklist below.
+
 ## From source to release
 
 1. **Select an edition.** Use the existing [source-to-publication workflow](../source-to-publication-workflow.md), [approved article register](../approved-articles-2026-10-09.md), and publication registry. Record canonical URL, source date, volume and version in the [editorial package template](templates/editorial-package.md). For a private or unreleased source, keep the entire package private and use the existing Dropbox manifest/owner review process first.

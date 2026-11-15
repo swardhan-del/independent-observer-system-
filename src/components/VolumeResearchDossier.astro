@@ -11,6 +11,8 @@ type Props = {
 };
 
 const { publicDocuments = [] } = Astro.props as Props;
+const readingCount = volumeThreeResearchRecords.filter((record) => record.publicDocumentId).length;
+const previewCount = volumeThreeResearchRecords.filter((record) => record.previewHref).length;
 ---
 
 <section
@@ -32,8 +34,9 @@ const { publicDocuments = [] } = Astro.props as Props;
           insecurity.
         </p>
         <p>
-          One matched paper record is available as a public reading copy. The other source records
-          are shown as research directions while publication is pending.
+          {readingCount} public reading copies and {previewCount} research previews connect this dossier.
+          Each preview sets out a question, its role in the volume, and evidence still needed. Empire
+          Without Bread remains a Volume II entry connected to this inquiry.
         </p>
       </div>
     </div>
@@ -80,8 +83,12 @@ const { publicDocuments = [] } = Astro.props as Props;
           const publicDocument = record.publicDocumentId
             ? publicDocuments.find((document) => document.id === record.publicDocumentId)
             : undefined;
+          const href = publicDocument
+            ? `/library/documents/${publicDocument.id}/`
+            : record.previewHref;
           return (
             <article
+              id={`research-${record.id}`}
               class="volume-dossier-card"
               data-volume-dossier-card
               data-dossier-lenses={record.lenses.join("|")}
@@ -98,13 +105,10 @@ const { publicDocuments = [] } = Astro.props as Props;
                   {record.status}
                 </span>
               </div>
-              <h3>
-                {publicDocument ? (
-                  <a href={sitePath(`/library/documents/${publicDocument.id}/`)}>{record.title}</a>
-                ) : (
-                  record.title
-                )}
-              </h3>
+              <h3>{href ? <a href={sitePath(href)}>{record.title}</a> : record.title}</h3>
+              {record.primaryVolume && record.primaryVolume !== "Volume III" && (
+                <p>{record.primaryVolume} · Cross-volume connection</p>
+              )}
               <p>{record.summary}</p>
               <ul class="volume-dossier-lenses" aria-label={`${record.title} research lenses`}>
                 {record.lenses.map((lens) => (
@@ -123,12 +127,9 @@ const { publicDocuments = [] } = Astro.props as Props;
                   <p class="volume-dossier-source">{record.sourceDescription}</p>
                 </div>
               </details>
-              {publicDocument && (
-                <a
-                  class="volume-dossier-link"
-                  href={sitePath(`/library/documents/${publicDocument.id}/`)}
-                >
-                  Open public reading copy →
+              {href && (
+                <a class="volume-dossier-link" href={sitePath(href)}>
+                  {publicDocument ? "Open public reading copy →" : "Open research preview →"}
                 </a>
               )}
             </article>
@@ -156,6 +157,12 @@ const { publicDocuments = [] } = Astro.props as Props;
     </p>
   </div>
 </section>
+
+<style>
+  .volume-dossier-card {
+    scroll-margin-top: var(--site-header-offset, 240px);
+  }
+</style>
 
 <script>
   const dossier = document.querySelector("[data-volume-three-dossier]");

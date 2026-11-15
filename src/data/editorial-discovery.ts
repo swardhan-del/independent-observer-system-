@@ -80,3 +80,29 @@ export const featuredInvestigations = featureNotes.map((feature) => {
   }
   return { ...feature, publication };
 });
+
+// Reader routes reuse the featured selection and its release checks above.
+export const editorialEntryPoints = [
+  {
+    label: "Institutions & public accountability",
+    slug: "democracys-achilles-heel",
+    href: "/topics/politics/",
+    action: "Explore institutions & accountability",
+  },
+  {
+    label: "Economics, work & opportunity",
+    slug: "factories-return-but-do-the-jobs",
+    href: "/topics/economics/",
+    action: "Explore economics & opportunity",
+  },
+  {
+    label: "Science, AI & technology",
+    slug: "the-last-human-workforce",
+    href: "/collections/ai-work-and-infrastructure/",
+    action: "Explore AI, work and infrastructure",
+  },
+].map((entry) => {
+  const feature = featuredInvestigations.find((item) => item.slug === entry.slug);
+  if (!feature) throw new Error(`Missing featured investigation for entry point: ${entry.slug}`);
+  return { ...entry, publication: feature.publication };
+});

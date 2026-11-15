@@ -231,6 +231,14 @@ export function rankSearchEntries(
       }
 
       if (searchable.includes(normalizedQuery) && !titlePhrase) score += 25;
+      // Break close matches for broad queries in favor of a published reading path.
+      if (
+        groups.length === 1 &&
+        fields.title.has(normalizedQuery) &&
+        entry.status === "Published reading collection"
+      ) {
+        score += 250;
+      }
       return [{ ...entry, score, matchedFields: [...matchedFields] }];
     })
     .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title, "en"));
