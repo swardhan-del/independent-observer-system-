@@ -19,12 +19,17 @@
         return;
       }
       const target = document.getElementById(id);
+      // Reading-copy sections need a deterministic anchor landing on mobile,
+      // including the sources appendix at the end of long articles.
+      const readingCopyTarget = Boolean(target?.closest(".reading-copy"));
       if (
-        target?.matches(
-          "#reading-journeys, #justice-to-capacity, .journey, .podcast-episode, [data-transcript-paragraph], [data-reader-section], .reader-references li[id]",
-        )
+        target &&
+        (readingCopyTarget ||
+          target.matches(
+            "#reading-journeys, #justice-to-capacity, .journey, .podcast-episode, [data-transcript-paragraph], [data-reader-section], .reader-references li[id]",
+          ))
       ) {
-        requestAnimationFrame(() => target.scrollIntoView({ block: "start" }));
+        requestAnimationFrame(() => target.scrollIntoView({ block: "start", behavior: "instant" }));
       }
     };
     revealTarget();

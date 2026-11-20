@@ -15,13 +15,11 @@ const { compact = false } = Astro.props;
           <a href={sitePath(`/research/${publication.slug}/`)}>
             {articleQuestions[publication.slug]} →
           </a>
+          <span class="entry-meta">Released article · {readingTimeMinutes(publication)} min read</span>
           {!compact && (
-            <>
-              <span>Released article · {readingTimeMinutes(publication)} min read</span>
-              <a class="entry-topic" href={sitePath(href)}>
-                {action} →
-              </a>
-            </>
+            <a class="entry-topic" href={sitePath(href)}>
+              {action} →
+            </a>
           )}
         </li>
       ))
@@ -58,7 +56,7 @@ const { compact = false } = Astro.props;
     text-decoration: underline;
     text-underline-offset: 0.16em;
   }
-  span,
+  .entry-meta,
   .entry-topic {
     font-size: 0.85rem;
     margin-top: 5px;
