@@ -1,4 +1,5 @@
 import type { GreenPublication } from "./green-publications";
+import { authorArticleDisclosure } from "./publication-disclosures";
 
 export const factoriesReturnArticle: GreenPublication = {
   candidateId: "IO-V4-FACTORIES-RETURN-JOBS",
@@ -177,6 +178,5 @@ export const factoriesReturnArticle: GreenPublication = {
         "First web edition based on the revised research brief. Includes final journal customer-support statistics, dated 2026 productivity evidence, ownership measures and a falsifiable policy evaluation.",
     },
   ],
-  adaptationDisclosure:
-    "Prepared with AI assistance for research, editing and implementation from the author’s argument. No independent peer review is claimed. Funding and conflict-of-interest declarations have not been supplied.",
+  adaptationDisclosure: authorArticleDisclosure,
 };

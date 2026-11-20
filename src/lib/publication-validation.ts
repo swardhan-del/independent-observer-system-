@@ -11,6 +11,8 @@ export function validatePublications(
   const families = new Set<string>();
   const candidates = new Set<string>();
   const reservedIds = [
+    "article-text",
+    "publication-record",
     "article-sources",
     "article-limitations",
     "article-disclosures",
