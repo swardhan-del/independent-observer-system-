@@ -1,5 +1,6 @@
 import { factoriesReturnArticle } from "./factories-return";
 import { archiveFamilyIds, familyIdForKey } from "./family-registry";
+import { authorArticleDisclosure } from "./publication-disclosures";
 
 export type GreenPublication = {
   candidateId: string;
@@ -242,8 +243,7 @@ export const greenPublications: GreenPublication[] = [
           "First released web edition, expanded from the short preview. The customer-support evidence now cites the final 2025 journal publication (5,172 agents; 15% average productivity gain), replacing the 2023 working-paper figures (5,179; 14%; 34% subgroup gain).",
       },
     ],
-    adaptationDisclosure:
-      "This web edition was prepared with AI assistance for editing, source checking, and website implementation. The argument is the author’s; no independent peer review is claimed. Funding and conflict-of-interest declarations have not been supplied.",
+    adaptationDisclosure: authorArticleDisclosure,
   },
   {
     candidateId: "IO-V3-SERVER-AS-FURNACE",
@@ -362,8 +362,7 @@ export const greenPublications: GreenPublication[] = [
           "First released web edition, expanded from the short preview. Technical sources were checked, the DOE and ASHRAE citation destinations corrected, and design conditions separated from the author’s redevelopment proposal.",
       },
     ],
-    adaptationDisclosure:
-      "This web edition was prepared with AI assistance for editing, source checking, and website implementation. The argument is the author’s; no independent peer review is claimed. Funding and conflict-of-interest declarations have not been supplied.",
+    adaptationDisclosure: authorArticleDisclosure,
   },
   {
     candidateId: "IO-V2-BORROWED-LABOR",

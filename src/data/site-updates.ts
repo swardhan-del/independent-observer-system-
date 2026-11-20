@@ -1,5 +1,30 @@
 export const siteUpdates = [
   {
+    id: "article-reading-and-declaration-2026-11-20",
+    date: "2026-11-20",
+    title: "A shorter route into articles",
+    changes: [
+      {
+        what: "Article shortcuts reach the text, sources and citation record; the section list opens on request.",
+        why: "Start reading sooner on a phone while keeping the full publication record available after the article.",
+        route: "/research/the-last-human-workforce/",
+        label: "Read the workforce analysis",
+      },
+      {
+        what: "Article email invitations use one free subscription action.",
+        why: "Readers who want more research can subscribe directly through Substack.",
+        route: "/join/",
+        label: "See the Observer Brief",
+      },
+      {
+        what: "Editorial disclosures include the author's declaration of no conflicts of interest.",
+        why: "Read the declaration alongside the project's authorship and review standards.",
+        route: "/governance/#conflicts-of-interest",
+        label: "Read the declaration",
+      },
+    ],
+  },
+  {
     id: "reading-copies-and-volume-navigation-2026-11-13",
     date: "2026-11-13",
     title: "Recent research, clearer volume navigation and two complete web essays",
