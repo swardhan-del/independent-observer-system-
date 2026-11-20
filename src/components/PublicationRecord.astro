@@ -100,7 +100,74 @@ const revisionLabel =
       </p>
     )
   }
+  {
+    suggestedCitation && (
+      <div
+        class="publication-actions"
+        data-publication-actions
+        data-citation={suggestedCitation}
+        data-title={title}
+        data-url={canonicalPageUrl}
+      >
+        <p class="publication-action-label">Keep a source-linked reference</p>
+        <button type="button" data-copy-citation hidden>Copy citation</button>
+        <button type="button" data-copy-link hidden>Copy article link</button>
+        <button type="button" data-native-share hidden>Share article</button>
+        <p class="publication-action-feedback" role="status" aria-live="polite" data-publication-feedback></p>
+        <p class="publication-action-help">
+          Copy controls require a supported secure browser. The citation above remains available without JavaScript.
+        </p>
+      </div>
+    )
+  }
 </aside>
+
+<script>
+  // Buttons are enhancement only. The citation remains selectable with JavaScript disabled.
+  document.querySelectorAll<HTMLElement>("[data-publication-actions]").forEach((actions) => {
+    const citation = actions.dataset.citation;
+    const url = actions.dataset.url;
+    const title = actions.dataset.title;
+    const feedback = actions.querySelector<HTMLElement>("[data-publication-feedback]");
+    const copyCitation = actions.querySelector<HTMLButtonElement>("[data-copy-citation]");
+    const copyLink = actions.querySelector<HTMLButtonElement>("[data-copy-link]");
+    const share = actions.querySelector<HTMLButtonElement>("[data-native-share]");
+    const canCopy = typeof navigator.clipboard?.writeText === "function";
+
+    const copy = async (value: string, confirmation: string) => {
+      if (!feedback) return;
+      try {
+        await navigator.clipboard.writeText(value);
+        feedback.textContent = confirmation;
+      } catch {
+        feedback.textContent = "Copy unavailable. Expand ‘Cite this page’ and select the text manually.";
+      }
+    };
+
+    if (canCopy && citation && copyCitation) {
+      copyCitation.hidden = false;
+      copyCitation.addEventListener("click", () => void copy(citation, "Citation copied."));
+    }
+    if (canCopy && url && copyLink) {
+      copyLink.hidden = false;
+      copyLink.addEventListener("click", () => void copy(url, "Article link copied."));
+    }
+    if (typeof navigator.share === "function" && url && title && share) {
+      share.hidden = false;
+      share.addEventListener("click", async () => {
+        try {
+          await navigator.share({ title, url });
+          if (feedback) feedback.textContent = "Share sheet opened.";
+        } catch (error) {
+          // Canceling the native share sheet is not a failed share.
+          if (feedback && !(error instanceof DOMException && error.name === "AbortError")) {
+            feedback.textContent = "Sharing unavailable. Use the citation or article link instead.";
+          }
+        }
+      });
+    }
+  });
+</script>
 
 <style>
   .publication-record {
@@ -142,4 +209,39 @@ const revisionLabel =
   .publication-record-note {
     font-size: 0.92rem;
   }
+  .publication-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+  }
+  .publication-action-label,
+  .publication-action-feedback,
+  .publication-action-help {
+    flex-basis: 100%;
+    margin: 0;
+  }
+  .publication-action-label { font-weight: 700; }
+  .publication-action-feedback { font-weight: 700; }
+  .publication-action-feedback:empty { display: none; }
+  .publication-action-help { font-size: 0.83rem; }
+  .publication-actions button:not([hidden]) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--navy-700);
+    border-radius: 0.3rem;
+    background: var(--white);
+    color: var(--navy-950);
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .publication-actions button:hover { background: var(--gold-light); }
+  .publication-actions button:focus-visible { outline: 3px solid var(--gold-ink); outline-offset: 2px; }
+  @media print { .publication-actions { display: none; } }
 </style>

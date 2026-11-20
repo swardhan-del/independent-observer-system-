@@ -93,6 +93,28 @@ const sampleArticles = recentArticles.filter((item) =>
     </div>
   </section>
 
+  <section class="section section-white" aria-labelledby="join-faq-title">
+    <div class="shell join-faq">
+      <p class="eyebrow">Before joining</p>
+      <h2 id="join-faq-title">What to expect from the Observer Brief</h2>
+      <details>
+        <summary>Does the public research library require a subscription?</summary>
+        <p>No. Released public articles and the research library remain available to read without a paid subscription. The Observer Brief is optional.</p>
+      </details>
+      <details>
+        <summary>How often will I receive an email?</summary>
+        <p>No fixed email schedule is promised. Updates are sent when there is ready-to-share work or a material publication update.</p>
+      </details>
+      <details>
+        <summary>Who receives my email address?</summary>
+        <p>The subscribe link opens Substack, which handles the signup and email address under its own privacy practices. This website does not collect your address.</p>
+      </details>
+      <details>
+        <summary>Are the articles independently peer reviewed?</summary>
+        <p>Publication here does not imply external peer review. Each research page identifies its publication status, sources, limitations, and recorded revisions.</p>
+      </details>
+    </div>
+  </section>
   <section class="section section-navy" aria-labelledby="join-principle-title">
     <div class="shell">
       <div class="prose">
@@ -126,6 +148,12 @@ const sampleArticles = recentArticles.filter((item) =>
   .sample-brief-list {
     padding-left: 24px;
   }
+  .join-faq { max-width: 900px; }
+  .join-faq details { border-top: 1px solid var(--line); padding: 14px 0; }
+  .join-faq details:last-child { border-bottom: 1px solid var(--line); }
+  .join-faq summary { cursor: pointer; font-weight: 750; padding: 4px 0; }
+  .join-faq summary:focus-visible { outline: 3px solid var(--gold-ink); outline-offset: 3px; }
+  .join-faq details p { margin: 12px 0 0; max-width: 70ch; }
   .sample-brief-list li + li {
     margin-top: 24px;
   }
