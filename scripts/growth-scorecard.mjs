@@ -140,6 +140,10 @@ function outsideRepo(p, kind) {
   const path = resolve(realpathSync(ancestor), ...suffix),
     root = realpathSync(fileURLToPath(new URL("../", import.meta.url))),
     rel = relative(root, path);
+  for (let parent = dirname(path); parent !== dirname(parent); parent = dirname(parent)) {
+    if (existsSync(resolve(parent, ".git")))
+      throw Error(kind + " must be outside every Git repository");
+  }
   if (
     rel === "" ||
     (rel !== ".." && !rel.startsWith("../") && !isAbsolute(rel)) ||
