@@ -1,0 +1,410 @@
+[
+  {
+    "id": 1,
+    "criterion": "Mission clarity",
+    "baseline": 8,
+    "baselineEvidence": "Homepage claim and evidence-led promise visible"
+  },
+  {
+    "id": 2,
+    "criterion": "Brand recognition",
+    "baseline": null,
+    "baselineEvidence": "Requires audience recognition research"
+  },
+  {
+    "id": 3,
+    "criterion": "Differentiation",
+    "baseline": 8,
+    "baselineEvidence": "Transparent evidence-and-limitations emphasis"
+  },
+  {
+    "id": 4,
+    "criterion": "Audience segmentation",
+    "baseline": 6,
+    "baselineEvidence": "Topic routes exist; reader validation absent"
+  },
+  {
+    "id": 5,
+    "criterion": "Reader value proposition",
+    "baseline": 7,
+    "baselineEvidence": "Specific first reads, broader benefit less concrete"
+  },
+  {
+    "id": 6,
+    "criterion": "First-impression quality",
+    "baseline": 8,
+    "baselineEvidence": "Strong hero and three released entry paths"
+  },
+  {
+    "id": 7,
+    "criterion": "Topic relevance",
+    "baseline": null,
+    "baselineEvidence": "External audience demand not measured"
+  },
+  {
+    "id": 8,
+    "criterion": "Headline clarity and appeal",
+    "baseline": 7,
+    "baselineEvidence": "Question-first titles; no click data"
+  },
+  {
+    "id": 9,
+    "criterion": "Reader loyalty potential",
+    "baseline": null,
+    "baselineEvidence": "Returning-reader baseline unavailable"
+  },
+  {
+    "id": 10,
+    "criterion": "Editorial consistency",
+    "baseline": 8,
+    "baselineEvidence": "Four-volume method and status taxonomy"
+  },
+  {
+    "id": 11,
+    "criterion": "Source quality",
+    "baseline": 8,
+    "baselineEvidence": "Sample released pages use inspectable sources; not exhaustive"
+  },
+  {
+    "id": 12,
+    "criterion": "Accuracy of citations",
+    "baseline": null,
+    "baselineEvidence": "Requires source-by-source factual verification"
+  },
+  {
+    "id": 13,
+    "criterion": "Originality",
+    "baseline": 7,
+    "baselineEvidence": "Distinct synthesis; original reporting not yet demonstrated"
+  },
+  {
+    "id": 14,
+    "criterion": "Evidence traceability",
+    "baseline": 8,
+    "baselineEvidence": "Article citations, source notes and history"
+  },
+  {
+    "id": 15,
+    "criterion": "Research depth",
+    "baseline": 7,
+    "baselineEvidence": "Bounded web adaptations coexist with longer working papers"
+  },
+  {
+    "id": 16,
+    "criterion": "Counterargument treatment",
+    "baseline": 6,
+    "baselineEvidence": "Editorial policy requires it; full corpus not audited"
+  },
+  {
+    "id": 17,
+    "criterion": "Scholarly transparency",
+    "baseline": 8,
+    "baselineEvidence": "Limitations and peer-review boundaries disclosed"
+  },
+  {
+    "id": 18,
+    "criterion": "Publication-status accuracy",
+    "baseline": 9,
+    "baselineEvidence": "Released vs preview routes separately classified"
+  },
+  {
+    "id": 19,
+    "criterion": "Editorial corrections",
+    "baseline": 8,
+    "baselineEvidence": "Correction pathway and revision log implemented"
+  },
+  {
+    "id": 20,
+    "criterion": "AI-use disclosure",
+    "baseline": 4,
+    "baselineEvidence": "Organization-wide declaration incomplete on main"
+  },
+  {
+    "id": 21,
+    "criterion": "Funding and conflicts-of-interest transparency",
+    "baseline": 3,
+    "baselineEvidence": "Main incomplete; separate unmerged branch adds author conflict declaration only"
+  },
+  {
+    "id": 22,
+    "criterion": "Search-engine indexing",
+    "baseline": null,
+    "baselineEvidence": "Search Console access unavailable"
+  },
+  {
+    "id": 23,
+    "criterion": "Keyword and search-intent alignment",
+    "baseline": 6,
+    "baselineEvidence": "Question-led subjects; no query report"
+  },
+  {
+    "id": 24,
+    "criterion": "Topic clusters",
+    "baseline": 8,
+    "baselineEvidence": "Topic and collection routes exist"
+  },
+  {
+    "id": 25,
+    "criterion": "Internal linking",
+    "baseline": 8,
+    "baselineEvidence": "Related articles and reading journeys"
+  },
+  {
+    "id": 26,
+    "criterion": "Descriptive URLs",
+    "baseline": 8,
+    "baselineEvidence": "Readable canonical route structure"
+  },
+  {
+    "id": 27,
+    "criterion": "Meta titles and descriptions",
+    "baseline": 8,
+    "baselineEvidence": "Astro layout generates metadata"
+  },
+  {
+    "id": 28,
+    "criterion": "Sitemap",
+    "baseline": 8,
+    "baselineEvidence": "Generator and verification scripts exist; live XML fetch unavailable"
+  },
+  {
+    "id": 29,
+    "criterion": "Robots and canonical configuration",
+    "baseline": 8,
+    "baselineEvidence": "Code and fallback protection documented"
+  },
+  {
+    "id": 30,
+    "criterion": "Structured data",
+    "baseline": 8,
+    "baselineEvidence": "Article JSON-LD code inspected"
+  },
+  {
+    "id": 31,
+    "criterion": "Image metadata",
+    "baseline": 7,
+    "baselineEvidence": "Social preview assets documented; not exhaustively audited"
+  },
+  {
+    "id": 32,
+    "criterion": "Social-sharing previews",
+    "baseline": 8,
+    "baselineEvidence": "Page-specific images documented"
+  },
+  {
+    "id": 33,
+    "criterion": "External referral opportunities",
+    "baseline": null,
+    "baselineEvidence": "No verified channel referrals or backlinks"
+  },
+  {
+    "id": 34,
+    "criterion": "iPhone usability",
+    "baseline": 7,
+    "baselineEvidence": "Responsive rules and existing tests; not freshly executed"
+  },
+  {
+    "id": 35,
+    "criterion": "Tablet responsiveness",
+    "baseline": 7,
+    "baselineEvidence": "Responsive grid rules; no fresh device validation"
+  },
+  {
+    "id": 36,
+    "criterion": "Navigation depth",
+    "baseline": 7,
+    "baselineEvidence": "Many deep sections, better entry paths"
+  },
+  {
+    "id": 37,
+    "criterion": "Readability",
+    "baseline": 8,
+    "baselineEvidence": "Clean article typography and reading times"
+  },
+  {
+    "id": 38,
+    "criterion": "Accessibility",
+    "baseline": null,
+    "baselineEvidence": "Requires current automated and manual WCAG review"
+  },
+  {
+    "id": 39,
+    "criterion": "Page speed and Core Web Vitals",
+    "baseline": null,
+    "baselineEvidence": "Requires real browser measurement"
+  },
+  {
+    "id": 40,
+    "criterion": "Search functionality",
+    "baseline": 8,
+    "baselineEvidence": "Browser-local search and index documented"
+  },
+  {
+    "id": 41,
+    "criterion": "Article discovery",
+    "baseline": 8,
+    "baselineEvidence": "Featured cards, topic routes and library"
+  },
+  {
+    "id": 42,
+    "criterion": "Reading-list functionality",
+    "baseline": 8,
+    "baselineEvidence": "Browser-local saved-reading system"
+  },
+  {
+    "id": 43,
+    "criterion": "Audio usability",
+    "baseline": 7,
+    "baselineEvidence": "Episodes and transcripts; live interactions untested"
+  },
+  {
+    "id": 44,
+    "criterion": "Video usability",
+    "baseline": 6,
+    "baselineEvidence": "Previews clearly labeled; no verified full release catalog"
+  },
+  {
+    "id": 45,
+    "criterion": "Cross-device continuity",
+    "baseline": 3,
+    "baselineEvidence": "Local storage convenience is not account sync"
+  },
+  {
+    "id": 46,
+    "criterion": "Error handling",
+    "baseline": null,
+    "baselineEvidence": "Requires tested edge cases and device runs"
+  },
+  {
+    "id": 47,
+    "criterion": "Newsletter discoverability",
+    "baseline": 8,
+    "baselineEvidence": "Homepage, Join and content CTAs"
+  },
+  {
+    "id": 48,
+    "criterion": "Subscription value proposition",
+    "baseline": 7,
+    "baselineEvidence": "Free research notes described"
+  },
+  {
+    "id": 49,
+    "criterion": "Subscription flow",
+    "baseline": 7,
+    "baselineEvidence": "Live link to Substack; no on-site capture"
+  },
+  {
+    "id": 50,
+    "criterion": "Reader engagement",
+    "baseline": null,
+    "baselineEvidence": "No production engagement totals"
+  },
+  {
+    "id": 51,
+    "criterion": "Article-to-article progression",
+    "baseline": 8,
+    "baselineEvidence": "Related reading and collections"
+  },
+  {
+    "id": 52,
+    "criterion": "Returning-reader incentives",
+    "baseline": 6,
+    "baselineEvidence": "Continued reading and newsletter"
+  },
+  {
+    "id": 53,
+    "criterion": "Content series",
+    "baseline": 8,
+    "baselineEvidence": "Four-volume framework and topic journeys"
+  },
+  {
+    "id": 54,
+    "criterion": "Calls to action",
+    "baseline": 8,
+    "baselineEvidence": "First reads, library and subscribe are findable"
+  },
+  {
+    "id": 55,
+    "criterion": "Shareability",
+    "baseline": 7,
+    "baselineEvidence": "Canonical pages and social previews"
+  },
+  {
+    "id": 56,
+    "criterion": "Community feedback pathways",
+    "baseline": 5,
+    "baselineEvidence": "Contact/corrections exist; substantive audience dialogue unmeasured"
+  },
+  {
+    "id": 57,
+    "criterion": "Acquisition analytics",
+    "baseline": 1,
+    "baselineEvidence": "Production transport explicitly no-op"
+  },
+  {
+    "id": 58,
+    "criterion": "Search Console data",
+    "baseline": null,
+    "baselineEvidence": "Current connector inaccessible; source data unavailable"
+  },
+  {
+    "id": 59,
+    "criterion": "Referral tracking",
+    "baseline": 1,
+    "baselineEvidence": "No verified production acquisition transport"
+  },
+  {
+    "id": 60,
+    "criterion": "Article engagement",
+    "baseline": 1,
+    "baselineEvidence": "Event call sites exist, production collection disabled"
+  },
+  {
+    "id": 61,
+    "criterion": "Audience retention",
+    "baseline": 1,
+    "baselineEvidence": "No dependable return-visit measurement"
+  },
+  {
+    "id": 62,
+    "criterion": "Confirmed subscriber conversions",
+    "baseline": null,
+    "baselineEvidence": "Substack account totals unavailable"
+  },
+  {
+    "id": 63,
+    "criterion": "Campaign attribution",
+    "baseline": 1,
+    "baselineEvidence": "No verified attribution"
+  },
+  {
+    "id": 64,
+    "criterion": "Experiment design",
+    "baseline": 4,
+    "baselineEvidence": "Pilot plan exists, reader results not observed"
+  },
+  {
+    "id": 65,
+    "criterion": "Distribution workflow",
+    "baseline": 6,
+    "baselineEvidence": "Approved content-review workflow and reuse packages"
+  },
+  {
+    "id": 66,
+    "criterion": "Publication cadence",
+    "baseline": null,
+    "baselineEvidence": "No validated sustainable release cadence"
+  },
+  {
+    "id": 67,
+    "criterion": "Growth reporting",
+    "baseline": 2,
+    "baselineEvidence": "Docs/scripts exist but no populated actual KPI dashboard"
+  },
+  {
+    "id": 68,
+    "criterion": "Privacy protections",
+    "baseline": 9,
+    "baselineEvidence": "Production event no-op; local reader data retained"
+  }
+]

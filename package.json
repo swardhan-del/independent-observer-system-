@@ -26,7 +26,8 @@
     "test:e2e": "playwright test",
     "perf:check": "node scripts/measure-reader-performance.mjs",
     "media:export": "node --import tsx docs/media-brand/templates/export-covers.mjs",
-    "seo:report": "node plugins/seo/growth-report.mjs"
+    "seo:report": "node plugins/seo/growth-report.mjs",
+    "growth": "tsx scripts/growth.ts"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
