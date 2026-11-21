@@ -57,10 +57,10 @@ export const greenPublications: GreenPublication[] = [
     ],
     publicationType: "Research article",
     status: "Preview-only bounded text adaptation",
-    version: "Public preview v1",
+    version: "Web preview v2",
     factualCutoffDate: "2026-07-30",
     publicationDate: "2026-07-30",
-    lastReviewedDate: "2026-08-22",
+    lastReviewedDate: "2026-11-01",
     license: "CC BY-NC-ND 4.0",
     controllerSha256: "7c65698141490d6aa51ff544f3532d946cdb289fd4c6e4c32d58b259b916af96",
     sourceVerified: true,
@@ -69,10 +69,17 @@ export const greenPublications: GreenPublication[] = [
     productionReleased: false,
     relatedPublicationIds: [archiveFamilyIds.lastHumanWorkforce, archiveFamilyIds.serverAsFurnace],
     paragraphs: [
-      "Prosthetic limbs are moving from passive substitutes toward systems that interpret motor intention, generate movement, return sensory information, and adapt through use. The central question is not whether a device looks futuristic, but whether it can become a reliable extension of embodied capability for a particular user.",
-      "A useful taxonomy keeps socket-suspended, body-powered, myoelectric, peripheral-nerve, cortical, and bone-anchored systems distinct. Osseointegration describes skeletal attachment; targeted muscle reinnervation and regenerative peripheral nerve interfaces describe biological signal strategies. None is automatically superior for every user, task, environment, or budget.",
-      "Integration is a control-loop property. Signal acquisition, decoding, actuation, feedback, rehabilitation, maintenance, and repair all matter. A device may work in a laboratory and fail in heat, fatigue, dust, or a workplace; it may improve control without reproducing ordinary sensation or becoming available through routine clinical care.",
-      "The institutional unit is therefore a maintained human-machine system involving clinicians, software providers, payers, employers, and users. Durable support, cybersecurity, informed consent, equitable financing, and the right to remain fully human whether or not a device improves productivity are part of the technology’s public value.",
+      "Robotic limbs bring questions of control, sensation and everyday support together. The July manuscript asks how a prosthesis can become useful within a person's life, rather than treating mechanical sophistication as a sufficient measure of progress. Its central argument is that a limb's value depends on the whole system around it: fit, signals, movement, feedback, rehabilitation and maintenance.",
+      "A body-powered device uses movement elsewhere in the body to operate a mechanical system. A myoelectric device uses electrical signals from muscles to control powered components. These descriptions concern how commands reach the device; they do not determine which option a particular person should choose.",
+      "Surgical interfaces add further distinctions. Targeted muscle reinnervation redirects residual nerves to muscle sites whose signals can be used for prosthetic control. A regenerative peripheral nerve interface uses reinnervated tissue to amplify nerve signals for control. These are different approaches to connecting nerves and muscles with a controller; neither means that an entire biological limb has been regrown. Kuiken et al. (2009) and Vu et al. (2020) describe the respective approaches.",
+      "Osseointegration concerns bone anchorage. It can be combined with implanted signal pathways, but attachment and control remain separate functions. The bone anchor does not itself decode movement intention. Ortiz-Catalan et al. (2014) describe one such combined research system. The distinction matters because a finding about one component does not establish the performance or suitability of every combined system.",
+      "In the study reported by Collinger et al. (2013), one participant with tetraplegia learned to control an external robotic limb using signals recorded from the motor cortex. This was a brain-machine-interface experiment. The participant was not an amputee receiving a replacement arm, and the result does not establish routine take-home availability for people with limb loss.",
+      "Raspopovic et al. (2014) investigated a different pathway. Sensors on a prosthetic hand supplied information used to stimulate peripheral nerves in one participant with an amputation. The participant used the feedback to regulate grasp force without visual or auditory feedback during the tested tasks. That demonstrates a specific sensory-control capability in an experimental setting. It does not establish complete restoration of natural sensation or general effectiveness across users and environments.",
+      "The studies ask different questions, involve different participants and use different interfaces. They should not be combined into a claim that a generally available artificial limb reproduces an intact biological limb. Nor does progress in controlling a research device establish that its benefits will persist through ordinary use, changing environments and long-term maintenance.",
+      "The manuscript describes integration as a continuing interaction between the user and the system. Signals must be acquired, interpreted and converted into movement; feedback must then be usable by the person controlling the device. Fitting, practice, calibration and servicing are part of that interaction. A successful demonstration does not answer every question about reliability outside the study setting.",
+      "The manuscript also distinguishes control from embodiment. Control concerns whether the device follows a command. Embodiment concerns how the person experiences the device in relation to their body and agency. A task score alone cannot settle that subjective question. In this preview, that distinction is an analytical framework for reading evidence, not a new clinical finding or a test for deciding whether someone has adapted successfully.",
+      "The paper's policy proposal is to support the useful life of the system rather than treat the purchase of hardware as the entire intervention. Its proposed priorities include rehabilitation, access to repairs and replacement parts, continuity of software support, and clear arrangements for handling personal data. These are the author's recommendations, not findings that a particular funding or service model has already proved superior.",
+      "The same distinction applies to work and access. A technical improvement does not, by itself, demonstrate better employment outcomes or equitable access. The manuscript argues that participation also requires attention to the person's goals, environment and available support. Human dignity is not conditional on wearing a prosthesis or increasing economic output.",
     ],
     sourceNotes: [
       {
@@ -87,9 +94,74 @@ export const greenPublications: GreenPublication[] = [
         label: "Makin & Flor (2020), body representation review",
         href: "https://doi.org/10.1016/j.neuroimage.2020.116943",
       },
+      {
+        label: "Kuiken et al. (2009), targeted muscle reinnervation",
+        href: "https://doi.org/10.1001/jama.2009.116",
+      },
+      {
+        label: "Vu et al. (2020), regenerative peripheral nerve interface",
+        href: "https://doi.org/10.1126/scitranslmed.aay2857",
+      },
+      {
+        label: "Ortiz-Catalan et al. (2014), bone-anchored signal interface",
+        href: "https://doi.org/10.1126/scitranslmed.3008933",
+      },
     ],
     limitations:
-      "This preview is a structured narrative review, not a preregistered systematic review or meta-analysis. Evidence is heterogeneous and often based on small cohorts or specialized programs.",
+      "This preview is a structured narrative review, not a preregistered systematic review or meta-analysis. Evidence is heterogeneous and often based on small cohorts or specialized programs, with limited comparative follow-up. Findings remain specific to the devices, participants and tasks studied. The source review is dated 30 July 2026; preparing this adaptation in November does not update that clinical evidence cutoff or establish current device approval, availability, comparative safety or treatment suitability. It does not establish general superiority over intact biological limbs and is not individual treatment advice.",
+    citations: [
+      {
+        paragraph: 2,
+        sources: [3, 4],
+      },
+      {
+        paragraph: 3,
+        sources: [5],
+      },
+      {
+        paragraph: 4,
+        sources: [0],
+      },
+      {
+        paragraph: 5,
+        sources: [1],
+      },
+      {
+        paragraph: 8,
+        sources: [2],
+      },
+    ],
+    sectionHeadings: [
+      {
+        beforeParagraph: 1,
+        id: "technology-functions",
+        title: "Different technologies answer different questions",
+      },
+      {
+        beforeParagraph: 4,
+        id: "evidence-setting",
+        title: "What the human studies demonstrate",
+      },
+      {
+        beforeParagraph: 7,
+        id: "integration-and-support",
+        title: "Integration includes learning and support",
+      },
+      {
+        beforeParagraph: 9,
+        id: "institutional-argument",
+        title: "The institutional argument",
+      },
+    ],
+    adaptationDisclosure:
+      "The controlled 30 July 2026 manuscript contains the author’s declaration of no competing interests. This attributes the declaration to that source edition; it is not a newly signed or independently verified declaration for this adaptation. A funding declaration for this adaptation has not been confirmed. AI assistance was used to prepare the adaptation from the identified manuscript and check selected public study records. This describes the web adaptation’s preparation and does not establish the original manuscript’s AI-use history. Independent clinical review and final publication release remain pending.",
+    revisionNotes: [
+      {
+        date: "2026-11-01",
+        change:
+          "Prepared a bounded preview expansion with section navigation, claim-linked sources and edition-specific disclosure. The 30 July 2026 evidence cutoff and publication-pending status are retained.",
+      },
+    ],
   },
   {
     candidateId: "IO-V1-INDEPENDENT-OBSERVER-METHOD",
