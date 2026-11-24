@@ -880,6 +880,11 @@ describe("built website", () => {
       expect(entry).toMatch(/<loc>https:\/\/[^<]+<\/loc>/);
       expect(entry).toMatch(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/);
     }
+    for (const route of ["/", "/join/"]) {
+      const url = new URL(sitePathForTest(route), homeCanonical).href;
+      const revised = entries.find((entry) => entry.includes(`<loc>${url}</loc>`));
+      expect(revised).toContain("<lastmod>2026-11-20</lastmod>");
+    }
     const quietWealth = entries.find((entry) => entry.includes("/quiet-wealth/"));
     expect(quietWealth).toContain("<lastmod>2026-09-11</lastmod>");
     expect(quietWealth).not.toContain("<lastmod>2025-09-28</lastmod>");
