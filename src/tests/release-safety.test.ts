@@ -14,8 +14,9 @@ describe("publication release safety", () => {
   });
 
   it("dates revised discovery pages without redating untouched topics", () => {
+    expect(canonicalRouteFor("/")?.lastModified).toBe("2026-11-20");
+    expect(canonicalRouteFor("/join/")?.lastModified).toBe("2026-11-20");
     for (const route of [
-      "/",
       "/start/",
       "/latest/",
       "/whats-new/",
