@@ -32,14 +32,21 @@ import { sitePath } from "../../lib/paths";
   <TopicVolumeMatrix />
   <section class="section section-white">
     <div class="shell prose">
-      <h2>Explore the science research catalogue.</h2>
+      <h2>Explore all six research catalogues.</h2>
       <p>
-        Follow scientific method, behavioral science, energy and industrial systems, quantum physics,
-        medicine, biotechnology, and human capability across all four volumes.
+        Follow each field across all four volumes, with public reading links and publication status.
       </p>
-      <a class="button" href={sitePath("/topics/science/#science-catalogue")}>
-        Open the complete public science map →
-      </a>
+      <ul>
+        {
+          topicHubs.map((topic) => (
+            <li>
+              <a href={sitePath(`/topics/${topic.slug}/#${topic.slug}-catalogue`)}>
+                {topic.name} research catalogue →
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
   <section class="section section-white">
