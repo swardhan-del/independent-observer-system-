@@ -467,7 +467,7 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
   },
   "Volume II": {
     lens: "Sovereignty, institutions, and public power",
-    topicSlugs: ["history", "politics", "economics", "law", "science"],
+    topicSlugs: ["history", "politics", "economics", "law", "science", "technology"],
     coreIdeas: [
       "Sovereignty is shaped by constitutional design, enforcement, alliances, and markets.",
       "Historical power shifts remain active in present political arrangements.",
@@ -496,6 +496,30 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
       },
     ],
     topicConnections: {
+      technology: {
+        lens: "Industrial capability, technology, and geopolitical dependence",
+        coreIdeas: [
+          "Trace how knowledge, industrial capacity, and supply networks shape sovereignty.",
+          "Distinguish technical capability from control over the institutions that deploy it.",
+        ],
+        contentLinks: [
+          {
+            kind: "Author paper",
+            label: "From Colonization to China’s Rise",
+            path: "/library/documents/from-colonization-to-chinas-rise/",
+          },
+          {
+            kind: "Author paper",
+            label: "How Command States Finance Power",
+            path: "/library/documents/how-command-states-finance-power/",
+          },
+          {
+            kind: "Author paper",
+            label: "Managed Interdependence",
+            path: "/library/documents/managed-interdependence/",
+          },
+        ],
+      },
       science: {
         lens: "Behavioral science, measurement, and public power",
         coreIdeas: [
@@ -773,7 +797,7 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
   },
   "Volume IV": {
     lens: "AI, science, infrastructure, and human capability",
-    topicSlugs: ["technology", "science", "economics", "politics"],
+    topicSlugs: ["technology", "science", "economics", "politics", "history", "law"],
     coreIdeas: [
       "Automation is a system of compute, energy, data, maintenance, and human judgment.",
       "Scientific capability must be read with uncertainty and release boundaries visible.",
@@ -808,6 +832,54 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
       },
     ],
     topicConnections: {
+      law: {
+        lens: "Technology governance, security, consent, and accountability",
+        coreIdeas: [
+          "Distinguish technical feasibility from consent, safety, and legal accountability.",
+          "Connect cryptographic standards, medical-device governance, and dual-use oversight to public capability.",
+        ],
+        contentLinks: [
+          {
+            kind: "Research preview",
+            label: "Regrowing Humanity",
+            path: "/research/regrowing-humanity/",
+          },
+          {
+            kind: "Author paper",
+            label: "Entanglement and Quantum Advantage: Foundations and Architectures",
+            path: "/library/documents/entanglement-foundations/",
+          },
+          {
+            kind: "Series roadmap",
+            label: "The Last Human Workforce",
+            path: "/series/the-last-human-workforce/",
+          },
+        ],
+      },
+      history: {
+        lens: "Historical technological transitions and changing human capability",
+        coreIdeas: [
+          "Compare past industrial transitions with present automation without assuming identical outcomes.",
+          "Place scientific and engineering progress in its institutional and historical context.",
+        ],
+        contentLinks: [
+          {
+            kind: "Published article",
+            label: "The Last Human Workforce",
+            path: "/research/the-last-human-workforce/",
+          },
+          {
+            kind: "Published article",
+            label: "Factories Return but Do the Jobs?",
+            path: "/research/factories-return-but-do-the-jobs/",
+          },
+          {
+            kind: "Series roadmap",
+            label: "The Last Human Workforce",
+            path: "/series/the-last-human-workforce/",
+          },
+        ],
+      },
       technology: {
         lens: "Automation, infrastructure, and human work",
         coreIdeas: [
