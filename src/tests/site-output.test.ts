@@ -489,7 +489,11 @@ describe("built website", () => {
     const html = readOutput("topics/history/index.html");
 
     expect(html).toContain("Public discovery map");
-    expect(html).toContain("Mapped to Volume I, and Volume II in the four-volume spine.");
+    expect(html).toContain(
+      "Mapped to Volume I, Volume II, Volume III, and Volume IV in the four-volume spine.",
+    );
+    expect(html).toContain('id="history-catalogue"');
+    expect(html).toContain("Historical technological transitions and changing human capability");
     expect(html).not.toContain("The Wardhan Tax Doctrine");
     expect(html).toContain("History");
     expect(html).not.toContain("One project, four connected volumes.");
