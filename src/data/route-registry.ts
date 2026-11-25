@@ -129,7 +129,8 @@ const sectionRoutes: CanonicalRouteRecord[] = [
     type: "section",
     source: "reader-membership",
     indexable: true,
-    lastModified: SITE_AUDIT_DATE,
+    // Public newsletter FAQ added on 20 November 2026 (cd2e0d9).
+    lastModified: "2026-11-20",
   },
   {
     route: "/whats-new/",
@@ -305,7 +306,8 @@ const utilityRoutes: CanonicalRouteRecord[] = [
     type: "home",
     source: "home",
     indexable: true,
-    lastModified: SITE_AUDIT_DATE,
+    // First-read choices gained visible reading durations on 20 November (cd2e0d9).
+    lastModified: "2026-11-20",
   },
   {
     route: "/start-here/",
@@ -386,7 +388,6 @@ export const canonicalRouteRegistry = [
 ].map((record) => ({
   ...record,
   lastModified: [
-    "/",
     "/start/",
     "/latest/",
     "/whats-new/",
