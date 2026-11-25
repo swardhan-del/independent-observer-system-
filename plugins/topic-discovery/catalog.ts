@@ -320,7 +320,7 @@ export const topicPathways: TopicPathway[] = [
 export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
   "Volume I": {
     lens: "Foundation, evidence, and democratic capacity",
-    topicSlugs: ["history", "politics", "economics", "law", "technology"],
+    topicSlugs: ["history", "politics", "economics", "law", "technology", "science"],
     coreIdeas: [
       "Method before conclusion: define evidence, interpretation, and uncertainty.",
       "Democratic capacity depends on usable institutions, not only formal legitimacy.",
@@ -344,6 +344,25 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
       },
     ],
     topicConnections: {
+      science: {
+        lens: "Scientific method, measurement, and evidence",
+        coreIdeas: [
+          "Separate observations, interpretations, and claims that can be tested.",
+          "Use uncertainty, reproducibility, and correction as standards of public reasoning.",
+        ],
+        contentLinks: [
+          {
+            kind: "Published article",
+            label: "The Independent Observer Method",
+            path: "/research/the-independent-observer-method/",
+          },
+          {
+            kind: "Author paper",
+            label: "Independent Observer: Volume I foundational manifesto",
+            path: "/library/documents/independent-observer-volume-one/",
+          },
+        ],
+      },
       history: {
         lens: "Method, memory, and historical context",
         coreIdeas: [
@@ -448,7 +467,7 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
   },
   "Volume II": {
     lens: "Sovereignty, institutions, and public power",
-    topicSlugs: ["history", "politics", "economics", "law"],
+    topicSlugs: ["history", "politics", "economics", "law", "science"],
     coreIdeas: [
       "Sovereignty is shaped by constitutional design, enforcement, alliances, and markets.",
       "Historical power shifts remain active in present political arrangements.",
@@ -477,6 +496,25 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
       },
     ],
     topicConnections: {
+      science: {
+        lens: "Behavioral science, measurement, and public power",
+        coreIdeas: [
+          "Distinguish measured threat perception from assumptions about public behavior.",
+          "Compare demographic and enforcement statistics using consistent definitions.",
+        ],
+        contentLinks: [
+          {
+            kind: "Author paper",
+            label: "The Fear Circuit",
+            path: "/library/documents/the-fear-circuit/",
+          },
+          {
+            kind: "Author paper",
+            label: "Who Deported More? A Guide to Comparing Deportation Statistics",
+            path: "/library/documents/who-deported-more/",
+          },
+        ],
+      },
       history: {
         lens: "Historical power and political memory",
         coreIdeas: [
@@ -582,7 +620,7 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
   },
   "Volume III": {
     lens: "Work, social citizenship, and economic insecurity",
-    topicSlugs: ["history", "economics", "law", "politics", "technology"],
+    topicSlugs: ["history", "economics", "law", "politics", "technology", "science"],
     coreIdeas: [
       "Work is shaped by licensing, welfare, taxation, health systems, and public visibility.",
       "Economic insecurity is institutional, not only individual.",
@@ -607,6 +645,30 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
       },
     ],
     topicConnections: {
+      science: {
+        lens: "Energy, industrial systems, and public health",
+        coreIdeas: [
+          "Measure computing energy, heat, cooling, and water within explicit system boundaries.",
+          "Connect industrial and health-system capacity to public outcomes without assuming causation.",
+        ],
+        contentLinks: [
+          {
+            kind: "Published article",
+            label: "The Server as a Furnace",
+            path: "/research/the-server-as-a-furnace/",
+          },
+          {
+            kind: "Published article",
+            label: "Factories Return but Do the Jobs?",
+            path: "/research/factories-return-but-do-the-jobs/",
+          },
+          {
+            kind: "Series roadmap",
+            label: "Managed Decline",
+            path: "/series/managed-decline/",
+          },
+        ],
+      },
       history: {
         lens: "Industrial change, war, and institutional memory",
         coreIdeas: [
@@ -780,6 +842,7 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
         coreIdeas: [
           "Show what evidence supports a capability claim and where uncertainty remains.",
           "Connect medical and technical possibilities to human limits and release boundaries.",
+          "Distinguish quantum and energy principles from engineered capability, and biological hypotheses from clinical evidence.",
         ],
         contentLinks: [
           {
@@ -806,6 +869,31 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
             kind: "Author paper",
             label: "When Real Science Becomes Science Fiction",
             path: "/library/documents/when-real-science-becomes-science-fiction/",
+          },
+          {
+            kind: "Author paper",
+            label: "Entanglement and Quantum Advantage: Foundations and Architectures",
+            path: "/library/documents/entanglement-foundations/",
+          },
+          {
+            kind: "Author paper",
+            label: "Quantum Computing, Antimatter, and the Next Energy Revolution",
+            path: "/library/documents/quantum-computing-antimatter-and-the-next-energy-revolution/",
+          },
+          {
+            kind: "Published article",
+            label: "The Last Human Workforce",
+            path: "/research/the-last-human-workforce/",
+          },
+          {
+            kind: "Author paper",
+            label: "The Lottery of Luck",
+            path: "/library/documents/lottery-of-luck/",
+          },
+          {
+            kind: "Series roadmap",
+            label: "Volume IV: science and human capability research map",
+            path: "/series/the-last-human-workforce/",
           },
         ],
       },
