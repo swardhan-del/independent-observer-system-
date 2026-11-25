@@ -537,9 +537,16 @@ describe("built website", () => {
     const connected = cells.filter((tag) => attribute(tag, "data-matrix-connected") === "true");
 
     expect(cells).toHaveLength(24);
-    expect(connected).toHaveLength(21);
+    expect(connected).toHaveLength(24);
     const scienceCells = connected.filter((tag) => attribute(tag, "data-matrix-topic") === "science");
     expect(scienceCells).toHaveLength(4);
+    for (const field of ["history", "politics", "economics", "law", "science", "technology"]) {
+      expect(connected.filter((tag) => attribute(tag, "data-matrix-topic") === field)).toHaveLength(
+        4,
+      );
+      const hub = readOutput(`topics/${field}/index.html`);
+      expect(hub).toContain(`id="${field}-catalogue"`);
+    }
     expect(html).toContain("Volume IV");
     expect(html).toContain("The Last Human Workforce");
 
