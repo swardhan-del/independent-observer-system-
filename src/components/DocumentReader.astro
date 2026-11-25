@@ -247,7 +247,7 @@ const volumeRecord = entry.volume
         }
         <a
           data-reader-correction
-          href={sitePath(`/contact/?page=${encodeURIComponent(`/library/documents/${entry.id}/`)}`)}
+          href={sitePath(`/contact/?page=${encodeURIComponent(`/library/documents/${entry.id}/`)}&type=research-correction`)}
           >Suggest a correction</a
         >
 
@@ -274,6 +274,7 @@ const volumeRecord = entry.volume
       <p class="reader-action-status" data-reader-action-status role="status" aria-live="polite">
       </p>
 
+      {entry.sourceEvidenceNote && <p class="reader-source-boundary"><strong>Source boundary:</strong> {entry.sourceEvidenceNote}</p>}
       {
         entry.summaryEvidence?.length && (
           <section class="reader-references" aria-labelledby="explanation-sources">
