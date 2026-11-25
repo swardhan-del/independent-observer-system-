@@ -10,6 +10,7 @@ import TopicQuestionBuilder from "../../components/TopicQuestionBuilder.astro";
 import TopicVolumeMatrix from "../../components/TopicVolumeMatrix.astro";
 import { reviewQueueSignals, topicPathways } from "../../../plugins/topic-discovery/catalog";
 import { topicHubs } from "../../data/topics";
+import { sitePath } from "../../lib/paths";
 ---
 
 <BaseLayout
@@ -29,6 +30,18 @@ import { topicHubs } from "../../data/topics";
   <TopicPathways pathways={topicPathways} />
   <TopicVolumeMap />
   <TopicVolumeMatrix />
+  <section class="section section-white">
+    <div class="shell prose">
+      <h2>Explore the science research catalogue.</h2>
+      <p>
+        Follow scientific method, behavioral science, energy and industrial systems, quantum physics,
+        medicine, biotechnology, and human capability across all four volumes.
+      </p>
+      <a class="button" href={sitePath("/topics/science/#science-catalogue")}>
+        Open the complete public science map →
+      </a>
+    </div>
+  </section>
   <section class="section section-white">
     <div class="shell">
       <div class="section-heading topic-atlas-heading">
