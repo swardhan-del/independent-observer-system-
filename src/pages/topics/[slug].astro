@@ -20,7 +20,7 @@ export function getStaticPaths() {
 const { topic } = Astro.props;
 const plugin = topicPluginFor(topic.slug);
 const reviewSignals = reviewQueueForTopic(topic.slug);
-const scienceVolumes = ["Volume I", "Volume II", "Volume III", "Volume IV"];
+const researchVolumes = ["Volume I", "Volume II", "Volume III", "Volume IV"];
 const scienceEntries = taxonomyEntries.filter(
   (entry) =>
     entry.volume === "Volume IV" ||
@@ -30,11 +30,9 @@ const scienceBranches = [...new Set(scienceEntries.map((entry) => entry.branch))
 const publicOutputItems = topic.related.filter(
   (item) => item.type === "Author paper" || item.type.includes("preview"),
 );
-const mappedVolumes = [
-  ...new Set(
-    topic.related.map((item) => item.volume).filter((volume): volume is string => Boolean(volume)),
-  ),
-];
+const mappedVolumes = researchVolumes.filter(
+  (volume) => topicVolumeConnectionFor(volume, topic.slug).connected,
+);
 const mappedVolumeSummary =
   mappedVolumes.length > 1
     ? `${mappedVolumes.slice(0, -1).join(", ")}, and ${mappedVolumes[mappedVolumes.length - 1]}`
@@ -65,86 +63,91 @@ const mappedVolumeSummary =
       </section>
     )
   }
-  {
-    topic.slug === "science" && (
-      <section class="section section-white" aria-labelledby="science-catalogue">
-        <div class="shell">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Science across the research spine</p>
-              <h2 id="science-catalogue">Science research catalogue</h2>
-            </div>
-            <p>
-              Browse the four-volume connections and mapped research directions. A catalogue entry
-              is not a release; only the linked public reading records and previews are available.
-            </p>
-          </div>
-          <div
-            class="topic-matrix-wrap"
-            tabindex="0"
-            aria-label="Scrollable science volume table"
-          >
-            <table class="topic-matrix">
-              <caption>Science connections across all four volumes</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Volume</th>
-                  <th scope="col">Scientific lens</th>
-                  <th scope="col">Public entry points</th>
-                </tr>
-              </thead>
-              <tbody>
-                {scienceVolumes.map((volume) => {
-                  const cell = topicVolumeConnectionFor(volume, "science");
-                  return (
-                    <tr>
-                      <th scope="row">{volume}</th>
-                      <td>{cell.lens}</td>
-                      <td>
-                        <ul>
-                          {cell.contentLinks.map((link) => (
-                            <li>
-                              <a href={sitePath(link.path)}>{link.label}</a> ({link.kind})
-                            </li>
-                          ))}
-                        </ul>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-          <h3>Research directions by subject</h3>
-          {scienceBranches.map((branch) => (
-            <section>
-              <h4>{branch}</h4>
-              <ul>
-                {scienceEntries
-                  .filter((entry) => entry.branch === branch)
-                  .map((entry) => (
-                    <li>
-                      <a href={sitePath(entry.href ?? "/library/taxonomy/#" + entry.id)}>
-                        {entry.title}
-                      </a>{" "}
-                      · {entry.volume} · {entry.status}
-                    </li>
-                  ))}
-              </ul>
-            </section>
-          ))}
-          <p>
-            <a href={sitePath("/reading-tools/")}>
-              Explore interactive evidence and measurement tools →
-            </a>
-          </p>
-          <p>
-            <a href={sitePath("/topics/")}>Return to the six-field relationship matrix →</a>
-          </p>
+  <section class="section section-white" aria-labelledby={`${topic.slug}-catalogue`}>
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">{topic.name} across the research spine</p>
+          <h2 id={`${topic.slug}-catalogue`}>{topic.name} research catalogue</h2>
         </div>
-      </section>
-    )
-  }
+        <p>
+          Browse the four-volume connections and mapped research directions. A catalogue entry is
+          not a release; only the linked public reading records and previews are available.
+        </p>
+      </div>
+      <div
+        class="topic-matrix-wrap"
+        tabindex="0"
+        aria-label={`Scrollable ${topic.name.toLowerCase()} volume table`}
+      >
+        <table class="topic-matrix">
+          <caption>{topic.name} connections across all four volumes</caption>
+          <thead>
+            <tr>
+              <th scope="col">Volume</th>
+              <th scope="col">Research lens</th>
+              <th scope="col">Public entry points</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              researchVolumes.map((volume) => {
+                const cell = topicVolumeConnectionFor(volume, topic.slug);
+                return (
+                  <tr>
+                    <th scope="row">{volume}</th>
+                    <td>{cell.lens}</td>
+                    <td>
+                      <ul>
+                        {cell.contentLinks.map((link) => (
+                          <li>
+                            <a href={sitePath(link.path)}>{link.label}</a> ({link.kind})
+                          </li>
+                        ))}
+                      </ul>
+                    </td>
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </table>
+      </div>
+      {
+        topic.slug === "science" && (
+          <>
+            <h3>Research directions by subject</h3>
+            {scienceBranches.map((branch) => (
+              <section>
+                <h4>{branch}</h4>
+                <ul>
+                  {scienceEntries
+                    .filter((entry) => entry.branch === branch)
+                    .map((entry) => (
+                      <li>
+                        <a href={sitePath(entry.href ?? "/library/taxonomy/#" + entry.id)}>
+                          {entry.title}
+                        </a>{" "}
+                        · {entry.volume} · {entry.status}
+                      </li>
+                    ))}
+                </ul>
+              </section>
+            ))}
+          </>
+        )
+      }
+      <p>
+        <a href={sitePath("/library/taxonomy/")}>Explore the full public research map →</a>
+      </p>
+      <p>
+        <a href={sitePath("/reading-tools/")}>Explore interactive evidence and measurement tools →</a>
+      </p>
+      <p>
+        <a href={sitePath("/topics/")}>Return to the six-field relationship matrix →</a>
+      </p>
+    </div>
+  </section>
   <section class="section section-white">
     <div class="shell">
       <div class="topic-hub-status">
