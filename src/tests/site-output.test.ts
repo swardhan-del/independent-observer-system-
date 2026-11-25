@@ -537,7 +537,9 @@ describe("built website", () => {
     const connected = cells.filter((tag) => attribute(tag, "data-matrix-connected") === "true");
 
     expect(cells).toHaveLength(24);
-    expect(connected).toHaveLength(18);
+    expect(connected).toHaveLength(21);
+    const scienceCells = connected.filter((tag) => attribute(tag, "data-matrix-topic") === "science");
+    expect(scienceCells).toHaveLength(4);
     expect(html).toContain("Volume IV");
     expect(html).toContain("The Last Human Workforce");
 
@@ -562,6 +564,9 @@ describe("built website", () => {
     expect(html).toContain(
       "Regrowing Humanity: How Robotic Limbs Are Becoming Integrated Extensions of the Human Body",
     );
+    expect(html).toContain("Science research catalogue");
+    expect(html).toContain("Scientific infrastructure energy and computation");
+    expect(html).toContain("Programmable Gene Silencing");
     expect(html).toContain("topic-review-grid");
     expect(html).toContain("Public preview available");
     expect(html).toContain("A selected research article and the Volume IV roadmap are public");
