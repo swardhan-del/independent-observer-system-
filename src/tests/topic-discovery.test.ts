@@ -276,7 +276,7 @@ describe("topic discovery plugin", () => {
       },
     );
 
-    expect(connectedCells).toHaveLength(21);
+    expect(connectedCells).toHaveLength(24);
   });
 
   it("maps science across all four volumes without promoting previews to releases", () => {
@@ -298,14 +298,16 @@ describe("topic discovery plugin", () => {
         }),
       ]),
     );
-    expect(topicDetail).toContain("Science research catalogue");
+    expect(topicDetail).toContain("{topic.name} research catalogue");
     expect(topicDetail).toContain("taxonomyEntries");
   });
 
-  it("keeps unsupported cells link-free and maps law and Terry work to their supported volumes", () => {
+  it("maps technology and law to their supported volumes", () => {
     const volumeTwoTechnology = topicVolumeConnectionFor("Volume II", "technology");
-    expect(volumeTwoTechnology.connected).toBe(false);
-    expect(volumeTwoTechnology.contentLinks).toEqual([]);
+    expect(volumeTwoTechnology.connected).toBe(true);
+    expect(volumeTwoTechnology.contentLinks.length).toBeGreaterThan(0);
+    expect(topicVolumeConnectionFor("Volume IV", "history").connected).toBe(true);
+    expect(topicVolumeConnectionFor("Volume IV", "law").connected).toBe(true);
 
     const volumeTwoLaw = topicVolumeConnectionFor("Volume II", "law");
     expect(volumeTwoLaw.connected).toBe(true);
