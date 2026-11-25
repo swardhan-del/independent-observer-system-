@@ -276,7 +276,30 @@ describe("topic discovery plugin", () => {
       },
     );
 
-    expect(connectedCells).toHaveLength(18);
+    expect(connectedCells).toHaveLength(21);
+  });
+
+  it("maps science across all four volumes without promoting previews to releases", () => {
+    for (const volume of ["Volume I", "Volume II", "Volume III", "Volume IV"]) {
+      const cell = topicVolumeConnectionFor(volume, "science");
+      expect(cell.connected).toBe(true);
+      expect(cell.contentLinks.length).toBeGreaterThanOrEqual(2);
+    }
+    const science = topicVolumeConnectionFor("Volume IV", "science");
+    expect(science.contentLinks).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          kind: "Research preview",
+          path: "/research/regrowing-humanity/",
+        }),
+        expect.objectContaining({
+          kind: "Author paper",
+          path: "/library/documents/entanglement-foundations/",
+        }),
+      ]),
+    );
+    expect(topicDetail).toContain("Science research catalogue");
+    expect(topicDetail).toContain("taxonomyEntries");
   });
 
   it("keeps unsupported cells link-free and maps law and Terry work to their supported volumes", () => {
