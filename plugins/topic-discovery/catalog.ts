@@ -505,7 +505,7 @@ export const volumeTopicConnections: Record<string, VolumeTopicConnection> = {
         contentLinks: [
           {
             kind: "Author paper",
-            label: "The Fear Circuit",
+            label: "The Fear Circuit (research hypothesis; scientific review outstanding)",
             path: "/library/documents/the-fear-circuit/",
           },
           {
