@@ -10,6 +10,7 @@ import TopicQuestionBuilder from "../../components/TopicQuestionBuilder.astro";
 import TopicVolumeMatrix from "../../components/TopicVolumeMatrix.astro";
 import { reviewQueueSignals, topicPathways } from "../../../plugins/topic-discovery/catalog";
 import { topicHubs } from "../../data/topics";
+import { sitePath } from "../../lib/paths";
 ---
 
 <BaseLayout
@@ -29,6 +30,25 @@ import { topicHubs } from "../../data/topics";
   <TopicPathways pathways={topicPathways} />
   <TopicVolumeMap />
   <TopicVolumeMatrix />
+  <section class="section section-white">
+    <div class="shell prose">
+      <h2>Explore all six research catalogues.</h2>
+      <p>
+        Follow each field across all four volumes, with public reading links and publication status.
+      </p>
+      <ul>
+        {
+          topicHubs.map((topic) => (
+            <li>
+              <a href={sitePath(`/topics/${topic.slug}/#${topic.slug}-catalogue`)}>
+                {topic.name} research catalogue →
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
   <section class="section section-white">
     <div class="shell">
       <div class="section-heading topic-atlas-heading">

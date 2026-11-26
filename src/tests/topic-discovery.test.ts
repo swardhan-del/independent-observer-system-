@@ -276,13 +276,38 @@ describe("topic discovery plugin", () => {
       },
     );
 
-    expect(connectedCells).toHaveLength(18);
+    expect(connectedCells).toHaveLength(24);
   });
 
-  it("keeps unsupported cells link-free and maps law and Terry work to their supported volumes", () => {
+  it("maps science across all four volumes without promoting previews to releases", () => {
+    for (const volume of ["Volume I", "Volume II", "Volume III", "Volume IV"]) {
+      const cell = topicVolumeConnectionFor(volume, "science");
+      expect(cell.connected).toBe(true);
+      expect(cell.contentLinks.length).toBeGreaterThanOrEqual(2);
+    }
+    const science = topicVolumeConnectionFor("Volume IV", "science");
+    expect(science.contentLinks).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          kind: "Research preview",
+          path: "/research/regrowing-humanity/",
+        }),
+        expect.objectContaining({
+          kind: "Author paper",
+          path: "/library/documents/entanglement-foundations/",
+        }),
+      ]),
+    );
+    expect(topicDetail).toContain("{topic.name} research catalogue");
+    expect(topicDetail).toContain("taxonomyEntries");
+  });
+
+  it("maps technology and law to their supported volumes", () => {
     const volumeTwoTechnology = topicVolumeConnectionFor("Volume II", "technology");
-    expect(volumeTwoTechnology.connected).toBe(false);
-    expect(volumeTwoTechnology.contentLinks).toEqual([]);
+    expect(volumeTwoTechnology.connected).toBe(true);
+    expect(volumeTwoTechnology.contentLinks.length).toBeGreaterThan(0);
+    expect(topicVolumeConnectionFor("Volume IV", "history").connected).toBe(true);
+    expect(topicVolumeConnectionFor("Volume IV", "law").connected).toBe(true);
 
     const volumeTwoLaw = topicVolumeConnectionFor("Volume II", "law");
     expect(volumeTwoLaw.connected).toBe(true);

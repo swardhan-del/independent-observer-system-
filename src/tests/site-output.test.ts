@@ -489,7 +489,11 @@ describe("built website", () => {
     const html = readOutput("topics/history/index.html");
 
     expect(html).toContain("Public discovery map");
-    expect(html).toContain("Mapped to Volume I, and Volume II in the four-volume spine.");
+    expect(html).toContain(
+      "Mapped to Volume I, Volume II, Volume III, and Volume IV in the four-volume spine.",
+    );
+    expect(html).toContain('id="history-catalogue"');
+    expect(html).toContain("Historical technological transitions and changing human capability");
     expect(html).not.toContain("The Wardhan Tax Doctrine");
     expect(html).toContain("History");
     expect(html).not.toContain("One project, four connected volumes.");
@@ -537,7 +541,16 @@ describe("built website", () => {
     const connected = cells.filter((tag) => attribute(tag, "data-matrix-connected") === "true");
 
     expect(cells).toHaveLength(24);
-    expect(connected).toHaveLength(18);
+    expect(connected).toHaveLength(24);
+    const scienceCells = connected.filter((tag) => attribute(tag, "data-matrix-topic") === "science");
+    expect(scienceCells).toHaveLength(4);
+    for (const field of ["history", "politics", "economics", "law", "science", "technology"]) {
+      expect(connected.filter((tag) => attribute(tag, "data-matrix-topic") === field)).toHaveLength(
+        4,
+      );
+      const hub = readOutput(`topics/${field}/index.html`);
+      expect(hub).toContain(`id="${field}-catalogue"`);
+    }
     expect(html).toContain("Volume IV");
     expect(html).toContain("The Last Human Workforce");
 
@@ -562,6 +575,9 @@ describe("built website", () => {
     expect(html).toContain(
       "Regrowing Humanity: How Robotic Limbs Are Becoming Integrated Extensions of the Human Body",
     );
+    expect(html).toContain("Science research catalogue");
+    expect(html).toContain("Scientific infrastructure energy and computation");
+    expect(html).toContain("Programmable Gene Silencing");
     expect(html).toContain("topic-review-grid");
     expect(html).toContain("Public preview available");
     expect(html).toContain("A selected research article and the Volume IV roadmap are public");
