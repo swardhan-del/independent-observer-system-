@@ -212,3 +212,5 @@ GitHub Pages updates only after protected main passes CI; never deploy the launc
 ## Reader tools and private publishing desk
 
 See [Reader improvements](docs/reader-improvements-2026-09-06.md) for podcast search, listening resume, guided reading, citations, corrections, browser tests, and the private local publishing dashboard. Run `npm run dashboard` for the local desk and `npm run perf:check` for build size checks.
+
+The [local growth desk](docs/growth/OPERATING_GUIDE.md) extends that dashboard with durable, source-traceable distribution drafts and per-channel copy approval. Run `npm run growth -- prepare`, then `npm run dashboard` and use the session owner token. Private records stay outside Git/Dropbox; no command publishes or enables tracking. See the [aggregate reporting contract](docs/growth/ANALYTICS_INTEGRATION.md).

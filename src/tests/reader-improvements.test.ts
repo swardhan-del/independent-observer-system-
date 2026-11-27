@@ -122,7 +122,9 @@ describe("reader journeys and data boundaries", () => {
       expect(correctionContext(`?page=${encodeURIComponent(page)}`)).toBe("");
   });
   it("keeps the dashboard outside Astro public routes and deployment assets", () => {
-    const source = readFileSync("scripts/publishing-dashboard.ts", "utf8");
+    const source =
+      readFileSync("scripts/publishing-dashboard.ts", "utf8") +
+      readFileSync("scripts/growth/dashboard.ts", "utf8");
     expect(source).toContain('server.listen(port, "127.0.0.1"');
     expect(source).toContain("request.headers.host");
   });
