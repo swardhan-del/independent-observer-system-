@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import { sitePath } from "../../lib/paths";
+import { authorConflictStatement } from "../../data/publication-disclosures";
 ---
 
 <BaseLayout
@@ -16,7 +17,7 @@ import { sitePath } from "../../lib/paths";
   />
   <section class="section section-white">
     <div class="shell prose">
-      <p class="review-date"><strong>Last reviewed:</strong> 5 November 2026</p>
+      <p class="review-date"><strong>Last reviewed:</strong> 20 November 2026</p>
       <h2 id="editorial-standards">Editorial standards</h2>
       <p>
         Independent Observer separates evidence, interpretation, and proposals. Public records
@@ -43,7 +44,8 @@ import { sitePath } from "../../lib/paths";
       </ul>
       <p>
         <a href={sitePath("/research/the-independent-observer-method/")}
-          >Read the method in practice →</a>
+          >Read the method in practice →</a
+        >
       </p>
       <h2 id="status-labels">Status labels</h2>
       <p>
@@ -157,13 +159,8 @@ import { sitePath } from "../../lib/paths";
       <p>A funding statement has not yet been published.</p>
       <h3>Revenue</h3>
       <p>Supporting membership is planned but is not available for purchase on this site.</p>
-      <h3>Conflicts of interest</h3>
-      <p>A conflicts-of-interest statement has not yet been published.</p>
-      <h3>Use of AI tools</h3>
-      <p>
-        A statement identifying AI tools used in the research and how their output is reviewed has
-        not yet been published.
-      </p>
+      <h3 id="conflicts-of-interest">Conflicts of interest</h3>
+      <p>{authorConflictStatement} Declaration supplied on 20 November 2026.</p>
       <p>
         Links to source institutions or distribution platforms do not imply endorsement. Historical
         downloads and views are dated distribution signals, not evidence of scholarly quality.

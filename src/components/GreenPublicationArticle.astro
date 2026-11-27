@@ -13,6 +13,7 @@ import FollowUpdates from "./FollowUpdates.astro";
 import { featuredInvestigations } from "../data/editorial-discovery";
 import { aiReadingCollection } from "../data/reading-collections";
 import { publicationReuse } from "../lib/publication-reuse";
+import { authorArticleDisclosure } from "../data/publication-disclosures";
 
 const { publication } = Astro.props as { publication: GreenPublication };
 const reuse = publicationReuse(publication);
@@ -105,6 +106,11 @@ const schema = JSON.stringify({
           <p>{publication.topics.join(" · ")}</p>
         </details>
       </header>
+      <nav class="article-shortcuts" aria-label="Article shortcuts">
+        <a href="#article-text">Read the article ↓</a>
+        <a href="#article-sources">Check the sources</a>
+        <a href="#publication-record">Citation and publication record</a>
+      </nav>
       {
         readerGuide && (
           <details class="reader-introduction">
@@ -120,22 +126,11 @@ const schema = JSON.stringify({
           </details>
         )
       }
-      <PublicationRecord
-        title={publication.title}
-        author={publication.author}
-        status={publication.status}
-        publicationDate={publication.productionReleased ? publication.publicationDate : undefined}
-        lastReviewedDate={publication.lastReviewedDate}
-        version={publication.version}
-        revisionCount={revisions.length}
-        revisionHistoryHref={revisions.length ? "#revision-history" : undefined}
-        reuseNotice={reuse.reuseNotice}
-      />
       {
         headings.length > 0 && (
-          <nav class="article-contents" aria-label="On this page">
-            <>
-              <h2>On this page</h2>
+          <details class="article-contents">
+            <summary>On this page</summary>
+            <nav aria-label="On this page">
               <ul>
                 {headings.map((heading) => (
                   <li>
@@ -146,11 +141,11 @@ const schema = JSON.stringify({
                   <a href="#article-sources">Sources and notes</a>
                 </li>
               </ul>
-            </>
-          </nav>
+            </nav>
+          </details>
         )
       }
-      <div class="article-body prose">
+      <div id="article-text" class="article-body prose" tabindex="-1">
         {
           publication.paragraphs.map((paragraph, index) => (
             <>
@@ -211,15 +206,9 @@ const schema = JSON.stringify({
         <section aria-labelledby="article-disclosures">
           <h2 id="article-disclosures">Disclosure</h2>
           <p>
-            {
-              publication.adaptationDisclosure ?? (
-                <>
-                  This article does not provide a funding statement, a conflict-of-interest
-                  declaration or an account of AI use. Absence of these disclosures is not a
-                  declaration that there was no funding, conflict or AI involvement.
-                </>
-              )
-            } Corrections can be sent through the <a href={sitePath("/contact/")}>contact page</a>.
+            {publication.adaptationDisclosure ?? authorArticleDisclosure} Read the <a
+              href={sitePath("/governance/#conflicts-of-interest")}>editorial disclosures</a
+            >. Corrections can be sent through the <a href={sitePath("/contact/")}>contact page</a>.
           </p>
         </section>
         {
@@ -239,6 +228,19 @@ const schema = JSON.stringify({
             </section>
           )
         }
+      </div>
+      <div id="publication-record">
+        <PublicationRecord
+          title={publication.title}
+          author={publication.author}
+          status={publication.status}
+          publicationDate={publication.productionReleased ? publication.publicationDate : undefined}
+          lastReviewedDate={publication.lastReviewedDate}
+          version={publication.version}
+          revisionCount={revisions.length}
+          revisionHistoryHref={revisions.length ? "#revision-history" : undefined}
+          reuseNotice={reuse.reuseNotice}
+        />
       </div>
       {
         related.length > 0 && (
@@ -269,7 +271,7 @@ const schema = JSON.stringify({
           </p>
         )
       }
-      <FollowUpdates id="article-follow-updates" />
+      <FollowUpdates id="article-follow-updates" compact />
     </div>
   </article>
 </BaseLayout>
@@ -326,9 +328,10 @@ const schema = JSON.stringify({
     border: 1px solid var(--line);
     margin-block: 1.5rem;
   }
-  .article-contents h2 {
+  .article-contents summary {
     font-size: 1.1rem;
-    margin-top: 0;
+    font-weight: 700;
+    cursor: pointer;
   }
   .article-contents ul {
     padding-left: 1.25rem;
@@ -355,8 +358,25 @@ const schema = JSON.stringify({
     outline: 2px solid var(--gold);
     outline-offset: 6px;
   }
+  .article-shortcuts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    margin-block: 1rem;
+  }
+  .article-shortcuts a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    text-decoration: underline;
+  }
+  #article-text,
+  #publication-record {
+    scroll-margin-top: 1rem;
+  }
   @media print {
     .article-contents,
+    .article-shortcuts,
     .article-collection,
     :global(.follow-updates) {
       display: none;
